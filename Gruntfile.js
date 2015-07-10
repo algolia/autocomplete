@@ -67,12 +67,11 @@ module.exports = function(grunt) {
       }
     },
 
-    jshint: {
+    eslint: {
       options: {
-        jshintrc: '.jshintrc'
+        config: '.eslintrc'
       },
-      src: 'src/**/*.js',
-      gruntfile: ['Gruntfile.js']
+      src: ['src/**/*.js', 'Gruntfile.js']
     },
 
     watch: {
@@ -110,7 +109,7 @@ module.exports = function(grunt) {
   grunt.registerTask('default', 'build');
   grunt.registerTask('build', ['uglify', 'sed:version']);
   grunt.registerTask('server', 'connect:server');
-  grunt.registerTask('lint', 'jshint');
+  grunt.registerTask('lint', 'eslint');
   grunt.registerTask('dev', 'concurrent:dev');
 
   // load tasks
@@ -123,7 +122,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-eslint');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-connect');
 };

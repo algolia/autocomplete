@@ -1,0 +1,6 @@
+{
+  "extends": [
+    "eslint-config-airbnb",
+    "eslint-config-algolia"
+  ]
+}
