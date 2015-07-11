@@ -1,9 +1,10 @@
-/* jshint esnext: true, evil: true, sub: true */
+'use strict';
+
+/* eslint-env jasmine */
 
 var wd = require('yiewd'),
     colors = require('colors'),
     expect = require('chai').expect,
-    _ = require('underscore'),
     f = require('util').format,
     env = process.env;
 
@@ -58,7 +59,7 @@ describe('jquery-typeahead.js', function() {
 
     driver.run(function*() {
       yield this.init(caps);
-      yield this.get('http://localhost:8888/test/integration/test.html');
+      yield this.get((env['TEST_HOST'] || 'http://localhost:8888') + '/test/integration/test.html');
 
       body = this.elementByTagName('body');
       input = yield this.elementById('states');
@@ -72,7 +73,7 @@ describe('jquery-typeahead.js', function() {
   beforeEach(function(done) {
     driver.run(function*() {
       yield body.click();
-      yield this.execute('window.jQuery("#states").typeahead("val", "")');
+      yield this.execute('$("#states").typeahead("val", "")');
       done();
     });
   });
@@ -170,17 +171,6 @@ describe('jquery-typeahead.js', function() {
       });
     });
 
-    it('should match hint to query', function(done) {
-      driver.run(function*() {
-        yield input.click();
-        yield input.type('NeW    JE');
-
-        expect(yield hint.getValue()).to.equal('NeW    JErsey');
-
-        done();
-      });
-    });
-
     it('should not show hint if top suggestion is not a match', function(done) {
       driver.run(function*() {
         yield input.click();
@@ -195,7 +185,7 @@ describe('jquery-typeahead.js', function() {
     it('should not show hint if there is query overflow', function(done) {
       driver.run(function*() {
         yield input.click();
-        yield input.type('this    is    a very long    value     so ');
+        yield input.type('this is a very long value so deal with it otherwise');
 
         expect(yield hint.getValue()).to.equal('');
 
