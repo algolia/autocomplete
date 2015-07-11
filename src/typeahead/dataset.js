@@ -1,10 +1,11 @@
 'use strict';
 
+/* eslint-env jquery */
+
 var datasetKey = 'ttDataset';
 var valueKey = 'ttValue';
 var datumKey = 'ttDatum';
 
-var $ = require('jquery');
 var _ = require('../common/utils.js');
 var html = require('./html.js');
 var css = require('./css.js');

@@ -1,13 +1,14 @@
 'use strict';
 
-// constructor
-// -----------
+/* eslint-env jquery */
 
-var $ = require('jquery');
 var _ = require('../common/utils.js');
 var EventEmitter = require('./event_emitter.js');
 var Dataset = require('./dataset.js');
 var css = require('./css.js');
+
+// constructor
+// -----------
 
 function Dropdown(o) {
   var that = this;

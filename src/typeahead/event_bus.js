@@ -1,8 +1,9 @@
 'use strict';
 
+/* eslint-env jquery */
+
 var namespace = 'typeahead:';
 
-var $ = require('jquery');
 var _ = require('../common/utils.js');
 
 // constructor

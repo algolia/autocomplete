@@ -1,6 +1,7 @@
 'use strict';
 
-var $ = require('jquery');
+/* eslint-env jquery */
+
 var _ = require('../common/utils.js');
 
 module.exports = {

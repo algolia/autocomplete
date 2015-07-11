@@ -1,9 +1,3 @@
-/*
- * typeahead.js
- * https://github.com/twitter/typeahead.js
- * Copyright 2013-2014 Twitter, Inc. and other contributors; Licensed MIT
- */
-
 'use strict';
 
 var _ = require('../common/utils.js');

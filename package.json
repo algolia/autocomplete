@@ -48,7 +48,6 @@
     "grunt-minifyify": "^3.2.1",
     "grunt-sed": "~0.1",
     "grunt-step": "~0.2.0",
-    "jquery": "^2.1.4",
     "karma": "~0.8.6",
     "minifyify": "^7.0.2",
     "mocha": "^1.20.1",

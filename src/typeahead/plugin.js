@@ -1,6 +1,7 @@
 'use strict';
 
-var $ = require('jquery');
+/* eslint-env jquery */
+
 var _ = require('../common/utils.js');
 var Typeahead = require('./typeahead.js');
 var EventBus = require('./event_bus.js');

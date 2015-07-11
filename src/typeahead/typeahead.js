@@ -1,8 +1,9 @@
 'use strict';
 
+/* eslint-env jquery */
+
 var attrsKey = 'ttAttrs';
 
-var $ = require('jquery');
 var _ = require('../common/utils.js');
 var EventBus = require('./event_bus.js');
 var Input = require('./input.js');

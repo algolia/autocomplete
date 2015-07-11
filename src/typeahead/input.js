@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-env jquery */
+
 var specialKeyCodeMap;
 
 specialKeyCodeMap = {
@@ -12,7 +14,6 @@ specialKeyCodeMap = {
   40: 'down'
 };
 
-var $ = require('jquery');
 var _ = require('../common/utils.js');
 var EventEmitter = require('./event_emitter.js');
 
