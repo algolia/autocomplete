@@ -1595,6 +1595,15 @@ _.mixin(Typeahead.prototype, {
   // ### public
 
   open: function open() {
+    // if the menu is not activated yet, we need to update
+    // the underlying dropdown menu to trigger the search
+    // otherwise we're not gonna see anything
+    if (!this.isActivated) {
+      var query = this.input.getInputValue();
+      query.length >= this.minLength ?
+        this.dropdown.update(query) :
+        this.dropdown.empty();
+    }
     this.dropdown.open();
   },
 

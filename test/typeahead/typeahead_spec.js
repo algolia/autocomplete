@@ -512,8 +512,17 @@ describe('Typeahead', function() {
 
   describe('#open', function() {
     it('should open the dropdown', function() {
+      this.input.getInputValue.and.returnValue('');
       this.view.open();
 
+      expect(this.dropdown.open).toHaveBeenCalled();
+    });
+
+    it('should update & open the dropdown if there is a query', function() {
+      this.input.getInputValue.and.returnValue('test');
+      this.view.open();
+
+      expect(this.dropdown.update).toHaveBeenCalled();
       expect(this.dropdown.open).toHaveBeenCalled();
     });
   });
