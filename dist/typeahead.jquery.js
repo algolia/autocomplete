@@ -10,8 +10,6 @@
 
 /* eslint-env jquery */
 
-var _ = require('../common/utils.js');
-
 module.exports = {
   isMsie: function() {
     // from https://github.com/ded/bowser/blob/master/bowser.js
@@ -39,7 +37,7 @@ module.exports = {
   isUndefined: function(obj) { return typeof obj === 'undefined'; },
 
   toStr: function toStr(s) {
-    return _.isUndefined(s) || s === null ? '' : s + '';
+    return this.isUndefined(s) || s === null ? '' : s + '';
   },
 
   bind: $.proxy,
@@ -163,7 +161,7 @@ module.exports = {
   noop: function() {}
 };
 
-},{"../common/utils.js":1}],2:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 'use strict';
 
 var _ = require('../common/utils.js');
@@ -690,13 +688,13 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 
 // helper functions
 // ----------------
+Dropdown.Dataset = Dataset;
 
 function initializeDataset(oDataset) {
-  return new Dataset(oDataset);
+  return new Dropdown.Dataset(oDataset);
 }
 
 module.exports = Dropdown;
-
 
 },{"../common/utils.js":1,"./css.js":2,"./dataset.js":3,"./event_emitter.js":6}],5:[function(require,module,exports){
 'use strict';
@@ -1371,7 +1369,7 @@ function Typeahead(o) {
 
   this.eventBus = o.eventBus || new EventBus({el: $input});
 
-  this.dropdown = new Dropdown({menu: $menu, datasets: o.datasets})
+  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets})
   .onSync('suggestionClicked', this._onSuggestionClicked, this)
   .onSync('cursorMoved', this._onCursorMoved, this)
   .onSync('cursorRemoved', this._onCursorRemoved, this)
@@ -1379,7 +1377,7 @@ function Typeahead(o) {
   .onSync('closed', this._onClosed, this)
   .onAsync('datasetRendered', this._onDatasetRendered, this);
 
-  this.input = new Input({input: $input, hint: $hint})
+  this.input = new Typeahead.Input({input: $input, hint: $hint})
   .onSync('focused', this._onFocused, this)
   .onSync('blurred', this._onBlurred, this)
   .onSync('enterKeyed', this._onEnterKeyed, this)
@@ -1709,6 +1707,9 @@ function destroyDomStructure($node) {
 
   $node.remove();
 }
+
+Typeahead.Dropdown = Dropdown;
+Typeahead.Input = Input;
 
 module.exports = Typeahead;
 
