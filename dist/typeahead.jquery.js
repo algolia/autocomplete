@@ -1,5 +1,5 @@
 /*!
- * typeahead.js 0.10.5
+ * typeahead.js 0.0.1
  * https://github.com/twitter/typeahead.js
  * Copyright 2013-2015 Twitter, Inc. and other contributors; Licensed MIT
  */
@@ -164,12 +164,6 @@ module.exports = {
 };
 
 },{"../common/utils.js":1}],2:[function(require,module,exports){
-/*
- * typeahead.js
- * https://github.com/twitter/typeahead.js
- * Copyright 2013-2014 Twitter, Inc. and other contributors; Licensed MIT
- */
-
 'use strict';
 
 var _ = require('../common/utils.js');
