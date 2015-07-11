@@ -1,22 +1,22 @@
-var semver = require('semver'),
-    f = require('util').format,
-    files = {
-      common: [
-      'src/common/utils.js'
-      ],
-      typeahead: [
-      'src/typeahead/html.js',
-      'src/typeahead/css.js',
-      'src/typeahead/event_bus.js',
-      'src/typeahead/event_emitter.js',
-      'src/typeahead/highlight.js',
-      'src/typeahead/input.js',
-      'src/typeahead/dataset.js',
-      'src/typeahead/dropdown.js',
-      'src/typeahead/typeahead.js',
-      'src/typeahead/plugin.js'
-      ]
-    };
+'use strict';
+
+var files = {
+  common: [
+  'src/common/utils.js'
+  ],
+  typeahead: [
+  'src/typeahead/html.js',
+  'src/typeahead/css.js',
+  'src/typeahead/event_bus.js',
+  'src/typeahead/event_emitter.js',
+  'src/typeahead/highlight.js',
+  'src/typeahead/input.js',
+  'src/typeahead/dataset.js',
+  'src/typeahead/dropdown.js',
+  'src/typeahead/typeahead.js',
+  'src/typeahead/plugin.js'
+  ]
+};
 
 module.exports = function(grunt) {
   grunt.initConfig({
@@ -32,29 +32,19 @@ module.exports = function(grunt) {
       ' */\n\n'
     ].join('\n'),
 
-    uglify: {
+    browserify: {
       options: {
         banner: '<%= banner %>',
-        enclose: { 'window.jQuery': '$' }
+        plugin: [['minifyify', {map: false}]]
       },
-      typeahead: {
+      mini: {
         options: {
           mangle: false,
           beautify: true,
           compress: false
         },
-        src: files.common.concat(files.typeahead),
-        dest: '<%= buildDir %>/typeahead.jquery.js'
-
-      },
-      typeaheadMin: {
-        options: {
-          mangle: true,
-          compress: true
-        },
-        src: files.common.concat(files.typeahead),
+        src: 'src/plugin.js',
         dest: '<%= buildDir %>/typeahead.jquery.min.js'
-
       }
     },
 
@@ -87,12 +77,12 @@ module.exports = function(grunt) {
 
     connect: {
       server: {
-        options: { port: 8888, keepalive: true }
+        options: {port: 8888, keepalive: true}
       }
     },
 
     concurrent: {
-      options: { logConcurrentOutput: true },
+      options: {logConcurrentOutput: true},
       dev: ['server', 'watch']
     },
 
@@ -107,7 +97,7 @@ module.exports = function(grunt) {
   // -------
 
   grunt.registerTask('default', 'build');
-  grunt.registerTask('build', ['uglify', 'sed:version']);
+  grunt.registerTask('build', ['browserify', 'sed:version']);
   grunt.registerTask('server', 'connect:server');
   grunt.registerTask('lint', 'eslint');
   grunt.registerTask('dev', 'concurrent:dev');
@@ -125,4 +115,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-eslint');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-minifyify ');
 };

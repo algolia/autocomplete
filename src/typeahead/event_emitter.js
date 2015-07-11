@@ -1,119 +1,111 @@
-/*
- * typeahead.js
- * https://github.com/twitter/typeahead.js
- * Copyright 2013-2014 Twitter, Inc. and other contributors; Licensed MIT
- */
+'use strict';
 
-// inspired by https://github.com/jharding/boomerang
+var splitter = /\s+/;
+var nextTick = getNextTick();
 
-var EventEmitter = (function() {
-  'use strict';
+module.exports = {
+  onSync: onSync,
+  onAsync: onAsync,
+  off: off,
+  trigger: trigger
+};
 
-  var splitter = /\s+/, nextTick = getNextTick();
+function on(method, types, cb, context) {
+  var type;
 
-  return {
-    onSync: onSync,
-    onAsync: onAsync,
-    off: off,
-    trigger: trigger
-  };
+  if (!cb) { return this; }
 
-  function on(method, types, cb, context) {
-    var type;
+  types = types.split(splitter);
+  cb = context ? bindContext(cb, context) : cb;
 
-    if (!cb) { return this; }
+  this._callbacks = this._callbacks || {};
 
-    types = types.split(splitter);
-    cb = context ? bindContext(cb, context) : cb;
+  while (type = types.shift()) {
+    this._callbacks[type] = this._callbacks[type] || {sync: [], async: []};
+    this._callbacks[type][method].push(cb);
+  }
 
-    this._callbacks = this._callbacks || {};
+  return this;
+}
 
-    while (type = types.shift()) {
-      this._callbacks[type] = this._callbacks[type] || { sync: [], async: [] };
-      this._callbacks[type][method].push(cb);
+function onAsync(types, cb, context) {
+  return on.call(this, 'async', types, cb, context);
+}
+
+function onSync(types, cb, context) {
+  return on.call(this, 'sync', types, cb, context);
+}
+
+function off(types) {
+  var type;
+
+  if (!this._callbacks) { return this; }
+
+  types = types.split(splitter);
+
+  while (type = types.shift()) {
+    delete this._callbacks[type];
+  }
+
+  return this;
+}
+
+function trigger(types) {
+  var type;
+  var callbacks;
+  var args;
+  var syncFlush;
+  var asyncFlush;
+
+  if (!this._callbacks) { return this; }
+
+  types = types.split(splitter);
+  args = [].slice.call(arguments, 1);
+
+  while ((type = types.shift()) && (callbacks = this._callbacks[type])) {
+    syncFlush = getFlush(callbacks.sync, this, [type].concat(args));
+    asyncFlush = getFlush(callbacks.async, this, [type].concat(args));
+
+    syncFlush() && nextTick(asyncFlush);
+  }
+
+  return this;
+}
+
+function getFlush(callbacks, context, args) {
+  return flush;
+
+  function flush() {
+    var cancelled;
+
+    for (var i = 0, len = callbacks.length; !cancelled && i < len; i += 1) {
+      // only cancel if the callback explicitly returns false
+      cancelled = callbacks[i].apply(context, args) === false;
     }
 
-    return this;
+    return !cancelled;
+  }
+}
+
+function getNextTick() {
+  var nextTickFn;
+
+  if (window.setImmediate) { // IE10+
+    nextTickFn = function nextTickSetImmediate(fn) {
+      setImmediate(function() { fn(); });
+    };
+  } else { // old browsers
+    nextTickFn = function nextTickSetTimeout(fn) {
+      setTimeout(function() { fn(); }, 0);
+    };
   }
 
-  function onAsync(types, cb, context) {
-    return on.call(this, 'async', types, cb, context);
-  }
+  return nextTickFn;
+}
 
-  function onSync(types, cb, context) {
-    return on.call(this, 'sync', types, cb, context);
-  }
+function bindContext(fn, context) {
+  return fn.bind ?
+    fn.bind(context) :
+    function() { fn.apply(context, [].slice.call(arguments, 0)); };
+}
 
-  function off(types) {
-    var type;
-
-    if (!this._callbacks) { return this; }
-
-    types = types.split(splitter);
-
-    while (type = types.shift()) {
-      delete this._callbacks[type];
-    }
-
-    return this;
-  }
-
-  function trigger(types) {
-    var type, callbacks, args, syncFlush, asyncFlush;
-
-    if (!this._callbacks) { return this; }
-
-    types = types.split(splitter);
-    args = [].slice.call(arguments, 1);
-
-    while ((type = types.shift()) && (callbacks = this._callbacks[type])) {
-      syncFlush = getFlush(callbacks.sync, this, [type].concat(args));
-      asyncFlush = getFlush(callbacks.async, this, [type].concat(args));
-
-      syncFlush() && nextTick(asyncFlush);
-    }
-
-    return this;
-  }
-
-  function getFlush(callbacks, context, args) {
-    return flush;
-
-    function flush() {
-      var cancelled;
-
-      for (var i = 0, len = callbacks.length; !cancelled && i < len; i += 1) {
-        // only cancel if the callback explicitly returns false
-        cancelled = callbacks[i].apply(context, args) === false;
-      }
-
-      return !cancelled;
-    }
-  }
-
-  function getNextTick() {
-    var nextTickFn;
-
-    // IE10+
-    if (window.setImmediate) {
-      nextTickFn = function nextTickSetImmediate(fn) {
-        setImmediate(function() { fn(); });
-      };
-    }
-
-    // old browsers
-    else {
-      nextTickFn = function nextTickSetTimeout(fn) {
-        setTimeout(function() { fn(); }, 0);
-      };
-    }
-
-    return nextTickFn;
-  }
-
-  function bindContext(fn, context) {
-    return fn.bind ?
-      fn.bind(context) :
-      function() { fn.apply(context, [].slice.call(arguments, 0)); };
-  }
-})();
