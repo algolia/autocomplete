@@ -2,5 +2,9 @@
   "extends": [
     "eslint-config-airbnb",
     "eslint-config-algolia"
-  ]
+  ],
+  "rules": {
+    "no-unused-expressions": 0,
+    "no-cond-assign": 0
+  }
 }

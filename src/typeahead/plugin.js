@@ -1,129 +1,129 @@
-/*
- * typeahead.js
- * https://github.com/twitter/typeahead.js
- * Copyright 2013-2014 Twitter, Inc. and other contributors; Licensed MIT
- */
+'use strict';
 
-(function() {
-  'use strict';
+/* eslint-env jquery */
 
-  var old, typeaheadKey, methods;
+var _ = require('../common/utils.js');
+var Typeahead = require('./typeahead.js');
+var EventBus = require('./event_bus.js');
 
-  old = $.fn.typeahead;
 
-  typeaheadKey = 'ttTypeahead';
+var old;
+var typeaheadKey;
+var methods;
 
-  methods = {
-    // supported signatures:
-    // function(o, dataset, dataset, ...)
-    // function(o, [dataset, dataset, ...])
-    initialize: function initialize(o, datasets) {
-      datasets = _.isArray(datasets) ? datasets : [].slice.call(arguments, 1);
+old = $.fn.typeahead;
 
-      o = o || {};
+typeaheadKey = 'ttTypeahead';
 
-      return this.each(attach);
+methods = {
+  // supported signatures:
+  // function(o, dataset, dataset, ...)
+  // function(o, [dataset, dataset, ...])
+  initialize: function initialize(o, datasets) {
+    datasets = _.isArray(datasets) ? datasets : [].slice.call(arguments, 1);
 
-      function attach() {
-        var $input = $(this), eventBus, typeahead;
+    o = o || {};
 
-        _.each(datasets, function(d) {
-          // HACK: force highlight as a top-level config
-          d.highlight = !!o.highlight;
-        });
+    return this.each(attach);
 
-        typeahead = new Typeahead({
-          input: $input,
-          eventBus: eventBus = new EventBus({ el: $input }),
-          withHint: _.isUndefined(o.hint) ? true : !!o.hint,
-          minLength: o.minLength,
-          autoselect: o.autoselect,
-          datasets: datasets
-        });
+    function attach() {
+      var $input = $(this);
+      var eventBus = new EventBus({el: $input});
+      var typeahead;
 
-        $input.data(typeaheadKey, typeahead);
-      }
-    },
+      typeahead = new Typeahead({
+        input: $input,
+        eventBus: eventBus,
+        withHint: _.isUndefined(o.hint) ? true : !!o.hint,
+        minLength: o.minLength,
+        autoselect: o.autoselect,
+        datasets: datasets
+      });
 
-    open: function open() {
-      return this.each(openTypeahead);
+      $input.data(typeaheadKey, typeahead);
+    }
+  },
 
-      function openTypeahead() {
-        var $input = $(this), typeahead;
+  open: function open() {
+    return this.each(openTypeahead);
 
-        if (typeahead = $input.data(typeaheadKey)) {
-          typeahead.open();
-        }
-      }
-    },
+    function openTypeahead() {
+      var $input = $(this);
+      var typeahead;
 
-    close: function close() {
-      return this.each(closeTypeahead);
-
-      function closeTypeahead() {
-        var $input = $(this), typeahead;
-
-        if (typeahead = $input.data(typeaheadKey)) {
-          typeahead.close();
-        }
-      }
-    },
-
-    val: function val(newVal) {
-      // mirror jQuery#val functionality: reads opearte on first match,
-      // write operates on all matches
-      return !arguments.length ? getVal(this.first()) : this.each(setVal);
-
-      function setVal() {
-        var $input = $(this), typeahead;
-
-        if (typeahead = $input.data(typeaheadKey)) {
-          typeahead.setVal(newVal);
-        }
-      }
-
-      function getVal($input) {
-        var typeahead, query;
-
-        if (typeahead = $input.data(typeaheadKey)) {
-          query = typeahead.getVal();
-        }
-
-        return query;
-      }
-    },
-
-    destroy: function destroy() {
-      return this.each(unattach);
-
-      function unattach() {
-        var $input = $(this), typeahead;
-
-        if (typeahead = $input.data(typeaheadKey)) {
-          typeahead.destroy();
-          $input.removeData(typeaheadKey);
-        }
+      if (typeahead = $input.data(typeaheadKey)) {
+        typeahead.open();
       }
     }
-  };
+  },
 
-  $.fn.typeahead = function(method) {
-    var tts;
+  close: function close() {
+    return this.each(closeTypeahead);
 
-    // methods that should only act on intialized typeaheads
-    if (methods[method] && method !== 'initialize') {
-      // filter out non-typeahead inputs
-      tts = this.filter(function() { return !!$(this).data(typeaheadKey); });
-      return methods[method].apply(tts, [].slice.call(arguments, 1));
+    function closeTypeahead() {
+      var $input = $(this);
+      var typeahead;
+
+      if (typeahead = $input.data(typeaheadKey)) {
+        typeahead.close();
+      }
+    }
+  },
+
+  val: function val(newVal) {
+    // mirror jQuery#val functionality: reads opearte on first match,
+    // write operates on all matches
+    return !arguments.length ? getVal(this.first()) : this.each(setVal);
+
+    function setVal() {
+      var $input = $(this);
+      var typeahead;
+
+      if (typeahead = $input.data(typeaheadKey)) {
+        typeahead.setVal(newVal);
+      }
     }
 
-    else {
-      return methods.initialize.apply(this, arguments);
-    }
-  };
+    function getVal($input) {
+      var typeahead;
+      var query;
 
-  $.fn.typeahead.noConflict = function noConflict() {
-    $.fn.typeahead = old;
-    return this;
-  };
-})();
+      if (typeahead = $input.data(typeaheadKey)) {
+        query = typeahead.getVal();
+      }
+
+      return query;
+    }
+  },
+
+  destroy: function destroy() {
+    return this.each(unattach);
+
+    function unattach() {
+      var $input = $(this);
+      var typeahead;
+
+      if (typeahead = $input.data(typeaheadKey)) {
+        typeahead.destroy();
+        $input.removeData(typeaheadKey);
+      }
+    }
+  }
+};
+
+$.fn.typeahead = function(method) {
+  var tts;
+
+  // methods that should only act on intialized typeaheads
+  if (methods[method] && method !== 'initialize') {
+    // filter out non-typeahead inputs
+    tts = this.filter(function() { return !!$(this).data(typeaheadKey); });
+    return methods[method].apply(tts, [].slice.call(arguments, 1));
+  }
+  return methods.initialize.apply(this, arguments);
+};
+
+$.fn.typeahead.noConflict = function noConflict() {
+  $.fn.typeahead = old;
+  return this;
+};

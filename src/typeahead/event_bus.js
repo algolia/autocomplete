@@ -1,38 +1,34 @@
-/*
- * typeahead.js
- * https://github.com/twitter/typeahead.js
- * Copyright 2013-2014 Twitter, Inc. and other contributors; Licensed MIT
- */
+'use strict';
 
-var EventBus = (function() {
-  'use strict';
+/* eslint-env jquery */
 
-  var namespace = 'typeahead:';
+var namespace = 'typeahead:';
 
-  // constructor
-  // -----------
+var _ = require('../common/utils.js');
 
-  function EventBus(o) {
-    if (!o || !o.el) {
-      $.error('EventBus initialized without el');
-    }
+// constructor
+// -----------
 
-    this.$el = $(o.el);
+function EventBus(o) {
+  if (!o || !o.el) {
+    $.error('EventBus initialized without el');
   }
 
-  // instance methods
-  // ----------------
+  this.$el = $(o.el);
+}
 
-  _.mixin(EventBus.prototype, {
+// instance methods
+// ----------------
 
-    // ### public
+_.mixin(EventBus.prototype, {
 
-    trigger: function(type) {
-      var args = [].slice.call(arguments, 1);
+  // ### public
 
-      this.$el.trigger(namespace + type, args);
-    }
-  });
+  trigger: function(type) {
+    var args = [].slice.call(arguments, 1);
 
-  return EventBus;
-})();
+    this.$el.trigger(namespace + type, args);
+  }
+});
+
+module.exports = EventBus;

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+
+    <style>
+      .container {
+        width: 800px;
+        margin: 50px auto;
+      }
+
+      .typeahead-wrapper {
+        display: block;
+        margin: 50px 0;
+      }
+
+      .tt-menu {
+        background-color: #fff;
+        border: 1px solid #000;
+      }
+
+      .tt-suggestion.tt-cursor {
+        background-color: #ccc;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <form action="/where" method="GET">
+        <div class="typeahead-wrapper">
+          <input id="states" name="states" type="text">
+          <input type="submit">
+        </div>
+      </form>
+    </div>
+
+    <script src="../../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../../dist/typeahead.jquery.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+      var client = algoliasearch('latency', '6be0576ff61c053d5f9a3225e2a90f76');
+      var index = client.initIndex('contacts');
+
+      $('#states').typeahead({}, [
+        {
+          source: index.ttAdapter({ hitsPerPage: 5 }),
+          templates: {
+            header: '<h4>Header</h4>',
+            footer: '<h4>Footer</h4>',
+            suggestion: function(suggestion) {
+              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]);
+    </script>
+  </body>
+</html>
