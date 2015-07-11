@@ -1,0 +1,30 @@
+language: node_js
+env:
+  matrix:
+  - TEST_SUITE=unit
+  - TEST_SUITE=integration BROWSER='firefox'
+  - TEST_SUITE=integration BROWSER='firefox:3.5'
+  - TEST_SUITE=integration BROWSER='firefox:3.6'
+  - TEST_SUITE=integration BROWSER='safari:5'
+  - TEST_SUITE=integration BROWSER='safari:6'
+  - TEST_SUITE=integration BROWSER='safari:7'
+  - TEST_SUITE=integration BROWSER='internet explorer:7'
+  - TEST_SUITE=integration BROWSER='internet explorer:8'
+  - TEST_SUITE=integration BROWSER='internet explorer:9'
+  - TEST_SUITE=integration BROWSER='internet explorer:10'
+  - TEST_SUITE=integration BROWSER='internet explorer:11'
+  - TEST_SUITE=integration BROWSER='opera:11'
+  - TEST_SUITE=integration BROWSER='opera:12'
+  - TEST_SUITE=integration BROWSER='chrome'
+  global:
+  - secure: hcaZjoqO5cPm/rg0Jy60rS/Nyf/V85oyhRnaXzargHCNs2oqV6X+KLCXHOz8LV7kyGZOqYmp3NhrDfhMyYcQsYgc+466ohfeNYB1i7FNiw9P7yqhu69opToNwBYIL55qErpYbkLbu68fYfdSriyytZDg/D22xFb3K9HkZjr1f3Xk6i0ZM8MmB0DjEx8HOlZzXmDw2sfTz3/TfM37Cfx8h7dMKc67PGaIgkiHFG3IQB2J3Fv+cC+qVNNPTK6gqpkIIKizKR/F1ESPqL0YW+YcxwTW3bDbh/RTek0d/OwybRQbjZM5vEwM7jh9LS5J+OX4Ydg2E9WpxrzvWKNrYUgK3ntMiP8UB4jdDi2HufyT+zbDGYX4K4cAGnsKFutfu8uT0YUe08zvZvMJh/ysuXx5NddzRDZ+ZMVhwSgmj7VbI9Z8jOq3uophIBLVuzjc61aoedhxYR6WO1BotcC7w2yBBU+DvzCaRJjhfxAN1Ok3by5qfeGU3ODVFcyimMPyHpU/JKRMFX+c9cIdbkwn51IJohw6vMElXdgLckxorEZEFlGXv6WFGJA+oyYi9gy0/VEk8NouDFu+8PY5bj1mQbdYHeAJLKv3N0NAY522gUjYC0A74onDdwTN9xZm6CZQw2hzrJ6Q/qVzp7kO8NHnhdvG1e3laGPdLkt8wETXVRsI9Nc=
+  - secure: uQoSkc9k2i1si1pUeBn28EIZxEUlsHasvdg/Lcfk54BNLEJOewh7wPqzRz0v66n53ZiLKi4BRKl8oQ3i1yrNmPWJlCEcXjGGiZc612ImtHstudBn5KIt1kexjP8/TtlR7/4DoMEjzGGEUMLsPGSV8PWrNJI/3q9yBa4+dT3nXnNnRxJ7kKlFkEXcnSonfnSXnFd0lhip4DFV8T3qhG4u56tCy5SsWEBWHgLHcd8JP8RnsU4GfraQG16gIToBE9hkJDpa/cLFSxq+5+pBZchRjdFXXXio+8R7++OfHKMM+/snrPcFj43dZcHZ2CO/trbSvYmcUqKveXspbIeMHtcIC2qcbZLFzEAlWKc1Wxe58iqqO9015muqS0Vm8E2KK3VpkP1AQC2yOdYdhx35P0BW6Mq3pUHBi2sRpuUepbpdrCOQLbVSTmkv/22DFy/rJb/+tekD9fRqI4hbN1o73W+k9SV9qFyiz9A6MeuANJrez8mLI1KxobBHt+K8oR60VUbQqvwxG/R2rf7IhQBd/w9abs8p08e+xvq3IM8B7r5Q582SHfoG7lV/mP9ZBfCrnkQDisvY0+jcHGXgoBE/T3J5LlnD3xxNbC2YJUhlbmrgyxMM2YhXRqJb+z+AQhsK1gtB+2Yz5uQP/VUgGnNDEocHukjVUgYTKa0I9liDuZO22wY=
+node_js:
+- 0.11
+before_script:
+- npm install -g grunt-cli
+- npm install -g node-static
+- grunt build
+script: test/ci
+addons:
+  sauce_connect: true
