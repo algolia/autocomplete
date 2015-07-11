@@ -244,10 +244,10 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 
 // helper functions
 // ----------------
+Dropdown.Dataset = Dataset;
 
 function initializeDataset(oDataset) {
-  return new Dataset(oDataset);
+  return new Dropdown.Dataset(oDataset);
 }
 
 module.exports = Dropdown;
-

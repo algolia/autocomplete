@@ -2,8 +2,6 @@
 
 /* eslint-env jquery */
 
-var _ = require('../common/utils.js');
-
 module.exports = {
   isMsie: function() {
     // from https://github.com/ded/bowser/blob/master/bowser.js
@@ -31,7 +29,7 @@ module.exports = {
   isUndefined: function(obj) { return typeof obj === 'undefined'; },
 
   toStr: function toStr(s) {
-    return _.isUndefined(s) || s === null ? '' : s + '';
+    return this.isUndefined(s) || s === null ? '' : s + '';
   },
 
   bind: $.proxy,

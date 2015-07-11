@@ -62,7 +62,7 @@ function Typeahead(o) {
 
   this.eventBus = o.eventBus || new EventBus({el: $input});
 
-  this.dropdown = new Dropdown({menu: $menu, datasets: o.datasets})
+  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets})
   .onSync('suggestionClicked', this._onSuggestionClicked, this)
   .onSync('cursorMoved', this._onCursorMoved, this)
   .onSync('cursorRemoved', this._onCursorRemoved, this)
@@ -70,7 +70,7 @@ function Typeahead(o) {
   .onSync('closed', this._onClosed, this)
   .onAsync('datasetRendered', this._onDatasetRendered, this);
 
-  this.input = new Input({input: $input, hint: $hint})
+  this.input = new Typeahead.Input({input: $input, hint: $hint})
   .onSync('focused', this._onFocused, this)
   .onSync('blurred', this._onBlurred, this)
   .onSync('enterKeyed', this._onEnterKeyed, this)
@@ -400,5 +400,8 @@ function destroyDomStructure($node) {
 
   $node.remove();
 }
+
+Typeahead.Dropdown = Dropdown;
+Typeahead.Input = Input;
 
 module.exports = Typeahead;
