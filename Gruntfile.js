@@ -1,23 +1,5 @@
 'use strict';
 
-var files = {
-  common: [
-  'src/common/utils.js'
-  ],
-  typeahead: [
-  'src/typeahead/html.js',
-  'src/typeahead/css.js',
-  'src/typeahead/event_bus.js',
-  'src/typeahead/event_emitter.js',
-  'src/typeahead/highlight.js',
-  'src/typeahead/input.js',
-  'src/typeahead/dataset.js',
-  'src/typeahead/dropdown.js',
-  'src/typeahead/typeahead.js',
-  'src/typeahead/plugin.js'
-  ]
-};
-
 module.exports = function(grunt) {
   grunt.initConfig({
     version: grunt.file.readJSON('package.json').version,
@@ -34,16 +16,17 @@ module.exports = function(grunt) {
 
     browserify: {
       options: {
-        banner: '<%= banner %>',
-        plugin: [['minifyify', {map: false}]]
+        banner: '<%= banner %>'
       },
-      mini: {
+      typeahead: {
+        src: 'src/typeahead/plugin.js',
+        dest: '<%= buildDir %>/typeahead.jquery.js'
+      },
+      typeaheadMinified: {
         options: {
-          mangle: false,
-          beautify: true,
-          compress: false
+          plugin: [['minifyify', {map: false}]]
         },
-        src: 'src/plugin.js',
+        src: 'src/typeahead/plugin.js',
         dest: '<%= buildDir %>/typeahead.jquery.min.js'
       }
     },
@@ -116,5 +99,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-browserify');
-  grunt.loadNpmTasks('grunt-minifyify ');
+  grunt.loadNpmTasks('grunt-minifyify');
 };
