@@ -3,7 +3,7 @@
 /* eslint-env mocha, jasmine */
 
 global.$ = require('jquery');
-var Dataset = require('../../src/typeahead/dataset.js');
+var Dataset = require('../../src/autocomplete/dataset.js');
 
 describe('Dataset', function() {
 
@@ -30,7 +30,7 @@ describe('Dataset', function() {
 
   describe('#getRoot', function() {
     it('should return the root element', function() {
-      expect(this.dataset.getRoot()).toBeMatchedBy('div.tt-dataset-test');
+      expect(this.dataset.getRoot()).toBeMatchedBy('div.aa-dataset-test');
     });
   });
 

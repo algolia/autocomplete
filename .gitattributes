@@ -1,2 +1,2 @@
-dist/typeahead.jquery.js -diff
-dist/typeahead.jquery.min.js -diff
+dist/autocomplete.jquery.js -diff
+dist/autocomplete.jquery.min.js -diff

@@ -33,9 +33,9 @@ function Dropdown(o) {
   onSuggestionMouseLeave = _.bind(this._onSuggestionMouseLeave, this);
 
   this.$menu = $(o.menu)
-  .on('click.tt', '.tt-suggestion', onSuggestionClick)
-  .on('mouseenter.tt', '.tt-suggestion', onSuggestionMouseEnter)
-  .on('mouseleave.tt', '.tt-suggestion', onSuggestionMouseLeave);
+  .on('click.aa', '.aa-suggestion', onSuggestionClick)
+  .on('mouseenter.aa', '.aa-suggestion', onSuggestionMouseEnter)
+  .on('mouseleave.aa', '.aa-suggestion', onSuggestionMouseLeave);
 
   _.each(this.datasets, function(dataset) {
     that.$menu.append(dataset.getRoot());
@@ -88,15 +88,15 @@ _.mixin(Dropdown.prototype, EventEmitter, {
   },
 
   _getSuggestions: function getSuggestions() {
-    return this.$menu.find('.tt-suggestion');
+    return this.$menu.find('.aa-suggestion');
   },
 
   _getCursor: function getCursor() {
-    return this.$menu.find('.tt-cursor').first();
+    return this.$menu.find('.aa-cursor').first();
   },
 
   _setCursor: function setCursor($el, silent) {
-    $el.first().addClass('tt-cursor');
+    $el.first().addClass('aa-cursor');
 
     if (!silent) {
       this.trigger('cursorMoved');
@@ -104,7 +104,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
   },
 
   _removeCursor: function removeCursor() {
-    this._getCursor().removeClass('tt-cursor');
+    this._getCursor().removeClass('aa-cursor');
   },
 
   _moveCursor: function moveCursor(increment) {
@@ -236,7 +236,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
   },
 
   destroy: function destroy() {
-    this.$menu.off('.tt');
+    this.$menu.off('.aa');
 
     this.$menu = null;
 

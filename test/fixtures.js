@@ -18,15 +18,15 @@ fixtures.data = {
 
 fixtures.html = {
   textInput: '<input type="text">',
-  input: '<input class="tt-input" type="text" autocomplete="false" spellcheck="false">',
-  hint: '<input class="tt-hint" type="text" autocomplete="false" spellcheck="false" disabled>',
-  menu: '<span class="tt-dropdown-menu"></span>',
+  input: '<input class="aa-input" type="text" autocomplete="false" spellcheck="false">',
+  hint: '<input class="aa-hint" type="text" autocomplete="false" spellcheck="false" disabled>',
+  menu: '<span class="aa-dropdown-menu"></span>',
   dataset: [
-    '<div class="tt-dataset-test">',
-      '<span class="tt-suggestions">',
-        '<div class="tt-suggestion"><p>one</p></div>',
-        '<div class="tt-suggestion"><p>two</p></div>',
-        '<div class="tt-suggestion"><p>three</p></div>',
+    '<div class="aa-dataset-test">',
+      '<span class="aa-suggestions">',
+        '<div class="aa-suggestion"><p>one</p></div>',
+        '<div class="aa-suggestion"><p>two</p></div>',
+        '<div class="aa-suggestion"><p>three</p></div>',
       '</span>',
     '</div>'
   ].join('')

@@ -1,24 +1,25 @@
-[![build status](https://secure.travis-ci.org/algolia/typeahead.js.png?branch=algolia)](http://travis-ci.org/algolia/typeahead.js)
-[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+[![build status](https://secure.travis-ci.org/algolia/autocomplete.js.png?branch=master)](http://travis-ci.org/algolia/autocomplete.js)
 
 [![Browser tests](https://saucelabs.com/browser-matrix/opensauce-algolia.svg)](https://saucelabs.com/u/opensauce-algolia)
 
-Typeahead.js
+Autocomplete.js
 =================
 
-The UI component of typeahead.js is a available as a jQuery plugin. It's responsible for rendering suggestions and handling DOM interactions.
+This JavaScript library adds a fast and fully-featured auto-completion menu to your search box displaying results "as you type". It can be easily combined with Algolia's realtime search engine. The library is available as a jQuery plugin.
 
 Table of Contents
 -----------------
 
 * [Features](#features)
-* [Specification](#specification)
 * [Usage](#usage)
   * [API](#api)
   * [Options](#options)
   * [Datasets](#datasets)
   * [Custom Events](#custom-events)
   * [Look and Feel](#look-and-feel)
+* [Specification](#specification)
+* [Testing](#testing)
+* [Credits](#credits)
 
 Features
 --------
@@ -34,16 +35,16 @@ Usage
 
 ### API
 
-#### jQuery#typeahead(options, [\*datasets])
+#### jQuery#autocomplete(options, [\*datasets])
 
-Turns any `input[type="text"]` element into a typeahead. `options` is an 
-options hash that's used to configure the typeahead to your liking. Refer to 
+Turns any `input[type="text"]` element into an auto-completion menu. `options` is an 
+options hash that's used to configure the autocomplete to your liking. Refer to 
 [Options](#options) for more info regarding the available configs. Subsequent 
 arguments (`*datasets`), are individual option hashes for datasets. For more 
 details regarding datasets, refer to [Datasets](#datasets).
 
 ```javascript
-$('.typeahead').typeahead({
+$('.search-input').autocomplete({
   minLength: 3
 },
 {
@@ -52,80 +53,73 @@ $('.typeahead').typeahead({
 });
 ```
 
-#### jQuery#typeahead('destroy')
+#### jQuery#autocomplete('destroy')
 
-Removes typeahead functionality and reverts the `input` element back to its 
+Removes the autocomplete functionality and reverts the `input` element back to its 
 original state.
 
 ```javascript
-$('.typeahead').typeahead('destroy');
+$('.search-input').autocomplete('destroy');
 ```
 
-#### jQuery#typeahead('open')
+#### jQuery#autocomplete('open')
 
-Opens the dropdown menu of typeahead. Note that being open does not mean that
+Opens the dropdown menu of the autocomplete. Note that being open does not mean that
 the menu is visible. The menu is only visible when it is open and has content.
 
 ```javascript
-$('.typeahead').typeahead('open');
+$('.search-input').autocomplete('open');
 ```
 
-#### jQuery#typeahead('close')
+#### jQuery#autocomplete('close')
 
-Closes the dropdown menu of typeahead.
+Closes the dropdown menu of the autocomplete.
 
 ```javascript
-$('.typeahead').typeahead('close');
+$('.search-input').autocomplete('close');
 ```
 
-#### jQuery#typeahead('val')
+#### jQuery#autocomplete('val')
 
-Returns the current value of the typeahead. The value is the text the user has 
+Returns the current value of the autocomplete. The value is the text the user has 
 entered into the `input` element.
 
 ```javascript
-var myVal = $('.typeahead').typeahead('val');
+var myVal = $('.search-input').autocomplete('val');
 ```
 
-#### jQuery#typeahead('val', val)
+#### jQuery#autocomplete('val', val)
 
-Sets the value of the typeahead. This should be used in place of `jQuery#val`.
+Sets the value of the autocomplete. This should be used in place of `jQuery#val`.
 
 ```javascript
-$('.typeahead').typeahead('val', myVal);
+$('.search-input').autocomplete('val', myVal);
 ```
 
-#### jQuery.fn.typeahead.noConflict()
+#### jQuery.fn.autocomplete.noConflict()
 
-Returns a reference to the typeahead plugin and reverts `jQuery.fn.typeahead` 
+Returns a reference to the autocomplete plugin and reverts `jQuery.fn.autocomplete` 
 to its previous value. Can be used to avoid naming collisions. 
 
 ```javascript
-var typeahead = jQuery.fn.typeahead.noConflict();
-jQuery.fn._typeahead = typeahead;
+var autocomplete = jQuery.fn.autocomplete.noConflict();
+jQuery.fn._typeahead = autocomplete;
 ```
 
 ### Options
 
-When initializing a typeahead, there are a number of options you can configure.
+When initializing an autocomplete, there are a number of options you can configure.
 
-* `hint` – If `false`, the typeahead will not show a hint. Defaults to `true`.
+* `hint` – If `false`, the autocomplete will not show a hint. Defaults to `true`.
 
 * `minLength` – The minimum character length needed before suggestions start 
   getting rendered. Defaults to `1`.
 
 ### Datasets
 
-A typeahead is composed of one or more datasets. When an end-user modifies the
-value of a typeahead, each dataset will attempt to render suggestions for the
-new value. 
-
-For most use cases, one dataset should suffice. It's only in the scenario where
-you want rendered suggestions to be grouped in the dropdown menu based on some 
-sort of categorical relationship that you'd need to use multiple datasets. For
-example, on twitter.com, the search typeahead groups results into recent 
-searches, trends, and accounts – that would be a great use case for using 
-multiple datasets.
+An autocomplete is composed of one or more datasets. When an end-user modifies the
+value of the underlying input, each dataset will attempt to render suggestions for the
+new value.
 
 Datasets can be configured using the following options.
 
@@ -169,45 +163,45 @@ Datasets can be configured using the following options.
 
 ### Custom Events
 
-The typeahead component triggers the following custom events.
+The autocomplete component triggers the following custom events.
 
-* `typeahead:opened` – Triggered when the dropdown menu of a typeahead is 
+* `autocomplete:opened` – Triggered when the dropdown menu of the autocomplete is 
   opened.
 
-* `typeahead:closed` – Triggered when the dropdown menu of a typeahead is 
+* `autocomplete:closed` – Triggered when the dropdown menu of the autocomplete is 
   closed.
 
-* `typeahead:cursorchanged` – Triggered when the dropdown menu cursor is moved
+* `autocomplete:cursorchanged` – Triggered when the dropdown menu cursor is moved
   to a different suggestion. The event handler will be invoked with 3 
   arguments: the jQuery event object, the suggestion object, and the name of 
   the dataset the suggestion belongs to.
 
-* `typeahead:selected` – Triggered when a suggestion from the dropdown menu is 
+* `autocomplete:selected` – Triggered when a suggestion from the dropdown menu is 
   selected. The event handler will be invoked with 3 arguments: the jQuery 
   event object, the suggestion object, and the name of the dataset the 
   suggestion belongs to.
 
-* `typeahead:autocompleted` – Triggered when the query is autocompleted. 
+* `autocomplete:autocompleted` – Triggered when the query is autocompleted. 
   Autocompleted means the query was changed to the hint. The event handler will 
   be invoked with 3 arguments: the jQuery event object, the suggestion object, 
   and the name of the dataset the suggestion belongs to. 
 
-All custom events are triggered on the element initialized as a typeahead.
+All custom events are triggered on the element initialized as the autocomplete.
 
 ### Look and Feel
 
-Below is a faux mustache template describing the DOM structure of a typeahead 
+Below is a faux mustache template describing the DOM structure of an autocomplete 
 dropdown menu. Keep in mind that `header`, `footer`, `suggestion`, and `empty` 
 come from the provided templates detailed [here](#datasets). 
 
 ```html
-<span class="tt-dropdown-menu">
+<span class="aa-dropdown-menu">
   {{#datasets}}
-    <div class="tt-dataset-{{name}}">
+    <div class="aa-dataset-{{name}}">
       {{{header}}}
-      <span class="tt-suggestions">
+      <span class="aa-suggestions">
         {{#suggestions}}
-          <div class="tt-suggestion">{{{suggestion}}}</div>
+          <div class="aa-suggestion">{{{suggestion}}}</div>
         {{/suggestions}}
         {{^suggestions}}
           {{{empty}}}
@@ -219,14 +213,14 @@ come from the provided templates detailed [here](#datasets).
 </span>
 ```
 
-When an end-user mouses or keys over a `.tt-suggestion`, the class `tt-cursor` 
+When an end-user mouses or keys over a `.aa-suggestion`, the class `aa-cursor` 
 will be added to it. You can use this class as a hook for styling the "under 
 cursor" state of suggestions.
 
 Specification
 -------------
 
-In an effort to take advantage of the pre-existing knowledge of typeahead.js 
+In an effort to take advantage of the pre-existing knowledge of autocomplete.js 
 users, the behavior of the typeahead.js UI is modeled after google.com's search 
 box. Below is pseudocode that details how the UI reacts to pertinent events.
 
@@ -360,3 +354,28 @@ update query to display key of suggestion
 close dropdown menu
 remove hint
 ```
+
+Testing
+------
+
+Unit tests are written using [Jasmine](http://jasmine.github.io/) and ran with [Karma](http://karma-runner.github.io/). Integration tests uses [Mocha](http://mochajs.org/) and [Saucelabs](https://saucelabs.com/).
+
+To run the unit tests suite run:
+
+```sh
+$ npm test
+```
+
+To run the integration tests suite run:
+
+```sh
+$ grunt
+$ grunt server
+$ ngrok 8888
+$ TEST_HOST=http://YOUR_NGROK_ID.ngrok.com SAUCE_ACCESS_KEY=YOUR_KEY SAUCE_USERNAME=YOUR_USERNAME./node_modules/mocha/bin/mocha --harmony -R spec ./test/integration/test.js
+```
+
+Credits
+--------
+
+This library has originally been forked from [Twitter's typeahead.js](https://github.com/twitter/typeahead.js) library. 

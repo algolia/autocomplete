@@ -2,7 +2,7 @@
 
 /* eslint-env jquery */
 
-var attrsKey = 'ttAttrs';
+var attrsKey = 'aaAttrs';
 
 var _ = require('../common/utils.js');
 var EventBus = require('./event_bus.js');
@@ -31,15 +31,15 @@ function Typeahead(o) {
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
   this.$node = buildDom(o.input, o.withHint);
 
-  $menu = this.$node.find('.tt-dropdown-menu');
-  $input = this.$node.find('.tt-input');
-  $hint = this.$node.find('.tt-hint');
+  $menu = this.$node.find('.aa-dropdown-menu');
+  $input = this.$node.find('.aa-input');
+  $hint = this.$node.find('.aa-hint');
 
   // #705: if there's scrollable overflow, ie doesn't support
   // blur cancellations when the scrollbar is clicked
   //
   // #351: preventDefault won't cancel blurs in ie <= 8
-  $input.on('blur.tt', function($e) {
+  $input.on('blur.aa', function($e) {
     var active;
     var isActive;
     var hasActive;
@@ -58,7 +58,7 @@ function Typeahead(o) {
   });
 
   // #351: prevents input blur due to clicks within dropdown menu
-  $menu.on('mousedown.tt', function($e) { $e.preventDefault(); });
+  $menu.on('mousedown.aa', function($e) { $e.preventDefault(); });
 
   this.eventBus = o.eventBus || new EventBus({el: $input});
 
@@ -364,7 +364,7 @@ function buildDom(input, withHint) {
   $hint
   .val('')
   .removeData()
-  .addClass('tt-hint')
+  .addClass('aa-hint')
   .removeAttr('id name placeholder required')
   .prop('readonly', true)
   .attr({autocomplete: 'off', spellcheck: 'false', tabindex: -1});
@@ -379,7 +379,7 @@ function buildDom(input, withHint) {
   });
 
   $input
-  .addClass('tt-input')
+  .addClass('aa-input')
   .attr({autocomplete: 'off', spellcheck: false})
   .css(withHint ? css.input : css.inputWithNoHint);
 
@@ -413,7 +413,7 @@ function getBackgroundStyles($el) {
 }
 
 function destroyDomStructure($node) {
-  var $input = $node.find('.tt-input');
+  var $input = $node.find('.aa-input');
 
   // need to remove attrs that weren't previously defined and
   // revert attrs that originally had a value
@@ -428,7 +428,7 @@ function destroyDomStructure($node) {
   $input
   .detach()
   .removeData(attrsKey)
-  .removeClass('tt-input')
+  .removeClass('aa-input')
   .insertAfter($node);
 
   $node.remove();

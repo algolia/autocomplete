@@ -9,17 +9,17 @@
         margin: 50px auto;
       }
 
-      .typeahead-wrapper {
+      .autocomplete-wrapper {
         display: block;
         margin: 50px 0;
       }
 
-      .tt-menu {
+      .aa-menu {
         background-color: #fff;
         border: 1px solid #000;
       }
 
-      .tt-suggestion.tt-cursor {
+      .aa-suggestion.aa-cursor {
         background-color: #ccc;
       }
     </style>
@@ -28,7 +28,7 @@
   <body>
     <div class="container">
       <form action="/where" method="GET">
-        <div class="typeahead-wrapper">
+        <div class="autocomplete-wrapper">
           <input id="contacts" name="contacts" type="text">
           <input type="submit">
         </div>
@@ -36,13 +36,13 @@
     </div>
 
     <script src="../../node_modules/jquery/dist/jquery.js"></script>
-    <script src="../../dist/typeahead.jquery.js"></script>
+    <script src="../../dist/autocomplete.jquery.js"></script>
     <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
     <script>
       var client = algoliasearch('latency', '6be0576ff61c053d5f9a3225e2a90f76');
       var index = client.initIndex('contacts');
 
-      $('#contacts').typeahead({}, [
+      $('#contacts').autocomplete({}, [
         {
           source: function(q, cb) {
             index.search(q, { hitsPerPage: 5 }, function(error, content) {

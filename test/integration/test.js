@@ -63,8 +63,8 @@ describe('jquery-typeahead.js', function() {
 
       body = this.elementByTagName('body');
       input = yield this.elementById('states');
-      hint = yield this.elementByClassName('tt-hint');
-      dropdown = yield this.elementByClassName('tt-dropdown-menu');
+      hint = yield this.elementByClassName('aa-hint');
+      dropdown = yield this.elementByClassName('aa-dropdown-menu');
 
       done();
     });
@@ -73,7 +73,7 @@ describe('jquery-typeahead.js', function() {
   beforeEach(function(done) {
     driver.run(function*() {
       yield body.click();
-      yield this.execute('$("#states").typeahead("val", "")');
+      yield this.execute('$("#states").autocomplete("val", "")');
       done();
     });
   });
@@ -148,7 +148,7 @@ describe('jquery-typeahead.js', function() {
         yield input.click();
         yield input.type('mi');
 
-        suggestions = yield dropdown.elementsByClassName('tt-suggestion');
+        suggestions = yield dropdown.elementsByClassName('aa-suggestion');
 
         expect(suggestions).to.have.length('4');
         expect(yield suggestions[0].text()).to.equal('Michigan');
@@ -202,30 +202,30 @@ describe('jquery-typeahead.js', function() {
         yield input.click();
         yield input.type('mi');
 
-        suggestions = yield dropdown.elementsByClassName('tt-suggestion');
+        suggestions = yield dropdown.elementsByClassName('aa-suggestion');
 
         yield input.type(wd.SPECIAL_KEYS['Up arrow']);
         expect(yield input.getValue()).to.equal('Missouri');
-        expect(yield suggestions[3].getAttribute('class')).to.equal('tt-suggestion tt-cursor');
+        expect(yield suggestions[3].getAttribute('class')).to.equal('aa-suggestion aa-cursor');
 
         yield input.type(wd.SPECIAL_KEYS['Up arrow']);
         expect(yield input.getValue()).to.equal('Mississippi');
-        expect(yield suggestions[2].getAttribute('class')).to.equal('tt-suggestion tt-cursor');
+        expect(yield suggestions[2].getAttribute('class')).to.equal('aa-suggestion aa-cursor');
 
         yield input.type(wd.SPECIAL_KEYS['Up arrow']);
         expect(yield input.getValue()).to.equal('Minnesota');
-        expect(yield suggestions[1].getAttribute('class')).to.equal('tt-suggestion tt-cursor');
+        expect(yield suggestions[1].getAttribute('class')).to.equal('aa-suggestion aa-cursor');
 
         yield input.type(wd.SPECIAL_KEYS['Up arrow']);
         expect(yield input.getValue()).to.equal('Michigan');
-        expect(yield suggestions[0].getAttribute('class')).to.equal('tt-suggestion tt-cursor');
+        expect(yield suggestions[0].getAttribute('class')).to.equal('aa-suggestion aa-cursor');
 
         yield input.type(wd.SPECIAL_KEYS['Up arrow']);
         expect(yield input.getValue()).to.equal('mi');
-        expect(yield suggestions[0].getAttribute('class')).to.equal('tt-suggestion');
-        expect(yield suggestions[1].getAttribute('class')).to.equal('tt-suggestion');
-        expect(yield suggestions[2].getAttribute('class')).to.equal('tt-suggestion');
-        expect(yield suggestions[3].getAttribute('class')).to.equal('tt-suggestion');
+        expect(yield suggestions[0].getAttribute('class')).to.equal('aa-suggestion');
+        expect(yield suggestions[1].getAttribute('class')).to.equal('aa-suggestion');
+        expect(yield suggestions[2].getAttribute('class')).to.equal('aa-suggestion');
+        expect(yield suggestions[3].getAttribute('class')).to.equal('aa-suggestion');
 
         done();
       });
@@ -240,30 +240,30 @@ describe('jquery-typeahead.js', function() {
         yield input.click();
         yield input.type('mi');
 
-        suggestions = yield dropdown.elementsByClassName('tt-suggestion');
+        suggestions = yield dropdown.elementsByClassName('aa-suggestion');
 
         yield input.type(wd.SPECIAL_KEYS['Down arrow']);
         expect(yield input.getValue()).to.equal('Michigan');
-        expect(yield suggestions[0].getAttribute('class')).to.equal('tt-suggestion tt-cursor');
+        expect(yield suggestions[0].getAttribute('class')).to.equal('aa-suggestion aa-cursor');
 
         yield input.type(wd.SPECIAL_KEYS['Down arrow']);
         expect(yield input.getValue()).to.equal('Minnesota');
-        expect(yield suggestions[1].getAttribute('class')).to.equal('tt-suggestion tt-cursor');
+        expect(yield suggestions[1].getAttribute('class')).to.equal('aa-suggestion aa-cursor');
 
         yield input.type(wd.SPECIAL_KEYS['Down arrow']);
         expect(yield input.getValue()).to.equal('Mississippi');
-        expect(yield suggestions[2].getAttribute('class')).to.equal('tt-suggestion tt-cursor');
+        expect(yield suggestions[2].getAttribute('class')).to.equal('aa-suggestion aa-cursor');
 
         yield input.type(wd.SPECIAL_KEYS['Down arrow']);
         expect(yield input.getValue()).to.equal('Missouri');
-        expect(yield suggestions[3].getAttribute('class')).to.equal('tt-suggestion tt-cursor');
+        expect(yield suggestions[3].getAttribute('class')).to.equal('aa-suggestion aa-cursor');
 
         yield input.type(wd.SPECIAL_KEYS['Down arrow']);
         expect(yield input.getValue()).to.equal('mi');
-        expect(yield suggestions[0].getAttribute('class')).to.equal('tt-suggestion');
-        expect(yield suggestions[1].getAttribute('class')).to.equal('tt-suggestion');
-        expect(yield suggestions[2].getAttribute('class')).to.equal('tt-suggestion');
-        expect(yield suggestions[3].getAttribute('class')).to.equal('tt-suggestion');
+        expect(yield suggestions[0].getAttribute('class')).to.equal('aa-suggestion');
+        expect(yield suggestions[1].getAttribute('class')).to.equal('aa-suggestion');
+        expect(yield suggestions[2].getAttribute('class')).to.equal('aa-suggestion');
+        expect(yield suggestions[3].getAttribute('class')).to.equal('aa-suggestion');
 
         done();
       });
@@ -318,7 +318,7 @@ describe('jquery-typeahead.js', function() {
         yield input.click();
         yield input.type('mi');
 
-        suggestions = yield dropdown.elementsByClassName('tt-suggestion');
+        suggestions = yield dropdown.elementsByClassName('aa-suggestion');
         yield input.type(wd.SPECIAL_KEYS['Down arrow']);
         yield input.type(wd.SPECIAL_KEYS['Down arrow']);
         yield input.type(wd.SPECIAL_KEYS['Tab']);
@@ -353,7 +353,7 @@ describe('jquery-typeahead.js', function() {
         yield input.click();
         yield input.type('mi');
 
-        suggestions = yield dropdown.elementsByClassName('tt-suggestion');
+        suggestions = yield dropdown.elementsByClassName('aa-suggestion');
         yield suggestions[1].click();
 
         expect(yield dropdown.isDisplayed()).to.equal(false);
@@ -372,7 +372,7 @@ describe('jquery-typeahead.js', function() {
         yield input.click();
         yield input.type('mi');
 
-        suggestions = yield dropdown.elementsByClassName('tt-suggestion');
+        suggestions = yield dropdown.elementsByClassName('aa-suggestion');
         yield input.type(wd.SPECIAL_KEYS['Down arrow']);
         yield input.type(wd.SPECIAL_KEYS['Down arrow']);
         yield input.type(wd.SPECIAL_KEYS['Return']);

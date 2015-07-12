@@ -6,7 +6,7 @@
     <!--[if lte IE 8]>
     <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
     <![endif]-->
-    <script src="../../dist/typeahead.jquery.js"></script>
+    <script src="../../dist/autocomplete.jquery.js"></script>
 
     <style>
       .container {
@@ -14,17 +14,17 @@
         margin: 50px auto;
       }
 
-      .typeahead-wrapper {
+      .autocomplete-wrapper {
         display: block;
         margin: 50px 0;
       }
 
-      .tt-dropdown-menu {
+      .aa-dropdown-menu {
         background-color: #fff;
         border: 1px solid #000;
       }
 
-      .tt-suggestion.tt-cursor {
+      .aa-suggestion.aa-cursor {
         background-color: #ccc;
       }
     </style>
@@ -33,7 +33,7 @@
   <body>
     <div class="container">
       <form action="/where" method="GET">
-        <div class="typeahead-wrapper">
+        <div class="autocomplete-wrapper">
           <input id="states" name="states" type="text">
           <input type="submit">
         </div>
@@ -95,7 +95,7 @@
         'this is a very long value so deal with it otherwise you gonna have a hard time'
       ];
 
-      $('#states').typeahead({ }, [
+      $('#states').autocomplete({ }, [
         {
           displayKey: 'name',
           source: function(q, cb) {

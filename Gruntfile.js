@@ -8,9 +8,9 @@ module.exports = function(grunt) {
 
     banner: [
       '/*!',
-      ' * typeahead.js <%= version %>',
-      ' * https://github.com/twitter/typeahead.js',
-      ' * Copyright 2013-<%= grunt.template.today("yyyy") %> Twitter, Inc. and other contributors; Licensed MIT',
+      ' * autocomplete.js <%= version %>',
+      ' * https://github.com/algolia/autocomplete.js',
+      ' * Copyright <%= grunt.template.today("yyyy") %> Algolia, Inc. and other contributors; Licensed MIT',
       ' */\n\n'
     ].join('\n'),
 
@@ -18,16 +18,16 @@ module.exports = function(grunt) {
       options: {
         banner: '<%= banner %>'
       },
-      typeahead: {
-        src: 'src/typeahead/plugin.js',
-        dest: '<%= buildDir %>/typeahead.jquery.js'
+      autocomplete: {
+        src: 'src/autocomplete/plugin.js',
+        dest: '<%= buildDir %>/autocomplete.jquery.js'
       },
-      typeaheadMinified: {
+      autocompleteMinified: {
         options: {
           plugin: [['minifyify', {map: false}]]
         },
-        src: 'src/typeahead/plugin.js',
-        dest: '<%= buildDir %>/typeahead.jquery.min.js'
+        src: 'src/autocomplete/plugin.js',
+        dest: '<%= buildDir %>/autocomplete.jquery.min.js'
       }
     },
 

@@ -3,7 +3,7 @@
 /* eslint-env mocha, jasmine */
 
 global.$ = require('jquery');
-var Input = require('../../src/typeahead/input.js');
+var Input = require('../../src/autocomplete/input.js');
 var _ = require('../../src/common/utils.js');
 var fixtures = require('../fixtures.js');
 var waitsForAndRuns = require('../helpers/waits_for.js');
@@ -28,8 +28,8 @@ describe('Input', function() {
     setFixtures(fixtures.html.input + fixtures.html.hint);
 
     $fixture = $('#jasmine-fixtures');
-    this.$input = $fixture.find('.tt-input');
-    this.$hint = $fixture.find('.tt-hint');
+    this.$input = $fixture.find('.aa-input');
+    this.$hint = $fixture.find('.aa-hint');
 
     this.view = new Input({ input: this.$input, hint: this.$hint });
   });
@@ -399,8 +399,8 @@ describe('Input', function() {
 
       this.view.destroy();
 
-      expect($hint.off).toHaveBeenCalledWith('.tt');
-      expect($input.off).toHaveBeenCalledWith('.tt');
+      expect($hint.off).toHaveBeenCalledWith('.aa');
+      expect($input.off).toHaveBeenCalledWith('.aa');
     });
 
     it('should null out its reference to DOM elements', function() {

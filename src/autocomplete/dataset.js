@@ -2,9 +2,9 @@
 
 /* eslint-env jquery */
 
-var datasetKey = 'ttDataset';
-var valueKey = 'ttValue';
-var datumKey = 'ttDatum';
+var datasetKey = 'aaDataset';
+var valueKey = 'aaValue';
+var datumKey = 'aaDatum';
 
 var _ = require('../common/utils.js');
 var html = require('./html.js');
