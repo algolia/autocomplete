@@ -112,6 +112,59 @@ When initializing an autocomplete, there are a number of options you can configu
 
 * `hint` – If `false`, the autocomplete will not show a hint. Defaults to `true`.
 
+* `menuTemplate` – The jQuery selector to use to build the dropdown menu. The template code should be inlined in a `<script type="text/template" id="my-template"></script>` wrapper. The template should include all *dataset* placeholders.
+
+```html
+<script type="text/template" id="my-custom-menu-template">
+  <div class="my-custom-menu">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="aa-dataset-contacts1"></div>
+      </div>
+      <div class="col-sm-6">
+        <div class="aa-dataset-contacts2"></div>
+        <div class="aa-dataset-contacts3"></div>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script>
+  $('#search-input').autocomplete({ menuTemplate: '#my-custom-menu-template' }, [
+    {
+      source: index.ttAdapter({ hitsPerPage: 5 }),
+      name: 'contacts1',
+      templates: {
+        header: '<h4>List 1</h4>',
+        suggestion: function(suggestion) {
+          // FIXME
+        }
+      }
+    },
+    {
+      source: index.ttAdapter({ hitsPerPage: 2 }),
+      name: 'contacts2',
+      templates: {
+        header: '<h4>List 2</h4>',
+        suggestion: function(suggestion) {
+          // FIXME
+        }
+      }
+    },
+    {
+      source: index.ttAdapter({ hitsPerPage: 2 }),
+      name: 'contacts3',
+      templates: {
+        header: '<h4>List 3</h4>',
+        suggestion: function(suggestion, answer) {
+          // FIXME
+        }
+      }
+    }
+  ]);
+</script>
+```
+
 * `minLength` – The minimum character length needed before suggestions start 
   getting rendered. Defaults to `1`.
 
