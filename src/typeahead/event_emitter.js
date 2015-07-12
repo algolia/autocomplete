@@ -66,7 +66,9 @@ function trigger(types) {
     syncFlush = getFlush(callbacks.sync, this, [type].concat(args));
     asyncFlush = getFlush(callbacks.async, this, [type].concat(args));
 
-    syncFlush() && nextTick(asyncFlush);
+    if (syncFlush()) {
+      nextTick(asyncFlush);
+    }
   }
 
   return this;

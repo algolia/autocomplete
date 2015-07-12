@@ -542,7 +542,9 @@ _.mixin(Dropdown.prototype, EventEmitter, {
   _setCursor: function setCursor($el, silent) {
     $el.first().addClass('tt-cursor');
 
-    !silent && this.trigger('cursorMoved');
+    if (!silent) {
+      this.trigger('cursorMoved');
+    }
   },
 
   _removeCursor: function removeCursor() {
@@ -618,7 +620,9 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     if (!this.isOpen) {
       this.isOpen = true;
 
-      !this.isEmpty && this._show();
+      if (!this.isEmpty) {
+        this._show();
+      }
 
       this.trigger('opened');
     }
@@ -801,7 +805,9 @@ function trigger(types) {
     syncFlush = getFlush(callbacks.sync, this, [type].concat(args));
     asyncFlush = getFlush(callbacks.async, this, [type].concat(args));
 
-    syncFlush() && nextTick(asyncFlush);
+    if (syncFlush()) {
+      nextTick(asyncFlush);
+    }
   }
 
   return this;
@@ -998,7 +1004,9 @@ _.mixin(Input.prototype, EventEmitter, {
         preventDefault = false;
     }
 
-    preventDefault && $e.preventDefault();
+    if (preventDefault) {
+      $e.preventDefault();
+    }
   },
 
   _shouldTrigger: function shouldTrigger(keyName, $e) {
@@ -1061,7 +1069,11 @@ _.mixin(Input.prototype, EventEmitter, {
     this.$input.val(value);
 
     // silent prevents any additional events from being triggered
-    silent ? this.clearHint() : this._checkInputValue();
+    if (silent) {
+      this.clearHint();
+    } else {
+      this._checkInputValue();
+    }
   },
 
   resetInputValue: function resetInputValue() {
@@ -1091,7 +1103,9 @@ _.mixin(Input.prototype, EventEmitter, {
     valIsPrefixOfHint = val !== hint && hint.indexOf(val) === 0;
     isValid = val !== '' && valIsPrefixOfHint && !this.hasOverflow();
 
-    !isValid && this.clearHint();
+    if (!isValid) {
+      this.clearHint();
+    }
   },
 
   getLanguageDirection: function getLanguageDirection() {
@@ -1483,9 +1497,11 @@ _.mixin(Typeahead.prototype, {
   _onUpKeyed: function onUpKeyed() {
     var query = this.input.getQuery();
 
-    this.dropdown.isEmpty && query.length >= this.minLength ?
-      this.dropdown.update(query) :
+    if (this.dropdown.isEmpty && query.length >= this.minLength) {
+      this.dropdown.update(query);
+    } else {
       this.dropdown.moveCursorUp();
+    }
 
     this.dropdown.open();
   },
@@ -1493,27 +1509,35 @@ _.mixin(Typeahead.prototype, {
   _onDownKeyed: function onDownKeyed() {
     var query = this.input.getQuery();
 
-    this.dropdown.isEmpty && query.length >= this.minLength ?
-      this.dropdown.update(query) :
+    if (this.dropdown.isEmpty && query.length >= this.minLength) {
+      this.dropdown.update(query);
+    } else {
       this.dropdown.moveCursorDown();
+    }
 
     this.dropdown.open();
   },
 
   _onLeftKeyed: function onLeftKeyed() {
-    this.dir === 'rtl' && this._autocomplete();
+    if (this.dir === 'rtl') {
+      this._autocomplete();
+    }
   },
 
   _onRightKeyed: function onRightKeyed() {
-    this.dir === 'ltr' && this._autocomplete();
+    if (this.dir === 'ltr') {
+      this._autocomplete();
+    }
   },
 
   _onQueryChanged: function onQueryChanged(e, query) {
     this.input.clearHintIfInvalid();
 
-    query.length >= this.minLength ?
-      this.dropdown.update(query) :
+    if (query.length >= this.minLength) {
+      this.dropdown.update(query);
+    } else {
       this.dropdown.empty();
+    }
 
     this.dropdown.open();
     this._setLanguageDirection();
@@ -1554,7 +1578,11 @@ _.mixin(Typeahead.prototype, {
       match = frontMatchRegEx.exec(datum.value);
 
       // clear hint if there's no trailing text
-      match ? this.input.setHint(val + match[1]) : this.input.clearHint();
+      if (match) {
+        this.input.setHint(val + match[1]);
+      } else {
+        this.input.clearHint();
+      }
     } else {
       this.input.clearHint();
     }
@@ -1572,7 +1600,9 @@ _.mixin(Typeahead.prototype, {
 
     if (hint && query !== hint && isCursorAtEnd) {
       datum = this.dropdown.getDatumForTopSuggestion();
-      datum && this.input.setInputValue(datum.value);
+      if (datum) {
+        this.input.setInputValue(datum.value);
+      }
 
       this.eventBus.trigger('autocompleted', datum.raw, datum.datasetName);
     }
@@ -1600,9 +1630,11 @@ _.mixin(Typeahead.prototype, {
     // otherwise we're not gonna see anything
     if (!this.isActivated) {
       var query = this.input.getInputValue();
-      query.length >= this.minLength ?
-        this.dropdown.update(query) :
+      if (query.length >= this.minLength) {
+        this.dropdown.update(query);
+      } else {
         this.dropdown.empty();
+      }
     }
     this.dropdown.open();
   },
@@ -1674,7 +1706,9 @@ function buildDom(input, withHint) {
 
   // ie7 does not like it when dir is set to auto
   try {
-    !$input.attr('dir') && $input.attr('dir', 'auto');
+    if (!$input.attr('dir')) {
+      $input.attr('dir', 'auto');
+    }
   } catch (e) {
     // ignore
   }
@@ -1705,7 +1739,11 @@ function destroyDomStructure($node) {
   // need to remove attrs that weren't previously defined and
   // revert attrs that originally had a value
   _.each($input.data(attrsKey), function(val, key) {
-    _.isUndefined(val) ? $input.removeAttr(key) : $input.attr(key, val);
+    if (_.isUndefined(val)) {
+      $input.removeAttr(key);
+    } else {
+      $input.attr(key, val);
+    }
   });
 
   $input

@@ -98,7 +98,9 @@ _.mixin(Dropdown.prototype, EventEmitter, {
   _setCursor: function setCursor($el, silent) {
     $el.first().addClass('tt-cursor');
 
-    !silent && this.trigger('cursorMoved');
+    if (!silent) {
+      this.trigger('cursorMoved');
+    }
   },
 
   _removeCursor: function removeCursor() {
@@ -174,7 +176,9 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     if (!this.isOpen) {
       this.isOpen = true;
 
-      !this.isEmpty && this._show();
+      if (!this.isEmpty) {
+        this._show();
+      }
 
       this.trigger('opened');
     }
