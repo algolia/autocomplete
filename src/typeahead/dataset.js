@@ -67,29 +67,33 @@ _.mixin(Dataset.prototype, EventEmitter, {
 
     var that = this;
     var hasSuggestions;
+    var args = [].slice.call(arguments, 2);
 
     this.$el.empty();
     hasSuggestions = suggestions && suggestions.length;
 
     if (!hasSuggestions && this.templates.empty) {
       this.$el
-      .html(getEmptyHtml())
-      .prepend(that.templates.header ? getHeaderHtml() : null)
-      .append(that.templates.footer ? getFooterHtml() : null);
+      .html(getEmptyHtml.apply(this, args))
+      .prepend(that.templates.header ? getHeaderHtml.apply(this, args) : null)
+      .append(that.templates.footer ? getFooterHtml.apply(this, args) : null);
     } else if (hasSuggestions) {
       this.$el
-      .html(getSuggestionsHtml())
-      .prepend(that.templates.header ? getHeaderHtml() : null)
-      .append(that.templates.footer ? getFooterHtml() : null);
+      .html(getSuggestionsHtml.apply(this, args))
+      .prepend(that.templates.header ? getHeaderHtml.apply(this, args) : null)
+      .append(that.templates.footer ? getFooterHtml.apply(this, args) : null);
     }
 
     this.trigger('rendered');
 
     function getEmptyHtml() {
-      return that.templates.empty({query: query, isEmpty: true});
+      var args = [].slice.call(arguments, 0);
+      args = [{ query: query, isEmpty: true }].concat(args);
+      return that.templates.empty(args);
     }
 
     function getSuggestionsHtml() {
+      var args = [].slice.call(arguments, 0);
       var $suggestions;
       var nodes;
 
@@ -106,7 +110,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
         var $el;
 
         $el = $(html.suggestion)
-        .append(that.templates.suggestion(suggestion))
+        .append(that.templates.suggestion.apply(this, [suggestion].concat(args)))
         .data(datasetKey, that.name)
         .data(valueKey, that.displayFn(suggestion))
         .data(datumKey, suggestion);
@@ -118,17 +122,15 @@ _.mixin(Dataset.prototype, EventEmitter, {
     }
 
     function getHeaderHtml() {
-      return that.templates.header({
-        query: query,
-        isEmpty: !hasSuggestions
-      });
+      var args = [].slice.call(arguments, 0);
+      args = [{ query: query, isEmpty: !hasSuggestions }].concat(args);
+      return that.templates.header.apply(this, args);
     }
 
     function getFooterHtml() {
-      return that.templates.footer({
-        query: query,
-        isEmpty: !hasSuggestions
-      });
+      var args = [].slice.call(arguments, 0);
+      args = [{ query: query, isEmpty: !hasSuggestions }].concat(args);
+      return that.templates.footer.apply(this, args);
     }
   },
 
@@ -149,7 +151,11 @@ _.mixin(Dataset.prototype, EventEmitter, {
       // if the update has been canceled or if the query has changed
       // do not render the suggestions as they've become outdated
       if (!that.canceled && query === that.query) {
-        that._render(query, suggestions);
+        // concat all the other arguments that could have been passed
+        // to the render function, and forward them to _render
+        var args = [].slice.call(arguments, 1);
+        args = [query, suggestions].concat(args);
+        that._render.apply(that, args);
       }
     }
   },
