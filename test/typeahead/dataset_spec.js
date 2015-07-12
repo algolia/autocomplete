@@ -73,6 +73,71 @@ describe('Dataset', function() {
       expect(this.dataset.getRoot()).toContainText('empty');
     });
 
+    it('should render isEmpty with extra params', function() {
+      var spy = jasmine.createSpy('empty with extra params');
+      this.dataset = new Dataset({
+        source: this.source,
+        templates: {
+          empty: spy
+        }
+      });
+
+      this.source.and.callFake(fakeGetWithSyncEmptyResultsAndExtraParams);
+      this.dataset.update('woah');
+
+      expect(spy).toHaveBeenCalled();
+      expect(spy.calls.argsFor(0).length).toEqual(4);
+      expect(spy.calls.argsFor(0)[0]).toEqual({query: 'woah', isEmpty: true});
+      expect(spy.calls.argsFor(0)[1]).toEqual(42);
+      expect(spy.calls.argsFor(0)[2]).toEqual(true);
+      expect(spy.calls.argsFor(0)[3]).toEqual(false);
+    });
+
+    it('should render with extra params', function() {
+      var headerSpy = jasmine.createSpy('header with extra params');
+      var footerSpy = jasmine.createSpy('footer with extra params');
+      var suggestionSpy = jasmine.createSpy('suggestion with extra params');
+      this.dataset = new Dataset({
+        source: this.source,
+        templates: {
+          header: headerSpy,
+          footer: footerSpy,
+          suggestion: suggestionSpy
+        }
+      });
+
+      var suggestions;
+      fakeGetWithSyncResultsAndExtraParams('woah', function(all) {
+        suggestions = all;
+      });
+
+      this.source.and.callFake(fakeGetWithSyncResultsAndExtraParams);
+      this.dataset.update('woah');
+
+      expect(headerSpy).toHaveBeenCalled();
+      expect(headerSpy.calls.argsFor(0).length).toEqual(4);
+      expect(headerSpy.calls.argsFor(0)[0]).toEqual({query: 'woah', isEmpty: false});
+      expect(headerSpy.calls.argsFor(0)[1]).toEqual(42);
+      expect(headerSpy.calls.argsFor(0)[2]).toEqual(true);
+      expect(headerSpy.calls.argsFor(0)[3]).toEqual(false);
+
+      expect(footerSpy).toHaveBeenCalled();
+      expect(footerSpy.calls.argsFor(0).length).toEqual(4);
+      expect(footerSpy.calls.argsFor(0)[0]).toEqual({query: 'woah', isEmpty: false});
+      expect(footerSpy.calls.argsFor(0)[1]).toEqual(42);
+      expect(footerSpy.calls.argsFor(0)[2]).toEqual(true);
+      expect(footerSpy.calls.argsFor(0)[3]).toEqual(false);
+
+      expect(suggestionSpy).toHaveBeenCalled();
+      for (var i = 0; i < 2; ++i) {
+        expect(suggestionSpy.calls.argsFor(i).length).toEqual(4);
+        expect(suggestionSpy.calls.argsFor(i)[0]).toEqual(suggestions[i]);
+        expect(suggestionSpy.calls.argsFor(i)[1]).toEqual(42);
+        expect(suggestionSpy.calls.argsFor(i)[2]).toEqual(true);
+        expect(suggestionSpy.calls.argsFor(i)[3]).toEqual(false);
+      }
+    });
+
     it('should render header', function() {
       this.dataset = new Dataset({
         source: this.source,
@@ -221,6 +286,18 @@ describe('Dataset', function() {
 
   function fakeGetWithSyncEmptyResults(query, cb) {
     cb();
+  }
+
+  function fakeGetWithSyncEmptyResultsAndExtraParams(query, cb) {
+    cb([], 42, true, false);
+  }
+
+  function fakeGetWithSyncResultsAndExtraParams(query, cb) {
+    cb([
+      { value: 'one', raw: { value: 'one' } },
+      { value: 'two', raw: { value: 'two' } },
+      { value: 'three', raw: { value: 'three' } }
+    ], 42, true, false);
   }
 
   function fakeGetWithAsyncResults(query, cb) {

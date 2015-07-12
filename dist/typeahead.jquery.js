@@ -326,7 +326,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
     function getEmptyHtml() {
       var args = [].slice.call(arguments, 0);
       args = [{ query: query, isEmpty: true }].concat(args);
-      return that.templates.empty(args);
+      return that.templates.empty.apply(this, args);
     }
 
     function getSuggestionsHtml() {
