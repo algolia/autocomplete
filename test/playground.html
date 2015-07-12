@@ -44,13 +44,22 @@
 
       $('#contacts').typeahead({}, [
         {
-          source: index.ttAdapter({ hitsPerPage: 5 }),
+          source: function(q, cb) {
+            index.search(q, { hitsPerPage: 5 }, function(error, content) {
+              if (error) {
+                cb([]);
+                return;
+              }
+              cb(content.hits, content);
+            });
+          },
           templates: {
-            header: '<h4>Header</h4>',
+            header: function(x, answer) {
+              return '<h4>Header (' + answer.nbHits + ')</h4>';
+            },
             footer: '<h4>Footer</h4>',
-            suggestion: function(suggestion) {
-              console.log(suggestion);
-              return suggestion._highlightResult.name.value;
+            suggestion: function(suggestion, answer) {
+              return suggestion._highlightResult.name.value + ' (' + answer.nbHits + ')';
             }
           }
         }
