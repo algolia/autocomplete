@@ -274,7 +274,8 @@ function Dataset(o) {
 
   this.templates = getTemplates(o.templates, this.displayFn);
 
-  this.$el = $(html.dataset.replace('%CLASS%', this.name));
+  this.$el = o.$menu && o.name && o.$menu.find('.tt-dataset-' + o.name).length > 0 ?
+    $(o.$menu.find('.tt-dataset-' + o.name)[0]) : $(html.dataset.replace('%CLASS%', this.name));
 }
 
 // static methods
@@ -469,8 +470,6 @@ function Dropdown(o) {
   this.isOpen = false;
   this.isEmpty = true;
 
-  this.datasets = _.map(o.datasets, initializeDataset);
-
   // bound functions
   onSuggestionClick = _.bind(this._onSuggestionClick, this);
   onSuggestionMouseEnter = _.bind(this._onSuggestionMouseEnter, this);
@@ -481,8 +480,12 @@ function Dropdown(o) {
   .on('mouseenter.tt', '.tt-suggestion', onSuggestionMouseEnter)
   .on('mouseleave.tt', '.tt-suggestion', onSuggestionMouseLeave);
 
+  this.datasets = _.map(o.datasets, initializeDataset.bind(null, this.$menu));
   _.each(this.datasets, function(dataset) {
-    that.$menu.append(dataset.getRoot());
+    var root = dataset.getRoot();
+    if (root.parent().length === 0) {
+      that.$menu.append(root);
+    }
     dataset.onSync('rendered', that._onRendered, that);
   });
 }
@@ -690,8 +693,8 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 // ----------------
 Dropdown.Dataset = Dataset;
 
-function initializeDataset(oDataset) {
-  return new Dropdown.Dataset(oDataset);
+function initializeDataset($menu, oDataset) {
+  return new Dropdown.Dataset(_.mixin({ '$menu': $menu }, oDataset));
 }
 
 module.exports = Dropdown;
@@ -1213,6 +1216,7 @@ methods = {
         withHint: _.isUndefined(o.hint) ? true : !!o.hint,
         minLength: o.minLength,
         autoselect: o.autoselect,
+        menuTemplate: o.menuTemplate,
         datasets: datasets
       });
 
@@ -1336,7 +1340,7 @@ function Typeahead(o) {
   this.isActivated = false;
   this.autoselect = !!o.autoselect;
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
-  this.$node = buildDom(o.input, o.withHint);
+  this.$node = buildDom(o.input, o.withHint, o.menuTemplate);
 
   $menu = this.$node.find('.tt-dropdown-menu');
   $input = this.$node.find('.tt-input');
@@ -1443,9 +1447,9 @@ _.mixin(Typeahead.prototype, {
   },
 
   _onBlurred: function onBlurred() {
-    this.isActivated = false;
-    this.dropdown.empty();
-    this.dropdown.close();
+    // this.isActivated = false;
+    // this.dropdown.empty();
+    // this.dropdown.close();
   },
 
   _onEnterKeyed: function onEnterKeyed(type, $e) {
@@ -1639,7 +1643,7 @@ _.mixin(Typeahead.prototype, {
   }
 });
 
-function buildDom(input, withHint) {
+function buildDom(input, withHint, menuTemplate) {
   var $input;
   var $wrapper;
   var $dropdown;
@@ -1648,6 +1652,9 @@ function buildDom(input, withHint) {
   $input = $(input);
   $wrapper = $(html.wrapper).css(css.wrapper);
   $dropdown = $(html.dropdown).css(css.dropdown);
+  if (menuTemplate) {
+    $dropdown.html($(menuTemplate).text());
+  }
   $hint = $input.clone().css(css.hint).css(getBackgroundStyles($input));
 
   $hint

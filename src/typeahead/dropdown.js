@@ -25,8 +25,6 @@ function Dropdown(o) {
   this.isOpen = false;
   this.isEmpty = true;
 
-  this.datasets = _.map(o.datasets, initializeDataset);
-
   // bound functions
   onSuggestionClick = _.bind(this._onSuggestionClick, this);
   onSuggestionMouseEnter = _.bind(this._onSuggestionMouseEnter, this);
@@ -37,8 +35,12 @@ function Dropdown(o) {
   .on('mouseenter.tt', '.tt-suggestion', onSuggestionMouseEnter)
   .on('mouseleave.tt', '.tt-suggestion', onSuggestionMouseLeave);
 
+  this.datasets = _.map(o.datasets, initializeDataset.bind(null, this.$menu));
   _.each(this.datasets, function(dataset) {
-    that.$menu.append(dataset.getRoot());
+    var root = dataset.getRoot();
+    if (root.parent().length === 0) {
+      that.$menu.append(root);
+    }
     dataset.onSync('rendered', that._onRendered, that);
   });
 }
@@ -246,8 +248,8 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 // ----------------
 Dropdown.Dataset = Dataset;
 
-function initializeDataset(oDataset) {
-  return new Dropdown.Dataset(oDataset);
+function initializeDataset($menu, oDataset) {
+  return new Dropdown.Dataset(_.mixin({ '$menu': $menu }, oDataset));
 }
 
 module.exports = Dropdown;

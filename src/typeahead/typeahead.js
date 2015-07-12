@@ -29,7 +29,7 @@ function Typeahead(o) {
   this.isActivated = false;
   this.autoselect = !!o.autoselect;
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
-  this.$node = buildDom(o.input, o.withHint);
+  this.$node = buildDom(o.input, o.withHint, o.menuTemplate);
 
   $menu = this.$node.find('.tt-dropdown-menu');
   $input = this.$node.find('.tt-input');
@@ -136,9 +136,9 @@ _.mixin(Typeahead.prototype, {
   },
 
   _onBlurred: function onBlurred() {
-    this.isActivated = false;
-    this.dropdown.empty();
-    this.dropdown.close();
+    // this.isActivated = false;
+    // this.dropdown.empty();
+    // this.dropdown.close();
   },
 
   _onEnterKeyed: function onEnterKeyed(type, $e) {
@@ -332,7 +332,7 @@ _.mixin(Typeahead.prototype, {
   }
 });
 
-function buildDom(input, withHint) {
+function buildDom(input, withHint, menuTemplate) {
   var $input;
   var $wrapper;
   var $dropdown;
@@ -341,6 +341,9 @@ function buildDom(input, withHint) {
   $input = $(input);
   $wrapper = $(html.wrapper).css(css.wrapper);
   $dropdown = $(html.dropdown).css(css.dropdown);
+  if (menuTemplate) {
+    $dropdown.html($(menuTemplate).text());
+  }
   $hint = $input.clone().css(css.hint).css(getBackgroundStyles($input));
 
   $hint

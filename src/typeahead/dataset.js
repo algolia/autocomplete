@@ -37,7 +37,8 @@ function Dataset(o) {
 
   this.templates = getTemplates(o.templates, this.displayFn);
 
-  this.$el = $(html.dataset.replace('%CLASS%', this.name));
+  this.$el = o.$menu && o.name && o.$menu.find('.tt-dataset-' + o.name).length > 0 ?
+    $(o.$menu.find('.tt-dataset-' + o.name)[0]) : $(html.dataset.replace('%CLASS%', this.name));
 }
 
 // static methods
