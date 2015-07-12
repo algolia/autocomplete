@@ -13,7 +13,7 @@ var methods;
 
 old = $.fn.typeahead;
 
-typeaheadKey = 'ttTypeahead';
+typeaheadKey = 'aaAutocomplete';
 
 methods = {
   // supported signatures:
@@ -112,7 +112,7 @@ methods = {
   }
 };
 
-$.fn.typeahead = function(method) {
+$.fn.autocomplete = function(method) {
   var tts;
 
   // methods that should only act on intialized typeaheads
@@ -124,7 +124,7 @@ $.fn.typeahead = function(method) {
   return methods.initialize.apply(this, arguments);
 };
 
-$.fn.typeahead.noConflict = function noConflict() {
-  $.fn.typeahead = old;
+$.fn.autocomplete.noConflict = function noConflict() {
+  $.fn.autocomplete = old;
   return this;
 };

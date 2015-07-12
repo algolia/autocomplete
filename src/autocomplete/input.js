@@ -41,9 +41,9 @@ function Input(o) {
 
   this.$hint = $(o.hint);
   this.$input = $(o.input)
-  .on('blur.tt', onBlur)
-  .on('focus.tt', onFocus)
-  .on('keydown.tt', onKeydown);
+  .on('blur.aa', onBlur)
+  .on('focus.aa', onFocus)
+  .on('keydown.aa', onKeydown);
 
   // if no hint, noop all the hint related functions
   if (this.$hint.length === 0) {
@@ -57,9 +57,9 @@ function Input(o) {
   // ie9 doesn't fire the input event when characters are removed
   // not sure if ie10 is compatible
   if (!_.isMsie()) {
-    this.$input.on('input.tt', onInput);
+    this.$input.on('input.aa', onInput);
   } else {
-    this.$input.on('keydown.tt keypress.tt cut.tt paste.tt', function($e) {
+    this.$input.on('keydown.aa keypress.aa cut.aa paste.aa', function($e) {
       // if a special key triggered this, ignore it
       if (specialKeyCodeMap[$e.which || $e.keyCode]) { return; }
 
@@ -139,7 +139,9 @@ _.mixin(Input.prototype, EventEmitter, {
         preventDefault = false;
     }
 
-    preventDefault && $e.preventDefault();
+    if (preventDefault) {
+      $e.preventDefault();
+    }
   },
 
   _shouldTrigger: function shouldTrigger(keyName, $e) {
@@ -202,7 +204,11 @@ _.mixin(Input.prototype, EventEmitter, {
     this.$input.val(value);
 
     // silent prevents any additional events from being triggered
-    silent ? this.clearHint() : this._checkInputValue();
+    if (silent) {
+      this.clearHint();
+    } else {
+      this._checkInputValue();
+    }
   },
 
   resetInputValue: function resetInputValue() {
@@ -232,7 +238,9 @@ _.mixin(Input.prototype, EventEmitter, {
     valIsPrefixOfHint = val !== hint && hint.indexOf(val) === 0;
     isValid = val !== '' && valIsPrefixOfHint && !this.hasOverflow();
 
-    !isValid && this.clearHint();
+    if (!isValid) {
+      this.clearHint();
+    }
   },
 
   getLanguageDirection: function getLanguageDirection() {
@@ -271,8 +279,8 @@ _.mixin(Input.prototype, EventEmitter, {
   },
 
   destroy: function destroy() {
-    this.$hint.off('.tt');
-    this.$input.off('.tt');
+    this.$hint.off('.aa');
+    this.$input.off('.aa');
 
     this.$hint = this.$input = this.$overflowHelper = null;
   }

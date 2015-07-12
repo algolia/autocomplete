@@ -3,7 +3,7 @@
 /* eslint-env mocha, jasmine */
 
 global.$ = require('jquery');
-var EventEmitter = require('../../src/typeahead/event_emitter.js');
+var EventEmitter = require('../../src/autocomplete/event_emitter.js');
 var _ = require('../../src/common/utils.js');
 var waitsForAndRuns = require('../helpers/waits_for.js');
 

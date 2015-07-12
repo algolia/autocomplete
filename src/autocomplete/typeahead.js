@@ -2,7 +2,7 @@
 
 /* eslint-env jquery */
 
-var attrsKey = 'ttAttrs';
+var attrsKey = 'aaAttrs';
 
 var _ = require('../common/utils.js');
 var EventBus = require('./event_bus.js');
@@ -31,15 +31,15 @@ function Typeahead(o) {
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
   this.$node = buildDom(o.input, o.withHint, o.menuTemplate);
 
-  $menu = this.$node.find('.tt-dropdown-menu');
-  $input = this.$node.find('.tt-input');
-  $hint = this.$node.find('.tt-hint');
+  $menu = this.$node.find('.aa-dropdown-menu');
+  $input = this.$node.find('.aa-input');
+  $hint = this.$node.find('.aa-hint');
 
   // #705: if there's scrollable overflow, ie doesn't support
   // blur cancellations when the scrollbar is clicked
   //
   // #351: preventDefault won't cancel blurs in ie <= 8
-  $input.on('blur.tt', function($e) {
+  $input.on('blur.aa', function($e) {
     var active;
     var isActive;
     var hasActive;
@@ -58,7 +58,7 @@ function Typeahead(o) {
   });
 
   // #351: prevents input blur due to clicks within dropdown menu
-  $menu.on('mousedown.tt', function($e) { $e.preventDefault(); });
+  $menu.on('mousedown.aa', function($e) { $e.preventDefault(); });
 
   this.eventBus = o.eventBus || new EventBus({el: $input});
 
@@ -136,9 +136,9 @@ _.mixin(Typeahead.prototype, {
   },
 
   _onBlurred: function onBlurred() {
-    // this.isActivated = false;
-    // this.dropdown.empty();
-    // this.dropdown.close();
+    this.isActivated = false;
+    this.dropdown.empty();
+    this.dropdown.close();
   },
 
   _onEnterKeyed: function onEnterKeyed(type, $e) {
@@ -176,9 +176,11 @@ _.mixin(Typeahead.prototype, {
   _onUpKeyed: function onUpKeyed() {
     var query = this.input.getQuery();
 
-    this.dropdown.isEmpty && query.length >= this.minLength ?
-      this.dropdown.update(query) :
+    if (this.dropdown.isEmpty && query.length >= this.minLength) {
+      this.dropdown.update(query);
+    } else {
       this.dropdown.moveCursorUp();
+    }
 
     this.dropdown.open();
   },
@@ -186,27 +188,35 @@ _.mixin(Typeahead.prototype, {
   _onDownKeyed: function onDownKeyed() {
     var query = this.input.getQuery();
 
-    this.dropdown.isEmpty && query.length >= this.minLength ?
-      this.dropdown.update(query) :
+    if (this.dropdown.isEmpty && query.length >= this.minLength) {
+      this.dropdown.update(query);
+    } else {
       this.dropdown.moveCursorDown();
+    }
 
     this.dropdown.open();
   },
 
   _onLeftKeyed: function onLeftKeyed() {
-    this.dir === 'rtl' && this._autocomplete();
+    if (this.dir === 'rtl') {
+      this._autocomplete();
+    }
   },
 
   _onRightKeyed: function onRightKeyed() {
-    this.dir === 'ltr' && this._autocomplete();
+    if (this.dir === 'ltr') {
+      this._autocomplete();
+    }
   },
 
   _onQueryChanged: function onQueryChanged(e, query) {
     this.input.clearHintIfInvalid();
 
-    query.length >= this.minLength ?
-      this.dropdown.update(query) :
+    if (query.length >= this.minLength) {
+      this.dropdown.update(query);
+    } else {
       this.dropdown.empty();
+    }
 
     this.dropdown.open();
     this._setLanguageDirection();
@@ -218,9 +228,9 @@ _.mixin(Typeahead.prototype, {
   },
 
   _setLanguageDirection: function setLanguageDirection() {
-    var dir;
+    var dir = this.input.getLanguageDirection();
 
-    if (this.dir !== (dir = this.input.getLanguageDirection())) {
+    if (this.dir !== dir) {
       this.dir = dir;
       this.$node.css('direction', dir);
       this.dropdown.setLanguageDirection(dir);
@@ -247,7 +257,11 @@ _.mixin(Typeahead.prototype, {
       match = frontMatchRegEx.exec(datum.value);
 
       // clear hint if there's no trailing text
-      match ? this.input.setHint(val + match[1]) : this.input.clearHint();
+      if (match) {
+        this.input.setHint(val + match[1]);
+      } else {
+        this.input.clearHint();
+      }
     } else {
       this.input.clearHint();
     }
@@ -265,7 +279,9 @@ _.mixin(Typeahead.prototype, {
 
     if (hint && query !== hint && isCursorAtEnd) {
       datum = this.dropdown.getDatumForTopSuggestion();
-      datum && this.input.setInputValue(datum.value);
+      if (datum) {
+        this.input.setInputValue(datum.value);
+      }
 
       this.eventBus.trigger('autocompleted', datum.raw, datum.datasetName);
     }
@@ -293,9 +309,11 @@ _.mixin(Typeahead.prototype, {
     // otherwise we're not gonna see anything
     if (!this.isActivated) {
       var query = this.input.getInputValue();
-      query.length >= this.minLength ?
-        this.dropdown.update(query) :
+      if (query.length >= this.minLength) {
+        this.dropdown.update(query);
+      } else {
         this.dropdown.empty();
+      }
     }
     this.dropdown.open();
   },
@@ -349,7 +367,7 @@ function buildDom(input, withHint, menuTemplate) {
   $hint
   .val('')
   .removeData()
-  .addClass('tt-hint')
+  .addClass('aa-hint')
   .removeAttr('id name placeholder required')
   .prop('readonly', true)
   .attr({autocomplete: 'off', spellcheck: 'false', tabindex: -1});
@@ -364,13 +382,15 @@ function buildDom(input, withHint, menuTemplate) {
   });
 
   $input
-  .addClass('tt-input')
+  .addClass('aa-input')
   .attr({autocomplete: 'off', spellcheck: false})
   .css(withHint ? css.input : css.inputWithNoHint);
 
   // ie7 does not like it when dir is set to auto
   try {
-    !$input.attr('dir') && $input.attr('dir', 'auto');
+    if (!$input.attr('dir')) {
+      $input.attr('dir', 'auto');
+    }
   } catch (e) {
     // ignore
   }
@@ -396,18 +416,22 @@ function getBackgroundStyles($el) {
 }
 
 function destroyDomStructure($node) {
-  var $input = $node.find('.tt-input');
+  var $input = $node.find('.aa-input');
 
   // need to remove attrs that weren't previously defined and
   // revert attrs that originally had a value
   _.each($input.data(attrsKey), function(val, key) {
-    _.isUndefined(val) ? $input.removeAttr(key) : $input.attr(key, val);
+    if (_.isUndefined(val)) {
+      $input.removeAttr(key);
+    } else {
+      $input.attr(key, val);
+    }
   });
 
   $input
   .detach()
   .removeData(attrsKey)
-  .removeClass('tt-input')
+  .removeClass('aa-input')
   .insertAfter($node);
 
   $node.remove();

@@ -3,9 +3,9 @@
 /* eslint-env mocha, jasmine */
 
 global.$ = require('jquery');
-var Typeahead = require('../../src/typeahead/typeahead.js');
+var Typeahead = require('../../src/autocomplete/typeahead.js');
 var fixtures = require('../fixtures.js');
-var mocks = require('../helpers/typeahead_mocks.js');
+var mocks = require('../helpers/mocks.js');
 var waitsForAndRuns = require('../helpers/waits_for.js');
 
 Typeahead.Dropdown = mocks(Typeahead.Dropdown);
@@ -583,7 +583,7 @@ describe('Typeahead', function() {
       this.view.destroy();
 
       // TODO: bad test
-      expect(this.$input).not.toHaveClass('tt-input');
+      expect(this.$input).not.toHaveClass('aa-input');
     });
   });
 });

@@ -8,16 +8,26 @@
         border: 1px solid #ccc;
       }
 
-      .tt-cursor {
+      .aa-cursor {
         background: blue;
         color: white;
+      }
+
+      .autocomplete-wrapper {
+        display: block;
+        margin: 50px 0;
+      }
+
+      .aa-menu {
+        background-color: #fff;
+        border: 1px solid #000;
       }
     </style>
   </head>
   <body>
     <div class="container">
       <form action="/where" method="GET">
-        <div class="typeahead-wrapper">
+        <div class="autocomplete-wrapper">
           <input id="contacts" name="contacts" type="text">
           <input id="contacts2" name="contacts2" type="text">
           <input type="submit">
@@ -26,17 +36,17 @@
     </div>
 
     <script src="../../node_modules/jquery/dist/jquery.js"></script>
-    <script src="../../dist/typeahead.jquery.js"></script>
+    <script src="../../dist/autocomplete.jquery.js"></script>
     <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
     <script type="text/template" id="my-custom-menu-template">
       <div class="my-custom-menu">
         <div class="row">
           <div class="col-sm-6">
-            <div class="tt-dataset-contacts1"></div>
+            <div class="aa-dataset-contacts1"></div>
           </div>
           <div class="col-sm-6">
-            <div class="tt-dataset-contacts2"></div>
-            <div class="tt-dataset-contacts3"></div>
+            <div class="aa-dataset-contacts2"></div>
+            <div class="aa-dataset-contacts3"></div>
           </div>
         </div>
       </div>
@@ -45,10 +55,21 @@
       var client = algoliasearch('latency', '6be0576ff61c053d5f9a3225e2a90f76');
       var index = client.initIndex('contacts');
 
-      $('#contacts').typeahead({}, [
+      $('#contacts').autocomplete({}, [
         {
-          source: index.ttAdapter({ hitsPerPage: 5 }),
+          source: function(q, cb) {
+            index.search(q, { hitsPerPage: 5 }, function(error, content) {
+              if (error) {
+                cb([]);
+                return;
+              }
+              cb(content.hits, content);
+            });
+          },
           templates: {
+            header: function(o, content) {
+              return '<h4>' + content.nbHits + ' results</h4>';
+            },
             suggestion: function(suggestion) {
               return suggestion._highlightResult.name.value;
             }
@@ -56,7 +77,7 @@
         }
       ]);
 
-      $('#contacts2').typeahead({ menuTemplate: '#my-custom-menu-template' }, [
+      $('#contacts2').autocomplete({ menuTemplate: '#my-custom-menu-template' }, [
         {
           source: index.ttAdapter({ hitsPerPage: 5 }),
           name: 'contacts1',
@@ -82,7 +103,7 @@
           name: 'contacts3',
           templates: {
             header: '<h4>List 3</h4>',
-            suggestion: function(suggestion) {
+            suggestion: function(suggestion, answer) {
               return suggestion._highlightResult.name.value;
             }
           }

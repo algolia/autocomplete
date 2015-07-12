@@ -1,16 +1,16 @@
 {
-  "name": "typeahead.js",
+  "name": "autocomplete.js",
   "description": "Fast and fully-featured autocomplete library",
   "keywords": [
     "typeahead",
     "autocomplete"
   ],
-  "homepage": "https://github.com/algolia/typeahead.js",
-  "bugs": "https://github.com/algolia/typeahead.js/issues",
+  "homepage": "https://github.com/algolia/autocomplete.js",
+  "bugs": "https://github.com/algolia/autocomplete.js/issues",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/algolia/typeahead.js.git"
+    "url": "https://github.com/algolia/autocomplete.js.git"
   },
   "dependencies": {
     "jquery": ">= 1.7"
@@ -49,6 +49,9 @@
     "phantomjs": "~1.9.17",
     "yiewd": "^0.6.0"
   },
+  "scripts": {
+    "test": "./node_modules/karma/bin/karma start --single-run"
+  },
   "version": "0.0.1",
-  "main": "dist/typeahead.jquery.js"
+  "main": "dist/autocomplete.jquery.js"
 }

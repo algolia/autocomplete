@@ -3,9 +3,9 @@
 /* eslint-env mocha, jasmine */
 
 global.$ = require('jquery');
-var Dropdown = require('../../src/typeahead/dropdown.js');
+var Dropdown = require('../../src/autocomplete/dropdown.js');
 var fixtures = require('../fixtures.js');
-var mocks = require('../helpers/typeahead_mocks.js');
+var mocks = require('../helpers/mocks.js');
 
 Dropdown.Dataset = mocks(Dropdown.Dataset);
 
@@ -17,7 +17,7 @@ describe('Dropdown', function() {
     setFixtures(fixtures.html.menu);
 
     $fixture = $('#jasmine-fixtures');
-    this.$menu = $fixture.find('.tt-dropdown-menu');
+    this.$menu = $fixture.find('.aa-dropdown-menu');
     this.$menu.html(fixtures.html.dataset);
 
     this.view = new Dropdown({ menu: this.$menu, datasets: [{}] });
@@ -38,7 +38,7 @@ describe('Dropdown', function() {
 
       this.view.onSync('suggestionClicked', spy = jasmine.createSpy());
 
-      this.$menu.find('.tt-suggestion').first().click();
+      this.$menu.find('.aa-suggestion').first().click();
 
       expect(spy).toHaveBeenCalled();
     });
@@ -48,23 +48,23 @@ describe('Dropdown', function() {
     it('should remove pre-existing cursor', function() {
       var $first, $last;
 
-      $first = this.$menu.find('.tt-suggestion').first();
-      $last = this.$menu.find('.tt-suggestion').last();
+      $first = this.$menu.find('.aa-suggestion').first();
+      $last = this.$menu.find('.aa-suggestion').last();
 
-      $first.addClass('tt-cursor');
+      $first.addClass('aa-cursor');
       $last.mouseenter();
 
-      expect($first).not.toHaveClass('tt-cursor');
-      expect($last).toHaveClass('tt-cursor');
+      expect($first).not.toHaveClass('aa-cursor');
+      expect($last).toHaveClass('aa-cursor');
     });
 
     it('should set the cursor', function() {
       var $suggestion;
 
-      $suggestion = this.$menu.find('.tt-suggestion').first();
+      $suggestion = this.$menu.find('.aa-suggestion').first();
       $suggestion.mouseenter();
 
-      expect($suggestion).toHaveClass('tt-cursor');
+      expect($suggestion).toHaveClass('aa-cursor');
     });
 
     it('should not trigger cursorMoved', function() {
@@ -72,7 +72,7 @@ describe('Dropdown', function() {
 
       this.view.onSync('cursorMoved', spy = jasmine.createSpy());
 
-      $suggestion = this.$menu.find('.tt-suggestion').first();
+      $suggestion = this.$menu.find('.aa-suggestion').first();
       $suggestion.mouseenter();
 
       expect(spy).not.toHaveBeenCalled();
@@ -83,10 +83,10 @@ describe('Dropdown', function() {
     it('should remove the cursor', function() {
       var $suggestion;
 
-      $suggestion = this.$menu.find('.tt-suggestion').first();
+      $suggestion = this.$menu.find('.aa-suggestion').first();
       $suggestion.mouseenter().mouseleave();
 
-      expect($suggestion).not.toHaveClass('tt-cursor');
+      expect($suggestion).not.toHaveClass('aa-cursor');
     });
   });
 
@@ -262,7 +262,7 @@ describe('Dropdown', function() {
     it('should extract the datum from the suggestion element', function() {
       var $suggestion, datum;
 
-      $suggestion = $('<div>').data({ ttValue: 'one', ttDatum: 'two' });
+      $suggestion = $('<div>').data({ aaValue: 'one', aaDatum: 'two' });
       datum = this.view.getDatumForSuggestion($suggestion);
 
       expect(datum).toEqual({ value: 'one', raw: 'two', datasetName: undefined });
@@ -278,7 +278,7 @@ describe('Dropdown', function() {
       var $first;
 
       $first = this.view._getSuggestions().eq(0);
-      $first.data({ ttValue: 'one', ttDatum: 'two' });
+      $first.data({ aaValue: 'one', aaDatum: 'two' });
 
       this.view._setCursor($first);
       expect(this.view.getDatumForCursor())
@@ -291,7 +291,7 @@ describe('Dropdown', function() {
       var $first;
 
       $first = this.view._getSuggestions().eq(0);
-      $first.data({ ttValue: 'one', ttDatum: 'two' });
+      $first.data({ aaValue: 'one', aaDatum: 'two' });
 
       expect(this.view.getDatumForTopSuggestion())
       .toEqual({ value: 'one', raw: 'two', datasetName: undefined });
@@ -344,7 +344,7 @@ describe('Dropdown', function() {
 
       this.view.destroy();
 
-      expect($menu.off).toHaveBeenCalledWith('.tt');
+      expect($menu.off).toHaveBeenCalledWith('.aa');
     });
 
     it('should destroy its datasets', function() {
