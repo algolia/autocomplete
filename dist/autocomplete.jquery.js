@@ -1204,7 +1204,7 @@ function Typeahead(o) {
   this.isActivated = false;
   this.autoselect = !!o.autoselect;
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
-  this.$node = buildDom(o.input, o.withHint, o.menuTemplate);
+  this.$node = buildDom(o);
 
   $menu = this.$node.find('.aa-dropdown-menu');
   $input = this.$node.find('.aa-input');
@@ -1525,17 +1525,17 @@ _.mixin(Typeahead.prototype, {
   }
 });
 
-function buildDom(input, withHint, menuTemplate) {
+function buildDom(options) {
   var $input;
   var $wrapper;
   var $dropdown;
   var $hint;
 
-  $input = $(input);
+  $input = $(options.input);
   $wrapper = $(html.wrapper).css(css.wrapper);
   $dropdown = $(html.dropdown).css(css.dropdown);
-  if (menuTemplate) {
-    $dropdown.html($(menuTemplate).text());
+  if (options.menuTemplate) {
+    $dropdown.html($(options.menuTemplate).text());
   }
   $hint = $input.clone().css(css.hint).css(getBackgroundStyles($input));
 
@@ -1559,7 +1559,7 @@ function buildDom(input, withHint, menuTemplate) {
   $input
   .addClass('aa-input')
   .attr({autocomplete: 'off', spellcheck: false})
-  .css(withHint ? css.input : css.inputWithNoHint);
+  .css(options.hint ? css.input : css.inputWithNoHint);
 
   // ie7 does not like it when dir is set to auto
   try {
@@ -1573,7 +1573,7 @@ function buildDom(input, withHint, menuTemplate) {
   return $input
   .wrap($wrapper)
   .parent()
-  .prepend(withHint ? $hint : null)
+  .prepend(options.hint ? $hint : null)
   .append($dropdown);
 }
 
