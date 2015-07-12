@@ -330,10 +330,10 @@ function Dropdown(o) {
   .on('mouseenter.aa', '.aa-suggestion', onSuggestionMouseEnter)
   .on('mouseleave.aa', '.aa-suggestion', onSuggestionMouseLeave);
 
-  this.datasets = _.map(o.datasets, initializeDataset.bind(null, this.$menu));
+  this.datasets = _.map(o.datasets, function(oDataset) { return initializeDataset(that.$menu, oDataset); });
   _.each(this.datasets, function(dataset) {
     var root = dataset.getRoot();
-    if (root.parent().length === 0) {
+    if (root && root.parent().length === 0) {
       that.$menu.append(root);
     }
     dataset.onSync('rendered', that._onRendered, that);
