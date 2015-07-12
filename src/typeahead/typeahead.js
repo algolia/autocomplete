@@ -228,9 +228,9 @@ _.mixin(Typeahead.prototype, {
   },
 
   _setLanguageDirection: function setLanguageDirection() {
-    var dir;
+    var dir = this.input.getLanguageDirection();
 
-    if (this.dir !== (dir = this.input.getLanguageDirection())) {
+    if (this.dir !== dir) {
       this.dir = dir;
       this.$node.css('direction', dir);
       this.dropdown.setLanguageDirection(dir);

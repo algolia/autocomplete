@@ -801,7 +801,7 @@ function trigger(types) {
   types = types.split(splitter);
   args = [].slice.call(arguments, 1);
 
-  while ((type = types.shift()) && (callbacks = this._callbacks[type])) {
+  while ((type = types.shift()) && (callbacks = this._callbacks[type])) { // eslint-disable-line
     syncFlush = getFlush(callbacks.sync, this, [type].concat(args));
     asyncFlush = getFlush(callbacks.async, this, [type].concat(args));
 
@@ -1549,9 +1549,9 @@ _.mixin(Typeahead.prototype, {
   },
 
   _setLanguageDirection: function setLanguageDirection() {
-    var dir;
+    var dir = this.input.getLanguageDirection();
 
-    if (this.dir !== (dir = this.input.getLanguageDirection())) {
+    if (this.dir !== dir) {
       this.dir = dir;
       this.$node.css('direction', dir);
       this.dropdown.setLanguageDirection(dir);
