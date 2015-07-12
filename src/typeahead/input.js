@@ -139,7 +139,9 @@ _.mixin(Input.prototype, EventEmitter, {
         preventDefault = false;
     }
 
-    preventDefault && $e.preventDefault();
+    if (preventDefault) {
+      $e.preventDefault();
+    }
   },
 
   _shouldTrigger: function shouldTrigger(keyName, $e) {
@@ -202,7 +204,11 @@ _.mixin(Input.prototype, EventEmitter, {
     this.$input.val(value);
 
     // silent prevents any additional events from being triggered
-    silent ? this.clearHint() : this._checkInputValue();
+    if (silent) {
+      this.clearHint();
+    } else {
+      this._checkInputValue();
+    }
   },
 
   resetInputValue: function resetInputValue() {
@@ -232,7 +238,9 @@ _.mixin(Input.prototype, EventEmitter, {
     valIsPrefixOfHint = val !== hint && hint.indexOf(val) === 0;
     isValid = val !== '' && valIsPrefixOfHint && !this.hasOverflow();
 
-    !isValid && this.clearHint();
+    if (!isValid) {
+      this.clearHint();
+    }
   },
 
   getLanguageDirection: function getLanguageDirection() {

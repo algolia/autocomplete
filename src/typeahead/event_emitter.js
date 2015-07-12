@@ -62,11 +62,13 @@ function trigger(types) {
   types = types.split(splitter);
   args = [].slice.call(arguments, 1);
 
-  while ((type = types.shift()) && (callbacks = this._callbacks[type])) {
+  while ((type = types.shift()) && (callbacks = this._callbacks[type])) { // eslint-disable-line
     syncFlush = getFlush(callbacks.sync, this, [type].concat(args));
     asyncFlush = getFlush(callbacks.async, this, [type].concat(args));
 
-    syncFlush() && nextTick(asyncFlush);
+    if (syncFlush()) {
+      nextTick(asyncFlush);
+    }
   }
 
   return this;
