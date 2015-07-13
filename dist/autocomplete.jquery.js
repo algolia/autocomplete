@@ -8,6 +8,11 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+module.exports = require('./src/autocomplete/plugin.js');
+
+},{"./src/autocomplete/plugin.js":9}],2:[function(require,module,exports){
+'use strict';
+
 var _ = require('../common/utils.js');
 
 var css = {
@@ -78,7 +83,7 @@ if (_.isMsie() && _.isMsie() <= 7) {
 
 module.exports = css;
 
-},{"../common/utils.js":10}],2:[function(require,module,exports){
+},{"../common/utils.js":11}],3:[function(require,module,exports){
 'use strict';
 
 /* eslint-env jquery */
@@ -291,7 +296,7 @@ function isValidName(str) {
 
 module.exports = Dataset;
 
-},{"../common/utils.js":10,"./css.js":1,"./event_emitter.js":5,"./html.js":6}],3:[function(require,module,exports){
+},{"../common/utils.js":11,"./css.js":2,"./event_emitter.js":6,"./html.js":7}],4:[function(require,module,exports){
 'use strict';
 
 /* eslint-env jquery */
@@ -550,7 +555,7 @@ function initializeDataset(oDataset) {
 
 module.exports = Dropdown;
 
-},{"../common/utils.js":10,"./css.js":1,"./dataset.js":2,"./event_emitter.js":5}],4:[function(require,module,exports){
+},{"../common/utils.js":11,"./css.js":2,"./dataset.js":3,"./event_emitter.js":6}],5:[function(require,module,exports){
 'use strict';
 
 /* eslint-env jquery */
@@ -586,7 +591,7 @@ _.mixin(EventBus.prototype, {
 
 module.exports = EventBus;
 
-},{"../common/utils.js":10}],5:[function(require,module,exports){
+},{"../common/utils.js":11}],6:[function(require,module,exports){
 'use strict';
 
 var splitter = /\s+/;
@@ -701,7 +706,7 @@ function bindContext(fn, context) {
 }
 
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -712,7 +717,7 @@ module.exports = {
   suggestion: '<div class="aa-suggestion"></div>'
 };
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 /* eslint-env jquery */
@@ -1037,7 +1042,7 @@ function withModifier($e) {
 
 module.exports = Input;
 
-},{"../common/utils.js":10,"./event_emitter.js":5}],8:[function(require,module,exports){
+},{"../common/utils.js":11,"./event_emitter.js":6}],9:[function(require,module,exports){
 'use strict';
 
 /* eslint-env jquery */
@@ -1168,7 +1173,7 @@ $.fn.autocomplete.noConflict = function noConflict() {
   return this;
 };
 
-},{"../common/utils.js":10,"./event_bus.js":4,"./typeahead.js":9}],9:[function(require,module,exports){
+},{"../common/utils.js":11,"./event_bus.js":5,"./typeahead.js":10}],10:[function(require,module,exports){
 'use strict';
 
 /* eslint-env jquery */
@@ -1610,7 +1615,7 @@ Typeahead.Input = Input;
 
 module.exports = Typeahead;
 
-},{"../common/utils.js":10,"./css.js":1,"./dropdown.js":3,"./event_bus.js":4,"./html.js":6,"./input.js":7}],10:[function(require,module,exports){
+},{"../common/utils.js":11,"./css.js":2,"./dropdown.js":4,"./event_bus.js":5,"./html.js":7,"./input.js":8}],11:[function(require,module,exports){
 'use strict';
 
 /* eslint-env jquery */
@@ -1766,4 +1771,4 @@ module.exports = {
   noop: function() {}
 };
 
-},{}]},{},[8]);
+},{}]},{},[1]);

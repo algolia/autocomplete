@@ -53,5 +53,5 @@
     "test": "./node_modules/karma/bin/karma start --single-run"
   },
   "version": "0.0.1",
-  "main": "dist/autocomplete.jquery.js"
+  "main": "index.js"
 }
