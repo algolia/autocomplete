@@ -128,3 +128,5 @@ $.fn.autocomplete.noConflict = function noConflict() {
   $.fn.autocomplete = old;
   return this;
 };
+
+module.exports = $.fn.autocomplete;

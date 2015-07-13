@@ -8,6 +8,11 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+module.exports = require('./src/autocomplete/plugin.js');
+
+},{"./src/autocomplete/plugin.js":9}],2:[function(require,module,exports){
+'use strict';
+
 var _ = require('../common/utils.js');
 
 var css = {
@@ -78,7 +83,7 @@ if (_.isMsie() && _.isMsie() <= 7) {
 
 module.exports = css;
 
-},{"../common/utils.js":10}],2:[function(require,module,exports){
+},{"../common/utils.js":11}],3:[function(require,module,exports){
 'use strict';
 
 /* eslint-env jquery */
@@ -292,7 +297,7 @@ function isValidName(str) {
 
 module.exports = Dataset;
 
-},{"../common/utils.js":10,"./css.js":1,"./event_emitter.js":5,"./html.js":6}],3:[function(require,module,exports){
+},{"../common/utils.js":11,"./css.js":2,"./event_emitter.js":6,"./html.js":7}],4:[function(require,module,exports){
 'use strict';
 
 /* eslint-env jquery */
@@ -553,7 +558,7 @@ function initializeDataset($menu, oDataset) {
 
 module.exports = Dropdown;
 
-},{"../common/utils.js":10,"./css.js":1,"./dataset.js":2,"./event_emitter.js":5}],4:[function(require,module,exports){
+},{"../common/utils.js":11,"./css.js":2,"./dataset.js":3,"./event_emitter.js":6}],5:[function(require,module,exports){
 'use strict';
 
 /* eslint-env jquery */
@@ -589,7 +594,7 @@ _.mixin(EventBus.prototype, {
 
 module.exports = EventBus;
 
-},{"../common/utils.js":10}],5:[function(require,module,exports){
+},{"../common/utils.js":11}],6:[function(require,module,exports){
 'use strict';
 
 var splitter = /\s+/;
@@ -704,7 +709,7 @@ function bindContext(fn, context) {
 }
 
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -715,7 +720,7 @@ module.exports = {
   suggestion: '<div class="aa-suggestion"></div>'
 };
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 /* eslint-env jquery */
@@ -1040,7 +1045,7 @@ function withModifier($e) {
 
 module.exports = Input;
 
-},{"../common/utils.js":10,"./event_emitter.js":5}],8:[function(require,module,exports){
+},{"../common/utils.js":11,"./event_emitter.js":6}],9:[function(require,module,exports){
 'use strict';
 
 /* eslint-env jquery */
@@ -1172,7 +1177,9 @@ $.fn.autocomplete.noConflict = function noConflict() {
   return this;
 };
 
-},{"../common/utils.js":10,"./event_bus.js":4,"./typeahead.js":9}],9:[function(require,module,exports){
+module.exports = $.fn.autocomplete;
+
+},{"../common/utils.js":11,"./event_bus.js":5,"./typeahead.js":10}],10:[function(require,module,exports){
 'use strict';
 
 /* eslint-env jquery */
@@ -1617,7 +1624,7 @@ Typeahead.Input = Input;
 
 module.exports = Typeahead;
 
-},{"../common/utils.js":10,"./css.js":1,"./dropdown.js":3,"./event_bus.js":4,"./html.js":6,"./input.js":7}],10:[function(require,module,exports){
+},{"../common/utils.js":11,"./css.js":2,"./dropdown.js":4,"./event_bus.js":5,"./html.js":7,"./input.js":8}],11:[function(require,module,exports){
 'use strict';
 
 /* eslint-env jquery */
@@ -1629,14 +1636,10 @@ module.exports = {
       navigator.userAgent.match(/(msie |rv:)(\d+(.\d+)?)/i)[2] : false;
   },
 
-  isBlankString: function(str) { return !str || /^\s*$/.test(str); },
-
   // http://stackoverflow.com/a/6969486
   escapeRegExChars: function(str) {
     return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
   },
-
-  isString: function(obj) { return typeof obj === 'string'; },
 
   isNumber: function(obj) { return typeof obj === 'number'; },
 
@@ -1680,20 +1683,6 @@ module.exports = {
     return !!result;
   },
 
-  some: function(obj, test) {
-    var result = false;
-
-    if (!obj) { return result; }
-
-    $.each(obj, function(key, val) {
-      if (result = test.call(null, val, key, obj)) {
-        return false;
-      }
-    });
-
-    return !!result;
-  },
-
   mixin: $.extend,
 
   getUniqueId: (function() {
@@ -1709,68 +1698,7 @@ module.exports = {
 
   defer: function(fn) { setTimeout(fn, 0); },
 
-  debounce: function(func, wait, immediate) {
-    var timeout;
-    var result;
-
-    return function() {
-      var context = this;
-      var args = arguments;
-      var later;
-      var callNow;
-
-      later = function() {
-        timeout = null;
-        if (!immediate) { result = func.apply(context, args); }
-      };
-
-      callNow = immediate && !timeout;
-
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-
-      if (callNow) { result = func.apply(context, args); }
-
-      return result;
-    };
-  },
-
-  throttle: function(func, wait) {
-    var context;
-    var args;
-    var timeout;
-    var result;
-    var previous;
-    var later;
-
-    previous = 0;
-    later = function() {
-      previous = new Date();
-      timeout = null;
-      result = func.apply(context, args);
-    };
-
-    return function() {
-      var now = new Date();
-      var remaining = wait - (now - previous);
-
-      context = this;
-      args = arguments;
-
-      if (remaining <= 0) {
-        clearTimeout(timeout);
-        timeout = null;
-        previous = now;
-        result = func.apply(context, args);
-      } else if (!timeout) {
-        timeout = setTimeout(later, remaining);
-      }
-
-      return result;
-    };
-  },
-
   noop: function() {}
 };
 
-},{}]},{},[8]);
+},{}]},{},[1]);

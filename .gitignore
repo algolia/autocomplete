@@ -3,7 +3,7 @@
 
 .grunt
 _SpecRunner.html
-test/coverage
+coverage/
 
 node_modules
 npm-debug.log
