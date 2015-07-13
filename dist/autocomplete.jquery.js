@@ -1627,14 +1627,10 @@ module.exports = {
       navigator.userAgent.match(/(msie |rv:)(\d+(.\d+)?)/i)[2] : false;
   },
 
-  isBlankString: function(str) { return !str || /^\s*$/.test(str); },
-
   // http://stackoverflow.com/a/6969486
   escapeRegExChars: function(str) {
     return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
   },
-
-  isString: function(obj) { return typeof obj === 'string'; },
 
   isNumber: function(obj) { return typeof obj === 'number'; },
 
@@ -1678,20 +1674,6 @@ module.exports = {
     return !!result;
   },
 
-  some: function(obj, test) {
-    var result = false;
-
-    if (!obj) { return result; }
-
-    $.each(obj, function(key, val) {
-      if (result = test.call(null, val, key, obj)) {
-        return false;
-      }
-    });
-
-    return !!result;
-  },
-
   mixin: $.extend,
 
   getUniqueId: (function() {
@@ -1706,67 +1688,6 @@ module.exports = {
   },
 
   defer: function(fn) { setTimeout(fn, 0); },
-
-  debounce: function(func, wait, immediate) {
-    var timeout;
-    var result;
-
-    return function() {
-      var context = this;
-      var args = arguments;
-      var later;
-      var callNow;
-
-      later = function() {
-        timeout = null;
-        if (!immediate) { result = func.apply(context, args); }
-      };
-
-      callNow = immediate && !timeout;
-
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-
-      if (callNow) { result = func.apply(context, args); }
-
-      return result;
-    };
-  },
-
-  throttle: function(func, wait) {
-    var context;
-    var args;
-    var timeout;
-    var result;
-    var previous;
-    var later;
-
-    previous = 0;
-    later = function() {
-      previous = new Date();
-      timeout = null;
-      result = func.apply(context, args);
-    };
-
-    return function() {
-      var now = new Date();
-      var remaining = wait - (now - previous);
-
-      context = this;
-      args = arguments;
-
-      if (remaining <= 0) {
-        clearTimeout(timeout);
-        timeout = null;
-        previous = now;
-        result = func.apply(context, args);
-      } else if (!timeout) {
-        timeout = setTimeout(later, remaining);
-      }
-
-      return result;
-    };
-  },
 
   noop: function() {}
 };
