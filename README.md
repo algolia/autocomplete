@@ -116,7 +116,9 @@ When initializing an autocomplete, there are a number of options you can configu
 * `hint` – If `false`, the autocomplete will not show a hint. Defaults to `true`.
 
 * `templates` – An optional hash overriding the default templates.
-  * `dropdownMenu`  – the dropdown menu template. The template should include all *dataset* placeholders.
+  * `dropdownMenu` – the dropdown menu template. The template should include all *dataset* placeholders.
+  * `header` – the header to prepend to the dropdown menu
+  * `footer` – the footer to append to the dropdown menu
 
 ```html
 <script type="text/template" id="my-custom-menu-template">
@@ -137,7 +139,8 @@ When initializing an autocomplete, there are a number of options you can configu
   $('#search-input').autocomplete(
     {
       templates: {
-        dropdownMenu: '#my-custom-menu-template'
+        dropdownMenu: '#my-custom-menu-template',
+        footer: '<div class="branding">Powered by <img src="https://www.algolia.com/assets/algolia128x40.png" /></div>'
       }
     },
     [
