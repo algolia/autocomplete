@@ -47,14 +47,14 @@ You can include it from a CDN:
 <script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
 ```
 
-##### CDNJS
+##### cdnjs
 ```html
 <script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.jquery.min.js"></script>
 ```
 
 Or use it with [Browserify](http://browserify.org/):
 
-#### Browserify
+##### Browserify
 
 ```js
 var autocomplete = require('autocomplete.js');
