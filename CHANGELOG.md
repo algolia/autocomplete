@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.1.0 July 13, 2015
+
+* Start using semantic versioning
+
 ### 0.0.2 July 13, 2015
 
 * Ability to keep the dropdown menu opened when the input if blurred [#1]

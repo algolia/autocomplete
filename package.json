@@ -54,6 +54,6 @@
   "scripts": {
     "test": "./node_modules/karma/bin/karma start --single-run"
   },
-  "version": "0.0.2",
+  "version": "0.1.0",
   "main": "index.js"
 }
