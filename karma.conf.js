@@ -15,6 +15,11 @@ module.exports = function(config) {
       dir: 'coverage/'
     },
 
+    browserify: {
+      debug: true,
+      transform: ['browserify-istanbul']
+    },
+
     preprocessors: {
       'src/**/*.js': ['browserify', 'coverage'],
       'test/**/*_spec.js': 'browserify'
