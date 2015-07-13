@@ -37,7 +37,7 @@ methods = {
         hint: _.isUndefined(o.hint) ? true : !!o.hint,
         minLength: o.minLength,
         autoselect: o.autoselect,
-        menuTemplate: o.menuTemplate,
+        templates: o.templates,
         datasets: datasets
       });
 

@@ -596,7 +596,9 @@ describe('Typeahead', function() {
       this.view.destroy();
       this.view = new Typeahead({
         input: this.$input,
-        menuTemplate: '#my-custom-menu-template',
+        templates: {
+          dropdownMenu: '#my-custom-menu-template'
+        },
         datasets: {}
       });
 

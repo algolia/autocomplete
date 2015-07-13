@@ -359,8 +359,8 @@ function buildDom(options) {
   $input = $(options.input);
   $wrapper = $(html.wrapper).css(css.wrapper);
   $dropdown = $(html.dropdown).css(css.dropdown);
-  if (options.menuTemplate) {
-    $dropdown.html($(options.menuTemplate).text());
+  if (options.templates && options.templates.dropdownMenu) {
+    $dropdown.html((_.templatify(options.templates.dropdownMenu))());
   }
   $hint = $input.clone().css(css.hint).css(getBackgroundStyles($input));
 

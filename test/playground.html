@@ -77,7 +77,11 @@
         }
       ]);
 
-      $('#contacts2').autocomplete({ menuTemplate: '#my-custom-menu-template' }, [
+      $('#contacts2').autocomplete({
+        templates: {
+          dropdownMenu: '#my-custom-menu-template'
+        }
+      }, [
         {
           source: index.ttAdapter({ hitsPerPage: 5 }),
           name: 'contacts1',

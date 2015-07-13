@@ -1085,7 +1085,7 @@ methods = {
         hint: _.isUndefined(o.hint) ? true : !!o.hint,
         minLength: o.minLength,
         autoselect: o.autoselect,
-        menuTemplate: o.menuTemplate,
+        templates: o.templates,
         datasets: datasets
       });
 
@@ -1541,8 +1541,8 @@ function buildDom(options) {
   $input = $(options.input);
   $wrapper = $(html.wrapper).css(css.wrapper);
   $dropdown = $(html.dropdown).css(css.dropdown);
-  if (options.menuTemplate) {
-    $dropdown.html($(options.menuTemplate).text());
+  if (options.templates && options.templates.dropdownMenu) {
+    $dropdown.html((_.templatify(options.templates.dropdownMenu))());
   }
   $hint = $input.clone().css(css.hint).css(getBackgroundStyles($input));
 
@@ -1691,9 +1691,14 @@ module.exports = {
   })(),
 
   templatify: function templatify(obj) {
-    return $.isFunction(obj) ? obj : template;
-
-    function template() { return String(obj); }
+    if ($.isFunction(obj)) {
+      return obj;
+    }
+    var $template = $(obj);
+    if ($template.prop('tagName') === 'SCRIPT') {
+      return function template() { return $template.text() };
+    }
+    return function template() { return String(obj); };
   },
 
   defer: function(fn) { setTimeout(fn, 0); },

@@ -115,7 +115,8 @@ When initializing an autocomplete, there are a number of options you can configu
 
 * `hint` – If `false`, the autocomplete will not show a hint. Defaults to `true`.
 
-* `menuTemplate` – The jQuery selector to use to build the dropdown menu. The template code should be inlined in a `<script type="text/template" id="my-template"></script>` wrapper. The template should include all *dataset* placeholders.
+* `templates` – An optional hash overriding the default templates.
+  * `dropdownMenu`  – the dropdown menu template. The template should include all *dataset* placeholders.
 
 ```html
 <script type="text/template" id="my-custom-menu-template">
@@ -133,38 +134,45 @@ When initializing an autocomplete, there are a number of options you can configu
 </script>
 
 <script>
-  $('#search-input').autocomplete({ menuTemplate: '#my-custom-menu-template' }, [
+  $('#search-input').autocomplete(
     {
-      source: index.ttAdapter({ hitsPerPage: 5 }),
-      name: 'contacts1',
       templates: {
-        header: '<h4>List 1</h4>',
-        suggestion: function(suggestion) {
-          // FIXME
-        }
+        dropdownMenu: '#my-custom-menu-template'
       }
     },
-    {
-      source: index.ttAdapter({ hitsPerPage: 2 }),
-      name: 'contacts2',
-      templates: {
-        header: '<h4>List 2</h4>',
-        suggestion: function(suggestion) {
-          // FIXME
+    [
+      {
+        source: index.ttAdapter({ hitsPerPage: 5 }),
+        name: 'contacts1',
+        templates: {
+          header: '<h4>List 1</h4>',
+          suggestion: function(suggestion) {
+            // FIXME
+          }
+        }
+      },
+      {
+        source: index.ttAdapter({ hitsPerPage: 2 }),
+        name: 'contacts2',
+        templates: {
+          header: '<h4>List 2</h4>',
+          suggestion: function(suggestion) {
+            // FIXME
+          }
+        }
+      },
+      {
+        source: index.ttAdapter({ hitsPerPage: 2 }),
+        name: 'contacts3',
+        templates: {
+          header: '<h4>List 3</h4>',
+          suggestion: function(suggestion, answer) {
+            // FIXME
+          }
         }
       }
-    },
-    {
-      source: index.ttAdapter({ hitsPerPage: 2 }),
-      name: 'contacts3',
-      templates: {
-        header: '<h4>List 3</h4>',
-        suggestion: function(suggestion, answer) {
-          // FIXME
-        }
-      }
-    }
-  ]);
+    ]
+  );
 </script>
 ```
 
