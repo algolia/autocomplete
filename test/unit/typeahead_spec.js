@@ -592,17 +592,30 @@ describe('Typeahead', function() {
   describe('when instantiated from jquery', function() {
     beforeEach(function() {
       this.view.destroy();
-      $autocomplete.call($('input'), {}, {
+      this.view = $autocomplete.call($('input'), {}, {
         name: 'test',
         source: function(q, cb) {
-          cb([]);
+          cb([ { name: 'test' } ]);
+        },
+        templates: {
+          suggestion: function(sugg) {
+            return sugg.name;
+          }
         }
-      });
+      }).data('aaAutocomplete');
     });
 
     it('should initialize', function() {
       var $fixture = $('#jasmine-fixtures');
       expect($fixture.find('.aa-dropdown-menu').length).toEqual(1);
+    });
+
+    it('should open the dropdown', function() {
+      var $fixture = $('#jasmine-fixtures');
+      this.view.input.getInputValue.and.returnValue('test');
+      $autocomplete.call($('input'), 'val', 'test');
+      $autocomplete.call($('input'), 'open');
+      $autocomplete.call($('input'), 'close');
     });
   });
 
