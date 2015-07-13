@@ -14,6 +14,7 @@ Table of Contents
 -----------------
 
 * [Features](#features)
+* [Installation](#installation)
 * [Usage](#usage)
   * [API](#api)
   * [Options](#options)
@@ -32,6 +33,32 @@ Features
 * Supports custom templates to allow for UI flexibility
 * Works well with RTL languages and input method editors
 * Triggers custom events
+
+
+Installation
+-------------
+
+The `autocomplete.js` library must be included **after** jQuery.
+
+You can include it from a CDN:
+
+##### jsDelivr
+```html
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+```
+
+##### CDNJS
+```html
+<script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.jquery.min.js"></script>
+```
+
+Or use it with [Browserify](http://browserify.org/):
+
+#### Browserify
+
+```js
+var autocomplete = require('autocomplete.js');
+```
 
 Usage
 -----
