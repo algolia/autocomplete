@@ -295,7 +295,7 @@ $ grunt dev
 $ open http://localhost:8888/test/playground.html
 ```
 
-[eslint](http://eslint.org/) is used to lint the code based on [Algolia's configuration](https://github.com/algolia/eslint-config-algolia).
+Linting is done with [eslint](http://eslint.org/) and [Algolia's configuration](https://github.com/algolia/eslint-config-algolia) and can be run with:
 
 ```sh
 $ grunt lint
@@ -304,7 +304,7 @@ $ grunt lint
 Testing
 ------
 
-Unit tests are written using [Jasmine](http://jasmine.github.io/) and ran with [Karma](http://karma-runner.github.io/). Integration tests uses [Mocha](http://mochajs.org/) and [Saucelabs](https://saucelabs.com/).
+Unit tests are written using [Jasmine](http://jasmine.github.io/) and ran with [Karma](http://karma-runner.github.io/). Integration tests are using [Mocha](http://mochajs.org/) and [Saucelabs](https://saucelabs.com/).
 
 To run the unit tests suite run:
 
