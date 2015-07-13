@@ -1,11 +1,14 @@
-[![build status](https://secure.travis-ci.org/algolia/autocomplete.js.png?branch=master)](http://travis-ci.org/algolia/autocomplete.js)
-
-[![Browser tests](https://saucelabs.com/browser-matrix/opensauce-algolia.svg)](https://saucelabs.com/u/opensauce-algolia)
-
 Autocomplete.js
 =================
 
 This JavaScript library adds a fast and fully-featured auto-completion menu to your search box displaying results "as you type". It can be easily combined with Algolia's realtime search engine. The library is available as a jQuery plugin.
+
+[![build status](https://travis-ci.org/algolia/algoliasearch-client-node.svg?branch=master)](http://travis-ci.org/algolia/autocomplete.js)
+[![NPM version](https://badge.fury.io/js/autocomplete.js.svg)](http://badge.fury.io/js/autocomplete.js)
+[![Coverage Status](https://coveralls.io/repos/algolia/autocomplete.js/badge.png?branch=master)](https://coveralls.io/r/algolia/autocomplete.js?branch=master)
+
+
+[![Browser tests](https://saucelabs.com/browser-matrix/opensauce-algolia.svg)](https://saucelabs.com/u/opensauce-algolia)
 
 Table of Contents
 -----------------
