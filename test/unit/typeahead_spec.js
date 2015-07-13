@@ -3,7 +3,9 @@
 /* eslint-env mocha, jasmine */
 
 global.$ = require('jquery');
+
 var Typeahead = require('../../src/autocomplete/typeahead.js');
+var $autocomplete = require('../../src/autocomplete/plugin.js');
 var fixtures = require('../fixtures.js');
 var mocks = require('../helpers/mocks.js');
 var waitsForAndRuns = require('../helpers/waits_for.js');
@@ -586,4 +588,22 @@ describe('Typeahead', function() {
       expect(this.$input).not.toHaveClass('aa-input');
     });
   });
+
+  describe('when instantiated from jquery', function() {
+    beforeEach(function() {
+      this.view.destroy();
+      $autocomplete.call($('input'), {}, {
+        name: 'test',
+        source: function(q, cb) {
+          cb([]);
+        }
+      });
+    });
+
+    it('should initialize', function() {
+      var $fixture = $('#jasmine-fixtures');
+      expect($fixture.find('.aa-dropdown-menu').length).toEqual(1);
+    });
+  });
+
 });

@@ -1173,6 +1173,8 @@ $.fn.autocomplete.noConflict = function noConflict() {
   return this;
 };
 
+module.exports = $.fn.autocomplete;
+
 },{"../common/utils.js":11,"./event_bus.js":5,"./typeahead.js":10}],10:[function(require,module,exports){
 'use strict';
 
