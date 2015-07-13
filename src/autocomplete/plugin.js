@@ -38,6 +38,7 @@ methods = {
         minLength: o.minLength,
         autoselect: o.autoselect,
         templates: o.templates,
+        debug: o.debug,
         datasets: datasets
       });
 
