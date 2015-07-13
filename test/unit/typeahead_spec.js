@@ -194,6 +194,35 @@ describe('Typeahead', function() {
     });
   });
 
+  describe('when debug flag is set', function() {
+
+    beforeEach(function() {
+      this.view = new Typeahead({
+        input: this.$input,
+        debug: true,
+        hint: true,
+        datasets: {}
+      });
+
+      this.input = this.view.input;
+
+    });
+
+    describe('when input triggers blurred', function() {
+      it('should not empty the dropdown', function() {
+        this.input.trigger('blurred');
+
+        expect(this.dropdown.empty).not.toHaveBeenCalled();
+      });
+
+      it('should not close the dropdown', function() {
+        this.input.trigger('blurred');
+
+        expect(this.dropdown.close).not.toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('when input triggers enterKeyed', function() {
     beforeEach(function() {
       this.dropdown.getDatumForCursor.and.returnValue(testDatum);

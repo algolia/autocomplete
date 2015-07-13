@@ -1209,6 +1209,7 @@ function Typeahead(o) {
   }
 
   this.isActivated = false;
+  this.debug = !!o.debug;
   this.autoselect = !!o.autoselect;
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
   this.$node = buildDom(o);
@@ -1318,9 +1319,11 @@ _.mixin(Typeahead.prototype, {
   },
 
   _onBlurred: function onBlurred() {
-    this.isActivated = false;
-    this.dropdown.empty();
-    this.dropdown.close();
+    if (!this.debug) {
+      this.isActivated = false;
+      this.dropdown.empty();
+      this.dropdown.close();
+    }
   },
 
   _onEnterKeyed: function onEnterKeyed(type, $e) {
