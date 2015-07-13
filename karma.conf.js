@@ -6,12 +6,12 @@ module.exports = function(config) {
 
     frameworks: ['browserify', 'jasmine'],
 
-    reporters: ['progress', 'coverage'],
+    reporters: ['progress', 'coverage', 'coveralls'],
 
     browsers: ['PhantomJS'],
 
     coverageReporter: {
-      type: 'html',
+      type: 'lcov',
       dir: 'test/coverage/'
     },
 

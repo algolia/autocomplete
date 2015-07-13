@@ -39,6 +39,7 @@
     "karma-browserify": "^4.2.1",
     "karma-chrome-launcher": "^0.2.0",
     "karma-coverage": "^0.4.2",
+    "karma-coveralls": "^1.1.2",
     "karma-firefox-launcher": "^0.1.6",
     "karma-jasmine": "~0.2.0",
     "karma-opera-launcher": "^0.2.0",
