@@ -5,7 +5,7 @@ This JavaScript library adds a fast and fully-featured auto-completion menu to y
 
 [![build status](https://travis-ci.org/algolia/algoliasearch-client-node.svg?branch=master)](http://travis-ci.org/algolia/autocomplete.js)
 [![NPM version](https://badge.fury.io/js/autocomplete.js.svg)](http://badge.fury.io/js/autocomplete.js)
-[![Coverage Status](https://coveralls.io/repos/algolia/autocomplete.js/badge.png?branch=master)](https://coveralls.io/r/algolia/autocomplete.js?branch=master)
+[![Coverage Status](https://coveralls.io/repos/algolia/autocomplete.js/badge.svg?branch=master)](https://coveralls.io/r/algolia/autocomplete.js?branch=master)
 
 
 [![Browser tests](https://saucelabs.com/browser-matrix/opensauce-algolia.svg)](https://saucelabs.com/u/opensauce-algolia)
