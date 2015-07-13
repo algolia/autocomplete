@@ -16,13 +16,14 @@ module.exports = function(config) {
     },
 
     preprocessors: {
-      'src/**/*.js': 'coverage',
+      'src/**/*.js': ['browserify', 'coverage'],
       'test/**/*_spec.js': 'browserify'
     },
 
     files: [
       'node_modules/jquery/dist/jquery.js',
       'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
+      'src/**/*.js',
       'test/**/*_spec.js'
     ]
   });
