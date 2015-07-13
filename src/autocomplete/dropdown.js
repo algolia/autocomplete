@@ -35,6 +35,10 @@ function Dropdown(o) {
   .on('mouseenter.aa', '.aa-suggestion', onSuggestionMouseEnter)
   .on('mouseleave.aa', '.aa-suggestion', onSuggestionMouseLeave);
 
+  if (o.templates && o.templates.header) {
+    this.$menu.prepend((_.templatify(o.templates.header))());
+  }
+
   this.datasets = _.map(o.datasets, function(oDataset) { return initializeDataset(that.$menu, oDataset); });
   _.each(this.datasets, function(dataset) {
     var root = dataset.getRoot();
@@ -43,6 +47,10 @@ function Dropdown(o) {
     }
     dataset.onSync('rendered', that._onRendered, that);
   });
+
+  if (o.templates && o.templates.footer) {
+    this.$menu.append((_.templatify(o.templates.footer))());
+  }
 }
 
 // instance methods

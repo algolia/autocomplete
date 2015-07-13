@@ -5,7 +5,6 @@
     <style>
       .my-custom-menu {
         width: 400px;
-        border: 1px solid #ccc;
       }
 
       .aa-cursor {
@@ -18,9 +17,8 @@
         margin: 50px 0;
       }
 
-      .aa-menu {
-        background-color: #fff;
-        border: 1px solid #000;
+      .aa-dropdown-menu {
+        border: 1px solid #ccc;
       }
     </style>
   </head>
@@ -78,8 +76,10 @@
       ]);
 
       $('#contacts2').autocomplete({
+        debug: true,
         templates: {
-          dropdownMenu: '#my-custom-menu-template'
+          dropdownMenu: '#my-custom-menu-template',
+          footer: '<img src="https://www.algolia.com/assets/algolia128x40.png" />'
         }
       }, [
         {

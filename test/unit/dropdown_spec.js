@@ -44,6 +44,28 @@ describe('Dropdown', function() {
     });
   });
 
+  describe('when instantiated with a custom header or footer', function() {
+    beforeEach(function() {
+      this.view.destroy();
+      this.view = new Dropdown({
+        menu: this.$menu,
+        datasets: [{}],
+        templates: {
+          header: '<h2 class="header">Header</h2>',
+          footer: '<h2 class="footer">Footer</h2>'
+        }
+      });
+    });
+
+    it('should include the header', function() {
+      expect(this.$menu.find('h2.header').length).toEqual(1);
+    });
+
+    it('should include the footer', function() {
+      expect(this.$menu.find('h2.footer').length).toEqual(1);
+    });
+  });
+
   describe('when mouseenter is triggered on a suggestion', function() {
     it('should remove pre-existing cursor', function() {
       var $first, $last;

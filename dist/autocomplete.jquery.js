@@ -335,6 +335,10 @@ function Dropdown(o) {
   .on('mouseenter.aa', '.aa-suggestion', onSuggestionMouseEnter)
   .on('mouseleave.aa', '.aa-suggestion', onSuggestionMouseLeave);
 
+  if (o.templates && o.templates.header) {
+    this.$menu.prepend((_.templatify(o.templates.header))());
+  }
+
   this.datasets = _.map(o.datasets, function(oDataset) { return initializeDataset(that.$menu, oDataset); });
   _.each(this.datasets, function(dataset) {
     var root = dataset.getRoot();
@@ -343,6 +347,10 @@ function Dropdown(o) {
     }
     dataset.onSync('rendered', that._onRendered, that);
   });
+
+  if (o.templates && o.templates.footer) {
+    this.$menu.append((_.templatify(o.templates.footer))());
+  }
 }
 
 // instance methods
@@ -1086,6 +1094,7 @@ methods = {
         minLength: o.minLength,
         autoselect: o.autoselect,
         templates: o.templates,
+        debug: o.debug,
         datasets: datasets
       });
 
@@ -1245,7 +1254,7 @@ function Typeahead(o) {
 
   this.eventBus = o.eventBus || new EventBus({el: $input});
 
-  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets})
+  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets, templates: o.templates})
   .onSync('suggestionClicked', this._onSuggestionClicked, this)
   .onSync('cursorMoved', this._onCursorMoved, this)
   .onSync('cursorRemoved', this._onCursorRemoved, this)
