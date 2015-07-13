@@ -28,7 +28,7 @@ describe('Typeahead', function() {
 
     this.view = new Typeahead({
       input: this.$input,
-      withHint: true,
+      hint: true,
       datasets: {}
     });
 
