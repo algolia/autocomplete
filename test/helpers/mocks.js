@@ -37,6 +37,9 @@ module.exports = function mock(Constructor) {
     instance.off && instance.off.and.callThrough();
     instance.trigger && instance.trigger.and.callThrough();
 
+    // have some datasets methods call through
+    instance.getRoot && instance.getRoot.and.callFake(function() { return $('<span class="aa-dataset-fake" />'); });
+
     instance.constructor = Constructor;
 
     return instance;

@@ -123,7 +123,8 @@ function Dataset(o) {
 
   this.templates = getTemplates(o.templates, this.displayFn);
 
-  this.$el = $(html.dataset.replace('%CLASS%', this.name));
+  this.$el = o.$menu && o.name && o.$menu.find('.aa-dataset-' + o.name).length > 0 ?
+    $(o.$menu.find('.aa-dataset-' + o.name)[0]) : $(html.dataset.replace('%CLASS%', this.name));
 }
 
 // static methods
@@ -324,8 +325,6 @@ function Dropdown(o) {
   this.isOpen = false;
   this.isEmpty = true;
 
-  this.datasets = _.map(o.datasets, initializeDataset);
-
   // bound functions
   onSuggestionClick = _.bind(this._onSuggestionClick, this);
   onSuggestionMouseEnter = _.bind(this._onSuggestionMouseEnter, this);
@@ -336,8 +335,12 @@ function Dropdown(o) {
   .on('mouseenter.aa', '.aa-suggestion', onSuggestionMouseEnter)
   .on('mouseleave.aa', '.aa-suggestion', onSuggestionMouseLeave);
 
+  this.datasets = _.map(o.datasets, function(oDataset) { return initializeDataset(that.$menu, oDataset); });
   _.each(this.datasets, function(dataset) {
-    that.$menu.append(dataset.getRoot());
+    var root = dataset.getRoot();
+    if (root && root.parent().length === 0) {
+      that.$menu.append(root);
+    }
     dataset.onSync('rendered', that._onRendered, that);
   });
 }
@@ -549,8 +552,8 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 // ----------------
 Dropdown.Dataset = Dataset;
 
-function initializeDataset(oDataset) {
-  return new Dropdown.Dataset(oDataset);
+function initializeDataset($menu, oDataset) {
+  return new Dropdown.Dataset(_.mixin({ '$menu': $menu }, oDataset));
 }
 
 module.exports = Dropdown;
@@ -1079,9 +1082,10 @@ methods = {
       typeahead = new Typeahead({
         input: $input,
         eventBus: eventBus,
-        withHint: _.isUndefined(o.hint) ? true : !!o.hint,
+        hint: _.isUndefined(o.hint) ? true : !!o.hint,
         minLength: o.minLength,
         autoselect: o.autoselect,
+        templates: o.templates,
         datasets: datasets
       });
 
@@ -1207,7 +1211,7 @@ function Typeahead(o) {
   this.isActivated = false;
   this.autoselect = !!o.autoselect;
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
-  this.$node = buildDom(o.input, o.withHint);
+  this.$node = buildDom(o);
 
   $menu = this.$node.find('.aa-dropdown-menu');
   $input = this.$node.find('.aa-input');
@@ -1528,15 +1532,18 @@ _.mixin(Typeahead.prototype, {
   }
 });
 
-function buildDom(input, withHint) {
+function buildDom(options) {
   var $input;
   var $wrapper;
   var $dropdown;
   var $hint;
 
-  $input = $(input);
+  $input = $(options.input);
   $wrapper = $(html.wrapper).css(css.wrapper);
   $dropdown = $(html.dropdown).css(css.dropdown);
+  if (options.templates && options.templates.dropdownMenu) {
+    $dropdown.html((_.templatify(options.templates.dropdownMenu))());
+  }
   $hint = $input.clone().css(css.hint).css(getBackgroundStyles($input));
 
   $hint
@@ -1559,7 +1566,7 @@ function buildDom(input, withHint) {
   $input
   .addClass('aa-input')
   .attr({autocomplete: 'off', spellcheck: false})
-  .css(withHint ? css.input : css.inputWithNoHint);
+  .css(options.hint ? css.input : css.inputWithNoHint);
 
   // ie7 does not like it when dir is set to auto
   try {
@@ -1573,7 +1580,7 @@ function buildDom(input, withHint) {
   return $input
   .wrap($wrapper)
   .parent()
-  .prepend(withHint ? $hint : null)
+  .prepend(options.hint ? $hint : null)
   .append($dropdown);
 }
 
@@ -1684,9 +1691,14 @@ module.exports = {
   })(),
 
   templatify: function templatify(obj) {
-    return $.isFunction(obj) ? obj : template;
-
-    function template() { return String(obj); }
+    if ($.isFunction(obj)) {
+      return obj;
+    }
+    var $template = $(obj);
+    if ($template.prop('tagName') === 'SCRIPT') {
+      return function template() { return $template.text() };
+    }
+    return function template() { return String(obj); };
   },
 
   defer: function(fn) { setTimeout(fn, 0); },

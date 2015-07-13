@@ -34,9 +34,10 @@ methods = {
       typeahead = new Typeahead({
         input: $input,
         eventBus: eventBus,
-        withHint: _.isUndefined(o.hint) ? true : !!o.hint,
+        hint: _.isUndefined(o.hint) ? true : !!o.hint,
         minLength: o.minLength,
         autoselect: o.autoselect,
+        templates: o.templates,
         datasets: datasets
       });
 

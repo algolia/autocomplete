@@ -64,9 +64,14 @@ module.exports = {
   })(),
 
   templatify: function templatify(obj) {
-    return $.isFunction(obj) ? obj : template;
-
-    function template() { return String(obj); }
+    if ($.isFunction(obj)) {
+      return obj;
+    }
+    var $template = $(obj);
+    if ($template.prop('tagName') === 'SCRIPT') {
+      return function template() { return $template.text() };
+    }
+    return function template() { return String(obj); };
   },
 
   defer: function(fn) { setTimeout(fn, 0); },

@@ -589,6 +589,27 @@ describe('Typeahead', function() {
     });
   });
 
+  describe('when instantiated with a custom menu template', function() {
+    beforeEach(function() {
+      appendSetFixtures(fixtures.html.customMenu);
+
+      this.view.destroy();
+      this.view = new Typeahead({
+        input: this.$input,
+        templates: {
+          dropdownMenu: '#my-custom-menu-template'
+        },
+        datasets: {}
+      });
+
+    });
+
+    it('should include the template in the menu', function() {
+      var $fixture = $('#jasmine-fixtures');
+      expect($fixture.find('.aa-dropdown-menu .my-custom-menu').length).toEqual(1);
+    });
+  });
+
   describe('when instantiated from jquery', function() {
     beforeEach(function() {
       this.view.destroy();

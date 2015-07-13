@@ -21,6 +21,21 @@ fixtures.html = {
   input: '<input class="aa-input" type="text" autocomplete="false" spellcheck="false">',
   hint: '<input class="aa-hint" type="text" autocomplete="false" spellcheck="false" disabled>',
   menu: '<span class="aa-dropdown-menu"></span>',
+  customMenu: [
+    '<script type="text/template" id="my-custom-menu-template">',
+      '<div class="my-custom-menu">',
+        '<div class="row">',
+          '<div class="col-sm-6">',
+            '<div class="aa-dataset-contacts1"></div>',
+          '</div>',
+          '<div class="col-sm-6">',
+            '<div class="aa-dataset-contacts2"></div>',
+            '<div class="aa-dataset-contacts3"></div>',
+          '</div>',
+        '</div>',
+      '</div>',
+    '</script>'
+  ].join(''),
   dataset: [
     '<div class="aa-dataset-test">',
       '<span class="aa-suggestions">',
