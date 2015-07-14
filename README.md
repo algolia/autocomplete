@@ -1,7 +1,7 @@
 Autocomplete.js
 =================
 
-This JavaScript library adds a fast and fully-featured auto-completion menu to your search box displaying results "as you type". It can be easily combined with Algolia's realtime search engine. The library is available as a jQuery plugin.
+This JavaScript library adds a fast and fully-featured auto-completion menu to your search box displaying results "as you type". It can be easily combined with Algolia's realtime search engine. The library is available as a jQuery plugin or Angular.js directive.
 
 [![build status](https://travis-ci.org/algolia/algoliasearch-client-node.svg?branch=master)](http://travis-ci.org/algolia/autocomplete.js)
 [![NPM version](https://badge.fury.io/js/autocomplete.js.svg)](http://badge.fury.io/js/autocomplete.js)
@@ -16,7 +16,8 @@ Table of Contents
 * [Features](#features)
 * [Installation](#installation)
 * [Usage](#usage)
-  * [API](#api)
+  * [jQuery](#jquery)
+  * [Angular.js](#angular-js)
   * [Options](#options)
   * [Datasets](#datasets)
   * [Custom Events](#custom-events)
@@ -43,13 +44,19 @@ The `autocomplete.js` library must be included **after** jQuery.
 You can include it from a CDN:
 
 ##### jsDelivr
+
 ```html
 <script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+<!-- OR -->
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
 ```
 
 ##### cdnjs
+
 ```html
 <script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.jquery.min.js"></script>
+<!-- OR -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.angular.min.js"></script>
 ```
 
 Or use it with [Browserify](http://browserify.org/):
@@ -63,7 +70,39 @@ var autocomplete = require('autocomplete.js');
 Usage
 -----
 
-### API
+### jQuery
+
+ 1. Include `autocomplete.jquery.min.js` after including `jQuery`
+ 1. Initialize the auto-completion menu calling the `autocomplete` jQuery plugin
+
+```html
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <body ng-controller="searchController">
+    <input id="q" name="q" type="text" ng-model="q" autocomplete aa-datasets="getDatasets()" aa-options="getOptions()" />
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+
+    <script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+    <script>
+      var client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey');
+      var index = client.initIndex('YourIndex');
+
+      $('#q').autocomplete({}, [
+        {
+          source: index.ttAdapter({ hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return /* FIXME */;
+            }
+          }
+        }
+      ]);
+    </script>
+  </body>
+</html>
+```
 
 #### jQuery#autocomplete(options, [\*datasets])
 
@@ -134,6 +173,55 @@ to its previous value. Can be used to avoid naming collisions.
 ```javascript
 var autocomplete = jQuery.fn.autocomplete.noConflict();
 jQuery.fn._autocomplete = autocomplete;
+```
+
+### Angular.js
+
+ 1. Include `autocomplete.angular.min.js` after including `jQuery` & `Angular.js`
+ 1. Inject the `algolia.autocomplete` module
+ 1. Add the `autocomplete`, `aa-datasets` and the optional `aa-options` attribute to your search bar
+
+```html
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <body ng-controller="searchController">
+    <input id="q" name="q" type="text" ng-model="q" autocomplete aa-datasets="getDatasets()" aa-options="getOptions()" />
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.angular.min.js"></script>
+
+    <script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
+    <script>
+      angular.module('myApp', ['algoliasearch', 'algolia.autocomplete']).controller('searchController', ['$scope', 'algolia', function($scope, algolia) {
+        $scope.q = '';
+        var client = algolia.Client('YourApplicationID', 'YourSearchOnlyAPIKey');
+        var index = client.initIndex('YourIndex');
+
+        $scope.getOptions = function() {
+          return { debug: true };
+        };
+
+        $scope.getDatasets = function() {
+          return [
+            {
+              source: index.ttAdapter({hitsPerPage: 5}),
+              templates: {
+                suggestion: function(suggestion) {
+                  return /* FIXME */;
+                }
+              }
+            }
+          ];
+        };
+
+        $scope.$on('autocomplete:selected', function(event, suggestion, dataset) {
+          console.log(suggestion);
+        });
+      }]);
+    </script>
+  </body>
+</html>
 ```
 
 ### Options
