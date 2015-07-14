@@ -76,8 +76,8 @@ Usage
  1. Initialize the auto-completion menu calling the `autocomplete` jQuery plugin
 
 ```html
-<!DOCTYPE html>
-<html ng-app="myApp">
+<html>
+  <head></head>
   <body ng-controller="searchController">
     <input id="q" name="q" type="text" ng-model="q" autocomplete aa-datasets="getDatasets()" aa-options="getOptions()" />
 
@@ -182,8 +182,8 @@ jQuery.fn._autocomplete = autocomplete;
  1. Add the `autocomplete`, `aa-datasets` and the optional `aa-options` attribute to your search bar
 
 ```html
-<!DOCTYPE html>
 <html ng-app="myApp">
+  <head></head>
   <body ng-controller="searchController">
     <input id="q" name="q" type="text" ng-model="q" autocomplete aa-datasets="getDatasets()" aa-options="getOptions()" />
 
