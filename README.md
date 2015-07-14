@@ -1,7 +1,7 @@
 Autocomplete.js
 =================
 
-This JavaScript library adds a fast and fully-featured auto-completion menu to your search box displaying results "as you type". It can be easily combined with Algolia's realtime search engine. The library is available as a jQuery plugin or Angular.js directive.
+This JavaScript library adds a fast and fully-featured auto-completion menu to your search box displaying results "as you type". It can easily be combined with Algolia's realtime search engine. The library is available as a jQuery plugin or an Angular.js directive.
 
 [![build status](https://travis-ci.org/algolia/algoliasearch-client-node.svg?branch=master)](http://travis-ci.org/algolia/autocomplete.js)
 [![NPM version](https://badge.fury.io/js/autocomplete.js.svg)](http://badge.fury.io/js/autocomplete.js)
@@ -91,7 +91,15 @@ Usage
 
       $('#q').autocomplete({}, [
         {
-          source: index.ttAdapter({ hitsPerPage: 5 }),
+          source: function(q, cb) {
+            index.search(q, { hitsPerPage: 5 }, function(error, content) {
+              if (error) {
+                cb([]);
+                return;
+              }
+              cb(content.hits);
+            });
+          },
           templates: {
             suggestion: function(suggestion) {
               return /* FIXME */;
@@ -205,7 +213,15 @@ jQuery.fn._autocomplete = autocomplete;
         $scope.getDatasets = function() {
           return [
             {
-              source: index.ttAdapter({hitsPerPage: 5}),
+              source: function(q, cb) {
+                index.search(q, { hitsPerPage: 5 }, function(error, content) {
+                  if (error) {
+                    cb([]);
+                    return;
+                  }
+                  cb(content.hits);
+                });
+              },
               templates: {
                 suggestion: function(suggestion) {
                   return /* FIXME */;

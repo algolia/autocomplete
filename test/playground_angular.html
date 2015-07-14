@@ -44,7 +44,15 @@
 
       $scope.getDatasets = function() {
         return {
-          source: index.ttAdapter({hitsPerPage: 5}),
+          source: function(q, cb) {
+            index.search(q, { hitsPerPage: 5 }, function(error, content) {
+              if (error) {
+                cb([]);
+                return;
+              }
+              cb(content.hits);
+            });
+          },
           templates: {
             suggestion: function(suggestion) {
               return suggestion._highlightResult.name.value;
