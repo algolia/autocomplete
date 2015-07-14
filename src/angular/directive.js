@@ -1,9 +1,11 @@
 'use strict';
 
+/* global angular */
+
 var EventBus = require('../autocomplete/event_bus.js');
 var Typeahead = require('../autocomplete/typeahead.js');
 
-global.angular.module('algolia.autocomplete', [])
+angular.module('algolia.autocomplete', [])
   .directive('autocomplete', ['$parse', function($parse) {
     return {
       restrict: 'AC', // Only apply on an attribute or class
@@ -11,7 +13,8 @@ global.angular.module('algolia.autocomplete', [])
         options: '&aaOptions',
         datasets: '&aaDatasets'
       },
-      link: function (scope, element, attrs) {
+      link: function(scope, element, attrs) {
+        attrs = attrs; // no-unused-vars
         scope.options = $parse(scope.options)(scope);
         if (!scope.options) {
           scope.options = {};

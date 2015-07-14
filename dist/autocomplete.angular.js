@@ -11,13 +11,14 @@
 module.exports = require('./src/angular/directive.js');
 
 },{"./src/angular/directive.js":2}],2:[function(require,module,exports){
-(function (global){
 'use strict';
+
+/* global angular */
 
 var EventBus = require('../autocomplete/event_bus.js');
 var Typeahead = require('../autocomplete/typeahead.js');
 
-global.angular.module('algolia.autocomplete', [])
+angular.module('algolia.autocomplete', [])
   .directive('autocomplete', ['$parse', function($parse) {
     return {
       restrict: 'AC', // Only apply on an attribute or class
@@ -25,7 +26,8 @@ global.angular.module('algolia.autocomplete', [])
         options: '&aaOptions',
         datasets: '&aaDatasets'
       },
-      link: function (scope, element, attrs) {
+      link: function(scope, element, attrs) {
+        attrs = attrs; // no-unused-vars
         scope.options = $parse(scope.options)(scope);
         if (!scope.options) {
           scope.options = {};
@@ -91,7 +93,6 @@ global.angular.module('algolia.autocomplete', [])
     };
   }]);
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"../autocomplete/event_bus.js":6,"../autocomplete/typeahead.js":10}],3:[function(require,module,exports){
 'use strict';
 
