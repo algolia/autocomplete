@@ -5,8 +5,9 @@
 global.$ = require('jquery');
 
 var Typeahead = require('../../src/autocomplete/typeahead.js');
-var $autocomplete = require('../../src/autocomplete/plugin.js');
 var fixtures = require('../fixtures.js');
+var $autocomplete = require('../../src/jquery/plugin.js');
+
 var mocks = require('../helpers/mocks.js');
 var waitsForAndRuns = require('../helpers/waits_for.js');
 

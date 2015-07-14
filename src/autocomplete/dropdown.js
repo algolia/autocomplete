@@ -21,6 +21,9 @@ function Dropdown(o) {
   if (!o.menu) {
     $.error('menu is required');
   }
+  if (!o.datasets) {
+    $.error('datasets is required');
+  }
 
   this.isOpen = false;
   this.isEmpty = true;
