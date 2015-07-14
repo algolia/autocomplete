@@ -2,7 +2,7 @@
 
 /* eslint-env jquery */
 
-var namespace = 'typeahead:';
+var namespace = 'autocomplete:';
 
 var _ = require('../common/utils.js');
 

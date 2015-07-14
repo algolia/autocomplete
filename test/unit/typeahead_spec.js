@@ -44,7 +44,7 @@ describe('Typeahead', function() {
     it('should select the datum', function(done) {
       var $e, spy;
 
-      this.$input.on('typeahead:selected', spy = jasmine.createSpy());
+      this.$input.on('autocomplete:selected', spy = jasmine.createSpy());
       this.dropdown.trigger('suggestionClicked');
 
       expect(spy).toHaveBeenCalled();
@@ -72,7 +72,7 @@ describe('Typeahead', function() {
     it('should trigger cursorchanged', function() {
       var spy;
 
-      this.$input.on('typeahead:cursorchanged', spy = jasmine.createSpy());
+      this.$input.on('autocomplete:cursorchanged', spy = jasmine.createSpy());
 
       this.dropdown.trigger('cursorMoved');
 
@@ -131,10 +131,10 @@ describe('Typeahead', function() {
       expect(this.input.setHint).toHaveBeenCalledWith(testDatum.value);
     });
 
-    it('should trigger typeahead:opened', function() {
+    it('should trigger autocomplete:opened', function() {
       var spy;
 
-      this.$input.on('typeahead:opened', spy = jasmine.createSpy());
+      this.$input.on('autocomplete:opened', spy = jasmine.createSpy());
 
       this.dropdown.trigger('opened');
 
@@ -149,10 +149,10 @@ describe('Typeahead', function() {
       expect(this.input.clearHint).toHaveBeenCalled();
     });
 
-    it('should trigger typeahead:closed', function() {
+    it('should trigger autocomplete:closed', function() {
       var spy;
 
-      this.$input.on('typeahead:closed', spy = jasmine.createSpy());
+      this.$input.on('autocomplete:closed', spy = jasmine.createSpy());
 
       this.dropdown.trigger('closed');
 
@@ -232,7 +232,7 @@ describe('Typeahead', function() {
       var $e, spy;
 
       $e = jasmine.createSpyObj('event', ['preventDefault']);
-      this.$input.on('typeahead:selected', spy = jasmine.createSpy());
+      this.$input.on('autocomplete:selected', spy = jasmine.createSpy());
       this.input.trigger('enterKeyed', $e);
 
       expect(spy).toHaveBeenCalled();
@@ -264,7 +264,7 @@ describe('Typeahead', function() {
         var $e, spy;
 
         $e = jasmine.createSpyObj('event', ['preventDefault']);
-        this.$input.on('typeahead:selected', spy = jasmine.createSpy());
+        this.$input.on('autocomplete:selected', spy = jasmine.createSpy());
         this.input.trigger('tabKeyed', $e);
 
         expect(spy).toHaveBeenCalled();
@@ -294,7 +294,7 @@ describe('Typeahead', function() {
         this.input.getHint.and.returnValue(testDatum.value);
         this.input.isCursorAtEnd.and.returnValue(true);
         this.dropdown.getDatumForTopSuggestion.and.returnValue(testDatum);
-        this.$input.on('typeahead:autocompleted', spy = jasmine.createSpy());
+        this.$input.on('autocomplete:autocompleted', spy = jasmine.createSpy());
 
         this.input.trigger('tabKeyed');
 
@@ -453,7 +453,7 @@ describe('Typeahead', function() {
       this.input.getHint.and.returnValue(testDatum.value);
       this.input.isCursorAtEnd.and.returnValue(true);
       this.dropdown.getDatumForTopSuggestion.and.returnValue(testDatum);
-      this.$input.on('typeahead:autocompleted', spy = jasmine.createSpy());
+      this.$input.on('autocomplete:autocompleted', spy = jasmine.createSpy());
 
       this.input.trigger('leftKeyed');
 
@@ -471,7 +471,7 @@ describe('Typeahead', function() {
       this.input.getHint.and.returnValue(testDatum.value);
       this.input.isCursorAtEnd.and.returnValue(true);
       this.dropdown.getDatumForTopSuggestion.and.returnValue(testDatum);
-      this.$input.on('typeahead:autocompleted', spy = jasmine.createSpy());
+      this.$input.on('autocomplete:autocompleted', spy = jasmine.createSpy());
 
       this.input.trigger('rightKeyed');
 
