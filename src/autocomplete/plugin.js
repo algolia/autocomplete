@@ -11,7 +11,7 @@ var old;
 var typeaheadKey;
 var methods;
 
-old = $.fn.typeahead;
+old = $.fn.autocomplete;
 
 typeaheadKey = 'aaAutocomplete';
 

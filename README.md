@@ -133,7 +133,7 @@ to its previous value. Can be used to avoid naming collisions.
 
 ```javascript
 var autocomplete = jQuery.fn.autocomplete.noConflict();
-jQuery.fn._typeahead = autocomplete;
+jQuery.fn._autocomplete = autocomplete;
 ```
 
 ### Options
