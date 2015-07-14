@@ -39,9 +39,11 @@ Features
 Installation
 -------------
 
-The `autocomplete.js` library must be included **after** jQuery.
+The `autocomplete.js` library must be included **after** jQuery and/or Angular.js.
 
-You can include it from a CDN:
+#### From a CDN
+
+We recommend including it from a CDN:
 
 ##### jsDelivr
 
@@ -59,9 +61,17 @@ You can include it from a CDN:
 <script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.angular.min.js"></script>
 ```
 
-Or use it with [Browserify](http://browserify.org/):
+#### From the sources
+
+Or you can fetch the sources:
+
+##### Build/Dist
+
+You can find the builded version in [dist/](https://github.com/algolia/autocomplete.js/tree/feature/angular.js/dist).
 
 ##### Browserify
+
+You can require it and use [Browserify](http://browserify.org/):
 
 ```js
 var autocomplete = require('autocomplete.js');
