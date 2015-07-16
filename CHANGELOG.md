@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.2.0 July 16, 2015
+
+* Ability to change the layout based on the matching datasets #11
+
 ### 0.1.0 July 13, 2015
 
 * Start using semantic versioning

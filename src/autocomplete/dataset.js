@@ -37,8 +37,10 @@ function Dataset(o) {
 
   this.templates = getTemplates(o.templates, this.displayFn);
 
-  this.$el = o.$menu && o.name && o.$menu.find('.aa-dataset-' + o.name).length > 0 ?
-    $(o.$menu.find('.aa-dataset-' + o.name)[0]) : $(html.dataset.replace('%CLASS%', this.name));
+  this.$el = o.$menu && this.name && o.$menu.find('.aa-dataset-' + this.name).length > 0 ?
+    $(o.$menu.find('.aa-dataset-' + this.name)[0]) : $(html.dataset.replace('%CLASS%', this.name));
+
+  this.$menu = o.$menu;
 }
 
 // static methods
@@ -83,6 +85,11 @@ _.mixin(Dataset.prototype, EventEmitter, {
       .html(getSuggestionsHtml.apply(this, args))
       .prepend(that.templates.header ? getHeaderHtml.apply(this, args) : null)
       .append(that.templates.footer ? getFooterHtml.apply(this, args) : null);
+    }
+
+    if (this.$menu) {
+      this.$menu.addClass('aa-' + (hasSuggestions ? 'with' : 'without') + '-' + this.name)
+        .removeClass('aa-' + (hasSuggestions ? 'without' : 'with') + '-' + this.name);
     }
 
     this.trigger('rendered');
