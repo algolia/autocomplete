@@ -16,6 +16,7 @@ Table of Contents
 * [Features](#features)
 * [Installation](#installation)
 * [Usage](#usage)
+  * [Quick Start](#quick-start)
   * [API](#api)
   * [Options](#options)
   * [Datasets](#datasets)
@@ -62,6 +63,68 @@ var autocomplete = require('autocomplete.js');
 
 Usage
 -----
+
+### Quick start
+
+Turn any HTML `<input />` into a simple and fast as-you-type auto-completion menu using the `autocomplete({ /* options */ }, [ /* datasets */ ])` function:
+
+```html
+<input type="text" id="search-input" />
+
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+<script>
+  var client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey')
+  var index = client.initIndex('items');
+  $('#search-input').autocomplete({ hint: false }, [
+    {
+      source: index.ttAdapter({ hitsPerPage: 5 }),
+      name: 'items',
+      displayKey: 'my_attribute',
+      templates: {
+        suggestion: function(suggestion) {
+          return suggestion._highlightResult.my_attribute.value;
+        }
+      }
+    }
+  ]);
+</script>
+```
+
+And add the following CSS rules to add a default style:
+
+```css
+.algolia-autocomplete {
+  width: 100%;
+}
+.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+  width: 100%;
+}
+.algolia-autocomplete .aa-hint {
+  color: #999;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #999;
+  border-top: none;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  cursor: pointer;
+  padding: 5px 4px;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: #B2D7FF;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+  font-weight: bold;
+  font-style: normal;
+}
+```
+
+Here is what the [basic example](https://github.com/algolia/autocomplete.js/tree/master/examples) looks like:
+
+![Basic example](./examples/basic.gif)
 
 ### API
 
@@ -141,6 +204,8 @@ jQuery.fn._autocomplete = autocomplete;
 When initializing an autocomplete, there are a number of options you can configure.
 
 * `hint` – If `false`, the autocomplete will not show a hint. Defaults to `true`.
+
+* `debug` – If `true`, the autocomplete will not close on `blur`. Defaults to `false`.
 
 * `templates` – An optional hash overriding the default templates.
   * `dropdownMenu` – the dropdown menu template. The template should include all *dataset* placeholders.
@@ -289,7 +354,7 @@ dropdown menu. Keep in mind that `header`, `footer`, `suggestion`, and `empty`
 come from the provided templates detailed [here](#datasets). 
 
 ```html
-<span class="aa-dropdown-menu">
+<span class="aa-dropdown-menu{{#datasets}} aa-{{'with' or 'without'}}-{{name}}{{/datasets}}">
   {{#datasets}}
     <div class="aa-dataset-{{name}}">
       {{{header}}}
