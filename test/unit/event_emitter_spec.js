@@ -22,14 +22,20 @@ describe('EventEmitter', function() {
   });
 
   it('#on should take the context a callback should be called in', function(done) {
-    var context = { val: 3 }, cbContext;
+    var context = {val: 3};
+    var cbContext;
 
     this.target.onSync('xevent', setCbContext, context).trigger('xevent');
 
     waitsForAndRuns(assertCbContext, done, 100);
 
-    function setCbContext() { cbContext = this; }
-    function assertCbContext() { return cbContext === context; }
+    function setCbContext() {
+      cbContext = this;
+    }
+
+    function assertCbContext() {
+      return cbContext === context;
+    }
   });
 
   it('#onAsync callbacks should be invoked asynchronously', function(done) {
@@ -47,19 +53,19 @@ describe('EventEmitter', function() {
 
   it('#off should remove callbacks', function(done) {
     this.target
-    .onSync('event1 event2', this.spy)
-    .onAsync('event1 event2', this.spy)
-    .off('event1 event2')
-    .trigger('event1 event2');
+      .onSync('event1 event2', this.spy)
+      .onAsync('event1 event2', this.spy)
+      .off('event1 event2')
+      .trigger('event1 event2');
 
     setTimeout(assertCallCount(this.spy, 0, done), 100);
   });
 
   it('methods should accept multiple event types', function(done) {
     this.target
-    .onSync('event1 event2', this.spy)
-    .onAsync('event1 event2', this.spy)
-    .trigger('event1 event2');
+      .onSync('event1 event2', this.spy)
+      .onAsync('event1 event2', this.spy)
+      .trigger('event1 event2');
 
     expect(this.spy.calls.count()).toBe(2);
     setTimeout(assertCallCount(this.spy, 4, done), 100);
@@ -67,9 +73,9 @@ describe('EventEmitter', function() {
 
   it('the event type should be passed to the callback', function(done) {
     this.target
-    .onSync('sync', this.spy)
-    .onAsync('async', this.spy)
-    .trigger('sync async');
+      .onSync('sync', this.spy)
+      .onAsync('async', this.spy)
+      .trigger('sync async');
 
     var that = this;
     waitsForAndRuns(assertArgs(this.spy, 0, ['sync']), function() {
@@ -79,9 +85,9 @@ describe('EventEmitter', function() {
 
   it('arbitrary args should be passed to the callback', function(done) {
     this.target
-    .onSync('event', this.spy)
-    .onAsync('event', this.spy)
-    .trigger('event', 1, 2);
+      .onSync('event', this.spy)
+      .onAsync('event', this.spy)
+      .trigger('event', 1, 2);
 
     var that = this;
     waitsForAndRuns(assertArgs(this.spy, 0, ['event', 1, 2]), function() {
@@ -93,20 +99,22 @@ describe('EventEmitter', function() {
     var cancelSpy = jasmine.createSpy().and.callFake(cancel);
 
     this.target
-    .onSync('one', cancelSpy)
-    .onSync('one', this.spy)
-    .onAsync('two', cancelSpy)
-    .onAsync('two', this.spy)
-    .onSync('three', cancelSpy)
-    .onAsync('three', this.spy)
-    .trigger('one two three');
+      .onSync('one', cancelSpy)
+      .onSync('one', this.spy)
+      .onAsync('two', cancelSpy)
+      .onAsync('two', this.spy)
+      .onSync('three', cancelSpy)
+      .onAsync('three', this.spy)
+      .trigger('one two three');
 
     var that = this;
     setTimeout(assertCallCount(cancelSpy, 3, function() {
       setTimeout(assertCallCount(that.spy, 0, done), 100);
     }), 100);
 
-    function cancel() { return false; }
+    function cancel() {
+      return false;
+    }
   });
 
   function assertCallCount(spy, expected, done) {
@@ -122,5 +130,4 @@ describe('EventEmitter', function() {
       return expect(actual).toEqual(expected);
     };
   }
-
 });

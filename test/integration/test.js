@@ -2,13 +2,14 @@
 
 /* eslint-env jasmine */
 
-var wd = require('yiewd'),
-    colors = require('colors'),
-    expect = require('chai').expect,
-    f = require('util').format,
-    env = process.env;
+var wd = require('yiewd');
+var colors = require('colors');
+var expect = require('chai').expect;
+var f = require('util').format;
+var env = process.env;
 
-var browser, caps;
+var browser;
+var caps;
 
 browser = (process.env.BROWSER || 'chrome').split(':');
 
@@ -28,12 +29,20 @@ function setIf(obj, key, val) {
 }
 
 describe('jquery-typeahead.js', function() {
-  var driver, body, input, hint, dropdown, allPassed = true;
+  var driver;
+  var body;
+  var input;
+  var hint;
+  var dropdown;
+  var allPassed = true;
 
   this.timeout(300000);
 
   before(function(done) {
-    var host = 'ondemand.saucelabs.com', port = 80, username, password;
+    var host = 'ondemand.saucelabs.com';
+    var port = 80;
+    var username;
+    var password;
 
     if (env['CI']) {
       host = 'localhost';

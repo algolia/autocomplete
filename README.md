@@ -448,14 +448,14 @@ The project is built using [Grunt](http://gruntjs.com/). To start developing, yo
 
 ```sh
 $ npm install
-$ grunt dev
+$ npm run dev
 $ open http://localhost:8888/test/playground.html
 ```
 
 Linting is done with [eslint](http://eslint.org/) and [Algolia's configuration](https://github.com/algolia/eslint-config-algolia) and can be run with:
 
 ```sh
-$ grunt lint
+$ npm run lint
 ```
 
 Testing
@@ -472,10 +472,24 @@ $ npm test
 To run the integration tests suite run:
 
 ```sh
-$ grunt
-$ grunt server
+$ npm run server
 $ ngrok 8888
 $ TEST_HOST=http://YOUR_NGROK_ID.ngrok.com SAUCE_ACCESS_KEY=YOUR_KEY SAUCE_USERNAME=YOUR_USERNAME./node_modules/mocha/bin/mocha --harmony -R spec ./test/integration/test.js
+```
+
+Code style
+------
+
+You can check the code style with:
+
+```sh
+npm run checkstyle
+```
+
+You can fix style issues automatically with:
+
+```sh
+npm run jsfmt
 ```
 
 Credits

@@ -41,16 +41,13 @@ function Input(o) {
 
   this.$hint = $(o.hint);
   this.$input = $(o.input)
-  .on('blur.aa', onBlur)
-  .on('focus.aa', onFocus)
-  .on('keydown.aa', onKeydown);
+    .on('blur.aa', onBlur)
+    .on('focus.aa', onFocus)
+    .on('keydown.aa', onKeydown);
 
   // if no hint, noop all the hint related functions
   if (this.$hint.length === 0) {
-    this.setHint =
-    this.getHint =
-    this.clearHint =
-    this.clearHintIfInvalid = _.noop;
+    this.setHint = this.getHint = this.clearHint = this.clearHintIfInvalid = _.noop;
   }
 
   // ie7 and ie8 don't support the input event
@@ -61,7 +58,9 @@ function Input(o) {
   } else {
     this.$input.on('keydown.aa keypress.aa cut.aa paste.aa', function($e) {
       // if a special key triggered this, ignore it
-      if (specialKeyCodeMap[$e.which || $e.keyCode]) { return; }
+      if (specialKeyCodeMap[$e.which || $e.keyCode]) {
+        return;
+      }
 
       // give the browser a chance to update the value of the input
       // before checking to see if the query changed
@@ -291,25 +290,25 @@ _.mixin(Input.prototype, EventEmitter, {
 
 function buildOverflowHelper($input) {
   return $('<pre aria-hidden="true"></pre>')
-  .css({
-    // position helper off-screen
-    position: 'absolute',
-    visibility: 'hidden',
-    // avoid line breaks and whitespace collapsing
-    whiteSpace: 'pre',
-    // use same font css as input to calculate accurate width
-    fontFamily: $input.css('font-family'),
-    fontSize: $input.css('font-size'),
-    fontStyle: $input.css('font-style'),
-    fontVariant: $input.css('font-variant'),
-    fontWeight: $input.css('font-weight'),
-    wordSpacing: $input.css('word-spacing'),
-    letterSpacing: $input.css('letter-spacing'),
-    textIndent: $input.css('text-indent'),
-    textRendering: $input.css('text-rendering'),
-    textTransform: $input.css('text-transform')
-  })
-  .insertAfter($input);
+    .css({
+      // position helper off-screen
+      position: 'absolute',
+      visibility: 'hidden',
+      // avoid line breaks and whitespace collapsing
+      whiteSpace: 'pre',
+      // use same font css as input to calculate accurate width
+      fontFamily: $input.css('font-family'),
+      fontSize: $input.css('font-size'),
+      fontStyle: $input.css('font-style'),
+      fontVariant: $input.css('font-variant'),
+      fontWeight: $input.css('font-weight'),
+      wordSpacing: $input.css('word-spacing'),
+      letterSpacing: $input.css('letter-spacing'),
+      textIndent: $input.css('text-indent'),
+      textRendering: $input.css('text-rendering'),
+      textTransform: $input.css('text-transform')
+    })
+    .insertAfter($input);
 }
 
 function areQueriesEquivalent(a, b) {

@@ -34,12 +34,12 @@ function Dropdown(o) {
   onSuggestionMouseLeave = _.bind(this._onSuggestionMouseLeave, this);
 
   this.$menu = $(o.menu)
-  .on('click.aa', '.aa-suggestion', onSuggestionClick)
-  .on('mouseenter.aa', '.aa-suggestion', onSuggestionMouseEnter)
-  .on('mouseleave.aa', '.aa-suggestion', onSuggestionMouseLeave);
+    .on('click.aa', '.aa-suggestion', onSuggestionClick)
+    .on('mouseenter.aa', '.aa-suggestion', onSuggestionMouseEnter)
+    .on('mouseleave.aa', '.aa-suggestion', onSuggestionMouseLeave);
 
   if (o.templates && o.templates.header) {
-    this.$menu.prepend((_.templatify(o.templates.header))());
+    this.$menu.prepend(_.templatify(o.templates.header));
   }
 
   this.datasets = _.map(o.datasets, function(oDataset) { return initializeDataset(that.$menu, oDataset); });
@@ -52,7 +52,7 @@ function Dropdown(o) {
   });
 
   if (o.templates && o.templates.footer) {
-    this.$menu.append((_.templatify(o.templates.footer))());
+    this.$menu.append(_.templatify(o.templates.footer));
   }
 }
 
@@ -87,7 +87,9 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 
     this.trigger('datasetRendered');
 
-    function isDatasetEmpty(dataset) { return dataset.isEmpty(); }
+    function isDatasetEmpty(dataset) {
+      return dataset.isEmpty();
+    }
   },
 
   _hide: function() {
@@ -126,7 +128,9 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     var newCursorIndex;
     var $newCursor;
 
-    if (!this.isOpen) { return; }
+    if (!this.isOpen) {
+      return;
+    }
 
     $oldCursor = this._getCursor();
     $suggestions = this._getSuggestions();
@@ -234,14 +238,18 @@ _.mixin(Dropdown.prototype, EventEmitter, {
   update: function update(query) {
     _.each(this.datasets, updateDataset);
 
-    function updateDataset(dataset) { dataset.update(query); }
+    function updateDataset(dataset) {
+      dataset.update(query);
+    }
   },
 
   empty: function empty() {
     _.each(this.datasets, clearDataset);
     this.isEmpty = true;
 
-    function clearDataset(dataset) { dataset.clear(); }
+    function clearDataset(dataset) {
+      dataset.clear();
+    }
   },
 
   isVisible: function isVisible() {
@@ -255,7 +263,9 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 
     _.each(this.datasets, destroyDataset);
 
-    function destroyDataset(dataset) { dataset.destroy(); }
+    function destroyDataset(dataset) {
+      dataset.destroy();
+    }
   }
 });
 
@@ -264,7 +274,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 Dropdown.Dataset = Dataset;
 
 function initializeDataset($menu, oDataset) {
-  return new Dropdown.Dataset(_.mixin({ '$menu': $menu }, oDataset));
+  return new Dropdown.Dataset(_.mixin({'$menu': $menu}, oDataset));
 }
 
 module.exports = Dropdown;

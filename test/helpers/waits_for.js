@@ -15,7 +15,7 @@ var waitsForAndRuns = function(escapeFunction, runFunction, escapeTime) {
     runFunction();
   }, escapeTime);
   // clear the interval and the timeout
-  function clearMe(){
+  function clearMe() {
     clearInterval(interval);
     clearTimeout(timeOut);
   }
