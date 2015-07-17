@@ -20,7 +20,7 @@ describe('Dropdown', function() {
     this.$menu = $fixture.find('.aa-dropdown-menu');
     this.$menu.html(fixtures.html.dataset);
 
-    this.view = new Dropdown({ menu: this.$menu, datasets: [{}] });
+    this.view = new Dropdown({menu: this.$menu, datasets: [{}]});
     this.dataset = this.view.datasets[0];
   });
 
@@ -28,8 +28,13 @@ describe('Dropdown', function() {
     expect(noMenu).toThrow();
     expect(noDatasets).toThrow();
 
-    function noMenu() { new Dropdown({ menu: '.menu' }); }
-    function noDatasets() { new Dropdown({ datasets: true }); }
+    function noMenu() {
+      new Dropdown({menu: '.menu'});
+    }
+
+    function noDatasets() {
+      new Dropdown({datasets: true});
+    }
   });
 
   describe('when click event is triggered on a suggestion', function() {
@@ -68,7 +73,8 @@ describe('Dropdown', function() {
 
   describe('when mouseenter is triggered on a suggestion', function() {
     it('should remove pre-existing cursor', function() {
-      var $first, $last;
+      var $first;
+      var $last;
 
       $first = this.$menu.find('.aa-suggestion').first();
       $last = this.$menu.find('.aa-suggestion').last();
@@ -90,7 +96,8 @@ describe('Dropdown', function() {
     });
 
     it('should not trigger cursorMoved', function() {
-      var spy, $suggestion;
+      var spy;
+      var $suggestion;
 
       this.view.onSync('cursorMoved', spy = jasmine.createSpy());
 
@@ -214,7 +221,8 @@ describe('Dropdown', function() {
     });
 
     it('should move the cursor up', function() {
-      var $first, $second;
+      var $first;
+      var $second;
 
       $first = this.view._getSuggestions().eq(0);
       $second = this.view._getSuggestions().eq(1);
@@ -250,7 +258,8 @@ describe('Dropdown', function() {
     });
 
     it('should move the cursor down', function() {
-      var $first, $second;
+      var $first;
+      var $second;
 
       $first = this.view._getSuggestions().eq(0);
       $second = this.view._getSuggestions().eq(1);
@@ -282,12 +291,13 @@ describe('Dropdown', function() {
 
   describe('#getDatumForSuggestion', function() {
     it('should extract the datum from the suggestion element', function() {
-      var $suggestion, datum;
+      var $suggestion;
+      var datum;
 
-      $suggestion = $('<div>').data({ aaValue: 'one', aaDatum: 'two' });
+      $suggestion = $('<div>').data({aaValue: 'one', aaDatum: 'two'});
       datum = this.view.getDatumForSuggestion($suggestion);
 
-      expect(datum).toEqual({ value: 'one', raw: 'two', datasetName: undefined });
+      expect(datum).toEqual({value: 'one', raw: 'two', datasetName: undefined});
     });
 
     it('should return null if no element is given', function() {
@@ -300,11 +310,11 @@ describe('Dropdown', function() {
       var $first;
 
       $first = this.view._getSuggestions().eq(0);
-      $first.data({ aaValue: 'one', aaDatum: 'two' });
+      $first.data({aaValue: 'one', aaDatum: 'two'});
 
       this.view._setCursor($first);
       expect(this.view.getDatumForCursor())
-      .toEqual({ value: 'one', raw: 'two', datasetName: undefined });
+        .toEqual({value: 'one', raw: 'two', datasetName: undefined});
     });
   });
 
@@ -313,10 +323,10 @@ describe('Dropdown', function() {
       var $first;
 
       $first = this.view._getSuggestions().eq(0);
-      $first.data({ aaValue: 'one', aaDatum: 'two' });
+      $first.data({aaValue: 'one', aaDatum: 'two'});
 
       expect(this.view.getDatumForTopSuggestion())
-      .toEqual({ value: 'one', raw: 'two', datasetName: undefined });
+        .toEqual({value: 'one', raw: 'two', datasetName: undefined});
     });
   });
 

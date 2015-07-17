@@ -11,7 +11,7 @@ var waitsForAndRuns = require('../helpers/waits_for.js');
 describe('Input', function() {
   var KEYS;
 
-   KEYS = {
+  KEYS = {
     enter: 13,
     esc: 27,
     tab: 9,
@@ -31,13 +31,15 @@ describe('Input', function() {
     this.$input = $fixture.find('.aa-input');
     this.$hint = $fixture.find('.aa-hint');
 
-    this.view = new Input({ input: this.$input, hint: this.$hint });
+    this.view = new Input({input: this.$input, hint: this.$hint});
   });
 
   it('should throw an error if no hint and/or input is provided', function() {
     expect(noInput).toThrow();
 
-    function noInput() { new Input({ hint: '.hint' }); }
+    function noInput() {
+      new Input({hint: '.hint'});
+    }
   });
 
   describe('when the blur DOM event is triggered', function() {
@@ -269,7 +271,8 @@ describe('Input', function() {
     });
 
     it('should trigger {query|whitespace}Changed when applicable', function() {
-      var spy1, spy2;
+      var spy1;
+      var spy2;
 
       this.view.onSync('queryChanged', spy1 = jasmine.createSpy());
       this.view.onSync('whitespaceChanged', spy2 = jasmine.createSpy());
@@ -389,7 +392,8 @@ describe('Input', function() {
 
   describe('#destroy', function() {
     it('should remove event handlers', function() {
-      var $input, $hint;
+      var $input;
+      var $hint;
 
       $hint = this.view.$hint;
       $input = this.view.$input;
@@ -416,7 +420,8 @@ describe('Input', function() {
   // ----------------
 
   function simulateInputEvent($node) {
-    var $e, type;
+    var $e;
+    var type;
 
     type = _.isMsie() ? 'keypress' : 'input';
     $e = $.Event(type);
@@ -442,14 +447,13 @@ describe('Input', function() {
   }
 
   function setCursorPosition($input, pos) {
-    var input = $input[0], range;
+    var input = $input[0];
+    var range;
 
     if (input.setSelectionRange) {
       input.focus();
       input.setSelectionRange(pos, pos);
-    }
-
-    else if (input.createTextRange) {
+    } else if (input.createTextRange) {
       range = input.createTextRange();
       range.collapse(true);
       range.moveEnd('character', pos);

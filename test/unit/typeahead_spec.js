@@ -17,7 +17,8 @@ describe('Typeahead', function() {
   var testDatum;
 
   beforeEach(function() {
-    var $fixture, $input;
+    var $fixture;
+    var $input;
 
     setFixtures(fixtures.html.textInput);
 
@@ -42,7 +43,8 @@ describe('Typeahead', function() {
     });
 
     it('should select the datum', function(done) {
-      var $e, spy;
+      var $e;
+      var spy;
 
       this.$input.on('typeahead:selected', spy = jasmine.createSpy());
       this.dropdown.trigger('suggestionClicked');
@@ -50,7 +52,7 @@ describe('Typeahead', function() {
       expect(spy).toHaveBeenCalled();
       expect(this.input.setQuery).toHaveBeenCalledWith(testDatum.value);
       expect(this.input.setInputValue)
-      .toHaveBeenCalledWith(testDatum.value, true);
+        .toHaveBeenCalledWith(testDatum.value, true);
 
       var that = this;
       waitsForAndRuns(function() { return that.dropdown.close.calls.count(); }, done, 100);
@@ -66,7 +68,7 @@ describe('Typeahead', function() {
       this.dropdown.trigger('cursorMoved');
 
       expect(this.input.setInputValue)
-      .toHaveBeenCalledWith(testDatum.value, true);
+        .toHaveBeenCalledWith(testDatum.value, true);
     });
 
     it('should trigger cursorchanged', function() {
@@ -205,7 +207,6 @@ describe('Typeahead', function() {
       });
 
       this.input = this.view.input;
-
     });
 
     describe('when input triggers blurred', function() {
@@ -229,7 +230,8 @@ describe('Typeahead', function() {
     });
 
     it('should select the datum', function(done) {
-      var $e, spy;
+      var $e;
+      var spy;
 
       $e = jasmine.createSpyObj('event', ['preventDefault']);
       this.$input.on('typeahead:selected', spy = jasmine.createSpy());
@@ -238,7 +240,7 @@ describe('Typeahead', function() {
       expect(spy).toHaveBeenCalled();
       expect(this.input.setQuery).toHaveBeenCalledWith(testDatum.value);
       expect(this.input.setInputValue)
-      .toHaveBeenCalledWith(testDatum.value, true);
+        .toHaveBeenCalledWith(testDatum.value, true);
 
       var that = this;
       waitsForAndRuns(function() { return that.dropdown.close.calls.count(); }, done, 100);
@@ -261,7 +263,8 @@ describe('Typeahead', function() {
       });
 
       it('should select the datum', function(done) {
-        var $e, spy;
+        var $e;
+        var spy;
 
         $e = jasmine.createSpyObj('event', ['preventDefault']);
         this.$input.on('typeahead:selected', spy = jasmine.createSpy());
@@ -270,7 +273,7 @@ describe('Typeahead', function() {
         expect(spy).toHaveBeenCalled();
         expect(this.input.setQuery).toHaveBeenCalledWith(testDatum.value);
         expect(this.input.setInputValue)
-        .toHaveBeenCalledWith(testDatum.value, true);
+          .toHaveBeenCalledWith(testDatum.value, true);
 
         var that = this;
         waitsForAndRuns(function() { return that.dropdown.close.calls.count(); }, done, 100);
@@ -517,7 +520,7 @@ describe('Typeahead', function() {
       this.input.trigger('queryChanged', testDatum.value);
 
       expect(this.view.dir).toBe('rtl');
-      expect(this.view.$node).toHaveCss({ direction: 'rtl' });
+      expect(this.view.$node).toHaveCss({direction: 'rtl'});
       expect(this.dropdown.setLanguageDirection).toHaveBeenCalledWith('rtl');
     });
   });
@@ -630,7 +633,6 @@ describe('Typeahead', function() {
         },
         datasets: {}
       });
-
     });
 
     it('should include the template in the menu', function() {
@@ -645,7 +647,7 @@ describe('Typeahead', function() {
       this.view = $autocomplete.call($('input'), {}, {
         name: 'test',
         source: function(q, cb) {
-          cb([ { name: 'test' } ]);
+          cb([{name: 'test'}]);
         },
         templates: {
           suggestion: function(sugg) {
@@ -668,5 +670,4 @@ describe('Typeahead', function() {
       $autocomplete.call($('input'), 'close');
     });
   });
-
 });

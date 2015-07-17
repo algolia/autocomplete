@@ -34,7 +34,9 @@ module.exports = {
     // stupid argument order for jQuery.each
     $.each(collection, reverseArgs);
 
-    function reverseArgs(index, value) { return cb(value, index); }
+    function reverseArgs(index, value) {
+      return cb(value, index);
+    }
   },
 
   map: $.map,
@@ -44,7 +46,9 @@ module.exports = {
   every: function(obj, test) {
     var result = true;
 
-    if (!obj) { return result; }
+    if (!obj) {
+      return result;
+    }
 
     $.each(obj, function(key, val) {
       result = test.call(null, val, key, obj);
@@ -69,7 +73,7 @@ module.exports = {
     }
     var $template = $(obj);
     if ($template.prop('tagName') === 'SCRIPT') {
-      return function template() { return $template.text() };
+      return function template() { return $template.text(); };
     }
     return function template() { return String(obj); };
   },

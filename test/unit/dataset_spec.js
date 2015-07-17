@@ -17,14 +17,16 @@ describe('Dataset', function() {
   it('should throw an error if source is missing', function() {
     expect(noSource).toThrow();
 
-    function noSource() { new Dataset(); }
+    function noSource() {
+      new Dataset();
+    }
   });
 
   it('should throw an error if the name is not a valid class name', function() {
     expect(fn).toThrow();
 
     function fn() {
-      var d = new Dataset({ name: 'a space', source: $.noop });
+      var d = new Dataset({name: 'a space', source: $.noop});
     }
   });
 
@@ -309,14 +311,14 @@ describe('Dataset', function() {
 
   function fakeGetWithSyncResults(query, cb) {
     cb([
-      { value: 'one', raw: { value: 'one' } },
-      { value: 'two', raw: { value: 'two' } },
-      { value: 'three', raw: { value: 'three' } }
+      {value: 'one', raw: {value: 'one'}},
+      {value: 'two', raw: {value: 'two'}},
+      {value: 'three', raw: {value: 'three'}}
     ]);
   }
 
   function fakeGetForDisplayFn(query, cb) {
-    cb([{ display: '4' }, { display: '5' }, { display: '6' } ]);
+    cb([{display: '4'}, {display: '5'}, {display: '6'}]);
   }
 
   function fakeGetWithSyncEmptyResults(query, cb) {
@@ -329,17 +331,17 @@ describe('Dataset', function() {
 
   function fakeGetWithSyncResultsAndExtraParams(query, cb) {
     cb([
-      { value: 'one', raw: { value: 'one' } },
-      { value: 'two', raw: { value: 'two' } },
-      { value: 'three', raw: { value: 'three' } }
+      {value: 'one', raw: {value: 'one'}},
+      {value: 'two', raw: {value: 'two'}},
+      {value: 'three', raw: {value: 'three'}}
     ], 42, true, false);
   }
 
   function fakeGetWithAsyncResults(query, cb) {
     setTimeout(function() {
       cb([
-        { value: 'four', raw: { value: 'four' } },
-        { value: 'five', raw: { value: 'five' } },
+        {value: 'four', raw: {value: 'four'}},
+        {value: 'five', raw: {value: 'five'}}
       ]);
     }, 0);
   }

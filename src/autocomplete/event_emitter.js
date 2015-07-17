@@ -13,7 +13,9 @@ module.exports = {
 function on(method, types, cb, context) {
   var type;
 
-  if (!cb) { return this; }
+  if (!cb) {
+    return this;
+  }
 
   types = types.split(splitter);
   cb = context ? bindContext(cb, context) : cb;
@@ -39,7 +41,9 @@ function onSync(types, cb, context) {
 function off(types) {
   var type;
 
-  if (!this._callbacks) { return this; }
+  if (!this._callbacks) {
+    return this;
+  }
 
   types = types.split(splitter);
 
@@ -57,7 +61,9 @@ function trigger(types) {
   var syncFlush;
   var asyncFlush;
 
-  if (!this._callbacks) { return this; }
+  if (!this._callbacks) {
+    return this;
+  }
 
   types = types.split(splitter);
   args = [].slice.call(arguments, 1);
@@ -110,4 +116,3 @@ function bindContext(fn, context) {
     fn.bind(context) :
     function() { fn.apply(context, [].slice.call(arguments, 0)); };
 }
-
