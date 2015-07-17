@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env jquery */
-
 var datasetKey = 'aaDataset';
 var valueKey = 'aaValue';
 var datumKey = 'aaDatum';
@@ -19,11 +17,11 @@ function Dataset(o) {
   o.templates = o.templates || {};
 
   if (!o.source) {
-    $.error('missing source');
+    _.error('missing source');
   }
 
   if (o.name && !isValidName(o.name)) {
-    $.error('invalid dataset name: ' + o.name);
+    _.error('invalid dataset name: ' + o.name);
   }
 
   // tracks the last query the dataset was updated for

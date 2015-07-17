@@ -17,7 +17,7 @@ describe('Typeahead', function() {
       this.view = $autocomplete.call($('input'), {}, {
         name: 'test',
         source: function(q, cb) {
-          cb([ { name: 'test' } ]);
+          cb([{name: 'test'}]);
         },
         templates: {
           suggestion: function(sugg) {
@@ -40,5 +40,4 @@ describe('Typeahead', function() {
       $autocomplete.call($('input'), 'close');
     });
   });
-
 });

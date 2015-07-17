@@ -50,6 +50,7 @@
     "karma-opera-launcher": "^0.2.0",
     "karma-phantomjs-launcher": "^0.2.0",
     "karma-safari-launcher": "^0.1.1",
+    "lodash-compat": "3.10.0",
     "minifyify": "^7.0.2",
     "mocha": "^2.2.5",
     "phantomjs": "~1.9.17",
@@ -61,7 +62,8 @@
     "lint": "grunt lint",
     "jsfmt": "jsfmt '!(node_modules|dist|coverage){,/**/}*.js'",
     "checkstyle": "npm run jsfmt -- --diff",
-    "server": "grunt server"
+    "server": "grunt server",
+    "build": "grunt"
   },
   "version": "0.2.0",
   "main": "index.js"

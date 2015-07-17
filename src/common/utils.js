@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env jquery */
-
 module.exports = {
   isMsie: function() {
     // from https://github.com/ded/bowser/blob/master/bowser.js
@@ -16,51 +14,31 @@ module.exports = {
 
   isNumber: function(obj) { return typeof obj === 'number'; },
 
-  isArray: $.isArray,
+  isArray: require('lodash-compat/lang/isArray'),
 
-  isFunction: $.isFunction,
+  isFunction: require('lodash-compat/lang/isFunction'),
 
-  isObject: $.isPlainObject,
-
-  isUndefined: function(obj) { return typeof obj === 'undefined'; },
+  isObject: require('lodash-compat/lang/isPlainObject'),
 
   toStr: function toStr(s) {
-    return this.isUndefined(s) || s === null ? '' : s + '';
+    return s === undefined || s === null ? '' : s + '';
   },
 
-  bind: $.proxy,
+  bind: require('lodash-compat/function/bind'),
 
-  each: function(collection, cb) {
-    // stupid argument order for jQuery.each
-    $.each(collection, reverseArgs);
+  each: require('lodash-compat/collection/forEach'),
 
-    function reverseArgs(index, value) {
-      return cb(value, index);
-    }
+  map: require('lodash-compat/collection/map'),
+
+  filter: require('lodash-compat/collection/filter'),
+
+  error: function(msg) {
+    throw new Error(msg);
   },
 
-  map: $.map,
+  every: require('lodash-compat/collection/every'),
 
-  filter: $.grep,
-
-  every: function(obj, test) {
-    var result = true;
-
-    if (!obj) {
-      return result;
-    }
-
-    $.each(obj, function(key, val) {
-      result = test.call(null, val, key, obj);
-      if (!result) {
-        return false;
-      }
-    });
-
-    return !!result;
-  },
-
-  mixin: $.extend,
+  mixin: require('lodash-compat/object/assign'),
 
   getUniqueId: (function() {
     var counter = 0;
@@ -68,7 +46,9 @@ module.exports = {
   })(),
 
   templatify: function templatify(obj) {
-    if ($.isFunction(obj)) {
+    var isFunction = require('lodash-compat/lang/isFunction');
+
+    if (isFunction(obj)) {
       return obj;
     }
     var $template = $(obj);

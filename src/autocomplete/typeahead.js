@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env jquery */
-
 var attrsKey = 'aaAttrs';
 
 var _ = require('../common/utils.js');
@@ -23,7 +21,7 @@ function Typeahead(o) {
   o = o || {};
 
   if (!o.input) {
-    $.error('missing input');
+    _.error('missing input');
   }
 
   this.isActivated = false;
@@ -424,7 +422,7 @@ function destroyDomStructure($node) {
   // need to remove attrs that weren't previously defined and
   // revert attrs that originally had a value
   _.each($input.data(attrsKey), function(val, key) {
-    if (_.isUndefined(val)) {
+    if (val === undefined) {
       $input.removeAttr(key);
     } else {
       $input.attr(key, val);
