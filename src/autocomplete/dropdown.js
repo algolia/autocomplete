@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env jquery */
-
 var _ = require('../common/utils.js');
 var EventEmitter = require('./event_emitter.js');
 var Dataset = require('./dataset.js');
@@ -19,7 +17,11 @@ function Dropdown(o) {
   o = o || {};
 
   if (!o.menu) {
-    $.error('menu is required');
+    _.error('menu is required');
+  }
+
+  if (!_.isArray(o.datasets) && !_.isObject(o.datasets)) {
+    _.error('1 or more datasets required');
   }
 
   this.isOpen = false;

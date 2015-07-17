@@ -342,7 +342,7 @@ cursor" state of suggestions.
 Development
 -----------
 
-The project is built using [Grunt](http://gruntjs.com/). To start developing, you can use the following commands:
+To start developing, you can use the following commands:
 
 ```sh
 $ npm install
@@ -370,6 +370,7 @@ $ npm test
 To run the integration tests suite run:
 
 ```sh
+$ npm run build
 $ npm run server
 $ ngrok 8888
 $ TEST_HOST=http://YOUR_NGROK_ID.ngrok.com SAUCE_ACCESS_KEY=YOUR_KEY SAUCE_USERNAME=YOUR_USERNAME./node_modules/mocha/bin/mocha --harmony -R spec ./test/integration/test.js

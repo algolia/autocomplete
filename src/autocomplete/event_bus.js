@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env jquery */
-
 var namespace = 'typeahead:';
 
 var _ = require('../common/utils.js');
@@ -11,7 +9,7 @@ var _ = require('../common/utils.js');
 
 function EventBus(o) {
   if (!o || !o.el) {
-    $.error('EventBus initialized without el');
+    _.error('EventBus initialized without el');
   }
 
   this.$el = $(o.el);

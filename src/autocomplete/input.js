@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env jquery */
-
 var specialKeyCodeMap;
 
 specialKeyCodeMap = {
@@ -30,7 +28,7 @@ function Input(o) {
   o = o || {};
 
   if (!o.input) {
-    $.error('input is missing');
+    _.error('input is missing');
   }
 
   // bound functions

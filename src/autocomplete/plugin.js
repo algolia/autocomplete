@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env jquery */
-
 var _ = require('../common/utils.js');
 var Typeahead = require('./typeahead.js');
 var EventBus = require('./event_bus.js');
@@ -34,7 +32,7 @@ methods = {
       typeahead = new Typeahead({
         input: $input,
         eventBus: eventBus,
-        hint: _.isUndefined(o.hint) ? true : !!o.hint,
+        hint: o.hint === undefined ? true : !!o.hint,
         minLength: o.minLength,
         autoselect: o.autoselect,
         templates: o.templates,
