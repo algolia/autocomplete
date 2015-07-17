@@ -66,6 +66,8 @@ Usage
 
 ### Quick start
 
+Turn any HTML `<input />` into a simple and fast as-you-type auto-completion menu using the `autocomplete({ /* options */ }, [ /* datasets */ ])` function:
+
 ```html
 <input type="text" id="search-input" />
 
@@ -78,16 +80,51 @@ Usage
     {
       source: index.ttAdapter({ hitsPerPage: 5 }),
       name: 'items',
+      displayKey: 'my_attribute',
       templates: {
-        header: '<h4>List 1</h4>',
         suggestion: function(suggestion) {
-          return suggestion.my_attribute;
+          return suggestion._highlightResult.my_attribute.value;
         }
       }
     }
   ]);
 </script>
 ```
+
+And add the following CSS rules to add a default style:
+
+```css
+.algolia-autocomplete {
+  width: 100%;
+}
+.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+  width: 100%;
+}
+.algolia-autocomplete .aa-hint {
+  color: #999;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #999;
+  border-top: none;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  cursor: pointer;
+  padding: 5px 4px;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: #B2D7FF;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+  font-weight: bold;
+  font-style: normal;
+}
+```
+
+Here is what the [basic example](https://github.com/algolia/autocomplete.js/tree/master/examples) looks like:
+
+![Basic example](./examples/basic.gif)
 
 ### API
 
