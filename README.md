@@ -16,6 +16,7 @@ Table of Contents
 * [Features](#features)
 * [Installation](#installation)
 * [Usage](#usage)
+  * [Quick Start](#quick-start)
   * [API](#api)
   * [Options](#options)
   * [Datasets](#datasets)
@@ -62,6 +63,31 @@ var autocomplete = require('autocomplete.js');
 
 Usage
 -----
+
+### Quick start
+
+```html
+<input type="text" id="search-input" />
+
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+<script>
+  var client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey')
+  var index = client.initIndex('items');
+  $('#search-input').autocomplete({ hint: false }, [
+    {
+      source: index.ttAdapter({ hitsPerPage: 5 }),
+      name: 'items',
+      templates: {
+        header: '<h4>List 1</h4>',
+        suggestion: function(suggestion) {
+          return suggestion.my_attribute;
+        }
+      }
+    }
+  ]);
+</script>
+```
 
 ### API
 
@@ -141,6 +167,8 @@ jQuery.fn._autocomplete = autocomplete;
 When initializing an autocomplete, there are a number of options you can configure.
 
 * `hint` – If `false`, the autocomplete will not show a hint. Defaults to `true`.
+
+* `debug` – If `true`, the autocomplete will not close on `blur`. Defaults to `false`.
 
 * `templates` – An optional hash overriding the default templates.
   * `dropdownMenu` – the dropdown menu template. The template should include all *dataset* placeholders.
@@ -289,7 +317,7 @@ dropdown menu. Keep in mind that `header`, `footer`, `suggestion`, and `empty`
 come from the provided templates detailed [here](#datasets). 
 
 ```html
-<span class="aa-dropdown-menu">
+<span class="aa-dropdown-menu{{#datasets}} aa-{{'with' or 'without'}}-{{name}}{{/datasets}}">
   {{#datasets}}
     <div class="aa-dataset-{{name}}">
       {{{header}}}
