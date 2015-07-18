@@ -116,8 +116,9 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 
 #### With Angular.js
 
- 1. Include `autocomplete.angular.min.js` after including `angular.js`
- 1. Initialize the auto-completion menu adding an `autocomplete` and `aa-datasets` attribute to your search input
+ 1. Include `autocomplete.angular.min.js` after including `jQuery` & `Angular.js`
+ 1. Inject the `algolia.autocomplete` module
+ 1. Add the `autocomplete`, `aa-datasets` and the optional `aa-options` attribute to your search bar
 
 ```html
 <div ng-controller="yourController">
@@ -261,63 +262,6 @@ to its previous value. Can be used to avoid naming collisions.
 ```javascript
 var autocomplete = jQuery.fn.autocomplete.noConflict();
 jQuery.fn._autocomplete = autocomplete;
-```
-
-### Angular.js
-
- 1. Include `autocomplete.angular.min.js` after including `jQuery` & `Angular.js`
- 1. Inject the `algolia.autocomplete` module
- 1. Add the `autocomplete`, `aa-datasets` and the optional `aa-options` attribute to your search bar
-
-```html
-<html ng-app="myApp">
-  <head></head>
-  <body ng-controller="searchController">
-    <input id="q" name="q" type="text" ng-model="q" autocomplete aa-datasets="getDatasets()" aa-options="getOptions()" />
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.min.js"></script>
-    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.angular.min.js"></script>
-
-    <script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
-    <script>
-      angular.module('myApp', ['algoliasearch', 'algolia.autocomplete']).controller('searchController', ['$scope', 'algolia', function($scope, algolia) {
-        $scope.q = '';
-        var client = algolia.Client('YourApplicationID', 'YourSearchOnlyAPIKey');
-        var index = client.initIndex('YourIndex');
-
-        $scope.getOptions = function() {
-          return { debug: true };
-        };
-
-        $scope.getDatasets = function() {
-          return [
-            {
-              source: function(q, cb) {
-                index.search(q, { hitsPerPage: 5 }, function(error, content) {
-                  if (error) {
-                    cb([]);
-                    return;
-                  }
-                  cb(content.hits);
-                });
-              },
-              templates: {
-                suggestion: function(suggestion) {
-                  return /* FIXME */;
-                }
-              }
-            }
-          ];
-        };
-
-        $scope.$on('autocomplete:selected', function(event, suggestion, dataset) {
-          console.log(suggestion);
-        });
-      }]);
-    </script>
-  </body>
-</html>
 ```
 
 ### Options
