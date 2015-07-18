@@ -73,6 +73,41 @@ describe('Dataset', function() {
       expect(this.dataset.getRoot()).toContainText('empty');
     });
 
+    it('should set the aa-without class when no suggestions are available', function() {
+      var $menu = $('<div />');
+      this.dataset = new Dataset({
+        $menu: $menu,
+        source: this.source,
+        templates: {
+          empty: '<h2>empty</h2>'
+        }
+      });
+
+      this.source.and.callFake(fakeGetWithSyncEmptyResults);
+      this.dataset.update('woah');
+
+      expect($menu).toHaveClass('aa-without-1');
+      expect($menu).not.toHaveClass('aa-with-1');
+    });
+
+    it('should set the aa-with class when suggestions are available', function() {
+      var $menu = $('<div />');
+      this.dataset = new Dataset({
+        $menu: $menu,
+        name: 'fake',
+        source: this.source,
+        templates: {
+          empty: '<h2>empty</h2>'
+        }
+      });
+
+      this.source.and.callFake(fakeGetWithSyncResults);
+      this.dataset.update('woah');
+
+      expect($menu).not.toHaveClass('aa-without-fake');
+      expect($menu).toHaveClass('aa-with-fake');
+    });
+
     it('should render isEmpty with extra params', function() {
       var spy = jasmine.createSpy('empty with extra params');
       this.dataset = new Dataset({

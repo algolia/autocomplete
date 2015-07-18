@@ -16,8 +16,8 @@ Table of Contents
 * [Features](#features)
 * [Installation](#installation)
 * [Usage](#usage)
-  * [jQuery](#jquery)
-  * [Angular.js](#angular-js)
+  * [Quick Start](#quick-start)
+  * [APi](#api)
   * [Options](#options)
   * [Datasets](#datasets)
   * [Custom Events](#custom-events)
@@ -80,47 +80,117 @@ var autocomplete = require('autocomplete.js');
 Usage
 -----
 
-### jQuery
+### Quick Start
+
+To turn any HTML `<input />` into a simple and fast as-you-type auto-completion menu following one of the 2 next sections:
+
+#### With jQuery
 
  1. Include `autocomplete.jquery.min.js` after including `jQuery`
  1. Initialize the auto-completion menu calling the `autocomplete` jQuery plugin
 
 ```html
-<html>
-  <head></head>
-  <body ng-controller="searchController">
-    <input id="q" name="q" type="text" ng-model="q" autocomplete aa-datasets="getDatasets()" aa-options="getOptions()" />
+<input type="text" id="search-input" />
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<!-- [ ... ] -->
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+<script>
+  var client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey')
+  var index = client.initIndex('YourIndex');
+  $('#search-input').autocomplete({ hint: false }, [
+    {
+      source: index.ttAdapter({ hitsPerPage: 5 }),
+      displayKey: 'my_attribute',
+      templates: {
+        suggestion: function(suggestion) {
+          return suggestion._highlightResult.my_attribute.value;
+        }
+      }
+    }
+  ]).on('autocomplete:selected', function(even, suggestion, dataset) {
+    console.log(suggestion, dataset);
+  });
+</script>
+```
 
-    <script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
-    <script>
-      var client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey');
+#### With Angular.js
+
+ 1. Include `autocomplete.angular.min.js` after including `angular.js`
+ 1. Initialize the auto-completion menu adding an `autocomplete` and `aa-datasets` attribute to your search input
+
+```html
+<div ng-controller="yourController">
+  <input type="text" id="search-input" autocomplete aa-datasets="getDatasets()" />
+</div>
+
+<!-- [ ... ] -->
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.angular.min.js"></script>
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
+<script>
+  angular.module('myApp', ['algoliasearch', 'algolia.autocomplete'])
+    .controller('yourController', ['$scope', 'algolia', function($scope, algolia) {
+      var client = algolia.Client('YourApplicationID', 'YourSearchOnlyAPIKey');
       var index = client.initIndex('YourIndex');
 
-      $('#q').autocomplete({}, [
-        {
-          source: function(q, cb) {
-            index.search(q, { hitsPerPage: 5 }, function(error, content) {
-              if (error) {
-                cb([]);
-                return;
-              }
-              cb(content.hits);
-            });
-          },
+      $scope.getDatasets = function() {
+        return {
+          source: index.ttAdapter({ hitsPerPage: 5 }),
+          displayKey: 'my_attribute',
           templates: {
             suggestion: function(suggestion) {
-              return /* FIXME */;
+              return suggestion._highlightResult.my_attribute.value;
             }
           }
-        }
-      ]);
-    </script>
-  </body>
-</html>
+        };
+      };
+
+      $scope.$on('autocomplete:selected', function(event, suggestion, dataset) {
+        console.log(suggestion, dataset);
+      });
+    }]);
+</script>
 ```
+
+#### Look & feel
+
+Add the following CSS rules to add a default style:
+
+```css
+.algolia-autocomplete {
+  width: 100%;
+}
+.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+  width: 100%;
+}
+.algolia-autocomplete .aa-hint {
+  color: #999;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #999;
+  border-top: none;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  cursor: pointer;
+  padding: 5px 4px;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: #B2D7FF;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+  font-weight: bold;
+  font-style: normal;
+}
+```
+
+Here is what the [basic example](https://github.com/algolia/autocomplete.js/tree/master/examples) looks like:
+
+![Basic example](./examples/basic.gif)
+
+API
+----
 
 #### jQuery#autocomplete(options, [\*datasets])
 
@@ -255,6 +325,8 @@ jQuery.fn._autocomplete = autocomplete;
 When initializing an autocomplete, there are a number of options you can configure.
 
 * `hint` – If `false`, the autocomplete will not show a hint. Defaults to `true`.
+
+* `debug` – If `true`, the autocomplete will not close on `blur`. Defaults to `false`.
 
 * `templates` – An optional hash overriding the default templates.
   * `dropdownMenu` – the dropdown menu template. The template should include all *dataset* placeholders.
@@ -403,7 +475,7 @@ dropdown menu. Keep in mind that `header`, `footer`, `suggestion`, and `empty`
 come from the provided templates detailed [here](#datasets). 
 
 ```html
-<span class="aa-dropdown-menu">
+<span class="aa-dropdown-menu{{#datasets}} aa-{{'with' or 'without'}}-{{name}}{{/datasets}}">
   {{#datasets}}
     <div class="aa-dataset-{{name}}">
       {{{header}}}
