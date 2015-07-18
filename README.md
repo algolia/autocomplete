@@ -17,7 +17,7 @@ Table of Contents
 * [Installation](#installation)
 * [Usage](#usage)
   * [Quick Start](#quick-start)
-  * [APi](#api)
+  * [API](#api)
   * [Options](#options)
   * [Datasets](#datasets)
   * [Custom Events](#custom-events)
