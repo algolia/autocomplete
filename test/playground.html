@@ -8,7 +8,7 @@
       }
 
       .aa-cursor {
-        background: blue;
+        background: #F6624E;
         color: white;
       }
 
@@ -18,17 +18,64 @@
       }
 
       .aa-dropdown-menu {
+        min-width: 100%;
         border: 1px solid #ccc;
+        background-color: white;
+        padding: 4px;
       }
+      .aa-suggestion {
+        padding: 5px 10px;
+      }
+      .aa-suggestion em{
+        font-style: normal;
+        font-weight: bold;
+      }
+      .aa-info-results {
+        padding: 4px;
+        color: #aaa;
+        font-style: italic;
+        text-align: right;
+      }
+      .aa-category-title{
+        display: block;
+        width: 100%;
+        padding: 8px 4px 4px;
+        border-bottom: solid 1px #eee;
+        font-size: .8em;
+        color: #F6624E;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      .aa-dropdown-footer{
+        padding: 10px 12px 6px 12px;
+        margin-top: 12px;
+        border-top: solid 1px #eee;
+        text-align: right;
+        color: #aaa;
+        font-size: 12px;
+        letter-spacing: 1px;
+      }
+
     </style>
   </head>
   <body>
     <div class="container">
       <form action="/where" method="GET">
         <div class="autocomplete-wrapper">
-          <input id="contacts" name="contacts" type="text">
-          <input id="contacts2" name="contacts2" type="text">
-          <input type="submit">
+          <div class="form-group">
+            <div class="col-sm-4">
+              <h4>Simple auto-complete</h4>
+              <input id="contacts" name="contacts" class="form-control" type="text">
+            </div>
+            <div class="col-sm-4">
+              <h4>Multicategory auto-complete</h4>
+              <input id="contacts2" name="contacts2"  class="form-control" type="text">
+            </div>
+            <div class="col-sm-4">
+              <h4>&nbsp;</h4>
+              <input class="btn btn-default" type="submit">
+            </div>
+          </div>
         </div>
       </form>
     </div>
@@ -65,8 +112,8 @@
             });
           },
           templates: {
-            header: function(o, content) {
-              return '<h4>' + content.nbHits + ' results</h4>';
+            footer: function(o, content) {
+              return '<div class="aa-info-results">' + content.nbHits + ' results</div>';
             },
             suggestion: function(suggestion) {
               return suggestion._highlightResult.name.value;
@@ -79,14 +126,14 @@
         debug: true,
         templates: {
           dropdownMenu: '#my-custom-menu-template',
-          footer: '<img src="https://www.algolia.com/assets/algolia128x40.png" />'
+          footer: '<div class="aa-dropdown-footer">Search by<img class="aa-logo" src="https://www.algolia.com/assets/algolia128x40.png" width=80/></div>'
         }
       }, [
         {
           source: index.ttAdapter({ hitsPerPage: 5 }),
           name: 'contacts1',
           templates: {
-            header: '<h4>List 1</h4>',
+            header: '<span class="aa-category-title">List 1</span>',
             suggestion: function(suggestion) {
               return suggestion._highlightResult.name.value;
             }
@@ -96,7 +143,7 @@
           source: index.ttAdapter({ hitsPerPage: 2 }),
           name: 'contacts2',
           templates: {
-            header: '<h4>List 2</h4>',
+            header: '<span class="aa-category-title">List 2</span>',
             suggestion: function(suggestion) {
               return suggestion._highlightResult.name.value;
             }
@@ -106,7 +153,7 @@
           source: index.ttAdapter({ hitsPerPage: 2 }),
           name: 'contacts3',
           templates: {
-            header: '<h4>List 3</h4>',
+            header: '<span class="aa-category-title">List 3</span>',
             suggestion: function(suggestion, answer) {
               return suggestion._highlightResult.name.value;
             }
