@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+      .my-custom-menu {
+        width: 400px;
+      }
+
+      .aa-cursor {
+        background: blue;
+        color: white;
+      }
+
+      .autocomplete-wrapper {
+        display: block;
+        margin: 50px 0;
+      }
+
+      .aa-dropdown-menu {
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body ng-controller="searchController">
+    <div class="container">
+      <form action="/where" method="GET">
+        <div class="autocomplete-wrapper">
+          <input id="contacts" name="contacts" type="text" ng-model="q" autocomplete aa-datasets="getDatasets()" />
+          <input type="submit" />
+        </div>
+      </form>
+    </div>
+
+    <script src="../../node_modules/jquery/dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.min.js"></script>
+    <script src="../../dist/autocomplete.angular.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.angular.min.js"></script>
+    <script>
+    angular.module('myApp', ['algoliasearch', 'algolia.autocomplete']).controller('searchController', ['$scope', 'algolia', function($scope, algolia) {
+      $scope.q = '';
+      var client = algolia.Client('latency', '6be0576ff61c053d5f9a3225e2a90f76');
+      var index = client.initIndex('contacts');
+
+      $scope.getDatasets = function() {
+        return {
+          source: function(q, cb) {
+            index.search(q, { hitsPerPage: 5 }, function(error, content) {
+              if (error) {
+                cb([]);
+                return;
+              }
+              cb(content.hits);
+            });
+          },
+          templates: {
+            suggestion: function(suggestion) {
+              return suggestion._highlightResult.name.value;
+            }
+          }
+        };
+      };
+
+      $scope.$watch('q', function(v) {
+        console.log(v);
+      });
+
+      $scope.$on('autocomplete:selected', function(event, suggestion, dataset) {
+        console.log(suggestion, dataset);
+      });
+    }]);
+    </script>
+  </body>
+</html>

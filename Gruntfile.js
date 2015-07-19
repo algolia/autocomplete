@@ -18,16 +18,27 @@ module.exports = function(grunt) {
       options: {
         banner: '<%= banner %>'
       },
-      autocomplete: {
-        src: 'index.js',
+      jquery: {
+        src: 'index_jquery.js',
         dest: '<%= buildDir %>/autocomplete.jquery.js'
       },
-      autocompleteMinified: {
+      jqueryMinified: {
         options: {
           plugin: [['minifyify', {map: false}]]
         },
-        src: 'index.js',
+        src: 'index_jquery.js',
         dest: '<%= buildDir %>/autocomplete.jquery.min.js'
+      },
+      angular: {
+        src: 'index_angular.js',
+        dest: '<%= buildDir %>/autocomplete.angular.js'
+      },
+      angularMinified: {
+        options: {
+          plugin: [['minifyify', {map: false}]]
+        },
+        src: 'index_angular.js',
+        dest: '<%= buildDir %>/autocomplete.angular.min.js'
       }
     },
 

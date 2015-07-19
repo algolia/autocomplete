@@ -16,6 +16,8 @@
     "jquery": ">= 1.7"
   },
   "devDependencies": {
+    "angular": "~1.4.2",
+    "angular-mocks": "^1.4.2",
     "browserify-istanbul": "^0.2.1",
     "chai": "^3.0.0",
     "colors": "^1.1.2",

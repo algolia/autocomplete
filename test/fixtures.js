@@ -18,6 +18,7 @@ fixtures.data = {
 
 fixtures.html = {
   textInput: '<input type="text">',
+  angularTextInput: '<input type="text" ng-model="q" autocomplete aa-datasets="getDatasets()">',
   input: '<input class="aa-input" type="text" autocomplete="false" spellcheck="false">',
   hint: '<input class="aa-hint" type="text" autocomplete="false" spellcheck="false" disabled>',
   menu: '<span class="aa-dropdown-menu"></span>',

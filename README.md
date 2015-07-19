@@ -1,7 +1,7 @@
 Autocomplete.js
 =================
 
-This JavaScript library adds a fast and fully-featured auto-completion menu to your search box displaying results "as you type". It can be easily combined with Algolia's realtime search engine. The library is available as a jQuery plugin.
+This JavaScript library adds a fast and fully-featured auto-completion menu to your search box displaying results "as you type". It can easily be combined with Algolia's realtime search engine. The library is available as a jQuery plugin or an Angular.js directive.
 
 [![build status](https://travis-ci.org/algolia/algoliasearch-client-node.svg?branch=master)](http://travis-ci.org/algolia/autocomplete.js)
 [![NPM version](https://badge.fury.io/js/autocomplete.js.svg)](http://badge.fury.io/js/autocomplete.js)
@@ -39,23 +39,39 @@ Features
 Installation
 -------------
 
-The `autocomplete.js` library must be included **after** jQuery.
+The `autocomplete.js` library must be included **after** jQuery and/or Angular.js.
 
-You can include it from a CDN:
+#### From a CDN
+
+We recommend including it from a CDN:
 
 ##### jsDelivr
+
 ```html
 <script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+<!-- OR -->
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
 ```
 
 ##### cdnjs
+
 ```html
 <script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.jquery.min.js"></script>
+<!-- OR -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.angular.min.js"></script>
 ```
 
-Or use it with [Browserify](http://browserify.org/):
+#### From the sources
+
+Or you can fetch the sources:
+
+##### Build/Dist
+
+You can find the builded version in [dist/](https://github.com/algolia/autocomplete.js/tree/feature/angular.js/dist).
 
 ##### Browserify
+
+You can require it and use [Browserify](http://browserify.org/):
 
 ```js
 var autocomplete = require('autocomplete.js');
@@ -64,22 +80,27 @@ var autocomplete = require('autocomplete.js');
 Usage
 -----
 
-### Quick start
+### Quick Start
 
-Turn any HTML `<input />` into a simple and fast as-you-type auto-completion menu using the `autocomplete({ /* options */ }, [ /* datasets */ ])` function:
+To turn any HTML `<input />` into a simple and fast as-you-type auto-completion menu following one of the 2 next sections:
+
+#### With jQuery
+
+ 1. Include `autocomplete.jquery.min.js` after including `jQuery`
+ 1. Initialize the auto-completion menu calling the `autocomplete` jQuery plugin
 
 ```html
 <input type="text" id="search-input" />
 
+<!-- [ ... ] -->
 <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
 <script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
 <script>
   var client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey')
-  var index = client.initIndex('items');
+  var index = client.initIndex('YourIndex');
   $('#search-input').autocomplete({ hint: false }, [
     {
       source: index.ttAdapter({ hitsPerPage: 5 }),
-      name: 'items',
       displayKey: 'my_attribute',
       templates: {
         suggestion: function(suggestion) {
@@ -87,11 +108,54 @@ Turn any HTML `<input />` into a simple and fast as-you-type auto-completion men
         }
       }
     }
-  ]);
+  ]).on('autocomplete:selected', function(even, suggestion, dataset) {
+    console.log(suggestion, dataset);
+  });
 </script>
 ```
 
-And add the following CSS rules to add a default style:
+#### With Angular.js
+
+ 1. Include `autocomplete.angular.min.js` after including `jQuery` & `Angular.js`
+ 1. Inject the `algolia.autocomplete` module
+ 1. Add the `autocomplete`, `aa-datasets` and the optional `aa-options` attribute to your search bar
+
+```html
+<div ng-controller="yourController">
+  <input type="text" id="search-input" autocomplete aa-datasets="getDatasets()" />
+</div>
+
+<!-- [ ... ] -->
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.angular.min.js"></script>
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
+<script>
+  angular.module('myApp', ['algoliasearch', 'algolia.autocomplete'])
+    .controller('yourController', ['$scope', 'algolia', function($scope, algolia) {
+      var client = algolia.Client('YourApplicationID', 'YourSearchOnlyAPIKey');
+      var index = client.initIndex('YourIndex');
+
+      $scope.getDatasets = function() {
+        return {
+          source: index.ttAdapter({ hitsPerPage: 5 }),
+          displayKey: 'my_attribute',
+          templates: {
+            suggestion: function(suggestion) {
+              return suggestion._highlightResult.my_attribute.value;
+            }
+          }
+        };
+      };
+
+      $scope.$on('autocomplete:selected', function(event, suggestion, dataset) {
+        console.log(suggestion, dataset);
+      });
+    }]);
+</script>
+```
+
+#### Look & feel
+
+Add the following CSS rules to add a default style:
 
 ```css
 .algolia-autocomplete {
@@ -126,7 +190,8 @@ Here is what the [basic example](https://github.com/algolia/autocomplete.js/tree
 
 ![Basic example](./examples/basic.gif)
 
-### API
+API
+----
 
 #### jQuery#autocomplete(options, [\*datasets])
 

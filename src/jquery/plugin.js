@@ -3,8 +3,8 @@
 /* eslint-env jquery */
 
 var _ = require('../common/utils.js');
-var Typeahead = require('./typeahead.js');
-var EventBus = require('./event_bus.js');
+var Typeahead = require('../autocomplete/typeahead.js');
+var EventBus = require('../autocomplete/event_bus.js');
 
 
 var old;
