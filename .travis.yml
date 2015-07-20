@@ -1,4 +1,8 @@
 language: node_js
+branches:
+  only:
+    - master
+    - develop
 env:
   matrix:
   - TEST_SUITE=unit
