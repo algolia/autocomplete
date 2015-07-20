@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env jquery */
-
 var attrsKey = 'aaAttrs';
 
 var _ = require('../common/utils.js');
@@ -23,7 +21,7 @@ function Typeahead(o) {
   o = o || {};
 
   if (!o.input) {
-    $.error('missing input');
+    _.error('missing input');
   }
 
   this.isActivated = false;
@@ -64,25 +62,25 @@ function Typeahead(o) {
   this.eventBus = o.eventBus || new EventBus({el: $input});
 
   this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets, templates: o.templates})
-  .onSync('suggestionClicked', this._onSuggestionClicked, this)
-  .onSync('cursorMoved', this._onCursorMoved, this)
-  .onSync('cursorRemoved', this._onCursorRemoved, this)
-  .onSync('opened', this._onOpened, this)
-  .onSync('closed', this._onClosed, this)
-  .onAsync('datasetRendered', this._onDatasetRendered, this);
+    .onSync('suggestionClicked', this._onSuggestionClicked, this)
+    .onSync('cursorMoved', this._onCursorMoved, this)
+    .onSync('cursorRemoved', this._onCursorRemoved, this)
+    .onSync('opened', this._onOpened, this)
+    .onSync('closed', this._onClosed, this)
+    .onAsync('datasetRendered', this._onDatasetRendered, this);
 
   this.input = new Typeahead.Input({input: $input, hint: $hint})
-  .onSync('focused', this._onFocused, this)
-  .onSync('blurred', this._onBlurred, this)
-  .onSync('enterKeyed', this._onEnterKeyed, this)
-  .onSync('tabKeyed', this._onTabKeyed, this)
-  .onSync('escKeyed', this._onEscKeyed, this)
-  .onSync('upKeyed', this._onUpKeyed, this)
-  .onSync('downKeyed', this._onDownKeyed, this)
-  .onSync('leftKeyed', this._onLeftKeyed, this)
-  .onSync('rightKeyed', this._onRightKeyed, this)
-  .onSync('queryChanged', this._onQueryChanged, this)
-  .onSync('whitespaceChanged', this._onWhitespaceChanged, this);
+    .onSync('focused', this._onFocused, this)
+    .onSync('blurred', this._onBlurred, this)
+    .onSync('enterKeyed', this._onEnterKeyed, this)
+    .onSync('tabKeyed', this._onTabKeyed, this)
+    .onSync('escKeyed', this._onEscKeyed, this)
+    .onSync('upKeyed', this._onUpKeyed, this)
+    .onSync('downKeyed', this._onDownKeyed, this)
+    .onSync('leftKeyed', this._onLeftKeyed, this)
+    .onSync('rightKeyed', this._onRightKeyed, this)
+    .onSync('queryChanged', this._onQueryChanged, this)
+    .onSync('whitespaceChanged', this._onWhitespaceChanged, this);
 
   this._setLanguageDirection();
 }
@@ -363,17 +361,17 @@ function buildDom(options) {
   $wrapper = $(html.wrapper).css(css.wrapper);
   $dropdown = $(html.dropdown).css(css.dropdown);
   if (options.templates && options.templates.dropdownMenu) {
-    $dropdown.html((_.templatify(options.templates.dropdownMenu))());
+    $dropdown.html(_.templatify(options.templates.dropdownMenu)());
   }
   $hint = $input.clone().css(css.hint).css(getBackgroundStyles($input));
 
   $hint
-  .val('')
-  .removeData()
-  .addClass('aa-hint')
-  .removeAttr('id name placeholder required')
-  .prop('readonly', true)
-  .attr({autocomplete: 'off', spellcheck: 'false', tabindex: -1});
+    .val('')
+    .removeData()
+    .addClass('aa-hint')
+    .removeAttr('id name placeholder required')
+    .prop('readonly', true)
+    .attr({autocomplete: 'off', spellcheck: 'false', tabindex: -1});
 
   // store the original values of the attrs that get modified
   // so modifications can be reverted on destroy
@@ -385,9 +383,9 @@ function buildDom(options) {
   });
 
   $input
-  .addClass('aa-input')
-  .attr({autocomplete: 'off', spellcheck: false})
-  .css(options.hint ? css.input : css.inputWithNoHint);
+    .addClass('aa-input')
+    .attr({autocomplete: 'off', spellcheck: false})
+    .css(options.hint ? css.input : css.inputWithNoHint);
 
   // ie7 does not like it when dir is set to auto
   try {
@@ -399,10 +397,10 @@ function buildDom(options) {
   }
 
   return $input
-  .wrap($wrapper)
-  .parent()
-  .prepend(options.hint ? $hint : null)
-  .append($dropdown);
+    .wrap($wrapper)
+    .parent()
+    .prepend(options.hint ? $hint : null)
+    .append($dropdown);
 }
 
 function getBackgroundStyles($el) {
@@ -424,7 +422,7 @@ function destroyDomStructure($node) {
   // need to remove attrs that weren't previously defined and
   // revert attrs that originally had a value
   _.each($input.data(attrsKey), function(val, key) {
-    if (_.isUndefined(val)) {
+    if (val === undefined) {
       $input.removeAttr(key);
     } else {
       $input.attr(key, val);
@@ -432,10 +430,10 @@ function destroyDomStructure($node) {
   });
 
   $input
-  .detach()
-  .removeData(attrsKey)
-  .removeClass('aa-input')
-  .insertAfter($node);
+    .detach()
+    .removeData(attrsKey)
+    .removeClass('aa-input')
+    .insertAfter($node);
 
   $node.remove();
 }

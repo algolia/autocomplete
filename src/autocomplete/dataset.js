@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env jquery */
-
 var datasetKey = 'aaDataset';
 var valueKey = 'aaValue';
 var datumKey = 'aaDatum';
@@ -19,11 +17,11 @@ function Dataset(o) {
   o.templates = o.templates || {};
 
   if (!o.source) {
-    $.error('missing source');
+    _.error('missing source');
   }
 
   if (o.name && !isValidName(o.name)) {
-    $.error('invalid dataset name: ' + o.name);
+    _.error('invalid dataset name: ' + o.name);
   }
 
   // tracks the last query the dataset was updated for
@@ -66,25 +64,27 @@ _.mixin(Dataset.prototype, EventEmitter, {
   // ### private
 
   _render: function render(query, suggestions) {
-    if (!this.$el) { return; }
+    if (!this.$el) {
+      return;
+    }
 
     var that = this;
     var hasSuggestions;
-    var args = [].slice.call(arguments, 2);
+    var renderArgs = [].slice.call(arguments, 2);
 
     this.$el.empty();
     hasSuggestions = suggestions && suggestions.length;
 
     if (!hasSuggestions && this.templates.empty) {
       this.$el
-      .html(getEmptyHtml.apply(this, args))
-      .prepend(that.templates.header ? getHeaderHtml.apply(this, args) : null)
-      .append(that.templates.footer ? getFooterHtml.apply(this, args) : null);
+        .html(getEmptyHtml.apply(this, renderArgs))
+        .prepend(that.templates.header ? getHeaderHtml.apply(this, renderArgs) : null)
+        .append(that.templates.footer ? getFooterHtml.apply(this, renderArgs) : null);
     } else if (hasSuggestions) {
       this.$el
-      .html(getSuggestionsHtml.apply(this, args))
-      .prepend(that.templates.header ? getHeaderHtml.apply(this, args) : null)
-      .append(that.templates.footer ? getFooterHtml.apply(this, args) : null);
+        .html(getSuggestionsHtml.apply(this, renderArgs))
+        .prepend(that.templates.header ? getHeaderHtml.apply(this, renderArgs) : null)
+        .append(that.templates.footer ? getFooterHtml.apply(this, renderArgs) : null);
     }
 
     if (this.$menu) {
@@ -96,7 +96,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
 
     function getEmptyHtml() {
       var args = [].slice.call(arguments, 0);
-      args = [{ query: query, isEmpty: true }].concat(args);
+      args = [{query: query, isEmpty: true}].concat(args);
       return that.templates.empty.apply(this, args);
     }
 
@@ -118,10 +118,10 @@ _.mixin(Dataset.prototype, EventEmitter, {
         var $el;
 
         $el = $(html.suggestion)
-        .append(that.templates.suggestion.apply(this, [suggestion].concat(args)))
-        .data(datasetKey, that.name)
-        .data(valueKey, that.displayFn(suggestion))
-        .data(datumKey, suggestion);
+          .append(that.templates.suggestion.apply(this, [suggestion].concat(args)))
+          .data(datasetKey, that.name)
+          .data(valueKey, that.displayFn(suggestion))
+          .data(datumKey, suggestion);
 
         $el.children().each(function() { $(this).css(css.suggestionChild); });
 
@@ -131,13 +131,13 @@ _.mixin(Dataset.prototype, EventEmitter, {
 
     function getHeaderHtml() {
       var args = [].slice.call(arguments, 0);
-      args = [{ query: query, isEmpty: !hasSuggestions }].concat(args);
+      args = [{query: query, isEmpty: !hasSuggestions}].concat(args);
       return that.templates.header.apply(this, args);
     }
 
     function getFooterHtml() {
       var args = [].slice.call(arguments, 0);
-      args = [{ query: query, isEmpty: !hasSuggestions }].concat(args);
+      args = [{query: query, isEmpty: !hasSuggestions}].concat(args);
       return that.templates.footer.apply(this, args);
     }
   },
@@ -195,7 +195,9 @@ function getDisplayFn(display) {
 
   return _.isFunction(display) ? display : displayFn;
 
-  function displayFn(obj) { return obj[display]; }
+  function displayFn(obj) {
+    return obj[display];
+  }
 }
 
 function getTemplates(templates, displayFn) {
