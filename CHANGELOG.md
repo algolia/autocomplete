@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.3.0 July 27, 2015
+
+* Add Angular.js support [#7]
+
 ### 0.2.0 July 16, 2015
 
 * Ability to change the layout based on the matching datasets [#11]
