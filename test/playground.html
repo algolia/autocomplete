@@ -96,7 +96,7 @@
       var client = algoliasearch('latency', '6be0576ff61c053d5f9a3225e2a90f76');
       var index = client.initIndex('contacts');
 
-      $('#contacts').autocomplete({}, [
+      $('#contacts').autocomplete({ hint: true }, [
         {
           source: function(q, cb) {
             index.search(q, { hitsPerPage: 5 }, function(error, content) {
@@ -107,6 +107,7 @@
               cb(content.hits, content);
             });
           },
+          displayKey: 'name',
           templates: {
             footer: function(o, content) {
               return '<div class="aa-info-results">' + content.nbHits + ' results</div>';
