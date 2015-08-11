@@ -19,9 +19,9 @@ Table of Contents
   * [Quick Start](#quick-start)
   * [API](#api)
   * [Options](#options)
+  * [Look and Feel](#look-and-feel)
   * [Datasets](#datasets)
   * [Custom Events](#custom-events)
-  * [Look and Feel](#look-and-feel)
 * [Development](#development)
 * [Testing](#testing)
 * [Credits](#credits)
@@ -80,11 +80,11 @@ var autocomplete = require('autocomplete.js');
 Usage
 -----
 
-### Quick Start
+#### Quick Start
 
 To turn any HTML `<input />` into a simple and fast as-you-type auto-completion menu following one of the 2 next sections:
 
-#### With jQuery
+##### With jQuery
 
  1. Include `autocomplete.jquery.min.js` after including `jQuery`
  1. Initialize the auto-completion menu calling the `autocomplete` jQuery plugin
@@ -114,7 +114,7 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 </script>
 ```
 
-#### With Angular.js
+##### With Angular.js
 
  1. Include `autocomplete.angular.min.js` after including `jQuery` & `Angular.js`
  1. Inject the `algolia.autocomplete` module
@@ -155,6 +155,32 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 
 #### Look & feel
 
+Below is a faux mustache template describing the DOM structure of an autocomplete 
+dropdown menu. Keep in mind that `header`, `footer`, `suggestion`, and `empty` 
+come from the provided templates detailed [here](#datasets). 
+
+```html
+<span class="aa-dropdown-menu{{#datasets}} aa-{{'with' or 'without'}}-{{name}}{{/datasets}}">
+  {{#datasets}}
+    <div class="aa-dataset-{{name}}">
+      {{{header}}}
+      <span class="aa-suggestions">
+        {{#suggestions}}
+          <div class="aa-suggestion">{{{suggestion}}}</div>
+        {{/suggestions}}
+        {{^suggestions}}
+          {{{empty}}}
+        {{/suggestions}}
+      </span>
+      {{{footer}}}
+    </div>
+  {{/datasets}}
+</span>
+```
+
+When an end-user mouses or keys over a `.aa-suggestion`, the class `aa-cursor` will be added to it. You can use this class as a hook for styling the "under cursor" state of suggestions.
+
+
 Add the following CSS rules to add a default style:
 
 ```css
@@ -190,10 +216,9 @@ Here is what the [basic example](https://github.com/algolia/autocomplete.js/tree
 
 ![Basic example](./examples/basic.gif)
 
-API
-----
+#### API
 
-#### jQuery#autocomplete(options, [\*datasets])
+##### jQuery#autocomplete(options, [\*datasets])
 
 Turns any `input[type="text"]` element into an auto-completion menu. `options` is an 
 options hash that's used to configure the autocomplete to your liking. Refer to 
@@ -211,7 +236,7 @@ $('.search-input').autocomplete({
 });
 ```
 
-#### jQuery#autocomplete('destroy')
+##### jQuery#autocomplete('destroy')
 
 Removes the autocomplete functionality and reverts the `input` element back to its 
 original state.
@@ -220,7 +245,7 @@ original state.
 $('.search-input').autocomplete('destroy');
 ```
 
-#### jQuery#autocomplete('open')
+##### jQuery#autocomplete('open')
 
 Opens the dropdown menu of the autocomplete. Note that being open does not mean that
 the menu is visible. The menu is only visible when it is open and has content.
@@ -229,7 +254,7 @@ the menu is visible. The menu is only visible when it is open and has content.
 $('.search-input').autocomplete('open');
 ```
 
-#### jQuery#autocomplete('close')
+##### jQuery#autocomplete('close')
 
 Closes the dropdown menu of the autocomplete.
 
@@ -237,7 +262,7 @@ Closes the dropdown menu of the autocomplete.
 $('.search-input').autocomplete('close');
 ```
 
-#### jQuery#autocomplete('val')
+##### jQuery#autocomplete('val')
 
 Returns the current value of the autocomplete. The value is the text the user has 
 entered into the `input` element.
@@ -246,7 +271,7 @@ entered into the `input` element.
 var myVal = $('.search-input').autocomplete('val');
 ```
 
-#### jQuery#autocomplete('val', val)
+##### jQuery#autocomplete('val', val)
 
 Sets the value of the autocomplete. This should be used in place of `jQuery#val`.
 
@@ -254,7 +279,7 @@ Sets the value of the autocomplete. This should be used in place of `jQuery#val`
 $('.search-input').autocomplete('val', myVal);
 ```
 
-#### jQuery.fn.autocomplete.noConflict()
+##### jQuery.fn.autocomplete.noConflict()
 
 Returns a reference to the autocomplete plugin and reverts `jQuery.fn.autocomplete` 
 to its previous value. Can be used to avoid naming collisions. 
@@ -264,7 +289,7 @@ var autocomplete = jQuery.fn.autocomplete.noConflict();
 jQuery.fn._autocomplete = autocomplete;
 ```
 
-### Options
+#### Options
 
 When initializing an autocomplete, there are a number of options you can configure.
 
@@ -339,7 +364,7 @@ When initializing an autocomplete, there are a number of options you can configu
 * `minLength` – The minimum character length needed before suggestions start 
   getting rendered. Defaults to `1`.
 
-### Datasets
+#### Datasets
 
 An autocomplete is composed of one or more datasets. When an end-user modifies the
 value of the underlying input, each dataset will attempt to render suggestions for the
@@ -385,7 +410,7 @@ Datasets can be configured using the following options.
   context. Defaults to the value of `displayKey` wrapped in a `p` tag i.e. 
   `<p>{{value}}</p>`.
 
-### Custom Events
+#### Custom Events
 
 The autocomplete component triggers the following custom events.
 
@@ -411,35 +436,6 @@ The autocomplete component triggers the following custom events.
   and the name of the dataset the suggestion belongs to. 
 
 All custom events are triggered on the element initialized as the autocomplete.
-
-### Look and Feel
-
-Below is a faux mustache template describing the DOM structure of an autocomplete 
-dropdown menu. Keep in mind that `header`, `footer`, `suggestion`, and `empty` 
-come from the provided templates detailed [here](#datasets). 
-
-```html
-<span class="aa-dropdown-menu{{#datasets}} aa-{{'with' or 'without'}}-{{name}}{{/datasets}}">
-  {{#datasets}}
-    <div class="aa-dataset-{{name}}">
-      {{{header}}}
-      <span class="aa-suggestions">
-        {{#suggestions}}
-          <div class="aa-suggestion">{{{suggestion}}}</div>
-        {{/suggestions}}
-        {{^suggestions}}
-          {{{empty}}}
-        {{/suggestions}}
-      </span>
-      {{{footer}}}
-    </div>
-  {{/datasets}}
-</span>
-```
-
-When an end-user mouses or keys over a `.aa-suggestion`, the class `aa-cursor` 
-will be added to it. You can use this class as a hook for styling the "under 
-cursor" state of suggestions.
 
 Development
 -----------
