@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.4.0 (UNRELEASED)
+
+* Add a new `openOnFocus` option to open the dropdown menu when the input is focused
+
 ### 0.3.0 July 27, 2015
 
 * Add Angular.js support [#7]
