@@ -225,6 +225,8 @@ When initializing an autocomplete, there are a number of options you can configu
 
 * `debug` – If `true`, the autocomplete will not close on `blur`. Defaults to `false`.
 
+* `openOnFocus` – If `true`, the dropdown menu will open when the input is focused. Defaults to `false`.
+
 * `templates` – An optional hash overriding the default templates.
   * `dropdownMenu` – the dropdown menu template. The template should include all *dataset* placeholders.
   * `header` – the header to prepend to the dropdown menu

@@ -46,6 +46,7 @@ angular.module('algolia.autocomplete', [])
             hint: scope.options.hint,
             minLength: scope.options.minLength,
             autoselect: scope.options.autoselect,
+            openOnFocus: scope.options.openOnFocus,
             templates: scope.options.templates,
             debug: scope.options.debug,
             datasets: scope.datasets

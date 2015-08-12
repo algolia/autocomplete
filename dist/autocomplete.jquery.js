@@ -4753,6 +4753,7 @@ function Typeahead(o) {
   this.isActivated = false;
   this.debug = !!o.debug;
   this.autoselect = !!o.autoselect;
+  this.openOnFocus = !!o.openOnFocus;
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
   this.$node = buildDom(o);
 
@@ -4857,7 +4858,17 @@ _.mixin(Typeahead.prototype, {
 
   _onFocused: function onFocused() {
     this.isActivated = true;
-    this.dropdown.open();
+
+    if (this.openOnFocus) {
+      var query = this.input.getQuery();
+      if (query.length >= this.minLength) {
+        this.dropdown.update(query);
+      } else {
+        this.dropdown.empty();
+      }
+
+      this.dropdown.open();
+    }
   },
 
   _onBlurred: function onBlurred() {
@@ -5273,6 +5284,7 @@ methods = {
         hint: o.hint === undefined ? true : !!o.hint,
         minLength: o.minLength,
         autoselect: o.autoselect,
+        openOnFocus: o.openOnFocus,
         templates: o.templates,
         debug: o.debug,
         datasets: datasets

@@ -169,10 +169,10 @@ describe('Typeahead', function() {
       expect(this.view.isActivated).toBe(true);
     });
 
-    it('should open the dropdown', function() {
+    it('should not open the dropdown', function() {
       this.input.trigger('focused');
 
-      expect(this.dropdown.open).toHaveBeenCalled();
+      expect(this.dropdown.open).not.toHaveBeenCalled();
     });
   });
 
@@ -638,6 +638,29 @@ describe('Typeahead', function() {
     it('should include the template in the menu', function() {
       var $fixture = $('#jasmine-fixtures');
       expect($fixture.find('.aa-dropdown-menu .my-custom-menu').length).toEqual(1);
+    });
+  });
+
+  describe('when openOnFocus is set', function() {
+
+    beforeEach(function() {
+      appendSetFixtures(fixtures.html.customMenu);
+
+      this.view.destroy();
+      this.view = new Typeahead({
+        input: this.$input,
+        openOnFocus: true,
+        minLength: 0,
+        datasets: {}
+      });
+
+      this.input = this.view.input;
+    });
+
+    it('should open the dropdown', function() {
+      this.input.getQuery.and.returnValue('');
+      this.input.trigger('focused');
+      expect(this.view.dropdown.open).toHaveBeenCalled();
     });
   });
 });

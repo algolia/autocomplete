@@ -35,6 +35,7 @@ methods = {
         hint: o.hint === undefined ? true : !!o.hint,
         minLength: o.minLength,
         autoselect: o.autoselect,
+        openOnFocus: o.openOnFocus,
         templates: o.templates,
         debug: o.debug,
         datasets: datasets
