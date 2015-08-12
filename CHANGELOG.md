@@ -16,7 +16,7 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
-### 0.4.0 (UNRELEASED)
+### 0.4.0 Aug 12, 2015
 
 * Add a new `openOnFocus` option to open the dropdown menu when the input is focused
 

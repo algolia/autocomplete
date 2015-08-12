@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.3.0
+ * autocomplete.js 0.4.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2015 Algolia, Inc. and other contributors; Licensed MIT
  */
