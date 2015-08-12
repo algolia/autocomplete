@@ -17,11 +17,11 @@ Table of Contents
 * [Installation](#installation)
 * [Usage](#usage)
   * [Quick Start](#quick-start)
-  * [API](#api)
   * [Options](#options)
   * [Look and Feel](#look-and-feel)
   * [Datasets](#datasets)
   * [Custom Events](#custom-events)
+  * [API](#api)
 * [Development](#development)
 * [Testing](#testing)
 * [Credits](#credits)
@@ -216,78 +216,6 @@ Here is what the [basic example](https://github.com/algolia/autocomplete.js/tree
 
 ![Basic example](./examples/basic.gif)
 
-#### API
-
-##### jQuery#autocomplete(options, [\*datasets])
-
-Turns any `input[type="text"]` element into an auto-completion menu. `options` is an 
-options hash that's used to configure the autocomplete to your liking. Refer to 
-[Options](#options) for more info regarding the available configs. Subsequent 
-arguments (`*datasets`), are individual option hashes for datasets. For more 
-details regarding datasets, refer to [Datasets](#datasets).
-
-```javascript
-$('.search-input').autocomplete({
-  minLength: 3
-},
-{
-  name: 'my-dataset',
-  source: mySource
-});
-```
-
-##### jQuery#autocomplete('destroy')
-
-Removes the autocomplete functionality and reverts the `input` element back to its 
-original state.
-
-```javascript
-$('.search-input').autocomplete('destroy');
-```
-
-##### jQuery#autocomplete('open')
-
-Opens the dropdown menu of the autocomplete. Note that being open does not mean that
-the menu is visible. The menu is only visible when it is open and has content.
-
-```javascript
-$('.search-input').autocomplete('open');
-```
-
-##### jQuery#autocomplete('close')
-
-Closes the dropdown menu of the autocomplete.
-
-```javascript
-$('.search-input').autocomplete('close');
-```
-
-##### jQuery#autocomplete('val')
-
-Returns the current value of the autocomplete. The value is the text the user has 
-entered into the `input` element.
-
-```javascript
-var myVal = $('.search-input').autocomplete('val');
-```
-
-##### jQuery#autocomplete('val', val)
-
-Sets the value of the autocomplete. This should be used in place of `jQuery#val`.
-
-```javascript
-$('.search-input').autocomplete('val', myVal);
-```
-
-##### jQuery.fn.autocomplete.noConflict()
-
-Returns a reference to the autocomplete plugin and reverts `jQuery.fn.autocomplete` 
-to its previous value. Can be used to avoid naming collisions. 
-
-```javascript
-var autocomplete = jQuery.fn.autocomplete.noConflict();
-jQuery.fn._autocomplete = autocomplete;
-```
 
 #### Options
 
@@ -436,6 +364,79 @@ The autocomplete component triggers the following custom events.
   and the name of the dataset the suggestion belongs to. 
 
 All custom events are triggered on the element initialized as the autocomplete.
+
+#### API
+
+##### jQuery#autocomplete(options, [\*datasets])
+
+Turns any `input[type="text"]` element into an auto-completion menu. `options` is an 
+options hash that's used to configure the autocomplete to your liking. Refer to 
+[Options](#options) for more info regarding the available configs. Subsequent 
+arguments (`*datasets`), are individual option hashes for datasets. For more 
+details regarding datasets, refer to [Datasets](#datasets).
+
+```javascript
+$('.search-input').autocomplete({
+  minLength: 3
+},
+{
+  name: 'my-dataset',
+  source: mySource
+});
+```
+
+##### jQuery#autocomplete('destroy')
+
+Removes the autocomplete functionality and reverts the `input` element back to its 
+original state.
+
+```javascript
+$('.search-input').autocomplete('destroy');
+```
+
+##### jQuery#autocomplete('open')
+
+Opens the dropdown menu of the autocomplete. Note that being open does not mean that
+the menu is visible. The menu is only visible when it is open and has content.
+
+```javascript
+$('.search-input').autocomplete('open');
+```
+
+##### jQuery#autocomplete('close')
+
+Closes the dropdown menu of the autocomplete.
+
+```javascript
+$('.search-input').autocomplete('close');
+```
+
+##### jQuery#autocomplete('val')
+
+Returns the current value of the autocomplete. The value is the text the user has 
+entered into the `input` element.
+
+```javascript
+var myVal = $('.search-input').autocomplete('val');
+```
+
+##### jQuery#autocomplete('val', val)
+
+Sets the value of the autocomplete. This should be used in place of `jQuery#val`.
+
+```javascript
+$('.search-input').autocomplete('val', myVal);
+```
+
+##### jQuery.fn.autocomplete.noConflict()
+
+Returns a reference to the autocomplete plugin and reverts `jQuery.fn.autocomplete` 
+to its previous value. Can be used to avoid naming collisions. 
+
+```javascript
+var autocomplete = jQuery.fn.autocomplete.noConflict();
+jQuery.fn._autocomplete = autocomplete;
+```
 
 Development
 -----------
