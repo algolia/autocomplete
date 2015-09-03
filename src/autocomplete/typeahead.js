@@ -451,5 +451,6 @@ function destroyDomStructure($node) {
 
 Typeahead.Dropdown = Dropdown;
 Typeahead.Input = Input;
+Typeahead.sources = require('../sources/index.js');
 
 module.exports = Typeahead;

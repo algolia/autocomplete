@@ -32,6 +32,8 @@ module.exports = {
 
   filter: require('lodash-compat/collection/filter'),
 
+  cloneDeep: require('lodash-compat/lang/cloneDeep'),
+
   error: function(msg) {
     throw new Error(msg);
   },

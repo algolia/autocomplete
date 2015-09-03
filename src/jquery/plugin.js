@@ -129,4 +129,6 @@ $.fn.autocomplete.noConflict = function noConflict() {
   return this;
 };
 
+$.fn.autocomplete.sources = Typeahead.sources;
+
 module.exports = $.fn.autocomplete;

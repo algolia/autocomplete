@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require('../common/utils.js');
-var cloneDeep = require('lodash-compat/lang/cloneDeep');
 
 module.exports = function popularIn(index, params, details) {
   if (!details.source) {
@@ -22,7 +21,6 @@ module.exports = function popularIn(index, params, details) {
     index.search(query, params, function(error, content) {
       if (error) {
         _.error(error.message);
-        cb([]);
         return;
       }
 
@@ -32,18 +30,17 @@ module.exports = function popularIn(index, params, details) {
         detailsIndex.search(source(first), _.mixin({hitsPerPage: 0}, details), function(error2, content2) {
           if (error2) {
             _.error(error2.message);
-            cb([]);
             return;
           }
 
           var suggestions = [];
 
           // enrich the first hit iterating over the facets
-          _.each(content2.facets, function(facet) {
-            _.each(content2.facets[facet], function(count, value) {
+          _.each(content2.facets, function(values, facet) {
+            _.each(values, function(count, value) {
               suggestions.push(_.mixin({
                 facet: {facet: facet, value: value, count: count}
-              }, cloneDeep(first)));
+              }, _.cloneDeep(first)));
             });
           });
 
