@@ -5180,6 +5180,12 @@ function buildDom(options) {
 
   $input = $(options.input);
   $wrapper = $(html.wrapper).css(css.wrapper);
+  // override the display property with the table-cell value
+  // if the parent element is a table and the original input was a block
+  //  -> https://github.com/algolia/autocomplete.js/issues/16
+  if ($input.css('display') === 'block' && $input.parent().css('display') === 'table') {
+    $wrapper.css('display', 'table-cell');
+  }
   $dropdown = $(html.dropdown).css(css.dropdown);
   if (options.templates && options.templates.dropdownMenu) {
     $dropdown.html(_.templatify(options.templates.dropdownMenu)());
