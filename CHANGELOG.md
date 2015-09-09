@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.5.0 Sep 9, 2015
+
+* The wrapper span will now have a `table-cell` display if the original input was a `block` inside a `table`.
+
 ### 0.4.0 Aug 12, 2015
 
 * Add a new `openOnFocus` option to open the dropdown menu when the input is focused
