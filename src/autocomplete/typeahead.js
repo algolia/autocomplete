@@ -379,11 +379,13 @@ function buildDom(options) {
 
   $hint
     .val('')
-    .removeData()
     .addClass('aa-hint')
     .removeAttr('id name placeholder required')
     .prop('readonly', true)
     .attr({autocomplete: 'off', spellcheck: 'false', tabindex: -1});
+  if ($hint.removeData) {
+    $hint.removeData();
+  }
 
   // store the original values of the attrs that get modified
   // so modifications can be reverted on destroy
@@ -443,9 +445,11 @@ function destroyDomStructure($node) {
 
   $input
     .detach()
-    .removeData(attrsKey)
     .removeClass('aa-input')
     .insertAfter($node);
+  if ($input.removeData) {
+    $input.removeData(attrsKey);
+  }
 
   $node.remove();
 }
