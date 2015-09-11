@@ -4120,7 +4120,9 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     var menuHeight;
 
     elTop = $el.position().top;
-    elBottom = elTop + $el.outerHeight(true);
+    elBottom = elTop + $el.height() +
+      parseInt($el.css('margin-top'), 10) +
+      parseInt($el.css('margin-bottom'), 10);
     menuScrollTop = this.$menu.scrollTop();
     menuHeight = this.$menu.height() +
       parseInt(this.$menu.css('paddingTop'), 10) +
@@ -4767,14 +4769,9 @@ function Typeahead(o) {
   // #351: preventDefault won't cancel blurs in ie <= 8
   $input.on('blur.aa', function($e) {
     var active;
-    var isActive;
-    var hasActive;
 
-    active = document.activeElement;
-    isActive = $menu.is(active);
-    hasActive = $menu.has(active).length > 0;
-
-    if (_.isMsie() && (isActive || hasActive)) {
+    var active = document.activeElement;
+    if (_.isMsie() && ($menu.is(active) || $menu.has(active).length > 0)) {
       $e.preventDefault();
       // stop immediate in order to prevent Input#_onBlur from
       // getting exectued
@@ -5110,11 +5107,13 @@ function buildDom(options) {
 
   $hint
     .val('')
-    .removeData()
     .addClass('aa-hint')
     .removeAttr('id name placeholder required')
     .prop('readonly', true)
     .attr({autocomplete: 'off', spellcheck: 'false', tabindex: -1});
+  if ($hint.removeData) {
+    $hint.removeData();
+  }
 
   // store the original values of the attrs that get modified
   // so modifications can be reverted on destroy
@@ -5174,9 +5173,11 @@ function destroyDomStructure($node) {
 
   $input
     .detach()
-    .removeData(attrsKey)
     .removeClass('aa-input')
     .insertAfter($node);
+  if ($input.removeData) {
+    $input.removeData(attrsKey);
+  }
 
   $node.remove();
 }
