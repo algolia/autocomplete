@@ -1,5 +1,7 @@
 'use strict';
 
+var DOM = require('./dom.js');
+
 module.exports = {
   isMsie: function() {
     // from https://github.com/ded/bowser/blob/master/bowser.js
@@ -51,7 +53,7 @@ module.exports = {
     if (isFunction(obj)) {
       return obj;
     }
-    var $template = $(obj);
+    var $template = DOM.element(obj);
     if ($template.prop('tagName') === 'SCRIPT') {
       return function template() { return $template.text(); };
     }

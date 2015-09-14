@@ -2,7 +2,7 @@
 
 /* eslint-env mocha, jasmine */
 
-global.$ = require('jquery');
+require('../../src/common/dom.js').element = require('jquery');
 
 var Typeahead = require('../../src/autocomplete/typeahead.js');
 var fixtures = require('../fixtures.js');

@@ -2,7 +2,7 @@
 
 /* eslint-env mocha, jasmine */
 
-global.$ = require('jquery');
+global.$ = require('../../src/common/dom.js').element = require('jquery');
 var EventEmitter = require('../../src/autocomplete/event_emitter.js');
 var _ = require('../../src/common/utils.js');
 var waitsForAndRuns = require('../helpers/waits_for.js');

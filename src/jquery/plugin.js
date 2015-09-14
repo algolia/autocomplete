@@ -1,9 +1,11 @@
 'use strict';
 
+var DOM = require('../common/dom.js');
+DOM.element = $;
+
 var _ = require('../common/utils.js');
 var Typeahead = require('../autocomplete/typeahead.js');
 var EventBus = require('../autocomplete/event_bus.js');
-
 
 var old;
 var typeaheadKey;
