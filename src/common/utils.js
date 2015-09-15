@@ -46,9 +46,7 @@ module.exports = {
   })(),
 
   templatify: function templatify(obj) {
-    var isFunction = require('lodash-compat/lang/isFunction');
-
-    if (isFunction(obj)) {
+    if (this.isFunction(obj)) {
       return obj;
     }
     var $template = $(obj);
