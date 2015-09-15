@@ -14,6 +14,23 @@ module.exports = function(grunt) {
       ' */\n\n'
     ].join('\n'),
 
+    uglify: {
+      options: {
+      },
+      jquery: {
+        src: '<%= buildDir %>/autocomplete.jquery.js',
+        dest: '<%= buildDir %>/autocomplete.jquery.min.js'
+      },
+      angular: {
+        src: '<%= buildDir %>/autocomplete.angular.js',
+        dest: '<%= buildDir %>/autocomplete.angular.min.js'
+      },
+      standalone: {
+        src: '<%= buildDir %>/autocomplete.js',
+        dest: '<%= buildDir %>/autocomplete.min.js'
+      },
+    },
+
     browserify: {
       options: {
         banner: '<%= banner %>'
@@ -22,34 +39,13 @@ module.exports = function(grunt) {
         src: 'index_jquery.js',
         dest: '<%= buildDir %>/autocomplete.jquery.js'
       },
-      jqueryMinified: {
-        options: {
-          plugin: [['minifyify', {map: false}]]
-        },
-        src: 'index_jquery.js',
-        dest: '<%= buildDir %>/autocomplete.jquery.min.js'
-      },
       angular: {
         src: 'index_angular.js',
         dest: '<%= buildDir %>/autocomplete.angular.js'
       },
-      angularMinified: {
-        options: {
-          plugin: [['minifyify', {map: false}]]
-        },
-        src: 'index_angular.js',
-        dest: '<%= buildDir %>/autocomplete.angular.min.js'
-      },
       standalone: {
         src: 'index_standalone.js',
         dest: '<%= buildDir %>/autocomplete.js'
-      },
-      standaloneMinified: {
-        options: {
-          plugin: [['minifyify', {map: false}]]
-        },
-        src: 'index_standalone.js',
-        dest: '<%= buildDir %>/autocomplete.min.js'
       }
     },
 
@@ -102,7 +98,7 @@ module.exports = function(grunt) {
   // -------
 
   grunt.registerTask('default', 'build');
-  grunt.registerTask('build', ['browserify', 'sed:version']);
+  grunt.registerTask('build', ['browserify', 'sed:version', 'uglify']);
   grunt.registerTask('server', 'connect:server');
   grunt.registerTask('lint', 'eslint');
   grunt.registerTask('dev', 'concurrent:dev');
@@ -121,5 +117,4 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('gruntify-eslint');
   grunt.loadNpmTasks('grunt-browserify');
-  grunt.loadNpmTasks('grunt-minifyify');
 };
