@@ -158,7 +158,9 @@
             }
           }
         }
-      ]);
+      ]).on('autocomplete:selected', function(even, suggestion, dataset) {
+        console.log(suggestion, dataset);
+      });
     </script>
   </body>
 </html>
