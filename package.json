@@ -50,7 +50,6 @@
     "karma-opera-launcher": "^0.2.0",
     "karma-phantomjs-launcher": "^0.2.0",
     "karma-safari-launcher": "^0.1.1",
-    "lodash-compat": "3.10.0",
     "minifyify": "^7.0.2",
     "mocha": "^2.2.5",
     "npm-zepto": "^1.1.7",

@@ -2,8 +2,21 @@
 
 /* global angular */
 
+// setup DOM element
 var DOM = require('../common/dom.js');
 DOM.element = angular.element;
+
+// setup utils functions
+var _ = require('../common/utils.js');
+_.isArray = angular.isArray;
+_.isFunction = angular.isFunction;
+_.isObject = angular.isObject;
+_.bind = angular.bind;
+_.each = angular.forEach;
+_.map = angular.map;
+_.mixin = angular.extend;
+
+////////////////////////
 
 var EventBus = require('../autocomplete/event_bus.js');
 var Typeahead = require('../autocomplete/typeahead.js');

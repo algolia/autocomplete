@@ -3,6 +3,17 @@
 var DOM = require('./dom.js');
 
 module.exports = {
+  // those methods are implemented differently
+  // depending on which build it is, using
+  // $... or angular... or Zepto... or require(...)
+  isArray: null,
+  isFunction: null,
+  isObject: null,
+  bind: null,
+  each: null,
+  map: null,
+  mixin: null,
+
   isMsie: function() {
     // from https://github.com/ded/bowser/blob/master/bowser.js
     return (/(msie|trident)/i).test(navigator.userAgent) ?
@@ -16,31 +27,27 @@ module.exports = {
 
   isNumber: function(obj) { return typeof obj === 'number'; },
 
-  isArray: require('lodash-compat/lang/isArray'),
-
-  isFunction: require('lodash-compat/lang/isFunction'),
-
-  isObject: require('lodash-compat/lang/isPlainObject'),
-
   toStr: function toStr(s) {
     return s === undefined || s === null ? '' : s + '';
   },
-
-  bind: require('lodash-compat/function/bind'),
-
-  each: require('lodash-compat/collection/forEach'),
-
-  map: require('lodash-compat/collection/map'),
-
-  filter: require('lodash-compat/collection/filter'),
 
   error: function(msg) {
     throw new Error(msg);
   },
 
-  every: require('lodash-compat/collection/every'),
-
-  mixin: require('lodash-compat/object/assign'),
+  every: function(obj, test) {
+    var result = true;
+    if (!obj) {
+      return result;
+    }
+    this.each(obj, function(val, key) {
+      result = test.call(null, val, key, obj);
+      if (!result) {
+        return false;
+      }
+    });
+    return !!result;
+  },
 
   getUniqueId: (function() {
     var counter = 0;
