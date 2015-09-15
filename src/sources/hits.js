@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require('../common/utils.js');
-var cloneDeep = require('lodash-compat/lang/cloneDeep');
 
 module.exports = function search(index, params) {
   return sourceFn;

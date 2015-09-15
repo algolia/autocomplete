@@ -29,7 +29,7 @@ module.exports = function(grunt) {
       standalone: {
         src: '<%= buildDir %>/autocomplete.js',
         dest: '<%= buildDir %>/autocomplete.min.js'
-      },
+      }
     },
 
     browserify: {

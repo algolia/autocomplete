@@ -20,8 +20,6 @@ _.each = function(collection, cb) {
 _.map = $.map;
 _.mixin = $.extend;
 
-////////////////////////
-
 var Typeahead = require('../autocomplete/typeahead.js');
 var EventBus = require('../autocomplete/event_bus.js');
 
