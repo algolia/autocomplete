@@ -3,6 +3,7 @@
 var attrsKey = 'aaAttrs';
 
 var _ = require('../common/utils.js');
+var DOM = require('../common/dom.js');
 var EventBus = require('./event_bus.js');
 var Input = require('./input.js');
 var Dropdown = require('./dropdown.js');
@@ -40,15 +41,8 @@ function Typeahead(o) {
   //
   // #351: preventDefault won't cancel blurs in ie <= 8
   $input.on('blur.aa', function($e) {
-    var active;
-    var isActive;
-    var hasActive;
-
-    active = document.activeElement;
-    isActive = $menu.is(active);
-    hasActive = $menu.has(active).length > 0;
-
-    if (_.isMsie() && (isActive || hasActive)) {
+    var active = document.activeElement;
+    if (_.isMsie() && ($menu.is(active) || $menu.has(active).length > 0)) {
       $e.preventDefault();
       // stop immediate in order to prevent Input#_onBlur from
       // getting exectued
@@ -368,9 +362,15 @@ function buildDom(options) {
   var $dropdown;
   var $hint;
 
-  $input = $(options.input);
-  $wrapper = $(html.wrapper).css(css.wrapper);
-  $dropdown = $(html.dropdown).css(css.dropdown);
+  $input = DOM.element(options.input);
+  $wrapper = DOM.element(html.wrapper).css(css.wrapper);
+  // override the display property with the table-cell value
+  // if the parent element is a table and the original input was a block
+  //  -> https://github.com/algolia/autocomplete.js/issues/16
+  if ($input.css('display') === 'block' && $input.parent().css('display') === 'table') {
+    $wrapper.css('display', 'table-cell');
+  }
+  $dropdown = DOM.element(html.dropdown).css(css.dropdown);
   if (options.templates && options.templates.dropdownMenu) {
     $dropdown.html(_.templatify(options.templates.dropdownMenu)());
   }
@@ -378,11 +378,13 @@ function buildDom(options) {
 
   $hint
     .val('')
-    .removeData()
     .addClass('aa-hint')
     .removeAttr('id name placeholder required')
     .prop('readonly', true)
     .attr({autocomplete: 'off', spellcheck: 'false', tabindex: -1});
+  if ($hint.removeData) {
+    $hint.removeData();
+  }
 
   // store the original values of the attrs that get modified
   // so modifications can be reverted on destroy
@@ -442,9 +444,11 @@ function destroyDomStructure($node) {
 
   $input
     .detach()
-    .removeData(attrsKey)
     .removeClass('aa-input')
     .insertAfter($node);
+  if ($input.removeData) {
+    $input.removeData(attrsKey);
+  }
 
   $node.remove();
 }

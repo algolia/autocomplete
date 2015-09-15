@@ -2,7 +2,9 @@
 
 /* eslint-env mocha, jasmine */
 
-global.$ = require('jquery');
+global.$ = require('../../src/common/dom.js').element = require('jquery');
+require('../../src/jquery/plugin.js');
+
 var Input = require('../../src/autocomplete/input.js');
 var _ = require('../../src/common/utils.js');
 var fixtures = require('../fixtures.js');

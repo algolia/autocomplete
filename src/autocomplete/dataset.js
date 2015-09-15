@@ -5,6 +5,7 @@ var valueKey = 'aaValue';
 var datumKey = 'aaDatum';
 
 var _ = require('../common/utils.js');
+var DOM = require('../common/dom.js');
 var html = require('./html.js');
 var css = require('./css.js');
 var EventEmitter = require('./event_emitter.js');
@@ -36,7 +37,8 @@ function Dataset(o) {
   this.templates = getTemplates(o.templates, this.displayFn);
 
   this.$el = o.$menu && this.name && o.$menu.find('.aa-dataset-' + this.name).length > 0 ?
-    $(o.$menu.find('.aa-dataset-' + this.name)[0]) : $(html.dataset.replace('%CLASS%', this.name));
+    DOM.element(o.$menu.find('.aa-dataset-' + this.name)[0]) :
+    DOM.element(html.dataset.replace('%CLASS%', this.name));
 
   this.$menu = o.$menu;
 }
@@ -45,15 +47,15 @@ function Dataset(o) {
 // --------------
 
 Dataset.extractDatasetName = function extractDatasetName(el) {
-  return $(el).data(datasetKey);
+  return DOM.element(el).data(datasetKey);
 };
 
 Dataset.extractValue = function extractDatum(el) {
-  return $(el).data(valueKey);
+  return DOM.element(el).data(valueKey);
 };
 
 Dataset.extractDatum = function extractDatum(el) {
-  return $(el).data(datumKey);
+  return DOM.element(el).data(datumKey);
 };
 
 // instance methods
@@ -105,7 +107,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
       var $suggestions;
       var nodes;
 
-      $suggestions = $(html.suggestions).css(css.suggestions);
+      $suggestions = DOM.element(html.suggestions).css(css.suggestions);
 
       // jQuery#append doesn't support arrays as the first argument
       // until version 1.8, see http://bugs.jquery.com/ticket/11231
@@ -117,13 +119,13 @@ _.mixin(Dataset.prototype, EventEmitter, {
       function getSuggestionNode(suggestion) {
         var $el;
 
-        $el = $(html.suggestion)
+        $el = DOM.element(html.suggestion)
           .append(that.templates.suggestion.apply(this, [suggestion].concat(args)))
           .data(datasetKey, that.name)
-          .data(valueKey, that.displayFn(suggestion))
+          .data(valueKey, that.displayFn(suggestion) || null)
           .data(datumKey, suggestion);
 
-        $el.children().each(function() { $(this).css(css.suggestionChild); });
+        $el.children().each(function() { DOM.element(this).css(css.suggestionChild); });
 
         return $el;
       }

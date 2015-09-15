@@ -13,6 +13,7 @@ specialKeyCodeMap = {
 };
 
 var _ = require('../common/utils.js');
+var DOM = require('../common/dom.js');
 var EventEmitter = require('./event_emitter.js');
 
 // constructor
@@ -37,8 +38,8 @@ function Input(o) {
   onKeydown = _.bind(this._onKeydown, this);
   onInput = _.bind(this._onInput, this);
 
-  this.$hint = $(o.hint);
-  this.$input = $(o.input)
+  this.$hint = DOM.element(o.hint);
+  this.$input = DOM.element(o.input)
     .on('blur.aa', onBlur)
     .on('focus.aa', onFocus)
     .on('keydown.aa', onKeydown);
@@ -287,7 +288,7 @@ _.mixin(Input.prototype, EventEmitter, {
 // ----------------
 
 function buildOverflowHelper($input) {
-  return $('<pre aria-hidden="true"></pre>')
+  return DOM.element('<pre aria-hidden="true"></pre>')
     .css({
       // position helper off-screen
       position: 'absolute',

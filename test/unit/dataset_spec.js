@@ -2,7 +2,9 @@
 
 /* eslint-env mocha, jasmine */
 
-global.$ = require('jquery');
+global.$ = require('../../src/common/dom.js').element = require('jquery');
+require('../../src/jquery/plugin.js');
+
 var Dataset = require('../../src/autocomplete/dataset.js');
 
 describe('Dataset', function() {

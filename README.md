@@ -1,12 +1,14 @@
 Autocomplete.js
 =================
 
-This JavaScript library adds a fast and fully-featured auto-completion menu to your search box displaying results "as you type". It can easily be combined with Algolia's realtime search engine. The library is available as a jQuery plugin or an Angular.js directive.
+This JavaScript library adds a fast and fully-featured auto-completion menu to your search box displaying results "as you type". It can easily be combined with Algolia's realtime search engine. The library is available as a jQuery plugin, an Angular.js directive or a standalone library.
 
 [![build status](https://travis-ci.org/algolia/algoliasearch-client-node.svg?branch=master)](http://travis-ci.org/algolia/autocomplete.js)
 [![NPM version](https://badge.fury.io/js/autocomplete.js.svg)](http://badge.fury.io/js/autocomplete.js)
 [![Coverage Status](https://coveralls.io/repos/algolia/autocomplete.js/badge.svg?branch=master)](https://coveralls.io/r/algolia/autocomplete.js?branch=master)
-
+![jQuery](https://img.shields.io/badge/jQuery-OK-blue.svg)
+![Zepto.js](https://img.shields.io/badge/Zepto.js-OK-blue.svg)
+![Zepto.js](https://img.shields.io/badge/Angular.js-OK-blue.svg)
 
 [![Browser tests](https://saucelabs.com/browser-matrix/opensauce-algolia.svg)](https://saucelabs.com/u/opensauce-algolia)
 
@@ -39,7 +41,7 @@ Features
 Installation
 -------------
 
-The `autocomplete.js` library must be included **after** jQuery and/or Angular.js.
+The `autocomplete.js` library must be included **after** jQuery, Zepto or Angular.js.
 
 #### From a CDN
 
@@ -48,6 +50,8 @@ We recommend including it from a CDN:
 ##### jsDelivr
 
 ```html
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<!-- OR -->
 <script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
 <!-- OR -->
 <script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
@@ -56,6 +60,8 @@ We recommend including it from a CDN:
 ##### cdnjs
 
 ```html
+<script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.min.js"></script>
+<!-- OR -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.jquery.min.js"></script>
 <!-- OR -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.angular.min.js"></script>
@@ -67,7 +73,7 @@ Or you can fetch the sources:
 
 ##### Build/Dist
 
-You can find the builded version in [dist/](https://github.com/algolia/autocomplete.js/tree/feature/angular.js/dist).
+You can find the builded version in [dist/](https://github.com/algolia/autocomplete.js/tree/master/dist).
 
 ##### Browserify
 
@@ -83,6 +89,36 @@ Usage
 #### Quick Start
 
 To turn any HTML `<input />` into a simple and fast as-you-type auto-completion menu following one of the 2 next sections:
+
+##### Standalone
+
+ 1. Include `autocomplete.min.js`
+ 1. Initialize the auto-completion menu calling the `autocomplete` function
+
+```html
+<input type="text" id="search-input" />
+
+<!-- [ ... ] -->
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script>
+  var client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey')
+  var index = client.initIndex('YourIndex');
+  autocomplete('#search-input', { hint: false }, [
+    {
+      source: index.ttAdapter({ hitsPerPage: 5 }),
+      displayKey: 'my_attribute',
+      templates: {
+        suggestion: function(suggestion) {
+          return suggestion._highlightResult.my_attribute.value;
+        }
+      }
+    }
+  ]).on('autocomplete:selected', function(even, suggestion, dataset) {
+    console.log(suggestion, dataset);
+  });
+</script>
+```
 
 ##### With jQuery
 
@@ -220,6 +256,8 @@ Here is what the [basic example](https://github.com/algolia/autocomplete.js/tree
 #### Options
 
 When initializing an autocomplete, there are a number of options you can configure.
+
+* `autoselect` – If `true`, pressing `<ENTER>` in the search bar will automatically select the first suggestion.
 
 * `hint` – If `false`, the autocomplete will not show a hint. Defaults to `true`.
 

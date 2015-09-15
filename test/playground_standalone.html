@@ -79,8 +79,7 @@
       </form>
     </div>
 
-    <script src="../../node_modules/jquery/dist/jquery.js"></script>
-    <script src="../../dist/autocomplete.jquery.js"></script>
+    <script src="../../dist/autocomplete.js"></script>
     <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
     <script type="text/template" id="my-custom-menu-template">
       <div class="my-custom-menu">
@@ -99,7 +98,7 @@
       var client = algoliasearch('latency', '6be0576ff61c053d5f9a3225e2a90f76');
       var index = client.initIndex('contacts');
 
-      $('#contacts').autocomplete({ hint: true }, [
+      autocomplete('#contacts', { hint: true }, [
         {
           source: function(q, cb) {
             index.search(q, { hitsPerPage: 5 }, function(error, content) {
@@ -122,7 +121,7 @@
         }
       ]);
 
-      $('#contacts2').autocomplete({
+      autocomplete('#contacts2', {
         debug: true,
         templates: {
           dropdownMenu: '#my-custom-menu-template',
@@ -159,7 +158,9 @@
             }
           }
         }
-      ]);
+      ]).on('autocomplete:selected', function(even, suggestion, dataset) {
+        console.log(suggestion, dataset);
+      });
     </script>
   </body>
 </html>
