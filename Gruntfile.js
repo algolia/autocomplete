@@ -16,6 +16,7 @@ module.exports = function(grunt) {
 
     uglify: {
       options: {
+        banner: '<%= banner %>'
       },
       jquery: {
         src: '<%= buildDir %>/autocomplete.jquery.js',
