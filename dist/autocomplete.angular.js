@@ -3661,6 +3661,9 @@ module.exports = property;
 
 /* global angular */
 
+var DOM = require('../common/dom.js');
+DOM.element = angular.element;
+
 var EventBus = require('../autocomplete/event_bus.js');
 var Typeahead = require('../autocomplete/typeahead.js');
 
@@ -3740,7 +3743,7 @@ angular.module('algolia.autocomplete', [])
     };
   }]);
 
-},{"../autocomplete/event_bus.js":102,"../autocomplete/typeahead.js":106}],99:[function(require,module,exports){
+},{"../autocomplete/event_bus.js":102,"../autocomplete/typeahead.js":106,"../common/dom.js":107}],99:[function(require,module,exports){
 'use strict';
 
 var _ = require('../common/utils.js');
@@ -3813,7 +3816,7 @@ if (_.isMsie() && _.isMsie() <= 7) {
 
 module.exports = css;
 
-},{"../common/utils.js":107}],100:[function(require,module,exports){
+},{"../common/utils.js":108}],100:[function(require,module,exports){
 'use strict';
 
 var datasetKey = 'aaDataset';
@@ -3821,6 +3824,7 @@ var valueKey = 'aaValue';
 var datumKey = 'aaDatum';
 
 var _ = require('../common/utils.js');
+var DOM = require('../common/dom.js');
 var html = require('./html.js');
 var css = require('./css.js');
 var EventEmitter = require('./event_emitter.js');
@@ -3852,7 +3856,8 @@ function Dataset(o) {
   this.templates = getTemplates(o.templates, this.displayFn);
 
   this.$el = o.$menu && this.name && o.$menu.find('.aa-dataset-' + this.name).length > 0 ?
-    $(o.$menu.find('.aa-dataset-' + this.name)[0]) : $(html.dataset.replace('%CLASS%', this.name));
+    DOM.element(o.$menu.find('.aa-dataset-' + this.name)[0]) :
+    DOM.element(html.dataset.replace('%CLASS%', this.name));
 
   this.$menu = o.$menu;
 }
@@ -3861,15 +3866,15 @@ function Dataset(o) {
 // --------------
 
 Dataset.extractDatasetName = function extractDatasetName(el) {
-  return $(el).data(datasetKey);
+  return DOM.element(el).data(datasetKey);
 };
 
 Dataset.extractValue = function extractDatum(el) {
-  return $(el).data(valueKey);
+  return DOM.element(el).data(valueKey);
 };
 
 Dataset.extractDatum = function extractDatum(el) {
-  return $(el).data(datumKey);
+  return DOM.element(el).data(datumKey);
 };
 
 // instance methods
@@ -3921,7 +3926,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
       var $suggestions;
       var nodes;
 
-      $suggestions = $(html.suggestions).css(css.suggestions);
+      $suggestions = DOM.element(html.suggestions).css(css.suggestions);
 
       // jQuery#append doesn't support arrays as the first argument
       // until version 1.8, see http://bugs.jquery.com/ticket/11231
@@ -3933,13 +3938,13 @@ _.mixin(Dataset.prototype, EventEmitter, {
       function getSuggestionNode(suggestion) {
         var $el;
 
-        $el = $(html.suggestion)
+        $el = DOM.element(html.suggestion)
           .append(that.templates.suggestion.apply(this, [suggestion].concat(args)))
           .data(datasetKey, that.name)
-          .data(valueKey, that.displayFn(suggestion))
+          .data(valueKey, that.displayFn(suggestion) || null)
           .data(datumKey, suggestion);
 
-        $el.children().each(function() { $(this).css(css.suggestionChild); });
+        $el.children().each(function() { DOM.element(this).css(css.suggestionChild); });
 
         return $el;
       }
@@ -4036,10 +4041,11 @@ function isValidName(str) {
 
 module.exports = Dataset;
 
-},{"../common/utils.js":107,"./css.js":99,"./event_emitter.js":103,"./html.js":104}],101:[function(require,module,exports){
+},{"../common/dom.js":107,"../common/utils.js":108,"./css.js":99,"./event_emitter.js":103,"./html.js":104}],101:[function(require,module,exports){
 'use strict';
 
 var _ = require('../common/utils.js');
+var DOM = require('../common/dom.js');
 var EventEmitter = require('./event_emitter.js');
 var Dataset = require('./dataset.js');
 var css = require('./css.js');
@@ -4063,7 +4069,7 @@ function Dropdown(o) {
     _.error('1 or more datasets required');
   }
   if (!o.datasets) {
-    $.error('datasets is required');
+    _.error('datasets is required');
   }
 
   this.isOpen = false;
@@ -4074,7 +4080,7 @@ function Dropdown(o) {
   onSuggestionMouseEnter = _.bind(this._onSuggestionMouseEnter, this);
   onSuggestionMouseLeave = _.bind(this._onSuggestionMouseLeave, this);
 
-  this.$menu = $(o.menu)
+  this.$menu = DOM.element(o.menu)
     .on('click.aa', '.aa-suggestion', onSuggestionClick)
     .on('mouseenter.aa', '.aa-suggestion', onSuggestionMouseEnter)
     .on('mouseleave.aa', '.aa-suggestion', onSuggestionMouseLeave);
@@ -4105,12 +4111,12 @@ _.mixin(Dropdown.prototype, EventEmitter, {
   // ### private
 
   _onSuggestionClick: function onSuggestionClick($e) {
-    this.trigger('suggestionClicked', $($e.currentTarget));
+    this.trigger('suggestionClicked', DOM.element($e.currentTarget));
   },
 
   _onSuggestionMouseEnter: function onSuggestionMouseEnter($e) {
     this._removeCursor();
-    this._setCursor($($e.currentTarget), true);
+    this._setCursor(DOM.element($e.currentTarget), true);
   },
 
   _onSuggestionMouseLeave: function onSuggestionMouseLeave() {
@@ -4322,12 +4328,13 @@ function initializeDataset($menu, oDataset) {
 
 module.exports = Dropdown;
 
-},{"../common/utils.js":107,"./css.js":99,"./dataset.js":100,"./event_emitter.js":103}],102:[function(require,module,exports){
+},{"../common/dom.js":107,"../common/utils.js":108,"./css.js":99,"./dataset.js":100,"./event_emitter.js":103}],102:[function(require,module,exports){
 'use strict';
 
 var namespace = 'autocomplete:';
 
 var _ = require('../common/utils.js');
+var DOM = require('../common/dom.js');
 
 // constructor
 // -----------
@@ -4337,7 +4344,7 @@ function EventBus(o) {
     _.error('EventBus initialized without el');
   }
 
-  this.$el = $(o.el);
+  this.$el = DOM.element(o.el);
 }
 
 // instance methods
@@ -4356,7 +4363,7 @@ _.mixin(EventBus.prototype, {
 
 module.exports = EventBus;
 
-},{"../common/utils.js":107}],103:[function(require,module,exports){
+},{"../common/dom.js":107,"../common/utils.js":108}],103:[function(require,module,exports){
 'use strict';
 
 var splitter = /\s+/;
@@ -4503,6 +4510,7 @@ specialKeyCodeMap = {
 };
 
 var _ = require('../common/utils.js');
+var DOM = require('../common/dom.js');
 var EventEmitter = require('./event_emitter.js');
 
 // constructor
@@ -4527,8 +4535,8 @@ function Input(o) {
   onKeydown = _.bind(this._onKeydown, this);
   onInput = _.bind(this._onInput, this);
 
-  this.$hint = $(o.hint);
-  this.$input = $(o.input)
+  this.$hint = DOM.element(o.hint);
+  this.$input = DOM.element(o.input)
     .on('blur.aa', onBlur)
     .on('focus.aa', onFocus)
     .on('keydown.aa', onKeydown);
@@ -4777,7 +4785,7 @@ _.mixin(Input.prototype, EventEmitter, {
 // ----------------
 
 function buildOverflowHelper($input) {
-  return $('<pre aria-hidden="true"></pre>')
+  return DOM.element('<pre aria-hidden="true"></pre>')
     .css({
       // position helper off-screen
       position: 'absolute',
@@ -4809,12 +4817,13 @@ function withModifier($e) {
 
 module.exports = Input;
 
-},{"../common/utils.js":107,"./event_emitter.js":103}],106:[function(require,module,exports){
+},{"../common/dom.js":107,"../common/utils.js":108,"./event_emitter.js":103}],106:[function(require,module,exports){
 'use strict';
 
 var attrsKey = 'aaAttrs';
 
 var _ = require('../common/utils.js');
+var DOM = require('../common/dom.js');
 var EventBus = require('./event_bus.js');
 var Input = require('./input.js');
 var Dropdown = require('./dropdown.js');
@@ -4852,8 +4861,6 @@ function Typeahead(o) {
   //
   // #351: preventDefault won't cancel blurs in ie <= 8
   $input.on('blur.aa', function($e) {
-    var active;
-
     var active = document.activeElement;
     if (_.isMsie() && ($menu.is(active) || $menu.has(active).length > 0)) {
       $e.preventDefault();
@@ -5175,15 +5182,15 @@ function buildDom(options) {
   var $dropdown;
   var $hint;
 
-  $input = $(options.input);
-  $wrapper = $(html.wrapper).css(css.wrapper);
+  $input = DOM.element(options.input);
+  $wrapper = DOM.element(html.wrapper).css(css.wrapper);
   // override the display property with the table-cell value
   // if the parent element is a table and the original input was a block
   //  -> https://github.com/algolia/autocomplete.js/issues/16
   if ($input.css('display') === 'block' && $input.parent().css('display') === 'table') {
     $wrapper.css('display', 'table-cell');
   }
-  $dropdown = $(html.dropdown).css(css.dropdown);
+  $dropdown = DOM.element(html.dropdown).css(css.dropdown);
   if (options.templates && options.templates.dropdownMenu) {
     $dropdown.html(_.templatify(options.templates.dropdownMenu)());
   }
@@ -5271,8 +5278,17 @@ Typeahead.Input = Input;
 
 module.exports = Typeahead;
 
-},{"../common/utils.js":107,"./css.js":99,"./dropdown.js":101,"./event_bus.js":102,"./html.js":104,"./input.js":105}],107:[function(require,module,exports){
+},{"../common/dom.js":107,"../common/utils.js":108,"./css.js":99,"./dropdown.js":101,"./event_bus.js":102,"./html.js":104,"./input.js":105}],107:[function(require,module,exports){
 'use strict';
+
+module.exports = {
+  element: null
+};
+
+},{}],108:[function(require,module,exports){
+'use strict';
+
+var DOM = require('./dom.js');
 
 module.exports = {
   isMsie: function() {
@@ -5325,7 +5341,7 @@ module.exports = {
     if (isFunction(obj)) {
       return obj;
     }
-    var $template = $(obj);
+    var $template = DOM.element(obj);
     if ($template.prop('tagName') === 'SCRIPT') {
       return function template() { return $template.text(); };
     }
@@ -5337,4 +5353,4 @@ module.exports = {
   noop: function() {}
 };
 
-},{"lodash-compat/collection/every":4,"lodash-compat/collection/filter":5,"lodash-compat/collection/forEach":6,"lodash-compat/collection/map":7,"lodash-compat/function/bind":9,"lodash-compat/lang/isArray":83,"lodash-compat/lang/isFunction":84,"lodash-compat/lang/isPlainObject":87,"lodash-compat/object/assign":90}]},{},[1]);
+},{"./dom.js":107,"lodash-compat/collection/every":4,"lodash-compat/collection/filter":5,"lodash-compat/collection/forEach":6,"lodash-compat/collection/map":7,"lodash-compat/function/bind":9,"lodash-compat/lang/isArray":83,"lodash-compat/lang/isFunction":84,"lodash-compat/lang/isPlainObject":87,"lodash-compat/object/assign":90}]},{},[1]);

@@ -2,6 +2,9 @@
 
 /* global angular */
 
+var DOM = require('../common/dom.js');
+DOM.element = angular.element;
+
 var EventBus = require('../autocomplete/event_bus.js');
 var Typeahead = require('../autocomplete/typeahead.js');
 

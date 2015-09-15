@@ -3,6 +3,7 @@
 var namespace = 'autocomplete:';
 
 var _ = require('../common/utils.js');
+var DOM = require('../common/dom.js');
 
 // constructor
 // -----------
@@ -12,7 +13,7 @@ function EventBus(o) {
     _.error('EventBus initialized without el');
   }
 
-  this.$el = $(o.el);
+  this.$el = DOM.element(o.el);
 }
 
 // instance methods

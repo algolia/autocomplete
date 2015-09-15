@@ -39,6 +39,17 @@ module.exports = function(grunt) {
         },
         src: 'index_angular.js',
         dest: '<%= buildDir %>/autocomplete.angular.min.js'
+      },
+      standalone: {
+        src: 'index_standalone.js',
+        dest: '<%= buildDir %>/autocomplete.js'
+      },
+      standaloneMinified: {
+        options: {
+          plugin: [['minifyify', {map: false}]]
+        },
+        src: 'index_standalone.js',
+        dest: '<%= buildDir %>/autocomplete.min.js'
       }
     },
 

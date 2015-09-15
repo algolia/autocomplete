@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('../common/utils.js');
+var DOM = require('../common/dom.js');
 var EventEmitter = require('./event_emitter.js');
 var Dataset = require('./dataset.js');
 var css = require('./css.js');
@@ -24,7 +25,7 @@ function Dropdown(o) {
     _.error('1 or more datasets required');
   }
   if (!o.datasets) {
-    $.error('datasets is required');
+    _.error('datasets is required');
   }
 
   this.isOpen = false;
@@ -35,7 +36,7 @@ function Dropdown(o) {
   onSuggestionMouseEnter = _.bind(this._onSuggestionMouseEnter, this);
   onSuggestionMouseLeave = _.bind(this._onSuggestionMouseLeave, this);
 
-  this.$menu = $(o.menu)
+  this.$menu = DOM.element(o.menu)
     .on('click.aa', '.aa-suggestion', onSuggestionClick)
     .on('mouseenter.aa', '.aa-suggestion', onSuggestionMouseEnter)
     .on('mouseleave.aa', '.aa-suggestion', onSuggestionMouseLeave);
@@ -66,12 +67,12 @@ _.mixin(Dropdown.prototype, EventEmitter, {
   // ### private
 
   _onSuggestionClick: function onSuggestionClick($e) {
-    this.trigger('suggestionClicked', $($e.currentTarget));
+    this.trigger('suggestionClicked', DOM.element($e.currentTarget));
   },
 
   _onSuggestionMouseEnter: function onSuggestionMouseEnter($e) {
     this._removeCursor();
-    this._setCursor($($e.currentTarget), true);
+    this._setCursor(DOM.element($e.currentTarget), true);
   },
 
   _onSuggestionMouseLeave: function onSuggestionMouseLeave() {

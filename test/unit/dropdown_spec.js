@@ -2,7 +2,7 @@
 
 /* eslint-env mocha, jasmine */
 
-global.$ = require('jquery');
+global.$ = require('../../src/common/dom.js').element = require('jquery');
 var Dropdown = require('../../src/autocomplete/dropdown.js');
 var fixtures = require('../fixtures.js');
 var mocks = require('../helpers/mocks.js');
