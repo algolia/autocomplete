@@ -1,22 +1,20 @@
 'use strict';
 
 var old$ = window.$;
-var Zepto = require('npm-zepto');
+var zepto = require('npm-zepto');
 require('npm-zepto/zepto/src/data.js');
 window.$ = old$;
 
 var DOM = require('../common/dom.js');
-DOM.element = Zepto;
+DOM.element = zepto;
 
-var _ = require('../common/utils.js');
 var Typeahead = require('../autocomplete/typeahead.js');
 var EventBus = require('../autocomplete/event_bus.js');
 
 function autocomplete(selector, options, datasets) {
-  var $input = Zepto(selector);
+  var $input = zepto(selector);
   var eventBus = new EventBus({el: $input});
-
-  new Typeahead({
+  return new Typeahead({
     input: $input,
     eventBus: eventBus,
     hint: options.hint === undefined ? true : !!options.hint,
@@ -27,6 +25,6 @@ function autocomplete(selector, options, datasets) {
     debug: options.debug,
     datasets: datasets
   });
-};
+}
 
 module.exports = autocomplete;
