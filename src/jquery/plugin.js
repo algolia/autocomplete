@@ -1,9 +1,27 @@
 'use strict';
 
+// setup DOM element
 var DOM = require('../common/dom.js');
 DOM.element = $;
 
+// setup utils functions
 var _ = require('../common/utils.js');
+_.isArray = $.isArray;
+_.isFunction = $.isFunction;
+_.isObject = $.isPlainObject;
+_.bind = $.proxy;
+_.each = function(collection, cb) {
+  // stupid argument order for jQuery.each
+  $.each(collection, reverseArgs);
+  function reverseArgs(index, value) {
+    return cb(value, index);
+  }
+};
+_.map = $.map;
+_.mixin = $.extend;
+
+////////////////////////
+
 var Typeahead = require('../autocomplete/typeahead.js');
 var EventBus = require('../autocomplete/event_bus.js');
 

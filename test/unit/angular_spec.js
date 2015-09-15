@@ -4,9 +4,9 @@
 
 require('../../src/common/dom.js').element = require('jquery');
 
+var $autocomplete = require('../../src/angular/directive.js');
 var Typeahead = require('../../src/autocomplete/typeahead.js');
 var fixtures = require('../fixtures.js');
-var $autocomplete = require('../../src/jquery/plugin.js');
 
 describe('autocomplete directive', function() {
 

@@ -5,8 +5,27 @@ var zepto = require('npm-zepto');
 require('npm-zepto/zepto/src/data.js');
 window.$ = old$;
 
+// setup DOM element
 var DOM = require('../common/dom.js');
 DOM.element = zepto;
+
+// setup utils functions
+var _ = require('../common/utils.js');
+_.isArray = zepto.isArray;
+_.isFunction = zepto.isFunction;
+_.isObject = zepto.isPlainObject;
+_.bind = zepto.proxy;
+_.each = function(collection, cb) {
+  // stupid argument order for jQuery.each
+  zepto.each(collection, reverseArgs);
+  function reverseArgs(index, value) {
+    return cb(value, index);
+  }
+};
+_.map = zepto.map;
+_.mixin = zepto.extend;
+
+////////////////////////
 
 var Typeahead = require('../autocomplete/typeahead.js');
 var EventBus = require('../autocomplete/event_bus.js');
