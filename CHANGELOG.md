@@ -16,6 +16,11 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.7.0 Sep 16, 2015
+
+* New standalone build (including Zepto.js)
+* Get rid of lodash-compat and use jQuery, Zepto or Angular.js's helper functions
+
 ### 0.6.0 Sep 11, 2015
 
 * Add Zepto.js support.
