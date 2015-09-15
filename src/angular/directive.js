@@ -11,9 +11,9 @@ var _ = require('../common/utils.js');
 _.isArray = angular.isArray;
 _.isFunction = angular.isFunction;
 _.isObject = angular.isObject;
-_.bind = angular.bind;
+_.bind = angular.element.proxy;
 _.each = angular.forEach;
-_.map = angular.map;
+_.map = angular.element.map;
 _.mixin = angular.extend;
 
 ////////////////////////
