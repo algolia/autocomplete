@@ -44,4 +44,6 @@ function autocomplete(selector, options, datasets) {
   }).input.$input;
 }
 
+autocomplete.sources = Typeahead.sources;
+
 module.exports = autocomplete;
