@@ -24,7 +24,7 @@ function autocomplete(selector, options, datasets) {
     templates: options.templates,
     debug: options.debug,
     datasets: datasets
-  });
+  }).input.$input;
 }
 
 module.exports = autocomplete;
