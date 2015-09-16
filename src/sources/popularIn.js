@@ -2,7 +2,7 @@
 
 var _ = require('../common/utils.js');
 
-module.exports = function popularIn(index, params, details) {
+  module.exports = function popularIn(index, params, details) {
   if (!details.source) {
     return _.error("Missing 'source' key");
   }
@@ -49,7 +49,7 @@ module.exports = function popularIn(index, params, details) {
             suggestions.push(content.hits[i]);
           }
 
-          cb(suggestions);
+          cb(suggestions, content);
         });
 
         return;

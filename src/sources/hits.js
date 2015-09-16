@@ -11,7 +11,7 @@ module.exports = function search(index, params) {
         _.error(error.message);
         return;
       }
-      cb(content.hits);
+      cb(content.hits, content);
     });
   }
 };
