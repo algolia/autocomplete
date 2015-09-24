@@ -1,4 +1,4 @@
-dist/autocomplete.js -dif
+dist/autocomplete.js -diff
 dist/autocomplete.min.js -diff
 dist/autocomplete.jquery.js -diff
 dist/autocomplete.jquery.min.js -diff
