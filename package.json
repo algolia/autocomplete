@@ -66,6 +66,6 @@
     "server": "grunt server",
     "test": "./node_modules/karma/bin/karma start --single-run && grunt lint && npm run checkstyle"
   },
-  "version": "0.7.0",
+  "version": "0.8.0",
   "main": "index.js"
 }

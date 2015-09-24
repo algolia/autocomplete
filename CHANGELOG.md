@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.8.0 Sep 24, 2015
+
+* UMD compliance
+
 ### 0.7.0 Sep 16, 2015
 
 * New standalone build (including Zepto.js)
