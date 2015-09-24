@@ -11,13 +11,23 @@ module.exports = function(grunt) {
       ' * autocomplete.js <%= version %>',
       ' * https://github.com/algolia/autocomplete.js',
       ' * Copyright <%= grunt.template.today("yyyy") %> Algolia, Inc. and other contributors; Licensed MIT',
-      ' */\n\n'
+      ' */'
     ].join('\n'),
 
+    usebanner: {
+      all: {
+        options: {
+          position: 'top',
+          banner: '<%= banner %>',
+          linebreak: true
+        },
+        files: {
+          src: [ 'dist/*.js' ]
+        }
+      }
+    },
+
     uglify: {
-      options: {
-        banner: '<%= banner %>'
-      },
       jquery: {
         src: '<%= buildDir %>/autocomplete.jquery.js',
         dest: '<%= buildDir %>/autocomplete.jquery.min.js'
@@ -33,9 +43,6 @@ module.exports = function(grunt) {
     },
 
     browserify: {
-      options: {
-        banner: '<%= banner %>'
-      },
       jquery: {
         src: 'index_jquery.js',
         dest: '<%= buildDir %>/autocomplete.jquery.js'
@@ -138,7 +145,7 @@ module.exports = function(grunt) {
   // -------
 
   grunt.registerTask('default', 'build');
-  grunt.registerTask('build', ['browserify', 'sed:version', 'uglify', 'umd']);
+  grunt.registerTask('build', ['browserify', 'sed:version', 'umd', 'uglify', 'usebanner']);
   grunt.registerTask('server', 'connect:server');
   grunt.registerTask('lint', 'eslint');
   grunt.registerTask('dev', 'concurrent:dev');
@@ -150,6 +157,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-step');
   grunt.loadNpmTasks('grunt-umd');
+  grunt.loadNpmTasks('grunt-banner');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
