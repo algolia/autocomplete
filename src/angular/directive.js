@@ -16,8 +16,6 @@ _.each = angular.forEach;
 _.map = angular.element.map;
 _.mixin = angular.extend;
 
-////////////////////////
-
 var EventBus = require('../autocomplete/event_bus.js');
 var Typeahead = require('../autocomplete/typeahead.js');
 

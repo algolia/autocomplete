@@ -25,8 +25,6 @@ _.each = function(collection, cb) {
 _.map = zepto.map;
 _.mixin = zepto.extend;
 
-////////////////////////
-
 var Typeahead = require('../autocomplete/typeahead.js');
 var EventBus = require('../autocomplete/event_bus.js');
 
@@ -45,5 +43,7 @@ function autocomplete(selector, options, datasets) {
     datasets: datasets
   }).input.$input;
 }
+
+autocomplete.sources = Typeahead.sources;
 
 module.exports = autocomplete;

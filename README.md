@@ -22,6 +22,7 @@ Table of Contents
   * [Options](#options)
   * [Look and Feel](#look-and-feel)
   * [Datasets](#datasets)
+  * [Sources](#sources)
   * [Custom Events](#custom-events)
   * [API](#api)
 * [Development](#development)
@@ -377,6 +378,52 @@ Datasets can be configured using the following options.
   precompiled template. The associated suggestion object will serve as the 
   context. Defaults to the value of `displayKey` wrapped in a `p` tag i.e. 
   `<p>{{value}}</p>`.
+
+
+#### Sources
+
+A few helpers are provided by default to ease the creation of Algolia-based sources.
+
+##### Hits
+
+To build a source based on Algolia's `hits` array, just use:
+
+```js
+{
+  source: autocomplete.sources.hits(indexObj, { hitsPerPage: 2 }),
+  templates: {
+    suggestion: function(suggestion, answer) {
+      // FIXME
+    }
+  }
+}
+```
+
+##### PopularIn (aka "xxxxx in yyyyy")
+
+To build an Amazon-like autocomplete menu, suggesting popular queries and for the most popular one displaying the associated categories, you can use the `popularIn` source:
+
+```js
+{
+  source: autocomplete.sources.popularIn(popularQueriesIndexObj, { hitsPerPage: 3 }, {
+    source: 'sourceAttribute',           // attribute of the `popularQueries` index use to query the `index` index
+    index: productsIndexObj,             // targeted index
+    facets: 'facetedCategoryAttribute',  // facet used to enrich the most popular query
+    maxValuesPerFacet: 3                 // maximum number of facets returned
+  }),
+  templates: {
+    suggestion: function(suggestion, answer) {
+      var value = suggestion.sourceAttribute;
+      if (suggestion.facet) {
+        // this is the first suggestion
+        // and it has been enriched with the matching facet
+        value += ' in ' + suggestion.facet.value + ' (' + suggestion.facet.count + ')';
+      }
+      return value;
+    }
+  }
+}
+```
 
 #### Custom Events
 

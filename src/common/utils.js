@@ -31,6 +31,21 @@ module.exports = {
     return s === undefined || s === null ? '' : s + '';
   },
 
+  cloneDeep: function cloneDeep(obj) {
+    var clone = this.mixin({}, obj);
+    var self = this;
+    this.each(clone, function(value, key) {
+      if (value) {
+        if (self.isArray(value)) {
+          clone[key] = [].concat(value);
+        } else if (self.isObject(value)) {
+          clone[key] = self.cloneDeep(value);
+        }
+      }
+    });
+    return clone;
+  },
+
   error: function(msg) {
     throw new Error(msg);
   },

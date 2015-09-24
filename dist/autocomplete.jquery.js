@@ -1542,10 +1542,11 @@ function destroyDomStructure($node) {
 
 Typeahead.Dropdown = Dropdown;
 Typeahead.Input = Input;
+Typeahead.sources = require('../sources/index.js');
 
 module.exports = Typeahead;
 
-},{"../common/dom.js":10,"../common/utils.js":11,"./css.js":2,"./dropdown.js":4,"./event_bus.js":5,"./html.js":7,"./input.js":8}],10:[function(require,module,exports){
+},{"../common/dom.js":10,"../common/utils.js":11,"../sources/index.js":14,"./css.js":2,"./dropdown.js":4,"./event_bus.js":5,"./html.js":7,"./input.js":8}],10:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -1584,6 +1585,21 @@ module.exports = {
 
   toStr: function toStr(s) {
     return s === undefined || s === null ? '' : s + '';
+  },
+
+  cloneDeep: function cloneDeep(obj) {
+    var clone = this.mixin({}, obj);
+    var self = this;
+    this.each(clone, function(value, key) {
+      if (value) {
+        if (self.isArray(value)) {
+          clone[key] = [].concat(value);
+        } else if (self.isObject(value)) {
+          clone[key] = self.cloneDeep(value);
+        }
+      }
+    });
+    return clone;
   },
 
   error: function(msg) {
@@ -1647,8 +1663,6 @@ _.each = function(collection, cb) {
 };
 _.map = $.map;
 _.mixin = $.extend;
-
-////////////////////////
 
 var Typeahead = require('../autocomplete/typeahead.js');
 var EventBus = require('../autocomplete/event_bus.js');
@@ -1777,6 +1791,98 @@ $.fn.autocomplete.noConflict = function noConflict() {
   return this;
 };
 
+$.fn.autocomplete.sources = Typeahead.sources;
+
 module.exports = $.fn.autocomplete;
 
-},{"../autocomplete/event_bus.js":5,"../autocomplete/typeahead.js":9,"../common/dom.js":10,"../common/utils.js":11}]},{},[1]);
+},{"../autocomplete/event_bus.js":5,"../autocomplete/typeahead.js":9,"../common/dom.js":10,"../common/utils.js":11}],13:[function(require,module,exports){
+'use strict';
+
+var _ = require('../common/utils.js');
+
+module.exports = function search(index, params) {
+  return sourceFn;
+
+  function sourceFn(query, cb) {
+    index.search(query, params, function(error, content) {
+      if (error) {
+        _.error(error.message);
+        return;
+      }
+      cb(content.hits, content);
+    });
+  }
+};
+
+},{"../common/utils.js":11}],14:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+  hits: require('./hits.js'),
+  popularIn: require('./popularIn.js')
+};
+
+},{"./hits.js":13,"./popularIn.js":15}],15:[function(require,module,exports){
+'use strict';
+
+var _ = require('../common/utils.js');
+
+  module.exports = function popularIn(index, params, details) {
+  if (!details.source) {
+    return _.error("Missing 'source' key");
+  }
+  var source = _.isFunction(details.source) ? details.source : function(hit) { return hit[details.source]; };
+  delete details.source;
+
+  if (!details.index) {
+    return _.error("Missing 'index' key");
+  }
+  var detailsIndex = details.index;
+  delete details.index;
+
+  return sourceFn;
+
+  function sourceFn(query, cb) {
+    index.search(query, params, function(error, content) {
+      if (error) {
+        _.error(error.message);
+        return;
+      }
+
+      if (content.hits.length > 0) {
+        var first = content.hits[0];
+
+        detailsIndex.search(source(first), _.mixin({hitsPerPage: 0}, details), function(error2, content2) {
+          if (error2) {
+            _.error(error2.message);
+            return;
+          }
+
+          var suggestions = [];
+
+          // enrich the first hit iterating over the facets
+          _.each(content2.facets, function(values, facet) {
+            _.each(values, function(count, value) {
+              suggestions.push(_.mixin({
+                facet: {facet: facet, value: value, count: count}
+              }, _.cloneDeep(first)));
+            });
+          });
+
+          // append all other hits
+          for (var i = 1; i < content.hits.length; ++i) {
+            suggestions.push(content.hits[i]);
+          }
+
+          cb(suggestions, content);
+        });
+
+        return;
+      }
+
+      cb([]);
+    });
+  }
+};
+
+},{"../common/utils.js":11}]},{},[1]);
