@@ -37,6 +37,7 @@
     "grunt-exec": "~0.4.6",
     "grunt-sed": "~0.1.1",
     "grunt-step": "~0.2.0",
+    "grunt-umd": "^2.3.3",
     "gruntify-eslint": "~0.1.0",
     "jasmine-jquery": "~2.1.0",
     "karma": "^0.12.37",
