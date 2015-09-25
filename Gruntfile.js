@@ -22,7 +22,7 @@ module.exports = function(grunt) {
           linebreak: true
         },
         files: {
-          src: [ 'dist/*.js' ]
+          src: ['dist/*.js']
         }
       }
     },
@@ -60,7 +60,7 @@ module.exports = function(grunt) {
     umd: {
       jquery: {
         src: '<%= buildDir %>/autocomplete.jquery.js',
-        deps: {
+        deps: { // eslint-disable-line
           default: ['$'],
           amd: ['jquery'],
           cjs: ['jquery'],
@@ -69,7 +69,7 @@ module.exports = function(grunt) {
       },
       angular: {
         src: '<%= buildDir %>/autocomplete.angular.js',
-        deps: {
+        deps: { // eslint-disable-line
           default: ['angular'],
           amd: ['angular'],
           cjs: ['angular'],
@@ -78,7 +78,7 @@ module.exports = function(grunt) {
       },
       jquery_min: {
         src: '<%= buildDir %>/autocomplete.jquery.min.js',
-        deps: {
+        deps: { // eslint-disable-line
           default: ['$'],
           amd: ['jquery'],
           cjs: ['jquery'],
@@ -87,7 +87,7 @@ module.exports = function(grunt) {
       },
       angular_min: {
         src: '<%= buildDir %>/autocomplete.angular.min.js',
-        deps: {
+        deps: { // eslint-disable-line
           default: ['angular'],
           amd: ['angular'],
           cjs: ['angular'],
