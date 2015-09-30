@@ -288,9 +288,7 @@ _.mixin(Input.prototype, EventEmitter, {
 // ----------------
 
 function buildOverflowHelper($input) {
-  var $element = DOM.element('<pre aria-hidden="true"></pre>');
-
-  $element
+  return DOM.element('<pre aria-hidden="true"></pre>')
     .css({
       // position helper off-screen
       position: 'absolute',
@@ -308,15 +306,8 @@ function buildOverflowHelper($input) {
       textIndent: $input.css('text-indent'),
       textRendering: $input.css('text-rendering'),
       textTransform: $input.css('text-transform')
-    });
-
-  if ($element.insertAfter) {
-    $element.insertAfter($input);
-  } else {
-    $input.after($element);
-  }
-
-  return $element;
+    })
+    .insertAfter($input);
 }
 
 function areQueriesEquivalent(a, b) {

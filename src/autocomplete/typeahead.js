@@ -444,14 +444,8 @@ function destroyDomStructure($node) {
 
   $input
     .detach()
-    .removeClass('aa-input');
-
-  if ($input.insertAfter) {
-    $input.insertAfter($input);
-  } else {
-    $node.after($input);
-  }
-
+    .removeClass('aa-input')
+    .insertAfter($node);
   if ($input.removeData) {
     $input.removeData(attrsKey);
   }

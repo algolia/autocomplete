@@ -13,7 +13,7 @@ _.isFunction = angular.isFunction;
 _.isObject = angular.isObject;
 _.bind = angular.bind;
 _.each = angular.forEach;
-_.map = require('./map');
+_.map = angular.element.map;
 _.mixin = angular.extend;
 
 var EventBus = require('../autocomplete/event_bus.js');
