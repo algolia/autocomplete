@@ -2,20 +2,18 @@
 
 /* eslint-env mocha, jasmine */
 
-global.$ = require('../../src/common/dom.js').element = require('jquery');
-require('../../src/jquery/plugin.js');
-
-var Typeahead = require('../../src/autocomplete/typeahead.js');
-var fixtures = require('../fixtures.js');
-var $autocomplete = require('../../src/jquery/plugin.js');
-
 describe('Typeahead', function() {
+  var $ = require('jquery');
+  require('jasmine-jquery');
+
+  var fixtures = require('../fixtures.js');
+  var $autocomplete = require('../../src/jquery/plugin.js');
 
   describe('when instantiated from jquery', function() {
     beforeEach(function() {
-      setFixtures(fixtures.html.textInput);
+      this.$fixture = $(setFixtures(fixtures.html.textInput));
 
-      this.view = $autocomplete.call($('input'), {}, {
+      this.view = this.$fixture.find('input').autocomplete({}, [{
         name: 'test',
         source: function(q, cb) {
           cb([{name: 'test'}]);
@@ -25,17 +23,16 @@ describe('Typeahead', function() {
             return sugg.name;
           }
         }
-      }).data('aaAutocomplete');
+      }]).data('aaAutocomplete');
     });
 
     it('should initialize', function() {
-      var $fixture = $('#jasmine-fixtures');
-      expect($fixture.find('.aa-dropdown-menu').length).toEqual(1);
+      expect(this.$fixture.find('.aa-dropdown-menu').length).toEqual(1);
     });
 
     it('should open the dropdown', function() {
-      var $fixture = $('#jasmine-fixtures');
-      this.view.input.getInputValue.and.returnValue('test');
+      this.$fixture.find('input').val('test');
+      expect(this.view.input.getInputValue()).toEqual('test');
       $autocomplete.call($('input'), 'val', 'test');
       $autocomplete.call($('input'), 'open');
       $autocomplete.call($('input'), 'close');

@@ -119,22 +119,22 @@ _.mixin(Input.prototype, EventEmitter, {
     var inputValue;
 
     switch (keyName) {
-      case 'tab':
-        hintValue = this.getHint();
-        inputValue = this.getInputValue();
+    case 'tab':
+      hintValue = this.getHint();
+      inputValue = this.getInputValue();
 
-        preventDefault = hintValue &&
-          hintValue !== inputValue &&
-          !withModifier($e);
-        break;
+      preventDefault = hintValue &&
+        hintValue !== inputValue &&
+        !withModifier($e);
+      break;
 
-      case 'up':
-      case 'down':
-        preventDefault = !withModifier($e);
-        break;
+    case 'up':
+    case 'down':
+      preventDefault = !withModifier($e);
+      break;
 
-      default:
-        preventDefault = false;
+    default:
+      preventDefault = false;
     }
 
     if (preventDefault) {
@@ -146,12 +146,12 @@ _.mixin(Input.prototype, EventEmitter, {
     var trigger;
 
     switch (keyName) {
-      case 'tab':
-        trigger = !withModifier($e);
-        break;
+    case 'tab':
+      trigger = !withModifier($e);
+      break;
 
-      default:
-        trigger = true;
+    default:
+      trigger = true;
     }
 
     return trigger;
@@ -288,7 +288,9 @@ _.mixin(Input.prototype, EventEmitter, {
 // ----------------
 
 function buildOverflowHelper($input) {
-  return DOM.element('<pre aria-hidden="true"></pre>')
+  var $element = DOM.element('<pre aria-hidden="true"></pre>');
+
+  $element
     .css({
       // position helper off-screen
       position: 'absolute',
@@ -306,8 +308,15 @@ function buildOverflowHelper($input) {
       textIndent: $input.css('text-indent'),
       textRendering: $input.css('text-rendering'),
       textTransform: $input.css('text-transform')
-    })
-    .insertAfter($input);
+    });
+
+  if ($element.insertAfter) {
+    $element.insertAfter($input);
+  } else {
+    $input.after($element);
+  }
+
+  return $element;
 }
 
 function areQueriesEquivalent(a, b) {

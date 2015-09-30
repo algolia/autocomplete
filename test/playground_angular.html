@@ -2,37 +2,26 @@
 <html ng-app="myApp">
   <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <style>
-      .my-custom-menu {
-        width: 400px;
-      }
-
-      .aa-cursor {
-        background: blue;
-        color: white;
-      }
-
-      .autocomplete-wrapper {
-        display: block;
-        margin: 50px 0;
-      }
-
-      .aa-dropdown-menu {
-        border: 1px solid #ccc;
-      }
-    </style>
+    <link rel="stylesheet" href="playground.css">
   </head>
   <body ng-controller="searchController">
     <div class="container">
       <form action="#">
         <div class="autocomplete-wrapper">
-          <input id="contacts" name="contacts" type="text" ng-model="q" autocomplete aa-datasets="getDatasets()" />
+          <div class="form-group">
+            <div class="col-sm-4">
+              <h4>Simple auto-complete</h4>
+              <div class="input-group">
+                <input id="contacts" name="contacts" class="form-control" type="text" ng-model="q" autocomplete aa-datasets="getDatasets()" />
+                <span class="input-group-addon">Go</span>
+              </div>
+            </div>
+          </div>
         </div>
       </form>
     </div>
 
-    <script src="../../node_modules/jquery/dist/jquery.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.min.js"></script>
+    <script src="//cdn.jsdelivr.net/angularjs/1/angular.min.js"></script>
     <script src="../../dist/autocomplete.angular.js"></script>
     <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.angular.min.js"></script>
     <script>

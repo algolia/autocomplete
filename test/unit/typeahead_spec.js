@@ -2,19 +2,21 @@
 
 /* eslint-env mocha, jasmine */
 
-global.$ = require('../../src/common/dom.js').element = require('jquery');
-require('../../src/jquery/plugin.js');
-
-var Typeahead = require('../../src/autocomplete/typeahead.js');
-var fixtures = require('../fixtures.js');
-
-var mocks = require('../helpers/mocks.js');
-var waitsForAndRuns = require('../helpers/waits_for.js');
-
-Typeahead.Dropdown = mocks(Typeahead.Dropdown);
-Typeahead.Input = mocks(Typeahead.Input);
-
 describe('Typeahead', function() {
+  require('../../src/common/dom.js').element = require('jquery');
+  require('../../src/jquery/plugin.js');
+
+  var $ = require('jquery');
+  require('jasmine-jquery');
+  var Typeahead = require('../../src/autocomplete/typeahead.js');
+  var fixtures = require('../fixtures.js');
+
+  var mocks = require('../helpers/mocks.js');
+  var waitsForAndRuns = require('../helpers/waits_for.js');
+
+  Typeahead.Dropdown = mocks(Typeahead.Dropdown);
+  Typeahead.Input = mocks(Typeahead.Input);
+
   var testDatum;
 
   beforeEach(function() {
@@ -44,7 +46,6 @@ describe('Typeahead', function() {
     });
 
     it('should select the datum', function(done) {
-      var $e;
       var spy;
 
       this.$input.on('autocomplete:selected', spy = jasmine.createSpy());

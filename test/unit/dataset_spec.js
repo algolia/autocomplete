@@ -2,12 +2,15 @@
 
 /* eslint-env mocha, jasmine */
 
-global.$ = require('../../src/common/dom.js').element = require('jquery');
-require('../../src/jquery/plugin.js');
-
-var Dataset = require('../../src/autocomplete/dataset.js');
 
 describe('Dataset', function() {
+  require('../../src/common/dom.js').element = require('jquery');
+  require('../../src/jquery/plugin.js');
+
+  var $ = require('jquery');
+  require('jasmine-jquery');
+
+  var Dataset = require('../../src/autocomplete/dataset.js');
 
   beforeEach(function() {
     this.dataset = new Dataset({

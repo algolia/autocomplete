@@ -1,6 +1,6 @@
 'use strict';
 
-/* global angular */
+var angular = require('angular');
 
 // setup DOM element
 var DOM = require('../common/dom.js');
@@ -11,9 +11,9 @@ var _ = require('../common/utils.js');
 _.isArray = angular.isArray;
 _.isFunction = angular.isFunction;
 _.isObject = angular.isObject;
-_.bind = angular.element.proxy;
+_.bind = angular.bind;
 _.each = angular.forEach;
-_.map = angular.element.map;
+_.map = require('./map');
 _.mixin = angular.extend;
 
 var EventBus = require('../autocomplete/event_bus.js');

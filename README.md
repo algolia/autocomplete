@@ -562,21 +562,6 @@ $ ngrok 8888
 $ TEST_HOST=http://YOUR_NGROK_ID.ngrok.com SAUCE_ACCESS_KEY=YOUR_KEY SAUCE_USERNAME=YOUR_USERNAME./node_modules/mocha/bin/mocha --harmony -R spec ./test/integration/test.js
 ```
 
-Code style
-------
-
-You can check the code style with:
-
-```sh
-npm run checkstyle
-```
-
-You can fix style issues automatically with:
-
-```sh
-npm run jsfmt
-```
-
 Credits
 --------
 

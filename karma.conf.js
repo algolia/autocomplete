@@ -4,7 +4,7 @@ module.exports = function(config) {
   config.set({
     basePath: '',
 
-    frameworks: ['browserify', 'jasmine'],
+    frameworks: ['jasmine'],
 
     reporters: ['progress', 'coverage', 'coveralls'],
 
@@ -15,23 +15,40 @@ module.exports = function(config) {
       dir: 'coverage/'
     },
 
-    browserify: {
-      debug: true,
-      transform: ['browserify-istanbul']
+    webpack: {
+      devtool: 'inline-source-map',
+      module: {
+        postLoaders: [{
+          test: /\.js$/,
+          exclude: /(test|node_modules)\//,
+          loader: 'istanbul-instrumenter'
+        }]
+      }
     },
 
     preprocessors: {
-      'src/**/*.js': ['browserify', 'coverage'],
-      'test/**/*_spec.js': 'browserify'
+      'test/unit/**/*.js': ['webpack', 'sourcemap']
     },
 
+    webpackMiddleware: {
+      noInfo: true
+    },
+
+    plugins: [
+      'karma-jasmine',
+      'karma-phantomjs-launcher',
+      'karma-chrome-launcher',
+      'karma-opera-launcher',
+      'karma-safari-launcher',
+      'karma-firefox-launcher',
+      'karma-coverage',
+      'karma-coveralls',
+      'karma-sourcemap-loader',
+      'karma-webpack'
+    ],
+
     files: [
-      'node_modules/jquery/dist/jquery.js',
-      'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
-      'node_modules/angular/angular.js',
-      'node_modules/angular-mocks/angular-mocks.js',
-      'src/**/*.js',
-      'test/**/*_spec.js'
+      'test/unit/**/*.js'
     ]
   });
 };

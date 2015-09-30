@@ -2,6 +2,7 @@
 
 // setup DOM element
 var DOM = require('../common/dom.js');
+var $ = require('jquery');
 DOM.element = $;
 
 // setup utils functions

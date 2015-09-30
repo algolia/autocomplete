@@ -2,9 +2,12 @@
 
 /* eslint-env mocha, jasmine */
 
-var popularIn = require('../../src/sources/popularIn.js');
-
 describe('popularIn', function() {
+  require('../../src/common/dom.js').element = require('jquery');
+  require('../../src/jquery/plugin.js');
+
+  var popularIn = require('../../src/sources/popularIn.js');
+
   beforeEach(function() {
   });
 

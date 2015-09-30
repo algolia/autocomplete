@@ -2,14 +2,13 @@
 
 /* eslint-env mocha, jasmine */
 
-global.$ = require('../../src/common/dom.js').element = require('jquery');
-require('../../src/jquery/plugin.js');
-
-var EventEmitter = require('../../src/autocomplete/event_emitter.js');
-var _ = require('../../src/common/utils.js');
-var waitsForAndRuns = require('../helpers/waits_for.js');
-
 describe('EventEmitter', function() {
+  require('../../src/common/dom.js').element = require('jquery');
+  require('../../src/jquery/plugin.js');
+
+  var EventEmitter = require('../../src/autocomplete/event_emitter.js');
+  var _ = require('../../src/common/utils.js');
+  var waitsForAndRuns = require('../helpers/waits_for.js');
 
   beforeEach(function() {
     this.spy = jasmine.createSpy();

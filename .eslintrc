@@ -1,9 +1,11 @@
 {
   "extends": [
-    "eslint-config-airbnb",
-    "eslint-config-algolia"
+    "eslint:recommended",
+    "airbnb/base",
+    "algolia/es5"
   ],
-  "env": {
-    "jquery": true
+  "rules": {
+    "id-length": 0,
+    "no-cond-assign": 0
   }
 }

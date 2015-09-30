@@ -2,20 +2,20 @@
 
 /* eslint-env mocha, jasmine */
 
-require('../../src/common/dom.js').element = require('jquery');
-
-var $autocomplete = require('../../src/angular/directive.js');
-var Typeahead = require('../../src/autocomplete/typeahead.js');
-var fixtures = require('../fixtures.js');
 
 describe('autocomplete directive', function() {
+  var fixtures = require('../fixtures.js');
+
+  var angular = require('angular');
+  require('../../src/angular/directive.js');
+  require('angular-mocks');
 
   var scope;
 
   beforeEach(angular.mock.module('algolia.autocomplete'));
 
   describe('with scope', function() {
-    beforeEach(inject(function($rootScope, $compile) {
+    beforeEach(angular.mock.inject(function($rootScope, $compile) {
       scope = $rootScope.$new();
       scope.q = '';
       scope.getDatasets = function() {
