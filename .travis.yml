@@ -6,13 +6,7 @@ branches:
 env:
   matrix:
   - TEST_SUITE=unit
-  - TEST_SUITE=integration BROWSER='firefox:33'
-  - TEST_SUITE=integration BROWSER='firefox:34'
-  - TEST_SUITE=integration BROWSER='firefox:35'
-  - TEST_SUITE=integration BROWSER='firefox:36'
-  - TEST_SUITE=integration BROWSER='firefox:37'
-  - TEST_SUITE=integration BROWSER='firefox:38'
-  - TEST_SUITE=integration BROWSER='firefox:39'
+  - TEST_SUITE=integration BROWSER='firefox'
   - TEST_SUITE=integration BROWSER='safari:6'
   - TEST_SUITE=integration BROWSER='safari:7'
   - TEST_SUITE=integration BROWSER='safari:8'
@@ -20,11 +14,7 @@ env:
   - TEST_SUITE=integration BROWSER='internet explorer:9'
   - TEST_SUITE=integration BROWSER='internet explorer:10'
   - TEST_SUITE=integration BROWSER='internet explorer:11'
-  - TEST_SUITE=integration BROWSER='chrome:39'
-  - TEST_SUITE=integration BROWSER='chrome:40'
-  - TEST_SUITE=integration BROWSER='chrome:41'
-  - TEST_SUITE=integration BROWSER='chrome:42'
-  - TEST_SUITE=integration BROWSER='chrome:43'
+  - TEST_SUITE=integration BROWSER='chrome'
 #  - TEST_SUITE=integration BROWSER='iphone:7.1'
 #  - TEST_SUITE=integration BROWSER='iphone:8.2'
 #  - TEST_SUITE=integration BROWSER='android:5.1'
