@@ -4,6 +4,7 @@
 
 
 describe('autocomplete directive', function() {
+  global.jQuery = require('jquery');
   var fixtures = require('../fixtures.js');
 
   var angular = require('angular');
@@ -37,5 +38,9 @@ describe('autocomplete directive', function() {
         expect(form.parent().length).toEqual(1);
       });
     });
+  });
+
+  afterAll(function() {
+    global.jQuery = undefined;
   });
 });
