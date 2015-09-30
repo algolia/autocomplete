@@ -16,7 +16,7 @@ describe('Typeahead', function() {
     beforeEach(function() {
       setFixtures(fixtures.html.textInput);
 
-      this.autocomplete = $autocomplete('input', {}, [{
+      this.autocomplete = $autocomplete('input', {}, {
         name: 'test',
         source: function(q, cb) {
           cb([{name: 'test'}]);
@@ -26,7 +26,7 @@ describe('Typeahead', function() {
             return sugg.name;
           }
         }
-      }]);
+      });
     });
 
     it('should initialize', function() {
