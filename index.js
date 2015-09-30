@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('./src/autocomplete/typeahead.js');
+module.exports = require('./src/standalone/');

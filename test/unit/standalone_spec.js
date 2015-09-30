@@ -2,10 +2,15 @@
 
 /* eslint-env mocha, jasmine */
 
-var fixtures = require('../fixtures.js');
-var $autocomplete = require('../../src/standalone/index.js');
-
 describe('Typeahead', function() {
+  var $ = require('jquery');
+  require('jasmine-jquery');
+
+  require('../../src/common/dom.js').element = require('jquery');
+  require('../../src/jquery/plugin.js');
+
+  var fixtures = require('../fixtures.js');
+  var $autocomplete = require('../../src/standalone/index.js');
 
   describe('when instantiated from jquery', function() {
     beforeEach(function() {

@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('../../src/common/utils.js');
-
+var $ = require('jquery');
 module.exports = function mock(Constructor) {
   var constructorSpy;
 

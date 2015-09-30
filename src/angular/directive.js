@@ -1,6 +1,6 @@
 'use strict';
 
-/* global angular */
+var angular = require('angular');
 
 // setup DOM element
 var DOM = require('../common/dom.js');

@@ -42,56 +42,32 @@ module.exports = function(grunt) {
       }
     },
 
-    browserify: {
+    webpack: {
       jquery: {
-        src: 'index_jquery.js',
-        dest: '<%= buildDir %>/autocomplete.jquery.js'
+        entry: './index_jquery.js',
+        output: {
+          path: '<%= buildDir %>',
+          filename: 'autocomplete.jquery.js'
+        },
+        externals: [{
+          jquery: 'jQuery'
+        }]
       },
       angular: {
-        src: 'index_angular.js',
-        dest: '<%= buildDir %>/autocomplete.angular.js'
+        entry: './index_angular.js',
+        output: {
+          path: '<%= buildDir %>',
+          filename: 'autocomplete.angular.js'
+        },
+        externals: ['angular']
       },
       standalone: {
-        src: 'index_standalone.js',
-        dest: '<%= buildDir %>/autocomplete.js'
-      }
-    },
-
-    umd: {
-      jquery: {
-        src: '<%= buildDir %>/autocomplete.jquery.js',
-        deps: { // eslint-disable-line
-          default: ['$'],
-          amd: ['jquery'],
-          cjs: ['jquery'],
-          global: ['jQuery']
-        }
-      },
-      angular: {
-        src: '<%= buildDir %>/autocomplete.angular.js',
-        deps: { // eslint-disable-line
-          default: ['angular'],
-          amd: ['angular'],
-          cjs: ['angular'],
-          global: ['angular']
-        }
-      },
-      jquery_min: {
-        src: '<%= buildDir %>/autocomplete.jquery.min.js',
-        deps: { // eslint-disable-line
-          default: ['$'],
-          amd: ['jquery'],
-          cjs: ['jquery'],
-          global: ['jQuery']
-        }
-      },
-      angular_min: {
-        src: '<%= buildDir %>/autocomplete.angular.min.js',
-        deps: { // eslint-disable-line
-          default: ['angular'],
-          amd: ['angular'],
-          cjs: ['angular'],
-          global: ['angular']
+        entry: './index.js',
+        output: {
+          path: '<%= buildDir %>',
+          filename: 'autocomplete.js',
+          library: 'autocomplete',
+          libraryTarget: 'umd'
         }
       }
     },
@@ -145,7 +121,7 @@ module.exports = function(grunt) {
   // -------
 
   grunt.registerTask('default', 'build');
-  grunt.registerTask('build', ['browserify', 'sed:version', 'umd', 'uglify', 'usebanner']);
+  grunt.registerTask('build', ['webpack', 'sed:version', 'uglify', 'usebanner']);
   grunt.registerTask('server', 'connect:server');
   grunt.registerTask('lint', 'eslint');
   grunt.registerTask('dev', 'concurrent:dev');
@@ -156,7 +132,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-sed');
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-step');
-  grunt.loadNpmTasks('grunt-umd');
   grunt.loadNpmTasks('grunt-banner');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -164,6 +139,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('gruntify-eslint');
-  grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-eslint');
+  grunt.loadNpmTasks('grunt-webpack');
 };

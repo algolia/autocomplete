@@ -1,9 +1,6 @@
 'use strict';
 
-var old$ = window.$;
 var zepto = require('npm-zepto');
-require('npm-zepto/zepto/src/data.js');
-window.$ = old$;
 
 // setup DOM element
 var DOM = require('../common/dom.js');
@@ -29,6 +26,7 @@ var Typeahead = require('../autocomplete/typeahead.js');
 var EventBus = require('../autocomplete/event_bus.js');
 
 function autocomplete(selector, options, datasets) {
+  datasets = _.isArray(datasets) ? datasets : [].slice.call(arguments, 2);
   var $input = zepto(selector);
   var eventBus = new EventBus({el: $input});
   return new Typeahead({

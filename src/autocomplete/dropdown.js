@@ -279,7 +279,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 Dropdown.Dataset = Dataset;
 
 function initializeDataset($menu, oDataset) {
-  return new Dropdown.Dataset(_.mixin({'$menu': $menu}, oDataset));
+  return new Dropdown.Dataset(_.mixin({$menu: $menu}, oDataset));
 }
 
 module.exports = Dropdown;
