@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.9.0 Oct 01, 2015
+
+* Full CommonJS compliance (moved from browserify to webpack)
+
 ### 0.8.0 Sep 24, 2015
 
 * UMD compliance
