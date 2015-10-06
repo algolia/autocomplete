@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.10.0 Oct 06, 2015
+
+* Add a new `includeAll` option to the `popularIn` source to add an extra suggestion.
+
 ### 0.9.0 Oct 01, 2015
 
 * Full CommonJS compliance (moved from browserify to webpack)

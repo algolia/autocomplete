@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.9.0
+ * autocomplete.js 0.10.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2015 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -3609,7 +3609,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _ = __webpack_require__(4);
 
-	module.exports = function popularIn(index, params, details) {
+	module.exports = function popularIn(index, params, details, options) {
 	  if (!details.source) {
 	    return _.error("Missing 'source' key");
 	  }
@@ -3621,6 +3621,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  var detailsIndex = details.index;
 	  delete details.index;
+
+	  options = options || {};
 
 	  return sourceFn;
 
@@ -3641,6 +3643,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 
 	          var suggestions = [];
+
+	          // add the 'all department' entry before others
+	          if (options.includeAll) {
+	            var label = options.allTitle || 'All departments';
+	            suggestions.push(_.mixin({
+	              facet: {value: label, count: content2.nbHits}
+	            }, _.cloneDeep(first)));
+	          }
 
 	          // enrich the first hit iterating over the facets
 	          _.each(content2.facets, function(values, facet) {
