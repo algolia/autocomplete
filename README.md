@@ -410,6 +410,9 @@ To build an Amazon-like autocomplete menu, suggesting popular queries and for th
     index: productsIndexObj,             // targeted index
     facets: 'facetedCategoryAttribute',  // facet used to enrich the most popular query
     maxValuesPerFacet: 3                 // maximum number of facets returned
+  }, {
+    includeAll: true,                    // should it include an extra "All department" suggestion
+    allTitle: 'All departments'          // the included category label
   }),
   templates: {
     suggestion: function(suggestion, answer) {
