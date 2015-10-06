@@ -199,6 +199,9 @@ _.mixin(Input.prototype, EventEmitter, {
   },
 
   setInputValue: function setInputValue(value, silent) {
+    if (typeof value === 'undefined') {
+      value = this.query;
+    }
     this.$input.val(value);
 
     // silent prevents any additional events from being triggered
