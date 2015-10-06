@@ -2,7 +2,7 @@
 
 var _ = require('../common/utils.js');
 
-module.exports = function popularIn(index, params, details) {
+module.exports = function popularIn(index, params, details, options) {
   if (!details.source) {
     return _.error("Missing 'source' key");
   }
@@ -14,6 +14,8 @@ module.exports = function popularIn(index, params, details) {
   }
   var detailsIndex = details.index;
   delete details.index;
+
+  options = options || {};
 
   return sourceFn;
 
@@ -34,6 +36,14 @@ module.exports = function popularIn(index, params, details) {
           }
 
           var suggestions = [];
+
+          // add the 'all department' entry before others
+          if (options.includeAll) {
+            var label = options.allTitle || 'All departments';
+            suggestions.push(_.mixin({
+              facet: {value: label, count: content2.nbHits}
+            }, _.cloneDeep(first)));
+          }
 
           // enrich the first hit iterating over the facets
           _.each(content2.facets, function(values, facet) {
