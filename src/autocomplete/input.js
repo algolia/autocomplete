@@ -164,7 +164,7 @@ _.mixin(Input.prototype, EventEmitter, {
 
     inputValue = this.getInputValue();
     areEquivalent = areQueriesEquivalent(inputValue, this.query);
-    hasDifferentWhitespace = areEquivalent ?
+    hasDifferentWhitespace = areEquivalent && this.query ?
       this.query.length !== inputValue.length : false;
 
     this.query = inputValue;
