@@ -8,7 +8,6 @@ describe('autocomplete directive', function() {
   var fixtures = require('../fixtures.js');
 
   var angular = require('angular');
-  require('algoliasearch/plugins/angular.js');
   require('../../src/angular/directive.js');
   require('angular-mocks');
 

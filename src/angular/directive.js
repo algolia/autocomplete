@@ -19,10 +19,14 @@ _.mixin = angular.extend;
 var EventBus = require('../autocomplete/event_bus.js');
 var Typeahead = require('../autocomplete/typeahead.js');
 
-angular.module('algolia.autocomplete', ['algoliasearch'])
-  .directive('autocomplete', ['$parse', 'algolia', function($parse, algolia) {
-    // inject the sources in the algolia namespace
-    algolia.sources = Typeahead.sources;
+angular.module('algolia.autocomplete', [])
+  .directive('autocomplete', ['$parse', '$injector', function($parse, $injector) {
+    // inject the sources in the algolia namespace if available
+    try {
+      $injector.get('algolia').sources = Typeahead.sources;
+    } catch (e) {
+      // not fatal
+    }
 
     return {
       restrict: 'AC', // Only apply on an attribute or class

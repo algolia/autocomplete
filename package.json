@@ -16,7 +16,6 @@
     "jquery": ">= 1.7"
   },
   "devDependencies": {
-    "algoliasearch": "^3.8.1",
     "angular": "~1.4.2",
     "angular-mocks": "^1.4.2",
     "chai": "^3.0.0",
