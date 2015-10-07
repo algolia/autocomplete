@@ -107,7 +107,7 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
   var index = client.initIndex('YourIndex');
   autocomplete('#search-input', { hint: false }, [
     {
-      source: index.ttAdapter({ hitsPerPage: 5 }),
+      source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
       displayKey: 'my_attribute',
       templates: {
         suggestion: function(suggestion) {
@@ -137,7 +137,7 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
   var index = client.initIndex('YourIndex');
   $('#search-input').autocomplete({ hint: false }, [
     {
-      source: index.ttAdapter({ hitsPerPage: 5 }),
+      source: $.fn.autocomplete.sources.hits(index, { hitsPerPage: 5 }),
       displayKey: 'my_attribute',
       templates: {
         suggestion: function(suggestion) {
@@ -173,7 +173,15 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 
       $scope.getDatasets = function() {
         return {
-          source: index.ttAdapter({ hitsPerPage: 5 }),
+          source: function(query, cb) {
+            index.search(query, params, function(error, content) {
+              if (error) {
+                cb([]);
+                return;
+              }
+              cb(content.hits, content);
+            });
+          },
           displayKey: 'my_attribute',
           templates: {
             suggestion: function(suggestion) {
@@ -276,11 +284,11 @@ When initializing an autocomplete, there are a number of options you can configu
   <div class="my-custom-menu">
     <div class="row">
       <div class="col-sm-6">
-        <div class="aa-dataset-contacts1"></div>
+        <div class="aa-dataset-d1"></div>
       </div>
       <div class="col-sm-6">
-        <div class="aa-dataset-contacts2"></div>
-        <div class="aa-dataset-contacts3"></div>
+        <div class="aa-dataset-d2"></div>
+        <div class="aa-dataset-d3"></div>
       </div>
     </div>
   </div>
@@ -296,8 +304,8 @@ When initializing an autocomplete, there are a number of options you can configu
     },
     [
       {
-        source: index.ttAdapter({ hitsPerPage: 5 }),
-        name: 'contacts1',
+        source: $.fn.autocomplete.sources.hits(index1, { hitsPerPage: 5 }),
+        name: 'd1',
         templates: {
           header: '<h4>List 1</h4>',
           suggestion: function(suggestion) {
@@ -306,8 +314,8 @@ When initializing an autocomplete, there are a number of options you can configu
         }
       },
       {
-        source: index.ttAdapter({ hitsPerPage: 2 }),
-        name: 'contacts2',
+        source: $.fn.autocomplete.sources.hits(index2, { hitsPerPage: 2 }),
+        name: 'd2',
         templates: {
           header: '<h4>List 2</h4>',
           suggestion: function(suggestion) {
@@ -316,8 +324,8 @@ When initializing an autocomplete, there are a number of options you can configu
         }
       },
       {
-        source: index.ttAdapter({ hitsPerPage: 2 }),
-        name: 'contacts3',
+        source: $.fn.autocomplete.sources.hits(index3, { hitsPerPage: 2 }),
+        name: 'd3',
         templates: {
           header: '<h4>List 3</h4>',
           suggestion: function(suggestion, answer) {
