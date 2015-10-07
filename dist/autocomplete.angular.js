@@ -611,7 +611,9 @@
 	  },
 
 	  _select: function select(datum) {
-	    this.input.setQuery(datum.value);
+	    if (typeof datum.value !== 'undefined') {
+	      this.input.setQuery(datum.value);
+	    }
 	    this.input.setInputValue(datum.value, true);
 
 	    this._setLanguageDirection();
@@ -947,7 +949,7 @@
 
 	    inputValue = this.getInputValue();
 	    areEquivalent = areQueriesEquivalent(inputValue, this.query);
-	    hasDifferentWhitespace = areEquivalent ?
+	    hasDifferentWhitespace = areEquivalent && this.query ?
 	      this.query.length !== inputValue.length : false;
 
 	    this.query = inputValue;
@@ -982,6 +984,9 @@
 	  },
 
 	  setInputValue: function setInputValue(value, silent) {
+	    if (typeof value === 'undefined') {
+	      value = this.query;
+	    }
 	    this.$input.val(value);
 
 	    // silent prevents any additional events from being triggered

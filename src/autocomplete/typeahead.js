@@ -294,7 +294,9 @@ _.mixin(Typeahead.prototype, {
   },
 
   _select: function select(datum) {
-    this.input.setQuery(datum.value);
+    if (typeof datum.value !== 'undefined') {
+      this.input.setQuery(datum.value);
+    }
     this.input.setInputValue(datum.value, true);
 
     this._setLanguageDirection();

@@ -164,7 +164,7 @@ _.mixin(Input.prototype, EventEmitter, {
 
     inputValue = this.getInputValue();
     areEquivalent = areQueriesEquivalent(inputValue, this.query);
-    hasDifferentWhitespace = areEquivalent ?
+    hasDifferentWhitespace = areEquivalent && this.query ?
       this.query.length !== inputValue.length : false;
 
     this.query = inputValue;
@@ -199,6 +199,9 @@ _.mixin(Input.prototype, EventEmitter, {
   },
 
   setInputValue: function setInputValue(value, silent) {
+    if (typeof value === 'undefined') {
+      value = this.query;
+    }
     this.$input.val(value);
 
     // silent prevents any additional events from being triggered
