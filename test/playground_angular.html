@@ -33,15 +33,7 @@
 
       $scope.getDatasets = function() {
         return {
-          source: function(q, cb) {
-            index.search(q, { hitsPerPage: 5 }, function(error, content) {
-              if (error) {
-                cb([]);
-                return;
-              }
-              cb(content.hits);
-            });
-          },
+          source: algolia.sources.hits(index, { hitsPerPage: 5 }),
           templates: {
             suggestion: function(suggestion) {
               return suggestion._highlightResult.name.value;
