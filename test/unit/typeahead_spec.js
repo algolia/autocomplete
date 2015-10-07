@@ -59,6 +59,27 @@ describe('Typeahead', function() {
       var that = this;
       waitsForAndRuns(function() { return that.dropdown.close.calls.count(); }, done, 100);
     });
+
+  });
+
+  describe('when dropdown triggers suggestionClicked with undefined displayKey', function() {
+    beforeEach(function() {
+      this.dropdown.getDatumForSuggestion.and.returnValue({});
+    });
+
+    it('should not set input to undefined', function(done) {
+      var spy;
+
+      this.$input.on('autocomplete:selected', spy = jasmine.createSpy());
+      this.dropdown.trigger('suggestionClicked');
+
+      expect(spy).toHaveBeenCalled();
+      expect(this.input.setQuery).not.toHaveBeenCalled();
+      expect(this.input.setInputValue).toHaveBeenCalledWith(undefined, true);
+
+      var that = this;
+      waitsForAndRuns(function() { return that.dropdown.close.calls.count(); }, done, 100);
+    });
   });
 
   describe('when dropdown triggers cursorMoved', function() {
