@@ -16,6 +16,11 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.11.0 Oct 07, 2015
+
+* If the `displayKey` is not specified and the `value` attribute missing, don't update the input value with `undefined`.
+* Expose the `sources` object in the Angular.js build as well.
+
 ### 0.10.0 Oct 06, 2015
 
 * Add a new `includeAll` option to the `popularIn` source to add an extra suggestion.
