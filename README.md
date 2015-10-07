@@ -173,15 +173,7 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 
       $scope.getDatasets = function() {
         return {
-          source: function(query, cb) {
-            index.search(query, params, function(error, content) {
-              if (error) {
-                cb([]);
-                return;
-              }
-              cb(content.hits, content);
-            });
-          },
+          source: algolia.sources.hits(index, { hitsPerPage: 5 }),
           displayKey: 'my_attribute',
           templates: {
             suggestion: function(suggestion) {
@@ -198,7 +190,7 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 </script>
 ```
 
-#### Look & feel
+#### Look and Feel
 
 Below is a faux mustache template describing the DOM structure of an autocomplete 
 dropdown menu. Keep in mind that `header`, `footer`, `suggestion`, and `empty` 
@@ -371,21 +363,27 @@ Datasets can be configured using the following options.
   first argument and returns a HTML string.
 
   * `empty` – Rendered when `0` suggestions are available for the given query. 
-  Can be either a HTML string or a precompiled template. If it's a precompiled
-  template, the passed in context will contain `query`.
+  Can be either a HTML string or a precompiled template. The templating function
+  is called with a context containing `query`, `isEmpty`, and any optional
+  arguments that may have been forwarded by the source:
+  `function emptyTemplate({ query, isEmpty }, [forwarded args])`.
 
   * `footer`– Rendered at the bottom of the dataset. Can be either a HTML 
-  string or a precompiled template. If it's a precompiled template, the passed 
-  in context will contain `query` and `isEmpty`.
+  string or a precompiled template. The templating function
+  is called with a context containing `query`, `isEmpty`, and any optional
+  arguments that may have been forwarded by the source:
+  `function footerTemplate({ query, isEmpty }, [forwarded args])`.
 
   * `header` – Rendered at the top of the dataset. Can be either a HTML string 
-  or a precompiled template. If it's a precompiled template, the passed in 
-  context will contain `query` and `isEmpty`.
+  or a precompiled template. The templating function
+  is called with a context containing `query`, `isEmpty`, and any optional
+  arguments that may have been forwarded by the source:
+  `function headerTemplate({ query, isEmpty }, [forwarded args])`.
 
-  * `suggestion` – Used to render a single suggestion. If set, this has to be a 
-  precompiled template. The associated suggestion object will serve as the 
-  context. Defaults to the value of `displayKey` wrapped in a `p` tag i.e. 
-  `<p>{{value}}</p>`.
+  * `suggestion` – Used to render a single suggestion. The templating function
+  is called with the `suggestion`, and any optional arguments that may have
+  been forwarded by the source: `function suggestionTemplate(suggestion, [forwarded args])`.
+  Defaults to the value of `displayKey` wrapped in a `p` tag i.e. `<p>{{value}}</p>`.
 
 
 #### Sources
