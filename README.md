@@ -173,15 +173,7 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 
       $scope.getDatasets = function() {
         return {
-          source: function(query, cb) {
-            index.search(query, params, function(error, content) {
-              if (error) {
-                cb([]);
-                return;
-              }
-              cb(content.hits, content);
-            });
-          },
+          source: algolia.sources.hits(index, { hitsPerPage: 5 }),
           displayKey: 'my_attribute',
           templates: {
             suggestion: function(suggestion) {
