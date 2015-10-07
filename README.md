@@ -198,7 +198,7 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 </script>
 ```
 
-#### Look & feel
+#### Look and Feel
 
 Below is a faux mustache template describing the DOM structure of an autocomplete 
 dropdown menu. Keep in mind that `header`, `footer`, `suggestion`, and `empty` 
