@@ -6,7 +6,8 @@ module.exports = function popularIn(index, params, details, options) {
   if (!details.source) {
     return _.error("Missing 'source' key");
   }
-  var source = _.isFunction(details.source) ? details.source : function(hit) { return hit[details.source]; };
+  var source = _.isFunction(details.source) ? details.source : function (attribute) { return function(hit) { return hit[attribute]; } }(details.source);
+    
   delete details.source;
 
   if (!details.index) {
