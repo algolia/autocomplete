@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.11.0
+ * autocomplete.js 0.11.1
  * https://github.com/algolia/autocomplete.js
  * Copyright 2015 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -2079,13 +2079,11 @@
 	    return _.error("Missing 'source' key");
 	  }
 	  var source = _.isFunction(details.source) ? details.source : function(hit) { return hit[details.source]; };
-	  delete details.source;
 
 	  if (!details.index) {
 	    return _.error("Missing 'index' key");
 	  }
 	  var detailsIndex = details.index;
-	  delete details.index;
 
 	  options = options || {};
 
@@ -2101,7 +2099,11 @@
 	      if (content.hits.length > 0) {
 	        var first = content.hits[0];
 
-	        detailsIndex.search(source(first), _.mixin({hitsPerPage: 0}, details), function(error2, content2) {
+	        var detailsParams = _.mixin({hitsPerPage: 0}, details);
+	        delete detailsParams.source; // not a query parameter
+	        delete detailsParams.index; // not a query parameter
+
+	        detailsIndex.search(source(first), detailsParams, function(error2, content2) {
 	          if (error2) {
 	            _.error(error2.message);
 	            return;
