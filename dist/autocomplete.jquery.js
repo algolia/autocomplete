@@ -1810,12 +1810,18 @@
 	  return DOM.element(el).data(datasetKey);
 	};
 
-	Dataset.extractValue = function extractDatum(el) {
+	Dataset.extractValue = function extractValue(el) {
 	  return DOM.element(el).data(valueKey);
 	};
 
 	Dataset.extractDatum = function extractDatum(el) {
-	  return DOM.element(el).data(datumKey);
+	  var datum = DOM.element(el).data(datumKey);
+	  if (typeof datum === 'string') {
+	    // Zepto has an automatic deserialization of the
+	    // JSON encoded data attribute
+	    datum = JSON.parse(datum);
+	  }
+	  return datum;
 	};
 
 	// instance methods
@@ -1883,7 +1889,7 @@
 	          .append(that.templates.suggestion.apply(this, [suggestion].concat(args)))
 	          .data(datasetKey, that.name)
 	          .data(valueKey, that.displayFn(suggestion) || null)
-	          .data(datumKey, suggestion);
+	          .data(datumKey, JSON.stringify(suggestion));
 
 	        $el.children().each(function() { DOM.element(this).css(css.suggestionChild); });
 

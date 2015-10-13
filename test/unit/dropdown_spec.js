@@ -298,7 +298,7 @@ describe('Dropdown', function() {
       var $suggestion;
       var datum;
 
-      $suggestion = $('<div>').data({aaValue: 'one', aaDatum: 'two'});
+      $suggestion = $('<div>').data({aaValue: 'one', aaDatum: JSON.stringify('two')});
       datum = this.view.getDatumForSuggestion($suggestion);
 
       expect(datum).toEqual({value: 'one', raw: 'two', datasetName: undefined});
@@ -314,7 +314,7 @@ describe('Dropdown', function() {
       var $first;
 
       $first = this.view._getSuggestions().eq(0);
-      $first.data({aaValue: 'one', aaDatum: 'two'});
+      $first.data({aaValue: 'one', aaDatum: JSON.stringify('two')});
 
       this.view._setCursor($first);
       expect(this.view.getDatumForCursor())
@@ -327,7 +327,7 @@ describe('Dropdown', function() {
       var $first;
 
       $first = this.view._getSuggestions().eq(0);
-      $first.data({aaValue: 'one', aaDatum: 'two'});
+      $first.data({aaValue: 'one', aaDatum: JSON.stringify('two')});
 
       expect(this.view.getDatumForTopSuggestion())
         .toEqual({value: 'one', raw: 'two', datasetName: undefined});
