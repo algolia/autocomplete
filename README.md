@@ -115,7 +115,7 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
         }
       }
     }
-  ]).on('autocomplete:selected', function(even, suggestion, dataset) {
+  ]).on('autocomplete:selected', function(event, suggestion, dataset) {
     console.log(suggestion, dataset);
   });
 </script>
@@ -145,7 +145,7 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
         }
       }
     }
-  ]).on('autocomplete:selected', function(even, suggestion, dataset) {
+  ]).on('autocomplete:selected', function(event, suggestion, dataset) {
     console.log(suggestion, dataset);
   });
 </script>
