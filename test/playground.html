@@ -62,7 +62,9 @@
             }
           }
         }
-      ]);
+      ]).on('autocomplete:selected', function(even, suggestion, dataset) {
+        console.log(suggestion);
+      });;
 
       autocomplete('#contacts2', { debug: true }, [
         {

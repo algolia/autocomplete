@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.11.1 Oct 13, 2015
+
+* Zepto doesn't work like jQuery regarding the `data` API, it doesn't support serializing objects.
+
 ### 0.11.0 Oct 07, 2015
 
 * If the `displayKey` is not specified and the `value` attribute missing, don't update the input value with `undefined`.
