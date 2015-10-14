@@ -29,7 +29,7 @@ function autocomplete(selector, options, datasets) {
   datasets = _.isArray(datasets) ? datasets : [].slice.call(arguments, 2);
   var $input = zepto(selector);
   var eventBus = new EventBus({el: $input});
-  return new Typeahead({
+  var typeahead = new Typeahead({
     input: $input,
     eventBus: eventBus,
     hint: options.hint === undefined ? true : !!options.hint,
@@ -39,7 +39,34 @@ function autocomplete(selector, options, datasets) {
     templates: options.templates,
     debug: options.debug,
     datasets: datasets
-  }).input.$input;
+  });
+
+  var methods = {
+    open: function open() {
+      typeahead.open();
+    },
+    close: function close() {
+      typeahead.close();
+    },
+    getVal: function getVal() {
+      return typeahead.getVal();
+    },
+    setVal: function setVal(val) {
+      return typeahead.setVal(val);
+    },
+    destroy: function destroy() {
+      typeahead.destroy();
+    },
+    typeahead: typeahead
+  };
+
+  for (var k in methods) {
+    if (methods.hasOwnProperty(k)) {
+      typeahead.input.$input[k] = methods[k];
+    }
+  }
+
+  return typeahead.input.$input;
 }
 
 autocomplete.sources = Typeahead.sources;
