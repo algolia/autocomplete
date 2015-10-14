@@ -4,7 +4,7 @@ module.exports = function(config) {
   config.set({
     basePath: '',
 
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'sinon'],
 
     reporters: ['progress', 'coverage', 'coveralls'],
 
@@ -36,6 +36,7 @@ module.exports = function(config) {
 
     plugins: [
       'karma-jasmine',
+      'karma-sinon',
       'karma-phantomjs-launcher',
       'karma-chrome-launcher',
       'karma-opera-launcher',

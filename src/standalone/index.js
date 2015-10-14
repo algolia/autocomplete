@@ -25,11 +25,11 @@ _.mixin = zepto.extend;
 var Typeahead = require('../autocomplete/typeahead.js');
 var EventBus = require('../autocomplete/event_bus.js');
 
-function autocomplete(selector, options, datasets) {
+function autocomplete(selector, options, datasets, typeaheadObject) {
   datasets = _.isArray(datasets) ? datasets : [].slice.call(arguments, 2);
   var $input = zepto(selector);
   var eventBus = new EventBus({el: $input});
-  var typeahead = new Typeahead({
+  var typeahead = typeaheadObject || new Typeahead({
     input: $input,
     eventBus: eventBus,
     hint: options.hint === undefined ? true : !!options.hint,
@@ -41,30 +41,24 @@ function autocomplete(selector, options, datasets) {
     datasets: datasets
   });
 
-  var methods = {
-    open: function open() {
+  typeahead.input.$input.autocomplete = {
+    typeahead: typeahead,
+    open: function() {
       typeahead.open();
     },
-    close: function close() {
+    close: function() {
       typeahead.close();
     },
-    getVal: function getVal() {
+    getVal: function() {
       return typeahead.getVal();
     },
-    setVal: function setVal(val) {
-      return typeahead.setVal(val);
+    setVal: function(value) {
+      return typeahead.setVal(value);
     },
-    destroy: function destroy() {
+    destroy: function() {
       typeahead.destroy();
-    },
-    typeahead: typeahead
-  };
-
-  for (var k in methods) {
-    if (methods.hasOwnProperty(k)) {
-      typeahead.input.$input[k] = methods[k];
     }
-  }
+  };
 
   return typeahead.input.$input;
 }
