@@ -25,11 +25,11 @@ _.mixin = zepto.extend;
 var Typeahead = require('../autocomplete/typeahead.js');
 var EventBus = require('../autocomplete/event_bus.js');
 
-function autocomplete(selector, options, datasets) {
+function autocomplete(selector, options, datasets, typeaheadObject) {
   datasets = _.isArray(datasets) ? datasets : [].slice.call(arguments, 2);
   var $input = zepto(selector);
   var eventBus = new EventBus({el: $input});
-  return new Typeahead({
+  var typeahead = typeaheadObject || new Typeahead({
     input: $input,
     eventBus: eventBus,
     hint: options.hint === undefined ? true : !!options.hint,
@@ -39,7 +39,28 @@ function autocomplete(selector, options, datasets) {
     templates: options.templates,
     debug: options.debug,
     datasets: datasets
-  }).input.$input;
+  });
+
+  typeahead.input.$input.autocomplete = {
+    typeahead: typeahead,
+    open: function() {
+      typeahead.open();
+    },
+    close: function() {
+      typeahead.close();
+    },
+    getVal: function() {
+      return typeahead.getVal();
+    },
+    setVal: function(value) {
+      return typeahead.setVal(value);
+    },
+    destroy: function() {
+      typeahead.destroy();
+    }
+  };
+
+  return typeahead.input.$input;
 }
 
 autocomplete.sources = Typeahead.sources;

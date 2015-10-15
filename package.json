@@ -51,11 +51,13 @@
     "karma-opera-launcher": "^0.3.0",
     "karma-phantomjs-launcher": "^0.2.0",
     "karma-safari-launcher": "^0.1.1",
+    "karma-sinon": "^1.0.4",
     "karma-sourcemap-loader": "^0.3.5",
     "karma-webpack": "^1.7.0",
     "mocha": "^2.2.5",
     "npm-zepto": "^1.1.7",
     "phantomjs": "~1.9.17",
+    "sinon": "^1.17.1",
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.0",
     "yiewd": "^0.6.0"
@@ -67,6 +69,6 @@
     "server": "grunt server",
     "test": "karma start --single-run && grunt lint"
   },
-  "version": "0.11.1",
+  "version": "0.12.0",
   "main": "index.js"
 }

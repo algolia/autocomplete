@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.11.1
+ * autocomplete.js 0.12.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2015 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -95,11 +95,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Typeahead = __webpack_require__(5);
 	var EventBus = __webpack_require__(6);
 
-	function autocomplete(selector, options, datasets) {
+	function autocomplete(selector, options, datasets, typeaheadObject) {
 	  datasets = _.isArray(datasets) ? datasets : [].slice.call(arguments, 2);
 	  var $input = zepto(selector);
 	  var eventBus = new EventBus({el: $input});
-	  return new Typeahead({
+	  var typeahead = typeaheadObject || new Typeahead({
 	    input: $input,
 	    eventBus: eventBus,
 	    hint: options.hint === undefined ? true : !!options.hint,
@@ -109,7 +109,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	    templates: options.templates,
 	    debug: options.debug,
 	    datasets: datasets
-	  }).input.$input;
+	  });
+
+	  typeahead.input.$input.autocomplete = {
+	    typeahead: typeahead,
+	    open: function() {
+	      typeahead.open();
+	    },
+	    close: function() {
+	      typeahead.close();
+	    },
+	    getVal: function() {
+	      return typeahead.getVal();
+	    },
+	    setVal: function(value) {
+	      return typeahead.setVal(value);
+	    },
+	    destroy: function() {
+	      typeahead.destroy();
+	    }
+	  };
+
+	  return typeahead.input.$input;
 	}
 
 	autocomplete.sources = Typeahead.sources;
