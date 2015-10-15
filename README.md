@@ -532,6 +532,35 @@ to its previous value. Can be used to avoid naming collisions.
 ```javascript
 var autocomplete = jQuery.fn.autocomplete.noConflict();
 jQuery.fn._autocomplete = autocomplete;
+
+```
+
+#### Standalone version
+
+The standalone version API is similiar to jQuery's:
+
+```
+var search = autocomplete('#search', { hint: false }, [{
+  source: autocomplete.sources.hits(index, { hitsPerPage: 5 }
+}]);
+
+search.autocomplete.open();
+search.autocomplete.close();
+search.autocomplete.getVal();
+search.autocomplete.setVal('Hey Jude');
+search.autocomplete.destroy();
+```
+
+You can also pass a custom Typeahead instance in Autocomplete.js constructor:
+
+```
+var search = autocomplete('#search', { hint: false}, [{ ... }], new Typeahead({ ... }));
+```
+
+You can always interact with Typeahead object by using the ```typeahead``` property:
+
+```
+search.autocomplete.typeahead;
 ```
 
 Development
