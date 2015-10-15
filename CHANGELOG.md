@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.12.0 Oct 15, 2015
+
+* Expose the underlying `close`, `open`, ... functions in the standalone build.
+
 ### 0.11.1 Oct 13, 2015
 
 * Zepto doesn't work like jQuery regarding the `data` API, it doesn't support serializing objects.
