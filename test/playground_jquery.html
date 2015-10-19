@@ -20,14 +20,23 @@
               <h4>Multi-sections auto-complete</h4>
               <input id="contacts2" name="contacts2"  class="form-control" type="text">
             </div>
+            <div class="col-sm-4">
+              <h4>Tabbed auto-complete</h4>
+              <div class="input-group">
+                <input id="q3" name="q3" class="form-control" type="text">
+                <span class="input-group-addon">Go</span>
+              </div>
+            </div>
           </div>
         </div>
       </form>
     </div>
 
     <script src="../../node_modules/jquery/dist/jquery.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="../../dist/autocomplete.jquery.js"></script>
     <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+
     <script type="text/template" id="my-custom-menu-template">
       <div class="my-custom-menu">
         <div class="row">
@@ -41,9 +50,26 @@
         </div>
       </div>
     </script>
+
+    <script type="text/template" id="menu3">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#all" role="tab" data-toggle="tab">All</a></li>
+        <li><a href="#actors" role="tab" data-toggle="tab">Actors</a></li>
+        <li><a href="#shows" role="tab" data-toggle="tab">Shows</a></li>
+        <li><a href="#episodes" role="tab" data-toggle="tab">Episodes</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active aa-dataset-all" id="all"></div>
+        <div class="tab-pane aa-dataset-actors" id="actors"></div>
+        <div class="tab-pane aa-dataset-shows" id="shows"></div>
+        <div class="tab-pane aa-dataset-episodes" id="episodes"></div>
+      </div>
+    </script>
+
     <script>
       var client = algoliasearch('latency', '6be0576ff61c053d5f9a3225e2a90f76');
       var index = client.initIndex('contacts');
+      var tvshows = client.initIndex('tvshows_tae_followers');
 
       $('#contacts').autocomplete({ hint: true }, [
         {
@@ -67,6 +93,8 @@
           }
         }
       ]);
+
+      //////////////////////////////
 
       $('#contacts2').autocomplete({
         debug: true,
@@ -106,6 +134,72 @@
           }
         }
       ]);
+
+      //////////////////////////////
+
+      function render3(suggestion) {
+        var name;
+        if (suggestion._tags[0] === 'actor') {
+          name = suggestion._highlightResult.actor_name.value;
+        } else if (suggestion._tags[0] === 'show') {
+          name = suggestion._highlightResult.show_name.value;
+        } else if (suggestion._tags[0] === 'episode') {
+          name = suggestion._highlightResult.episode_of.value + ' » ' + suggestion._highlightResult.episode_name.value;
+        }
+        return '<div class="media">' +
+            '<div class="media-left">' +
+              '<img src="' + suggestion.image + '" class="media-object" style="height: 3em" />' +
+            '</div>' +
+            '<div class="media-body">' +
+              name +
+            '</div>' +
+          '</div>';
+      }
+
+      function source3(tagFilters) {
+        return function(q, cb) {
+          tvshows.search(q, { hitsPerPage: 5, tagFilters: tagFilters }, function(error, content) {
+            if (error) {
+              cb([]);
+              return;
+            }
+            cb(content.hits);
+          });
+        }
+      }
+
+      $('#q3').autocomplete({ debug: true, templates: { dropdownMenu: $('#menu3').text() } }, [
+        {
+          source: source3(),
+          name: 'all',
+          templates: {
+            suggestion: render3
+          }
+        },
+        {
+          source: source3(['actor']),
+          name: 'actors',
+          templates: {
+            suggestion: render3
+          }
+        },
+        {
+          source: source3(['show']),
+          name: 'shows',
+          templates: {
+            suggestion: render3
+          }
+        },
+        {
+          source: source3(['episode']),
+          name: 'episodes',
+          templates: {
+            suggestion: render3
+          }
+        }
+      ]).on('autocomplete:selected', function(even, suggestion, dataset) {
+        console.log(suggestion, dataset);
+      });
     </script>
   </body>
 </html>
