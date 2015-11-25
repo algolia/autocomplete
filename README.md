@@ -68,7 +68,7 @@ We recommend including it from a CDN:
 <script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.angular.min.js"></script>
 ```
 
-##### Bower
+#### From Bower
 
 ```sh
 bower install algolia-autocomplete.js -S
