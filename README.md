@@ -71,7 +71,7 @@ We recommend including it from a CDN:
 ##### Bower
 
 ```sh
-bower install autocomplete.js -S
+bower install algolia-autocomplete.js -S
 ```
 
 #### From the sources
