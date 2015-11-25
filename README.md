@@ -68,6 +68,12 @@ We recommend including it from a CDN:
 <script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.angular.min.js"></script>
 ```
 
+##### Bower
+
+```sh
+bower install autocomplete.js -S
+```
+
 #### From the sources
 
 Or you can fetch the sources:
