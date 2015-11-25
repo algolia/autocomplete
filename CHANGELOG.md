@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.13.1 Nov 25, 2015
+
+* Move the bower release name to `algolia-autocomplete.js` since `autocomplete.js` is already used
+
 ### 0.13.0 Nov 25, 2015
 
 * Add Bower release
