@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.13.0 Nov 25, 2015
+
+* Add Bower release
+
 ### 0.12.0 Oct 15, 2015
 
 * Expose the underlying `close`, `open`, ... functions in the standalone build.
