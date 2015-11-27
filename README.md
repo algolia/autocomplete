@@ -440,6 +440,27 @@ To build an Amazon-like autocomplete menu, suggesting popular queries and for th
 }
 ```
 
+##### Advanced use
+
+The `source` options can also take a function. It enables you to have more control of the results returned by Algolia search. The function `function(query, callback)` takes 2 parameters
+  * `query: String`: the text typed in the autocomplete
+  * `callback: Function`: the callback to call at the end of your processing
+
+```
+var hitsSource = autocomplete.sources.hits(index, { hitsPerPage: 5 });
+
+templates: {
+  source: function(query, callback) {
+    hitsSource(query, function(suggestions) {
+        //Do stuff with the array of returned suggestions
+        console.log(suggestions);
+        callback(suggestions);
+    });
+  },
+}
+
+```
+
 #### Custom Events
 
 The autocomplete component triggers the following custom events.
