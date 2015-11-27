@@ -115,6 +115,16 @@ describe('Dataset', function() {
       expect($menu).toHaveClass('aa-with-fake');
     });
 
+    it('should allow dataset name=0 and use the provided div', function() {
+      var $menu = $('<div><div class="predefined aa-dataset-0"></div></div>');
+      this.dataset = new Dataset({
+        $menu: $menu,
+        name: 0,
+        source: this.source
+      });
+      expect(this.dataset.$el).toHaveClass('predefined');
+    });
+
     it('should render isEmpty with extra params', function() {
       var spy = jasmine.createSpy('empty with extra params');
       this.dataset = new Dataset({
