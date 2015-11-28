@@ -3028,7 +3028,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    .on('mouseleave.aa', '.aa-suggestion', onSuggestionMouseLeave);
 
 	  if (o.templates && o.templates.header) {
-	    this.$menu.prepend(_.templatify(o.templates.header));
+	    this.$menu.prepend(_.templatify(o.templates.header)());
 	  }
 
 	  this.datasets = _.map(o.datasets, function(oDataset) { return initializeDataset(that.$menu, oDataset); });
@@ -3041,7 +3041,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 
 	  if (o.templates && o.templates.footer) {
-	    this.$menu.append(_.templatify(o.templates.footer));
+	    this.$menu.append(_.templatify(o.templates.footer)());
 	  }
 	}
 
@@ -3306,14 +3306,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.query = null;
 
 	  this.highlight = !!o.highlight;
-	  this.name = o.name || _.getUniqueId();
+	  this.name = typeof o.name === 'undefined' || o.name === null ? _.getUniqueId() : o.name;
 
 	  this.source = o.source;
 	  this.displayFn = getDisplayFn(o.display || o.displayKey);
 
 	  this.templates = getTemplates(o.templates, this.displayFn);
 
-	  this.$el = o.$menu && this.name && o.$menu.find('.aa-dataset-' + this.name).length > 0 ?
+	  this.$el = o.$menu && o.$menu.find('.aa-dataset-' + this.name).length > 0 ?
 	    DOM.element(o.$menu.find('.aa-dataset-' + this.name)[0]) :
 	    DOM.element(html.dataset.replace('%CLASS%', this.name));
 
