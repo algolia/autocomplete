@@ -60,7 +60,7 @@ describe('Dropdown', function() {
         menu: this.$menu,
         datasets: [{}],
         templates: {
-          header: '<h2 class="header">Header</h2>',
+          header: function() { return '<h2 class="header">Header</h2>'; },
           footer: '<h2 class="footer">Footer</h2>'
         }
       });

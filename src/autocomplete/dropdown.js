@@ -42,7 +42,7 @@ function Dropdown(o) {
     .on('mouseleave.aa', '.aa-suggestion', onSuggestionMouseLeave);
 
   if (o.templates && o.templates.header) {
-    this.$menu.prepend(_.templatify(o.templates.header));
+    this.$menu.prepend(_.templatify(o.templates.header)());
   }
 
   this.datasets = _.map(o.datasets, function(oDataset) { return initializeDataset(that.$menu, oDataset); });
@@ -55,7 +55,7 @@ function Dropdown(o) {
   });
 
   if (o.templates && o.templates.footer) {
-    this.$menu.append(_.templatify(o.templates.footer));
+    this.$menu.append(_.templatify(o.templates.footer)());
   }
 }
 
