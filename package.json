@@ -13,10 +13,11 @@
     "url": "https://github.com/algolia/autocomplete.js.git"
   },
   "peerDependencies": {
-    "jquery": ">= 1.7"
+    "angular": "~1.4.2",
+    "jquery": ">= 1.7",
+    "npm-zepto": "^1.1.7"
   },
   "devDependencies": {
-    "angular": "~1.4.2",
     "angular-mocks": "^1.4.2",
     "chai": "^3.0.0",
     "colors": "^1.1.2",
@@ -55,7 +56,6 @@
     "karma-sourcemap-loader": "^0.3.5",
     "karma-webpack": "^1.7.0",
     "mocha": "^2.2.5",
-    "npm-zepto": "^1.1.7",
     "phantomjs": "~1.9.17",
     "sinon": "^1.17.1",
     "webpack": "^1.12.2",
