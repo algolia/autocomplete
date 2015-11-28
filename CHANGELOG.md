@@ -16,6 +16,12 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.14.0 Nov 28, 2015
+
+* Move npm-zepto & angular to peerDependencies
+* Fixed custom dropdownMenu's footer & header not being displayed properly
+* Allow dataset with name=0
+
 ### 0.13.1 Nov 25, 2015
 
 * Move the bower release name to `algolia-autocomplete.js` since `autocomplete.js` is already used
