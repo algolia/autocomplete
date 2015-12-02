@@ -16,6 +16,11 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.14.1 Dev 2, 2015
+
+* Move Zepto as a dependency (not a peer dep)
+* Really use the `query` instead of the `displayKey` (was supposed to be fixed in 0.11.0)
+
 ### 0.14.0 Nov 28, 2015
 
 * Move npm-zepto & angular to peerDependencies
