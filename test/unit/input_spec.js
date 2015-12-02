@@ -273,6 +273,12 @@ describe('Input', function() {
       expect(this.view.getInputValue()).toBe('cheese');
     });
 
+    it('should not set the current query if null', function() {
+      this.view.setQuery('cheese');
+      this.view.setInputValue(null);
+      expect(this.view.getInputValue()).toBe('');
+    });
+
     it('should set the current query if undefined', function() {
       this.view.setQuery('cheese');
       this.view.setInputValue(undefined);

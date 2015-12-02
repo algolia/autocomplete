@@ -128,7 +128,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
         $el = DOM.element(html.suggestion)
           .append(that.templates.suggestion.apply(this, [suggestion].concat(args)))
           .data(datasetKey, that.name)
-          .data(valueKey, that.displayFn(suggestion) || null)
+          .data(valueKey, that.displayFn(suggestion) || undefined)
           .data(datumKey, JSON.stringify(suggestion));
 
         $el.children().each(function() { DOM.element(this).css(css.suggestionChild); });
