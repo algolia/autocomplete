@@ -664,6 +664,24 @@ describe('Typeahead', function() {
     });
   });
 
+  describe('when instantiated with a custom menu container', function() {
+    beforeEach(function() {
+      appendSetFixtures(fixtures.html.customMenuContainer);
+
+      this.view.destroy();
+      this.view = new Typeahead({
+        input: this.$input,
+        dropdownMenuContainer: '#custom-menu-container',
+        datasets: {}
+      });
+    });
+
+    it('should include the template in the menu', function() {
+      var $fixture = $('#custom-menu-container');
+      expect($fixture.find('.aa-dropdown-menu').length).toEqual(1);
+    });
+  });
+
   describe('when openOnFocus is set', function() {
 
     beforeEach(function() {

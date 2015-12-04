@@ -63,6 +63,7 @@ angular.module('algolia.autocomplete', [])
           }
           autocomplete = new Typeahead({
             input: element,
+            dropdownMenuContainer: scope.options.dropdownMenuContainer,
             eventBus: eventBus,
             hint: scope.options.hint,
             minLength: scope.options.minLength,

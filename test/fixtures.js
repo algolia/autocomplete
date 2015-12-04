@@ -39,6 +39,7 @@ fixtures.html = {
     '</div>',
     '</script>'
   ].join(''),
+  customMenuContainer: '<div id="custom-menu-container"></div>',
   dataset: [
     '<div class="aa-dataset-test">',
     '<span class="aa-suggestions">',

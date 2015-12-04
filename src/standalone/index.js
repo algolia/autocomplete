@@ -32,6 +32,7 @@ function autocomplete(selector, options, datasets, typeaheadObject) {
   var typeahead = typeaheadObject || new Typeahead({
     input: $input,
     eventBus: eventBus,
+    dropdownMenuContainer: options.dropdownMenuContainer,
     hint: options.hint === undefined ? true : !!options.hint,
     minLength: options.minLength,
     autoselect: options.autoselect,
