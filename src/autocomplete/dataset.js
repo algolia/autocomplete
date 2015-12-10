@@ -101,6 +101,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
     }
 
     this.trigger('rendered');
+    this.$menu.trigger('rendered');
 
     function getEmptyHtml() {
       var args = [].slice.call(arguments, 0);
