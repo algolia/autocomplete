@@ -16,7 +16,11 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
-### 0.14.1 Dev 2, 2015
+### 0.15.0 Dec 10, 2015
+
+* Ability to configure the dropdown menu container
+
+### 0.14.1 Dec 2, 2015
 
 * Move Zepto as a dependency (not a peer dep)
 * Really use the `query` instead of the `displayKey` (was supposed to be fixed in 0.11.0)
