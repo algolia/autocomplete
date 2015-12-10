@@ -36,6 +36,12 @@ function Typeahead(o) {
   $input = this.$node.find('.aa-input');
   $hint = this.$node.find('.aa-hint');
 
+  if (o.dropdownMenuContainer) {
+    DOM.element(o.dropdownMenuContainer)
+      .css('position', 'relative') // ensure the container has a relative position
+      .append($menu.css('top', '0')); // override the top: 100%
+  }
+
   // #705: if there's scrollable overflow, ie doesn't support
   // blur cancellations when the scrollbar is clicked
   //

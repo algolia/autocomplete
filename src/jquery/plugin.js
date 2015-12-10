@@ -51,6 +51,7 @@ methods = {
       typeahead = new Typeahead({
         input: $input,
         eventBus: eventBus,
+        dropdownMenuContainer: o.dropdownMenuContainer,
         hint: o.hint === undefined ? true : !!o.hint,
         minLength: o.minLength,
         autoselect: o.autoselect,

@@ -102,6 +102,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var typeahead = typeaheadObject || new Typeahead({
 	    input: $input,
 	    eventBus: eventBus,
+	    dropdownMenuContainer: options.dropdownMenuContainer,
 	    hint: options.hint === undefined ? true : !!options.hint,
 	    minLength: options.minLength,
 	    autoselect: options.autoselect,
@@ -1880,6 +1881,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  $menu = this.$node.find('.aa-dropdown-menu');
 	  $input = this.$node.find('.aa-input');
 	  $hint = this.$node.find('.aa-hint');
+
+	  if (o.dropdownMenuContainer) {
+	    DOM.element(o.dropdownMenuContainer)
+	      .css('position', 'relative') // ensure the container has a relative position
+	      .append($menu.css('top', '0')); // override the top: 100%
+	  }
 
 	  // #705: if there's scrollable overflow, ie doesn't support
 	  // blur cancellations when the scrollbar is clicked
