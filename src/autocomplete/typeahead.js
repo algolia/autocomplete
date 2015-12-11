@@ -116,6 +116,8 @@ _.mixin(Typeahead.prototype, {
 
   _onDatasetRendered: function onDatasetRendered() {
     this._updateHint();
+
+    this.eventBus.trigger('updated');
   },
 
   _onOpened: function onOpened() {

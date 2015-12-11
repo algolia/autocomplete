@@ -142,6 +142,19 @@ describe('Typeahead', function() {
         done();
       }, 100);
     });
+
+    it('should trigger autocomplete:updated', function(done) {
+      var spy;
+      this.$input.on('autocomplete:updated', spy = jasmine.createSpy());
+
+      this.dropdown.trigger('datasetRendered');
+
+      var that = this;
+      waitsForAndRuns(function() { return !!that.input.setHint.calls.count(); }, function() {
+        expect(spy).toHaveBeenCalled();
+        done();
+      }, 100);
+    });
   });
 
   describe('when dropdown triggers opened', function() {
