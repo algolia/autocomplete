@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.16.0 Dec 11, 2015
+
+* Emit a new `autocomplete:updated` event as soon as a dataset is rendered
+
 ### 0.15.0 Dec 10, 2015
 
 * Ability to configure the dropdown menu container

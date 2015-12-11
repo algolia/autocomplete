@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.15.0
+ * autocomplete.js 0.16.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2015 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -445,6 +445,8 @@
 
 	  _onDatasetRendered: function onDatasetRendered() {
 	    this._updateHint();
+
+	    this.eventBus.trigger('updated');
 	  },
 
 	  _onOpened: function onOpened() {
