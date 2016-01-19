@@ -74,13 +74,13 @@ We recommend including it from a CDN:
 bower install algolia-autocomplete.js -S
 ```
 
-#### From the sources
+#### From source
 
-Or you can fetch the sources:
+Or you can fetch the source:
 
 ##### Build/Dist
 
-You can find the builded version in [dist/](https://github.com/algolia/autocomplete.js/tree/master/dist).
+You can find the built version in [dist/](https://github.com/algolia/autocomplete.js/tree/master/dist).
 
 ##### Browserify
 
