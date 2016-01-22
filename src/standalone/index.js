@@ -1,6 +1,9 @@
 'use strict';
 
-var zepto = require('npm-zepto');
+var current$ = window.$;
+require('zepto/zepto.min.js');
+var zepto = window.$;
+window.$ = current$;
 
 // setup DOM element
 var DOM = require('../common/dom.js');
