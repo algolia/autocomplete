@@ -1,7 +1,7 @@
 /*!
- * autocomplete.js 0.16.0
+ * autocomplete.js 0.16.1
  * https://github.com/algolia/autocomplete.js
- * Copyright 2015 Algolia, Inc. and other contributors; Licensed MIT
+ * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache

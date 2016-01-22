@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.16.1 Jan 22, 2015
+
+* remove npm-zepto, use zepto original package (now on npm) fixes #48
+
 ### 0.16.0 Dec 11, 2015
 
 * Emit a new `autocomplete:updated` event as soon as a dataset is rendered
