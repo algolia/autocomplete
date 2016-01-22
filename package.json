@@ -13,7 +13,7 @@
     "url": "https://github.com/algolia/autocomplete.js.git"
   },
   "dependencies": {
-    "npm-zepto": "^1.1.7"
+    "zepto": "^1.0.1"
   },
   "peerDependencies": {
     "angular": "~1.4.2",
