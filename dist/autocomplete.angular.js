@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.16.1
+ * autocomplete.js 0.16.2
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -1845,11 +1845,11 @@
 	        var $el;
 
 	        $el = DOM.element(html.suggestion)
-	          .append(that.templates.suggestion.apply(this, [suggestion].concat(args)))
-	          .data(datasetKey, that.name)
-	          .data(valueKey, that.displayFn(suggestion) || undefined)
-	          .data(datumKey, JSON.stringify(suggestion));
+	          .append(that.templates.suggestion.apply(this, [suggestion].concat(args)));
 
+	        $el.data(datasetKey, that.name);
+	        $el.data(valueKey, that.displayFn(suggestion) || undefined); // this led to undefined return value
+	        $el.data(datumKey, JSON.stringify(suggestion));
 	        $el.children().each(function() { DOM.element(this).css(css.suggestionChild); });
 
 	        return $el;

@@ -126,11 +126,11 @@ _.mixin(Dataset.prototype, EventEmitter, {
         var $el;
 
         $el = DOM.element(html.suggestion)
-          .append(that.templates.suggestion.apply(this, [suggestion].concat(args)))
-          .data(datasetKey, that.name)
-          .data(valueKey, that.displayFn(suggestion) || undefined)
-          .data(datumKey, JSON.stringify(suggestion));
+          .append(that.templates.suggestion.apply(this, [suggestion].concat(args)));
 
+        $el.data(datasetKey, that.name);
+        $el.data(valueKey, that.displayFn(suggestion) || undefined); // this led to undefined return value
+        $el.data(datumKey, JSON.stringify(suggestion));
         $el.children().each(function() { DOM.element(this).css(css.suggestionChild); });
 
         return $el;

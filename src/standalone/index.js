@@ -1,7 +1,7 @@
 'use strict';
 
 var current$ = window.$;
-require('zepto/zepto.min.js');
+require('../../zepto.js');
 var zepto = window.$;
 window.$ = current$;
 
