@@ -8,7 +8,7 @@ describe('Typeahead', function() {
   var autocomplete = require('../../src/standalone/index.js');
 
   beforeEach(function() {
-    setFixtures(fixtures.html.textInput);
+    this.$fixture = setFixtures(fixtures.html.textInput);
 
     this.ac = autocomplete('input', {}, {
       name: 'test',
@@ -20,15 +20,13 @@ describe('Typeahead', function() {
           return sugg.name;
         }
       }
-    });
-    
+    })[0];
   });
 
   describe('when instantiated from standalone', function() {
 
     it('should initialize', function() {
-      var $fixture = $('#jasmine-fixtures');
-      expect($fixture.find('.aa-dropdown-menu').length).toEqual(1);
+      expect(this.$fixture.find('.aa-dropdown-menu').length).toEqual(1);
     });
 
     it('has an .autocomplete property', function() {
@@ -76,7 +74,7 @@ describe('Typeahead', function() {
               return sugg.name;
             }
           }
-        }, this.typeaheadSpy);
+        }, this.typeaheadSpy)[0];
       });
 
       it('should proxy the method call on typeahead object', function() {

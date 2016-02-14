@@ -31,7 +31,8 @@ var EventBus = require('../autocomplete/event_bus.js');
 function autocomplete(selector, options, datasets, typeaheadObject) {
   datasets = _.isArray(datasets) ? datasets : [].slice.call(arguments, 2);
 
-  var inputs = zepto(selector).map(function(i, input) {
+  var inputs = [];
+  zepto(selector).each(function(i, input) {
     var $input = zepto(input);
     var eventBus = new EventBus({el: $input});
     var typeahead = typeaheadObject || new Typeahead({
@@ -66,9 +67,10 @@ function autocomplete(selector, options, datasets, typeaheadObject) {
       }
     };
 
-    return typeahead.input.$input;
+    inputs.push(typeahead.input.$input);
   });
 
+  inputs = zepto(inputs);
   if (inputs.length === 1) {
     inputs.autocomplete = inputs[0].autocomplete;
   }
