@@ -448,23 +448,22 @@ The `source` options can also take a function. It enables you to have more contr
   * `query: String`: the text typed in the autocomplete
   * `callback: Function`: the callback to call at the end of your processing with the array of suggestions
 
-```
+```js
 templates: {
   source: function(query, callback) {
     var index = client.initIndex('myindex');
-    index.search(query, { hitsPerPage: 1, facetFilters: 'category:mycat` }).then(function(answer) {
+    index.search(query, { hitsPerPage: 1, facetFilters: 'category:mycat' }).then(function(answer) {
       cb(answer.hits);
     }, function() {
       cb([]);
     });
   },
 }
-
 ```
 
 Or by reusing an existing source:
 
-```
+```js
 var hitsSource = autocomplete.sources.hits(index, { hitsPerPage: 5 });
 
 templates: {
