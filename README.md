@@ -453,9 +453,9 @@ templates: {
   source: function(query, callback) {
     var index = client.initIndex('myindex');
     index.search(query, { hitsPerPage: 1, facetFilters: 'category:mycat' }).then(function(answer) {
-      cb(answer.hits);
+      callback(answer.hits);
     }, function() {
-      cb([]);
+      callback([]);
     });
   },
 }
