@@ -448,7 +448,7 @@ The `source` options can also take a function. It enables you to have more contr
   * `query: String`: the text typed in the autocomplete
   * `callback: Function`: the callback to call at the end of your processing with the array of suggestions
 
-```
+```js
 source: function(query, callback) {
   var index = client.initIndex('myindex');
   index.search(query, { hitsPerPage: 1, facetFilters: 'category:mycat` }).then(function(answer) {
@@ -461,7 +461,7 @@ source: function(query, callback) {
 
 Or by reusing an existing source:
 
-```
+```js
 var hitsSource = autocomplete.sources.hits(index, { hitsPerPage: 5 });
 
 source: function(query, callback) {
