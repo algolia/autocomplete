@@ -449,17 +449,14 @@ The `source` options can also take a function. It enables you to have more contr
   * `callback: Function`: the callback to call at the end of your processing with the array of suggestions
 
 ```
-templates: {
-  source: function(query, callback) {
-    var index = client.initIndex('myindex');
-    index.search(query, { hitsPerPage: 1, facetFilters: 'category:mycat` }).then(function(answer) {
-      cb(answer.hits);
-    }, function() {
-      cb([]);
-    });
-  },
+source: function(query, callback) {
+  var index = client.initIndex('myindex');
+  index.search(query, { hitsPerPage: 1, facetFilters: 'category:mycat` }).then(function(answer) {
+    cb(answer.hits);
+  }, function() {
+    cb([]);
+  });
 }
-
 ```
 
 Or by reusing an existing source:
@@ -467,15 +464,12 @@ Or by reusing an existing source:
 ```
 var hitsSource = autocomplete.sources.hits(index, { hitsPerPage: 5 });
 
-templates: {
-  source: function(query, callback) {
-    hitsSource(query, function(suggestions) {
-        // FIXME: Do stuff with the array of returned suggestions
-        callback(suggestions);
-    });
-  },
+source: function(query, callback) {
+  hitsSource(query, function(suggestions) {
+    // FIXME: Do stuff with the array of returned suggestions
+    callback(suggestions);
+  });
 }
-
 ```
 
 #### Custom Events
