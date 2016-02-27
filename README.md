@@ -452,9 +452,9 @@ The `source` options can also take a function. It enables you to have more contr
 source: function(query, callback) {
   var index = client.initIndex('myindex');
   index.search(query, { hitsPerPage: 1, facetFilters: 'category:mycat` }).then(function(answer) {
-    cb(answer.hits);
+    callback(answer.hits);
   }, function() {
-    cb([]);
+    callback([]);
   });
 }
 ```
