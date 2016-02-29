@@ -451,7 +451,7 @@ The `source` options can also take a function. It enables you to have more contr
 ```js
 source: function(query, callback) {
   var index = client.initIndex('myindex');
-  index.search(query, { hitsPerPage: 1, facetFilters: 'category:mycat` }).then(function(answer) {
+  index.search(query, { hitsPerPage: 1, facetFilters: 'category:mycat' }).then(function(answer) {
     callback(answer.hits);
   }, function() {
     callback([]);
