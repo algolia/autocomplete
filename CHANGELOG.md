@@ -16,12 +16,17 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
-### 0.16.2 Jan 22, 2015
+### 0.17.0 Mar 18, 2017
+
+* Ability to setup the autocomplete on a multi-inputs Zepto selector
+* Add a new `shown` event triggered when the dropdown menu is opened and non-empty
+
+### 0.16.2 Jan 22, 2016
 
 * stop using weird zepto package. Stop using chained .data calls
   it seems that chaining them ended up in an `undefined` return value when passing `undefined` as a value
 
-### 0.16.1 Jan 22, 2015
+### 0.16.1 Jan 22, 2016
 
 * remove npm-zepto, use zepto original package (now on npm) fixes #48
 

@@ -200,6 +200,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 
       if (!this.isEmpty) {
         this._show();
+        this.trigger('shown');
       }
 
       this.trigger('opened');
