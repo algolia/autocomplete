@@ -184,6 +184,18 @@ describe('Dropdown', function() {
 
       expect(spy).toHaveBeenCalled();
     });
+
+    it('should trigger shown', function() {
+      var spy;
+
+      this.view.onSync('shown', spy = jasmine.createSpy());
+
+      this.view.close();
+      this.view.isEmpty = false;
+      this.view.open();
+
+      expect(spy).toHaveBeenCalled();
+    });
   });
 
   describe('#close', function() {
