@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.16.2
+ * autocomplete.js 0.17.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -1678,6 +1678,7 @@
 
 	      if (!this.isEmpty) {
 	        this._show();
+	        this.trigger('shown');
 	      }
 
 	      this.trigger('opened');

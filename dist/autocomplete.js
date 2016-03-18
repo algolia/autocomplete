@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.16.2
+ * autocomplete.js 0.17.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -101,7 +101,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	function autocomplete(selector, options, datasets, typeaheadObject) {
 	  datasets = _.isArray(datasets) ? datasets : [].slice.call(arguments, 2);
 
-	  var inputs = zepto(selector).map(function(i, input) {
+	  var inputs = [];
+	  zepto(selector).each(function(i, input) {
 	    var $input = zepto(input);
 	    var eventBus = new EventBus({el: $input});
 	    var typeahead = typeaheadObject || new Typeahead({
@@ -136,9 +137,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    };
 
-	    return typeahead.input.$input;
+	    inputs.push(typeahead.input.$input);
 	  });
 
+	  inputs = zepto(inputs);
 	  if (inputs.length === 1) {
 	    inputs.autocomplete = inputs[0].autocomplete;
 	  }
@@ -2914,6 +2916,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      if (!this.isEmpty) {
 	        this._show();
+	        this.trigger('shown');
 	      }
 
 	      this.trigger('opened');
