@@ -13,7 +13,6 @@
               <h4>Simple auto-complete</h4>
               <div class="input-group">
                 <input id="contacts" name="contacts" class="form-control" type="text">
-                <input id="contacts" name="contacts1" class="form-control" type="text">
                 <span class="input-group-addon">Go</span>
               </div>
             </div>
@@ -50,7 +49,7 @@
       var actors = client.initIndex('actors');
       var movies = client.initIndex('movies');
 
-      autocomplete('#contacts, #contacts1', { hint: true }, [
+      autocomplete('#contacts', { hint: true }, [
         {
           source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
           displayKey: 'name',
