@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.17.1 Mar 19, 2017
+
+* REVERT [Ability to setup the autocomplete on a multi-inputs Zepto selector] Fix #59
+
 ### 0.17.0 Mar 18, 2017
 
 * Ability to setup the autocomplete on a multi-inputs Zepto selector

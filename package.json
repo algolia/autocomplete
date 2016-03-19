@@ -68,6 +68,6 @@
     "server": "grunt server",
     "test": "karma start --single-run && grunt lint"
   },
-  "version": "0.17.0",
+  "version": "0.17.1",
   "main": "index.js"
 }
