@@ -25,46 +25,31 @@ _.each = function(collection, cb) {
 _.map = zepto.map;
 _.mixin = zepto.extend;
 
+var typeaheadKey = 'aaAutocomplete';
 var Typeahead = require('../autocomplete/typeahead.js');
 var EventBus = require('../autocomplete/event_bus.js');
 
 function autocomplete(selector, options, datasets, typeaheadObject) {
   datasets = _.isArray(datasets) ? datasets : [].slice.call(arguments, 2);
-  var $input = zepto(selector);
-  var eventBus = new EventBus({el: $input});
-  var typeahead = typeaheadObject || new Typeahead({
-    input: $input,
-    eventBus: eventBus,
-    dropdownMenuContainer: options.dropdownMenuContainer,
-    hint: options.hint === undefined ? true : !!options.hint,
-    minLength: options.minLength,
-    autoselect: options.autoselect,
-    openOnFocus: options.openOnFocus,
-    templates: options.templates,
-    debug: options.debug,
-    datasets: datasets
+
+  return zepto(selector).each(function(i, input) {
+    var $input = zepto(input);
+    var eventBus = new EventBus({el: $input});
+    var typeahead = typeaheadObject || new Typeahead({
+      input: $input,
+      eventBus: eventBus,
+      dropdownMenuContainer: options.dropdownMenuContainer,
+      hint: options.hint === undefined ? true : !!options.hint,
+      minLength: options.minLength,
+      autoselect: options.autoselect,
+      openOnFocus: options.openOnFocus,
+      templates: options.templates,
+      debug: options.debug,
+      datasets: datasets
+    });
+
+    $input.data(typeaheadKey, typeahead);
   });
-
-  typeahead.input.$input.autocomplete = {
-    typeahead: typeahead,
-    open: function() {
-      typeahead.open();
-    },
-    close: function() {
-      typeahead.close();
-    },
-    getVal: function() {
-      return typeahead.getVal();
-    },
-    setVal: function(value) {
-      return typeahead.setVal(value);
-    },
-    destroy: function() {
-      typeahead.destroy();
-    }
-  };
-
-  return typeahead.input.$input;
 }
 
 autocomplete.sources = Typeahead.sources;

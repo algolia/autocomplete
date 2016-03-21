@@ -20,7 +20,7 @@ describe('Typeahead', function() {
           return sugg.name;
         }
       }
-    })[0];
+    }).data('aaAutocomplete');
   });
 
   describe('when instantiated from standalone', function() {
@@ -29,24 +29,16 @@ describe('Typeahead', function() {
       expect(this.$fixture.find('.aa-dropdown-menu').length).toEqual(1);
     });
 
-    it('has an .autocomplete property', function() {
-      expect(this.ac.autocomplete).toBeDefined();
-    });
-
   });
 
   describe('when accessing autocomplete function', function() {
-
-    it('should have a typeahead property', function() {
-      expect(this.ac.autocomplete.typeahead).toBeDefined();
-    });
 
     it('should have an open, close, getVal, setVal and destroy methods', function() {
       var methodsToAssert = ['open', 'close', 'getVal', 'setVal', 'destroy'];
 
       for (var i = 0; i < methodsToAssert.length; i++) {
-        expect(this.ac.autocomplete[methodsToAssert[i]]).toBeDefined();
-        expect(typeof this.ac.autocomplete[methodsToAssert[i]]).toEqual('function');
+        expect(this.ac[methodsToAssert[i]]).toBeDefined();
+        expect(typeof this.ac[methodsToAssert[i]]).toEqual('function');
       }
     });
 
@@ -74,20 +66,19 @@ describe('Typeahead', function() {
               return sugg.name;
             }
           }
-        }, this.typeaheadSpy)[0];
+        }, this.typeaheadSpy).data('aaAutocomplete');
       });
 
       it('should proxy the method call on typeahead object', function() {
-        this.ac.autocomplete.open();
-        this.ac.autocomplete.close();
-        this.ac.autocomplete.getVal();
-        this.ac.autocomplete.setVal('Hey');
-        this.ac.autocomplete.destroy();
-
+        this.ac.open();
         expect(this.typeaheadSpy.open.calledOnce).toBe(true);
+        this.ac.close();
         expect(this.typeaheadSpy.close.calledOnce).toBe(true);
+        this.ac.getVal();
         expect(this.typeaheadSpy.getVal.calledOnce).toBe(true);
+        this.ac.setVal('Hey');
         expect(this.typeaheadSpy.setVal.withArgs('Hey').calledOnce).toBe(true);
+        this.ac.destroy();
         expect(this.typeaheadSpy.destroy.calledOnce).toBe(true);
       });
 
