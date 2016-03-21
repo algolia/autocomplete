@@ -95,46 +95,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	_.map = zepto.map;
 	_.mixin = zepto.extend;
 
+	var typeaheadKey = 'aaAutocomplete';
 	var Typeahead = __webpack_require__(5);
 	var EventBus = __webpack_require__(6);
 
 	function autocomplete(selector, options, datasets, typeaheadObject) {
 	  datasets = _.isArray(datasets) ? datasets : [].slice.call(arguments, 2);
-	  var $input = zepto(selector);
-	  var eventBus = new EventBus({el: $input});
-	  var typeahead = typeaheadObject || new Typeahead({
-	    input: $input,
-	    eventBus: eventBus,
-	    dropdownMenuContainer: options.dropdownMenuContainer,
-	    hint: options.hint === undefined ? true : !!options.hint,
-	    minLength: options.minLength,
-	    autoselect: options.autoselect,
-	    openOnFocus: options.openOnFocus,
-	    templates: options.templates,
-	    debug: options.debug,
-	    datasets: datasets
+
+	  return zepto(selector).each(function(i, input) {
+	    var $input = zepto(input);
+	    var eventBus = new EventBus({el: $input});
+	    var typeahead = typeaheadObject || new Typeahead({
+	      input: $input,
+	      eventBus: eventBus,
+	      dropdownMenuContainer: options.dropdownMenuContainer,
+	      hint: options.hint === undefined ? true : !!options.hint,
+	      minLength: options.minLength,
+	      autoselect: options.autoselect,
+	      openOnFocus: options.openOnFocus,
+	      templates: options.templates,
+	      debug: options.debug,
+	      datasets: datasets
+	    });
+
+	    $input.data(typeaheadKey, typeahead);
 	  });
-
-	  typeahead.input.$input.autocomplete = {
-	    typeahead: typeahead,
-	    open: function() {
-	      typeahead.open();
-	    },
-	    close: function() {
-	      typeahead.close();
-	    },
-	    getVal: function() {
-	      return typeahead.getVal();
-	    },
-	    setVal: function(value) {
-	      return typeahead.setVal(value);
-	    },
-	    destroy: function() {
-	      typeahead.destroy();
-	    }
-	  };
-
-	  return typeahead.input.$input;
 	}
 
 	autocomplete.sources = Typeahead.sources;
@@ -1625,6 +1610,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    .onSync('cursorRemoved', this._onCursorRemoved, this)
 	    .onSync('opened', this._onOpened, this)
 	    .onSync('closed', this._onClosed, this)
+	    .onSync('shown', this._onShown, this)
 	    .onAsync('datasetRendered', this._onDatasetRendered, this);
 
 	  this.input = new Typeahead.Input({input: $input, hint: $hint})
@@ -1681,6 +1667,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this._updateHint();
 
 	    this.eventBus.trigger('opened');
+	  },
+
+	  _onShown: function onShown() {
+	    this.eventBus.trigger('shown');
 	  },
 
 	  _onClosed: function onClosed() {
@@ -2809,6 +2799,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // can't use jQuery#show because $menu is a span element we want
 	    // display: block; not dislay: inline;
 	    this.$menu.css('display', 'block');
+
+	    this.trigger('shown');
 	  },
 
 	  _getSuggestions: function getSuggestions() {
@@ -2906,7 +2898,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      if (!this.isEmpty) {
 	        this._show();
-	        this.trigger('shown');
 	      }
 
 	      this.trigger('opened');

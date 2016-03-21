@@ -16,6 +16,11 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.17.2 Mar 21, 2017
+
+* Ability to setup the autocomplete on a multi-inputs Zepto selector
+* Propagate the `shown` event to the top-level
+
 ### 0.17.1 Mar 19, 2017
 
 * REVERT [Ability to setup the autocomplete on a multi-inputs Zepto selector] Fix #59
@@ -24,6 +29,8 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 * Ability to setup the autocomplete on a multi-inputs Zepto selector
 * Add a new `shown` event triggered when the dropdown menu is opened and non-empty
+
+BREAKING CHANGE: the standalone object returned by the `autocomplete()` method is now a Zepto object.
 
 ### 0.16.2 Jan 22, 2016
 

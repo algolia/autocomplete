@@ -397,6 +397,7 @@
 	    .onSync('cursorRemoved', this._onCursorRemoved, this)
 	    .onSync('opened', this._onOpened, this)
 	    .onSync('closed', this._onClosed, this)
+	    .onSync('shown', this._onShown, this)
 	    .onAsync('datasetRendered', this._onDatasetRendered, this);
 
 	  this.input = new Typeahead.Input({input: $input, hint: $hint})
@@ -453,6 +454,10 @@
 	    this._updateHint();
 
 	    this.eventBus.trigger('opened');
+	  },
+
+	  _onShown: function onShown() {
+	    this.eventBus.trigger('shown');
 	  },
 
 	  _onClosed: function onClosed() {
@@ -1581,6 +1586,8 @@
 	    // can't use jQuery#show because $menu is a span element we want
 	    // display: block; not dislay: inline;
 	    this.$menu.css('display', 'block');
+
+	    this.trigger('shown');
 	  },
 
 	  _getSuggestions: function getSuggestions() {
@@ -1678,7 +1685,6 @@
 
 	      if (!this.isEmpty) {
 	        this._show();
-	        this.trigger('shown');
 	      }
 
 	      this.trigger('opened');
