@@ -600,12 +600,6 @@ You can also pass a custom Typeahead instance in Autocomplete.js constructor:
 var search = autocomplete('#search', { hint: false}, [{ ... }], new Typeahead({ ... }));
 ```
 
-You can always interact with Typeahead object by using the ```typeahead``` property:
-
-```
-search.autocomplete.typeahead;
-```
-
 Development
 -----------
 

@@ -20,13 +20,17 @@ describe('Typeahead', function() {
           return sugg.name;
         }
       }
-    }).data('aaAutocomplete');
+    });
   });
 
   describe('when instantiated from standalone', function() {
 
     it('should initialize', function() {
       expect(this.$fixture.find('.aa-dropdown-menu').length).toEqual(1);
+    });
+
+    it('has an .autocomplete property', function() {
+      expect(this.ac.autocomplete).toBeDefined();
     });
 
   });
@@ -37,13 +41,14 @@ describe('Typeahead', function() {
       var methodsToAssert = ['open', 'close', 'getVal', 'setVal', 'destroy'];
 
       for (var i = 0; i < methodsToAssert.length; i++) {
-        expect(this.ac[methodsToAssert[i]]).toBeDefined();
-        expect(typeof this.ac[methodsToAssert[i]]).toEqual('function');
+        expect(this.ac.autocomplete[methodsToAssert[i]]).toBeDefined();
+        expect(typeof this.ac.autocomplete[methodsToAssert[i]]).toEqual('function');
       }
     });
 
     describe('when executing the methods', function() {
       beforeEach(function() {
+        this.$fixture = setFixtures(fixtures.html.textInput);
 
         this.typeaheadSpy = {
           input: {
@@ -66,19 +71,19 @@ describe('Typeahead', function() {
               return sugg.name;
             }
           }
-        }, this.typeaheadSpy).data('aaAutocomplete');
+        }, this.typeaheadSpy);
       });
 
       it('should proxy the method call on typeahead object', function() {
-        this.ac.open();
+        this.ac.autocomplete.open();
         expect(this.typeaheadSpy.open.calledOnce).toBe(true);
-        this.ac.close();
+        this.ac.autocomplete.close();
         expect(this.typeaheadSpy.close.calledOnce).toBe(true);
-        this.ac.getVal();
+        this.ac.autocomplete.getVal();
         expect(this.typeaheadSpy.getVal.calledOnce).toBe(true);
-        this.ac.setVal('Hey');
+        this.ac.autocomplete.setVal('Hey');
         expect(this.typeaheadSpy.setVal.withArgs('Hey').calledOnce).toBe(true);
-        this.ac.destroy();
+        this.ac.autocomplete.destroy();
         expect(this.typeaheadSpy.destroy.calledOnce).toBe(true);
       });
 
