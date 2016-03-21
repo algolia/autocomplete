@@ -156,7 +156,9 @@ describe('Dropdown', function() {
 
   describe('#open', function() {
     it('should display the menu if not empty', function() {
+      this.view.isOpen = true;
       this.view.close();
+      expect(this.$menu).not.toBeVisible();
 
       this.view.isEmpty = false;
       this.view.open();
@@ -165,14 +167,15 @@ describe('Dropdown', function() {
     });
 
     it('should not display the menu if empty', function() {
+      this.view.isOpen = true;
       this.view.close();
+      expect(this.$menu).not.toBeVisible();
 
       this.view.isEmpty = true;
       this.view.open();
 
       expect(this.$menu).not.toBeVisible();
     });
-
 
     it('should trigger opened', function() {
       var spy;
