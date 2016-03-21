@@ -82,7 +82,9 @@
           }
         }
       ]).on('autocomplete:selected', function(even, suggestion, dataset) {
-        console.log(suggestion, dataset);
+        console.log('selected', suggestion, dataset);
+      }).on('autocomplete:shown', function() {
+        console.log('shown');
       });
     </script>
   </body>

@@ -68,6 +68,7 @@ function Typeahead(o) {
     .onSync('cursorRemoved', this._onCursorRemoved, this)
     .onSync('opened', this._onOpened, this)
     .onSync('closed', this._onClosed, this)
+    .onSync('shown', this._onShown, this)
     .onAsync('datasetRendered', this._onDatasetRendered, this);
 
   this.input = new Typeahead.Input({input: $input, hint: $hint})
@@ -124,6 +125,10 @@ _.mixin(Typeahead.prototype, {
     this._updateHint();
 
     this.eventBus.trigger('opened');
+  },
+
+  _onShown: function onShown() {
+    this.eventBus.trigger('shown');
   },
 
   _onClosed: function onClosed() {

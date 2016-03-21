@@ -178,6 +178,16 @@ describe('Typeahead', function() {
 
       expect(spy).toHaveBeenCalled();
     });
+
+    it('should trigger autocomplete:shown', function() {
+      var spy;
+
+      this.$input.on('autocomplete:shown', spy = jasmine.createSpy());
+
+      this.dropdown.trigger('shown');
+
+      expect(spy).toHaveBeenCalled();
+    });
   });
 
   describe('when dropdown triggers closed', function() {

@@ -103,6 +103,8 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     // can't use jQuery#show because $menu is a span element we want
     // display: block; not dislay: inline;
     this.$menu.css('display', 'block');
+
+    this.trigger('shown');
   },
 
   _getSuggestions: function getSuggestions() {
@@ -200,7 +202,6 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 
       if (!this.isEmpty) {
         this._show();
-        this.trigger('shown');
       }
 
       this.trigger('opened');
