@@ -26,7 +26,9 @@ _.mixin(EventBus.prototype, {
   trigger: function(type) {
     var args = [].slice.call(arguments, 1);
 
-    this.$el.trigger(namespace + type, args);
+    var event = $.Event(namespace + type);
+    this.$el.trigger(event, args);
+    return event
   }
 });
 
