@@ -2,8 +2,8 @@
 
 var current$ = window.$;
 require('../../zepto.js');
-var zepto = window.$;
-window.$ = current$;
+var zepto = window.Zepto;
+window.$ = current$; // restore the `$` (we don't want Zepto here)
 
 // setup DOM element
 var DOM = require('../common/dom.js');
