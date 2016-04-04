@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.17.2
+ * autocomplete.js 0.17.3
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -72,8 +72,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var current$ = window.$;
 	__webpack_require__(2);
-	var zepto = window.$;
-	window.$ = current$;
+	var zepto = window.Zepto;
+	window.$ = current$; // restore the `$` (we don't want Zepto here)
 
 	// setup DOM element
 	var DOM = __webpack_require__(3);

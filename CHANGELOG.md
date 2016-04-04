@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.17.3 Apr 04, 2017
+
+* Standalone: ensure we actually use the Zepto object and not whatever is in `window.$`
+
 ### 0.17.2 Mar 21, 2017
 
 * Ability to setup the autocomplete on a multi-inputs Zepto selector
