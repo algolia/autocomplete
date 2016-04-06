@@ -30,22 +30,24 @@ function Dropdown(o) {
 
   this.isOpen = false;
   this.isEmpty = true;
+  this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
 
   // bound functions
   onSuggestionClick = _.bind(this._onSuggestionClick, this);
   onSuggestionMouseEnter = _.bind(this._onSuggestionMouseEnter, this);
   onSuggestionMouseLeave = _.bind(this._onSuggestionMouseLeave, this);
 
+  var cssClass = _.className(this.cssClasses.prefix, this.cssClasses.suggestion);
   this.$menu = DOM.element(o.menu)
-    .on('click.aa', '.aa-suggestion', onSuggestionClick)
-    .on('mouseenter.aa', '.aa-suggestion', onSuggestionMouseEnter)
-    .on('mouseleave.aa', '.aa-suggestion', onSuggestionMouseLeave);
+    .on('click.aa', cssClass, onSuggestionClick)
+    .on('mouseenter.aa', cssClass, onSuggestionMouseEnter)
+    .on('mouseleave.aa', cssClass, onSuggestionMouseLeave);
 
   if (o.templates && o.templates.header) {
     this.$menu.prepend(_.templatify(o.templates.header)());
   }
 
-  this.datasets = _.map(o.datasets, function(oDataset) { return initializeDataset(that.$menu, oDataset); });
+  this.datasets = _.map(o.datasets, function(oDataset) { return initializeDataset(that.$menu, oDataset, o.cssClasses); });
   _.each(this.datasets, function(dataset) {
     var root = dataset.getRoot();
     if (root && root.parent().length === 0) {
@@ -108,15 +110,15 @@ _.mixin(Dropdown.prototype, EventEmitter, {
   },
 
   _getSuggestions: function getSuggestions() {
-    return this.$menu.find('.aa-suggestion');
+    return this.$menu.find(_.className(this.cssClasses.prefix, this.cssClasses.suggestion));
   },
 
   _getCursor: function getCursor() {
-    return this.$menu.find('.aa-cursor').first();
+    return this.$menu.find(_.className(this.cssClasses.prefix, this.cssClasses.cursor)).first();
   },
 
   _setCursor: function setCursor($el, silent) {
-    $el.first().addClass('aa-cursor');
+    $el.first().addClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true));
 
     if (!silent) {
       this.trigger('cursorMoved');
@@ -124,7 +126,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
   },
 
   _removeCursor: function removeCursor() {
-    this._getCursor().removeClass('aa-cursor');
+    this._getCursor().removeClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true));
   },
 
   _moveCursor: function moveCursor(increment) {
@@ -280,8 +282,8 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 // ----------------
 Dropdown.Dataset = Dataset;
 
-function initializeDataset($menu, oDataset) {
-  return new Dropdown.Dataset(_.mixin({$menu: $menu}, oDataset));
+function initializeDataset($menu, oDataset, cssClasses) {
+  return new Dropdown.Dataset(_.mixin({$menu: $menu, cssClasses: cssClasses}, oDataset));
 }
 
 module.exports = Dropdown;

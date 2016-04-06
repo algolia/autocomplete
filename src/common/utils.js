@@ -82,5 +82,9 @@ module.exports = {
 
   defer: function(fn) { setTimeout(fn, 0); },
 
-  noop: function() {}
+  noop: function() {},
+
+  className: function(prefix, clazz, skipDot) {
+    return (skipDot ? '' : '.') + prefix + '-' + clazz;
+  }
 };
