@@ -99,7 +99,7 @@ describe('Dropdown', function() {
       expect($suggestion).toHaveClass('aa-cursor');
     });
 
-    it('should not trigger cursorMoved', function() {
+    it('should trigger cursorMoved', function() {
       var spy;
       var $suggestion;
 
@@ -108,7 +108,7 @@ describe('Dropdown', function() {
       $suggestion = this.$menu.find('.aa-suggestion').first();
       $suggestion.mouseenter();
 
-      expect(spy).not.toHaveBeenCalled();
+      expect(spy).toHaveBeenCalled();
     });
   });
 
