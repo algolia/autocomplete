@@ -279,6 +279,17 @@ When initializing an autocomplete, there are a number of options you can configu
   * `header` – the header to prepend to the dropdown menu
   * `footer` – the footer to append to the dropdown menu
 
+* `cssClasses` – An optional hash overriding the default css classes.
+  * `root` – the root classes. Defaults to `algolia-autocomplete`.
+  * `prefix` – the CSS class prefix of all nested elements. Defaults to `aa`.
+  * `dropdownMenu` – the dropdown menu CSS class. Defaults to `dropdownMenu`.
+  * `input` – the input CSS class. Defaults to `input`.
+  * `hint` – the hint CSS class. Defaults to `hint`.
+  * `suggestions` – the suggestions list CSS class. Defaults to `suggestions`.
+  * `suggestion` – the suggestion wrapper CSS class. Defaults to `suggestion`.
+  * `cursor` – the cursor CSS class. Defaults to `cursor`.
+  * `dataset` – the dataset CSS class. Defaults to `dataset`.
+
 ```html
 <script type="text/template" id="my-custom-menu-template">
   <div class="my-custom-menu">

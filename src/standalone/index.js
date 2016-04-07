@@ -45,6 +45,7 @@ function autocomplete(selector, options, datasets, typeaheadObject) {
       openOnFocus: options.openOnFocus,
       templates: options.templates,
       debug: options.debug,
+      cssClasses: options.cssClasses,
       datasets: datasets
     });
 
