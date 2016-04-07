@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.17.3
+ * autocomplete.js 0.18.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -131,6 +131,7 @@
 	            openOnFocus: scope.options.openOnFocus,
 	            templates: scope.options.templates,
 	            debug: scope.options.debug,
+	            cssClasses: scope.options.cssClasses,
 	            datasets: scope.datasets
 	          });
 	        }
@@ -269,7 +270,11 @@
 
 	  defer: function(fn) { setTimeout(fn, 0); },
 
-	  noop: function() {}
+	  noop: function() {},
+
+	  className: function(prefix, clazz, skipDot) {
+	    return (skipDot ? '' : '.') + prefix + '-' + clazz;
+	  }
 	};
 
 
@@ -348,11 +353,12 @@
 	  this.autoselect = !!o.autoselect;
 	  this.openOnFocus = !!o.openOnFocus;
 	  this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
+	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
 	  this.$node = buildDom(o);
 
-	  $menu = this.$node.find('.aa-dropdown-menu');
-	  $input = this.$node.find('.aa-input');
-	  $hint = this.$node.find('.aa-hint');
+	  $menu = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.dropdownMenu));
+	  $input = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.input));
+	  $hint = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.hint));
 
 	  if (o.dropdownMenuContainer) {
 	    DOM.element(o.dropdownMenuContainer)
@@ -380,7 +386,7 @@
 
 	  this.eventBus = o.eventBus || new EventBus({el: $input});
 
-	  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets, templates: o.templates})
+	  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets, templates: o.templates, cssClasses: this.cssClasses})
 	    .onSync('suggestionClicked', this._onSuggestionClicked, this)
 	    .onSync('cursorMoved', this._onCursorMoved, this)
 	    .onSync('cursorRemoved', this._onCursorRemoved, this)
@@ -683,7 +689,7 @@
 	    this.input.destroy();
 	    this.dropdown.destroy();
 
-	    destroyDomStructure(this.$node);
+	    destroyDomStructure(this.$node, this.cssClasses);
 
 	    this.$node = null;
 	  }
@@ -696,14 +702,17 @@
 	  var $hint;
 
 	  $input = DOM.element(options.input);
-	  $wrapper = DOM.element(html.wrapper).css(css.wrapper);
+	  $wrapper = DOM.element(html.wrapper.replace('%ROOT%', options.cssClasses.root)).css(css.wrapper);
 	  // override the display property with the table-cell value
 	  // if the parent element is a table and the original input was a block
 	  //  -> https://github.com/algolia/autocomplete.js/issues/16
 	  if ($input.css('display') === 'block' && $input.parent().css('display') === 'table') {
 	    $wrapper.css('display', 'table-cell');
 	  }
-	  $dropdown = DOM.element(html.dropdown).css(css.dropdown);
+	  var dropdownHtml = html.dropdown.
+	    replace('%PREFIX%', options.cssClasses.prefix).
+	    replace('%DROPDOWN_MENU%', options.cssClasses.dropdownMenu);
+	  $dropdown = DOM.element(dropdownHtml).css(css.dropdown);
 	  if (options.templates && options.templates.dropdownMenu) {
 	    $dropdown.html(_.templatify(options.templates.dropdownMenu)());
 	  }
@@ -711,7 +720,7 @@
 
 	  $hint
 	    .val('')
-	    .addClass('aa-hint')
+	    .addClass(_.className(options.cssClasses.prefix, options.cssClasses.hint, true))
 	    .removeAttr('id name placeholder required')
 	    .prop('readonly', true)
 	    .attr({autocomplete: 'off', spellcheck: 'false', tabindex: -1});
@@ -729,7 +738,7 @@
 	  });
 
 	  $input
-	    .addClass('aa-input')
+	    .addClass(_.className(options.cssClasses.prefix, options.cssClasses.input, true))
 	    .attr({autocomplete: 'off', spellcheck: false})
 	    .css(options.hint ? css.input : css.inputWithNoHint);
 
@@ -762,8 +771,8 @@
 	  };
 	}
 
-	function destroyDomStructure($node) {
-	  var $input = $node.find('.aa-input');
+	function destroyDomStructure($node, cssClasses) {
+	  var $input = $node.find(_.className(cssClasses.prefix, cssClasses.input));
 
 	  // need to remove attrs that weren't previously defined and
 	  // revert attrs that originally had a value
@@ -777,7 +786,7 @@
 
 	  $input
 	    .detach()
-	    .removeClass('aa-input')
+	    .removeClass(_.className(cssClasses.prefix, cssClasses.input, true))
 	    .insertAfter($node);
 	  if ($input.removeData) {
 	    $input.removeData(attrsKey);
@@ -1463,22 +1472,24 @@
 
 	  this.isOpen = false;
 	  this.isEmpty = true;
+	  this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
 
 	  // bound functions
 	  onSuggestionClick = _.bind(this._onSuggestionClick, this);
 	  onSuggestionMouseEnter = _.bind(this._onSuggestionMouseEnter, this);
 	  onSuggestionMouseLeave = _.bind(this._onSuggestionMouseLeave, this);
 
+	  var cssClass = _.className(this.cssClasses.prefix, this.cssClasses.suggestion);
 	  this.$menu = DOM.element(o.menu)
-	    .on('click.aa', '.aa-suggestion', onSuggestionClick)
-	    .on('mouseenter.aa', '.aa-suggestion', onSuggestionMouseEnter)
-	    .on('mouseleave.aa', '.aa-suggestion', onSuggestionMouseLeave);
+	    .on('click.aa', cssClass, onSuggestionClick)
+	    .on('mouseenter.aa', cssClass, onSuggestionMouseEnter)
+	    .on('mouseleave.aa', cssClass, onSuggestionMouseLeave);
 
 	  if (o.templates && o.templates.header) {
 	    this.$menu.prepend(_.templatify(o.templates.header)());
 	  }
 
-	  this.datasets = _.map(o.datasets, function(oDataset) { return initializeDataset(that.$menu, oDataset); });
+	  this.datasets = _.map(o.datasets, function(oDataset) { return initializeDataset(that.$menu, oDataset, o.cssClasses); });
 	  _.each(this.datasets, function(dataset) {
 	    var root = dataset.getRoot();
 	    if (root && root.parent().length === 0) {
@@ -1541,21 +1552,20 @@
 	  },
 
 	  _getSuggestions: function getSuggestions() {
-	    return this.$menu.find('.aa-suggestion');
+	    return this.$menu.find(_.className(this.cssClasses.prefix, this.cssClasses.suggestion));
 	  },
 
 	  _getCursor: function getCursor() {
-	    return this.$menu.find('.aa-cursor').first();
+	    return this.$menu.find(_.className(this.cssClasses.prefix, this.cssClasses.cursor)).first();
 	  },
 
 	  _setCursor: function setCursor($el) {
-	    $el.first().addClass('aa-cursor');
-	    console.log('cursorMoved');
+	    $el.first().addClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true));
 	    this.trigger('cursorMoved');
 	  },
 
 	  _removeCursor: function removeCursor() {
-	    this._getCursor().removeClass('aa-cursor');
+	    this._getCursor().removeClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true));
 	  },
 
 	  _moveCursor: function moveCursor(increment) {
@@ -1711,8 +1721,8 @@
 	// ----------------
 	Dropdown.Dataset = Dataset;
 
-	function initializeDataset($menu, oDataset) {
-	  return new Dropdown.Dataset(_.mixin({$menu: $menu}, oDataset));
+	function initializeDataset($menu, oDataset, cssClasses) {
+	  return new Dropdown.Dataset(_.mixin({$menu: $menu, cssClasses: cssClasses}, oDataset));
 	}
 
 	module.exports = Dropdown;
@@ -1760,9 +1770,16 @@
 
 	  this.templates = getTemplates(o.templates, this.displayFn);
 
-	  this.$el = o.$menu && o.$menu.find('.aa-dataset-' + this.name).length > 0 ?
-	    DOM.element(o.$menu.find('.aa-dataset-' + this.name)[0]) :
-	    DOM.element(html.dataset.replace('%CLASS%', this.name));
+	  this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+
+	  var clazz = _.className(this.cssClasses.prefix, this.cssClasses.dataset);
+	  this.$el = o.$menu && o.$menu.find(clazz + '-' + this.name).length > 0 ?
+	    DOM.element(o.$menu.find(clazz + '-' + this.name)[0]) :
+	    DOM.element(
+	      html.dataset.replace('%CLASS%', this.name)
+	        .replace('%PREFIX%', this.cssClasses.prefix)
+	        .replace('%DATASET%', this.cssClasses.dataset)
+	    );
 
 	  this.$menu = o.$menu;
 	}
@@ -1820,8 +1837,8 @@
 	    }
 
 	    if (this.$menu) {
-	      this.$menu.addClass('aa-' + (hasSuggestions ? 'with' : 'without') + '-' + this.name)
-	        .removeClass('aa-' + (hasSuggestions ? 'without' : 'with') + '-' + this.name);
+	      this.$menu.addClass(this.cssClasses.prefix + '-' + (hasSuggestions ? 'with' : 'without') + '-' + this.name)
+	        .removeClass(this.cssClasses.prefix + '-' + (hasSuggestions ? 'without' : 'with') + '-' + this.name);
 	    }
 
 	    this.trigger('rendered');
@@ -1836,8 +1853,12 @@
 	      var args = [].slice.call(arguments, 0);
 	      var $suggestions;
 	      var nodes;
+	      var self = this;
 
-	      $suggestions = DOM.element(html.suggestions).css(css.suggestions);
+	      var suggestionsHtml = html.suggestions.
+	        replace('%PREFIX%', this.cssClasses.prefix).
+	        replace('%SUGGESTIONS%', this.cssClasses.suggestions);
+	      $suggestions = DOM.element(suggestionsHtml).css(css.suggestions);
 
 	      // jQuery#append doesn't support arrays as the first argument
 	      // until version 1.8, see http://bugs.jquery.com/ticket/11231
@@ -1849,7 +1870,10 @@
 	      function getSuggestionNode(suggestion) {
 	        var $el;
 
-	        $el = DOM.element(html.suggestion)
+	        var suggestionHtml = html.suggestion.
+	          replace('%PREFIX%', self.cssClasses.prefix).
+	          replace('%SUGGESTION%', self.cssClasses.suggestion);
+	        $el = DOM.element(suggestionHtml)
 	          .append(that.templates.suggestion.apply(this, [suggestion].concat(args)));
 
 	        $el.data(datasetKey, that.name);
@@ -1960,11 +1984,11 @@
 	'use strict';
 
 	module.exports = {
-	  wrapper: '<span class="algolia-autocomplete"></span>',
-	  dropdown: '<span class="aa-dropdown-menu"></span>',
-	  dataset: '<div class="aa-dataset-%CLASS%"></div>',
-	  suggestions: '<span class="aa-suggestions"></span>',
-	  suggestion: '<div class="aa-suggestion"></div>'
+	  wrapper: '<span class="%ROOT%"></span>',
+	  dropdown: '<span class="%PREFIX%-%DROPDOWN_MENU%"></span>',
+	  dataset: '<div class="%PREFIX%-%DATASET%-%CLASS%"></div>',
+	  suggestions: '<span class="%PREFIX%-%SUGGESTIONS%"></span>',
+	  suggestion: '<div class="%PREFIX%-%SUGGESTION%"></div>'
 	};
 
 
@@ -2023,6 +2047,17 @@
 	  rtl: {
 	    left: 'auto',
 	    right: '0'
+	  },
+	  defaultClasses: {
+	    root: 'algolia-autocomplete',
+	    prefix: 'aa',
+	    dropdownMenu: 'dropdown-menu',
+	    input: 'input',
+	    hint: 'hint',
+	    suggestions: 'suggestions',
+	    suggestion: 'suggestion',
+	    cursor: 'cursor',
+	    dataset: 'dataset'
 	  }
 	};
 

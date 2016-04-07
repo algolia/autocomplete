@@ -16,6 +16,11 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.18.0 Apr 07, 2017
+
+* Ability to customize the CSS classes used to render the DOM
+* Ensure the `autocomplete:cursorchanged` event is called on `mouseover` as well
+
 ### 0.17.3 Apr 04, 2017
 
 * Standalone: ensure we actually use the Zepto object and not whatever is in `window.$`
