@@ -1505,7 +1505,7 @@
 
 	  _onSuggestionMouseEnter: function onSuggestionMouseEnter($e) {
 	    this._removeCursor();
-	    this._setCursor(DOM.element($e.currentTarget), true);
+	    this._setCursor(DOM.element($e.currentTarget));
 	  },
 
 	  _onSuggestionMouseLeave: function onSuggestionMouseLeave() {
@@ -1548,12 +1548,10 @@
 	    return this.$menu.find('.aa-cursor').first();
 	  },
 
-	  _setCursor: function setCursor($el, silent) {
+	  _setCursor: function setCursor($el) {
 	    $el.first().addClass('aa-cursor');
-
-	    if (!silent) {
-	      this.trigger('cursorMoved');
-	    }
+	    console.log('cursorMoved');
+	    this.trigger('cursorMoved');
 	  },
 
 	  _removeCursor: function removeCursor() {

@@ -74,7 +74,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 
   _onSuggestionMouseEnter: function onSuggestionMouseEnter($e) {
     this._removeCursor();
-    this._setCursor(DOM.element($e.currentTarget), true);
+    this._setCursor(DOM.element($e.currentTarget));
   },
 
   _onSuggestionMouseLeave: function onSuggestionMouseLeave() {
@@ -117,12 +117,9 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     return this.$menu.find(_.className(this.cssClasses.prefix, this.cssClasses.cursor)).first();
   },
 
-  _setCursor: function setCursor($el, silent) {
+  _setCursor: function setCursor($el) {
     $el.first().addClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true));
-
-    if (!silent) {
-      this.trigger('cursorMoved');
-    }
+    this.trigger('cursorMoved');
   },
 
   _removeCursor: function removeCursor() {
