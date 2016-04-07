@@ -30,11 +30,12 @@ function Typeahead(o) {
   this.autoselect = !!o.autoselect;
   this.openOnFocus = !!o.openOnFocus;
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
+  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
   this.$node = buildDom(o);
 
-  $menu = this.$node.find('.aa-dropdown-menu');
-  $input = this.$node.find('.aa-input');
-  $hint = this.$node.find('.aa-hint');
+  $menu = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.dropdownMenu));
+  $input = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.input));
+  $hint = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.hint));
 
   if (o.dropdownMenuContainer) {
     DOM.element(o.dropdownMenuContainer)
@@ -62,7 +63,7 @@ function Typeahead(o) {
 
   this.eventBus = o.eventBus || new EventBus({el: $input});
 
-  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets, templates: o.templates})
+  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets, templates: o.templates, cssClasses: this.cssClasses})
     .onSync('suggestionClicked', this._onSuggestionClicked, this)
     .onSync('cursorMoved', this._onCursorMoved, this)
     .onSync('cursorRemoved', this._onCursorRemoved, this)
@@ -365,7 +366,7 @@ _.mixin(Typeahead.prototype, {
     this.input.destroy();
     this.dropdown.destroy();
 
-    destroyDomStructure(this.$node);
+    destroyDomStructure(this.$node, this.cssClasses);
 
     this.$node = null;
   }
@@ -378,14 +379,17 @@ function buildDom(options) {
   var $hint;
 
   $input = DOM.element(options.input);
-  $wrapper = DOM.element(html.wrapper).css(css.wrapper);
+  $wrapper = DOM.element(html.wrapper.replace('%ROOT%', options.cssClasses.root)).css(css.wrapper);
   // override the display property with the table-cell value
   // if the parent element is a table and the original input was a block
   //  -> https://github.com/algolia/autocomplete.js/issues/16
   if ($input.css('display') === 'block' && $input.parent().css('display') === 'table') {
     $wrapper.css('display', 'table-cell');
   }
-  $dropdown = DOM.element(html.dropdown).css(css.dropdown);
+  var dropdownHtml = html.dropdown.
+    replace('%PREFIX%', options.cssClasses.prefix).
+    replace('%DROPDOWN_MENU%', options.cssClasses.dropdownMenu);
+  $dropdown = DOM.element(dropdownHtml).css(css.dropdown);
   if (options.templates && options.templates.dropdownMenu) {
     $dropdown.html(_.templatify(options.templates.dropdownMenu)());
   }
@@ -393,7 +397,7 @@ function buildDom(options) {
 
   $hint
     .val('')
-    .addClass('aa-hint')
+    .addClass(_.className(options.cssClasses.prefix, options.cssClasses.hint, true))
     .removeAttr('id name placeholder required')
     .prop('readonly', true)
     .attr({autocomplete: 'off', spellcheck: 'false', tabindex: -1});
@@ -411,7 +415,7 @@ function buildDom(options) {
   });
 
   $input
-    .addClass('aa-input')
+    .addClass(_.className(options.cssClasses.prefix, options.cssClasses.input, true))
     .attr({autocomplete: 'off', spellcheck: false})
     .css(options.hint ? css.input : css.inputWithNoHint);
 
@@ -444,8 +448,8 @@ function getBackgroundStyles($el) {
   };
 }
 
-function destroyDomStructure($node) {
-  var $input = $node.find('.aa-input');
+function destroyDomStructure($node, cssClasses) {
+  var $input = $node.find(_.className(cssClasses.prefix, cssClasses.input));
 
   // need to remove attrs that weren't previously defined and
   // revert attrs that originally had a value
@@ -459,7 +463,7 @@ function destroyDomStructure($node) {
 
   $input
     .detach()
-    .removeClass('aa-input')
+    .removeClass(_.className(cssClasses.prefix, cssClasses.input, true))
     .insertAfter($node);
   if ($input.removeData) {
     $input.removeData(attrsKey);

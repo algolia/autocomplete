@@ -687,6 +687,38 @@ describe('Typeahead', function() {
     });
   });
 
+  describe('when instantiated with a custom CSS classes', function() {
+    beforeEach(function() {
+      appendSetFixtures(fixtures.html.customMenu);
+
+      this.view.destroy();
+      this.view = new Typeahead({
+        input: this.$input,
+        hint: true,
+        cssClasses: {
+          root: 'my-root',
+          prefix: 'pp',
+          dropdownMenu: 'my-menu',
+          input: 'my-bar',
+          hint: 'my-clue',
+          suggestions: 'list',
+          suggestion: 'item',
+          cursor: 'pointer',
+          dataset: 'resultset'
+        },
+        datasets: {}
+      });
+    });
+
+    it('should include the template in the menu', function() {
+      var $fixture = $('#jasmine-fixtures');
+      expect($fixture.find('.my-root').length).toEqual(1);
+      expect($fixture.find('.my-root .pp-my-menu').length).toEqual(1);
+      expect($fixture.find('.my-root .pp-my-bar').length).toEqual(1);
+      expect($fixture.find('.my-root .pp-my-clue').length).toEqual(1);
+    });
+  });
+
   describe('when instantiated with a custom menu container', function() {
     beforeEach(function() {
       appendSetFixtures(fixtures.html.customMenuContainer);

@@ -36,9 +36,16 @@ function Dataset(o) {
 
   this.templates = getTemplates(o.templates, this.displayFn);
 
-  this.$el = o.$menu && o.$menu.find('.aa-dataset-' + this.name).length > 0 ?
-    DOM.element(o.$menu.find('.aa-dataset-' + this.name)[0]) :
-    DOM.element(html.dataset.replace('%CLASS%', this.name));
+  this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+
+  var clazz = _.className(this.cssClasses.prefix, this.cssClasses.dataset);
+  this.$el = o.$menu && o.$menu.find(clazz + '-' + this.name).length > 0 ?
+    DOM.element(o.$menu.find(clazz + '-' + this.name)[0]) :
+    DOM.element(
+      html.dataset.replace('%CLASS%', this.name)
+        .replace('%PREFIX%', this.cssClasses.prefix)
+        .replace('%DATASET%', this.cssClasses.dataset)
+    );
 
   this.$menu = o.$menu;
 }
@@ -96,8 +103,8 @@ _.mixin(Dataset.prototype, EventEmitter, {
     }
 
     if (this.$menu) {
-      this.$menu.addClass('aa-' + (hasSuggestions ? 'with' : 'without') + '-' + this.name)
-        .removeClass('aa-' + (hasSuggestions ? 'without' : 'with') + '-' + this.name);
+      this.$menu.addClass(this.cssClasses.prefix + '-' + (hasSuggestions ? 'with' : 'without') + '-' + this.name)
+        .removeClass(this.cssClasses.prefix + '-' + (hasSuggestions ? 'without' : 'with') + '-' + this.name);
     }
 
     this.trigger('rendered');
@@ -112,8 +119,12 @@ _.mixin(Dataset.prototype, EventEmitter, {
       var args = [].slice.call(arguments, 0);
       var $suggestions;
       var nodes;
+      var self = this;
 
-      $suggestions = DOM.element(html.suggestions).css(css.suggestions);
+      var suggestionsHtml = html.suggestions.
+        replace('%PREFIX%', this.cssClasses.prefix).
+        replace('%SUGGESTIONS%', this.cssClasses.suggestions);
+      $suggestions = DOM.element(suggestionsHtml).css(css.suggestions);
 
       // jQuery#append doesn't support arrays as the first argument
       // until version 1.8, see http://bugs.jquery.com/ticket/11231
@@ -125,7 +136,10 @@ _.mixin(Dataset.prototype, EventEmitter, {
       function getSuggestionNode(suggestion) {
         var $el;
 
-        $el = DOM.element(html.suggestion)
+        var suggestionHtml = html.suggestion.
+          replace('%PREFIX%', self.cssClasses.prefix).
+          replace('%SUGGESTION%', self.cssClasses.suggestion);
+        $el = DOM.element(suggestionHtml)
           .append(that.templates.suggestion.apply(this, [suggestion].concat(args)));
 
         $el.data(datasetKey, that.name);

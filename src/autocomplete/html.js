@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = {
-  wrapper: '<span class="algolia-autocomplete"></span>',
-  dropdown: '<span class="aa-dropdown-menu"></span>',
-  dataset: '<div class="aa-dataset-%CLASS%"></div>',
-  suggestions: '<span class="aa-suggestions"></span>',
-  suggestion: '<div class="aa-suggestion"></div>'
+  wrapper: '<span class="%ROOT%"></span>',
+  dropdown: '<span class="%PREFIX%-%DROPDOWN_MENU%"></span>',
+  dataset: '<div class="%PREFIX%-%DATASET%-%CLASS%"></div>',
+  suggestions: '<span class="%PREFIX%-%SUGGESTIONS%"></span>',
+  suggestion: '<div class="%PREFIX%-%SUGGESTION%"></div>'
 };

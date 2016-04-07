@@ -71,6 +71,7 @@ angular.module('algolia.autocomplete', [])
             openOnFocus: scope.options.openOnFocus,
             templates: scope.options.templates,
             debug: scope.options.debug,
+            cssClasses: scope.options.cssClasses,
             datasets: scope.datasets
           });
         }

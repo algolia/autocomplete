@@ -58,6 +58,7 @@ methods = {
         openOnFocus: o.openOnFocus,
         templates: o.templates,
         debug: o.debug,
+        cssClasses: o.cssClasses,
         datasets: datasets
       });
 
