@@ -363,6 +363,9 @@ describe('jquery-typeahead.js', function() {
         yield input.type('mi');
 
         suggestions = yield dropdown.elementsByClassName('aa-suggestion');
+        expect(suggestions).to.have.length('4');
+
+        yield input.type(wd.SPECIAL_KEYS['Down arrow']);
         yield suggestions[1].click();
 
         expect(yield dropdown.isDisplayed()).to.equal(false);
