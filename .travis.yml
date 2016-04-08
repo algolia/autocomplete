@@ -29,6 +29,7 @@ env:
 node_js:
 - 5
 before_script:
+- npm install -g npm@~2
 - npm install -g grunt-cli
 - npm install -g node-static
 - grunt build
