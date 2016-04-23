@@ -1565,11 +1565,26 @@
 	  },
 
 	  _onSuggestionMouseEnter: function onSuggestionMouseEnter($e) {
+	    var elt = DOM.element($e.currentTarget);
+	    if (elt.hasClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true))) {
+	      // we're already on the cursor
+	      // => we're probably entering it again after leaving it for a nested div
+	      return;
+	    }
 	    this._removeCursor();
-	    this._setCursor(DOM.element($e.currentTarget));
+	    this._setCursor(elt);
 	  },
 
-	  _onSuggestionMouseLeave: function onSuggestionMouseLeave() {
+	  _onSuggestionMouseLeave: function onSuggestionMouseLeave($e) {
+	    // $e.relatedTarget is the `EventTarget` the pointing device entered to
+	    if ($e.relatedTarget) {
+	      var elt = DOM.element($e.relatedTarget);
+	      if (elt.closest('.' + _.className(this.cssClasses.prefix, this.cssClasses.cursor, true)).length > 0) {
+	        // our father is a cursor
+	        // => it means we're just leaving the suggestion for a nested div
+	        return;
+	      }
+	    }
 	    this._removeCursor();
 	  },
 
