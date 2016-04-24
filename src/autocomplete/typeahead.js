@@ -315,12 +315,14 @@ _.mixin(Typeahead.prototype, {
 
     this._setLanguageDirection();
 
-    this.eventBus.trigger('selected', datum.raw, datum.datasetName);
-    this.dropdown.close();
+    var event = this.eventBus.trigger('selected', datum.raw, datum.datasetName);
+    if (event.isDefaultPrevented() === false) {
+        this.dropdown.close();
 
-    // #118: allow click event to bubble up to the body before removing
-    // the suggestions otherwise we break event delegation
-    _.defer(_.bind(this.dropdown.empty, this.dropdown));
+        // #118: allow click event to bubble up to the body before removing
+        // the suggestions otherwise we break event delegation
+        _.defer(_.bind(this.dropdown.empty, this.dropdown));
+    }
   },
 
   // ### public

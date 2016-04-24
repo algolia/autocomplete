@@ -24,6 +24,7 @@ _.each = function(collection, cb) {
 };
 _.map = zepto.map;
 _.mixin = zepto.extend;
+_.Event = zepto.Event;
 
 var typeaheadKey = 'aaAutocomplete';
 var Typeahead = require('../autocomplete/typeahead.js');
