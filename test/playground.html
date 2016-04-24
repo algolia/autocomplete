@@ -59,13 +59,15 @@
               return '<div class="aa-info-results">' + content.nbHits + ' results</div>';
             },
             suggestion: function(suggestion) {
-              return suggestion._highlightResult.name.value;
+              return '<div>' + suggestion._highlightResult.name.value + '</div>';
             }
           }
         }
       ]).on('autocomplete:selected', function(even, suggestion, dataset) {
         console.log('selected', suggestion, dataset);
-      });;
+      }).on('autocomplete:cursorchanged', function(even, suggestion, dataset) {
+        console.log('cursorchanged', suggestion, dataset);
+      });
 
       autocomplete('#contacts2', { debug: true }, [
         {
