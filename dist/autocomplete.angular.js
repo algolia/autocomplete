@@ -1536,6 +1536,7 @@
 	      }
 	    }
 	    this._removeCursor();
+	    this.trigger('cursorRemoved');
 	  },
 
 	  _onRendered: function onRendered() {

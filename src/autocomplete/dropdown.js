@@ -94,6 +94,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
       }
     }
     this._removeCursor();
+    this.trigger('cursorRemoved');
   },
 
   _onRendered: function onRendered() {
