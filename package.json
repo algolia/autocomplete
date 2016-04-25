@@ -16,10 +16,6 @@
     "angular": "< 2",
     "jquery": ">= 1.7"
   },
-  "dependencies": {
-    "angular": "< 2",
-    "jquery": ">= 1.7"
-  },
   "devDependencies": {
     "angular-mocks": "^1.4.2",
     "chai": "^3.0.0",
