@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.18.0
+ * autocomplete.js 0.19.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -94,6 +94,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	_.map = zepto.map;
 	_.mixin = zepto.extend;
+	_.Event = zepto.Event;
 
 	var typeaheadKey = 'aaAutocomplete';
 	var Typeahead = __webpack_require__(5);
@@ -1876,12 +1877,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    this._setLanguageDirection();
 
-	    this.eventBus.trigger('selected', datum.raw, datum.datasetName);
-	    this.dropdown.close();
+	    var event = this.eventBus.trigger('selected', datum.raw, datum.datasetName);
+	    if (event.isDefaultPrevented() === false) {
+	      this.dropdown.close();
 
-	    // #118: allow click event to bubble up to the body before removing
-	    // the suggestions otherwise we break event delegation
-	    _.defer(_.bind(this.dropdown.empty, this.dropdown));
+	      // #118: allow click event to bubble up to the body before removing
+	      // the suggestions otherwise we break event delegation
+	      _.defer(_.bind(this.dropdown.empty, this.dropdown));
+	    }
 	  },
 
 	  // ### public
@@ -2072,7 +2075,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  trigger: function(type) {
 	    var args = [].slice.call(arguments, 1);
 
-	    this.$el.trigger(namespace + type, args);
+	    var event = _.Event(namespace + type);
+	    this.$el.trigger(event, args);
+	    return event;
 	  }
 	});
 

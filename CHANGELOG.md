@@ -16,25 +16,30 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
-### 0.18.0 Apr 07, 2017
+### 0.19.0 Apr 25, 2016
+
+* Allow select handler to prevent menu from being closed (#72)
+* Do not trigger the cursorchanged event while entering/leaving nested divs (#71)
+
+### 0.18.0 Apr 07, 2016
 
 * Ability to customize the CSS classes used to render the DOM
 * Ensure the `autocomplete:cursorchanged` event is called on `mouseover` as well
 
-### 0.17.3 Apr 04, 2017
+### 0.17.3 Apr 04, 2016
 
 * Standalone: ensure we actually use the Zepto object and not whatever is in `window.$`
 
-### 0.17.2 Mar 21, 2017
+### 0.17.2 Mar 21, 2016
 
 * Ability to setup the autocomplete on a multi-inputs Zepto selector
 * Propagate the `shown` event to the top-level
 
-### 0.17.1 Mar 19, 2017
+### 0.17.1 Mar 19, 2016
 
 * REVERT [Ability to setup the autocomplete on a multi-inputs Zepto selector] Fix #59
 
-### 0.17.0 Mar 18, 2017
+### 0.17.0 Mar 18, 2016
 
 * Ability to setup the autocomplete on a multi-inputs Zepto selector
 * Add a new `shown` event triggered when the dropdown menu is opened and non-empty
