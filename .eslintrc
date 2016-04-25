@@ -6,6 +6,7 @@
   ],
   "rules": {
     "id-length": 0,
-    "no-cond-assign": 0
+    "no-cond-assign": 0,
+    "new-cap": 0
   }
 }

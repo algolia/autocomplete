@@ -28,7 +28,7 @@ _.mixin(EventBus.prototype, {
 
     var event = _.Event(namespace + type);
     this.$el.trigger(event, args);
-    return event
+    return event;
   }
 });
 
