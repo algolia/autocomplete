@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.19.1 May 04, 2016
+
+* Fixed the angular build (_.Event was undefined)
+
 ### 0.19.0 Apr 25, 2016
 
 * Allow select handler to prevent menu from being closed (#72)

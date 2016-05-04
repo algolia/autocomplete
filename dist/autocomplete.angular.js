@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.19.0
+ * autocomplete.js 0.19.1
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -75,7 +75,7 @@
 	_.each = angular.forEach;
 	_.map = angular.element.map;
 	_.mixin = angular.extend;
-	_.Event = angular.Event;
+	_.Event = angular.element.Event;
 
 	var EventBus = __webpack_require__(5);
 	var Typeahead = __webpack_require__(6);

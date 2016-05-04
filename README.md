@@ -42,7 +42,7 @@ Features
 Installation
 -------------
 
-The `autocomplete.js` library must be included **after** jQuery, Zepto or Angular.js.
+The `autocomplete.js` library must be included **after** jQuery, Zepto or Angular.js (with jQuery).
 
 #### From a CDN
 
@@ -168,7 +168,7 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
   <input type="text" id="search-input" autocomplete aa-datasets="getDatasets()" />
 </div>
 
-<!-- [ ... ] -->
+<!-- [ include jQuery + Angular.js ] -->
 <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.angular.min.js"></script>
 <script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
 <script>
@@ -195,6 +195,8 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
     }]);
 </script>
 ```
+
+**Note:** You need to rely on `jQuery`, the lite version embedded in Angular.js won't work.
 
 #### Look and Feel
 
