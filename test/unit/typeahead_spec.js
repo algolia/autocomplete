@@ -88,10 +88,17 @@ describe('Typeahead', function() {
     });
 
     it('should update the input value', function() {
-      this.dropdown.trigger('cursorMoved');
+      this.dropdown.trigger('cursorMoved', true);
 
       expect(this.input.setInputValue)
         .toHaveBeenCalledWith(testDatum.value, true);
+    });
+
+    it('should not update the input', function() {
+      this.dropdown.trigger('cursorMoved', false);
+
+      expect(this.input.setInputValue)
+        .not.toHaveBeenCalled();
     });
 
     it('should trigger cursorchanged', function() {

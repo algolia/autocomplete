@@ -103,10 +103,12 @@ _.mixin(Typeahead.prototype, {
     }
   },
 
-  _onCursorMoved: function onCursorMoved() {
+  _onCursorMoved: function onCursorMoved(event, updateInput) {
     var datum = this.dropdown.getDatumForCursor();
 
-    this.input.setInputValue(datum.value, true);
+    if (updateInput) {
+      this.input.setInputValue(datum.value, true);
+    }
 
     this.eventBus.trigger('cursorchanged', datum.raw, datum.datasetName);
   },
