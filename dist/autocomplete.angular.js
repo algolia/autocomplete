@@ -429,10 +429,12 @@
 	    }
 	  },
 
-	  _onCursorMoved: function onCursorMoved() {
+	  _onCursorMoved: function onCursorMoved(event, updateInput) {
 	    var datum = this.dropdown.getDatumForCursor();
 
-	    this.input.setInputValue(datum.value, true);
+	    if (updateInput) {
+	      this.input.setInputValue(datum.value, true);
+	    }
 
 	    this.eventBus.trigger('cursorchanged', datum.raw, datum.datasetName);
 	  },
@@ -1527,7 +1529,7 @@
 	      return;
 	    }
 	    this._removeCursor();
-	    this._setCursor(elt);
+	    this._setCursor(elt, false);
 	  },
 
 	  _onSuggestionMouseLeave: function onSuggestionMouseLeave($e) {
@@ -1580,9 +1582,9 @@
 	    return this.$menu.find(_.className(this.cssClasses.prefix, this.cssClasses.cursor)).first();
 	  },
 
-	  _setCursor: function setCursor($el) {
+	  _setCursor: function setCursor($el, updateInput) {
 	    $el.first().addClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true));
-	    this.trigger('cursorMoved');
+	    this.trigger('cursorMoved', updateInput);
 	  },
 
 	  _removeCursor: function removeCursor() {
@@ -1616,7 +1618,7 @@
 	      newCursorIndex = $suggestions.length - 1;
 	    }
 
-	    this._setCursor($newCursor = $suggestions.eq(newCursorIndex));
+	    this._setCursor($newCursor = $suggestions.eq(newCursorIndex), true);
 
 	    // in the case of scrollable overflow
 	    // make sure the cursor is visible in the menu

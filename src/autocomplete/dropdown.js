@@ -80,7 +80,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
       return;
     }
     this._removeCursor();
-    this._setCursor(elt);
+    this._setCursor(elt, false);
   },
 
   _onSuggestionMouseLeave: function onSuggestionMouseLeave($e) {
@@ -133,9 +133,9 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     return this.$menu.find(_.className(this.cssClasses.prefix, this.cssClasses.cursor)).first();
   },
 
-  _setCursor: function setCursor($el) {
+  _setCursor: function setCursor($el, updateInput) {
     $el.first().addClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true));
-    this.trigger('cursorMoved');
+    this.trigger('cursorMoved', updateInput);
   },
 
   _removeCursor: function removeCursor() {
@@ -169,7 +169,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
       newCursorIndex = $suggestions.length - 1;
     }
 
-    this._setCursor($newCursor = $suggestions.eq(newCursorIndex));
+    this._setCursor($newCursor = $suggestions.eq(newCursorIndex), true);
 
     // in the case of scrollable overflow
     // make sure the cursor is visible in the menu
