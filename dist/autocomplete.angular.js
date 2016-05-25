@@ -1480,6 +1480,7 @@
 	  this.isOpen = false;
 	  this.isEmpty = true;
 	  this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+	  this.templates = {};
 
 	  // bound functions
 	  onSuggestionClick = _.bind(this._onSuggestionClick, this);
@@ -1493,10 +1494,13 @@
 	    .on('mouseleave.aa', cssClass, onSuggestionMouseLeave);
 
 	  if (o.templates && o.templates.header) {
-	    this.$menu.prepend(_.templatify(o.templates.header)());
+	    this.templates.header = _.templatify(o.templates.header);
+	    this.$menu.prepend(this.templates.header());
 	  }
 
-	  this.datasets = _.map(o.datasets, function(oDataset) { return initializeDataset(that.$menu, oDataset, o.cssClasses); });
+	  this.datasets = _.map(o.datasets, function(oDataset) {
+	    return initializeDataset(that.$menu, oDataset, o.cssClasses);
+	  });
 	  _.each(this.datasets, function(dataset) {
 	    var root = dataset.getRoot();
 	    if (root && root.parent().length === 0) {
@@ -1506,7 +1510,16 @@
 	  });
 
 	  if (o.templates && o.templates.footer) {
-	    this.$menu.append(_.templatify(o.templates.footer)());
+	    this.templates.header = _.templatify(o.templates.footer);
+	    this.$menu.append(this.templates.footer());
+	  }
+
+	  if (o.templates && o.templates.empty) {
+	    this.templates.empty = _.templatify(o.templates.empty);
+	    this.$empty = DOM.element('<div class="' +
+	      _.className(this.cssClasses.prefix, this.cssClasses.empty, true) + '">' +
+	      '</div>');
+	    this.$menu.append(this.$empty);
 	  }
 	}
 
@@ -1550,8 +1563,18 @@
 	    this.isEmpty = _.every(this.datasets, isDatasetEmpty);
 
 	    if (this.isEmpty) {
-	      this._hide();
+	      if (this.$empty) {
+	        var html = this.templates.empty({
+	          query: this.datasets[0] && this.datasets[0].query
+	        });
+	        this.$empty.html(html);
+	      } else {
+	        this._hide();
+	      }
 	    } else if (this.isOpen) {
+	      if (this.$empty) {
+	        this.$empty.empty();
+	      }
 	      this._show();
 	    }
 
@@ -2080,7 +2103,8 @@
 	    suggestions: 'suggestions',
 	    suggestion: 'suggestion',
 	    cursor: 'cursor',
-	    dataset: 'dataset'
+	    dataset: 'dataset',
+	    empty: 'empty'
 	  }
 	};
 

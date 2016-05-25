@@ -75,6 +75,35 @@ describe('Dropdown', function() {
     });
   });
 
+  describe('when instantiated with a custom empty template', function() {
+    beforeEach(function() {
+      this.view.destroy();
+      this.view = new Dropdown({
+        menu: this.$menu,
+        datasets: [{}],
+        templates: {
+          empty: '<h3 class="empty">this is empty</3>'
+        }
+      });
+    });
+
+    it('should include the empty', function() {
+      expect(this.$menu.find('.aa-empty').length).toEqual(1);
+      expect(this.$menu.find('.aa-empty').children().length).toEqual(0);
+    });
+
+    it('should not hide the dropdown if empty', function() {
+      this.view.datasets[0].isEmpty.and.returnValue(true);
+
+      this.view.open();
+      this.view._onRendered();
+
+      expect(this.$menu.find('.aa-empty').length).toEqual(1);
+      expect(this.$menu.find('.aa-empty').children().length).toEqual(1);
+      expect(this.$menu.find('.aa-empty').find('h3.empty').length).toEqual(1);
+    });
+  });
+
   describe('when mouseenter is triggered on a suggestion', function() {
     it('should remove pre-existing cursor', function() {
       var $first;

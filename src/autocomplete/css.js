@@ -59,7 +59,8 @@ var css = {
     suggestions: 'suggestions',
     suggestion: 'suggestion',
     cursor: 'cursor',
-    dataset: 'dataset'
+    dataset: 'dataset',
+    empty: 'empty'
   }
 };
 

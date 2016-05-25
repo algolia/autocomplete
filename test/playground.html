@@ -50,7 +50,7 @@
       var actors = client.initIndex('actors');
       var movies = client.initIndex('movies');
 
-      autocomplete('#contacts, #contacts1', { hint: true }, [
+      autocomplete('#contacts, #contacts1', { hint: true, templates: { empty: 'empty' } }, [
         {
           source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
           displayKey: 'name',
@@ -69,7 +69,14 @@
         console.log('cursorchanged', suggestion, dataset);
       });
 
-      autocomplete('#contacts2', { debug: true }, [
+      autocomplete('#contacts2', {
+        debug: true,
+        templates: {
+          empty: function(data) {
+            return 'No results for "<strong>' + data.query.replace(/[^-_'a-zA-Z0-9 ]/, ' ') + '</strong>"';
+          }
+        }
+      }, [
         {
           source: autocomplete.sources.popularIn(actors, {hitsPerPage: 3}, {index: movies, source: 'name', facets: 'genre', maxValuesPerFacet: 3}),
           name: '',
