@@ -1599,11 +1599,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  $input = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.input));
 	  $hint = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.hint));
 
-	  if (o.dropdownMenuContainer) {
-	    DOM.element(o.dropdownMenuContainer)
-	      .css('position', 'relative') // ensure the container has a relative position
-	      .append($menu.css('top', '0')); // override the top: 100%
-	  }
+	  DOM.element('body').append($menu);
+	  window.$input = $input;
+	  $menu.
+	    css('top', $input.offset().top + $input.height()).
+	    css('left', $input.offset().left).
+	    css('width', $input.width());
 
 	  // #705: if there's scrollable overflow, ie doesn't support
 	  // blur cancellations when the scrollbar is clicked
@@ -1817,7 +1818,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (this.dir !== dir) {
 	      this.dir = dir;
 	      this.$node.css('direction', dir);
-	      this.dropdown.setLanguageDirection(dir);
 	    }
 	  },
 
@@ -2949,10 +2949,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  },
 
-	  setLanguageDirection: function setLanguageDirection(dir) {
-	    this.$menu.css(dir === 'ltr' ? css.ltr : css.rtl);
-	  },
-
 	  moveCursorUp: function moveCursorUp() {
 	    this._moveCursor(-1);
 	  },
@@ -3325,8 +3321,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  dropdown: {
 	    position: 'absolute',
-	    top: '100%',
-	    left: '0',
 	    zIndex: '100',
 	    display: 'none'
 	  },
@@ -3339,14 +3333,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  suggestionChild: {
 	    whiteSpace: 'normal'
-	  },
-	  ltr: {
-	    left: '0',
-	    right: 'auto'
-	  },
-	  rtl: {
-	    left: 'auto',
-	    right: '0'
 	  },
 	  defaultClasses: {
 	    root: 'algolia-autocomplete',
