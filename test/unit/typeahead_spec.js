@@ -574,7 +574,6 @@ describe('Typeahead', function() {
 
       expect(this.view.dir).toBe('rtl');
       expect(this.view.$node).toHaveCss({direction: 'rtl'});
-      expect(this.dropdown.setLanguageDirection).toHaveBeenCalledWith('rtl');
     });
   });
 
@@ -689,8 +688,7 @@ describe('Typeahead', function() {
     });
 
     it('should include the template in the menu', function() {
-      var $fixture = $('#jasmine-fixtures');
-      expect($fixture.find('.aa-dropdown-menu .my-custom-menu').length).toEqual(1);
+      expect($('.aa-dropdown-menu .my-custom-menu').length).toEqual(1);
     });
   });
 

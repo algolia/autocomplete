@@ -26,7 +26,7 @@ describe('Typeahead', function() {
   describe('when instantiated from standalone', function() {
 
     it('should initialize', function() {
-      expect(this.$fixture.find('.aa-dropdown-menu').length).toEqual(1);
+      expect(this.$fixture.find('.aa-input').length).toEqual(1);
     });
 
     it('has an .autocomplete property', function() {

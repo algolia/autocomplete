@@ -223,10 +223,6 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     }
   },
 
-  setLanguageDirection: function setLanguageDirection(dir) {
-    this.$menu.css(dir === 'ltr' ? css.ltr : css.rtl);
-  },
-
   moveCursorUp: function moveCursorUp() {
     this._moveCursor(-1);
   },

@@ -27,8 +27,6 @@ var css = {
   },
   dropdown: {
     position: 'absolute',
-    top: '100%',
-    left: '0',
     zIndex: '100',
     display: 'none'
   },
@@ -41,14 +39,6 @@ var css = {
   },
   suggestionChild: {
     whiteSpace: 'normal'
-  },
-  ltr: {
-    left: '0',
-    right: 'auto'
-  },
-  rtl: {
-    left: 'auto',
-    right: '0'
   },
   defaultClasses: {
     root: 'algolia-autocomplete',
