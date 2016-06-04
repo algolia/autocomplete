@@ -16,6 +16,11 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.20.0 June 04, 2016
+
+* Ensure we don't update the input value on mouseenter (#76)
+* Render an `empty` template if no results (#80)
+
 ### 0.19.1 May 04, 2016
 
 * Fixed the angular build (_.Event was undefined)

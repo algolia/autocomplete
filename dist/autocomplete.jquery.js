@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.19.1
+ * autocomplete.js 0.20.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -1560,7 +1560,7 @@
 	  });
 
 	  if (o.templates && o.templates.footer) {
-	    this.templates.header = _.templatify(o.templates.footer);
+	    this.templates.footer = _.templatify(o.templates.footer);
 	    this.$menu.append(this.templates.footer());
 	  }
 
