@@ -220,6 +220,7 @@ come from the provided templates detailed [here](#datasets).
       {{{footer}}}
     </div>
   {{/datasets}}
+  {{empty}}
 </span>
 ```
 
@@ -280,6 +281,8 @@ When initializing an autocomplete, there are a number of options you can configu
   * `dropdownMenu` – the dropdown menu template. The template should include all *dataset* placeholders.
   * `header` – the header to prepend to the dropdown menu
   * `footer` – the footer to append to the dropdown menu
+  * `empty` – the template to display when none of the datasets are returning results. The templating function
+    is called with a context containing the underlying `query`.
 
 * `cssClasses` – An optional hash overriding the default css classes.
   * `root` – the root classes. Defaults to `algolia-autocomplete`.
@@ -291,6 +294,7 @@ When initializing an autocomplete, there are a number of options you can configu
   * `suggestion` – the suggestion wrapper CSS class. Defaults to `suggestion`.
   * `cursor` – the cursor CSS class. Defaults to `cursor`.
   * `dataset` – the dataset CSS class. Defaults to `dataset`.
+  * `empty` – the empty CSS class. Defaults to `empty`.
 
 ```html
 <script type="text/template" id="my-custom-menu-template">
