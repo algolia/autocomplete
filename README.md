@@ -287,7 +287,7 @@ When initializing an autocomplete, there are a number of options you can configu
 * `cssClasses` – An optional hash overriding the default css classes.
   * `root` – the root classes. Defaults to `algolia-autocomplete`.
   * `prefix` – the CSS class prefix of all nested elements. Defaults to `aa`.
-  * `dropdownMenu` – the dropdown menu CSS class. Defaults to `dropdownMenu`.
+  * `dropdownMenu` – the dropdown menu CSS class. Defaults to `dropdown-menu`.
   * `input` – the input CSS class. Defaults to `input`.
   * `hint` – the hint CSS class. Defaults to `hint`.
   * `suggestions` – the suggestions list CSS class. Defaults to `suggestions`.
