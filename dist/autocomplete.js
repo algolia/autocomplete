@@ -1648,7 +1648,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    .onSync('queryChanged', this._onQueryChanged, this)
 	    .onSync('whitespaceChanged', this._onWhitespaceChanged, this);
 
-	  this._bindKeyboardShortcuts(o, $input);
+	  this._bindKeyboardShortcuts($input, o);
 
 	  this._setLanguageDirection();
 	}
@@ -1659,20 +1659,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	_.mixin(Typeahead.prototype, {
 	  // ### private
 
-	  _bindKeyboardShortcuts: function (o, $input) {
-	    DOM.element(document).keydown(function(e) {
-	        if (! o.keyboardShortcuts) {
-	          return;
-	        }
+	  _bindKeyboardShortcuts: function($input, options) {
+	    if (!options.keyboardShortcuts) {
+	      return;
+	    }
+	    DOM.element(document).keydown(function(event) {
+	      var tagName = (event.target || event.srcElement).tagName;
+	      if (tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA') {
+	        // already in an input
+	        return;
+	      }
 
-	        var which = e.which || e.keyCode;
-	        if (false === $input.is(':focus') && o.keyboardShortcuts.indexOf(which) !== -1) {
-	          $input.focus();
-	          e.stopPropagation();
-	          e.preventDefault();
-	          return false;
-	        }
-	      });
+	      var which = event.which || event.keyCode;
+	      if (options.keyboardShortcuts.indexOf(which) === -1) {
+	        // not the right shortcut
+	        return;
+	      }
+
+	      $input.focus();
+	      event.stopPropagation();
+	      event.preventDefault();
+	    });
 	  },
 
 	  _onSuggestionClicked: function onSuggestionClicked(type, $el) {
@@ -2648,40 +2655,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	// shim for using process in browser
 
 	var process = module.exports = {};
-
-	// cached from whatever global is present so that test runners that stub it
-	// don't break things.  But we need to wrap it in a try catch in case it is
-	// wrapped in strict mode code which doesn't define any globals.  It's inside a
-	// function because try/catches deoptimize in certain engines.
-
-	var cachedSetTimeout;
-	var cachedClearTimeout;
-
-	(function () {
-	  try {
-	    cachedSetTimeout = setTimeout;
-	  } catch (e) {
-	    cachedSetTimeout = function () {
-	      throw new Error('setTimeout is not defined');
-	    }
-	  }
-	  try {
-	    cachedClearTimeout = clearTimeout;
-	  } catch (e) {
-	    cachedClearTimeout = function () {
-	      throw new Error('clearTimeout is not defined');
-	    }
-	  }
-	} ())
 	var queue = [];
 	var draining = false;
 	var currentQueue;
 	var queueIndex = -1;
 
 	function cleanUpNextTick() {
-	    if (!draining || !currentQueue) {
-	        return;
-	    }
 	    draining = false;
 	    if (currentQueue.length) {
 	        queue = currentQueue.concat(queue);
@@ -2697,7 +2676,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (draining) {
 	        return;
 	    }
-	    var timeout = cachedSetTimeout(cleanUpNextTick);
+	    var timeout = setTimeout(cleanUpNextTick);
 	    draining = true;
 
 	    var len = queue.length;
@@ -2714,7 +2693,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    currentQueue = null;
 	    draining = false;
-	    cachedClearTimeout(timeout);
+	    clearTimeout(timeout);
 	}
 
 	process.nextTick = function (fun) {
@@ -2726,7 +2705,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    queue.push(new Item(fun, args));
 	    if (queue.length === 1 && !draining) {
-	        cachedSetTimeout(drainQueue, 0);
+	        setTimeout(drainQueue, 0);
 	    }
 	};
 

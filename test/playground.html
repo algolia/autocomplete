@@ -71,6 +71,7 @@
 
       autocomplete('#contacts2', {
         debug: true,
+        keyboardShortcuts: [191, 83],
         templates: {
           empty: function(data) {
             return 'No results for "<strong>' + data.query.replace(/[^-_'a-zA-Z0-9 ]/, ' ') + '</strong>"';

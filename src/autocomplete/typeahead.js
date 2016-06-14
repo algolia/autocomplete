@@ -85,7 +85,7 @@ function Typeahead(o) {
     .onSync('queryChanged', this._onQueryChanged, this)
     .onSync('whitespaceChanged', this._onWhitespaceChanged, this);
 
-  this._bindKeyboardShortcuts(o, $input);
+  this._bindKeyboardShortcuts($input, o);
 
   this._setLanguageDirection();
 }
@@ -96,20 +96,27 @@ function Typeahead(o) {
 _.mixin(Typeahead.prototype, {
   // ### private
 
-  _bindKeyboardShortcuts: function (o, $input) {
-    DOM.element(document).keydown(function(e) {
-        if (! o.keyboardShortcuts) {
-          return;
-        }
+  _bindKeyboardShortcuts: function($input, options) {
+    if (!options.keyboardShortcuts) {
+      return;
+    }
+    DOM.element(document).keydown(function(event) {
+      var tagName = (event.target || event.srcElement).tagName;
+      if (tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA') {
+        // already in an input
+        return;
+      }
 
-        var which = e.which || e.keyCode;
-        if (false === $input.is(':focus') && o.keyboardShortcuts.indexOf(which) !== -1) {
-          $input.focus();
-          e.stopPropagation();
-          e.preventDefault();
-          return false;
-        }
-      });
+      var which = event.which || event.keyCode;
+      if (options.keyboardShortcuts.indexOf(which) === -1) {
+        // not the right shortcut
+        return;
+      }
+
+      $input.focus();
+      event.stopPropagation();
+      event.preventDefault();
+    });
   },
 
   _onSuggestionClicked: function onSuggestionClicked(type, $el) {
