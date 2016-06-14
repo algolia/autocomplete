@@ -47,7 +47,8 @@ function autocomplete(selector, options, datasets, typeaheadObject) {
       templates: options.templates,
       debug: options.debug,
       cssClasses: options.cssClasses,
-      datasets: datasets
+      datasets: datasets,
+      keyboardShortcuts: options.keyboardShortcuts
     });
 
     $input.data(typeaheadKey, typeahead);

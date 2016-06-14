@@ -85,6 +85,8 @@ function Typeahead(o) {
     .onSync('queryChanged', this._onQueryChanged, this)
     .onSync('whitespaceChanged', this._onWhitespaceChanged, this);
 
+  this._bindKeyboardShortcuts(o, $input);
+
   this._setLanguageDirection();
 }
 
@@ -92,8 +94,23 @@ function Typeahead(o) {
 // ----------------
 
 _.mixin(Typeahead.prototype, {
-
   // ### private
+
+  _bindKeyboardShortcuts: function (o, $input) {
+    DOM.element(document).keydown(function(e) {
+        if (! o.keyboardShortcuts) {
+          return;
+        }
+
+        var which = e.which || e.keyCode;
+        if (false === $input.is(':focus') && o.keyboardShortcuts.indexOf(which) !== -1) {
+          $input.focus();
+          e.stopPropagation();
+          e.preventDefault();
+          return false;
+        }
+      });
+  },
 
   _onSuggestionClicked: function onSuggestionClicked(type, $el) {
     var datum;
