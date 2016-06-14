@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.20.0
+ * autocomplete.js 0.20.1
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -2836,15 +2836,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.trigger('cursorRemoved');
 	  },
 
-	  _onRendered: function onRendered() {
+	  _onRendered: function onRendered(e, query) {
 	    this.isEmpty = _.every(this.datasets, isDatasetEmpty);
 
 	    if (this.isEmpty) {
 	      if (this.$empty) {
-	        var html = this.templates.empty({
-	          query: this.datasets[0] && this.datasets[0].query
-	        });
-	        this.$empty.html(html);
+	        if (!query) {
+	          this._hide();
+	        } else {
+	          var html = this.templates.empty({
+	            query: this.datasets[0] && this.datasets[0].query
+	          });
+	          this.$empty.html(html);
+	        }
 	      } else {
 	        this._hide();
 	      }
@@ -3164,7 +3168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        .removeClass(this.cssClasses.prefix + '-' + (hasSuggestions ? 'without' : 'with') + '-' + this.name);
 	    }
 
-	    this.trigger('rendered');
+	    this.trigger('rendered', query);
 
 	    function getEmptyHtml() {
 	      var args = [].slice.call(arguments, 0);
@@ -3254,7 +3258,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  clear: function clear() {
 	    this.cancel();
 	    this.$el.empty();
-	    this.trigger('rendered');
+	    this.trigger('rendered', '');
 	  },
 
 	  isEmpty: function isEmpty() {

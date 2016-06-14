@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.20.1 June 14, 2016
+
+* Ensure the dropdown menu is hidden when there is an `$empty` block and blank query.
+
 ### 0.20.0 June 04, 2016
 
 * Ensure we don't update the input value on mouseenter (#76)
