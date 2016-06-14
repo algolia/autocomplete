@@ -110,15 +110,19 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     this.trigger('cursorRemoved');
   },
 
-  _onRendered: function onRendered() {
+  _onRendered: function onRendered(e, query) {
     this.isEmpty = _.every(this.datasets, isDatasetEmpty);
 
     if (this.isEmpty) {
       if (this.$empty) {
-        var html = this.templates.empty({
-          query: this.datasets[0] && this.datasets[0].query
-        });
-        this.$empty.html(html);
+        if (!query) {
+          this._hide();
+        } else {
+          var html = this.templates.empty({
+            query: this.datasets[0] && this.datasets[0].query
+          });
+          this.$empty.html(html);
+        }
       } else {
         this._hide();
       }

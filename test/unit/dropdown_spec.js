@@ -96,7 +96,7 @@ describe('Dropdown', function() {
       this.view.datasets[0].isEmpty.and.returnValue(true);
 
       this.view.open();
-      this.view._onRendered();
+      this.view._onRendered('rendered', 'a query');
 
       expect(this.$menu.find('.aa-empty').length).toEqual(1);
       expect(this.$menu.find('.aa-empty').children().length).toEqual(1);

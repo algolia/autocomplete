@@ -107,7 +107,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
         .removeClass(this.cssClasses.prefix + '-' + (hasSuggestions ? 'without' : 'with') + '-' + this.name);
     }
 
-    this.trigger('rendered');
+    this.trigger('rendered', query);
 
     function getEmptyHtml() {
       var args = [].slice.call(arguments, 0);
@@ -197,7 +197,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
   clear: function clear() {
     this.cancel();
     this.$el.empty();
-    this.trigger('rendered');
+    this.trigger('rendered', '');
   },
 
   isEmpty: function isEmpty() {
