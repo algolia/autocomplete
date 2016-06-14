@@ -1664,8 +1664,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return;
 	    }
 	    DOM.element(document).keydown(function(event) {
-	      var tagName = (event.target || event.srcElement).tagName;
-	      if (tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA') {
+	      var elt = (event.target || event.srcElement);
+	      var tagName = elt.tagName;
+	      if (elt.isContentEditable || tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA') {
 	        // already in an input
 	        return;
 	      }
