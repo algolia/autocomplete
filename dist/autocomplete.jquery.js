@@ -120,8 +120,7 @@
 	        templates: o.templates,
 	        debug: o.debug,
 	        cssClasses: o.cssClasses,
-	        datasets: datasets,
-	        keyboardShortcuts: o.keyboardShortcuts
+	        datasets: datasets
 	      });
 
 	      $input.data(typeaheadKey, typeahead);
@@ -421,8 +420,6 @@
 	    .onSync('queryChanged', this._onQueryChanged, this)
 	    .onSync('whitespaceChanged', this._onWhitespaceChanged, this);
 
-	  this._bindKeyboardShortcuts($input, o);
-
 	  this._setLanguageDirection();
 	}
 
@@ -430,39 +427,8 @@
 	// ----------------
 
 	_.mixin(Typeahead.prototype, {
+
 	  // ### private
-
-	  _bindKeyboardShortcuts: function($input, options) {
-	    if (!options.keyboardShortcuts) {
-	      return;
-	    }
-	    var keyboardShortcuts = [];
-	    _.each(options.keyboardShortcuts, function(key) {
-	      if (typeof key === 'string') {
-	        key = key.toUpperCase().charCodeAt(0);
-	      }
-	      keyboardShortcuts.push(key);
-	    });
-	    console.log(keyboardShortcuts);
-	    DOM.element(document).keydown(function(event) {
-	      var elt = (event.target || event.srcElement);
-	      var tagName = elt.tagName;
-	      if (elt.isContentEditable || tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA') {
-	        // already in an input
-	        return;
-	      }
-
-	      var which = event.which || event.keyCode;
-	      if (keyboardShortcuts.indexOf(which) === -1) {
-	        // not the right shortcut
-	        return;
-	      }
-
-	      $input.focus();
-	      event.stopPropagation();
-	      event.preventDefault();
-	    });
-	  },
 
 	  _onSuggestionClicked: function onSuggestionClicked(type, $el) {
 	    var datum;
