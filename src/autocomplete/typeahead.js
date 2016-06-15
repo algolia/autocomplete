@@ -100,6 +100,13 @@ _.mixin(Typeahead.prototype, {
     if (!options.keyboardShortcuts) {
       return;
     }
+    var keyboardShortcuts = [];
+    _.each(options.keyboardShortcuts, function(key) {
+      if (typeof key === 'string') {
+        key = key.toUpperCase().charCodeAt(0);
+      }
+      keyboardShortcuts.push(key);
+    });
     DOM.element(document).keydown(function(event) {
       var elt = (event.target || event.srcElement);
       var tagName = elt.tagName;
@@ -109,7 +116,7 @@ _.mixin(Typeahead.prototype, {
       }
 
       var which = event.which || event.keyCode;
-      if (options.keyboardShortcuts.indexOf(which) === -1) {
+      if (keyboardShortcuts.indexOf(which) === -1) {
         // not the right shortcut
         return;
       }
