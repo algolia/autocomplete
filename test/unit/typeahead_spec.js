@@ -500,6 +500,18 @@ describe('Typeahead', function() {
     });
   });
 
+  describe('when dropdown is empty', function() {
+    it('should trigger autocomplete:empty', function() {
+      var spy;
+
+      this.$input.on('autocomplete:empty', spy = jasmine.createSpy());
+
+      this.dropdown.trigger('empty');
+
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+
   describe('when input triggers leftKeyed', function() {
     it('should autocomplete if language is rtl', function() {
       var spy;

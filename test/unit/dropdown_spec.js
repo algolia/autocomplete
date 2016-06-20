@@ -102,6 +102,18 @@ describe('Dropdown', function() {
       expect(this.$menu.find('.aa-empty').children().length).toEqual(1);
       expect(this.$menu.find('.aa-empty').find('h3.empty').length).toEqual(1);
     });
+
+    it('should trigger empty', function() {
+      var spy;
+
+      this.view.datasets[0].isEmpty.and.returnValue(true);
+      this.view.onSync('empty', spy = jasmine.createSpy());
+
+      this.view.open();
+      this.view._onRendered('rendered', 'a query');
+
+      expect(spy).toHaveBeenCalled();
+    });
   });
 
   describe('when mouseenter is triggered on a suggestion', function() {

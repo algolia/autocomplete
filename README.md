@@ -499,6 +499,8 @@ The autocomplete component triggers the following custom events.
 * `autocomplete:shown` – Triggered when the dropdown menu of the autocomplete is 
   shown (opened and non-empty).
 
+* `autocomplete:empty` – Triggered when all datasets are empty. 
+
 * `autocomplete:closed` – Triggered when the dropdown menu of the autocomplete is 
   closed.
 

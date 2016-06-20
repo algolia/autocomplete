@@ -114,6 +114,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     this.isEmpty = _.every(this.datasets, isDatasetEmpty);
 
     if (this.isEmpty) {
+      this.trigger('empty');
       if (this.$empty) {
         if (!query) {
           this._hide();
