@@ -51,21 +51,21 @@ We recommend including it from a CDN:
 ##### jsDelivr
 
 ```html
-<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
 <!-- OR -->
-<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
 <!-- OR -->
-<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
+<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
 ```
 
 ##### cdnjs
 
 ```html
-<script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.min.js"></script>
 <!-- OR -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.jquery.min.js"></script>
 <!-- OR -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.angular.min.js"></script>
 ```
 
 #### From Bower
@@ -106,8 +106,8 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 <input type="text" id="search-input" />
 
 <!-- [ ... ] -->
-<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
-<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
 <script>
   var client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey')
   var index = client.initIndex('YourIndex');
@@ -136,8 +136,8 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 <input type="text" id="search-input" />
 
 <!-- [ ... ] -->
-<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
-<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
 <script>
   var client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey')
   var index = client.initIndex('YourIndex');
@@ -169,8 +169,8 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 </div>
 
 <!-- [ include jQuery + Angular.js ] -->
-<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.angular.min.js"></script>
-<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
+<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.angular.min.js"></script>
+<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
 <script>
   angular.module('myApp', ['algoliasearch', 'algolia.autocomplete'])
     .controller('yourController', ['$scope', 'algolia', function($scope, algolia) {
