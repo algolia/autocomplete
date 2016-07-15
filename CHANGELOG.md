@@ -16,6 +16,10 @@ For more information on semantic versioning, please visit http://semver.org/.
 
 ---
 
+### 0.21.0 July 15, 2016
+
+* Upgrade to zepto 1.2.0
+
 ### 0.20.1 June 14, 2016
 
 * Ensure the dropdown menu is hidden when there is an `$empty` block and blank query.
