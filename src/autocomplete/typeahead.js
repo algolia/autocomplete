@@ -70,6 +70,7 @@ function Typeahead(o) {
     .onSync('opened', this._onOpened, this)
     .onSync('closed', this._onClosed, this)
     .onSync('shown', this._onShown, this)
+    .onSync('empty', this._onEmpty, this)
     .onAsync('datasetRendered', this._onDatasetRendered, this);
 
   this.input = new Typeahead.Input({input: $input, hint: $hint})
@@ -85,6 +86,8 @@ function Typeahead(o) {
     .onSync('queryChanged', this._onQueryChanged, this)
     .onSync('whitespaceChanged', this._onWhitespaceChanged, this);
 
+  this._bindKeyboardShortcuts($input, o);
+
   this._setLanguageDirection();
 }
 
@@ -92,8 +95,38 @@ function Typeahead(o) {
 // ----------------
 
 _.mixin(Typeahead.prototype, {
-
   // ### private
+
+  _bindKeyboardShortcuts: function($input, options) {
+    if (!options.keyboardShortcuts) {
+      return;
+    }
+    var keyboardShortcuts = [];
+    _.each(options.keyboardShortcuts, function(key) {
+      if (typeof key === 'string') {
+        key = key.toUpperCase().charCodeAt(0);
+      }
+      keyboardShortcuts.push(key);
+    });
+    DOM.element(document).keydown(function(event) {
+      var elt = (event.target || event.srcElement);
+      var tagName = elt.tagName;
+      if (elt.isContentEditable || tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA') {
+        // already in an input
+        return;
+      }
+
+      var which = event.which || event.keyCode;
+      if (keyboardShortcuts.indexOf(which) === -1) {
+        // not the right shortcut
+        return;
+      }
+
+      $input.focus();
+      event.stopPropagation();
+      event.preventDefault();
+    });
+  },
 
   _onSuggestionClicked: function onSuggestionClicked(type, $el) {
     var datum;
@@ -128,6 +161,10 @@ _.mixin(Typeahead.prototype, {
     this._updateHint();
 
     this.eventBus.trigger('opened');
+  },
+
+  _onEmpty: function onEmpty() {
+    this.eventBus.trigger('empty');
   },
 
   _onShown: function onShown() {

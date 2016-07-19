@@ -60,7 +60,8 @@ methods = {
         templates: o.templates,
         debug: o.debug,
         cssClasses: o.cssClasses,
-        datasets: datasets
+        datasets: datasets,
+        keyboardShortcuts: o.keyboardShortcuts
       });
 
       $input.data(typeaheadKey, typeahead);
