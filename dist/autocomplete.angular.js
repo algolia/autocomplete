@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.21.0
+ * autocomplete.js 0.21.1
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -133,7 +133,8 @@
 	            templates: scope.options.templates,
 	            debug: scope.options.debug,
 	            cssClasses: scope.options.cssClasses,
-	            datasets: scope.datasets
+	            datasets: scope.datasets,
+	            keyboardShortcuts: scope.options.keyboardShortcuts
 	          });
 	        }
 
@@ -396,6 +397,7 @@
 	    .onSync('opened', this._onOpened, this)
 	    .onSync('closed', this._onClosed, this)
 	    .onSync('shown', this._onShown, this)
+	    .onSync('empty', this._onEmpty, this)
 	    .onAsync('datasetRendered', this._onDatasetRendered, this);
 
 	  this.input = new Typeahead.Input({input: $input, hint: $hint})
@@ -411,6 +413,8 @@
 	    .onSync('queryChanged', this._onQueryChanged, this)
 	    .onSync('whitespaceChanged', this._onWhitespaceChanged, this);
 
+	  this._bindKeyboardShortcuts($input, o);
+
 	  this._setLanguageDirection();
 	}
 
@@ -418,8 +422,38 @@
 	// ----------------
 
 	_.mixin(Typeahead.prototype, {
-
 	  // ### private
+
+	  _bindKeyboardShortcuts: function($input, options) {
+	    if (!options.keyboardShortcuts) {
+	      return;
+	    }
+	    var keyboardShortcuts = [];
+	    _.each(options.keyboardShortcuts, function(key) {
+	      if (typeof key === 'string') {
+	        key = key.toUpperCase().charCodeAt(0);
+	      }
+	      keyboardShortcuts.push(key);
+	    });
+	    DOM.element(document).keydown(function(event) {
+	      var elt = (event.target || event.srcElement);
+	      var tagName = elt.tagName;
+	      if (elt.isContentEditable || tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA') {
+	        // already in an input
+	        return;
+	      }
+
+	      var which = event.which || event.keyCode;
+	      if (keyboardShortcuts.indexOf(which) === -1) {
+	        // not the right shortcut
+	        return;
+	      }
+
+	      $input.focus();
+	      event.stopPropagation();
+	      event.preventDefault();
+	    });
+	  },
 
 	  _onSuggestionClicked: function onSuggestionClicked(type, $el) {
 	    var datum;
@@ -454,6 +488,10 @@
 	    this._updateHint();
 
 	    this.eventBus.trigger('opened');
+	  },
+
+	  _onEmpty: function onEmpty() {
+	    this.eventBus.trigger('empty');
 	  },
 
 	  _onShown: function onShown() {
@@ -1353,12 +1391,40 @@
 	// shim for using process in browser
 
 	var process = module.exports = {};
+
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+
+	(function () {
+	  try {
+	    cachedSetTimeout = setTimeout;
+	  } catch (e) {
+	    cachedSetTimeout = function () {
+	      throw new Error('setTimeout is not defined');
+	    }
+	  }
+	  try {
+	    cachedClearTimeout = clearTimeout;
+	  } catch (e) {
+	    cachedClearTimeout = function () {
+	      throw new Error('clearTimeout is not defined');
+	    }
+	  }
+	} ())
 	var queue = [];
 	var draining = false;
 	var currentQueue;
 	var queueIndex = -1;
 
 	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
 	    draining = false;
 	    if (currentQueue.length) {
 	        queue = currentQueue.concat(queue);
@@ -1374,7 +1440,7 @@
 	    if (draining) {
 	        return;
 	    }
-	    var timeout = setTimeout(cleanUpNextTick);
+	    var timeout = cachedSetTimeout(cleanUpNextTick);
 	    draining = true;
 
 	    var len = queue.length;
@@ -1391,7 +1457,7 @@
 	    }
 	    currentQueue = null;
 	    draining = false;
-	    clearTimeout(timeout);
+	    cachedClearTimeout(timeout);
 	}
 
 	process.nextTick = function (fun) {
@@ -1403,7 +1469,7 @@
 	    }
 	    queue.push(new Item(fun, args));
 	    if (queue.length === 1 && !draining) {
-	        setTimeout(drainQueue, 0);
+	        cachedSetTimeout(drainQueue, 0);
 	    }
 	};
 
@@ -1563,6 +1629,7 @@
 	    this.isEmpty = _.every(this.datasets, isDatasetEmpty);
 
 	    if (this.isEmpty) {
+	      this.trigger('empty');
 	      if (this.$empty) {
 	        if (!query) {
 	          this._hide();
