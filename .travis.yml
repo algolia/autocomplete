@@ -29,7 +29,7 @@ env:
 node_js: "6"
 before_script:
 - npm run build
-script: test/ci
+script: npm run test:ci
 cache:
   directories:
     - node_modules

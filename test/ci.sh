@@ -1,4 +1,6 @@
-#!/bin/bash -x
+#!/usr/bin/env bash
+
+set -e # exit when error, no verbose
 
 if [ "$TEST_SUITE" == "unit" ]; then
   ./node_modules/karma/bin/karma start --single-run
