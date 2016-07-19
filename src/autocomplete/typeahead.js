@@ -400,7 +400,7 @@ _.mixin(Typeahead.prototype, {
   },
 
   getVal: function getVal() {
-    return this.input.getInputValue();
+    return this.input.getQuery();
   },
 
   destroy: function destroy() {
