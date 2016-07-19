@@ -34,5 +34,8 @@ before_script:
 - npm install -g node-static
 - grunt build
 script: test/ci
+cache:
+  directories:
+    - node_modules
 addons:
   sauce_connect: true
