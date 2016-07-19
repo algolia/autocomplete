@@ -1,3 +1,4 @@
+/* istanbul ignore next */
 /* Zepto v1.2.0 - zepto event assets data - zeptojs.com/license */
 (function(global, factory) {
   if (typeof define === 'function' && define.amd)
