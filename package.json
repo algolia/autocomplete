@@ -56,6 +56,7 @@
     "karma-sourcemap-loader": "^0.3.5",
     "karma-webpack": "^1.7.0",
     "mocha": "^2.2.5",
+    "node-static": "^0.7.7",
     "phantomjs": "~1.9.17",
     "sinon": "^1.17.1",
     "webpack": "^1.12.2",
@@ -67,7 +68,8 @@
     "dev": "grunt dev",
     "lint": "grunt lint",
     "server": "grunt server",
-    "test": "karma start --single-run && grunt lint"
+    "test": "karma start --single-run && grunt lint",
+    "test:ci": "./test/ci.sh"
   },
   "version": "0.21.0",
   "main": "index.js"

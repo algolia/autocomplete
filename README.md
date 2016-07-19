@@ -296,6 +296,9 @@ When initializing an autocomplete, there are a number of options you can configu
   * `dataset` – the dataset CSS class. Defaults to `dataset`.
   * `empty` – the empty CSS class. Defaults to `empty`.
 
+* `keyboardShortcuts` - Array of shortcut that will focus the input. For example if you want to bind `s` and `/`
+ you can specify: `keyboardShortcuts: ['s', '/']`
+
 ```html
 <script type="text/template" id="my-custom-menu-template">
   <div class="my-custom-menu">
@@ -498,6 +501,8 @@ The autocomplete component triggers the following custom events.
 
 * `autocomplete:shown` – Triggered when the dropdown menu of the autocomplete is 
   shown (opened and non-empty).
+
+* `autocomplete:empty` – Triggered when all datasets are empty. 
 
 * `autocomplete:closed` – Triggered when the dropdown menu of the autocomplete is 
   closed.

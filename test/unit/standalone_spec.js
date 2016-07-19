@@ -54,11 +54,11 @@ describe('Typeahead', function() {
           input: {
             $input: {}
           },
-          open: sinon.spy(),
-          close: sinon.spy(),
-          getVal: sinon.spy(),
-          setVal: sinon.spy(),
-          destroy: sinon.spy()
+          open: sinon.stub().returns('hello'),
+          close: sinon.stub().returns('hello'),
+          getVal: sinon.stub().returns('hello'),
+          setVal: sinon.stub().returns('hello'),
+          destroy: sinon.stub().returns('hello')
         };
 
         this.ac = autocomplete('input', {}, {
@@ -75,15 +75,15 @@ describe('Typeahead', function() {
       });
 
       it('should proxy the method call on typeahead object', function() {
-        this.ac.autocomplete.open();
+        expect(this.ac.autocomplete.open()).toEqual('hello');
         expect(this.typeaheadSpy.open.calledOnce).toBe(true);
-        this.ac.autocomplete.close();
+        expect(this.ac.autocomplete.close()).toEqual('hello');
         expect(this.typeaheadSpy.close.calledOnce).toBe(true);
-        this.ac.autocomplete.getVal();
+        expect(this.ac.autocomplete.getVal()).toEqual('hello');
         expect(this.typeaheadSpy.getVal.calledOnce).toBe(true);
-        this.ac.autocomplete.setVal('Hey');
+        expect(this.ac.autocomplete.setVal('Hey')).toEqual('hello');
         expect(this.typeaheadSpy.setVal.withArgs('Hey').calledOnce).toBe(true);
-        this.ac.autocomplete.destroy();
+        expect(this.ac.autocomplete.destroy()).toEqual('hello');
         expect(this.typeaheadSpy.destroy.calledOnce).toBe(true);
       });
 

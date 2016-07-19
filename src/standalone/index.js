@@ -47,7 +47,8 @@ function autocomplete(selector, options, datasets, typeaheadObject) {
       templates: options.templates,
       debug: options.debug,
       cssClasses: options.cssClasses,
-      datasets: datasets
+      datasets: datasets,
+      keyboardShortcuts: options.keyboardShortcuts
     });
 
     $input.data(typeaheadKey, typeahead);
@@ -58,10 +59,12 @@ function autocomplete(selector, options, datasets, typeaheadObject) {
   _.each(['open', 'close', 'getVal', 'setVal', 'destroy'], function(method) {
     inputs.autocomplete[method] = function() {
       var methodArguments = arguments;
+      var result;
       inputs.each(function(j, input) {
         var typeahead = zepto(input).data(typeaheadKey);
-        typeahead[method].apply(typeahead, methodArguments);
+        result = typeahead[method].apply(typeahead, methodArguments);
       });
+      return result;
     };
   });
 
