@@ -30,7 +30,7 @@ function Dropdown(o) {
 
   this.isOpen = false;
   this.isEmpty = true;
-  this.minLength = o.minLength;
+  this.minLength = o.minLength || 0;
   this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
   this.templates = {};
 
@@ -115,7 +115,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     this.isEmpty = _.every(this.datasets, isDatasetEmpty);
 
     if (this.isEmpty) {
-      if(query.length >= this.minLength) {
+      if (query.length >= this.minLength) {
         this.trigger('empty');
       }
 
@@ -135,7 +135,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
       if (this.$empty) {
         this.$empty.empty();
       }
-      if(query.length >= this.minLength) {
+      if (query.length >= this.minLength) {
         this._show();
       } else {
         this._hide();
