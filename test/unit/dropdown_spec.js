@@ -82,7 +82,7 @@ describe('Dropdown', function() {
         menu: this.$menu,
         datasets: [{}],
         templates: {
-          empty: '<h3 class="empty">this is empty</3>'
+          empty: '<h3 class="empty">this is empty</h3>'
         }
       });
     });
