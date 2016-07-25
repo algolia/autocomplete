@@ -30,6 +30,7 @@ function Dropdown(o) {
 
   this.isOpen = false;
   this.isEmpty = true;
+  this.minLength = o.minLength;
   this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
   this.templates = {};
 
@@ -114,7 +115,10 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     this.isEmpty = _.every(this.datasets, isDatasetEmpty);
 
     if (this.isEmpty) {
-      this.trigger('empty');
+      if(query.length >= this.minLength) {
+        this.trigger('empty');
+      }
+
       if (this.$empty) {
         if (!query) {
           this._hide();
@@ -131,7 +135,11 @@ _.mixin(Dropdown.prototype, EventEmitter, {
       if (this.$empty) {
         this.$empty.empty();
       }
-      this._show();
+      if(query.length >= this.minLength) {
+        this._show();
+      } else {
+        this._hide();
+      }
     }
 
     this.trigger('datasetRendered');
