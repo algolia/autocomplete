@@ -83,7 +83,8 @@ describe('Dropdown', function() {
         datasets: [{}],
         templates: {
           empty: '<h3 class="empty">this is empty</h3>'
-        }
+        },
+        minLength: 4
       });
     });
 
@@ -113,6 +114,18 @@ describe('Dropdown', function() {
       this.view._onRendered('rendered', 'a query');
 
       expect(spy).toHaveBeenCalled();
+    });
+
+    it('should not trigger empty if minLength is no satisfied', function() {
+      var spy;
+
+      this.view.datasets[0].isEmpty.and.returnValue(true);
+      this.view.onSync('empty', spy = jasmine.createSpy());
+
+      this.view.open();
+      this.view._onRendered('rendered', 'te');
+
+      expect(spy).not.toHaveBeenCalled();
     });
   });
 
@@ -170,7 +183,7 @@ describe('Dropdown', function() {
 
       this.view.open();
       this.view._show();
-      this.dataset.trigger('rendered');
+      this.dataset.trigger('rendered', 'the query');
 
       expect(this.$menu).not.toBeVisible();
     });
@@ -179,8 +192,7 @@ describe('Dropdown', function() {
       this.dataset.isEmpty.and.returnValue(false);
 
       this.view.open();
-      this.view._hide();
-      this.dataset.trigger('rendered');
+      this.dataset.trigger('rendered', 'the query');
 
       expect(this.$menu).toBeVisible();
     });
