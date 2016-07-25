@@ -27,6 +27,7 @@ function Dataset(o) {
 
   // tracks the last query the dataset was updated for
   this.query = null;
+  this._isEmpty = true;
 
   this.highlight = !!o.highlight;
   this.name = typeof o.name === 'undefined' || o.name === null ? _.getUniqueId() : o.name;
@@ -82,13 +83,14 @@ _.mixin(Dataset.prototype, EventEmitter, {
     if (!this.$el) {
       return;
     }
-
     var that = this;
+
     var hasSuggestions;
     var renderArgs = [].slice.call(arguments, 2);
-
     this.$el.empty();
+
     hasSuggestions = suggestions && suggestions.length;
+    this._isEmpty = !hasSuggestions;
 
     if (!hasSuggestions && this.templates.empty) {
       this.$el
@@ -201,7 +203,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
   },
 
   isEmpty: function isEmpty() {
-    return this.$el.is(':empty');
+    return this._isEmpty;
   },
 
   destroy: function destroy() {

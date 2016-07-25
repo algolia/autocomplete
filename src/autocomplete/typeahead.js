@@ -63,7 +63,7 @@ function Typeahead(o) {
 
   this.eventBus = o.eventBus || new EventBus({el: $input});
 
-  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets, templates: o.templates, cssClasses: this.cssClasses})
+  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets, templates: o.templates, cssClasses: this.cssClasses, minLength: this.minLength})
     .onSync('suggestionClicked', this._onSuggestionClicked, this)
     .onSync('cursorMoved', this._onCursorMoved, this)
     .onSync('cursorRemoved', this._onCursorRemoved, this)
