@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.21.1
+ * autocomplete.js 0.21.2
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -1647,7 +1647,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  this.eventBus = o.eventBus || new EventBus({el: $input});
 
-	  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets, templates: o.templates, cssClasses: this.cssClasses})
+	  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets, templates: o.templates, cssClasses: this.cssClasses, minLength: this.minLength})
 	    .onSync('suggestionClicked', this._onSuggestionClicked, this)
 	    .onSync('cursorMoved', this._onCursorMoved, this)
 	    .onSync('cursorRemoved', this._onCursorRemoved, this)
@@ -2843,6 +2843,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  this.isOpen = false;
 	  this.isEmpty = true;
+	  this.minLength = o.minLength || 0;
 	  this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
 	  this.templates = {};
 
@@ -2927,7 +2928,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.isEmpty = _.every(this.datasets, isDatasetEmpty);
 
 	    if (this.isEmpty) {
-	      this.trigger('empty');
+	      if (query.length >= this.minLength) {
+	        this.trigger('empty');
+	      }
+
 	      if (this.$empty) {
 	        if (!query) {
 	          this._hide();
@@ -2944,7 +2948,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (this.$empty) {
 	        this.$empty.empty();
 	      }
-	      this._show();
+	      if (query.length >= this.minLength) {
+	        this._show();
+	      } else {
+	        this._hide();
+	      }
 	    }
 
 	    this.trigger('datasetRendered');
@@ -3176,6 +3184,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // tracks the last query the dataset was updated for
 	  this.query = null;
+	  this._isEmpty = true;
 
 	  this.highlight = !!o.highlight;
 	  this.name = typeof o.name === 'undefined' || o.name === null ? _.getUniqueId() : o.name;
@@ -3231,13 +3240,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!this.$el) {
 	      return;
 	    }
-
 	    var that = this;
+
 	    var hasSuggestions;
 	    var renderArgs = [].slice.call(arguments, 2);
-
 	    this.$el.empty();
+
 	    hasSuggestions = suggestions && suggestions.length;
+	    this._isEmpty = !hasSuggestions;
 
 	    if (!hasSuggestions && this.templates.empty) {
 	      this.$el
@@ -3350,7 +3360,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  isEmpty: function isEmpty() {
-	    return this.$el.is(':empty');
+	    return this._isEmpty;
 	  },
 
 	  destroy: function destroy() {

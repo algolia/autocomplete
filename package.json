@@ -71,6 +71,6 @@
     "test": "karma start --single-run && grunt lint",
     "test:ci": "./test/ci.sh"
   },
-  "version": "0.21.1",
+  "version": "0.21.2",
   "main": "index.js"
 }

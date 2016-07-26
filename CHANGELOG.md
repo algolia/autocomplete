@@ -15,10 +15,13 @@ And constructed with the following guidelines:
 For more information on semantic versioning, please visit http://semver.org/.
 
 ---
+### 0.21.2 July 26, 2016
+
+* fix(empty): fix the empty even handling, fixes #95
+
 ### 0.21.1 July 19, 2016
 
 * fix(getVal): fix getVal on standalone build
-* feat(shortcuts): add keyboard shortcuts
 
 ### 0.21.0 July 15, 2016
 
