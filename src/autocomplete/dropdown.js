@@ -293,6 +293,10 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     return this.getDatumForSuggestion(this._getSuggestions().first());
   },
 
+  cursorTopSuggestion: function cursorTopSuggestion() {
+    this._setCursor(this._getSuggestions().first(), true);
+  },
+
   update: function update(query) {
     _.each(this.datasets, updateDataset);
 
