@@ -267,7 +267,7 @@ Here is what the [basic example](https://github.com/algolia/autocomplete.js/tree
 
 When initializing an autocomplete, there are a number of options you can configure.
 
-* `autoselect` – If `true`, pressing `<ENTER>` in the search bar will automatically select the first suggestion.
+* `autoselect` – If `true`, the first rendered suggestion in the dropdown will automatically have the `cursor` class, and pressing `<ENTER>` will select it.
 
 * `hint` – If `false`, the autocomplete will not show a hint. Defaults to `true`.
 
