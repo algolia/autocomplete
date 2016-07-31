@@ -120,13 +120,14 @@ _.mixin(Dropdown.prototype, EventEmitter, {
       }
 
       if (this.$empty) {
-        if (!query) {
+        if (query.length < this.minLength) {
           this._hide();
         } else {
           var html = this.templates.empty({
             query: this.datasets[0] && this.datasets[0].query
           });
           this.$empty.html(html);
+          this._show();
         }
       } else {
         this._hide();
@@ -135,6 +136,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
       if (this.$empty) {
         this.$empty.empty();
       }
+
       if (query.length >= this.minLength) {
         this._show();
       } else {
