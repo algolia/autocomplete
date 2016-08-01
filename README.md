@@ -27,6 +27,7 @@ Table of Contents
   * [API](#api)
 * [Development](#development)
 * [Testing](#testing)
+* [Release](#release)
 * [Credits](#credits)
 
 Features
@@ -658,6 +659,18 @@ $ npm run server
 $ ngrok 8888
 $ TEST_HOST=http://YOUR_NGROK_ID.ngrok.com SAUCE_ACCESS_KEY=YOUR_KEY SAUCE_USERNAME=YOUR_USERNAME./node_modules/mocha/bin/mocha --harmony -R spec ./test/integration/test.js
 ```
+
+Release
+--------
+
+ * Merge `develop` to `master`
+ * Bump the version in `package.json` and `bower.json`
+ * Run `grunt` to update the `dist/` files
+ * Commit and push to GitHub
+ * Create & push a new tag named `X.Y.Z`
+ * Run `npm publish .`
+ * Merge back `master` to `develop`
+
 
 Credits
 --------
