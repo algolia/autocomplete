@@ -169,6 +169,10 @@ _.mixin(Typeahead.prototype, {
 
   _onShown: function onShown() {
     this.eventBus.trigger('shown');
+    
+    if (this.autoselect) {
+      this.dropdown.cursorTopSuggestion();
+    }    
   },
 
   _onClosed: function onClosed() {
