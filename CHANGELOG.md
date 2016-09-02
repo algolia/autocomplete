@@ -15,6 +15,14 @@ And constructed with the following guidelines:
 For more information on semantic versioning, please visit http://semver.org/.
 
 ---
+### 0.21.4 Sep 2, 2016
+
+* Ensure the cursor selects the first suggestion when the dropdown is shown + send the `cursorchanged` event.
+
+### 0.21.3 Aug 1, 2016
+
+* Ensure empty template displays from first keystroke (#104)
+
 ### 0.21.2 July 26, 2016
 
 * fix(empty): fix the empty even handling, fixes #95

@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.21.3
+ * autocomplete.js 0.21.4
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -496,6 +496,9 @@
 
 	  _onShown: function onShown() {
 	    this.eventBus.trigger('shown');
+	    if (this.autoselect) {
+	      this.dropdown.cursorTopSuggestion();
+	    }
 	  },
 
 	  _onClosed: function onClosed() {
@@ -1780,6 +1783,10 @@
 
 	  getDatumForTopSuggestion: function getDatumForTopSuggestion() {
 	    return this.getDatumForSuggestion(this._getSuggestions().first());
+	  },
+
+	  cursorTopSuggestion: function cursorTopSuggestion() {
+	    this._setCursor(this._getSuggestions().first(), true);
 	  },
 
 	  update: function update(query) {
