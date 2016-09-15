@@ -15,6 +15,10 @@ And constructed with the following guidelines:
 For more information on semantic versioning, please visit http://semver.org/.
 
 ---
+### 0.21.5 Sep 15, 2016
+
+* While selecting the top suggestion (autoselect=true), do not update the input.
+
 ### 0.21.4 Sep 2, 2016
 
 * Ensure the cursor selects the first suggestion when the dropdown is shown + send the `cursorchanged` event.
