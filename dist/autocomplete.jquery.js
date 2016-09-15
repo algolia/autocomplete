@@ -1836,7 +1836,7 @@
 	  },
 
 	  cursorTopSuggestion: function cursorTopSuggestion() {
-	    this._setCursor(this._getSuggestions().first(), true);
+	    this._setCursor(this._getSuggestions().first(), false);
 	  },
 
 	  update: function update(query) {
