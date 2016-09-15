@@ -50,7 +50,7 @@
       var actors = client.initIndex('actors');
       var movies = client.initIndex('movies');
 
-      autocomplete('#contacts, #contacts1', { hint: true, templates: { empty: 'empty' } }, [
+      autocomplete('#contacts, #contacts1', { hint: false, templates: { empty: 'empty' }, autoselect: true }, [
         {
           source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
           displayKey: 'name',
