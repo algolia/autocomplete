@@ -1,9 +1,16 @@
 'use strict';
 
 var current$ = window.$;
-require('../../zepto.js');
-var zepto = window.Zepto;
+var currentZepto = window.Zepto;
+
+require('../../zepto.js'); // this will inject Zepto in window, unfortunately no easy commonJS zepto build
+var zepto = window.Zepto; // save zepto for our own usage
 window.$ = current$; // restore the `$` (we don't want Zepto here)
+window.Zepto = currentZepto; // restore potential Zepto
+if (!currentZepto) {
+  // cleanup the environement so we do not inject bad things
+  delete window.Zepto;
+}
 
 // setup DOM element
 var DOM = require('../common/dom.js');
