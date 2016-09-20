@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.21.5
+ * autocomplete.js 0.21.6
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -71,9 +71,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	var current$ = window.$;
-	__webpack_require__(2);
-	var zepto = window.Zepto;
+	var currentZepto = window.Zepto;
+
+	__webpack_require__(2); // this will inject Zepto in window, unfortunately no easy commonJS zepto build
+	var zepto = window.Zepto; // save zepto for our own usage
 	window.$ = current$; // restore the `$` (we don't want Zepto here)
+	window.Zepto = currentZepto; // restore potential Zepto
+	if (!currentZepto) {
+	  // cleanup the environement so we do not inject bad things
+	  delete window.Zepto;
+	}
 
 	// setup DOM element
 	var DOM = __webpack_require__(3);

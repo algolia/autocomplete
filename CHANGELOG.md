@@ -15,6 +15,10 @@ And constructed with the following guidelines:
 For more information on semantic versioning, please visit http://semver.org/.
 
 ---
+### 0.21.6 Sep 20, 2016
+
+* Make sure we don't leak/override `window.Zepto`.
+
 ### 0.21.5 Sep 15, 2016
 
 * While selecting the top suggestion (autoselect=true), do not update the input.
