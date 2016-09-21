@@ -129,6 +129,12 @@ _.mixin(Dropdown.prototype, EventEmitter, {
           this.$empty.html(html);
           this._show();
         }
+      } else if (_.any(this.datasets, hasEmptyTemplate)) {
+        if (query.length < this.minLength) {
+          this._hide();
+        } else {
+          this._show();
+        }
       } else {
         this._hide();
       }
@@ -148,6 +154,10 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 
     function isDatasetEmpty(dataset) {
       return dataset.isEmpty();
+    }
+
+    function hasEmptyTemplate(dataset) {
+      return !!dataset.templates.empty;
     }
   },
 

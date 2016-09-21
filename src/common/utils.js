@@ -64,6 +64,20 @@ module.exports = {
     return !!result;
   },
 
+  any: function(obj, test) {
+    var found = false;
+    if (!obj) {
+      return found;
+    }
+    this.each(obj, function(val, key) {
+      if (test.call(null, val, key, obj)) {
+        found = true;
+        return false;
+      }
+    });
+    return found;
+  },
+
   getUniqueId: (function() {
     var counter = 0;
     return function() { return counter++; };
