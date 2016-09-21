@@ -157,7 +157,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     }
 
     function hasEmptyTemplate(dataset) {
-      return !!dataset.templates.empty;
+      return dataset.templates && dataset.templates.empty;
     }
   },
 
