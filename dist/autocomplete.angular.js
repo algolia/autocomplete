@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.21.6
+ * autocomplete.js 0.21.7
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -254,6 +254,20 @@
 	    return !!result;
 	  },
 
+	  any: function(obj, test) {
+	    var found = false;
+	    if (!obj) {
+	      return found;
+	    }
+	    this.each(obj, function(val, key) {
+	      if (test.call(null, val, key, obj)) {
+	        found = true;
+	        return false;
+	      }
+	    });
+	    return found;
+	  },
+
 	  getUniqueId: (function() {
 	    var counter = 0;
 	    return function() { return counter++; };
@@ -466,11 +480,13 @@
 	  _onCursorMoved: function onCursorMoved(event, updateInput) {
 	    var datum = this.dropdown.getDatumForCursor();
 
-	    if (updateInput) {
-	      this.input.setInputValue(datum.value, true);
-	    }
+	    if (datum) {
+	      if (updateInput) {
+	        this.input.setInputValue(datum.value, true);
+	      }
 
-	    this.eventBus.trigger('cursorchanged', datum.raw, datum.datasetName);
+	      this.eventBus.trigger('cursorchanged', datum.raw, datum.datasetName);
+	    }
 	  },
 
 	  _onCursorRemoved: function onCursorRemoved() {
@@ -1540,6 +1556,14 @@
 	    this.$menu.prepend(this.templates.header());
 	  }
 
+	  if (o.templates && o.templates.empty) {
+	    this.templates.empty = _.templatify(o.templates.empty);
+	    this.$empty = DOM.element('<div class="' +
+	      _.className(this.cssClasses.prefix, this.cssClasses.empty, true) + '">' +
+	      '</div>');
+	    this.$menu.append(this.$empty);
+	  }
+
 	  this.datasets = _.map(o.datasets, function(oDataset) {
 	    return initializeDataset(that.$menu, oDataset, o.cssClasses);
 	  });
@@ -1554,14 +1578,6 @@
 	  if (o.templates && o.templates.footer) {
 	    this.templates.footer = _.templatify(o.templates.footer);
 	    this.$menu.append(this.templates.footer());
-	  }
-
-	  if (o.templates && o.templates.empty) {
-	    this.templates.empty = _.templatify(o.templates.empty);
-	    this.$empty = DOM.element('<div class="' +
-	      _.className(this.cssClasses.prefix, this.cssClasses.empty, true) + '">' +
-	      '</div>');
-	    this.$menu.append(this.$empty);
 	  }
 	}
 
@@ -1619,6 +1635,12 @@
 	          this.$empty.html(html);
 	          this._show();
 	        }
+	      } else if (_.any(this.datasets, hasEmptyTemplate)) {
+	        if (query.length < this.minLength) {
+	          this._hide();
+	        } else {
+	          this._show();
+	        }
 	      } else {
 	        this._hide();
 	      }
@@ -1638,6 +1660,10 @@
 
 	    function isDatasetEmpty(dataset) {
 	      return dataset.isEmpty();
+	    }
+
+	    function hasEmptyTemplate(dataset) {
+	      return !!dataset.templates.empty;
 	    }
 	  },
 

@@ -15,6 +15,11 @@ And constructed with the following guidelines:
 For more information on semantic versioning, please visit http://semver.org/.
 
 ---
+### 0.21.7 Sep 21, 2016
+
+* Ensure the `empty` templates get displayed before the `footer`.
+* Ensure the dataset `empty` templates are displayed when all datasets are empty.
+
 ### 0.21.6 Sep 20, 2016
 
 * Make sure we don't leak/override `window.Zepto`.
