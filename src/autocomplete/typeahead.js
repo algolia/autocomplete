@@ -139,11 +139,13 @@ _.mixin(Typeahead.prototype, {
   _onCursorMoved: function onCursorMoved(event, updateInput) {
     var datum = this.dropdown.getDatumForCursor();
 
-    if (updateInput) {
-      this.input.setInputValue(datum.value, true);
-    }
+    if (datum) {
+      if (updateInput) {
+        this.input.setInputValue(datum.value, true);
+      }
 
-    this.eventBus.trigger('cursorchanged', datum.raw, datum.datasetName);
+      this.eventBus.trigger('cursorchanged', datum.raw, datum.datasetName);
+    }
   },
 
   _onCursorRemoved: function onCursorRemoved() {
