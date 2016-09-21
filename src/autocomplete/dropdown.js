@@ -50,6 +50,14 @@ function Dropdown(o) {
     this.$menu.prepend(this.templates.header());
   }
 
+  if (o.templates && o.templates.empty) {
+    this.templates.empty = _.templatify(o.templates.empty);
+    this.$empty = DOM.element('<div class="' +
+      _.className(this.cssClasses.prefix, this.cssClasses.empty, true) + '">' +
+      '</div>');
+    this.$menu.append(this.$empty);
+  }
+
   this.datasets = _.map(o.datasets, function(oDataset) {
     return initializeDataset(that.$menu, oDataset, o.cssClasses);
   });
@@ -64,14 +72,6 @@ function Dropdown(o) {
   if (o.templates && o.templates.footer) {
     this.templates.footer = _.templatify(o.templates.footer);
     this.$menu.append(this.templates.footer());
-  }
-
-  if (o.templates && o.templates.empty) {
-    this.templates.empty = _.templatify(o.templates.empty);
-    this.$empty = DOM.element('<div class="' +
-      _.className(this.cssClasses.prefix, this.cssClasses.empty, true) + '">' +
-      '</div>');
-    this.$menu.append(this.$empty);
   }
 }
 
