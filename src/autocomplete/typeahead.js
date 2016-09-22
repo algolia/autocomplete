@@ -28,6 +28,7 @@ function Typeahead(o) {
   this.isActivated = false;
   this.debug = !!o.debug;
   this.autoselect = !!o.autoselect;
+  this.autoselectOnBlur = !!o.autoselectOnBlur;
   this.openOnFocus = !!o.openOnFocus;
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
   this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
@@ -198,10 +199,17 @@ _.mixin(Typeahead.prototype, {
   },
 
   _onBlurred: function onBlurred() {
+    var topSuggestionDatum;
+    topSuggestionDatum = this.dropdown.getDatumForTopSuggestion();
+
     if (!this.debug) {
-      this.isActivated = false;
-      this.dropdown.empty();
-      this.dropdown.close();
+      if (this.autoselectOnBlur && topSuggestionDatum) {
+        this._select(topSuggestionDatum);
+      } else {
+        this.isActivated = false;
+        this.dropdown.empty();
+        this.dropdown.close();
+      }
     }
   },
 
