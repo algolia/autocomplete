@@ -1,10 +1,7 @@
 /* istanbul ignore next */
 /* Zepto v1.2.0 - zepto event assets data - zeptojs.com/license */
 (function(global, factory) {
-  if (typeof define === 'function' && define.amd)
-    define(function() { return factory(global) })
-  else
-    factory(global)
+  module.exports = factory(global);
 }(/* this ##### UPDATED: here we want to use window/global instead of this which is the current file context ##### */ window, function(window) {  
   var Zepto = (function() {
   var undefined, key, $, classList, emptyArray = [], concat = emptyArray.concat, filter = emptyArray.filter, slice = emptyArray.slice,
@@ -938,9 +935,6 @@
 
   return $
 })()
-
-window.Zepto = Zepto
-window.$ === undefined && (window.$ = Zepto)
 
 ;(function($){
   var _zid = 1, undefined,
