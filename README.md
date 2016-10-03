@@ -664,7 +664,7 @@ Release
 --------
 
  * Bump the version in `package.json` and `bower.json`
- * Run `grunt` to update the `dist/` files
+ * `npm run build` to update the `dist/` files
  * Commit and push to GitHub
  * Create & push a new tag named `X.Y.Z`
  * Run `npm publish`
