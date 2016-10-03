@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.21.7
+ * autocomplete.js 0.21.8
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -70,17 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var current$ = window.$;
-	var currentZepto = window.Zepto;
-
-	__webpack_require__(2); // this will inject Zepto in window, unfortunately no easy commonJS zepto build
-	var zepto = window.Zepto; // save zepto for our own usage
-	window.$ = current$; // restore the `$` (we don't want Zepto here)
-	window.Zepto = currentZepto; // restore potential Zepto
-	if (!currentZepto) {
-	  // cleanup the environement so we do not inject bad things
-	  delete window.Zepto;
-	}
+	var zepto = __webpack_require__(2); // this will inject Zepto in window, unfortunately no easy commonJS zepto build
 
 	// setup DOM element
 	var DOM = __webpack_require__(3);
@@ -155,15 +145,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* istanbul ignore next */
+	/* istanbul ignore next */
 	/* Zepto v1.2.0 - zepto event assets data - zeptojs.com/license */
 	(function(global, factory) {
-	  if (true)
-	    !(__WEBPACK_AMD_DEFINE_RESULT__ = function() { return factory(global) }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-	  else
-	    factory(global)
+	  module.exports = factory(global);
 	}(/* this ##### UPDATED: here we want to use window/global instead of this which is the current file context ##### */ window, function(window) {  
 	  var Zepto = (function() {
 	  var undefined, key, $, classList, emptyArray = [], concat = emptyArray.concat, filter = emptyArray.filter, slice = emptyArray.slice,
@@ -1097,9 +1084,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return $
 	})()
-
-	window.Zepto = Zepto
-	window.$ === undefined && (window.$ = Zepto)
 
 	;(function($){
 	  var _zid = 1, undefined,

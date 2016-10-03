@@ -15,6 +15,10 @@ And constructed with the following guidelines:
 For more information on semantic versioning, please visit http://semver.org/.
 
 ---
+### 0.21.8 Oct 3, 2016
+
+* Do not allow Zepto to leak to window. Never.
+
 ### 0.21.7 Sep 21, 2016
 
 * Ensure the `empty` templates get displayed before the `footer`.
