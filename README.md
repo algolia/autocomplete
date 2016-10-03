@@ -665,6 +665,7 @@ Release
 
  * Bump the version in `package.json` and `bower.json`
  * `npm run build` to update the `dist/` files
+ * Update CHANGELOG.md
  * Commit and push to GitHub
  * Create & push a new tag named `X.Y.Z`
  * Run `npm publish`
