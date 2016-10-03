@@ -663,13 +663,11 @@ $ TEST_HOST=http://YOUR_NGROK_ID.ngrok.com SAUCE_ACCESS_KEY=YOUR_KEY SAUCE_USERN
 Release
 --------
 
- * Merge `develop` to `master`
  * Bump the version in `package.json` and `bower.json`
  * Run `grunt` to update the `dist/` files
  * Commit and push to GitHub
  * Create & push a new tag named `X.Y.Z`
- * Run `npm publish .`
- * Merge back `master` to `develop`
+ * Run `npm publish`
 
 
 Credits
