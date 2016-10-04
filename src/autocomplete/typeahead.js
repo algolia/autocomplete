@@ -151,6 +151,7 @@ _.mixin(Typeahead.prototype, {
   _onCursorRemoved: function onCursorRemoved() {
     this.input.resetInputValue();
     this._updateHint();
+    this.eventBus.trigger('cursorremoved');
   },
 
   _onDatasetRendered: function onDatasetRendered() {
