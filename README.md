@@ -520,6 +520,9 @@ The autocomplete component triggers the following custom events.
   event object, the suggestion object, and the name of the dataset the 
   suggestion belongs to.
 
+* `autocomplete:cursorremoved` – Triggered when the cursor leaves the selections
+  or its current index is lower than 0
+
 * `autocomplete:autocompleted` – Triggered when the query is autocompleted. 
   Autocompleted means the query was changed to the hint. The event handler will 
   be invoked with 3 arguments: the jQuery event object, the suggestion object, 
