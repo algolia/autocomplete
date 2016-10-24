@@ -386,6 +386,7 @@ Datasets can be configured using the following options.
   control after a suggestion is selected. Can be either a key string or a 
   function that transforms a suggestion object into a string. Defaults to 
   `value`.
+  Example function usage: `displayKey: function(suggestion) { return suggestion.nickname || suggestion.firstName }`
 
 * `templates` – A hash of templates to be used when rendering the dataset. Note
   a precompiled template is a function that takes a JavaScript object as its
