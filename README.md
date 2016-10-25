@@ -201,9 +201,9 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 
 #### Look and Feel
 
-Below is a faux mustache template describing the DOM structure of an autocomplete 
-dropdown menu. Keep in mind that `header`, `footer`, `suggestion`, and `empty` 
-come from the provided templates detailed [here](#datasets). 
+Below is a faux mustache template describing the DOM structure of an autocomplete
+dropdown menu. Keep in mind that `header`, `footer`, `suggestion`, and `empty`
+come from the provided templates detailed [here](#datasets).
 
 ```html
 <span class="aa-dropdown-menu{{#datasets}} aa-{{'with' or 'without'}}-{{name}}{{/datasets}}">
@@ -269,6 +269,8 @@ Here is what the [basic example](https://github.com/algolia/autocomplete.js/tree
 When initializing an autocomplete, there are a number of options you can configure.
 
 * `autoselect` – If `true`, the first rendered suggestion in the dropdown will automatically have the `cursor` class, and pressing `<ENTER>` will select it.
+
+* `autoselectOnBlur` – If `true`, when the input is blurred, the first rendered suggestion in the dropdown will automatically have the `cursor` class, and pressing `<ENTER>` will select it. This option should be used on mobile, see [#113](https://github.com/algolia/autocomplete.js/issues/113)
 
 * `hint` – If `false`, the autocomplete will not show a hint. Defaults to `true`.
 
@@ -359,7 +361,7 @@ When initializing an autocomplete, there are a number of options you can configu
 </script>
 ```
 
-* `minLength` – The minimum character length needed before suggestions start 
+* `minLength` – The minimum character length needed before suggestions start
   getting rendered. Defaults to `1`.
 
 #### Datasets
@@ -370,21 +372,21 @@ new value.
 
 Datasets can be configured using the following options.
 
-* `source` – The backing data source for suggestions. Expected to be a function 
-  with the signature `(query, cb)`. It is expected that the function will 
-  compute the suggestion set (i.e. an array of JavaScript objects) for `query` 
-  and then invoke `cb` with said set. `cb` can be invoked synchronously or 
+* `source` – The backing data source for suggestions. Expected to be a function
+  with the signature `(query, cb)`. It is expected that the function will
+  compute the suggestion set (i.e. an array of JavaScript objects) for `query`
+  and then invoke `cb` with said set. `cb` can be invoked synchronously or
   asynchronously.
 
-* `name` – The name of the dataset. This will be appended to `tt-dataset-` to 
-  form the class name of the containing DOM element.  Must only consist of 
-  underscores, dashes, letters (`a-z`), and numbers. Defaults to a random 
+* `name` – The name of the dataset. This will be appended to `tt-dataset-` to
+  form the class name of the containing DOM element.  Must only consist of
+  underscores, dashes, letters (`a-z`), and numbers. Defaults to a random
   number.
 
-* `displayKey` – For a given suggestion object, determines the string 
+* `displayKey` – For a given suggestion object, determines the string
   representation of it. This will be used when setting the value of the input
-  control after a suggestion is selected. Can be either a key string or a 
-  function that transforms a suggestion object into a string. Defaults to 
+  control after a suggestion is selected. Can be either a key string or a
+  function that transforms a suggestion object into a string. Defaults to
   `value`.
   Example function usage: `displayKey: function(suggestion) { return suggestion.nickname || suggestion.firstName }`
 
@@ -392,19 +394,19 @@ Datasets can be configured using the following options.
   a precompiled template is a function that takes a JavaScript object as its
   first argument and returns a HTML string.
 
-  * `empty` – Rendered when `0` suggestions are available for the given query. 
+  * `empty` – Rendered when `0` suggestions are available for the given query.
   Can be either a HTML string or a precompiled template. The templating function
   is called with a context containing `query`, `isEmpty`, and any optional
   arguments that may have been forwarded by the source:
   `function emptyTemplate({ query, isEmpty }, [forwarded args])`.
 
-  * `footer`– Rendered at the bottom of the dataset. Can be either a HTML 
+  * `footer`– Rendered at the bottom of the dataset. Can be either a HTML
   string or a precompiled template. The templating function
   is called with a context containing `query`, `isEmpty`, and any optional
   arguments that may have been forwarded by the source:
   `function footerTemplate({ query, isEmpty }, [forwarded args])`.
 
-  * `header` – Rendered at the top of the dataset. Can be either a HTML string 
+  * `header` – Rendered at the top of the dataset. Can be either a HTML string
   or a precompiled template. The templating function
   is called with a context containing `query`, `isEmpty`, and any optional
   arguments that may have been forwarded by the source:
@@ -498,36 +500,36 @@ source: function(query, callback) {
 
 The autocomplete component triggers the following custom events.
 
-* `autocomplete:opened` – Triggered when the dropdown menu of the autocomplete is 
+* `autocomplete:opened` – Triggered when the dropdown menu of the autocomplete is
   opened.
 
-* `autocomplete:shown` – Triggered when the dropdown menu of the autocomplete is 
+* `autocomplete:shown` – Triggered when the dropdown menu of the autocomplete is
   shown (opened and non-empty).
 
-* `autocomplete:empty` – Triggered when all datasets are empty. 
+* `autocomplete:empty` – Triggered when all datasets are empty.
 
-* `autocomplete:closed` – Triggered when the dropdown menu of the autocomplete is 
+* `autocomplete:closed` – Triggered when the dropdown menu of the autocomplete is
   closed.
 
 * `autocomplete:updated` – Triggered when a dataset is rendered.
 
 * `autocomplete:cursorchanged` – Triggered when the dropdown menu cursor is moved
-  to a different suggestion. The event handler will be invoked with 3 
-  arguments: the jQuery event object, the suggestion object, and the name of 
+  to a different suggestion. The event handler will be invoked with 3
+  arguments: the jQuery event object, the suggestion object, and the name of
   the dataset the suggestion belongs to.
 
-* `autocomplete:selected` – Triggered when a suggestion from the dropdown menu is 
-  selected. The event handler will be invoked with 3 arguments: the jQuery 
-  event object, the suggestion object, and the name of the dataset the 
+* `autocomplete:selected` – Triggered when a suggestion from the dropdown menu is
+  selected. The event handler will be invoked with 3 arguments: the jQuery
+  event object, the suggestion object, and the name of the dataset the
   suggestion belongs to.
 
 * `autocomplete:cursorremoved` – Triggered when the cursor leaves the selections
   or its current index is lower than 0
 
-* `autocomplete:autocompleted` – Triggered when the query is autocompleted. 
-  Autocompleted means the query was changed to the hint. The event handler will 
-  be invoked with 3 arguments: the jQuery event object, the suggestion object, 
-  and the name of the dataset the suggestion belongs to. 
+* `autocomplete:autocompleted` – Triggered when the query is autocompleted.
+  Autocompleted means the query was changed to the hint. The event handler will
+  be invoked with 3 arguments: the jQuery event object, the suggestion object,
+  and the name of the dataset the suggestion belongs to.
 
 All custom events are triggered on the element initialized as the autocomplete.
 
@@ -535,10 +537,10 @@ All custom events are triggered on the element initialized as the autocomplete.
 
 ##### jQuery#autocomplete(options, [\*datasets])
 
-Turns any `input[type="text"]` element into an auto-completion menu. `options` is an 
-options hash that's used to configure the autocomplete to your liking. Refer to 
-[Options](#options) for more info regarding the available configs. Subsequent 
-arguments (`*datasets`), are individual option hashes for datasets. For more 
+Turns any `input[type="text"]` element into an auto-completion menu. `options` is an
+options hash that's used to configure the autocomplete to your liking. Refer to
+[Options](#options) for more info regarding the available configs. Subsequent
+arguments (`*datasets`), are individual option hashes for datasets. For more
 details regarding datasets, refer to [Datasets](#datasets).
 
 ```javascript
@@ -553,7 +555,7 @@ $('.search-input').autocomplete({
 
 ##### jQuery#autocomplete('destroy')
 
-Removes the autocomplete functionality and reverts the `input` element back to its 
+Removes the autocomplete functionality and reverts the `input` element back to its
 original state.
 
 ```javascript
@@ -579,7 +581,7 @@ $('.search-input').autocomplete('close');
 
 ##### jQuery#autocomplete('val')
 
-Returns the current value of the autocomplete. The value is the text the user has 
+Returns the current value of the autocomplete. The value is the text the user has
 entered into the `input` element.
 
 ```javascript
@@ -596,8 +598,8 @@ $('.search-input').autocomplete('val', myVal);
 
 ##### jQuery.fn.autocomplete.noConflict()
 
-Returns a reference to the autocomplete plugin and reverts `jQuery.fn.autocomplete` 
-to its previous value. Can be used to avoid naming collisions. 
+Returns a reference to the autocomplete plugin and reverts `jQuery.fn.autocomplete`
+to its previous value. Can be used to avoid naming collisions.
 
 ```javascript
 var autocomplete = jQuery.fn.autocomplete.noConflict();
@@ -678,4 +680,4 @@ Release
 Credits
 --------
 
-This library has originally been forked from [Twitter's typeahead.js](https://github.com/twitter/typeahead.js) library. 
+This library has originally been forked from [Twitter's typeahead.js](https://github.com/twitter/typeahead.js) library.
