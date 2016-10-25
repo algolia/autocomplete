@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.21.8
+ * autocomplete.js 0.22.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -116,6 +116,7 @@
 	        hint: o.hint === undefined ? true : !!o.hint,
 	        minLength: o.minLength,
 	        autoselect: o.autoselect,
+	        autoselectOnBlur: o.autoselectOnBlur,
 	        openOnFocus: o.openOnFocus,
 	        templates: o.templates,
 	        debug: o.debug,
@@ -378,6 +379,7 @@
 	  this.isActivated = false;
 	  this.debug = !!o.debug;
 	  this.autoselect = !!o.autoselect;
+	  this.autoselectOnBlur = !!o.autoselectOnBlur;
 	  this.openOnFocus = !!o.openOnFocus;
 	  this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
 	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
@@ -501,6 +503,7 @@
 	  _onCursorRemoved: function onCursorRemoved() {
 	    this.input.resetInputValue();
 	    this._updateHint();
+	    this.eventBus.trigger('cursorremoved');
 	  },
 
 	  _onDatasetRendered: function onDatasetRendered() {
@@ -548,10 +551,17 @@
 	  },
 
 	  _onBlurred: function onBlurred() {
+	    var topSuggestionDatum;
+	    topSuggestionDatum = this.dropdown.getDatumForTopSuggestion();
+
 	    if (!this.debug) {
-	      this.isActivated = false;
-	      this.dropdown.empty();
-	      this.dropdown.close();
+	      if (this.autoselectOnBlur && topSuggestionDatum) {
+	        this._select(topSuggestionDatum);
+	      } else {
+	        this.isActivated = false;
+	        this.dropdown.empty();
+	        this.dropdown.close();
+	      }
 	    }
 	  },
 
