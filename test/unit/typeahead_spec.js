@@ -247,6 +247,21 @@ describe('Typeahead', function() {
 
       expect(this.dropdown.close).toHaveBeenCalled();
     });
+
+    it('should select the suggestion if autoselectOnBlur is true', function() {
+      this.view.autoselectOnBlur = true;
+      this.dropdown.getDatumForTopSuggestion.and.returnValue(testDatum);
+
+      var spy;
+
+      this.$input.on('autocomplete:selected', spy = jasmine.createSpy());
+      this.input.trigger('blurred');
+
+      expect(spy).toHaveBeenCalled();
+      expect(this.input.setQuery).toHaveBeenCalledWith(testDatum.value);
+      expect(this.input.setInputValue)
+        .toHaveBeenCalledWith(testDatum.value, true);
+    });
   });
 
   describe('when debug flag is set', function() {

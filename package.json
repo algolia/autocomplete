@@ -70,6 +70,7 @@
     "lint": "grunt lint",
     "server": "grunt server",
     "test": "karma start --single-run && grunt lint",
+    "test:watch": "karma start",
     "test:ci": "./test/ci.sh"
   },
   "version": "0.21.8",
