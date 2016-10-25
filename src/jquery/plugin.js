@@ -56,6 +56,7 @@ methods = {
         hint: o.hint === undefined ? true : !!o.hint,
         minLength: o.minLength,
         autoselect: o.autoselect,
+        autoselectOnBlur: o.autoselectOnBlur,
         openOnFocus: o.openOnFocus,
         templates: o.templates,
         debug: o.debug,

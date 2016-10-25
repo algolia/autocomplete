@@ -40,6 +40,7 @@ function autocomplete(selector, options, datasets, typeaheadObject) {
       hint: options.hint === undefined ? true : !!options.hint,
       minLength: options.minLength,
       autoselect: options.autoselect,
+      autoselectOnBlur: options.autoselectOnBlur,
       openOnFocus: options.openOnFocus,
       templates: options.templates,
       debug: options.debug,
