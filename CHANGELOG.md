@@ -15,6 +15,11 @@ And constructed with the following guidelines:
 For more information on semantic versioning, please visit http://semver.org/.
 
 ---
+### 0.22.0 Oct 25, 2016
+
+* Add `autocomplete:cursorremoved` event, see #105
+* Add `autoselectOnBlur` option, fixes #113
+
 ### 0.21.8 Oct 3, 2016
 
 * Do not allow Zepto to leak to window. Never.
