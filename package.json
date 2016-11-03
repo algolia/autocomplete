@@ -12,10 +12,6 @@
     "type": "git",
     "url": "https://github.com/algolia/autocomplete.js.git"
   },
-  "peerDependencies": {
-    "angular": "< 2.0.0",
-    "jquery": ">= 3.1.0"
-  },
   "devDependencies": {
     "angular": "^1.5.8",
     "angular-mocks": "^1.5.8",
