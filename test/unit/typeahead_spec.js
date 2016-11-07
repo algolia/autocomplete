@@ -262,6 +262,21 @@ describe('Typeahead', function() {
       expect(this.input.setInputValue)
         .toHaveBeenCalledWith(testDatum.value, true);
     });
+
+    it('should select the cursor suggestion if autoselectOnBlur is true', function() {
+      this.view.autoselectOnBlur = true;
+      this.dropdown.getDatumForTopSuggestion.and.returnValue(fixtures.data.simple[0]);
+      this.dropdown.getDatumForCursor.and.returnValue(fixtures.data.simple[1]);
+
+      var spy;
+
+      this.$input.on('autocomplete:selected', spy = jasmine.createSpy());
+      this.input.trigger('blurred');
+
+      expect(spy).toHaveBeenCalled();
+      expect(this.input.setQuery).toHaveBeenCalledWith(fixtures.data.simple[1].value);
+      expect(this.input.setInputValue).toHaveBeenCalledWith(fixtures.data.simple[1].value, true);
+    });
   });
 
   describe('when debug flag is set', function() {
