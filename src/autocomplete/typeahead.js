@@ -200,11 +200,16 @@ _.mixin(Typeahead.prototype, {
   },
 
   _onBlurred: function onBlurred() {
+    var cursorDatum;
     var topSuggestionDatum;
+
+    cursorDatum = this.dropdown.getDatumForCursor();
     topSuggestionDatum = this.dropdown.getDatumForTopSuggestion();
 
     if (!this.debug) {
-      if (this.autoselectOnBlur && topSuggestionDatum) {
+      if (this.autoselectOnBlur && cursorDatum) {
+        this._select(cursorDatum);
+      } else if (this.autoselectOnBlur && topSuggestionDatum) {
         this._select(topSuggestionDatum);
       } else {
         this.isActivated = false;
