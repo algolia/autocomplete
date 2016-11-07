@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.22.0
+ * autocomplete.js 0.22.1
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -542,11 +542,16 @@
 	  },
 
 	  _onBlurred: function onBlurred() {
+	    var cursorDatum;
 	    var topSuggestionDatum;
+
+	    cursorDatum = this.dropdown.getDatumForCursor();
 	    topSuggestionDatum = this.dropdown.getDatumForTopSuggestion();
 
 	    if (!this.debug) {
-	      if (this.autoselectOnBlur && topSuggestionDatum) {
+	      if (this.autoselectOnBlur && cursorDatum) {
+	        this._select(cursorDatum);
+	      } else if (this.autoselectOnBlur && topSuggestionDatum) {
 	        this._select(topSuggestionDatum);
 	      } else {
 	        this.isActivated = false;
