@@ -69,6 +69,6 @@
     "test:watch": "karma start",
     "test:ci": "./test/ci.sh"
   },
-  "version": "0.22.0",
+  "version": "0.22.1",
   "main": "index.js"
 }

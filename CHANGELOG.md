@@ -15,6 +15,10 @@ And constructed with the following guidelines:
 For more information on semantic versioning, please visit http://semver.org/.
 
 ---
+### 0.22.1 Nov 07, 2016
+
+* Fixes bad behavior when `autoselectOnBlur` used, fixes #113
+
 ### 0.22.0 Oct 25, 2016
 
 * Add `autocomplete:cursorremoved` event, see #105
