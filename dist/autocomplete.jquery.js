@@ -82,8 +82,8 @@
 	_.mixin = $.extend;
 	_.Event = $.Event;
 
-	var Typeahead = __webpack_require__(5);
-	var EventBus = __webpack_require__(6);
+	var Typeahead = __webpack_require__(6);
+	var EventBus = __webpack_require__(7);
 
 	var old;
 	var typeaheadKey;
@@ -242,6 +242,7 @@
 	'use strict';
 
 	var DOM = __webpack_require__(2);
+	var highlightTags = __webpack_require__(5);
 
 	module.exports = {
 	  // those methods are implemented differently
@@ -341,12 +342,46 @@
 
 	  className: function(prefix, clazz, skipDot) {
 	    return (skipDot ? '' : '.') + prefix + '-' + clazz;
+	  },
+
+	  escapeHTML: function(str, originalHighlightTags) {
+	    var div = document.createElement('div');
+	    div.appendChild(document.createTextNode(str));
+	    return div.innerHTML
+	      .replace(highlightTags.regexps.pre, originalHighlightTags.pre)
+	      .replace(highlightTags.regexps.post, originalHighlightTags.post);
 	  }
 	};
 
 
 /***/ },
 /* 5 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	function escapeStrForRegexp(str) {
+	  return str.replace(/[\-\$\/]/g, '\\$&');
+	}
+
+	var token = Number(new Date()).toString(16);
+	var pre = '$$--H-' + token + '--$$';
+	var post = '$$/--H-' + token + '--$$';
+
+	var regexps = {
+	  pre: RegExp(escapeStrForRegexp(pre), 'g'),
+	  post: RegExp(escapeStrForRegexp(post), 'g')
+	};
+
+	module.exports = {
+	  pre: pre,
+	  post: post,
+	  regexps: regexps
+	};
+
+
+/***/ },
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -355,11 +390,11 @@
 
 	var _ = __webpack_require__(4);
 	var DOM = __webpack_require__(2);
-	var EventBus = __webpack_require__(6);
-	var Input = __webpack_require__(7);
-	var Dropdown = __webpack_require__(11);
-	var html = __webpack_require__(13);
-	var css = __webpack_require__(14);
+	var EventBus = __webpack_require__(7);
+	var Input = __webpack_require__(8);
+	var Dropdown = __webpack_require__(12);
+	var html = __webpack_require__(14);
+	var css = __webpack_require__(15);
 
 	// constructor
 	// -----------
@@ -885,13 +920,13 @@
 
 	Typeahead.Dropdown = Dropdown;
 	Typeahead.Input = Input;
-	Typeahead.sources = __webpack_require__(15);
+	Typeahead.sources = __webpack_require__(16);
 
 	module.exports = Typeahead;
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -932,7 +967,7 @@
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -951,7 +986,7 @@
 
 	var _ = __webpack_require__(4);
 	var DOM = __webpack_require__(2);
-	var EventEmitter = __webpack_require__(8);
+	var EventEmitter = __webpack_require__(9);
 
 	// constructor
 	// -----------
@@ -1262,7 +1297,7 @@
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate) {'use strict';
@@ -1384,13 +1419,13 @@
 	    function() { fn.apply(context, [].slice.call(arguments, 0)); };
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10).setImmediate))
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(10).nextTick;
+	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(11).nextTick;
 	var apply = Function.prototype.apply;
 	var slice = Array.prototype.slice;
 	var immediateIds = {};
@@ -1466,10 +1501,10 @@
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9).setImmediate, __webpack_require__(9).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10).setImmediate, __webpack_require__(10).clearImmediate))
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -1655,16 +1690,16 @@
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _ = __webpack_require__(4);
 	var DOM = __webpack_require__(2);
-	var EventEmitter = __webpack_require__(8);
-	var Dataset = __webpack_require__(12);
-	var css = __webpack_require__(14);
+	var EventEmitter = __webpack_require__(9);
+	var Dataset = __webpack_require__(13);
+	var css = __webpack_require__(15);
 
 	// constructor
 	// -----------
@@ -2015,7 +2050,7 @@
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2026,9 +2061,9 @@
 
 	var _ = __webpack_require__(4);
 	var DOM = __webpack_require__(2);
-	var html = __webpack_require__(13);
-	var css = __webpack_require__(14);
-	var EventEmitter = __webpack_require__(8);
+	var html = __webpack_require__(14);
+	var css = __webpack_require__(15);
+	var EventEmitter = __webpack_require__(9);
 
 	// constructor
 	// -----------
@@ -2107,6 +2142,9 @@
 
 	    var hasSuggestions;
 	    var renderArgs = [].slice.call(arguments, 2);
+	    if (this.source.enableXSSProtection === true) {
+	      renderArgs.push(this._escapeHTML.bind(this));
+	    }
 	    this.$el.empty();
 
 	    hasSuggestions = suggestions && suggestions.length;
@@ -2228,6 +2266,10 @@
 
 	  destroy: function destroy() {
 	    this.$el = null;
+	  },
+
+	  _escapeHTML: function(str) {
+	    return _.escapeHTML(str, this.source.originalHighlightTags);
 	  }
 	});
 
@@ -2252,8 +2294,9 @@
 	    suggestion: templates.suggestion || suggestionTemplate
 	  };
 
-	  function suggestionTemplate(context) {
-	    return '<p>' + displayFn(context) + '</p>';
+	  function suggestionTemplate(context, params, escape) {
+	    var value = displayFn(context);
+	    return '<p>' + (escape ? escape(value) : value) + '</p>';
 	  }
 	}
 
@@ -2266,7 +2309,7 @@
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2281,7 +2324,7 @@
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2370,27 +2413,45 @@
 
 
 /***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	module.exports = {
-	  hits: __webpack_require__(16),
-	  popularIn: __webpack_require__(17)
-	};
-
-
-/***/ },
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
+	module.exports = {
+	  hits: __webpack_require__(17),
+	  popularIn: __webpack_require__(18)
+	};
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	var _ = __webpack_require__(4);
+	var highlightTags = __webpack_require__(5);
 
 	module.exports = function search(index, params) {
-	  return sourceFn;
+	  var enableXSSProtection = false;
+	  var originalHighlightTags = {
+	    pre: params.highlightPreTag || '<em>',
+	    post: params.highlightPostTag || '</em>'
+	  };
+
+	  if (params.enableXSSProtection === true) {
+	    enableXSSProtection = true;
+
+	    if (!_.isObject(params)) {
+	      params = {};
+	    }
+
+	    delete params.enableXSSProtection;
+
+	    params.highlightPreTag = highlightTags.pre;
+	    params.highlightPostTag = highlightTags.post;
+	  }
 
 	  function sourceFn(query, cb) {
 	    index.search(query, params, function(error, content) {
@@ -2401,11 +2462,16 @@
 	      cb(content.hits, content);
 	    });
 	  }
+
+	  sourceFn.enableXSSProtection = enableXSSProtection;
+	  sourceFn.originalHighlightTags = originalHighlightTags;
+
+	  return sourceFn;
 	};
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

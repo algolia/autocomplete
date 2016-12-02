@@ -87,6 +87,9 @@ _.mixin(Dataset.prototype, EventEmitter, {
 
     var hasSuggestions;
     var renderArgs = [].slice.call(arguments, 2);
+    if (this.source.enableXSSProtection === true) {
+      renderArgs.push(this._escapeHTML.bind(this));
+    }
     this.$el.empty();
 
     hasSuggestions = suggestions && suggestions.length;
@@ -208,6 +211,10 @@ _.mixin(Dataset.prototype, EventEmitter, {
 
   destroy: function destroy() {
     this.$el = null;
+  },
+
+  _escapeHTML: function(str) {
+    return _.escapeHTML(str, this.source.originalHighlightTags);
   }
 });
 
@@ -232,8 +239,9 @@ function getTemplates(templates, displayFn) {
     suggestion: templates.suggestion || suggestionTemplate
   };
 
-  function suggestionTemplate(context) {
-    return '<p>' + displayFn(context) + '</p>';
+  function suggestionTemplate(context, params, escape) {
+    var value = displayFn(context);
+    return '<p>' + (escape ? escape(value) : value) + '</p>';
   }
 }
 

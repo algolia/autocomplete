@@ -466,6 +466,35 @@ To build an Amazon-like autocomplete menu, suggesting popular queries and for th
 }
 ```
 
+##### User-generated data: protecting against XSS
+
+Malicious users may attempt to engineer XSS attacks by storing HTML/JS in their data. It is important that user-generated data be properly escaped before using it in an autocomplete.js template.
+
+The `enableXSSProtection` option can be set to `true` to provide an `escapeHTML` function as third argument to the suggestion template function. It can be used in the following way:
+
+```js
+$('#states').autocomplete({}, [
+  {
+    displayKey: 'name',
+    source: $.fn.autocomplete.sources.hits(index, {
+      hitsPerPage: 5,
+      enableXSSProtection: true,
+      highlightPreTag: "<strong style=\"red\">",
+      highlightPostTag: "</strong>"
+    }),
+    templates: {
+      suggestion: function(suggestion, params, escapeHTML) {
+        var val = suggestion._highlightResult.name.value;
+        return escapeHTML(val);
+      }
+    }
+  }
+]);
+```
+
+⚠️ &nbsp;&nbsp;*Note regarding `highlightPreTag` and `highlightPostTag`*: When enabled, the XSS protection will use custom values for the `highlightPreTag` and `highlightPostTag` query parameters. To use different values than the default `<em />` ones, it is necessary to specify them in the source parameters, as shown in the previous example.
+
+
 ##### Advanced use
 
 The `source` options can also take a function. It enables you to have more control of the results returned by Algolia search. The function `function(query, callback)` takes 2 parameters
