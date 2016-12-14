@@ -1,5 +1,5 @@
-Autocomplete.js
-=================
+# Autocomplete.js
+
 
 This JavaScript library adds a fast and fully-featured auto-completion menu to your search box displaying results "as you type". It can easily be combined with Algolia's realtime search engine. The library is available as a jQuery plugin, an Angular.js directive or a standalone library.
 
@@ -12,26 +12,43 @@ This JavaScript library adds a fast and fully-featured auto-completion menu to y
 
 [![Browser tests](https://saucelabs.com/browser-matrix/opensauce-algolia.svg)](https://saucelabs.com/u/opensauce-algolia)
 
-Table of Contents
------------------
+## Table of Contents
 
-* [Features](#features)
-* [Installation](#installation)
-* [Usage](#usage)
-  * [Quick Start](#quick-start)
-  * [Options](#options)
-  * [Look and Feel](#look-and-feel)
-  * [Datasets](#datasets)
-  * [Sources](#sources)
-  * [Custom Events](#custom-events)
-  * [API](#api)
-* [Development](#development)
-* [Testing](#testing)
-* [Release](#release)
-* [Credits](#credits)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-Features
---------
+
+- [Features](#features)
+- [Installation](#installation)
+  - [jsDelivr](#jsdelivr)
+  - [cdnjs](#cdnjs)
+  - [From Bower](#from-bower)
+  - [From source](#from-source)
+  - [Build/Dist](#builddist)
+  - [Browserify](#browserify)
+- [Usage](#usage)
+  - [Standalone](#standalone)
+  - [jQuery](#jquery)
+  - [Angular.JS](#angularjs)
+- [Look and Feel](#look-and-feel)
+- [Options](#options)
+- [Datasets](#datasets)
+- [Sources](#sources)
+  - [Hits](#hits)
+  - [PopularIn (aka "xxxxx in yyyyy")](#popularin-aka-xxxxx-in-yyyyy)
+  - [Custom source](#custom-source)
+- [Events](#events)
+- [API](#api)
+  - [jQuery](#jquery-1)
+  - [Standalone](#standalone-1)
+- [Development](#development)
+- [Tests](#tests)
+- [Release](#release)
+- [Credits](#credits)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Features
 
 * Displays suggestions to end-users as they type
 * Shows top suggestion as a hint (i.e. background text)
@@ -40,16 +57,11 @@ Features
 * Triggers custom events
 
 
-Installation
--------------
+## Installation
 
 The `autocomplete.js` library must be included **after** jQuery, Zepto or Angular.js (with jQuery).
 
-#### From a CDN
-
-We recommend including it from a CDN:
-
-##### jsDelivr
+### jsDelivr
 
 ```html
 <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
@@ -59,7 +71,7 @@ We recommend including it from a CDN:
 <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
 ```
 
-##### cdnjs
+### cdnjs
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.min.js"></script>
@@ -69,21 +81,17 @@ We recommend including it from a CDN:
 <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.angular.min.js"></script>
 ```
 
-#### From Bower
+### Bower
 
 ```sh
 bower install algolia-autocomplete.js -S
 ```
 
-#### From source
-
-Or you can fetch the source:
-
-##### Build/Dist
+### Source dist/
 
 You can find the built version in [dist/](https://github.com/algolia/autocomplete.js/tree/master/dist).
 
-##### Browserify
+### Browserify
 
 You can require it and use [Browserify](http://browserify.org/):
 
@@ -91,14 +99,9 @@ You can require it and use [Browserify](http://browserify.org/):
 var autocomplete = require('autocomplete.js');
 ```
 
-Usage
------
+## Usage
 
-#### Quick Start
-
-To turn any HTML `<input />` into a simple and fast as-you-type auto-completion menu following one of the 2 next sections:
-
-##### Standalone
+### Standalone
 
  1. Include `autocomplete.min.js`
  1. Initialize the auto-completion menu calling the `autocomplete` function
@@ -128,7 +131,7 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 </script>
 ```
 
-##### With jQuery
+### jQuery
 
  1. Include `autocomplete.jquery.min.js` after including `jQuery`
  1. Initialize the auto-completion menu calling the `autocomplete` jQuery plugin
@@ -158,7 +161,7 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 </script>
 ```
 
-##### With Angular.js
+### Angular.JS
 
  1. Include `autocomplete.angular.min.js` after including `jQuery` & `Angular.js`
  1. Inject the `algolia.autocomplete` module
@@ -199,7 +202,7 @@ To turn any HTML `<input />` into a simple and fast as-you-type auto-completion 
 
 **Note:** You need to rely on `jQuery`, the lite version embedded in Angular.js won't work.
 
-#### Look and Feel
+## Look and Feel
 
 Below is a faux mustache template describing the DOM structure of an autocomplete
 dropdown menu. Keep in mind that `header`, `footer`, `suggestion`, and `empty`
@@ -263,8 +266,7 @@ Here is what the [basic example](https://github.com/algolia/autocomplete.js/tree
 
 ![Basic example](./examples/basic.gif)
 
-
-#### Options
+## Options
 
 When initializing an autocomplete, there are a number of options you can configure.
 
@@ -364,7 +366,7 @@ When initializing an autocomplete, there are a number of options you can configu
 * `minLength` – The minimum character length needed before suggestions start
   getting rendered. Defaults to `1`.
 
-#### Datasets
+## Datasets
 
 An autocomplete is composed of one or more datasets. When an end-user modifies the
 value of the underlying input, each dataset will attempt to render suggestions for the
@@ -418,11 +420,11 @@ Datasets can be configured using the following options.
   Defaults to the value of `displayKey` wrapped in a `p` tag i.e. `<p>{{value}}</p>`.
 
 
-#### Sources
+## Sources
 
 A few helpers are provided by default to ease the creation of Algolia-based sources.
 
-##### Hits
+### Hits
 
 To build a source based on Algolia's `hits` array, just use:
 
@@ -437,7 +439,7 @@ To build a source based on Algolia's `hits` array, just use:
 }
 ```
 
-##### PopularIn (aka "xxxxx in yyyyy")
+### PopularIn (aka "xxxxx in yyyyy")
 
 To build an Amazon-like autocomplete menu, suggesting popular queries and for the most popular one displaying the associated categories, you can use the `popularIn` source:
 
@@ -466,7 +468,7 @@ To build an Amazon-like autocomplete menu, suggesting popular queries and for th
 }
 ```
 
-##### Advanced use
+### Custom source
 
 The `source` options can also take a function. It enables you to have more control of the results returned by Algolia search. The function `function(query, callback)` takes 2 parameters
   * `query: String`: the text typed in the autocomplete
@@ -496,7 +498,7 @@ source: function(query, callback) {
 }
 ```
 
-#### Custom Events
+## Events
 
 The autocomplete component triggers the following custom events.
 
@@ -533,9 +535,9 @@ The autocomplete component triggers the following custom events.
 
 All custom events are triggered on the element initialized as the autocomplete.
 
-#### API
+## API
 
-##### jQuery#autocomplete(options, [\*datasets])
+### jQuery
 
 Turns any `input[type="text"]` element into an auto-completion menu. `options` is an
 options hash that's used to configure the autocomplete to your liking. Refer to
@@ -553,7 +555,7 @@ $('.search-input').autocomplete({
 });
 ```
 
-##### jQuery#autocomplete('destroy')
+#### jQuery#autocomplete('destroy')
 
 Removes the autocomplete functionality and reverts the `input` element back to its
 original state.
@@ -562,7 +564,7 @@ original state.
 $('.search-input').autocomplete('destroy');
 ```
 
-##### jQuery#autocomplete('open')
+#### jQuery#autocomplete('open')
 
 Opens the dropdown menu of the autocomplete. Note that being open does not mean that
 the menu is visible. The menu is only visible when it is open and has content.
@@ -571,7 +573,7 @@ the menu is visible. The menu is only visible when it is open and has content.
 $('.search-input').autocomplete('open');
 ```
 
-##### jQuery#autocomplete('close')
+#### jQuery#autocomplete('close')
 
 Closes the dropdown menu of the autocomplete.
 
@@ -579,7 +581,7 @@ Closes the dropdown menu of the autocomplete.
 $('.search-input').autocomplete('close');
 ```
 
-##### jQuery#autocomplete('val')
+#### jQuery#autocomplete('val')
 
 Returns the current value of the autocomplete. The value is the text the user has
 entered into the `input` element.
@@ -588,7 +590,7 @@ entered into the `input` element.
 var myVal = $('.search-input').autocomplete('val');
 ```
 
-##### jQuery#autocomplete('val', val)
+#### jQuery#autocomplete('val', val)
 
 Sets the value of the autocomplete. This should be used in place of `jQuery#val`.
 
@@ -596,7 +598,7 @@ Sets the value of the autocomplete. This should be used in place of `jQuery#val`
 $('.search-input').autocomplete('val', myVal);
 ```
 
-##### jQuery.fn.autocomplete.noConflict()
+#### jQuery.fn.autocomplete.noConflict()
 
 Returns a reference to the autocomplete plugin and reverts `jQuery.fn.autocomplete`
 to its previous value. Can be used to avoid naming collisions.
@@ -607,7 +609,7 @@ jQuery.fn._autocomplete = autocomplete;
 
 ```
 
-#### Standalone version
+### Standalone
 
 The standalone version API is similiar to jQuery's:
 
@@ -629,8 +631,16 @@ You can also pass a custom Typeahead instance in Autocomplete.js constructor:
 var search = autocomplete('#search', { hint: false}, [{ ... }], new Typeahead({ ... }));
 ```
 
-Development
------------
+#### autocomplete.noConflict()
+
+Returns a reference to the autocomplete plugin and reverts `window.autocomplete`
+to its previous value. Can be used to avoid naming collisions.
+
+```javascript
+var algoliaAutocomplete = autocomplete.noConflict();
+```
+
+## Development
 
 To start developing, you can use the following commands:
 
@@ -646,8 +656,7 @@ Linting is done with [eslint](http://eslint.org/) and [Algolia's configuration](
 $ npm run lint
 ```
 
-Testing
-------
+## Tests
 
 Unit tests are written using [Jasmine](http://jasmine.github.io/) and ran with [Karma](http://karma-runner.github.io/). Integration tests are using [Mocha](http://mochajs.org/) and [Saucelabs](https://saucelabs.com/).
 
@@ -666,18 +675,29 @@ $ ngrok 8888
 $ TEST_HOST=http://YOUR_NGROK_ID.ngrok.com SAUCE_ACCESS_KEY=YOUR_KEY SAUCE_USERNAME=YOUR_USERNAME./node_modules/mocha/bin/mocha --harmony -R spec ./test/integration/test.js
 ```
 
-Release
---------
+## Release
 
- * Bump the version in `package.json` and `bower.json`
- * `npm run build` to update the `dist/` files
- * Update CHANGELOG.md
- * Commit and push to GitHub
- * Create & push a new tag named `X.Y.Z`
- * Run `npm publish`
+Follow this script:
 
+```sh
+git checkout master
+git pull
+npm install
+./node_modules/.bin/mversion $SEMVER_TOKEN # major.minor.patch
+npm run build
+# Manual operation
+# Update the file CHANGELOG.md by looking at git log, have a look
+# at previous lines to know what to write, how to write it
+# /Manual operation
+./node_modules/.bin/doctoc README.md --notitle --maxlevel 2
+git add README.md package.json bower.json dist/
+git commit
+# First line: major.minor.patch
+# Body: paste the changelog
+git tag major.minor.patch
+git push && git push --tags && npm publish
+```
 
-Credits
---------
+## Credits
 
 This library has originally been forked from [Twitter's typeahead.js](https://github.com/twitter/typeahead.js) library.

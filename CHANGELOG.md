@@ -15,6 +15,10 @@ And constructed with the following guidelines:
 For more information on semantic versioning, please visit http://semver.org/.
 
 ---
+### 0.23.0 Dec 14, 2016
+
+* feat(build): add noConflict() for standalone build, fixes #133
+
 ### 0.22.1 Nov 07, 2016
 
 * Fixes bad behavior when `autoselectOnBlur` used, fixes #113
