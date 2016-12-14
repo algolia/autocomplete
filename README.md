@@ -683,7 +683,7 @@ Follow this script:
 git checkout master
 git pull
 npm install
-./node_modules/.bin/mversion $SEMVER_TOKEN # major.minor.patch
+./node_modules/.bin/mversion $SEMVER_TOKEN # SEMVER_TOKEN can be major or minor or patch string
 npm run build
 # Manual operation
 # Update the file CHANGELOG.md by looking at git log, have a look
