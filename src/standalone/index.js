@@ -71,4 +71,15 @@ function autocomplete(selector, options, datasets, typeaheadObject) {
 
 autocomplete.sources = Typeahead.sources;
 
+var wasAutocompleteSet = 'autocomplete' in window;
+var oldAutocomplete = window.autocomplete;
+autocomplete.noConflict = function noConflict() {
+  if (wasAutocompleteSet) {
+    window.autocomplete = oldAutocomplete;
+  } else {
+    delete window.autocomplete;
+  }
+  return autocomplete;
+};
+
 module.exports = autocomplete;
