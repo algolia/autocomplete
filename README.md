@@ -22,9 +22,8 @@ This JavaScript library adds a fast and fully-featured auto-completion menu to y
 - [Installation](#installation)
   - [jsDelivr](#jsdelivr)
   - [cdnjs](#cdnjs)
-  - [From Bower](#from-bower)
-  - [From source](#from-source)
-  - [Build/Dist](#builddist)
+  - [Bower](#bower)
+  - [Source dist/](#source-dist)
   - [Browserify](#browserify)
 - [Usage](#usage)
   - [Standalone](#standalone)
@@ -689,7 +688,7 @@ npm run build
 # Update the file CHANGELOG.md by looking at git log, have a look
 # at previous lines to know what to write, how to write it
 # /Manual operation
-./node_modules/.bin/doctoc README.md --notitle --maxlevel 2
+./node_modules/.bin/doctoc --notitle --maxlevel 3 README.md
 git add README.md package.json bower.json dist/
 git commit
 # First line: major.minor.patch

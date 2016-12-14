@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.22.1
+ * autocomplete.js 0.23.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -140,6 +140,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	autocomplete.sources = Typeahead.sources;
+
+	var wasAutocompleteSet = 'autocomplete' in window;
+	var oldAutocomplete = window.autocomplete;
+	autocomplete.noConflict = function noConflict() {
+	  if (wasAutocompleteSet) {
+	    window.autocomplete = oldAutocomplete;
+	  } else {
+	    delete window.autocomplete;
+	  }
+	  return autocomplete;
+	};
 
 	module.exports = autocomplete;
 

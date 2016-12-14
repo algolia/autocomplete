@@ -1,7 +1,7 @@
 {
   "name": "algolia-autocomplete.js",
   "main": "dist/autocomplete.js",
-  "version": "0.22.1",
+  "version": "0.23.0",
   "homepage": "https://github.com/algolia/autocomplete.js",
   "authors": [
     "Algolia Team <support@algolia.com>"
