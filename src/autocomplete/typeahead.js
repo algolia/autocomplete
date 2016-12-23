@@ -31,12 +31,22 @@ function Typeahead(o) {
   this.autoselectOnBlur = !!o.autoselectOnBlur;
   this.openOnFocus = !!o.openOnFocus;
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
-  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
-  this.$node = buildDom(o);
 
-  $menu = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.dropdownMenu));
-  $input = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.input));
-  $hint = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.hint));
+  o.hint = !!o.hint;
+
+  if (o.hint && o.appendTo) {
+    throw new Error('[autocomplete.js] hint and appendTo options can\'t be used at the same time');
+  }
+
+  this.css = o.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
+  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+
+  var domElts = buildDom(o);
+
+  this.$node = domElts.wrapper;
+  $menu = domElts.menu;
+  $input = domElts.input;
+  $hint = domElts.hint;
 
   if (o.dropdownMenuContainer) {
     DOM.element(o.dropdownMenuContainer)
@@ -64,7 +74,16 @@ function Typeahead(o) {
 
   this.eventBus = o.eventBus || new EventBus({el: $input});
 
-  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets, templates: o.templates, cssClasses: this.cssClasses, minLength: this.minLength})
+  this.dropdown = new Typeahead.Dropdown({
+    input: $input,
+    appendTo: o.appendTo,
+    wrapper: this.$node,
+    menu: $menu,
+    datasets: o.datasets,
+    templates: o.templates,
+    cssClasses: o.cssClasses,
+    minLength: this.minLength
+  })
     .onSync('suggestionClicked', this._onSuggestionClicked, this)
     .onSync('cursorMoved', this._onCursorMoved, this)
     .onSync('cursorRemoved', this._onCursorRemoved, this)
@@ -439,21 +458,21 @@ function buildDom(options) {
   var $hint;
 
   $input = DOM.element(options.input);
-  $wrapper = DOM.element(html.wrapper.replace('%ROOT%', options.cssClasses.root)).css(css.wrapper);
+  $wrapper = DOM.element(html.wrapper.replace('%ROOT%', options.cssClasses.root)).css(options.css.wrapper);
   // override the display property with the table-cell value
   // if the parent element is a table and the original input was a block
   //  -> https://github.com/algolia/autocomplete.js/issues/16
-  if ($input.css('display') === 'block' && $input.parent().css('display') === 'table') {
+  if (!options.appendTo && $input.css('display') === 'block' && $input.parent().css('display') === 'table') {
     $wrapper.css('display', 'table-cell');
   }
   var dropdownHtml = html.dropdown.
     replace('%PREFIX%', options.cssClasses.prefix).
     replace('%DROPDOWN_MENU%', options.cssClasses.dropdownMenu);
-  $dropdown = DOM.element(dropdownHtml).css(css.dropdown);
+  $dropdown = DOM.element(dropdownHtml).css(options.css.dropdown);
   if (options.templates && options.templates.dropdownMenu) {
     $dropdown.html(_.templatify(options.templates.dropdownMenu)());
   }
-  $hint = $input.clone().css(css.hint).css(getBackgroundStyles($input));
+  $hint = $input.clone().css(options.css.hint).css(getBackgroundStyles($input));
 
   $hint
     .val('')
@@ -477,7 +496,7 @@ function buildDom(options) {
   $input
     .addClass(_.className(options.cssClasses.prefix, options.cssClasses.input, true))
     .attr({autocomplete: 'off', spellcheck: false})
-    .css(options.hint ? css.input : css.inputWithNoHint);
+    .css(options.hint ? options.css.input : options.css.inputWithNoHint);
 
   // ie7 does not like it when dir is set to auto
   try {
@@ -488,11 +507,20 @@ function buildDom(options) {
     // ignore
   }
 
-  return $input
-    .wrap($wrapper)
-    .parent()
+  $wrapper = options.appendTo
+    ? $wrapper.appendTo(DOM.element(options.appendTo).eq(0)).eq(0)
+    : $input.wrap($wrapper).parent();
+
+  $wrapper
     .prepend(options.hint ? $hint : null)
     .append($dropdown);
+
+  return {
+    wrapper: $wrapper,
+    input: $input,
+    hint: $hint,
+    menu: $dropdown
+  };
 }
 
 function getBackgroundStyles($el) {

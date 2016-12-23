@@ -40,6 +40,20 @@ describe('Typeahead', function() {
     this.dropdown = this.view.dropdown;
   });
 
+
+  describe('appendTo', function() {
+    it('should throw if used with hint', function(done) {
+      expect(function() {
+        return new Typeahead({
+          input: this.$input,
+          hint: true,
+          appendTo: 'body'
+        });
+      }).toThrow();
+      done();
+    });
+  });
+
   describe('when dropdown triggers suggestionClicked', function() {
     beforeEach(function() {
       this.dropdown.getDatumForSuggestion.and.returnValue(testDatum);

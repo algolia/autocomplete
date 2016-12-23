@@ -50,7 +50,7 @@
       var actors = client.initIndex('actors');
       var movies = client.initIndex('movies');
 
-      autocomplete('#contacts, #contacts1', { hint: false, templates: { empty: 'empty' }, autoselect: true }, [
+      autocomplete('#contacts, #contacts1', { hint: false, templates: { empty: 'empty' }, autoselect: true, appendTo: 'body' }, [
         {
           source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
           displayKey: 'name',
@@ -72,6 +72,8 @@
       autocomplete('#contacts2', {
         debug: true,
         keyboardShortcuts: [191, 's'],
+        hint: false,
+        appendTo: 'h4',
         templates: {
           empty: function(data) {
             return 'No results for "<strong>' + data.query.replace(/[^-_'a-zA-Z0-9 ]/, ' ') + '</strong>"';

@@ -61,6 +61,18 @@ var css = {
     cursor: 'cursor',
     dataset: 'dataset',
     empty: 'empty'
+  },
+  appendTo: {
+    wrapper: {
+      position: 'absolute',
+      zIndex: '100',
+      display: 'none'
+    },
+    input: {},
+    inputWithNoHint: {},
+    dropdown: {
+      display: 'block'
+    }
   }
 };
 
