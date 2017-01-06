@@ -252,6 +252,20 @@ describe('Dropdown', function() {
 
       expect(spy).toHaveBeenCalled();
     });
+
+
+    it('should trigger redrawn', function() {
+      var spy;
+
+      this.view.onSync('redrawn', spy = jasmine.createSpy());
+
+      this.view.close();
+      this.view.isEmpty = false;
+      this.view.appendTo = 'body';
+      this.view.open();
+
+      expect(spy).toHaveBeenCalled();
+    });
   });
 
   describe('#close', function() {

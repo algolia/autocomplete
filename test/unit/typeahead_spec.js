@@ -52,6 +52,28 @@ describe('Typeahead', function() {
       }).toThrow();
       done();
     });
+
+    it('should be appended to the target of appendTo', function(done) {
+      var node = document.createElement('div');
+      document.querySelector('body').appendChild(node);
+
+      expect(node.children.length).toEqual(0);
+
+      this.view.destroy();
+
+      this.view = new Typeahead({
+        input: this.$input,
+        hint: false,
+        appendTo: node
+      });
+
+      expect(document.querySelectorAll('.algolia-autocomplete').length).toEqual(1);
+      expect(node.children.length).toEqual(1);
+
+      this.view.destroy();
+
+      done();
+    });
   });
 
   describe('when dropdown triggers suggestionClicked', function() {
