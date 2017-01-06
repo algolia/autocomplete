@@ -62,6 +62,7 @@ var css = {
     dataset: 'dataset',
     empty: 'empty'
   },
+  // will be merged with the default ones if appendTo is used
   appendTo: {
     wrapper: {
       position: 'absolute',
