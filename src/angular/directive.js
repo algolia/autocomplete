@@ -36,6 +36,7 @@ angular.module('algolia.autocomplete', [])
         datasets: '&aaDatasets'
       },
       link: function(scope, element, attrs) {
+        if (!element.hasClass('autocomplete') && attrs.autocomplete !== '') return;
         attrs = attrs; // no-unused-vars
         scope.options = $parse(scope.options)(scope);
         if (!scope.options) {
