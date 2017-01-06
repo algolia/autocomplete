@@ -209,6 +209,16 @@ describe('Typeahead', function() {
 
       expect(spy).toHaveBeenCalled();
     });
+
+    it('should trigger autocomplete:redrawn', function() {
+      var spy;
+
+      this.$input.on('autocomplete:redrawn', spy = jasmine.createSpy());
+
+      this.dropdown.trigger('redrawn');
+
+      expect(spy).toHaveBeenCalled();
+    });
   });
 
   describe('when dropdown triggers closed', function() {
