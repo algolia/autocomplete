@@ -91,6 +91,7 @@ function Typeahead(o) {
     .onSync('closed', this._onClosed, this)
     .onSync('shown', this._onShown, this)
     .onSync('empty', this._onEmpty, this)
+    .onSync('redrawn', this._onRedrawn, this)
     .onAsync('datasetRendered', this._onDatasetRendered, this);
 
   this.input = new Typeahead.Input({input: $input, hint: $hint})
@@ -188,6 +189,10 @@ _.mixin(Typeahead.prototype, {
 
   _onEmpty: function onEmpty() {
     this.eventBus.trigger('empty');
+  },
+
+  _onRedrawn: function onRedrawn() {
+    this.eventBus.trigger('redrawn');
   },
 
   _onShown: function onShown() {
