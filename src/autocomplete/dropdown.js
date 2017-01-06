@@ -47,10 +47,7 @@ function Dropdown(o) {
     .on('mouseenter.aa', cssClass, onSuggestionMouseEnter)
     .on('mouseleave.aa', cssClass, onSuggestionMouseLeave);
 
-  this.$input = o.input;
-  this.$wrapper = o.wrapper;
-
-  this.$container = o.appendTo ? this.$wrapper : this.$menu;
+  this.$container = o.appendTo ? o.wrapper : this.$menu;
 
   if (o.templates && o.templates.header) {
     this.templates.header = _.templatify(o.templates.header);
@@ -189,19 +186,6 @@ _.mixin(Dropdown.prototype, EventEmitter, {
 
   _redraw: function redraw() {
     if (!this.isOpen || !this.appendTo) return;
-
-    var inputRect = this.$input[0].getBoundingClientRect();
-
-    this.$wrapper.css('width', inputRect.width + 'px');
-    this.$wrapper.css('top', 0 + 'px');
-    this.$wrapper.css('left', 0 + 'px');
-
-    var wrapperRect = this.$wrapper[0].getBoundingClientRect();
-
-    var top = inputRect.bottom - wrapperRect.top;
-    this.$wrapper.css('top', top + 'px');
-    var left = inputRect.left - wrapperRect.left;
-    this.$wrapper.css('left', left + 'px');
 
     this.trigger('redrawn');
   },

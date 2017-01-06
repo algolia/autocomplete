@@ -16,7 +16,6 @@ var css = require('./css.js');
 // THOUGHT: what if datasets could dynamically be added/removed?
 function Typeahead(o) {
   var $menu;
-  var $input;
   var $hint;
 
   o = o || {};
@@ -44,8 +43,8 @@ function Typeahead(o) {
   var domElts = buildDom(o);
 
   this.$node = domElts.wrapper;
+  var $input = this.$input = domElts.input;
   $menu = domElts.menu;
-  $input = domElts.input;
   $hint = domElts.hint;
 
   if (o.dropdownMenuContainer) {
@@ -75,7 +74,6 @@ function Typeahead(o) {
   this.eventBus = o.eventBus || new EventBus({el: $input});
 
   this.dropdown = new Typeahead.Dropdown({
-    input: $input,
     appendTo: o.appendTo,
     wrapper: this.$node,
     menu: $menu,
@@ -107,7 +105,7 @@ function Typeahead(o) {
     .onSync('queryChanged', this._onQueryChanged, this)
     .onSync('whitespaceChanged', this._onWhitespaceChanged, this);
 
-  this._bindKeyboardShortcuts($input, o);
+  this._bindKeyboardShortcuts(o);
 
   this._setLanguageDirection();
 }
@@ -118,10 +116,11 @@ function Typeahead(o) {
 _.mixin(Typeahead.prototype, {
   // ### private
 
-  _bindKeyboardShortcuts: function($input, options) {
+  _bindKeyboardShortcuts: function(options) {
     if (!options.keyboardShortcuts) {
       return;
     }
+    var $input = this.$input;
     var keyboardShortcuts = [];
     _.each(options.keyboardShortcuts, function(key) {
       if (typeof key === 'string') {
@@ -192,6 +191,19 @@ _.mixin(Typeahead.prototype, {
   },
 
   _onRedrawn: function onRedrawn() {
+    var inputRect = this.$input[0].getBoundingClientRect();
+
+    this.$node.css('width', inputRect.width + 'px');
+    this.$node.css('top', 0 + 'px');
+    this.$node.css('left', 0 + 'px');
+
+    var wrapperRect = this.$node[0].getBoundingClientRect();
+
+    var top = inputRect.bottom - wrapperRect.top;
+    this.$node.css('top', top + 'px');
+    var left = inputRect.left - wrapperRect.left;
+    this.$node.css('left', left + 'px');
+
     this.eventBus.trigger('redrawn');
   },
 
