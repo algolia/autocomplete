@@ -12,7 +12,7 @@
             <div class="col-sm-4">
               <h4>Simple auto-complete</h4>
               <div class="input-group">
-                <input id="contacts" name="contacts" class="form-control" type="text" ng-model="q" autocomplete aa-datasets="getDatasets()" />
+                <input id="contacts" name="contacts" class="form-control" type="text" ng-model="q" autocomplete aa-datasets="getDatasets()" aa-options="{ appendTo: 'body', debug: true, hint: false }" />
                 <span class="input-group-addon">Go</span>
               </div>
             </div>

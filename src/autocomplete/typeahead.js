@@ -16,7 +16,6 @@ var css = require('./css.js');
 // THOUGHT: what if datasets could dynamically be added/removed?
 function Typeahead(o) {
   var $menu;
-  var $input;
   var $hint;
 
   o = o || {};
@@ -31,12 +30,22 @@ function Typeahead(o) {
   this.autoselectOnBlur = !!o.autoselectOnBlur;
   this.openOnFocus = !!o.openOnFocus;
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
-  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
-  this.$node = buildDom(o);
 
-  $menu = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.dropdownMenu));
-  $input = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.input));
-  $hint = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.hint));
+  o.hint = !!o.hint;
+
+  if (o.hint && o.appendTo) {
+    throw new Error('[autocomplete.js] hint and appendTo options can\'t be used at the same time');
+  }
+
+  this.css = o.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
+  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+
+  var domElts = buildDom(o);
+
+  this.$node = domElts.wrapper;
+  var $input = this.$input = domElts.input;
+  $menu = domElts.menu;
+  $hint = domElts.hint;
 
   if (o.dropdownMenuContainer) {
     DOM.element(o.dropdownMenuContainer)
@@ -64,7 +73,15 @@ function Typeahead(o) {
 
   this.eventBus = o.eventBus || new EventBus({el: $input});
 
-  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets, templates: o.templates, cssClasses: this.cssClasses, minLength: this.minLength})
+  this.dropdown = new Typeahead.Dropdown({
+    appendTo: o.appendTo,
+    wrapper: this.$node,
+    menu: $menu,
+    datasets: o.datasets,
+    templates: o.templates,
+    cssClasses: o.cssClasses,
+    minLength: this.minLength
+  })
     .onSync('suggestionClicked', this._onSuggestionClicked, this)
     .onSync('cursorMoved', this._onCursorMoved, this)
     .onSync('cursorRemoved', this._onCursorRemoved, this)
@@ -72,6 +89,7 @@ function Typeahead(o) {
     .onSync('closed', this._onClosed, this)
     .onSync('shown', this._onShown, this)
     .onSync('empty', this._onEmpty, this)
+    .onSync('redrawn', this._onRedrawn, this)
     .onAsync('datasetRendered', this._onDatasetRendered, this);
 
   this.input = new Typeahead.Input({input: $input, hint: $hint})
@@ -87,7 +105,7 @@ function Typeahead(o) {
     .onSync('queryChanged', this._onQueryChanged, this)
     .onSync('whitespaceChanged', this._onWhitespaceChanged, this);
 
-  this._bindKeyboardShortcuts($input, o);
+  this._bindKeyboardShortcuts(o);
 
   this._setLanguageDirection();
 }
@@ -98,10 +116,11 @@ function Typeahead(o) {
 _.mixin(Typeahead.prototype, {
   // ### private
 
-  _bindKeyboardShortcuts: function($input, options) {
+  _bindKeyboardShortcuts: function(options) {
     if (!options.keyboardShortcuts) {
       return;
     }
+    var $input = this.$input;
     var keyboardShortcuts = [];
     _.each(options.keyboardShortcuts, function(key) {
       if (typeof key === 'string') {
@@ -169,6 +188,23 @@ _.mixin(Typeahead.prototype, {
 
   _onEmpty: function onEmpty() {
     this.eventBus.trigger('empty');
+  },
+
+  _onRedrawn: function onRedrawn() {
+    var inputRect = this.$input[0].getBoundingClientRect();
+
+    this.$node.css('width', inputRect.width + 'px');
+    this.$node.css('top', 0 + 'px');
+    this.$node.css('left', 0 + 'px');
+
+    var wrapperRect = this.$node[0].getBoundingClientRect();
+
+    var top = inputRect.bottom - wrapperRect.top;
+    this.$node.css('top', top + 'px');
+    var left = inputRect.left - wrapperRect.left;
+    this.$node.css('left', left + 'px');
+
+    this.eventBus.trigger('redrawn');
   },
 
   _onShown: function onShown() {
@@ -439,21 +475,21 @@ function buildDom(options) {
   var $hint;
 
   $input = DOM.element(options.input);
-  $wrapper = DOM.element(html.wrapper.replace('%ROOT%', options.cssClasses.root)).css(css.wrapper);
+  $wrapper = DOM.element(html.wrapper.replace('%ROOT%', options.cssClasses.root)).css(options.css.wrapper);
   // override the display property with the table-cell value
   // if the parent element is a table and the original input was a block
   //  -> https://github.com/algolia/autocomplete.js/issues/16
-  if ($input.css('display') === 'block' && $input.parent().css('display') === 'table') {
+  if (!options.appendTo && $input.css('display') === 'block' && $input.parent().css('display') === 'table') {
     $wrapper.css('display', 'table-cell');
   }
   var dropdownHtml = html.dropdown.
     replace('%PREFIX%', options.cssClasses.prefix).
     replace('%DROPDOWN_MENU%', options.cssClasses.dropdownMenu);
-  $dropdown = DOM.element(dropdownHtml).css(css.dropdown);
+  $dropdown = DOM.element(dropdownHtml).css(options.css.dropdown);
   if (options.templates && options.templates.dropdownMenu) {
     $dropdown.html(_.templatify(options.templates.dropdownMenu)());
   }
-  $hint = $input.clone().css(css.hint).css(getBackgroundStyles($input));
+  $hint = $input.clone().css(options.css.hint).css(getBackgroundStyles($input));
 
   $hint
     .val('')
@@ -477,7 +513,7 @@ function buildDom(options) {
   $input
     .addClass(_.className(options.cssClasses.prefix, options.cssClasses.input, true))
     .attr({autocomplete: 'off', spellcheck: false})
-    .css(options.hint ? css.input : css.inputWithNoHint);
+    .css(options.hint ? options.css.input : options.css.inputWithNoHint);
 
   // ie7 does not like it when dir is set to auto
   try {
@@ -488,11 +524,20 @@ function buildDom(options) {
     // ignore
   }
 
-  return $input
-    .wrap($wrapper)
-    .parent()
+  $wrapper = options.appendTo
+    ? $wrapper.appendTo(DOM.element(options.appendTo).eq(0)).eq(0)
+    : $input.wrap($wrapper).parent();
+
+  $wrapper
     .prepend(options.hint ? $hint : null)
     .append($dropdown);
+
+  return {
+    wrapper: $wrapper,
+    input: $input,
+    hint: $hint,
+    menu: $dropdown
+  };
 }
 
 function getBackgroundStyles($el) {

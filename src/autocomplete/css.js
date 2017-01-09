@@ -61,6 +61,19 @@ var css = {
     cursor: 'cursor',
     dataset: 'dataset',
     empty: 'empty'
+  },
+  // will be merged with the default ones if appendTo is used
+  appendTo: {
+    wrapper: {
+      position: 'absolute',
+      zIndex: '100',
+      display: 'none'
+    },
+    input: {},
+    inputWithNoHint: {},
+    dropdown: {
+      display: 'block'
+    }
   }
 };
 

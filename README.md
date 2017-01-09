@@ -279,6 +279,8 @@ When initializing an autocomplete, there are a number of options you can configu
 
 * `openOnFocus` – If `true`, the dropdown menu will open when the input is focused. Defaults to `false`.
 
+* `appendTo` – If set with a DOM selector, doesn't wrap the input and appends the wrapper and dropdown menu to the first DOM element matching the selector. It automatically positions the wrapper under the input, and sets it to the same width as the input. Can't be used with `hint: true`, because `hint` requires the wrapper around the input.
+
 * `dropdownMenuContainer` – If set with a DOM selector, it overrides the container of the dropdown menu.
 
 * `templates` – An optional hash overriding the default templates.
@@ -531,6 +533,8 @@ The autocomplete component triggers the following custom events.
   Autocompleted means the query was changed to the hint. The event handler will
   be invoked with 3 arguments: the jQuery event object, the suggestion object,
   and the name of the dataset the suggestion belongs to.
+
+* `autocomplete:redrawn` – Triggered when `appendTo` is used and the wrapper is resized/repositionned.
 
 All custom events are triggered on the element initialized as the autocomplete.
 

@@ -40,6 +40,42 @@ describe('Typeahead', function() {
     this.dropdown = this.view.dropdown;
   });
 
+
+  describe('appendTo', function() {
+    it('should throw if used with hint', function(done) {
+      expect(function() {
+        return new Typeahead({
+          input: this.$input,
+          hint: true,
+          appendTo: 'body'
+        });
+      }).toThrow();
+      done();
+    });
+
+    it('should be appended to the target of appendTo', function(done) {
+      var node = document.createElement('div');
+      document.querySelector('body').appendChild(node);
+
+      expect(node.children.length).toEqual(0);
+
+      this.view.destroy();
+
+      this.view = new Typeahead({
+        input: this.$input,
+        hint: false,
+        appendTo: node
+      });
+
+      expect(document.querySelectorAll('.algolia-autocomplete').length).toEqual(1);
+      expect(node.children.length).toEqual(1);
+
+      this.view.destroy();
+
+      done();
+    });
+  });
+
   describe('when dropdown triggers suggestionClicked', function() {
     beforeEach(function() {
       this.dropdown.getDatumForSuggestion.and.returnValue(testDatum);
@@ -192,6 +228,16 @@ describe('Typeahead', function() {
       this.$input.on('autocomplete:shown', spy = jasmine.createSpy());
 
       this.dropdown.trigger('shown');
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should trigger autocomplete:redrawn', function() {
+      var spy;
+
+      this.$input.on('autocomplete:redrawn', spy = jasmine.createSpy());
+
+      this.dropdown.trigger('redrawn');
 
       expect(spy).toHaveBeenCalled();
     });
