@@ -18,6 +18,7 @@
     "babel-eslint": "^7.0.0",
     "chai": "^3.5.0",
     "colors": "^1.1.2",
+    "conventional-changelog-cli": "^1.2.0",
     "doctoc": "^1.2.0",
     "eslint": "1.5.1",
     "eslint-config-airbnb": "0.1.0",
@@ -41,6 +42,7 @@
     "jasmine-core": "^2.5.2",
     "jasmine-jquery": "^2.1.1",
     "jquery": "^3.1.0",
+    "json": "^9.0.4",
     "karma": "^1.3.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-coverage": "^1.1.1",
@@ -69,7 +71,8 @@
     "server": "grunt server",
     "test": "karma start --single-run && grunt lint",
     "test:watch": "karma start",
-    "test:ci": "./test/ci.sh"
+    "test:ci": "./test/ci.sh",
+    "release": "./release.sh"
   },
   "version": "0.23.0",
   "main": "index.js"
