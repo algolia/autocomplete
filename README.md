@@ -648,15 +648,15 @@ var algoliaAutocomplete = autocomplete.noConflict();
 To start developing, you can use the following commands:
 
 ```sh
-$ npm install
-$ npm run dev
-$ open http://localhost:8888/test/playground.html
+yarn
+yarn dev
+open http://localhost:8888/test/playground.html
 ```
 
 Linting is done with [eslint](http://eslint.org/) and [Algolia's configuration](https://github.com/algolia/eslint-config-algolia) and can be run with:
 
 ```sh
-$ npm run lint
+yarn lint
 ```
 
 ## Tests
@@ -666,16 +666,16 @@ Unit tests are written using [Jasmine](http://jasmine.github.io/) and ran with [
 To run the unit tests suite run:
 
 ```sh
-$ npm test
+yarn test
 ```
 
 To run the integration tests suite run:
 
 ```sh
-$ npm run build
-$ npm run server
-$ ngrok 8888
-$ TEST_HOST=http://YOUR_NGROK_ID.ngrok.com SAUCE_ACCESS_KEY=YOUR_KEY SAUCE_USERNAME=YOUR_USERNAME./node_modules/mocha/bin/mocha --harmony -R spec ./test/integration/test.js
+yarn build
+yarn server
+ngrok 8888
+TEST_HOST=http://YOUR_NGROK_ID.ngrok.com SAUCE_ACCESS_KEY=YOUR_KEY SAUCE_USERNAME=YOUR_USERNAME./node_modules/mocha/bin/mocha --harmony -R spec ./test/integration/test.js
 ```
 
 ## Release
