@@ -1,7 +1,7 @@
 /*!
- * autocomplete.js 0.23.0
+ * autocomplete.js 0.24.0
  * https://github.com/algolia/autocomplete.js
- * Copyright 2016 Algolia, Inc. and other contributors; Licensed MIT
+ * Copyright 2017 Algolia, Inc. and other contributors; Licensed MIT
  */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -122,7 +122,8 @@
 	        debug: o.debug,
 	        cssClasses: o.cssClasses,
 	        datasets: datasets,
-	        keyboardShortcuts: o.keyboardShortcuts
+	        keyboardShortcuts: o.keyboardShortcuts,
+	        appendTo: o.appendTo
 	      });
 
 	      $input.data(typeaheadKey, typeahead);
@@ -357,9 +358,9 @@
 	var DOM = __webpack_require__(2);
 	var EventBus = __webpack_require__(6);
 	var Input = __webpack_require__(7);
-	var Dropdown = __webpack_require__(11);
-	var html = __webpack_require__(13);
-	var css = __webpack_require__(14);
+	var Dropdown = __webpack_require__(12);
+	var html = __webpack_require__(14);
+	var css = __webpack_require__(15);
 
 	// constructor
 	// -----------
@@ -367,7 +368,6 @@
 	// THOUGHT: what if datasets could dynamically be added/removed?
 	function Typeahead(o) {
 	  var $menu;
-	  var $input;
 	  var $hint;
 
 	  o = o || {};
@@ -382,12 +382,22 @@
 	  this.autoselectOnBlur = !!o.autoselectOnBlur;
 	  this.openOnFocus = !!o.openOnFocus;
 	  this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
-	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
-	  this.$node = buildDom(o);
 
-	  $menu = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.dropdownMenu));
-	  $input = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.input));
-	  $hint = this.$node.find(_.className(this.cssClasses.prefix, this.cssClasses.hint));
+	  o.hint = !!o.hint;
+
+	  if (o.hint && o.appendTo) {
+	    throw new Error('[autocomplete.js] hint and appendTo options can\'t be used at the same time');
+	  }
+
+	  this.css = o.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
+	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+
+	  var domElts = buildDom(o);
+
+	  this.$node = domElts.wrapper;
+	  var $input = this.$input = domElts.input;
+	  $menu = domElts.menu;
+	  $hint = domElts.hint;
 
 	  if (o.dropdownMenuContainer) {
 	    DOM.element(o.dropdownMenuContainer)
@@ -415,7 +425,15 @@
 
 	  this.eventBus = o.eventBus || new EventBus({el: $input});
 
-	  this.dropdown = new Typeahead.Dropdown({menu: $menu, datasets: o.datasets, templates: o.templates, cssClasses: this.cssClasses, minLength: this.minLength})
+	  this.dropdown = new Typeahead.Dropdown({
+	    appendTo: o.appendTo,
+	    wrapper: this.$node,
+	    menu: $menu,
+	    datasets: o.datasets,
+	    templates: o.templates,
+	    cssClasses: o.cssClasses,
+	    minLength: this.minLength
+	  })
 	    .onSync('suggestionClicked', this._onSuggestionClicked, this)
 	    .onSync('cursorMoved', this._onCursorMoved, this)
 	    .onSync('cursorRemoved', this._onCursorRemoved, this)
@@ -423,6 +441,7 @@
 	    .onSync('closed', this._onClosed, this)
 	    .onSync('shown', this._onShown, this)
 	    .onSync('empty', this._onEmpty, this)
+	    .onSync('redrawn', this._onRedrawn, this)
 	    .onAsync('datasetRendered', this._onDatasetRendered, this);
 
 	  this.input = new Typeahead.Input({input: $input, hint: $hint})
@@ -438,7 +457,7 @@
 	    .onSync('queryChanged', this._onQueryChanged, this)
 	    .onSync('whitespaceChanged', this._onWhitespaceChanged, this);
 
-	  this._bindKeyboardShortcuts($input, o);
+	  this._bindKeyboardShortcuts(o);
 
 	  this._setLanguageDirection();
 	}
@@ -449,10 +468,11 @@
 	_.mixin(Typeahead.prototype, {
 	  // ### private
 
-	  _bindKeyboardShortcuts: function($input, options) {
+	  _bindKeyboardShortcuts: function(options) {
 	    if (!options.keyboardShortcuts) {
 	      return;
 	    }
+	    var $input = this.$input;
 	    var keyboardShortcuts = [];
 	    _.each(options.keyboardShortcuts, function(key) {
 	      if (typeof key === 'string') {
@@ -520,6 +540,23 @@
 
 	  _onEmpty: function onEmpty() {
 	    this.eventBus.trigger('empty');
+	  },
+
+	  _onRedrawn: function onRedrawn() {
+	    var inputRect = this.$input[0].getBoundingClientRect();
+
+	    this.$node.css('width', inputRect.width + 'px');
+	    this.$node.css('top', 0 + 'px');
+	    this.$node.css('left', 0 + 'px');
+
+	    var wrapperRect = this.$node[0].getBoundingClientRect();
+
+	    var top = inputRect.bottom - wrapperRect.top;
+	    this.$node.css('top', top + 'px');
+	    var left = inputRect.left - wrapperRect.left;
+	    this.$node.css('left', left + 'px');
+
+	    this.eventBus.trigger('redrawn');
 	  },
 
 	  _onShown: function onShown() {
@@ -790,21 +827,21 @@
 	  var $hint;
 
 	  $input = DOM.element(options.input);
-	  $wrapper = DOM.element(html.wrapper.replace('%ROOT%', options.cssClasses.root)).css(css.wrapper);
+	  $wrapper = DOM.element(html.wrapper.replace('%ROOT%', options.cssClasses.root)).css(options.css.wrapper);
 	  // override the display property with the table-cell value
 	  // if the parent element is a table and the original input was a block
 	  //  -> https://github.com/algolia/autocomplete.js/issues/16
-	  if ($input.css('display') === 'block' && $input.parent().css('display') === 'table') {
+	  if (!options.appendTo && $input.css('display') === 'block' && $input.parent().css('display') === 'table') {
 	    $wrapper.css('display', 'table-cell');
 	  }
 	  var dropdownHtml = html.dropdown.
 	    replace('%PREFIX%', options.cssClasses.prefix).
 	    replace('%DROPDOWN_MENU%', options.cssClasses.dropdownMenu);
-	  $dropdown = DOM.element(dropdownHtml).css(css.dropdown);
+	  $dropdown = DOM.element(dropdownHtml).css(options.css.dropdown);
 	  if (options.templates && options.templates.dropdownMenu) {
 	    $dropdown.html(_.templatify(options.templates.dropdownMenu)());
 	  }
-	  $hint = $input.clone().css(css.hint).css(getBackgroundStyles($input));
+	  $hint = $input.clone().css(options.css.hint).css(getBackgroundStyles($input));
 
 	  $hint
 	    .val('')
@@ -828,7 +865,7 @@
 	  $input
 	    .addClass(_.className(options.cssClasses.prefix, options.cssClasses.input, true))
 	    .attr({autocomplete: 'off', spellcheck: false})
-	    .css(options.hint ? css.input : css.inputWithNoHint);
+	    .css(options.hint ? options.css.input : options.css.inputWithNoHint);
 
 	  // ie7 does not like it when dir is set to auto
 	  try {
@@ -839,11 +876,20 @@
 	    // ignore
 	  }
 
-	  return $input
-	    .wrap($wrapper)
-	    .parent()
+	  $wrapper = options.appendTo
+	    ? $wrapper.appendTo(DOM.element(options.appendTo).eq(0)).eq(0)
+	    : $input.wrap($wrapper).parent();
+
+	  $wrapper
 	    .prepend(options.hint ? $hint : null)
 	    .append($dropdown);
+
+	  return {
+	    wrapper: $wrapper,
+	    input: $input,
+	    hint: $hint,
+	    menu: $dropdown
+	  };
 	}
 
 	function getBackgroundStyles($el) {
@@ -885,7 +931,7 @@
 
 	Typeahead.Dropdown = Dropdown;
 	Typeahead.Input = Input;
-	Typeahead.sources = __webpack_require__(15);
+	Typeahead.sources = __webpack_require__(16);
 
 	module.exports = Typeahead;
 
@@ -1390,11 +1436,7 @@
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(10).nextTick;
 	var apply = Function.prototype.apply;
-	var slice = Array.prototype.slice;
-	var immediateIds = {};
-	var nextImmediateId = 0;
 
 	// DOM APIs, for completeness
 
@@ -1405,7 +1447,11 @@
 	  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
 	};
 	exports.clearTimeout =
-	exports.clearInterval = function(timeout) { timeout.close(); };
+	exports.clearInterval = function(timeout) {
+	  if (timeout) {
+	    timeout.close();
+	  }
+	};
 
 	function Timeout(id, clearFn) {
 	  this._id = id;
@@ -1439,37 +1485,207 @@
 	  }
 	};
 
-	// That's not how node.js implements it but the exposed api is the same.
-	exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
-	  var id = nextImmediateId++;
-	  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+	// setimmediate attaches itself to the global object
+	__webpack_require__(10);
+	exports.setImmediate = setImmediate;
+	exports.clearImmediate = clearImmediate;
 
-	  immediateIds[id] = true;
-
-	  nextTick(function onNextTick() {
-	    if (immediateIds[id]) {
-	      // fn.call() is faster so we optimize for the common use-case
-	      // @see http://jsperf.com/call-apply-segu
-	      if (args) {
-	        fn.apply(null, args);
-	      } else {
-	        fn.call(null);
-	      }
-	      // Prevent ids from leaking
-	      exports.clearImmediate(id);
-	    }
-	  });
-
-	  return id;
-	};
-
-	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
-	  delete immediateIds[id];
-	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9).setImmediate, __webpack_require__(9).clearImmediate))
 
 /***/ },
 /* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
+	    "use strict";
+
+	    if (global.setImmediate) {
+	        return;
+	    }
+
+	    var nextHandle = 1; // Spec says greater than zero
+	    var tasksByHandle = {};
+	    var currentlyRunningATask = false;
+	    var doc = global.document;
+	    var registerImmediate;
+
+	    function setImmediate(callback) {
+	      // Callback can either be a function or a string
+	      if (typeof callback !== "function") {
+	        callback = new Function("" + callback);
+	      }
+	      // Copy function arguments
+	      var args = new Array(arguments.length - 1);
+	      for (var i = 0; i < args.length; i++) {
+	          args[i] = arguments[i + 1];
+	      }
+	      // Store and register the task
+	      var task = { callback: callback, args: args };
+	      tasksByHandle[nextHandle] = task;
+	      registerImmediate(nextHandle);
+	      return nextHandle++;
+	    }
+
+	    function clearImmediate(handle) {
+	        delete tasksByHandle[handle];
+	    }
+
+	    function run(task) {
+	        var callback = task.callback;
+	        var args = task.args;
+	        switch (args.length) {
+	        case 0:
+	            callback();
+	            break;
+	        case 1:
+	            callback(args[0]);
+	            break;
+	        case 2:
+	            callback(args[0], args[1]);
+	            break;
+	        case 3:
+	            callback(args[0], args[1], args[2]);
+	            break;
+	        default:
+	            callback.apply(undefined, args);
+	            break;
+	        }
+	    }
+
+	    function runIfPresent(handle) {
+	        // From the spec: "Wait until any invocations of this algorithm started before this one have completed."
+	        // So if we're currently running a task, we'll need to delay this invocation.
+	        if (currentlyRunningATask) {
+	            // Delay by doing a setTimeout. setImmediate was tried instead, but in Firefox 7 it generated a
+	            // "too much recursion" error.
+	            setTimeout(runIfPresent, 0, handle);
+	        } else {
+	            var task = tasksByHandle[handle];
+	            if (task) {
+	                currentlyRunningATask = true;
+	                try {
+	                    run(task);
+	                } finally {
+	                    clearImmediate(handle);
+	                    currentlyRunningATask = false;
+	                }
+	            }
+	        }
+	    }
+
+	    function installNextTickImplementation() {
+	        registerImmediate = function(handle) {
+	            process.nextTick(function () { runIfPresent(handle); });
+	        };
+	    }
+
+	    function canUsePostMessage() {
+	        // The test against `importScripts` prevents this implementation from being installed inside a web worker,
+	        // where `global.postMessage` means something completely different and can't be used for this purpose.
+	        if (global.postMessage && !global.importScripts) {
+	            var postMessageIsAsynchronous = true;
+	            var oldOnMessage = global.onmessage;
+	            global.onmessage = function() {
+	                postMessageIsAsynchronous = false;
+	            };
+	            global.postMessage("", "*");
+	            global.onmessage = oldOnMessage;
+	            return postMessageIsAsynchronous;
+	        }
+	    }
+
+	    function installPostMessageImplementation() {
+	        // Installs an event handler on `global` for the `message` event: see
+	        // * https://developer.mozilla.org/en/DOM/window.postMessage
+	        // * http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#crossDocumentMessages
+
+	        var messagePrefix = "setImmediate$" + Math.random() + "$";
+	        var onGlobalMessage = function(event) {
+	            if (event.source === global &&
+	                typeof event.data === "string" &&
+	                event.data.indexOf(messagePrefix) === 0) {
+	                runIfPresent(+event.data.slice(messagePrefix.length));
+	            }
+	        };
+
+	        if (global.addEventListener) {
+	            global.addEventListener("message", onGlobalMessage, false);
+	        } else {
+	            global.attachEvent("onmessage", onGlobalMessage);
+	        }
+
+	        registerImmediate = function(handle) {
+	            global.postMessage(messagePrefix + handle, "*");
+	        };
+	    }
+
+	    function installMessageChannelImplementation() {
+	        var channel = new MessageChannel();
+	        channel.port1.onmessage = function(event) {
+	            var handle = event.data;
+	            runIfPresent(handle);
+	        };
+
+	        registerImmediate = function(handle) {
+	            channel.port2.postMessage(handle);
+	        };
+	    }
+
+	    function installReadyStateChangeImplementation() {
+	        var html = doc.documentElement;
+	        registerImmediate = function(handle) {
+	            // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
+	            // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
+	            var script = doc.createElement("script");
+	            script.onreadystatechange = function () {
+	                runIfPresent(handle);
+	                script.onreadystatechange = null;
+	                html.removeChild(script);
+	                script = null;
+	            };
+	            html.appendChild(script);
+	        };
+	    }
+
+	    function installSetTimeoutImplementation() {
+	        registerImmediate = function(handle) {
+	            setTimeout(runIfPresent, 0, handle);
+	        };
+	    }
+
+	    // If supported, we should attach to the prototype of global, since that is where setTimeout et al. live.
+	    var attachTo = Object.getPrototypeOf && Object.getPrototypeOf(global);
+	    attachTo = attachTo && attachTo.setTimeout ? attachTo : global;
+
+	    // Don't get fooled by e.g. browserify environments.
+	    if ({}.toString.call(global.process) === "[object process]") {
+	        // For Node.js before 0.9
+	        installNextTickImplementation();
+
+	    } else if (canUsePostMessage()) {
+	        // For non-IE10 modern browsers
+	        installPostMessageImplementation();
+
+	    } else if (global.MessageChannel) {
+	        // For web workers, where supported
+	        installMessageChannelImplementation();
+
+	    } else if (doc && "onreadystatechange" in doc.createElement("script")) {
+	        // For IE 6–8
+	        installReadyStateChangeImplementation();
+
+	    } else {
+	        // For older browsers
+	        installSetTimeoutImplementation();
+	    }
+
+	    attachTo.setImmediate = setImmediate;
+	    attachTo.clearImmediate = clearImmediate;
+	}(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(11)))
+
+/***/ },
+/* 11 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -1655,7 +1871,7 @@
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1663,8 +1879,8 @@
 	var _ = __webpack_require__(4);
 	var DOM = __webpack_require__(2);
 	var EventEmitter = __webpack_require__(8);
-	var Dataset = __webpack_require__(12);
-	var css = __webpack_require__(14);
+	var Dataset = __webpack_require__(13);
+	var css = __webpack_require__(15);
 
 	// constructor
 	// -----------
@@ -1691,8 +1907,10 @@
 	  this.isOpen = false;
 	  this.isEmpty = true;
 	  this.minLength = o.minLength || 0;
-	  this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
 	  this.templates = {};
+	  this.appendTo = o.appendTo || false;
+	  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
+	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
 
 	  // bound functions
 	  onSuggestionClick = _.bind(this._onSuggestionClick, this);
@@ -1704,6 +1922,8 @@
 	    .on('click.aa', cssClass, onSuggestionClick)
 	    .on('mouseenter.aa', cssClass, onSuggestionMouseEnter)
 	    .on('mouseleave.aa', cssClass, onSuggestionMouseLeave);
+
+	  this.$container = o.appendTo ? o.wrapper : this.$menu;
 
 	  if (o.templates && o.templates.header) {
 	    this.templates.header = _.templatify(o.templates.header);
@@ -1733,6 +1953,11 @@
 	    this.templates.footer = _.templatify(o.templates.footer);
 	    this.$menu.append(this.templates.footer());
 	  }
+
+	  var self = this;
+	  DOM.element(window).resize(function() {
+	    self._redraw();
+	  });
 	}
 
 	// instance methods
@@ -1822,15 +2047,23 @@
 	  },
 
 	  _hide: function() {
-	    this.$menu.hide();
+	    this.$container.hide();
 	  },
 
 	  _show: function() {
 	    // can't use jQuery#show because $menu is a span element we want
 	    // display: block; not dislay: inline;
-	    this.$menu.css('display', 'block');
+	    this.$container.css('display', 'block');
+
+	    this._redraw();
 
 	    this.trigger('shown');
+	  },
+
+	  _redraw: function redraw() {
+	    if (!this.isOpen || !this.appendTo) return;
+
+	    this.trigger('redrawn');
 	  },
 
 	  _getSuggestions: function getSuggestions() {
@@ -1932,7 +2165,7 @@
 	  },
 
 	  setLanguageDirection: function setLanguageDirection(dir) {
-	    this.$menu.css(dir === 'ltr' ? css.ltr : css.rtl);
+	    this.$menu.css(dir === 'ltr' ? this.css.ltr : this.css.rtl);
 	  },
 
 	  moveCursorUp: function moveCursorUp() {
@@ -2015,7 +2248,7 @@
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2026,8 +2259,8 @@
 
 	var _ = __webpack_require__(4);
 	var DOM = __webpack_require__(2);
-	var html = __webpack_require__(13);
-	var css = __webpack_require__(14);
+	var html = __webpack_require__(14);
+	var css = __webpack_require__(15);
 	var EventEmitter = __webpack_require__(8);
 
 	// constructor
@@ -2057,6 +2290,7 @@
 
 	  this.templates = getTemplates(o.templates, this.displayFn);
 
+	  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
 	  this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
 
 	  var clazz = _.className(this.cssClasses.prefix, this.cssClasses.dataset);
@@ -2146,7 +2380,7 @@
 	      var suggestionsHtml = html.suggestions.
 	        replace('%PREFIX%', this.cssClasses.prefix).
 	        replace('%SUGGESTIONS%', this.cssClasses.suggestions);
-	      $suggestions = DOM.element(suggestionsHtml).css(css.suggestions);
+	      $suggestions = DOM.element(suggestionsHtml).css(this.css.suggestions);
 
 	      // jQuery#append doesn't support arrays as the first argument
 	      // until version 1.8, see http://bugs.jquery.com/ticket/11231
@@ -2167,7 +2401,7 @@
 	        $el.data(datasetKey, that.name);
 	        $el.data(valueKey, that.displayFn(suggestion) || undefined); // this led to undefined return value
 	        $el.data(datumKey, JSON.stringify(suggestion));
-	        $el.children().each(function() { DOM.element(this).css(css.suggestionChild); });
+	        $el.children().each(function() { DOM.element(this).css(self.css.suggestionChild); });
 
 	        return $el;
 	      }
@@ -2266,7 +2500,7 @@
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2281,7 +2515,7 @@
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2347,6 +2581,19 @@
 	    cursor: 'cursor',
 	    dataset: 'dataset',
 	    empty: 'empty'
+	  },
+	  // will be merged with the default ones if appendTo is used
+	  appendTo: {
+	    wrapper: {
+	      position: 'absolute',
+	      zIndex: '100',
+	      display: 'none'
+	    },
+	    input: {},
+	    inputWithNoHint: {},
+	    dropdown: {
+	      display: 'block'
+	    }
 	  }
 	};
 
@@ -2370,19 +2617,19 @@
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	module.exports = {
-	  hits: __webpack_require__(16),
-	  popularIn: __webpack_require__(17)
+	  hits: __webpack_require__(17),
+	  popularIn: __webpack_require__(18)
 	};
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2405,7 +2652,7 @@
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

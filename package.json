@@ -74,6 +74,6 @@
     "test:ci": "./test/ci.sh",
     "release": "./release.sh"
   },
-  "version": "0.23.0",
+  "version": "0.24.0",
   "main": "index.js"
 }
