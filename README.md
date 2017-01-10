@@ -680,25 +680,10 @@ TEST_HOST=http://YOUR_NGROK_ID.ngrok.com SAUCE_ACCESS_KEY=YOUR_KEY SAUCE_USERNAM
 
 ## Release
 
-Follow this script:
+Decide if this is a patch, minor or major release, have a look at [semver.org](http://semver.org/).
 
 ```sh
-git checkout master
-git pull
-npm install
-./node_modules/.bin/mversion $SEMVER_TOKEN # SEMVER_TOKEN can be major or minor or patch string
-npm run build
-# Manual operation
-# Update the file CHANGELOG.md by looking at git log, have a look
-# at previous lines to know what to write, how to write it
-# /Manual operation
-./node_modules/.bin/doctoc --notitle --maxlevel 3 README.md
-git add README.md package.json bower.json dist/
-git commit
-# First line: major.minor.patch
-# Body: paste the changelog
-git tag major.minor.patch
-git push && git push --tags && npm publish
+yarn release [major|minor|patch|x.x.x]
 ```
 
 ## Credits
