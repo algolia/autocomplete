@@ -16,7 +16,7 @@ if [[ $1 != 'patch' && $1 != 'minor' && $1 != 'major' ]]
 then
   nextVersion=$1
 else
-  nextVersion=semver $currentVersion -i $1
+  nextVersion=$(semver $currentVersion -i $1)
 fi
 
 semver $nextVersion -r ">$currentVersion" ||
@@ -40,7 +40,7 @@ mversion $nextVersion &&
 yarn build &&
 conventional-changelog --infile CHANGELOG.md --same-file --preset angular &&
 doctoc --notitle --maxlevel 3 README.md &&
-git add README.md package.json bower.json dist/ &&
+git add README.md CHANGELOG.md package.json bower.json dist/ &&
 git commit -m $nextVersion &&
 git tag v$nextVersion &&
 git push &&
