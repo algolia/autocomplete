@@ -8,7 +8,7 @@ This JavaScript library adds a fast and fully-featured auto-completion menu to y
 [![Coverage Status](https://coveralls.io/repos/algolia/autocomplete.js/badge.svg?branch=master)](https://coveralls.io/r/algolia/autocomplete.js?branch=master)
 ![jQuery](https://img.shields.io/badge/jQuery-OK-blue.svg)
 ![Zepto.js](https://img.shields.io/badge/Zepto.js-OK-blue.svg)
-![Zepto.js](https://img.shields.io/badge/Angular.js-OK-blue.svg)
+![Angular.js](https://img.shields.io/badge/Angular.js-OK-blue.svg)
 
 [![Browser tests](https://saucelabs.com/browser-matrix/opensauce-algolia.svg)](https://saucelabs.com/u/opensauce-algolia)
 
@@ -403,7 +403,7 @@ Datasets can be configured using the following options.
   arguments that may have been forwarded by the source:
   `function emptyTemplate({ query, isEmpty }, [forwarded args])`.
 
-  * `footer`– Rendered at the bottom of the dataset. Can be either a HTML
+  * `footer` – Rendered at the bottom of the dataset. Can be either a HTML
   string or a precompiled template. The templating function
   is called with a context containing `query`, `isEmpty`, and any optional
   arguments that may have been forwarded by the source:
@@ -548,7 +548,7 @@ options hash that's used to configure the autocomplete to your liking. Refer to
 arguments (`*datasets`), are individual option hashes for datasets. For more
 details regarding datasets, refer to [Datasets](#datasets).
 
-```javascript
+```js
 $('.search-input').autocomplete({
   minLength: 3
 },
@@ -563,7 +563,7 @@ $('.search-input').autocomplete({
 Removes the autocomplete functionality and reverts the `input` element back to its
 original state.
 
-```javascript
+```js
 $('.search-input').autocomplete('destroy');
 ```
 
@@ -572,7 +572,7 @@ $('.search-input').autocomplete('destroy');
 Opens the dropdown menu of the autocomplete. Note that being open does not mean that
 the menu is visible. The menu is only visible when it is open and has content.
 
-```javascript
+```js
 $('.search-input').autocomplete('open');
 ```
 
@@ -580,7 +580,7 @@ $('.search-input').autocomplete('open');
 
 Closes the dropdown menu of the autocomplete.
 
-```javascript
+```js
 $('.search-input').autocomplete('close');
 ```
 
@@ -589,7 +589,7 @@ $('.search-input').autocomplete('close');
 Returns the current value of the autocomplete. The value is the text the user has
 entered into the `input` element.
 
-```javascript
+```js
 var myVal = $('.search-input').autocomplete('val');
 ```
 
@@ -597,7 +597,7 @@ var myVal = $('.search-input').autocomplete('val');
 
 Sets the value of the autocomplete. This should be used in place of `jQuery#val`.
 
-```javascript
+```js
 $('.search-input').autocomplete('val', myVal);
 ```
 
@@ -606,17 +606,16 @@ $('.search-input').autocomplete('val', myVal);
 Returns a reference to the autocomplete plugin and reverts `jQuery.fn.autocomplete`
 to its previous value. Can be used to avoid naming collisions.
 
-```javascript
+```js
 var autocomplete = jQuery.fn.autocomplete.noConflict();
 jQuery.fn._autocomplete = autocomplete;
-
 ```
 
 ### Standalone
 
 The standalone version API is similiar to jQuery's:
 
-```
+```js
 var search = autocomplete('#search', { hint: false }, [{
   source: autocomplete.sources.hits(index, { hitsPerPage: 5 }
 }]);
@@ -630,8 +629,8 @@ search.autocomplete.destroy();
 
 You can also pass a custom Typeahead instance in Autocomplete.js constructor:
 
-```
-var search = autocomplete('#search', { hint: false}, [{ ... }], new Typeahead({ ... }));
+```js
+var search = autocomplete('#search', { hint: false }, [{ ... }], new Typeahead({ ... }));
 ```
 
 #### autocomplete.noConflict()
@@ -639,7 +638,7 @@ var search = autocomplete('#search', { hint: false}, [{ ... }], new Typeahead({ 
 Returns a reference to the autocomplete plugin and reverts `window.autocomplete`
 to its previous value. Can be used to avoid naming collisions.
 
-```javascript
+```js
 var algoliaAutocomplete = autocomplete.noConflict();
 ```
 
