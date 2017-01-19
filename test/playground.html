@@ -81,8 +81,17 @@
         }
       }, [
         {
-          source: autocomplete.sources.popularIn(actors, {hitsPerPage: 3}, {index: movies, source: 'name', facets: 'genre', maxValuesPerFacet: 3}),
-          name: '',
+          source: autocomplete.sources.popularIn(
+            actors,
+            { hitsPerPage: 3 },
+            {
+              index: movies,
+              source: 'name',
+              facets: 'genre',
+              maxValuesPerFacet: 3
+            }
+          ),
+          name: 'Actors',
           templates: {
             header: '<span class="aa-category-title">Actors</span>',
             suggestion: function(suggestion) {
