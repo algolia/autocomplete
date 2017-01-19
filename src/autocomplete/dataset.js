@@ -127,7 +127,11 @@ _.mixin(Dataset.prototype, EventEmitter, {
       var suggestionsHtml = html.suggestions.
         replace('%PREFIX%', this.cssClasses.prefix).
         replace('%SUGGESTIONS%', this.cssClasses.suggestions);
-      $suggestions = DOM.element(suggestionsHtml).css(this.css.suggestions);
+      $suggestions = DOM
+        .element(suggestionsHtml)
+        .css(this.css.suggestions)
+        .attr('role', 'group')
+        .attr('aria-label', this.name);
 
       // jQuery#append doesn't support arrays as the first argument
       // until version 1.8, see http://bugs.jquery.com/ticket/11231
@@ -143,6 +147,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
           replace('%PREFIX%', self.cssClasses.prefix).
           replace('%SUGGESTION%', self.cssClasses.suggestion);
         $el = DOM.element(suggestionHtml)
+          .attr('role', 'option')
           .append(that.templates.suggestion.apply(this, [suggestion].concat(args)));
 
         $el.data(datasetKey, that.name);
