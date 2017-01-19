@@ -473,9 +473,13 @@ function buildDom(options) {
   var $wrapper;
   var $dropdown;
   var $hint;
+  var listBoxId = [options.cssClasses.root, _.getUniqueId()].join('-');
 
   $input = DOM.element(options.input);
-  $wrapper = DOM.element(html.wrapper.replace('%ROOT%', options.cssClasses.root)).css(options.css.wrapper);
+  $wrapper = DOM
+    .element(html.wrapper.replace('%ROOT%', options.cssClasses.root))
+    .css(options.css.wrapper)
+    .attr('id', listBoxId);
   // override the display property with the table-cell value
   // if the parent element is a table and the original input was a block
   //  -> https://github.com/algolia/autocomplete.js/issues/16
@@ -504,15 +508,28 @@ function buildDom(options) {
   // store the original values of the attrs that get modified
   // so modifications can be reverted on destroy
   $input.data(attrsKey, {
-    dir: $input.attr('dir'),
+    'aria-expanded': $input.attr('aria-expanded'),
+    'aria-owns': $input.attr('aria-owns'),
     autocomplete: $input.attr('autocomplete'),
+    dir: $input.attr('dir'),
+    role: $input.attr('role'),
     spellcheck: $input.attr('spellcheck'),
-    style: $input.attr('style')
+    style: $input.attr('style'),
+    type: $input.attr('type')
   });
 
   $input
     .addClass(_.className(options.cssClasses.prefix, options.cssClasses.input, true))
-    .attr({autocomplete: 'off', spellcheck: false})
+    .attr({
+      autocomplete: 'off',
+      spellcheck: false,
+
+      // Accessibility features
+      type: 'search',
+      role: 'combobox',
+      'aria-expanded': 'false',
+      'aria-owns': listBoxId
+    })
     .css(options.hint ? options.css.input : options.css.inputWithNoHint);
 
   // ie7 does not like it when dir is set to auto
