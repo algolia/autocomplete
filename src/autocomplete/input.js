@@ -92,6 +92,7 @@ _.mixin(Input.prototype, EventEmitter, {
 
   _onBlur: function onBlur() {
     this.resetInputValue();
+    this.$input.removeAttr('aria-activedescendant');
     this.trigger('blurred');
   },
 
@@ -210,6 +211,14 @@ _.mixin(Input.prototype, EventEmitter, {
     } else {
       this._checkInputValue();
     }
+  },
+
+  setActiveDescendant: function setActiveDescendant(activedescendantId) {
+    this.$input.attr('aria-activedescendant', activedescendantId);
+  },
+
+  removeActiveDescendant: function removeActiveDescendant() {
+    this.$input.removeAttr('aria-activedescendant');
   },
 
   resetInputValue: function resetInputValue() {

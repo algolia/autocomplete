@@ -147,7 +147,10 @@ _.mixin(Dataset.prototype, EventEmitter, {
           replace('%PREFIX%', self.cssClasses.prefix).
           replace('%SUGGESTION%', self.cssClasses.suggestion);
         $el = DOM.element(suggestionHtml)
-          .attr('role', 'option')
+          .attr({
+            'role': 'option',
+            'id': ['option', Math.floor(Math.random() * 100000000)].join('-')
+          })
           .append(that.templates.suggestion.apply(this, [suggestion].concat(args)));
 
         $el.data(datasetKey, that.name);

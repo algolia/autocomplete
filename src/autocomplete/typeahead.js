@@ -158,6 +158,8 @@ _.mixin(Typeahead.prototype, {
 
   _onCursorMoved: function onCursorMoved(event, updateInput) {
     var datum = this.dropdown.getDatumForCursor();
+    var currentCursorId = this.dropdown.getCurrentCursor().attr('id');
+    this.input.setActiveDescendant(currentCursorId);
 
     if (datum) {
       if (updateInput) {
@@ -216,6 +218,7 @@ _.mixin(Typeahead.prototype, {
 
   _onClosed: function onClosed() {
     this.input.clearHint();
+    this.input.removeActiveDescendant();
 
     this.eventBus.trigger('closed');
   },
@@ -473,13 +476,16 @@ function buildDom(options) {
   var $wrapper;
   var $dropdown;
   var $hint;
-  var listBoxId = [options.cssClasses.root, _.getUniqueId()].join('-');
+  var listBoxId = [options.cssClasses.root, 'listbox', _.getUniqueId()].join('-');
 
   $input = DOM.element(options.input);
   $wrapper = DOM
     .element(html.wrapper.replace('%ROOT%', options.cssClasses.root))
     .css(options.css.wrapper)
-    .attr('id', listBoxId);
+    .attr({
+      id: listBoxId,
+      role: 'listbox'
+    });
   // override the display property with the table-cell value
   // if the parent element is a table and the original input was a block
   //  -> https://github.com/algolia/autocomplete.js/issues/16
