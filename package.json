@@ -38,6 +38,7 @@
     "grunt-step": "^1.0.0",
     "grunt-umd": "^2.3.6",
     "grunt-webpack": "^1.0.14",
+    "immediate": "^3.2.3",
     "istanbul-instrumenter-loader": "^1.0.0",
     "jasmine-core": "^2.5.2",
     "jasmine-jquery": "^2.1.1",

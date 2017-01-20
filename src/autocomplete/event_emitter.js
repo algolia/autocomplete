@@ -1,7 +1,7 @@
 'use strict';
 
+var immediate = require('immediate');
 var splitter = /\s+/;
-var nextTick = getNextTick();
 
 module.exports = {
   onSync: onSync,
@@ -73,7 +73,7 @@ function trigger(types) {
     asyncFlush = getFlush(callbacks.async, this, [type].concat(args));
 
     if (syncFlush()) {
-      nextTick(asyncFlush);
+      immediate(asyncFlush);
     }
   }
 
@@ -93,22 +93,6 @@ function getFlush(callbacks, context, args) {
 
     return !cancelled;
   }
-}
-
-function getNextTick() {
-  var nextTickFn;
-
-  if (window.setImmediate) { // IE10+
-    nextTickFn = function nextTickSetImmediate(fn) {
-      setImmediate(function() { fn(); });
-    };
-  } else { // old browsers
-    nextTickFn = function nextTickSetTimeout(fn) {
-      setTimeout(function() { fn(); }, 0);
-    };
-  }
-
-  return nextTickFn;
 }
 
 function bindContext(fn, context) {
