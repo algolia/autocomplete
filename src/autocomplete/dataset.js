@@ -106,8 +106,19 @@ _.mixin(Dataset.prototype, EventEmitter, {
     }
 
     if (this.$menu) {
-      this.$menu.addClass(this.cssClasses.prefix + '-' + (hasSuggestions ? 'with' : 'without') + '-' + this.name)
-        .removeClass(this.cssClasses.prefix + '-' + (hasSuggestions ? 'without' : 'with') + '-' + this.name);
+      this.$menu.addClass(
+        [
+          this.cssClasses.prefix,
+          (hasSuggestions ? 'with' : 'without'),
+          this.name
+        ].join('-')
+      ).removeClass(
+        [
+          this.cssClasses.prefix,
+          (hasSuggestions ? 'without' : 'with'),
+          this.name
+        ].join('-')
+      );
     }
 
     this.trigger('rendered', query);
