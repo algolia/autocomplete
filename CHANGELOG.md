@@ -1,3 +1,13 @@
+<a name="0.24.2"></a>
+## [0.24.2](https://github.com/algolia/autocomplete.js/compare/v0.24.1...v0.24.2) (2017-01-20)
+
+
+### Bug Fixes
+
+* **dep:** immediate is a dependency, not a devDependency ([22164ad](https://github.com/algolia/autocomplete.js/commit/22164ad))
+
+
+
 <a name="0.24.1"></a>
 ## [0.24.1](https://github.com/algolia/autocomplete.js/compare/v0.24.0...v0.24.1) (2017-01-20)
 
