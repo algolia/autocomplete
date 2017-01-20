@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.24.0
+ * autocomplete.js 0.24.1
  * https://github.com/algolia/autocomplete.js
  * Copyright 2017 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -1608,9 +1608,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var DOM = __webpack_require__(3);
 	var EventBus = __webpack_require__(6);
 	var Input = __webpack_require__(7);
-	var Dropdown = __webpack_require__(12);
-	var html = __webpack_require__(14);
-	var css = __webpack_require__(15);
+	var Dropdown = __webpack_require__(16);
+	var html = __webpack_require__(18);
+	var css = __webpack_require__(19);
 
 	// constructor
 	// -----------
@@ -2181,7 +2181,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Typeahead.Dropdown = Dropdown;
 	Typeahead.Input = Input;
-	Typeahead.sources = __webpack_require__(16);
+	Typeahead.sources = __webpack_require__(20);
 
 	module.exports = Typeahead;
 
@@ -2561,10 +2561,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(setImmediate) {'use strict';
+	'use strict';
 
+	var immediate = __webpack_require__(9);
 	var splitter = /\s+/;
-	var nextTick = getNextTick();
 
 	module.exports = {
 	  onSync: onSync,
@@ -2636,7 +2636,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    asyncFlush = getFlush(callbacks.async, this, [type].concat(args));
 
 	    if (syncFlush()) {
-	      nextTick(asyncFlush);
+	      immediate(asyncFlush);
 	    }
 	  }
 
@@ -2658,281 +2658,132 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}
 
-	function getNextTick() {
-	  var nextTickFn;
-
-	  if (window.setImmediate) { // IE10+
-	    nextTickFn = function nextTickSetImmediate(fn) {
-	      setImmediate(function() { fn(); });
-	    };
-	  } else { // old browsers
-	    nextTickFn = function nextTickSetTimeout(fn) {
-	      setTimeout(function() { fn(); }, 0);
-	    };
-	  }
-
-	  return nextTickFn;
-	}
-
 	function bindContext(fn, context) {
 	  return fn.bind ?
 	    fn.bind(context) :
 	    function() { fn.apply(context, [].slice.call(arguments, 0)); };
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9).setImmediate))
 
 /***/ },
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var apply = Function.prototype.apply;
-
-	// DOM APIs, for completeness
-
-	exports.setTimeout = function() {
-	  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
-	};
-	exports.setInterval = function() {
-	  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
-	};
-	exports.clearTimeout =
-	exports.clearInterval = function(timeout) {
-	  if (timeout) {
-	    timeout.close();
+	'use strict';
+	var types = [
+	  __webpack_require__(10),
+	  __webpack_require__(12),
+	  __webpack_require__(13),
+	  __webpack_require__(14),
+	  __webpack_require__(15)
+	];
+	var draining;
+	var currentQueue;
+	var queueIndex = -1;
+	var queue = [];
+	var scheduled = false;
+	function cleanUpNextTick() {
+	  if (!draining || !currentQueue) {
+	    return;
 	  }
-	};
-
-	function Timeout(id, clearFn) {
-	  this._id = id;
-	  this._clearFn = clearFn;
+	  draining = false;
+	  if (currentQueue.length) {
+	    queue = currentQueue.concat(queue);
+	  } else {
+	    queueIndex = -1;
+	  }
+	  if (queue.length) {
+	    nextTick();
+	  }
 	}
-	Timeout.prototype.unref = Timeout.prototype.ref = function() {};
-	Timeout.prototype.close = function() {
-	  this._clearFn.call(window, this._id);
-	};
 
-	// Does not start the time, just sets up the members needed.
-	exports.enroll = function(item, msecs) {
-	  clearTimeout(item._idleTimeoutId);
-	  item._idleTimeout = msecs;
-	};
-
-	exports.unenroll = function(item) {
-	  clearTimeout(item._idleTimeoutId);
-	  item._idleTimeout = -1;
-	};
-
-	exports._unrefActive = exports.active = function(item) {
-	  clearTimeout(item._idleTimeoutId);
-
-	  var msecs = item._idleTimeout;
-	  if (msecs >= 0) {
-	    item._idleTimeoutId = setTimeout(function onTimeout() {
-	      if (item._onTimeout)
-	        item._onTimeout();
-	    }, msecs);
+	//named nextTick for less confusing stack traces
+	function nextTick() {
+	  if (draining) {
+	    return;
 	  }
-	};
+	  scheduled = false;
+	  draining = true;
+	  var len = queue.length;
+	  var timeout = setTimeout(cleanUpNextTick);
+	  while (len) {
+	    currentQueue = queue;
+	    queue = [];
+	    while (currentQueue && ++queueIndex < len) {
+	      currentQueue[queueIndex].run();
+	    }
+	    queueIndex = -1;
+	    len = queue.length;
+	  }
+	  currentQueue = null;
+	  queueIndex = -1;
+	  draining = false;
+	  clearTimeout(timeout);
+	}
+	var scheduleDrain;
+	var i = -1;
+	var len = types.length;
+	while (++i < len) {
+	  if (types[i] && types[i].test && types[i].test()) {
+	    scheduleDrain = types[i].install(nextTick);
+	    break;
+	  }
+	}
+	// v8 likes predictible objects
+	function Item(fun, array) {
+	  this.fun = fun;
+	  this.array = array;
+	}
+	Item.prototype.run = function () {
+	  var fun = this.fun;
+	  var array = this.array;
+	  switch (array.length) {
+	  case 0:
+	    return fun();
+	  case 1:
+	    return fun(array[0]);
+	  case 2:
+	    return fun(array[0], array[1]);
+	  case 3:
+	    return fun(array[0], array[1], array[2]);
+	  default:
+	    return fun.apply(null, array);
+	  }
 
-	// setimmediate attaches itself to the global object
-	__webpack_require__(10);
-	exports.setImmediate = setImmediate;
-	exports.clearImmediate = clearImmediate;
+	};
+	module.exports = immediate;
+	function immediate(task) {
+	  var args = new Array(arguments.length - 1);
+	  if (arguments.length > 1) {
+	    for (var i = 1; i < arguments.length; i++) {
+	      args[i - 1] = arguments[i];
+	    }
+	  }
+	  queue.push(new Item(task, args));
+	  if (!scheduled && !draining) {
+	    scheduled = true;
+	    scheduleDrain();
+	  }
+	}
 
 
 /***/ },
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
-	    "use strict";
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	exports.test = function () {
+	  // Don't get fooled by e.g. browserify environments.
+	  return (typeof process !== 'undefined') && !process.browser;
+	};
 
-	    if (global.setImmediate) {
-	        return;
-	    }
+	exports.install = function (func) {
+	  return function () {
+	    process.nextTick(func);
+	  };
+	};
 
-	    var nextHandle = 1; // Spec says greater than zero
-	    var tasksByHandle = {};
-	    var currentlyRunningATask = false;
-	    var doc = global.document;
-	    var registerImmediate;
-
-	    function setImmediate(callback) {
-	      // Callback can either be a function or a string
-	      if (typeof callback !== "function") {
-	        callback = new Function("" + callback);
-	      }
-	      // Copy function arguments
-	      var args = new Array(arguments.length - 1);
-	      for (var i = 0; i < args.length; i++) {
-	          args[i] = arguments[i + 1];
-	      }
-	      // Store and register the task
-	      var task = { callback: callback, args: args };
-	      tasksByHandle[nextHandle] = task;
-	      registerImmediate(nextHandle);
-	      return nextHandle++;
-	    }
-
-	    function clearImmediate(handle) {
-	        delete tasksByHandle[handle];
-	    }
-
-	    function run(task) {
-	        var callback = task.callback;
-	        var args = task.args;
-	        switch (args.length) {
-	        case 0:
-	            callback();
-	            break;
-	        case 1:
-	            callback(args[0]);
-	            break;
-	        case 2:
-	            callback(args[0], args[1]);
-	            break;
-	        case 3:
-	            callback(args[0], args[1], args[2]);
-	            break;
-	        default:
-	            callback.apply(undefined, args);
-	            break;
-	        }
-	    }
-
-	    function runIfPresent(handle) {
-	        // From the spec: "Wait until any invocations of this algorithm started before this one have completed."
-	        // So if we're currently running a task, we'll need to delay this invocation.
-	        if (currentlyRunningATask) {
-	            // Delay by doing a setTimeout. setImmediate was tried instead, but in Firefox 7 it generated a
-	            // "too much recursion" error.
-	            setTimeout(runIfPresent, 0, handle);
-	        } else {
-	            var task = tasksByHandle[handle];
-	            if (task) {
-	                currentlyRunningATask = true;
-	                try {
-	                    run(task);
-	                } finally {
-	                    clearImmediate(handle);
-	                    currentlyRunningATask = false;
-	                }
-	            }
-	        }
-	    }
-
-	    function installNextTickImplementation() {
-	        registerImmediate = function(handle) {
-	            process.nextTick(function () { runIfPresent(handle); });
-	        };
-	    }
-
-	    function canUsePostMessage() {
-	        // The test against `importScripts` prevents this implementation from being installed inside a web worker,
-	        // where `global.postMessage` means something completely different and can't be used for this purpose.
-	        if (global.postMessage && !global.importScripts) {
-	            var postMessageIsAsynchronous = true;
-	            var oldOnMessage = global.onmessage;
-	            global.onmessage = function() {
-	                postMessageIsAsynchronous = false;
-	            };
-	            global.postMessage("", "*");
-	            global.onmessage = oldOnMessage;
-	            return postMessageIsAsynchronous;
-	        }
-	    }
-
-	    function installPostMessageImplementation() {
-	        // Installs an event handler on `global` for the `message` event: see
-	        // * https://developer.mozilla.org/en/DOM/window.postMessage
-	        // * http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#crossDocumentMessages
-
-	        var messagePrefix = "setImmediate$" + Math.random() + "$";
-	        var onGlobalMessage = function(event) {
-	            if (event.source === global &&
-	                typeof event.data === "string" &&
-	                event.data.indexOf(messagePrefix) === 0) {
-	                runIfPresent(+event.data.slice(messagePrefix.length));
-	            }
-	        };
-
-	        if (global.addEventListener) {
-	            global.addEventListener("message", onGlobalMessage, false);
-	        } else {
-	            global.attachEvent("onmessage", onGlobalMessage);
-	        }
-
-	        registerImmediate = function(handle) {
-	            global.postMessage(messagePrefix + handle, "*");
-	        };
-	    }
-
-	    function installMessageChannelImplementation() {
-	        var channel = new MessageChannel();
-	        channel.port1.onmessage = function(event) {
-	            var handle = event.data;
-	            runIfPresent(handle);
-	        };
-
-	        registerImmediate = function(handle) {
-	            channel.port2.postMessage(handle);
-	        };
-	    }
-
-	    function installReadyStateChangeImplementation() {
-	        var html = doc.documentElement;
-	        registerImmediate = function(handle) {
-	            // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
-	            // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
-	            var script = doc.createElement("script");
-	            script.onreadystatechange = function () {
-	                runIfPresent(handle);
-	                script.onreadystatechange = null;
-	                html.removeChild(script);
-	                script = null;
-	            };
-	            html.appendChild(script);
-	        };
-	    }
-
-	    function installSetTimeoutImplementation() {
-	        registerImmediate = function(handle) {
-	            setTimeout(runIfPresent, 0, handle);
-	        };
-	    }
-
-	    // If supported, we should attach to the prototype of global, since that is where setTimeout et al. live.
-	    var attachTo = Object.getPrototypeOf && Object.getPrototypeOf(global);
-	    attachTo = attachTo && attachTo.setTimeout ? attachTo : global;
-
-	    // Don't get fooled by e.g. browserify environments.
-	    if ({}.toString.call(global.process) === "[object process]") {
-	        // For Node.js before 0.9
-	        installNextTickImplementation();
-
-	    } else if (canUsePostMessage()) {
-	        // For non-IE10 modern browsers
-	        installPostMessageImplementation();
-
-	    } else if (global.MessageChannel) {
-	        // For web workers, where supported
-	        installMessageChannelImplementation();
-
-	    } else if (doc && "onreadystatechange" in doc.createElement("script")) {
-	        // For IE 6–8
-	        installReadyStateChangeImplementation();
-
-	    } else {
-	        // For older browsers
-	        installSetTimeoutImplementation();
-	    }
-
-	    attachTo.setImmediate = setImmediate;
-	    attachTo.clearImmediate = clearImmediate;
-	}(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
-
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(11)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ },
 /* 11 */
@@ -3122,6 +2973,103 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 12 */
+/***/ function(module, exports) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+	//based off rsvp https://github.com/tildeio/rsvp.js
+	//license https://github.com/tildeio/rsvp.js/blob/master/LICENSE
+	//https://github.com/tildeio/rsvp.js/blob/master/lib/rsvp/asap.js
+
+	var Mutation = global.MutationObserver || global.WebKitMutationObserver;
+
+	exports.test = function () {
+	  return Mutation;
+	};
+
+	exports.install = function (handle) {
+	  var called = 0;
+	  var observer = new Mutation(handle);
+	  var element = global.document.createTextNode('');
+	  observer.observe(element, {
+	    characterData: true
+	  });
+	  return function () {
+	    element.data = (called = ++called % 2);
+	  };
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+
+	exports.test = function () {
+	  if (global.setImmediate) {
+	    // we can only get here in IE10
+	    // which doesn't handel postMessage well
+	    return false;
+	  }
+	  return typeof global.MessageChannel !== 'undefined';
+	};
+
+	exports.install = function (func) {
+	  var channel = new global.MessageChannel();
+	  channel.port1.onmessage = func;
+	  return function () {
+	    channel.port2.postMessage(0);
+	  };
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+
+	exports.test = function () {
+	  return 'document' in global && 'onreadystatechange' in global.document.createElement('script');
+	};
+
+	exports.install = function (handle) {
+	  return function () {
+
+	    // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
+	    // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
+	    var scriptEl = global.document.createElement('script');
+	    scriptEl.onreadystatechange = function () {
+	      handle();
+
+	      scriptEl.onreadystatechange = null;
+	      scriptEl.parentNode.removeChild(scriptEl);
+	      scriptEl = null;
+	    };
+	    global.document.documentElement.appendChild(scriptEl);
+
+	    return handle;
+	  };
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	'use strict';
+	exports.test = function () {
+	  return true;
+	};
+
+	exports.install = function (t) {
+	  return function () {
+	    setTimeout(t, 0);
+	  };
+	};
+
+/***/ },
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3129,8 +3077,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _ = __webpack_require__(4);
 	var DOM = __webpack_require__(3);
 	var EventEmitter = __webpack_require__(8);
-	var Dataset = __webpack_require__(13);
-	var css = __webpack_require__(15);
+	var Dataset = __webpack_require__(17);
+	var css = __webpack_require__(19);
 
 	// constructor
 	// -----------
@@ -3498,7 +3446,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3509,8 +3457,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _ = __webpack_require__(4);
 	var DOM = __webpack_require__(3);
-	var html = __webpack_require__(14);
-	var css = __webpack_require__(15);
+	var html = __webpack_require__(18);
+	var css = __webpack_require__(19);
 	var EventEmitter = __webpack_require__(8);
 
 	// constructor
@@ -3750,7 +3698,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 14 */
+/* 18 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3765,7 +3713,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 15 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3867,19 +3815,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	module.exports = {
-	  hits: __webpack_require__(17),
-	  popularIn: __webpack_require__(18)
+	  hits: __webpack_require__(21),
+	  popularIn: __webpack_require__(22)
 	};
 
 
 /***/ },
-/* 17 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3902,7 +3850,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

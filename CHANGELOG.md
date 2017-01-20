@@ -1,3 +1,13 @@
+<a name="0.24.1"></a>
+## [0.24.1](https://github.com/algolia/autocomplete.js/compare/v0.24.0...v0.24.1) (2017-01-20)
+
+
+### Bug Fixes
+
+* **postMessage:** avoid using postMessage when feasible ([a99f664](https://github.com/algolia/autocomplete.js/commit/a99f664)), closes [#142](https://github.com/algolia/autocomplete.js/issues/142)
+
+
+
 <a name="0.24.0"></a>
 # [0.24.0](https://github.com/algolia/autocomplete.js/compare/0.23.0...v0.24.0) (2017-01-10)
 
