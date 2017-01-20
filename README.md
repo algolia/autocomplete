@@ -682,7 +682,7 @@ TEST_HOST=http://YOUR_NGROK_ID.ngrok.com SAUCE_ACCESS_KEY=YOUR_KEY SAUCE_USERNAM
 Decide if this is a patch, minor or major release, have a look at [semver.org](http://semver.org/).
 
 ```sh
-yarn release [major|minor|patch|x.x.x]
+npm run release [major|minor|patch|x.x.x]
 ```
 
 ## Credits
