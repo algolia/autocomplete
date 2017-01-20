@@ -318,6 +318,10 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     return datum;
   },
 
+  getCurrentCursor: function getCurrentCursor() {
+    return this._getCursor().first();
+  },
+
   getDatumForCursor: function getDatumForCursor() {
     return this.getDatumForSuggestion(this._getCursor().first());
   },
