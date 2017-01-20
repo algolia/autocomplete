@@ -516,8 +516,9 @@ function buildDom(options) {
   // store the original values of the attrs that get modified
   // so modifications can be reverted on destroy
   $input.data(attrsKey, {
+    'aria-autocomplete': $input.attr('aria-autocomplete'),
     'aria-expanded': $input.attr('aria-expanded'),
-    'aria-owns': $input.attr('aria-owns'),
+    'aria-controls': $input.attr('aria-controls'),
     autocomplete: $input.attr('autocomplete'),
     dir: $input.attr('dir'),
     role: $input.attr('role'),
@@ -535,8 +536,9 @@ function buildDom(options) {
       // Accessibility features
       type: 'search',
       role: 'combobox',
+      'aria-autocomplete': 'list',
       'aria-expanded': 'false',
-      'aria-owns': listBoxId
+      'aria-controls': listBoxId
     })
     .css(options.hint ? options.css.input : options.css.inputWithNoHint);
 
