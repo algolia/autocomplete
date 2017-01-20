@@ -40,7 +40,6 @@ describe('Typeahead', function() {
     this.dropdown = this.view.dropdown;
   });
 
-
   describe('appendTo', function() {
     it('should throw if used with hint', function(done) {
       expect(function() {
@@ -121,6 +120,7 @@ describe('Typeahead', function() {
   describe('when dropdown triggers cursorMoved', function() {
     beforeEach(function() {
       this.dropdown.getDatumForCursor.and.returnValue(testDatum);
+      this.dropdown.getCurrentCursor.and.returnValue($('<div id="option-id"></div>'));
     });
 
     it('should update the input value', function() {
@@ -128,6 +128,13 @@ describe('Typeahead', function() {
 
       expect(this.input.setInputValue)
         .toHaveBeenCalledWith(testDatum.value, true);
+    });
+
+    it('should update the active descendant', function() {
+      this.dropdown.trigger('cursorMoved', false);
+
+      expect(this.input.setActiveDescendant)
+        .toHaveBeenCalledWith('option-id');
     });
 
     it('should not update the input', function() {
