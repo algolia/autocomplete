@@ -59,7 +59,9 @@ function Typeahead(o) {
   // #351: preventDefault won't cancel blurs in ie <= 8
   $input.on('blur.aa', function($e) {
     var active = document.activeElement;
-    if (_.isMsie() && ($menu.is(active) || $menu.has(active).length > 0)) {
+    // FIXME: _.isMsie() < 11 is a temporary fix, waiting for issue #144 to be fixed
+    // https://github.com/algolia/autocomplete.js/issues/144
+    if (_.isMsie() && _.isMsie() < 11 && ($menu.is(active) || $menu.has(active).length > 0)) {
       $e.preventDefault();
       // stop immediate in order to prevent Input#_onBlur from
       // getting exectued
