@@ -546,6 +546,9 @@ function buildDom(options) {
       'aria-autocomplete': 'inline',
       // Indicates whether the dropdown it controls is currently expanded or collapsed
       'aria-expanded': 'false',
+      // Note that this field is labelled by itself, which in this case,
+      // is an explicit pointer to use the placeholder attribute value.
+      'aria-labelledby': $input.attr('id'),
       // Explicitly point to the listbox,
       // which is a list of suggestions (aka options)
       'aria-owns': options.listboxId
