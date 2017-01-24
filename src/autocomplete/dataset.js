@@ -140,11 +140,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
         replace('%SUGGESTIONS%', this.cssClasses.suggestions);
       $suggestions = DOM
         .element(suggestionsHtml)
-        .css(this.css.suggestions)
-        .attr({
-          role: 'group',
-          'aria-label': this.name
-        });
+        .css(this.css.suggestions);
 
       // jQuery#append doesn't support arrays as the first argument
       // until version 1.8, see http://bugs.jquery.com/ticket/11231
