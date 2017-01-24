@@ -686,12 +686,12 @@ Autocomplete.js is accessible to screen readers, and here's how to test how most
 
 1. Run `yarn dev` on your development machine
 1. Start the screen reader
-1. Open a browser to http://YOUR_IP:8888/test/playground.html
+1. Open a browser to http://127.0.0.1:8888/test/playground.html
 1. Tab to the field
 1. Type a search query
 1. Use the arrow keys to navigate through the results
 
-✔ SUCCESS: results are read (not necessarily in sync with the visually selected cursor)  
+✔ SUCCESS: results are read (not necessarily in sync with the visually selected cursor)
 𐄂 FAIL: no text is read or the screen reader keeps reading the typed query
 
 #### Recommended testing platforms
