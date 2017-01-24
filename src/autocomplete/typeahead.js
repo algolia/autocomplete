@@ -541,7 +541,9 @@ function buildDom(options) {
       // with a listbox popup.
       // https://www.w3.org/WAI/PF/aria/roles#combobox
       role: 'combobox',
-      'aria-autocomplete': 'list',
+      // Let the screen reader know the field has an autocomplete
+      // feature to it.
+      'aria-autocomplete': 'inline',
       'aria-expanded': 'false',
       // Explicitly point to the listbox,
       // which is a list of suggestions (aka options)
