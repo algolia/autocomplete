@@ -39,6 +39,7 @@ function Typeahead(o) {
 
   this.css = o.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
   this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+  this.listboxId = o.listboxId = [this.cssClasses.root, 'listbox', _.getUniqueId()].join('-');
 
   var domElts = buildDom(o);
 
@@ -476,16 +477,12 @@ function buildDom(options) {
   var $wrapper;
   var $dropdown;
   var $hint;
-  var listBoxId = [options.cssClasses.root, 'listbox', _.getUniqueId()].join('-');
 
   $input = DOM.element(options.input);
   $wrapper = DOM
     .element(html.wrapper.replace('%ROOT%', options.cssClasses.root))
-    .css(options.css.wrapper)
-    .attr({
-      id: listBoxId,
-      role: 'listbox'
-    });
+    .css(options.css.wrapper);
+
   // override the display property with the table-cell value
   // if the parent element is a table and the original input was a block
   //  -> https://github.com/algolia/autocomplete.js/issues/16
@@ -495,7 +492,12 @@ function buildDom(options) {
   var dropdownHtml = html.dropdown.
     replace('%PREFIX%', options.cssClasses.prefix).
     replace('%DROPDOWN_MENU%', options.cssClasses.dropdownMenu);
-  $dropdown = DOM.element(dropdownHtml).css(options.css.dropdown);
+  $dropdown = DOM.element(dropdownHtml)
+    .css(options.css.dropdown)
+    .attr({
+      role: 'listbox',
+      id: options.listboxId
+    });
   if (options.templates && options.templates.dropdownMenu) {
     $dropdown.html(_.templatify(options.templates.dropdownMenu)());
   }
