@@ -213,6 +213,14 @@ _.mixin(Input.prototype, EventEmitter, {
     }
   },
 
+  expand: function expand() {
+    this.$input.attr('aria-expanded', 'true');
+  },
+
+  collapse: function collapse() {
+    this.$input.attr('aria-expanded', 'false');
+  },
+
   setActiveDescendant: function setActiveDescendant(activedescendantId) {
     this.$input.attr('aria-activedescendant', activedescendantId);
   },

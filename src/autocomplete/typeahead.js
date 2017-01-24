@@ -185,6 +185,7 @@ _.mixin(Typeahead.prototype, {
 
   _onOpened: function onOpened() {
     this._updateHint();
+    this.input.expand();
 
     this.eventBus.trigger('opened');
   },
@@ -220,6 +221,7 @@ _.mixin(Typeahead.prototype, {
   _onClosed: function onClosed() {
     this.input.clearHint();
     this.input.removeActiveDescendant();
+    this.input.collapse();
 
     this.eventBus.trigger('closed');
   },
