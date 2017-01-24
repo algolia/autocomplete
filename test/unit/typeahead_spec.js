@@ -248,6 +248,11 @@ describe('Typeahead', function() {
 
       expect(spy).toHaveBeenCalled();
     });
+
+    it('should set the input\'s aria-expanded to true', function() {
+      this.dropdown.trigger('opened');
+      expect(this.input.expand).toHaveBeenCalled();
+    });
   });
 
   describe('when dropdown triggers closed', function() {
@@ -265,6 +270,11 @@ describe('Typeahead', function() {
       this.dropdown.trigger('closed');
 
       expect(spy).toHaveBeenCalled();
+    });
+
+    it('should set the input\'s aria-expanded to false', function() {
+      this.dropdown.trigger('closed');
+      expect(this.input.collapse).toHaveBeenCalled();
     });
   });
 
