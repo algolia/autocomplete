@@ -538,7 +538,6 @@ function buildDom(options) {
       spellcheck: false,
 
       // Accessibility features
-      type: 'search',
       role: 'combobox',
       'aria-autocomplete': 'list',
       'aria-expanded': 'false',
