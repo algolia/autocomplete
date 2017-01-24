@@ -544,6 +544,7 @@ function buildDom(options) {
       // Let the screen reader know the field has an autocomplete
       // feature to it.
       'aria-autocomplete': 'inline',
+      // Indicates whether the dropdown it controls is currently expanded or collapsed
       'aria-expanded': 'false',
       // Explicitly point to the listbox,
       // which is a list of suggestions (aka options)
