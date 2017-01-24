@@ -536,6 +536,10 @@ function buildDom(options) {
       spellcheck: false,
 
       // Accessibility features
+      // Give the field a presentation of a "select".
+      // Combobox is the combined presentation of a single line textfield
+      // with a listbox popup.
+      // https://www.w3.org/WAI/PF/aria/roles#combobox
       role: 'combobox',
       'aria-autocomplete': 'list',
       'aria-expanded': 'false',
