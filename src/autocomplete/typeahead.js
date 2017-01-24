@@ -520,7 +520,7 @@ function buildDom(options) {
   $input.data(attrsKey, {
     'aria-autocomplete': $input.attr('aria-autocomplete'),
     'aria-expanded': $input.attr('aria-expanded'),
-    'aria-controls': $input.attr('aria-controls'),
+    'aria-owns': $input.attr('aria-owns'),
     autocomplete: $input.attr('autocomplete'),
     dir: $input.attr('dir'),
     role: $input.attr('role'),
@@ -540,7 +540,9 @@ function buildDom(options) {
       role: 'combobox',
       'aria-autocomplete': 'list',
       'aria-expanded': 'false',
-      'aria-controls': listBoxId
+      // Explicitly point to the listbox,
+      // which is a list of suggestions (aka options)
+      'aria-owns': options.listboxId
     })
     .css(options.hint ? options.css.input : options.css.inputWithNoHint);
 
