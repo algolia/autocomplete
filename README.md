@@ -106,7 +106,7 @@ var autocomplete = require('autocomplete.js');
  1. Initialize the auto-completion menu calling the `autocomplete` function
 
 ```html
-<input type="text" id="search-input" />
+<input type="text" id="search-input" placeholder="Search unicorns..." />
 
 <!-- [ ... ] -->
 <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
