@@ -59,7 +59,7 @@ function Typeahead(o) {
   // #351: preventDefault won't cancel blurs in ie <= 8
   $input.on('blur.aa', function($e) {
     var active = document.activeElement;
-    if (_.isMsie() && ($menu.is(active) || $menu.has(active).length > 0)) {
+    if (_.isMsie() && ($menu[0] === active || $menu[0].contains(active))) {
       $e.preventDefault();
       // stop immediate in order to prevent Input#_onBlur from
       // getting exectued
