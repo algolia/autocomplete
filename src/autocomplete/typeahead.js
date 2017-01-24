@@ -543,7 +543,7 @@ function buildDom(options) {
       role: 'combobox',
       // Let the screen reader know the field has an autocomplete
       // feature to it.
-      'aria-autocomplete': (options.datasets[0].displayKey ? 'both' : 'list'),
+      'aria-autocomplete': (options.datasets && options.datasets[0] && options.datasets[0].displayKey ? 'both' : 'list'),
       // Indicates whether the dropdown it controls is currently expanded or collapsed
       'aria-expanded': 'false',
       // If a placeholder is set, label this field with itself, which in this case,
