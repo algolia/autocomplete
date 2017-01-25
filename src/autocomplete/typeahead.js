@@ -510,7 +510,12 @@ function buildDom(options) {
     .addClass(_.className(options.cssClasses.prefix, options.cssClasses.hint, true))
     .removeAttr('id name placeholder required')
     .prop('readonly', true)
-    .attr({autocomplete: 'off', spellcheck: 'false', tabindex: -1});
+    .attr({
+      'aria-hidden': 'true',
+      autocomplete: 'off',
+      spellcheck: 'false',
+      tabindex: -1
+    });
   if ($hint.removeData) {
     $hint.removeData();
   }
