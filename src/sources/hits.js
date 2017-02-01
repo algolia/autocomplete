@@ -1,8 +1,14 @@
 'use strict';
 
 var _ = require('../common/utils.js');
+var version = require('../../version.js');
+var parseAlgoliaClientVersion = require('../common/parseAlgoliaClientVersion.js');
 
 module.exports = function search(index, params) {
+  var algoliaVersion = parseAlgoliaClientVersion(index.as._ua);
+  if (algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
+    params.additionalUA = 'autocomplete.js ' + version;
+  }
   return sourceFn;
 
   function sourceFn(query, cb) {

@@ -411,7 +411,7 @@
 	  // #351: preventDefault won't cancel blurs in ie <= 8
 	  $input.on('blur.aa', function($e) {
 	    var active = document.activeElement;
-	    if (_.isMsie() && ($menu.is(active) || $menu.has(active).length > 0)) {
+	    if (_.isMsie() && ($menu[0] === active || $menu[0].contains(active))) {
 	      $e.preventDefault();
 	      // stop immediate in order to prevent Input#_onBlur from
 	      // getting exectued
@@ -2572,7 +2572,7 @@
 
 	module.exports = {
 	  hits: __webpack_require__(21),
-	  popularIn: __webpack_require__(22)
+	  popularIn: __webpack_require__(24)
 	};
 
 
@@ -2583,8 +2583,14 @@
 	'use strict';
 
 	var _ = __webpack_require__(4);
+	var version = __webpack_require__(22);
+	var parseAlgoliaClientVersion = __webpack_require__(23);
 
 	module.exports = function search(index, params) {
+	  var algoliaVersion = parseAlgoliaClientVersion(index.as._ua);
+	  if (algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
+	    params.additionalUA = 'autocomplete.js ' + version;
+	  }
 	  return sourceFn;
 
 	  function sourceFn(query, cb) {
@@ -2601,13 +2607,38 @@
 
 /***/ },
 /* 22 */
+/***/ function(module, exports) {
+
+	module.exports = "3.4.2";
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	'use strict';
+	module.exports = function parseAlgoliaClientVersion(agent) {
+	  var parsed = agent.match(/Algolia for vanilla JavaScript (\d+\.)(\d+\.)(\d+)/);
+	  if (parsed) return [parsed[1], parsed[2], parsed[3]];
+	  return undefined;
+	};
+
+
+/***/ },
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _ = __webpack_require__(4);
+	var version = __webpack_require__(22);
+	var parseAlgoliaClientVersion = __webpack_require__(23);
 
 	module.exports = function popularIn(index, params, details, options) {
+	  var algoliaVersion = parseAlgoliaClientVersion(index.as._ua);
+	  if (algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
+	    params.additionalUA = 'autocomplete.js ' + version;
+	  }
 	  if (!details.source) {
 	    return _.error("Missing 'source' key");
 	  }
