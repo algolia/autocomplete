@@ -1,8 +1,10 @@
 'use strict';
 
 var _ = require('../common/utils.js');
+var version = require('../../version.js');
 
 module.exports = function popularIn(index, params, details, options) {
+  params.additionalUA = 'autocomplete.js ' + version;
   if (!details.source) {
     return _.error("Missing 'source' key");
   }

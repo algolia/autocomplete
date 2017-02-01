@@ -35,6 +35,9 @@ if [[ -n $(git status --porcelain) ]]; then
   error_exit "Release: Working tree is not clean (git status)"
 fi
 
+echo "module.exports = \"${nextVersion}\";" > version.js
+git add version.js
+
 yarn &&
 mversion $nextVersion &&
 yarn build &&
