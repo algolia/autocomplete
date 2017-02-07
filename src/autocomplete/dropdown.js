@@ -199,12 +199,16 @@ _.mixin(Dropdown.prototype, EventEmitter, {
   },
 
   _setCursor: function setCursor($el, updateInput) {
-    $el.first().addClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true));
+    $el.first()
+      .addClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true))
+      .attr('aria-selected', 'true');
     this.trigger('cursorMoved', updateInput);
   },
 
   _removeCursor: function removeCursor() {
-    this._getCursor().removeClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true));
+    this._getCursor()
+      .removeClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true))
+      .removeAttr('aria-selected');
   },
 
   _moveCursor: function moveCursor(increment) {
@@ -312,6 +316,10 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     }
 
     return datum;
+  },
+
+  getCurrentCursor: function getCurrentCursor() {
+    return this._getCursor().first();
   },
 
   getDatumForCursor: function getDatumForCursor() {

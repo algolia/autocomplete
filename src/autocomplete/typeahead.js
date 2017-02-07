@@ -39,6 +39,7 @@ function Typeahead(o) {
 
   this.css = o.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
   this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+  this.listboxId = o.listboxId = [this.cssClasses.root, 'listbox', _.getUniqueId()].join('-');
 
   var domElts = buildDom(o);
 
@@ -158,6 +159,8 @@ _.mixin(Typeahead.prototype, {
 
   _onCursorMoved: function onCursorMoved(event, updateInput) {
     var datum = this.dropdown.getDatumForCursor();
+    var currentCursorId = this.dropdown.getCurrentCursor().attr('id');
+    this.input.setActiveDescendant(currentCursorId);
 
     if (datum) {
       if (updateInput) {
@@ -182,6 +185,7 @@ _.mixin(Typeahead.prototype, {
 
   _onOpened: function onOpened() {
     this._updateHint();
+    this.input.expand();
 
     this.eventBus.trigger('opened');
   },
@@ -216,6 +220,8 @@ _.mixin(Typeahead.prototype, {
 
   _onClosed: function onClosed() {
     this.input.clearHint();
+    this.input.removeActiveDescendant();
+    this.input.collapse();
 
     this.eventBus.trigger('closed');
   },
@@ -475,7 +481,10 @@ function buildDom(options) {
   var $hint;
 
   $input = DOM.element(options.input);
-  $wrapper = DOM.element(html.wrapper.replace('%ROOT%', options.cssClasses.root)).css(options.css.wrapper);
+  $wrapper = DOM
+    .element(html.wrapper.replace('%ROOT%', options.cssClasses.root))
+    .css(options.css.wrapper);
+
   // override the display property with the table-cell value
   // if the parent element is a table and the original input was a block
   //  -> https://github.com/algolia/autocomplete.js/issues/16
@@ -485,7 +494,12 @@ function buildDom(options) {
   var dropdownHtml = html.dropdown.
     replace('%PREFIX%', options.cssClasses.prefix).
     replace('%DROPDOWN_MENU%', options.cssClasses.dropdownMenu);
-  $dropdown = DOM.element(dropdownHtml).css(options.css.dropdown);
+  $dropdown = DOM.element(dropdownHtml)
+    .css(options.css.dropdown)
+    .attr({
+      role: 'listbox',
+      id: options.listboxId
+    });
   if (options.templates && options.templates.dropdownMenu) {
     $dropdown.html(_.templatify(options.templates.dropdownMenu)());
   }
@@ -496,7 +510,12 @@ function buildDom(options) {
     .addClass(_.className(options.cssClasses.prefix, options.cssClasses.hint, true))
     .removeAttr('id name placeholder required')
     .prop('readonly', true)
-    .attr({autocomplete: 'off', spellcheck: 'false', tabindex: -1});
+    .attr({
+      'aria-hidden': 'true',
+      autocomplete: 'off',
+      spellcheck: 'false',
+      tabindex: -1
+    });
   if ($hint.removeData) {
     $hint.removeData();
   }
@@ -504,15 +523,41 @@ function buildDom(options) {
   // store the original values of the attrs that get modified
   // so modifications can be reverted on destroy
   $input.data(attrsKey, {
-    dir: $input.attr('dir'),
+    'aria-autocomplete': $input.attr('aria-autocomplete'),
+    'aria-expanded': $input.attr('aria-expanded'),
+    'aria-owns': $input.attr('aria-owns'),
     autocomplete: $input.attr('autocomplete'),
+    dir: $input.attr('dir'),
+    role: $input.attr('role'),
     spellcheck: $input.attr('spellcheck'),
-    style: $input.attr('style')
+    style: $input.attr('style'),
+    type: $input.attr('type')
   });
 
   $input
     .addClass(_.className(options.cssClasses.prefix, options.cssClasses.input, true))
-    .attr({autocomplete: 'off', spellcheck: false})
+    .attr({
+      autocomplete: 'off',
+      spellcheck: false,
+
+      // Accessibility features
+      // Give the field a presentation of a "select".
+      // Combobox is the combined presentation of a single line textfield
+      // with a listbox popup.
+      // https://www.w3.org/WAI/PF/aria/roles#combobox
+      role: 'combobox',
+      // Let the screen reader know the field has an autocomplete
+      // feature to it.
+      'aria-autocomplete': (options.datasets && options.datasets[0] && options.datasets[0].displayKey ? 'both' : 'list'),
+      // Indicates whether the dropdown it controls is currently expanded or collapsed
+      'aria-expanded': 'false',
+      // If a placeholder is set, label this field with itself, which in this case,
+      // is an explicit pointer to use the placeholder attribute value.
+      'aria-labelledby': ($input.attr('placeholder') ? $input.attr('id') : null),
+      // Explicitly point to the listbox,
+      // which is a list of suggestions (aka options)
+      'aria-owns': options.listboxId
+    })
     .css(options.hint ? options.css.input : options.css.inputWithNoHint);
 
   // ie7 does not like it when dir is set to auto
