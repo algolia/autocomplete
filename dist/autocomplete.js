@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.24.2
+ * autocomplete.js 0.25.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2017 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -70,7 +70,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var zepto = __webpack_require__(2); // this will inject Zepto in window, unfortunately no easy commonJS zepto build
+	// this will inject Zepto in window, unfortunately no easy commonJS zepto build
+	var zepto = __webpack_require__(2);
 
 	// setup DOM element
 	var DOM = __webpack_require__(3);
@@ -1641,6 +1642,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  this.css = o.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
 	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+	  this.listboxId = o.listboxId = [this.cssClasses.root, 'listbox', _.getUniqueId()].join('-');
 
 	  var domElts = buildDom(o);
 
@@ -1661,7 +1663,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // #351: preventDefault won't cancel blurs in ie <= 8
 	  $input.on('blur.aa', function($e) {
 	    var active = document.activeElement;
-	    if (_.isMsie() && ($menu.is(active) || $menu.has(active).length > 0)) {
+	    if (_.isMsie() && ($menu[0] === active || $menu[0].contains(active))) {
 	      $e.preventDefault();
 	      // stop immediate in order to prevent Input#_onBlur from
 	      // getting exectued
@@ -1760,6 +1762,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  _onCursorMoved: function onCursorMoved(event, updateInput) {
 	    var datum = this.dropdown.getDatumForCursor();
+	    var currentCursorId = this.dropdown.getCurrentCursor().attr('id');
+	    this.input.setActiveDescendant(currentCursorId);
 
 	    if (datum) {
 	      if (updateInput) {
@@ -1784,6 +1788,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  _onOpened: function onOpened() {
 	    this._updateHint();
+	    this.input.expand();
 
 	    this.eventBus.trigger('opened');
 	  },
@@ -1818,6 +1823,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  _onClosed: function onClosed() {
 	    this.input.clearHint();
+	    this.input.removeActiveDescendant();
+	    this.input.collapse();
 
 	    this.eventBus.trigger('closed');
 	  },
@@ -2077,7 +2084,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var $hint;
 
 	  $input = DOM.element(options.input);
-	  $wrapper = DOM.element(html.wrapper.replace('%ROOT%', options.cssClasses.root)).css(options.css.wrapper);
+	  $wrapper = DOM
+	    .element(html.wrapper.replace('%ROOT%', options.cssClasses.root))
+	    .css(options.css.wrapper);
+
 	  // override the display property with the table-cell value
 	  // if the parent element is a table and the original input was a block
 	  //  -> https://github.com/algolia/autocomplete.js/issues/16
@@ -2087,7 +2097,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var dropdownHtml = html.dropdown.
 	    replace('%PREFIX%', options.cssClasses.prefix).
 	    replace('%DROPDOWN_MENU%', options.cssClasses.dropdownMenu);
-	  $dropdown = DOM.element(dropdownHtml).css(options.css.dropdown);
+	  $dropdown = DOM.element(dropdownHtml)
+	    .css(options.css.dropdown)
+	    .attr({
+	      role: 'listbox',
+	      id: options.listboxId
+	    });
 	  if (options.templates && options.templates.dropdownMenu) {
 	    $dropdown.html(_.templatify(options.templates.dropdownMenu)());
 	  }
@@ -2098,7 +2113,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    .addClass(_.className(options.cssClasses.prefix, options.cssClasses.hint, true))
 	    .removeAttr('id name placeholder required')
 	    .prop('readonly', true)
-	    .attr({autocomplete: 'off', spellcheck: 'false', tabindex: -1});
+	    .attr({
+	      'aria-hidden': 'true',
+	      autocomplete: 'off',
+	      spellcheck: 'false',
+	      tabindex: -1
+	    });
 	  if ($hint.removeData) {
 	    $hint.removeData();
 	  }
@@ -2106,15 +2126,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // store the original values of the attrs that get modified
 	  // so modifications can be reverted on destroy
 	  $input.data(attrsKey, {
-	    dir: $input.attr('dir'),
+	    'aria-autocomplete': $input.attr('aria-autocomplete'),
+	    'aria-expanded': $input.attr('aria-expanded'),
+	    'aria-owns': $input.attr('aria-owns'),
 	    autocomplete: $input.attr('autocomplete'),
+	    dir: $input.attr('dir'),
+	    role: $input.attr('role'),
 	    spellcheck: $input.attr('spellcheck'),
-	    style: $input.attr('style')
+	    style: $input.attr('style'),
+	    type: $input.attr('type')
 	  });
 
 	  $input
 	    .addClass(_.className(options.cssClasses.prefix, options.cssClasses.input, true))
-	    .attr({autocomplete: 'off', spellcheck: false})
+	    .attr({
+	      autocomplete: 'off',
+	      spellcheck: false,
+
+	      // Accessibility features
+	      // Give the field a presentation of a "select".
+	      // Combobox is the combined presentation of a single line textfield
+	      // with a listbox popup.
+	      // https://www.w3.org/WAI/PF/aria/roles#combobox
+	      role: 'combobox',
+	      // Let the screen reader know the field has an autocomplete
+	      // feature to it.
+	      'aria-autocomplete': (options.datasets && options.datasets[0] && options.datasets[0].displayKey ? 'both' : 'list'),
+	      // Indicates whether the dropdown it controls is currently expanded or collapsed
+	      'aria-expanded': 'false',
+	      // If a placeholder is set, label this field with itself, which in this case,
+	      // is an explicit pointer to use the placeholder attribute value.
+	      'aria-labelledby': ($input.attr('placeholder') ? $input.attr('id') : null),
+	      // Explicitly point to the listbox,
+	      // which is a list of suggestions (aka options)
+	      'aria-owns': options.listboxId
+	    })
 	    .css(options.hint ? options.css.input : options.css.inputWithNoHint);
 
 	  // ie7 does not like it when dir is set to auto
@@ -2325,6 +2371,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  _onBlur: function onBlur() {
 	    this.resetInputValue();
+	    this.$input.removeAttr('aria-activedescendant');
 	    this.trigger('blurred');
 	  },
 
@@ -2443,6 +2490,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } else {
 	      this._checkInputValue();
 	    }
+	  },
+
+	  expand: function expand() {
+	    this.$input.attr('aria-expanded', 'true');
+	  },
+
+	  collapse: function collapse() {
+	    this.$input.attr('aria-expanded', 'false');
+	  },
+
+	  setActiveDescendant: function setActiveDescendant(activedescendantId) {
+	    this.$input.attr('aria-activedescendant', activedescendantId);
+	  },
+
+	  removeActiveDescendant: function removeActiveDescendant() {
+	    this.$input.removeAttr('aria-activedescendant');
 	  },
 
 	  resetInputValue: function resetInputValue() {
@@ -3273,12 +3336,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  _setCursor: function setCursor($el, updateInput) {
-	    $el.first().addClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true));
+	    $el.first()
+	      .addClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true))
+	      .attr('aria-selected', 'true');
 	    this.trigger('cursorMoved', updateInput);
 	  },
 
 	  _removeCursor: function removeCursor() {
-	    this._getCursor().removeClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true));
+	    this._getCursor()
+	      .removeClass(_.className(this.cssClasses.prefix, this.cssClasses.cursor, true))
+	      .removeAttr('aria-selected');
 	  },
 
 	  _moveCursor: function moveCursor(increment) {
@@ -3386,6 +3453,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    return datum;
+	  },
+
+	  getCurrentCursor: function getCurrentCursor() {
+	    return this._getCursor().first();
 	  },
 
 	  getDatumForCursor: function getDatumForCursor() {
@@ -3557,8 +3628,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    if (this.$menu) {
-	      this.$menu.addClass(this.cssClasses.prefix + '-' + (hasSuggestions ? 'with' : 'without') + '-' + this.name)
-	        .removeClass(this.cssClasses.prefix + '-' + (hasSuggestions ? 'without' : 'with') + '-' + this.name);
+	      this.$menu.addClass(
+	        [
+	          this.cssClasses.prefix,
+	          (hasSuggestions ? 'with' : 'without'),
+	          this.name
+	        ].join('-')
+	      ).removeClass(
+	        [
+	          this.cssClasses.prefix,
+	          (hasSuggestions ? 'without' : 'with'),
+	          this.name
+	        ].join('-')
+	      );
 	    }
 
 	    this.trigger('rendered', query);
@@ -3578,7 +3660,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var suggestionsHtml = html.suggestions.
 	        replace('%PREFIX%', this.cssClasses.prefix).
 	        replace('%SUGGESTIONS%', this.cssClasses.suggestions);
-	      $suggestions = DOM.element(suggestionsHtml).css(this.css.suggestions);
+	      $suggestions = DOM
+	        .element(suggestionsHtml)
+	        .css(this.css.suggestions);
 
 	      // jQuery#append doesn't support arrays as the first argument
 	      // until version 1.8, see http://bugs.jquery.com/ticket/11231
@@ -3594,6 +3678,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	          replace('%PREFIX%', self.cssClasses.prefix).
 	          replace('%SUGGESTION%', self.cssClasses.suggestion);
 	        $el = DOM.element(suggestionHtml)
+	          .attr({
+	            role: 'option',
+	            id: ['option', Math.floor(Math.random() * 100000000)].join('-')
+	          })
 	          .append(that.templates.suggestion.apply(this, [suggestion].concat(args)));
 
 	        $el.data(datasetKey, that.name);
