@@ -7,7 +7,7 @@ function error_exit
 }
 
 if [[ $# -eq 0 ]] ; then
-  error_exit "use ``yarn release [major|minor|patch|x.x.x]``"
+  error_exit "use ``npm run release [major|minor|patch|x.x.x]``"
 fi
 
 currentVersion=$(json -f package.json version)
