@@ -98,7 +98,11 @@ module.exports = {
 
   noop: function() {},
 
+  formatPrefix: function(prefix, noPrefix) {
+    return noPrefix ? '' : prefix + '-';
+  },
+
   className: function(prefix, clazz, skipDot) {
-    return (skipDot ? '' : '.') + prefix + '-' + clazz;
+    return (skipDot ? '' : '.') + prefix + clazz;
   }
 };
