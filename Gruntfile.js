@@ -62,7 +62,6 @@ module.exports = function(grunt) {
         externals: ['angular']
       },
       standalone: {
-        devtool: 'source-map',
         entry: './index.js',
         output: {
           path: '<%= buildDir %>',
