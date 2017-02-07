@@ -6,7 +6,7 @@ var parseAlgoliaClientVersion = require('../common/parseAlgoliaClientVersion.js'
 
 module.exports = function search(index, params) {
   var algoliaVersion = parseAlgoliaClientVersion(index.as._ua);
-  if (algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
+  if (algoliaVersion && algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
     params.additionalUA = 'autocomplete.js ' + version;
   }
   return sourceFn;

@@ -6,7 +6,7 @@ var parseAlgoliaClientVersion = require('../common/parseAlgoliaClientVersion.js'
 
 module.exports = function popularIn(index, params, details, options) {
   var algoliaVersion = parseAlgoliaClientVersion(index.as._ua);
-  if (algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
+  if (algoliaVersion && algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
     params.additionalUA = 'autocomplete.js ' + version;
   }
   if (!details.source) {
@@ -36,6 +36,11 @@ module.exports = function popularIn(index, params, details, options) {
         var detailsParams = _.mixin({hitsPerPage: 0}, details);
         delete detailsParams.source; // not a query parameter
         delete detailsParams.index; // not a query parameter
+
+        var detailsAlgoliaVersion = parseAlgoliaClientVersion(detailsIndex.as._ua);
+        if (detailsAlgoliaVersion && detailsAlgoliaVersion[0] >= 3 && detailsAlgoliaVersion[1] > 20) {
+          params.additionalUA = 'autocomplete.js ' + version;
+        }
 
         detailsIndex.search(source(first), detailsParams, function(error2, content2) {
           if (error2) {
