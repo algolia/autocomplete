@@ -36,7 +36,6 @@ if [[ -n $(git status --porcelain) ]]; then
 fi
 
 echo "module.exports = \"${nextVersion}\";" > version.js
-git add version.js
 
 yarn &&
 mversion $nextVersion &&
