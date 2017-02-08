@@ -39,6 +39,7 @@ function Typeahead(o) {
 
   this.css = o.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
   this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+  this.cssClasses.prefix = _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
   this.listboxId = o.listboxId = [this.cssClasses.root, 'listbox', _.getUniqueId()].join('-');
 
   var domElts = buildDom(o);
