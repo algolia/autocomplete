@@ -35,12 +35,14 @@ if [[ -n $(git status --porcelain) ]]; then
   error_exit "Release: Working tree is not clean (git status)"
 fi
 
+echo "module.exports = \"${nextVersion}\";" > version.js
+
 yarn &&
 mversion $nextVersion &&
 yarn build &&
 conventional-changelog --infile CHANGELOG.md --same-file --preset angular &&
 doctoc --notitle --maxlevel 3 README.md &&
-git add README.md CHANGELOG.md package.json bower.json dist/ &&
+git add README.md CHANGELOG.md package.json bower.json version.js dist/ &&
 git commit -m $nextVersion &&
 git tag v$nextVersion &&
 git push &&
