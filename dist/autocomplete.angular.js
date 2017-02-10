@@ -77,8 +77,8 @@
 	_.mixin = angular.extend;
 	_.Event = angular.element.Event;
 
-	var EventBus = __webpack_require__(6);
-	var Typeahead = __webpack_require__(7);
+	var EventBus = __webpack_require__(5);
+	var Typeahead = __webpack_require__(6);
 
 	angular.module('algolia.autocomplete', [])
 	  .directive('autocomplete', ['$parse', '$injector', function($parse, $injector) {
@@ -192,7 +192,6 @@
 	'use strict';
 
 	var DOM = __webpack_require__(3);
-	var highlightTags = __webpack_require__(5);
 
 	module.exports = {
 	  // those methods are implemented differently
@@ -292,46 +291,12 @@
 
 	  className: function(prefix, clazz, skipDot) {
 	    return (skipDot ? '' : '.') + prefix + '-' + clazz;
-	  },
-
-	  escapeHTML: function(str, originalHighlightTags) {
-	    var div = document.createElement('div');
-	    div.appendChild(document.createTextNode(str));
-	    return div.innerHTML
-	      .replace(highlightTags.regexps.pre, originalHighlightTags.pre)
-	      .replace(highlightTags.regexps.post, originalHighlightTags.post);
 	  }
 	};
 
 
 /***/ },
 /* 5 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	function escapeStrForRegexp(str) {
-	  return str.replace(/[\-\$\/]/g, '\\$&');
-	}
-
-	var token = Number(new Date()).toString(16);
-	var pre = '$$--H-' + token + '--$$';
-	var post = '$$/--H-' + token + '--$$';
-
-	var regexps = {
-	  pre: RegExp(escapeStrForRegexp(pre), 'g'),
-	  post: RegExp(escapeStrForRegexp(post), 'g')
-	};
-
-	module.exports = {
-	  pre: pre,
-	  post: post,
-	  regexps: regexps
-	};
-
-
-/***/ },
-/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -372,7 +337,7 @@
 
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -381,11 +346,11 @@
 
 	var _ = __webpack_require__(4);
 	var DOM = __webpack_require__(3);
-	var EventBus = __webpack_require__(6);
-	var Input = __webpack_require__(8);
-	var Dropdown = __webpack_require__(12);
-	var html = __webpack_require__(14);
-	var css = __webpack_require__(15);
+	var EventBus = __webpack_require__(5);
+	var Input = __webpack_require__(7);
+	var Dropdown = __webpack_require__(11);
+	var html = __webpack_require__(13);
+	var css = __webpack_require__(14);
 
 	// constructor
 	// -----------
@@ -911,13 +876,13 @@
 
 	Typeahead.Dropdown = Dropdown;
 	Typeahead.Input = Input;
-	Typeahead.sources = __webpack_require__(16);
+	Typeahead.sources = __webpack_require__(15);
 
 	module.exports = Typeahead;
 
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -936,7 +901,7 @@
 
 	var _ = __webpack_require__(4);
 	var DOM = __webpack_require__(3);
-	var EventEmitter = __webpack_require__(9);
+	var EventEmitter = __webpack_require__(8);
 
 	// constructor
 	// -----------
@@ -1247,7 +1212,7 @@
 
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate) {'use strict';
@@ -1369,13 +1334,13 @@
 	    function() { fn.apply(context, [].slice.call(arguments, 0)); };
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9).setImmediate))
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(11).nextTick;
+	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(10).nextTick;
 	var apply = Function.prototype.apply;
 	var slice = Array.prototype.slice;
 	var immediateIds = {};
@@ -1451,10 +1416,10 @@
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10).setImmediate, __webpack_require__(10).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9).setImmediate, __webpack_require__(9).clearImmediate))
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -1640,16 +1605,16 @@
 
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _ = __webpack_require__(4);
 	var DOM = __webpack_require__(3);
-	var EventEmitter = __webpack_require__(9);
-	var Dataset = __webpack_require__(13);
-	var css = __webpack_require__(15);
+	var EventEmitter = __webpack_require__(8);
+	var Dataset = __webpack_require__(12);
+	var css = __webpack_require__(14);
 
 	// constructor
 	// -----------
@@ -2000,7 +1965,7 @@
 
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2011,9 +1976,9 @@
 
 	var _ = __webpack_require__(4);
 	var DOM = __webpack_require__(3);
-	var html = __webpack_require__(14);
-	var css = __webpack_require__(15);
-	var EventEmitter = __webpack_require__(9);
+	var html = __webpack_require__(13);
+	var css = __webpack_require__(14);
+	var EventEmitter = __webpack_require__(8);
 
 	// constructor
 	// -----------
@@ -2092,9 +2057,6 @@
 
 	    var hasSuggestions;
 	    var renderArgs = [].slice.call(arguments, 2);
-	    if (this.source.enableXSSProtection === true) {
-	      renderArgs.push(this._escapeHTML.bind(this));
-	    }
 	    this.$el.empty();
 
 	    hasSuggestions = suggestions && suggestions.length;
@@ -2216,10 +2178,6 @@
 
 	  destroy: function destroy() {
 	    this.$el = null;
-	  },
-
-	  _escapeHTML: function(str) {
-	    return _.escapeHTML(str, this.source.originalHighlightTags);
 	  }
 	});
 
@@ -2244,9 +2202,8 @@
 	    suggestion: templates.suggestion || suggestionTemplate
 	  };
 
-	  function suggestionTemplate(context, params, escape) {
-	    var value = displayFn(context);
-	    return '<p>' + (escape ? escape(value) : value) + '</p>';
+	  function suggestionTemplate(context) {
+	    return '<p>' + displayFn(context) + '</p>';
 	  }
 	}
 
@@ -2259,7 +2216,7 @@
 
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2274,7 +2231,7 @@
 
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2363,45 +2320,27 @@
 
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	module.exports = {
-	  hits: __webpack_require__(17),
-	  popularIn: __webpack_require__(18)
+	  hits: __webpack_require__(16),
+	  popularIn: __webpack_require__(17)
 	};
 
 
 /***/ },
-/* 17 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _ = __webpack_require__(4);
-	var highlightTags = __webpack_require__(5);
 
 	module.exports = function search(index, params) {
-	  var enableXSSProtection = false;
-	  var originalHighlightTags = {
-	    pre: params.highlightPreTag || '<em>',
-	    post: params.highlightPostTag || '</em>'
-	  };
-
-	  if (params.enableXSSProtection === true) {
-	    enableXSSProtection = true;
-
-	    if (!_.isObject(params)) {
-	      params = {};
-	    }
-
-	    delete params.enableXSSProtection;
-
-	    params.highlightPreTag = highlightTags.pre;
-	    params.highlightPostTag = highlightTags.post;
-	  }
+	  return sourceFn;
 
 	  function sourceFn(query, cb) {
 	    index.search(query, params, function(error, content) {
@@ -2412,16 +2351,11 @@
 	      cb(content.hits, content);
 	    });
 	  }
-
-	  sourceFn.enableXSSProtection = enableXSSProtection;
-	  sourceFn.originalHighlightTags = originalHighlightTags;
-
-	  return sourceFn;
 	};
 
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
