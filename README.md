@@ -22,6 +22,7 @@ This JavaScript library adds a fast and fully-featured auto-completion menu to y
 - [Installation](#installation)
   - [jsDelivr](#jsdelivr)
   - [cdnjs](#cdnjs)
+  - [npm](#npm)
   - [Bower](#bower)
   - [Source dist/](#source-dist)
   - [Browserify](#browserify)
@@ -79,6 +80,12 @@ The `autocomplete.js` library must be included **after** jQuery, Zepto or Angula
 <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.jquery.min.js"></script>
 <!-- OR -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.angular.min.js"></script>
+```
+
+### npm
+
+```sh
+npm install --save autocomplete.js
 ```
 
 ### Bower
