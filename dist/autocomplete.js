@@ -1591,12 +1591,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  noop: function() {},
 
-	  formatPrefix: function(prefix, noPrefix) {
-	    return noPrefix ? '' : prefix + '-';
-	  },
-
 	  className: function(prefix, clazz, skipDot) {
-	    return (skipDot ? '' : '.') + prefix + clazz;
+	    return (skipDot ? '' : '.') + prefix + '-' + clazz;
 	  }
 	};
 
@@ -1646,7 +1642,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  this.css = o.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
 	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
-	  this.cssClasses.prefix = _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 	  this.listboxId = o.listboxId = [this.cssClasses.root, 'listbox', _.getUniqueId()].join('-');
 
 	  var domElts = buildDom(o);
@@ -3177,7 +3172,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.appendTo = o.appendTo || false;
 	  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
 	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
-	  this.cssClasses.prefix = _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 
 	  // bound functions
 	  onSuggestionClick = _.bind(this._onSuggestionClick, this);
@@ -3567,7 +3561,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
 	  this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
-	  this.cssClasses.prefix = _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 
 	  var clazz = _.className(this.cssClasses.prefix, this.cssClasses.dataset);
 	  this.$el = o.$menu && o.$menu.find(clazz + '-' + this.name).length > 0 ?
@@ -3636,9 +3629,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    if (this.$menu) {
 	      this.$menu.addClass(
-	        this.cssClasses.prefix + (hasSuggestions ? 'with' : 'without') + '-' + this.name
+	        [
+	          this.cssClasses.prefix,
+	          (hasSuggestions ? 'with' : 'without'),
+	          this.name
+	        ].join('-')
 	      ).removeClass(
-	        this.cssClasses.prefix + (hasSuggestions ? 'without' : 'with') + '-' + this.name
+	        [
+	          this.cssClasses.prefix,
+	          (hasSuggestions ? 'without' : 'with'),
+	          this.name
+	        ].join('-')
 	      );
 	    }
 
@@ -3792,10 +3793,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = {
 	  wrapper: '<span class="%ROOT%"></span>',
-	  dropdown: '<span class="%PREFIX%%DROPDOWN_MENU%"></span>',
-	  dataset: '<div class="%PREFIX%%DATASET%-%CLASS%"></div>',
-	  suggestions: '<span class="%PREFIX%%SUGGESTIONS%"></span>',
-	  suggestion: '<div class="%PREFIX%%SUGGESTION%"></div>'
+	  dropdown: '<span class="%PREFIX%-%DROPDOWN_MENU%"></span>',
+	  dataset: '<div class="%PREFIX%-%DATASET%-%CLASS%"></div>',
+	  suggestions: '<span class="%PREFIX%-%SUGGESTIONS%"></span>',
+	  suggestion: '<div class="%PREFIX%-%SUGGESTION%"></div>'
 	};
 
 
@@ -3858,7 +3859,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  defaultClasses: {
 	    root: 'algolia-autocomplete',
 	    prefix: 'aa',
-	    noPrefix: false,
 	    dropdownMenu: 'dropdown-menu',
 	    input: 'input',
 	    hint: 'hint',

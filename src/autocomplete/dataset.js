@@ -39,7 +39,6 @@ function Dataset(o) {
 
   this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
   this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
-  this.cssClasses.prefix = _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 
   var clazz = _.className(this.cssClasses.prefix, this.cssClasses.dataset);
   this.$el = o.$menu && o.$menu.find(clazz + '-' + this.name).length > 0 ?
@@ -108,9 +107,17 @@ _.mixin(Dataset.prototype, EventEmitter, {
 
     if (this.$menu) {
       this.$menu.addClass(
-        this.cssClasses.prefix + (hasSuggestions ? 'with' : 'without') + '-' + this.name
+        [
+          this.cssClasses.prefix,
+          (hasSuggestions ? 'with' : 'without'),
+          this.name
+        ].join('-')
       ).removeClass(
-        this.cssClasses.prefix + (hasSuggestions ? 'without' : 'with') + '-' + this.name
+        [
+          this.cssClasses.prefix,
+          (hasSuggestions ? 'without' : 'with'),
+          this.name
+        ].join('-')
       );
     }
 

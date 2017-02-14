@@ -35,7 +35,6 @@ function Dropdown(o) {
   this.appendTo = o.appendTo || false;
   this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
   this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
-  this.cssClasses.prefix = _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 
   // bound functions
   onSuggestionClick = _.bind(this._onSuggestionClick, this);
