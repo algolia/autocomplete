@@ -872,7 +872,6 @@ describe('Typeahead', function() {
 
   describe('when set autoWidth option', function() {
     it ('should be true', function() {
-      console.log('INput', this.input);
       expect(this.view.autoWidth).toBeTruthy();
     });
   });
