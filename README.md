@@ -375,6 +375,8 @@ When initializing an autocomplete, there are a number of options you can configu
 * `minLength` – The minimum character length needed before suggestions start
   getting rendered. Defaults to `1`.
 
+* `autoWidth` – This option allow you to control the width of autocomplete wrapper. Default value is `true`.
+
 ## Datasets
 
 An autocomplete is composed of one or more datasets. When an end-user modifies the

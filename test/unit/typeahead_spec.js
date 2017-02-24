@@ -351,7 +351,6 @@ describe('Typeahead', function() {
         hint: true,
         datasets: {}
       });
-
       this.input = this.view.input;
     });
 
@@ -476,7 +475,6 @@ describe('Typeahead', function() {
       beforeEach(function() {
         this.dropdown.isEmpty = true;
         this.view.minLength = 2;
-
         this.input.trigger('upKeyed');
       });
 
@@ -869,6 +867,13 @@ describe('Typeahead', function() {
       this.input.getQuery.and.returnValue('');
       this.input.trigger('focused');
       expect(this.view.dropdown.open).toHaveBeenCalled();
+    });
+  });
+
+  describe('when set autoWidth option', function() {
+    it ('should be true', function() {
+      console.log('INput', this.input);
+      expect(this.view.autoWidth).toBeTruthy();
     });
   });
 });

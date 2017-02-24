@@ -30,6 +30,7 @@ function Typeahead(o) {
   this.autoselectOnBlur = !!o.autoselectOnBlur;
   this.openOnFocus = !!o.openOnFocus;
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
+  this.autoWidth = (o.autoWidth === undefined) ? true : !!o.autoWidth;
 
   o.hint = !!o.hint;
 
@@ -197,7 +198,10 @@ _.mixin(Typeahead.prototype, {
   _onRedrawn: function onRedrawn() {
     var inputRect = this.$input[0].getBoundingClientRect();
 
-    this.$node.css('width', inputRect.width + 'px');
+    if (this.autoWidth) {
+      this.$node.css('width', inputRect.width + 'px');
+    }
+
     this.$node.css('top', 0 + 'px');
     this.$node.css('left', 0 + 'px');
 

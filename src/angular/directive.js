@@ -77,7 +77,8 @@ angular.module('algolia.autocomplete', [])
             cssClasses: scope.options.cssClasses,
             datasets: scope.datasets,
             keyboardShortcuts: scope.options.keyboardShortcuts,
-            appendTo: scope.options.appendTo
+            appendTo: scope.options.appendTo,
+            autoWidth: scope.options.autoWidth
           });
         }
 
