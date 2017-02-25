@@ -13,8 +13,8 @@
     "url": "https://github.com/algolia/autocomplete.js.git"
   },
   "devDependencies": {
-    "angular": "^1.5.8",
-    "angular-mocks": "^1.5.8",
+    "angular": "^1.6.2",
+    "angular-mocks": "^1.6.2",
     "babel-eslint": "^7.0.0",
     "chai": "^3.5.0",
     "colors": "^1.1.2",

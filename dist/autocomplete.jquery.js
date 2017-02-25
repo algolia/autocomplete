@@ -2659,7 +2659,7 @@
 
 	module.exports = {
 	  hits: __webpack_require__(21),
-	  popularIn: __webpack_require__(22)
+	  popularIn: __webpack_require__(24)
 	};
 
 
@@ -2670,8 +2670,14 @@
 	'use strict';
 
 	var _ = __webpack_require__(4);
+	var version = __webpack_require__(22);
+	var parseAlgoliaClientVersion = __webpack_require__(23);
 
 	module.exports = function search(index, params) {
+	  var algoliaVersion = parseAlgoliaClientVersion(index.as._ua);
+	  if (algoliaVersion && algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
+	    params.additionalUA = 'autocomplete.js ' + version;
+	  }
 	  return sourceFn;
 
 	  function sourceFn(query, cb) {
@@ -2688,13 +2694,38 @@
 
 /***/ },
 /* 22 */
+/***/ function(module, exports) {
+
+	module.exports = "0.24.2";
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	'use strict';
+	module.exports = function parseAlgoliaClientVersion(agent) {
+	  var parsed = agent.match(/Algolia for vanilla JavaScript (\d+\.)(\d+\.)(\d+)/);
+	  if (parsed) return [parsed[1], parsed[2], parsed[3]];
+	  return undefined;
+	};
+
+
+/***/ },
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _ = __webpack_require__(4);
+	var version = __webpack_require__(22);
+	var parseAlgoliaClientVersion = __webpack_require__(23);
 
 	module.exports = function popularIn(index, params, details, options) {
+	  var algoliaVersion = parseAlgoliaClientVersion(index.as._ua);
+	  if (algoliaVersion && algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
+	    params.additionalUA = 'autocomplete.js ' + version;
+	  }
 	  if (!details.source) {
 	    return _.error("Missing 'source' key");
 	  }
@@ -2722,6 +2753,11 @@
 	        var detailsParams = _.mixin({hitsPerPage: 0}, details);
 	        delete detailsParams.source; // not a query parameter
 	        delete detailsParams.index; // not a query parameter
+
+	        var detailsAlgoliaVersion = parseAlgoliaClientVersion(detailsIndex.as._ua);
+	        if (detailsAlgoliaVersion && detailsAlgoliaVersion[0] >= 3 && detailsAlgoliaVersion[1] > 20) {
+	          params.additionalUA = 'autocomplete.js ' + version;
+	        }
 
 	        detailsIndex.search(source(first), detailsParams, function(error2, content2) {
 	          if (error2) {
