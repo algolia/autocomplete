@@ -123,7 +123,8 @@
 	        cssClasses: o.cssClasses,
 	        datasets: datasets,
 	        keyboardShortcuts: o.keyboardShortcuts,
-	        appendTo: o.appendTo
+	        appendTo: o.appendTo,
+	        autoWidth: o.autoWidth
 	      });
 
 	      $input.data(typeaheadKey, typeahead);
@@ -382,6 +383,7 @@
 	  this.autoselectOnBlur = !!o.autoselectOnBlur;
 	  this.openOnFocus = !!o.openOnFocus;
 	  this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
+	  this.autoWidth = (o.autoWidth === undefined) ? true : !!o.autoWidth;
 
 	  o.hint = !!o.hint;
 
@@ -549,7 +551,10 @@
 	  _onRedrawn: function onRedrawn() {
 	    var inputRect = this.$input[0].getBoundingClientRect();
 
-	    this.$node.css('width', inputRect.width + 'px');
+	    if (this.autoWidth) {
+	      this.$node.css('width', inputRect.width + 'px');
+	    }
+
 	    this.$node.css('top', 0 + 'px');
 	    this.$node.css('left', 0 + 'px');
 
@@ -2659,7 +2664,7 @@
 
 	module.exports = {
 	  hits: __webpack_require__(21),
-	  popularIn: __webpack_require__(22)
+	  popularIn: __webpack_require__(24)
 	};
 
 
@@ -2670,8 +2675,14 @@
 	'use strict';
 
 	var _ = __webpack_require__(4);
+	var version = __webpack_require__(22);
+	var parseAlgoliaClientVersion = __webpack_require__(23);
 
 	module.exports = function search(index, params) {
+	  var algoliaVersion = parseAlgoliaClientVersion(index.as._ua);
+	  if (algoliaVersion && algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
+	    params.additionalUA = 'autocomplete.js ' + version;
+	  }
 	  return sourceFn;
 
 	  function sourceFn(query, cb) {
@@ -2688,13 +2699,38 @@
 
 /***/ },
 /* 22 */
+/***/ function(module, exports) {
+
+	module.exports = "0.24.2";
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	'use strict';
+	module.exports = function parseAlgoliaClientVersion(agent) {
+	  var parsed = agent.match(/Algolia for vanilla JavaScript (\d+\.)(\d+\.)(\d+)/);
+	  if (parsed) return [parsed[1], parsed[2], parsed[3]];
+	  return undefined;
+	};
+
+
+/***/ },
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _ = __webpack_require__(4);
+	var version = __webpack_require__(22);
+	var parseAlgoliaClientVersion = __webpack_require__(23);
 
 	module.exports = function popularIn(index, params, details, options) {
+	  var algoliaVersion = parseAlgoliaClientVersion(index.as._ua);
+	  if (algoliaVersion && algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
+	    params.additionalUA = 'autocomplete.js ' + version;
+	  }
 	  if (!details.source) {
 	    return _.error("Missing 'source' key");
 	  }
@@ -2722,6 +2758,11 @@
 	        var detailsParams = _.mixin({hitsPerPage: 0}, details);
 	        delete detailsParams.source; // not a query parameter
 	        delete detailsParams.index; // not a query parameter
+
+	        var detailsAlgoliaVersion = parseAlgoliaClientVersion(detailsIndex.as._ua);
+	        if (detailsAlgoliaVersion && detailsAlgoliaVersion[0] >= 3 && detailsAlgoliaVersion[1] > 20) {
+	          params.additionalUA = 'autocomplete.js ' + version;
+	        }
 
 	        detailsIndex.search(source(first), detailsParams, function(error2, content2) {
 	          if (error2) {
