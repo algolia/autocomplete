@@ -53,6 +53,7 @@ var css = {
   defaultClasses: {
     root: 'algolia-autocomplete',
     prefix: 'aa',
+    noPrefix: false,
     dropdownMenu: 'dropdown-menu',
     input: 'input',
     hint: 'hint',

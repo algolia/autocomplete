@@ -340,8 +340,12 @@
 
 	  noop: function() {},
 
+	  formatPrefix: function(prefix, noPrefix) {
+	    return noPrefix ? '' : prefix + '-';
+	  },
+
 	  className: function(prefix, clazz, skipDot) {
-	    return (skipDot ? '' : '.') + prefix + '-' + clazz;
+	    return (skipDot ? '' : '.') + prefix + clazz;
 	  }
 	};
 
@@ -391,6 +395,8 @@
 
 	  this.css = o.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
 	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+	  this.cssClasses.prefix =
+	    o.cssClasses.formattedPrefix = _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 	  this.listboxId = o.listboxId = [this.cssClasses.root, 'listbox', _.getUniqueId()].join('-');
 
 	  var domElts = buildDom(o);
@@ -1921,6 +1927,8 @@
 	  this.appendTo = o.appendTo || false;
 	  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
 	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+	  this.cssClasses.prefix =
+	    o.cssClasses.formattedPrefix || _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 
 	  // bound functions
 	  onSuggestionClick = _.bind(this._onSuggestionClick, this);
@@ -2309,7 +2317,9 @@
 	  this.templates = getTemplates(o.templates, this.displayFn);
 
 	  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
-	  this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+	  this.cssClasses.prefix =
+	    o.cssClasses.formattedPrefix || _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 
 	  var clazz = _.className(this.cssClasses.prefix, this.cssClasses.dataset);
 	  this.$el = o.$menu && o.$menu.find(clazz + '-' + this.name).length > 0 ?
@@ -2378,17 +2388,9 @@
 
 	    if (this.$menu) {
 	      this.$menu.addClass(
-	        [
-	          this.cssClasses.prefix,
-	          (hasSuggestions ? 'with' : 'without'),
-	          this.name
-	        ].join('-')
+	        this.cssClasses.prefix + (hasSuggestions ? 'with' : 'without') + '-' + this.name
 	      ).removeClass(
-	        [
-	          this.cssClasses.prefix,
-	          (hasSuggestions ? 'without' : 'with'),
-	          this.name
-	        ].join('-')
+	        this.cssClasses.prefix + (hasSuggestions ? 'without' : 'with') + '-' + this.name
 	      );
 	    }
 
@@ -2542,10 +2544,10 @@
 
 	module.exports = {
 	  wrapper: '<span class="%ROOT%"></span>',
-	  dropdown: '<span class="%PREFIX%-%DROPDOWN_MENU%"></span>',
-	  dataset: '<div class="%PREFIX%-%DATASET%-%CLASS%"></div>',
-	  suggestions: '<span class="%PREFIX%-%SUGGESTIONS%"></span>',
-	  suggestion: '<div class="%PREFIX%-%SUGGESTION%"></div>'
+	  dropdown: '<span class="%PREFIX%%DROPDOWN_MENU%"></span>',
+	  dataset: '<div class="%PREFIX%%DATASET%-%CLASS%"></div>',
+	  suggestions: '<span class="%PREFIX%%SUGGESTIONS%"></span>',
+	  suggestion: '<div class="%PREFIX%%SUGGESTION%"></div>'
 	};
 
 
@@ -2608,6 +2610,7 @@
 	  defaultClasses: {
 	    root: 'algolia-autocomplete',
 	    prefix: 'aa',
+	    noPrefix: false,
 	    dropdownMenu: 'dropdown-menu',
 	    input: 'input',
 	    hint: 'hint',
@@ -2659,7 +2662,7 @@
 
 	module.exports = {
 	  hits: __webpack_require__(21),
-	  popularIn: __webpack_require__(22)
+	  popularIn: __webpack_require__(24)
 	};
 
 
@@ -2670,8 +2673,14 @@
 	'use strict';
 
 	var _ = __webpack_require__(4);
+	var version = __webpack_require__(22);
+	var parseAlgoliaClientVersion = __webpack_require__(23);
 
 	module.exports = function search(index, params) {
+	  var algoliaVersion = parseAlgoliaClientVersion(index.as._ua);
+	  if (algoliaVersion && algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
+	    params.additionalUA = 'autocomplete.js ' + version;
+	  }
 	  return sourceFn;
 
 	  function sourceFn(query, cb) {
@@ -2688,13 +2697,38 @@
 
 /***/ },
 /* 22 */
+/***/ function(module, exports) {
+
+	module.exports = "0.24.2";
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	'use strict';
+	module.exports = function parseAlgoliaClientVersion(agent) {
+	  var parsed = agent.match(/Algolia for vanilla JavaScript (\d+\.)(\d+\.)(\d+)/);
+	  if (parsed) return [parsed[1], parsed[2], parsed[3]];
+	  return undefined;
+	};
+
+
+/***/ },
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _ = __webpack_require__(4);
+	var version = __webpack_require__(22);
+	var parseAlgoliaClientVersion = __webpack_require__(23);
 
 	module.exports = function popularIn(index, params, details, options) {
+	  var algoliaVersion = parseAlgoliaClientVersion(index.as._ua);
+	  if (algoliaVersion && algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
+	    params.additionalUA = 'autocomplete.js ' + version;
+	  }
 	  if (!details.source) {
 	    return _.error("Missing 'source' key");
 	  }
@@ -2722,6 +2756,11 @@
 	        var detailsParams = _.mixin({hitsPerPage: 0}, details);
 	        delete detailsParams.source; // not a query parameter
 	        delete detailsParams.index; // not a query parameter
+
+	        var detailsAlgoliaVersion = parseAlgoliaClientVersion(detailsIndex.as._ua);
+	        if (detailsAlgoliaVersion && detailsAlgoliaVersion[0] >= 3 && detailsAlgoliaVersion[1] > 20) {
+	          params.additionalUA = 'autocomplete.js ' + version;
+	        }
 
 	        detailsIndex.search(source(first), detailsParams, function(error2, content2) {
 	          if (error2) {
