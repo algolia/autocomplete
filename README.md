@@ -375,7 +375,9 @@ When initializing an autocomplete, there are a number of options you can configu
 * `minLength` – The minimum character length needed before suggestions start
   getting rendered. Defaults to `1`.
 
-* `autoWidth` – This option allow you to control the width of autocomplete wrapper. Default value is `true`.
+* `autoWidth` – This option allow you to control the width of autocomplete wrapper. When `false` the autocomplete wrapper will not have the width style attribute and you are be able to put your specific width property in your css to control the wrapper. Default value is `true`.
+
+One scenario for use this option. e.g. You have a `max-width` css attribute in your `autocomplete-dropdown-menu` and you need to width grows until fill the `max-width`. In this scenario you put a `width: auto` in your autocomplete wrapper css class and the `max-width`in your autocomplete dropdown class and all done.
 
 ## Datasets
 
