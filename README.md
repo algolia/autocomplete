@@ -37,6 +37,8 @@ This JavaScript library adds a fast and fully-featured auto-completion menu to y
   - [Hits](#hits)
   - [PopularIn (aka "xxxxx in yyyyy")](#popularin-aka-xxxxx-in-yyyyy)
   - [Custom source](#custom-source)
+- [Security](#security)
+  - [User-generated data: protecting against XSS](#user-generated-data-protecting-against-xss)
 - [Events](#events)
 - [API](#api)
   - [jQuery](#jquery-1)
@@ -506,6 +508,34 @@ source: function(query, callback) {
     callback(suggestions);
   });
 }
+```
+
+## Security
+
+### User-generated data: protecting against XSS
+
+Malicious users may attempt to engineer XSS attacks by storing HTML/JS in their data. It is important that user-generated data be properly escaped before using it in an *autocomplete.js* template.
+
+In order to easily do that, *autocomplete.js* provides you with a helper function escaping all HTML code but the highlighting tags:
+
+```js
+  templates: {
+    suggestion: function(suggestion) {
+      var val = suggestion._highlightResult.name.value;
+      return autocomplete.escapeHighlightedString(val);
+    }
+  }
+```
+
+If you did specify custom highlighting pre/post tags, you can specify them as 2nd and 3rd parameter:
+
+```js
+  templates: {
+    suggestion: function(suggestion) {
+      var val = suggestion._highlightResult.name.value;
+      return autocomplete.escapeHighlightedString(val, '<span class="highlighted">', '</span>');
+    }
+  }
 ```
 
 ## Events
