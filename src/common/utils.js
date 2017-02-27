@@ -1,6 +1,7 @@
 'use strict';
 
 var DOM = require('./dom.js');
+var highlightTags = require('./highlightTags.js');
 
 module.exports = {
   // those methods are implemented differently
@@ -104,5 +105,13 @@ module.exports = {
 
   className: function(prefix, clazz, skipDot) {
     return (skipDot ? '' : '.') + prefix + clazz;
+  },
+
+  escapeHTML: function(str, originalHighlightTags) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML
+      .replace(highlightTags.regexps.pre, originalHighlightTags.pre)
+      .replace(highlightTags.regexps.post, originalHighlightTags.post);
   }
 };
