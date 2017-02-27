@@ -37,7 +37,10 @@ function Dataset(o) {
 
   this.templates = getTemplates(o.templates, this.displayFn);
 
-  this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
+  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+  this.cssClasses.prefix =
+    o.cssClasses.formattedPrefix || _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 
   var clazz = _.className(this.cssClasses.prefix, this.cssClasses.dataset);
   this.$el = o.$menu && o.$menu.find(clazz + '-' + this.name).length > 0 ?
@@ -108,8 +111,11 @@ _.mixin(Dataset.prototype, EventEmitter, {
     }
 
     if (this.$menu) {
-      this.$menu.addClass(this.cssClasses.prefix + '-' + (hasSuggestions ? 'with' : 'without') + '-' + this.name)
-        .removeClass(this.cssClasses.prefix + '-' + (hasSuggestions ? 'without' : 'with') + '-' + this.name);
+      this.$menu.addClass(
+        this.cssClasses.prefix + (hasSuggestions ? 'with' : 'without') + '-' + this.name
+      ).removeClass(
+        this.cssClasses.prefix + (hasSuggestions ? 'without' : 'with') + '-' + this.name
+      );
     }
 
     this.trigger('rendered', query);
@@ -129,7 +135,9 @@ _.mixin(Dataset.prototype, EventEmitter, {
       var suggestionsHtml = html.suggestions.
         replace('%PREFIX%', this.cssClasses.prefix).
         replace('%SUGGESTIONS%', this.cssClasses.suggestions);
-      $suggestions = DOM.element(suggestionsHtml).css(css.suggestions);
+      $suggestions = DOM
+        .element(suggestionsHtml)
+        .css(this.css.suggestions);
 
       // jQuery#append doesn't support arrays as the first argument
       // until version 1.8, see http://bugs.jquery.com/ticket/11231
@@ -145,12 +153,16 @@ _.mixin(Dataset.prototype, EventEmitter, {
           replace('%PREFIX%', self.cssClasses.prefix).
           replace('%SUGGESTION%', self.cssClasses.suggestion);
         $el = DOM.element(suggestionHtml)
+          .attr({
+            role: 'option',
+            id: ['option', Math.floor(Math.random() * 100000000)].join('-')
+          })
           .append(that.templates.suggestion.apply(this, [suggestion].concat(args)));
 
         $el.data(datasetKey, that.name);
         $el.data(valueKey, that.displayFn(suggestion) || undefined); // this led to undefined return value
         $el.data(datumKey, JSON.stringify(suggestion));
-        $el.children().each(function() { DOM.element(this).css(css.suggestionChild); });
+        $el.children().each(function() { DOM.element(this).css(self.css.suggestionChild); });
 
         return $el;
       }

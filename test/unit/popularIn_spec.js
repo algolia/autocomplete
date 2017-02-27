@@ -13,6 +13,9 @@ describe('popularIn', function() {
 
   function build(options) {
     var queries = {
+      as: {
+        _ua: 'javascript wrong agent',
+      },
       search: function(q, params, cb) {
         cb(false, {
           hits: [
@@ -24,6 +27,9 @@ describe('popularIn', function() {
       }
     };
     var products = {
+      as: {
+        _ua: 'javascript wrong agent',
+      },
       search: function(q, params, cb) {
         cb(false, {
           facets: {
@@ -92,6 +98,9 @@ describe('popularIn', function() {
 
   it('should not include the all department entry when no results', function() {
     var queries = {
+      as: {
+        _ua: 'Algolia for vanilla JavaScript 4.3.6'
+      },
       search: function(q, params, cb) {
         cb(false, {
           hits: []
@@ -99,6 +108,9 @@ describe('popularIn', function() {
       }
     };
     var products = {
+      as: {
+        _ua: 'javascript wrong agent',
+      },
       search: function(q, params, cb) {
         throw new Error('Never reached');
       }

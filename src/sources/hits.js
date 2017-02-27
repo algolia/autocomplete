@@ -1,6 +1,9 @@
 'use strict';
 
 var _ = require('../common/utils.js');
+var version = require('../../version.js');
+var parseAlgoliaClientVersion = require('../common/parseAlgoliaClientVersion.js');
+
 var highlightTags = require('../common/highlightTags.js');
 
 module.exports = function search(index, params) {
@@ -21,6 +24,11 @@ module.exports = function search(index, params) {
 
     params.highlightPreTag = highlightTags.pre;
     params.highlightPostTag = highlightTags.post;
+  }
+  
+  var algoliaVersion = parseAlgoliaClientVersion(index.as._ua);
+  if (algoliaVersion && algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
+    params.additionalUA = 'autocomplete.js ' + version;
   }
 
   function sourceFn(query, cb) {

@@ -36,6 +36,7 @@ angular.module('algolia.autocomplete', [])
         datasets: '&aaDatasets'
       },
       link: function(scope, element, attrs) {
+        if (!element.hasClass('autocomplete') && attrs.autocomplete !== '') return;
         attrs = attrs; // no-unused-vars
         scope.options = $parse(scope.options)(scope);
         if (!scope.options) {
@@ -75,7 +76,8 @@ angular.module('algolia.autocomplete', [])
             debug: scope.options.debug,
             cssClasses: scope.options.cssClasses,
             datasets: scope.datasets,
-            keyboardShortcuts: scope.options.keyboardShortcuts
+            keyboardShortcuts: scope.options.keyboardShortcuts,
+            appendTo: scope.options.appendTo
           });
         }
 

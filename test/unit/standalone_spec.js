@@ -91,3 +91,37 @@ describe('Typeahead', function() {
   });
 
 });
+
+describe('noConflict()', function() {
+  it('should restore the previous value of autocomplete', function() {
+    window.autocomplete = 'test';
+
+    // Rerequire autocomplete
+    delete require.cache[require.resolve('../../src/standalone/index.js')];
+    var autocomplete = require('../../src/standalone/index.js');
+
+    expect(window.autocomplete).toBe('test');
+    window.autocomplete = autocomplete;
+
+    var aa = autocomplete.noConflict();
+    expect(aa).toBe(autocomplete);
+    expect(window.autocomplete).toBe('test');
+  });
+
+  it('should delete window.autocomplete if it wasn\'t set', function() {
+    if ('autocomplete' in window) {
+      delete window.autocomplete;
+    }
+
+    // Rerequire autocomplete
+    delete require.cache[require.resolve('../../src/standalone/index.js')];
+    var autocomplete = require('../../src/standalone/index.js');
+
+    expect('autocomplete' in window).toBe(false);
+    window.autocomplete = autocomplete;
+
+    var aa = autocomplete.noConflict();
+    expect(aa).toBe(autocomplete);
+    expect('autocomplete' in window).toBe(false);
+  });
+});

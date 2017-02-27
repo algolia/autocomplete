@@ -53,6 +53,7 @@ var css = {
   defaultClasses: {
     root: 'algolia-autocomplete',
     prefix: 'aa',
+    noPrefix: false,
     dropdownMenu: 'dropdown-menu',
     input: 'input',
     hint: 'hint',
@@ -61,6 +62,19 @@ var css = {
     cursor: 'cursor',
     dataset: 'dataset',
     empty: 'empty'
+  },
+  // will be merged with the default ones if appendTo is used
+  appendTo: {
+    wrapper: {
+      position: 'absolute',
+      zIndex: '100',
+      display: 'none'
+    },
+    input: {},
+    inputWithNoHint: {},
+    dropdown: {
+      display: 'block'
+    }
   }
 };
 

@@ -302,6 +302,22 @@ describe('Input', function() {
     });
   });
 
+  describe('#setActiveDescendant', function() {
+    it('should set the aria-activedescendant attribute', function() {
+      this.view.setActiveDescendant('abc');
+      expect(this.$input.attr('aria-activedescendant')).toBe('abc');
+    });
+  });
+
+  describe('#removeActiveDescendant', function() {
+    it('should remove the aria-activedescendant attribute', function() {
+      this.view.setActiveDescendant('foo');
+      expect(this.$input.attr('aria-activedescendant')).toBe('foo');
+      this.view.removeActiveDescendant('bar');
+      expect(this.$input.attr('aria-activedescendant')).toBeUndefined();
+    });
+  });
+
   describe('#getHint/#setHint', function() {
     it('should act as getter/setter to value of hint', function() {
       this.view.setHint('mountain');

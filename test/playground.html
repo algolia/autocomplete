@@ -13,14 +13,14 @@
               <h4>Simple auto-complete</h4>
               <div class="input-group">
                 <input id="contacts" name="contacts" class="form-control" type="text">
-                <input id="contacts" name="contacts1" class="form-control" type="text">
+                <input id="contacts1" name="contacts1" class="form-control" type="text">
                 <span class="input-group-addon">Go</span>
               </div>
             </div>
             <div class="col-sm-4">
               <h4>Multi-sections auto-complete</h4>
               <div class="input-group">
-                <input id="contacts2" name="contacts2" class="form-control" type="text">
+                <input id="contacts2" name="contacts2" class="form-control" type="text" placeholder="Search actors in movie types">
                 <span class="input-group-addon">Go</span>
               </div>
             </div>
@@ -29,7 +29,7 @@
       </form>
     </div>
 
-    <script src="../../dist/autocomplete.js"></script>
+    <script src="../dist/autocomplete.js"></script>
     <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
     <script type="text/template" id="my-custom-menu-template">
       <div class="my-custom-menu">
@@ -50,7 +50,7 @@
       var actors = client.initIndex('actors');
       var movies = client.initIndex('movies');
 
-      autocomplete('#contacts, #contacts1', { hint: false, templates: { empty: 'empty' }, autoselect: true }, [
+      autocomplete('#contacts, #contacts1', { debug: true, hint: false, templates: { empty: 'empty' }, autoselect: true, appendTo: 'body' }, [
         {
           source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
           displayKey: 'name',
@@ -72,6 +72,8 @@
       autocomplete('#contacts2', {
         debug: true,
         keyboardShortcuts: [191, 's'],
+        hint: false,
+        appendTo: 'h4',
         templates: {
           empty: function(data) {
             return 'No results for "<strong>' + data.query.replace(/[^-_'a-zA-Z0-9 ]/, ' ') + '</strong>"';
@@ -79,8 +81,16 @@
         }
       }, [
         {
-          source: autocomplete.sources.popularIn(actors, {hitsPerPage: 3}, {index: movies, source: 'name', facets: 'genre', maxValuesPerFacet: 3}),
-          name: '',
+          source: autocomplete.sources.popularIn(
+            actors,
+            { hitsPerPage: 3 },
+            {
+              index: movies,
+              source: 'name',
+              facets: 'genre',
+              maxValuesPerFacet: 3
+            }
+          ),
           templates: {
             header: '<span class="aa-category-title">Actors</span>',
             suggestion: function(suggestion) {

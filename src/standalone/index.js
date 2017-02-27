@@ -1,6 +1,7 @@
 'use strict';
 
-var zepto = require('../../zepto.js'); // this will inject Zepto in window, unfortunately no easy commonJS zepto build
+// this will inject Zepto in window, unfortunately no easy commonJS zepto build
+var zepto = require('../../zepto.js');
 
 // setup DOM element
 var DOM = require('../common/dom.js');
@@ -46,7 +47,8 @@ function autocomplete(selector, options, datasets, typeaheadObject) {
       debug: options.debug,
       cssClasses: options.cssClasses,
       datasets: datasets,
-      keyboardShortcuts: options.keyboardShortcuts
+      keyboardShortcuts: options.keyboardShortcuts,
+      appendTo: options.appendTo
     });
 
     $input.data(typeaheadKey, typeahead);
@@ -70,5 +72,16 @@ function autocomplete(selector, options, datasets, typeaheadObject) {
 }
 
 autocomplete.sources = Typeahead.sources;
+
+var wasAutocompleteSet = 'autocomplete' in window;
+var oldAutocomplete = window.autocomplete;
+autocomplete.noConflict = function noConflict() {
+  if (wasAutocompleteSet) {
+    window.autocomplete = oldAutocomplete;
+  } else {
+    delete window.autocomplete;
+  }
+  return autocomplete;
+};
 
 module.exports = autocomplete;

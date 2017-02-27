@@ -62,7 +62,8 @@ methods = {
         debug: o.debug,
         cssClasses: o.cssClasses,
         datasets: datasets,
-        keyboardShortcuts: o.keyboardShortcuts
+        keyboardShortcuts: o.keyboardShortcuts,
+        appendTo: o.appendTo
       });
 
       $input.data(typeaheadKey, typeahead);

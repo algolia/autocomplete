@@ -1,20 +1,59 @@
-Changelog
-==========
+<a name="0.25.0"></a>
+# [0.25.0](https://github.com/algolia/autocomplete.js/compare/v0.24.2...v0.25.0) (2017-02-07)
 
-For transparency and insight into our release cycle, releases will be numbered
-with the follow format:
 
-`<major>.<minor>.<patch>`
+### Bug Fixes
 
-And constructed with the following guidelines:
+* **zepto:** .is() only accepts selectors, reworked code to use pure DOM ([a47a4d4](https://github.com/algolia/autocomplete.js/commit/a47a4d4)), closes [#144](https://github.com/algolia/autocomplete.js/issues/144)
 
-* Breaking backwards compatibility bumps the major
-* New additions without breaking backwards compatibility bumps the minor
-* Bug fixes and misc changes bump the patch
 
-For more information on semantic versioning, please visit http://semver.org/.
 
----
+<a name="0.24.2"></a>
+## [0.24.2](https://github.com/algolia/autocomplete.js/compare/v0.24.1...v0.24.2) (2017-01-20)
+
+
+### Bug Fixes
+
+* **dep:** immediate is a dependency, not a devDependency ([22164ad](https://github.com/algolia/autocomplete.js/commit/22164ad))
+
+
+
+<a name="0.24.1"></a>
+## [0.24.1](https://github.com/algolia/autocomplete.js/compare/v0.24.0...v0.24.1) (2017-01-20)
+
+
+### Bug Fixes
+
+* **postMessage:** avoid using postMessage when feasible ([a99f664](https://github.com/algolia/autocomplete.js/commit/a99f664)), closes [#142](https://github.com/algolia/autocomplete.js/issues/142)
+
+
+
+<a name="0.24.0"></a>
+# [0.24.0](https://github.com/algolia/autocomplete.js/compare/0.23.0...v0.24.0) (2017-01-10)
+
+
+### Bug Fixes
+
+* **angular:** do not launch the directive if autocomplete has a value ([f96a1ba](https://github.com/algolia/autocomplete.js/commit/f96a1ba)), closes [#136](https://github.com/algolia/autocomplete.js/issues/136)
+* **typeahead:** propagate redrawn ([82293e4](https://github.com/algolia/autocomplete.js/commit/82293e4))
+
+
+### Features
+
+* **appendTo:** new parameter ([e40cbd0](https://github.com/algolia/autocomplete.js/commit/e40cbd0))
+
+
+
+
+
+
+
+
+
+### 0.23.0 Dec 14, 2016
+
+* feat(build): add noConflict() for standalone build, fixes #133
+
 ### 0.22.1 Nov 07, 2016
 
 * Fixes bad behavior when `autoselectOnBlur` used, fixes #113

@@ -95,24 +95,33 @@
         'this is a very long value so deal with it otherwise you gonna have a hard time'
       ];
 
-      $('#states').autocomplete({ }, [
-        {
-          displayKey: 'name',
-          source: function(q, cb) {
-            var res = [];
-            if (!q) {
-              cb([]);
-              return;
-            }
-            for (var i = 0; i < states.length; ++i) {
-              if (states[i].toLowerCase().indexOf(q.toLowerCase()) === 0) {
-                res.push({ name: states[i] });
-              }
-            }
-            cb(res);
-          }
+      function buildAutocomplete (options) {
+        if (options === undefined) options = { };
+        if (window.autocomplete) {
+          window.autocomplete.autocomplete.destroy();
+          window.autocomplete = null;
         }
-      ]);
+        window.autocomplete = $('#states').autocomplete(options, [
+          {
+            displayKey: 'name',
+            source: function(q, cb) {
+              var res = [];
+              if (!q) {
+                cb([]);
+                return;
+              }
+              for (var i = 0; i < states.length; ++i) {
+                if (states[i].toLowerCase().indexOf(q.toLowerCase()) === 0) {
+                  res.push({ name: states[i] });
+                }
+              }
+              cb(res);
+            }
+          }
+        ]);
+      }
+
+      buildAutocomplete();
     </script>
   </body>
 </html>
