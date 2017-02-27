@@ -215,6 +215,7 @@
 	};
 
 	$.fn.autocomplete.sources = Typeahead.sources;
+	$.fn.autocomplete.escapeHighlightedString = _.escapeHighlightedString;
 
 	module.exports = $.fn.autocomplete;
 
@@ -243,6 +244,10 @@
 	'use strict';
 
 	var DOM = __webpack_require__(2);
+
+	function escapeRegExp(str) {
+	  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+	}
 
 	module.exports = {
 	  // those methods are implemented differently
@@ -346,6 +351,22 @@
 
 	  className: function(prefix, clazz, skipDot) {
 	    return (skipDot ? '' : '.') + prefix + clazz;
+	  },
+
+	  escapeHighlightedString: function(str, highlightPreTag, highlightPostTag) {
+	    highlightPreTag = highlightPreTag || '<em>';
+	    var pre = document.createElement('div');
+	    pre.appendChild(document.createTextNode(highlightPreTag));
+
+	    highlightPostTag = highlightPostTag || '</em>';
+	    var post = document.createElement('div');
+	    post.appendChild(document.createTextNode(highlightPostTag));
+
+	    var div = document.createElement('div');
+	    div.appendChild(document.createTextNode(str));
+	    return div.innerHTML
+	      .replace(RegExp(escapeRegExp(pre.innerHTML), 'g'), highlightPreTag)
+	      .replace(RegExp(escapeRegExp(post.innerHTML), 'g'), highlightPostTag);
 	  }
 	};
 

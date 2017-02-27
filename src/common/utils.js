@@ -2,6 +2,10 @@
 
 var DOM = require('./dom.js');
 
+function escapeRegExp(str) {
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+}
+
 module.exports = {
   // those methods are implemented differently
   // depending on which build it is, using
@@ -104,5 +108,21 @@ module.exports = {
 
   className: function(prefix, clazz, skipDot) {
     return (skipDot ? '' : '.') + prefix + clazz;
+  },
+
+  escapeHighlightedString: function(str, highlightPreTag, highlightPostTag) {
+    highlightPreTag = highlightPreTag || '<em>';
+    var pre = document.createElement('div');
+    pre.appendChild(document.createTextNode(highlightPreTag));
+
+    highlightPostTag = highlightPostTag || '</em>';
+    var post = document.createElement('div');
+    post.appendChild(document.createTextNode(highlightPostTag));
+
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML
+      .replace(RegExp(escapeRegExp(pre.innerHTML), 'g'), highlightPreTag)
+      .replace(RegExp(escapeRegExp(post.innerHTML), 'g'), highlightPostTag);
   }
 };
