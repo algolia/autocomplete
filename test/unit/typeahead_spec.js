@@ -874,7 +874,7 @@ describe('Typeahead', function() {
     it ('should set default to true', function() {
       this.dropdown.trigger('redrawn');
       expect(this.view.autoWidth).toBeTruthy();
-      expect(this.view.$node[0].style.width).toBe('166px');
+      expect(/\d{3}px/.test(this.view.$node[0].style.width)).toBeTruthy();
     });
 
     it ('should not put width style when autoWidth is false', function() {
