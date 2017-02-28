@@ -70,7 +70,7 @@
     "dev": "grunt dev",
     "lint": "grunt lint",
     "server": "grunt server",
-    "test": "karma start && grunt lint",
+    "test": "karma start --single-run && grunt lint",
     "test:watch": "karma start",
     "test:ci": "./test/ci.sh",
     "release": "./release.sh"

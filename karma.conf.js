@@ -6,8 +6,6 @@ module.exports = function(config) {
 
     frameworks: ['jasmine', 'sinon'],
 
-    singleRun: true,
-
     reporters: ['progress', 'coverage', 'coveralls'],
 
     browsers: ['PhantomJS'],
