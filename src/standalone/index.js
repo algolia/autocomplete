@@ -48,9 +48,9 @@ function autocomplete(selector, options, datasets, typeaheadObject) {
       cssClasses: options.cssClasses,
       datasets: datasets,
       keyboardShortcuts: options.keyboardShortcuts,
-      appendTo: options.appendTo
+      appendTo: options.appendTo,
+      autoWidth: options.autoWidth
     });
-
     $input.data(typeaheadKey, typeahead);
   });
 
