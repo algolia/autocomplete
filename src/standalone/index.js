@@ -72,6 +72,7 @@ function autocomplete(selector, options, datasets, typeaheadObject) {
 }
 
 autocomplete.sources = Typeahead.sources;
+autocomplete.escapeHighlightedString = _.escapeHighlightedString;
 
 var wasAutocompleteSet = 'autocomplete' in window;
 var oldAutocomplete = window.autocomplete;

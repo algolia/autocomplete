@@ -156,5 +156,6 @@ $.fn.autocomplete.noConflict = function noConflict() {
 };
 
 $.fn.autocomplete.sources = Typeahead.sources;
+$.fn.autocomplete.escapeHighlightedString = _.escapeHighlightedString;
 
 module.exports = $.fn.autocomplete;

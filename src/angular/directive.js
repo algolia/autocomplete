@@ -25,6 +25,7 @@ angular.module('algolia.autocomplete', [])
     // inject the sources in the algolia namespace if available
     try {
       $injector.get('algolia').sources = Typeahead.sources;
+      $injector.get('algolia').escapeHighlightedString = _.escapeHighlightedString;
     } catch (e) {
       // not fatal
     }
