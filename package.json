@@ -75,7 +75,7 @@
     "test:ci": "./test/ci.sh",
     "release": "./release.sh"
   },
-  "version": "0.25.0",
+  "version": "0.26.0",
   "main": "index.js",
   "dependencies": {
     "immediate": "^3.2.3"

@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.25.0
+ * autocomplete.js 0.26.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2017 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -138,7 +138,8 @@
 	            cssClasses: scope.options.cssClasses,
 	            datasets: scope.datasets,
 	            keyboardShortcuts: scope.options.keyboardShortcuts,
-	            appendTo: scope.options.appendTo
+	            appendTo: scope.options.appendTo,
+	            autoWidth: scope.options.autoWidth
 	          });
 	        }
 
@@ -399,6 +400,7 @@
 	  this.autoselectOnBlur = !!o.autoselectOnBlur;
 	  this.openOnFocus = !!o.openOnFocus;
 	  this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
+	  this.autoWidth = (o.autoWidth === undefined) ? true : !!o.autoWidth;
 
 	  o.hint = !!o.hint;
 
@@ -568,7 +570,10 @@
 	  _onRedrawn: function onRedrawn() {
 	    var inputRect = this.$input[0].getBoundingClientRect();
 
-	    this.$node.css('width', inputRect.width + 'px');
+	    if (this.autoWidth) {
+	      this.$node.css('width', inputRect.width + 'px');
+	    }
+
 	    this.$node.css('top', 0 + 'px');
 	    this.$node.css('left', 0 + 'px');
 
@@ -2671,7 +2676,7 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.24.2";
+	module.exports = "0.26.0";
 
 
 /***/ },
