@@ -871,8 +871,17 @@ describe('Typeahead', function() {
   });
 
   describe('when set autoWidth option', function() {
-    it ('should be true', function() {
+    it ('should set default to true', function() {
+      this.dropdown.trigger('redrawn');
       expect(this.view.autoWidth).toBeTruthy();
+      expect(this.view.$node[0].style.width).toBe('166px');
+    });
+
+    it ('should not put width style when autoWidth is false', function() {
+      this.view.autoWidth = false;
+      this.dropdown.trigger('redrawn');
+      expect(this.view.autoWidth).toBeFalsy();
+      expect(this.view.$node[0].style.width).toBeFalsy();
     });
   });
 });
