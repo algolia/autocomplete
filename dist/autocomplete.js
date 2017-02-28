@@ -142,6 +142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	autocomplete.sources = Typeahead.sources;
+	autocomplete.escapeHighlightedString = _.escapeHighlightedString;
 
 	var wasAutocompleteSet = 'autocomplete' in window;
 	var oldAutocomplete = window.autocomplete;
@@ -1495,6 +1496,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var DOM = __webpack_require__(3);
 
+	function escapeRegExp(str) {
+	  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+	}
+
 	module.exports = {
 	  // those methods are implemented differently
 	  // depending on which build it is, using
@@ -1591,8 +1596,28 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  noop: function() {},
 
+	  formatPrefix: function(prefix, noPrefix) {
+	    return noPrefix ? '' : prefix + '-';
+	  },
+
 	  className: function(prefix, clazz, skipDot) {
-	    return (skipDot ? '' : '.') + prefix + '-' + clazz;
+	    return (skipDot ? '' : '.') + prefix + clazz;
+	  },
+
+	  escapeHighlightedString: function(str, highlightPreTag, highlightPostTag) {
+	    highlightPreTag = highlightPreTag || '<em>';
+	    var pre = document.createElement('div');
+	    pre.appendChild(document.createTextNode(highlightPreTag));
+
+	    highlightPostTag = highlightPostTag || '</em>';
+	    var post = document.createElement('div');
+	    post.appendChild(document.createTextNode(highlightPostTag));
+
+	    var div = document.createElement('div');
+	    div.appendChild(document.createTextNode(str));
+	    return div.innerHTML
+	      .replace(RegExp(escapeRegExp(pre.innerHTML), 'g'), highlightPreTag)
+	      .replace(RegExp(escapeRegExp(post.innerHTML), 'g'), highlightPostTag);
 	  }
 	};
 
@@ -1642,6 +1667,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  this.css = o.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
 	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+	  this.cssClasses.prefix =
+	    o.cssClasses.formattedPrefix = _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 	  this.listboxId = o.listboxId = [this.cssClasses.root, 'listbox', _.getUniqueId()].join('-');
 
 	  var domElts = buildDom(o);
@@ -3172,6 +3199,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.appendTo = o.appendTo || false;
 	  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
 	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+	  this.cssClasses.prefix =
+	    o.cssClasses.formattedPrefix || _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 
 	  // bound functions
 	  onSuggestionClick = _.bind(this._onSuggestionClick, this);
@@ -3560,7 +3589,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.templates = getTemplates(o.templates, this.displayFn);
 
 	  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
-	  this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+	  this.cssClasses.prefix =
+	    o.cssClasses.formattedPrefix || _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 
 	  var clazz = _.className(this.cssClasses.prefix, this.cssClasses.dataset);
 	  this.$el = o.$menu && o.$menu.find(clazz + '-' + this.name).length > 0 ?
@@ -3629,17 +3660,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    if (this.$menu) {
 	      this.$menu.addClass(
-	        [
-	          this.cssClasses.prefix,
-	          (hasSuggestions ? 'with' : 'without'),
-	          this.name
-	        ].join('-')
+	        this.cssClasses.prefix + (hasSuggestions ? 'with' : 'without') + '-' + this.name
 	      ).removeClass(
-	        [
-	          this.cssClasses.prefix,
-	          (hasSuggestions ? 'without' : 'with'),
-	          this.name
-	        ].join('-')
+	        this.cssClasses.prefix + (hasSuggestions ? 'without' : 'with') + '-' + this.name
 	      );
 	    }
 
@@ -3793,10 +3816,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = {
 	  wrapper: '<span class="%ROOT%"></span>',
-	  dropdown: '<span class="%PREFIX%-%DROPDOWN_MENU%"></span>',
-	  dataset: '<div class="%PREFIX%-%DATASET%-%CLASS%"></div>',
-	  suggestions: '<span class="%PREFIX%-%SUGGESTIONS%"></span>',
-	  suggestion: '<div class="%PREFIX%-%SUGGESTION%"></div>'
+	  dropdown: '<span class="%PREFIX%%DROPDOWN_MENU%"></span>',
+	  dataset: '<div class="%PREFIX%%DATASET%-%CLASS%"></div>',
+	  suggestions: '<span class="%PREFIX%%SUGGESTIONS%"></span>',
+	  suggestion: '<div class="%PREFIX%%SUGGESTION%"></div>'
 	};
 
 
@@ -3859,6 +3882,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  defaultClasses: {
 	    root: 'algolia-autocomplete',
 	    prefix: 'aa',
+	    noPrefix: false,
 	    dropdownMenu: 'dropdown-menu',
 	    input: 'input',
 	    hint: 'hint',

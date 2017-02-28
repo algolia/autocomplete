@@ -215,6 +215,7 @@
 	};
 
 	$.fn.autocomplete.sources = Typeahead.sources;
+	$.fn.autocomplete.escapeHighlightedString = _.escapeHighlightedString;
 
 	module.exports = $.fn.autocomplete;
 
@@ -243,6 +244,10 @@
 	'use strict';
 
 	var DOM = __webpack_require__(2);
+
+	function escapeRegExp(str) {
+	  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+	}
 
 	module.exports = {
 	  // those methods are implemented differently
@@ -340,8 +345,28 @@
 
 	  noop: function() {},
 
+	  formatPrefix: function(prefix, noPrefix) {
+	    return noPrefix ? '' : prefix + '-';
+	  },
+
 	  className: function(prefix, clazz, skipDot) {
-	    return (skipDot ? '' : '.') + prefix + '-' + clazz;
+	    return (skipDot ? '' : '.') + prefix + clazz;
+	  },
+
+	  escapeHighlightedString: function(str, highlightPreTag, highlightPostTag) {
+	    highlightPreTag = highlightPreTag || '<em>';
+	    var pre = document.createElement('div');
+	    pre.appendChild(document.createTextNode(highlightPreTag));
+
+	    highlightPostTag = highlightPostTag || '</em>';
+	    var post = document.createElement('div');
+	    post.appendChild(document.createTextNode(highlightPostTag));
+
+	    var div = document.createElement('div');
+	    div.appendChild(document.createTextNode(str));
+	    return div.innerHTML
+	      .replace(RegExp(escapeRegExp(pre.innerHTML), 'g'), highlightPreTag)
+	      .replace(RegExp(escapeRegExp(post.innerHTML), 'g'), highlightPostTag);
 	  }
 	};
 
@@ -391,6 +416,8 @@
 
 	  this.css = o.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
 	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+	  this.cssClasses.prefix =
+	    o.cssClasses.formattedPrefix = _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 	  this.listboxId = o.listboxId = [this.cssClasses.root, 'listbox', _.getUniqueId()].join('-');
 
 	  var domElts = buildDom(o);
@@ -1921,6 +1948,8 @@
 	  this.appendTo = o.appendTo || false;
 	  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
 	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+	  this.cssClasses.prefix =
+	    o.cssClasses.formattedPrefix || _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 
 	  // bound functions
 	  onSuggestionClick = _.bind(this._onSuggestionClick, this);
@@ -2309,7 +2338,9 @@
 	  this.templates = getTemplates(o.templates, this.displayFn);
 
 	  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
-	  this.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+	  this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
+	  this.cssClasses.prefix =
+	    o.cssClasses.formattedPrefix || _.formatPrefix(this.cssClasses.prefix, this.cssClasses.noPrefix);
 
 	  var clazz = _.className(this.cssClasses.prefix, this.cssClasses.dataset);
 	  this.$el = o.$menu && o.$menu.find(clazz + '-' + this.name).length > 0 ?
@@ -2378,17 +2409,9 @@
 
 	    if (this.$menu) {
 	      this.$menu.addClass(
-	        [
-	          this.cssClasses.prefix,
-	          (hasSuggestions ? 'with' : 'without'),
-	          this.name
-	        ].join('-')
+	        this.cssClasses.prefix + (hasSuggestions ? 'with' : 'without') + '-' + this.name
 	      ).removeClass(
-	        [
-	          this.cssClasses.prefix,
-	          (hasSuggestions ? 'without' : 'with'),
-	          this.name
-	        ].join('-')
+	        this.cssClasses.prefix + (hasSuggestions ? 'without' : 'with') + '-' + this.name
 	      );
 	    }
 
@@ -2542,10 +2565,10 @@
 
 	module.exports = {
 	  wrapper: '<span class="%ROOT%"></span>',
-	  dropdown: '<span class="%PREFIX%-%DROPDOWN_MENU%"></span>',
-	  dataset: '<div class="%PREFIX%-%DATASET%-%CLASS%"></div>',
-	  suggestions: '<span class="%PREFIX%-%SUGGESTIONS%"></span>',
-	  suggestion: '<div class="%PREFIX%-%SUGGESTION%"></div>'
+	  dropdown: '<span class="%PREFIX%%DROPDOWN_MENU%"></span>',
+	  dataset: '<div class="%PREFIX%%DATASET%-%CLASS%"></div>',
+	  suggestions: '<span class="%PREFIX%%SUGGESTIONS%"></span>',
+	  suggestion: '<div class="%PREFIX%%SUGGESTION%"></div>'
 	};
 
 
@@ -2608,6 +2631,7 @@
 	  defaultClasses: {
 	    root: 'algolia-autocomplete',
 	    prefix: 'aa',
+	    noPrefix: false,
 	    dropdownMenu: 'dropdown-menu',
 	    input: 'input',
 	    hint: 'hint',
