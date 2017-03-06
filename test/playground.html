@@ -52,7 +52,7 @@
 
       autocomplete('#contacts, #contacts1', { debug: true, hint: false, templates: { empty: 'empty' }, autoselect: true, appendTo: 'body' }, [
         {
-          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          source: autocomplete.sources.hits(index),
           displayKey: 'name',
           templates: {
             footer: function(o, content) {
