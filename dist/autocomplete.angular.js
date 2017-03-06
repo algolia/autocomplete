@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.26.0
+ * autocomplete.js 0.27.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2017 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -2656,6 +2656,7 @@
 	module.exports = function search(index, params) {
 	  var algoliaVersion = parseAlgoliaClientVersion(index.as._ua);
 	  if (algoliaVersion && algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
+	    params = params || {};
 	    params.additionalUA = 'autocomplete.js ' + version;
 	  }
 	  return sourceFn;
@@ -2676,7 +2677,7 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.26.0";
+	module.exports = "0.27.0";
 
 
 /***/ },
@@ -2704,6 +2705,7 @@
 	module.exports = function popularIn(index, params, details, options) {
 	  var algoliaVersion = parseAlgoliaClientVersion(index.as._ua);
 	  if (algoliaVersion && algoliaVersion[0] >= 3 && algoliaVersion[1] > 20) {
+	    params = params || {};
 	    params.additionalUA = 'autocomplete.js ' + version;
 	  }
 	  if (!details.source) {
