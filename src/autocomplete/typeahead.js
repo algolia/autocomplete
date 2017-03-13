@@ -198,14 +198,14 @@ _.mixin(Typeahead.prototype, {
   },
 
   _onRedrawn: function onRedrawn() {
+    this.$node.css('top', 0 + 'px');
+    this.$node.css('left', 0 + 'px');
+
     var inputRect = this.$input[0].getBoundingClientRect();
 
     if (this.autoWidth) {
       this.$node.css('width', inputRect.width + 'px');
     }
-
-    this.$node.css('top', 0 + 'px');
-    this.$node.css('left', 0 + 'px');
 
     var wrapperRect = this.$node[0].getBoundingClientRect();
 
