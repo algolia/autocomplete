@@ -480,8 +480,8 @@ _.mixin(Typeahead.prototype, {
   },
 
   getWrapper: function getWrapper() {
-		return this.dropdown.$container[0];
-	}
+    return this.dropdown.$container[0];
+  }
 });
 
 function buildDom(options) {
