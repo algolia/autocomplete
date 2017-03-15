@@ -477,7 +477,11 @@ _.mixin(Typeahead.prototype, {
     destroyDomStructure(this.$node, this.cssClasses);
 
     this.$node = null;
-  }
+  },
+
+  getWrapper: function getWrapper() {
+		return this.dropdown.$container[0];
+	}
 });
 
 function buildDom(options) {

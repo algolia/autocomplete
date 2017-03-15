@@ -38,7 +38,7 @@ describe('Typeahead', function() {
   describe('when accessing autocomplete function', function() {
 
     it('should have an open, close, getVal, setVal and destroy methods', function() {
-      var methodsToAssert = ['open', 'close', 'getVal', 'setVal', 'destroy'];
+      var methodsToAssert = ['open', 'close', 'getVal', 'setVal', 'destroy', 'getWrapper'];
 
       for (var i = 0; i < methodsToAssert.length; i++) {
         expect(this.ac.autocomplete[methodsToAssert[i]]).toBeDefined();
@@ -58,7 +58,8 @@ describe('Typeahead', function() {
           close: sinon.stub().returns('hello'),
           getVal: sinon.stub().returns('hello'),
           setVal: sinon.stub().returns('hello'),
-          destroy: sinon.stub().returns('hello')
+          destroy: sinon.stub().returns('hello'),
+          getWrapper: sinon.stub().returns('hello')
         };
 
         this.ac = autocomplete('input', {}, {
@@ -85,6 +86,8 @@ describe('Typeahead', function() {
         expect(this.typeaheadSpy.setVal.withArgs('Hey').calledOnce).toBe(true);
         expect(this.ac.autocomplete.destroy()).toEqual('hello');
         expect(this.typeaheadSpy.destroy.calledOnce).toBe(true);
+        expect(this.ac.autocomplete.getWrapper()).toEqual('hello');
+        expect(this.typeaheadSpy.getWrapper.calledOnce).toBe(true);
       });
 
     });

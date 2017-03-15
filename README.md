@@ -668,6 +668,7 @@ search.autocomplete.close();
 search.autocomplete.getVal();
 search.autocomplete.setVal('Hey Jude');
 search.autocomplete.destroy();
+search.autocomplete.getWrapper();
 ```
 
 You can also pass a custom Typeahead instance in Autocomplete.js constructor:
