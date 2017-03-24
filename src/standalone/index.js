@@ -56,7 +56,7 @@ function autocomplete(selector, options, datasets, typeaheadObject) {
 
   // expose all methods in the `autocomplete` attribute
   inputs.autocomplete = {};
-  _.each(['open', 'close', 'getVal', 'setVal', 'destroy'], function(method) {
+  _.each(['open', 'close', 'getVal', 'setVal', 'destroy', 'getWrapper'], function(method) {
     inputs.autocomplete[method] = function() {
       var methodArguments = arguments;
       var result;
