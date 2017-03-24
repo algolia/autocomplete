@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.27.0
+ * autocomplete.js 0.28.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2017 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -126,7 +126,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // expose all methods in the `autocomplete` attribute
 	  inputs.autocomplete = {};
-	  _.each(['open', 'close', 'getVal', 'setVal', 'destroy'], function(method) {
+	  _.each(['open', 'close', 'getVal', 'setVal', 'destroy', 'getWrapper'], function(method) {
 	    inputs.autocomplete[method] = function() {
 	      var methodArguments = arguments;
 	      var result;
@@ -1826,14 +1826,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  _onRedrawn: function onRedrawn() {
+	    this.$node.css('top', 0 + 'px');
+	    this.$node.css('left', 0 + 'px');
+
 	    var inputRect = this.$input[0].getBoundingClientRect();
 
 	    if (this.autoWidth) {
 	      this.$node.css('width', inputRect.width + 'px');
 	    }
-
-	    this.$node.css('top', 0 + 'px');
-	    this.$node.css('left', 0 + 'px');
 
 	    var wrapperRect = this.$node[0].getBoundingClientRect();
 
@@ -2105,6 +2105,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    destroyDomStructure(this.$node, this.cssClasses);
 
 	    this.$node = null;
+	  },
+
+	  getWrapper: function getWrapper() {
+	    return this.dropdown.$container[0];
 	  }
 	});
 
@@ -3976,7 +3980,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.27.0";
+	module.exports = "0.28.0";
 
 
 /***/ },
