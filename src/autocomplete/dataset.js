@@ -52,6 +52,7 @@ function Dataset(o) {
     );
 
   this.$menu = o.$menu;
+  this.clearCachedSuggestions();
 }
 
 // static methods
@@ -185,23 +186,41 @@ _.mixin(Dataset.prototype, EventEmitter, {
   },
 
   update: function update(query) {
-    var that = this;
-
-    this.query = query;
-    this.canceled = false;
-    this.source(query, render);
-
-    function render(suggestions) {
+    function handleSuggestions(suggestions) {
       // if the update has been canceled or if the query has changed
       // do not render the suggestions as they've become outdated
-      if (!that.canceled && query === that.query) {
+      if (!this.canceled && query === this.query) {
+        this.cacheSuggestions(query, suggestions);
         // concat all the other arguments that could have been passed
         // to the render function, and forward them to _render
         var args = [].slice.call(arguments, 1);
         args = [query, suggestions].concat(args);
-        that._render.apply(that, args);
+        this._render.apply(this, args);
       }
     }
+
+    this.query = query;
+    this.canceled = false;
+
+    if (this.shouldFetchFromCache(query)) {
+      handleSuggestions.call(this, this.cachedSuggestions);
+    } else {
+      this.source(query, handleSuggestions.bind(this));
+    }
+  },
+
+  cacheSuggestions: function cacheSuggestions(query, suggestions) {
+    this.cachedQuery = query;
+    this.cachedSuggestions = suggestions;
+  },
+
+  shouldFetchFromCache: function shouldFetchFromCache(query) {
+    return this.cachedQuery === query && this.cachedSuggestions && this.cachedSuggestions.length;
+  },
+
+  clearCachedSuggestions: function clearCachedSuggestions() {
+    delete this.cachedQuery;
+    delete this.cachedSuggestions;
   },
 
   cancel: function cancel() {
@@ -219,6 +238,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
   },
 
   destroy: function destroy() {
+    this.clearCachedSuggestions();
     this.$el = null;
   }
 });
