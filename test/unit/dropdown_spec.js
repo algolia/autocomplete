@@ -130,7 +130,7 @@ describe('Dropdown', function() {
   });
 
   describe('when mouseenter is triggered on a suggestion', function() {
-    it('should remove pre-existing cursor', function() {
+    it('should remove pre-existing cursor', function(done) {
       var $first;
       var $last;
 
@@ -140,20 +140,28 @@ describe('Dropdown', function() {
       $first.addClass('aa-cursor');
       $last.mouseenter();
 
-      expect($first).not.toHaveClass('aa-cursor');
-      expect($last).toHaveClass('aa-cursor');
+      // see implementation on why we need this setTimeout
+      setTimeout(function() {
+        expect($first).not.toHaveClass('aa-cursor');
+        expect($last).toHaveClass('aa-cursor');
+        done();
+      }, 0);
     });
 
-    it('should set the cursor', function() {
+    it('should set the cursor', function(done) {
       var $suggestion;
 
       $suggestion = this.$menu.find('.aa-suggestion').first();
       $suggestion.mouseenter();
 
-      expect($suggestion).toHaveClass('aa-cursor');
+      // see implementation on why we need this setTimeout
+      setTimeout(function() {
+        expect($suggestion).toHaveClass('aa-cursor');
+        done();
+      }, 0);
     });
 
-    it('should trigger cursorMoved', function() {
+    it('should trigger cursorMoved', function(done) {
       var spy;
       var $suggestion;
 
@@ -162,7 +170,10 @@ describe('Dropdown', function() {
       $suggestion = this.$menu.find('.aa-suggestion').first();
       $suggestion.mouseenter();
 
-      expect(spy).toHaveBeenCalled();
+      setTimeout(function() {
+        expect(spy).toHaveBeenCalled();
+        done();
+      }, 0);
     });
   });
 

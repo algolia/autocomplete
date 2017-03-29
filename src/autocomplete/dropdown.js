@@ -45,9 +45,9 @@ function Dropdown(o) {
 
   var cssClass = _.className(this.cssClasses.prefix, this.cssClasses.suggestion);
   this.$menu = DOM.element(o.menu)
-    .on('click.aa', cssClass, onSuggestionClick)
     .on('mouseenter.aa', cssClass, onSuggestionMouseEnter)
-    .on('mouseleave.aa', cssClass, onSuggestionMouseLeave);
+    .on('mouseleave.aa', cssClass, onSuggestionMouseLeave)
+    .on('click.aa', cssClass, onSuggestionClick);
 
   this.$container = o.appendTo ? o.wrapper : this.$menu;
 
@@ -105,7 +105,17 @@ _.mixin(Dropdown.prototype, EventEmitter, {
       return;
     }
     this._removeCursor();
-    this._setCursor(elt, false);
+
+    // Fixes iOS double tap behaviour, by modifying the DOM right before the
+    // native href clicks happens, iOS will requires another tap to follow
+    // a suggestion that has an <a href> element inside
+    // https://www.google.com/search?q=ios+double+tap+bug+href
+    var suggestion = this;
+    setTimeout(function() {
+      // this exact line, when inside the main loop, will trigger a double tap bug
+      // on iOS devices
+      suggestion._setCursor(elt, false);
+    }, 0);
   },
 
   _onSuggestionMouseLeave: function onSuggestionMouseLeave($e) {
