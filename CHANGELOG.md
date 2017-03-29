@@ -1,3 +1,13 @@
+<a name="0.28.1"></a>
+## [0.28.1](https://github.com/algolia/autocomplete.js/compare/v0.28.0...v0.28.1) (2017-03-29)
+
+
+### Bug Fixes
+
+* **iOS:** remove double tap bug on hrefs in suggestions ([e532bd8](https://github.com/algolia/autocomplete.js/commit/e532bd8))
+
+
+
 <a name="0.28.0"></a>
 # [0.28.0](https://github.com/algolia/autocomplete.js/compare/v0.27.0...v0.28.0) (2017-03-24)
 

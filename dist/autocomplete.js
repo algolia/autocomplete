@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.28.0
+ * autocomplete.js 0.28.1
  * https://github.com/algolia/autocomplete.js
  * Copyright 2017 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -2186,7 +2186,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      role: 'combobox',
 	      // Let the screen reader know the field has an autocomplete
 	      // feature to it.
-	      'aria-autocomplete': (options.datasets && options.datasets[0] && options.datasets[0].displayKey ? 'both' : 'list'),
+	      'aria-autocomplete': (options.datasets &&
+	        options.datasets[0] && options.datasets[0].displayKey ? 'both' : 'list'),
 	      // Indicates whether the dropdown it controls is currently expanded or collapsed
 	      'aria-expanded': 'false',
 	      // If a placeholder is set, label this field with itself, which in this case,
@@ -3217,9 +3218,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  var cssClass = _.className(this.cssClasses.prefix, this.cssClasses.suggestion);
 	  this.$menu = DOM.element(o.menu)
-	    .on('click.aa', cssClass, onSuggestionClick)
 	    .on('mouseenter.aa', cssClass, onSuggestionMouseEnter)
-	    .on('mouseleave.aa', cssClass, onSuggestionMouseLeave);
+	    .on('mouseleave.aa', cssClass, onSuggestionMouseLeave)
+	    .on('click.aa', cssClass, onSuggestionClick);
 
 	  this.$container = o.appendTo ? o.wrapper : this.$menu;
 
@@ -3277,7 +3278,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return;
 	    }
 	    this._removeCursor();
-	    this._setCursor(elt, false);
+
+	    // Fixes iOS double tap behaviour, by modifying the DOM right before the
+	    // native href clicks happens, iOS will requires another tap to follow
+	    // a suggestion that has an <a href> element inside
+	    // https://www.google.com/search?q=ios+double+tap+bug+href
+	    var suggestion = this;
+	    setTimeout(function() {
+	      // this exact line, when inside the main loop, will trigger a double tap bug
+	      // on iOS devices
+	      suggestion._setCursor(elt, false);
+	    }, 0);
 	  },
 
 	  _onSuggestionMouseLeave: function onSuggestionMouseLeave($e) {
@@ -3980,7 +3991,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.28.0";
+	module.exports = "0.28.1";
 
 
 /***/ },
