@@ -278,8 +278,8 @@ describe('Dataset', function() {
       }, 100);
     });
 
-    it('should cache latest query and suggestions', function() {
-      this.source.and.callFake(fakeGetWithSyncResults);
+    it('should cache latest query, suggestions and extra render arguments', function() {
+      this.source.and.callFake(fakeGetWithSyncResultsAndExtraParams);
       this.dataset.update('woah');
 
       expect(this.dataset.cachedQuery).toEqual('woah');
@@ -288,6 +288,7 @@ describe('Dataset', function() {
         {value: 'two', raw: {value: 'two'}},
         {value: 'three', raw: {value: 'three'}}
       ]);
+      expect(this.dataset.cachedRenderExtraArgs).toEqual([42, true, false]);
     });
 
     it('should retrieved cached results for subsequent identical queries', function() {
@@ -302,14 +303,35 @@ describe('Dataset', function() {
       this.dataset.clear();
       this.dataset.update('woah');
       expect(this.source.calls.count()).toBe(1);
-
       expect(this.dataset.getRoot()).toContainText('one');
       expect(this.dataset.getRoot()).toContainText('two');
       expect(this.dataset.getRoot()).toContainText('three');
     });
 
+    it('should reuse render function extra params for subsequent identical queries', function() {
+      var spy = spyOn(this.dataset, '_render');
+      this.source.and.callFake(fakeGetWithSyncResultsAndExtraParams);
+
+      this.dataset.update('woah');
+      expect(this.source.calls.count()).toBe(1);
+      expect(spy).toHaveBeenCalledWith('woah', [
+        {value: 'one', raw: {value: 'one'}},
+        {value: 'two', raw: {value: 'two'}},
+        {value: 'three', raw: {value: 'three'}}
+      ], 42, true, false);
+
+      this.dataset.clear();
+      this.dataset.update('woah');
+      expect(this.source.calls.count()).toBe(1);
+      expect(spy).toHaveBeenCalledWith('woah', [
+        {value: 'one', raw: {value: 'one'}},
+        {value: 'two', raw: {value: 'two'}},
+        {value: 'three', raw: {value: 'three'}}
+      ], 42, true, false);
+    });
+
     it('should not retrieved cached results for subsequent different queries', function() {
-      this.source.and.callFake(fakeGetWithSyncResults);
+      this.source.and.callFake(fakeGetWithSyncResultsAndExtraParams);
 
       this.dataset.update('woah');
       expect(this.source.calls.count()).toBe(1);
@@ -321,10 +343,11 @@ describe('Dataset', function() {
   });
 
   describe('#cacheSuggestions', function() {
-    it('should assign cachedQuery and cachedSuggestions properties', function() {
-      this.dataset.cacheSuggestions('woah', ['one', 'two']);
+    it('should assign cachedQuery, cachedSuggestions and cachedRenderArgs properties', function() {
+      this.dataset.cacheSuggestions('woah', ['one', 'two'], 42);
       expect(this.dataset.cachedQuery).toEqual('woah');
       expect(this.dataset.cachedSuggestions).toEqual(['one', 'two']);
+      expect(this.dataset.cachedRenderExtraArgs).toEqual(42);
     });
   });
 
@@ -332,10 +355,13 @@ describe('Dataset', function() {
     it('should delete cachedQuery and cachedSuggestions properties', function() {
       this.dataset.cachedQuery = 'one';
       this.dataset.cachedSuggestions = ['one', 'two'];
+      this.dataset.cachedRenderExtraArgs = 42;
+
       this.dataset.clearCachedSuggestions();
 
       expect(this.dataset.cachedQuery).toBeUndefined();
       expect(this.dataset.cachedSuggestions).toBeUndefined();
+      expect(this.dataset.cachedRenderExtraArgs).toBeUndefined();
     });
   });
 
