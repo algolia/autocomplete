@@ -68,7 +68,7 @@ describe('jquery-typeahead.js', function() {
 
     driver.run(function*() {
       yield this.init(caps);
-      yield this.get((env['TEST_HOST'] || 'http://localhost:8888') + '/test/integration/test.html');
+      yield this.get((env['TEST_HOST'] || 'http://localhost:8080') + '/test/integration/test.html');
 
       body = this.elementByTagName('body');
       input = yield this.elementById('states');
