@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.28.1
+ * autocomplete.js 0.28.2
  * https://github.com/algolia/autocomplete.js
  * Copyright 2017 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -1985,6 +1985,7 @@
 	      _.className(this.cssClasses.prefix, this.cssClasses.empty, true) + '">' +
 	      '</div>');
 	    this.$menu.append(this.$empty);
+	    this.$empty.hide();
 	  }
 
 	  this.datasets = _.map(o.datasets, function(oDataset) {
@@ -2071,6 +2072,7 @@
 	            query: this.datasets[0] && this.datasets[0].query
 	          });
 	          this.$empty.html(html);
+	          this.$empty.show();
 	          this._show();
 	        }
 	      } else if (_.any(this.datasets, hasEmptyTemplate)) {
@@ -2085,6 +2087,7 @@
 	    } else if (this.isOpen) {
 	      if (this.$empty) {
 	        this.$empty.empty();
+	        this.$empty.hide();
 	      }
 
 	      if (query.length >= this.minLength) {
@@ -2372,6 +2375,7 @@
 	    );
 
 	  this.$menu = o.$menu;
+	  this.clearCachedSuggestions();
 	}
 
 	// static methods
@@ -2505,23 +2509,42 @@
 	  },
 
 	  update: function update(query) {
-	    var that = this;
+	    function handleSuggestions(suggestions) {
+	      // if the update has been canceled or if the query has changed
+	      // do not render the suggestions as they've become outdated
+	      if (!this.canceled && query === this.query) {
+	        // concat all the other arguments that could have been passed
+	        // to the render function, and forward them to _render
+	        var extraArgs = [].slice.call(arguments, 1);
+	        this.cacheSuggestions(query, suggestions, extraArgs);
+	        this._render.apply(this, [query, suggestions].concat(extraArgs));
+	      }
+	    }
 
 	    this.query = query;
 	    this.canceled = false;
-	    this.source(query, render);
 
-	    function render(suggestions) {
-	      // if the update has been canceled or if the query has changed
-	      // do not render the suggestions as they've become outdated
-	      if (!that.canceled && query === that.query) {
-	        // concat all the other arguments that could have been passed
-	        // to the render function, and forward them to _render
-	        var args = [].slice.call(arguments, 1);
-	        args = [query, suggestions].concat(args);
-	        that._render.apply(that, args);
-	      }
+	    if (this.shouldFetchFromCache(query)) {
+	      handleSuggestions.apply(this, [this.cachedSuggestions, this.cachedRenderExtraArgs]);
+	    } else {
+	      this.source(query, handleSuggestions.bind(this));
 	    }
+	  },
+
+	  cacheSuggestions: function cacheSuggestions(query, suggestions, extraArgs) {
+	    this.cachedQuery = query;
+	    this.cachedSuggestions = suggestions;
+	    this.cachedRenderExtraArgs = extraArgs;
+	  },
+
+	  shouldFetchFromCache: function shouldFetchFromCache(query) {
+	    return this.cachedQuery === query && this.cachedSuggestions && this.cachedSuggestions.length;
+	  },
+
+	  clearCachedSuggestions: function clearCachedSuggestions() {
+	    delete this.cachedQuery;
+	    delete this.cachedSuggestions;
+	    delete this.cachedRenderExtraArgs;
 	  },
 
 	  cancel: function cancel() {
@@ -2539,6 +2562,7 @@
 	  },
 
 	  destroy: function destroy() {
+	    this.clearCachedSuggestions();
 	    this.$el = null;
 	  }
 	});
@@ -2741,7 +2765,7 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.28.1";
+	module.exports = "0.28.2";
 
 
 /***/ },

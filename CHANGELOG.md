@@ -1,3 +1,13 @@
+<a name="0.28.2"></a>
+## [0.28.2](https://github.com/algolia/autocomplete.js/compare/v0.28.1...v0.28.2) (2017-06-22)
+
+
+### Bug Fixes
+
+* **empty template:** hide main empty template as long as we have results ([344e225](https://github.com/algolia/autocomplete.js/commit/344e225)), closes [#185](https://github.com/algolia/autocomplete.js/issues/185)
+
+
+
 <a name="0.28.1"></a>
 ## [0.28.1](https://github.com/algolia/autocomplete.js/compare/v0.28.0...v0.28.1) (2017-03-29)
 
