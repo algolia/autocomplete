@@ -101,6 +101,19 @@
               return v;
             }
           }
+        },
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          displayKey: 'name',
+          templates: {
+            header: '<span class="aa-category-title">Contacts</span>',
+            footer: function(o, content) {
+              return '<div class="aa-info-results">' + content.nbHits + ' results</div>';
+            },
+            suggestion: function(suggestion) {
+              return '<div>' + suggestion._highlightResult.name.value + '</div>';
+            }
+          }
         }
       ]).on('autocomplete:selected', function(even, suggestion, dataset) {
         console.log('selected', suggestion, dataset);
