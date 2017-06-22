@@ -91,6 +91,7 @@ describe('Dropdown', function() {
     it('should include the empty', function() {
       expect(this.$menu.find('.aa-empty').length).toEqual(1);
       expect(this.$menu.find('.aa-empty').children().length).toEqual(0);
+      expect(this.$menu.find('.aa-empty').css('display')).toEqual('none');
     });
 
     it('should not hide the dropdown if empty', function() {
@@ -102,6 +103,7 @@ describe('Dropdown', function() {
       expect(this.$menu.find('.aa-empty').length).toEqual(1);
       expect(this.$menu.find('.aa-empty').children().length).toEqual(1);
       expect(this.$menu.find('.aa-empty').find('h3.empty').length).toEqual(1);
+      expect(this.$menu.find('.aa-empty').css('display')).not.toEqual('none');
     });
 
     it('should trigger empty', function() {
@@ -126,6 +128,7 @@ describe('Dropdown', function() {
       this.view._onRendered('rendered', 'te');
 
       expect(spy).not.toHaveBeenCalled();
+      expect(this.$menu.find('.aa-empty').css('display')).toEqual('none');
     });
   });
 
