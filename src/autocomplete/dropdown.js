@@ -62,6 +62,7 @@ function Dropdown(o) {
       _.className(this.cssClasses.prefix, this.cssClasses.empty, true) + '">' +
       '</div>');
     this.$menu.append(this.$empty);
+    this.$empty.hide();
   }
 
   this.datasets = _.map(o.datasets, function(oDataset) {
@@ -148,6 +149,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
             query: this.datasets[0] && this.datasets[0].query
           });
           this.$empty.html(html);
+          this.$empty.show();
           this._show();
         }
       } else if (_.any(this.datasets, hasEmptyTemplate)) {
@@ -162,6 +164,7 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     } else if (this.isOpen) {
       if (this.$empty) {
         this.$empty.empty();
+        this.$empty.hide();
       }
 
       if (query.length >= this.minLength) {
