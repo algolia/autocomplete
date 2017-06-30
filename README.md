@@ -330,13 +330,53 @@ When initializing an autocomplete, there are a number of options you can configu
     </div>
   </div>
 </script>
+<style>
+body {
+	font-family: -apple-system, sans-serif;
+}
+.algolia-autocomplete {
+  width: 100%;
+}
+.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+  width: 100%;
+}
+.algolia-autocomplete .aa-hint {
+  color: #999;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #999;
+  border-top: none;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  cursor: pointer;
+  padding: 5px 4px;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: #B2D7FF;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+  font-weight: bold;
+  font-style: normal;
+}
 
+.branding {
+font-size: 1.3em;
+margin: 0.5em 0.2em;
+}
+
+.branding img {
+	height: 1.3em;
+	margin-bottom: - 0.3em;
+}
+</style>
 <script>
   $('#search-input').autocomplete(
     {
       templates: {
         dropdownMenu: '#my-custom-menu-template',
-        footer: '<div class="branding">Powered by <img src="https://www.algolia.com/assets/algolia128x40.png" /></div>'
+        footer: '<div class="branding">Powered by <img src="https://www.algolia.com/static_assets/images/press/downloads/algolia-logo-light.svg" /></div>'
       }
     },
     [
