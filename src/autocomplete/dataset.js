@@ -93,7 +93,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
     var renderArgs = [].slice.call(arguments, 2);
     this.$el.empty();
 
-    hasSuggestions = suggestions && suggestions.length;
+    hasSuggestions = suggestions && suggestions.length > 0;
     this._isEmpty = !hasSuggestions;
 
     if (!hasSuggestions && this.templates.empty) {
