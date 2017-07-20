@@ -202,7 +202,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
     this.canceled = false;
 
     if (this.shouldFetchFromCache(query)) {
-      handleSuggestions.apply(this, [this.cachedSuggestions, this.cachedRenderExtraArgs]);
+      handleSuggestions.apply(this, [this.cachedSuggestions].concat(this.cachedRenderExtraArgs));
     } else {
       this.source(query, handleSuggestions.bind(this));
     }
