@@ -98,7 +98,7 @@ methods = {
   },
 
   val: function val(newVal) {
-    // mirror jQuery#val functionality: reads operate on first match,
+    // mirror jQuery#val functionality: read operate on first match,
     // write operates on all matches
     return !arguments.length ? getVal(this.first()) : this.each(setVal);
 
