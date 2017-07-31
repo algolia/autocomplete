@@ -314,20 +314,22 @@ describe('Dataset', function() {
 
       this.dataset.update('woah');
       expect(this.source.calls.count()).toBe(1);
-      expect(spy).toHaveBeenCalledWith('woah', [
+      expect(spy.calls.argsFor(0)).toEqual([
+        'woah', [
         {value: 'one', raw: {value: 'one'}},
         {value: 'two', raw: {value: 'two'}},
         {value: 'three', raw: {value: 'three'}}
-      ], 42, true, false);
+      ], 42, true, false]);
 
       this.dataset.clear();
       this.dataset.update('woah');
       expect(this.source.calls.count()).toBe(1);
-      expect(spy).toHaveBeenCalledWith('woah', [
+      expect(spy.calls.argsFor(1)).toEqual([
+        'woah', [
         {value: 'one', raw: {value: 'one'}},
         {value: 'two', raw: {value: 'two'}},
         {value: 'three', raw: {value: 'three'}}
-      ], 42, true, false);
+      ], 42, true, false]);
     });
 
     it('should not retrieved cached results for subsequent different queries', function() {
