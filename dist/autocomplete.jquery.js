@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.28.2
+ * autocomplete.js 0.28.3
  * https://github.com/algolia/autocomplete.js
  * Copyright 2017 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -158,7 +158,7 @@
 	  },
 
 	  val: function val(newVal) {
-	    // mirror jQuery#val functionality: reads opearte on first match,
+	    // mirror jQuery#val functionality: read operate on first match,
 	    // write operates on all matches
 	    return !arguments.length ? getVal(this.first()) : this.each(setVal);
 
@@ -2525,7 +2525,7 @@
 	    this.canceled = false;
 
 	    if (this.shouldFetchFromCache(query)) {
-	      handleSuggestions.apply(this, [this.cachedSuggestions, this.cachedRenderExtraArgs]);
+	      handleSuggestions.apply(this, [this.cachedSuggestions].concat(this.cachedRenderExtraArgs));
 	    } else {
 	      this.source(query, handleSuggestions.bind(this));
 	    }
@@ -2765,7 +2765,7 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.28.2";
+	module.exports = "0.28.3";
 
 
 /***/ },
