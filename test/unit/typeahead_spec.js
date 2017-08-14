@@ -94,7 +94,6 @@ describe('Typeahead', function() {
       var that = this;
       waitsForAndRuns(function() { return that.dropdown.close.calls.count(); }, done, 100);
     });
-
   });
 
   describe('when dropdown triggers suggestionClicked with undefined displayKey', function() {
@@ -871,17 +870,69 @@ describe('Typeahead', function() {
   });
 
   describe('when set autoWidth option', function() {
-    it ('should set default to true', function() {
+    it('should set default to true', function() {
       this.dropdown.trigger('redrawn');
       expect(this.view.autoWidth).toBeTruthy();
       expect(/\d{3}px/.test(this.view.$node[0].style.width)).toBeTruthy();
     });
 
-    it ('should not put width style when autoWidth is false', function() {
+    it('should not put width style when autoWidth is false', function() {
       this.view.autoWidth = false;
       this.dropdown.trigger('redrawn');
       expect(this.view.autoWidth).toBeFalsy();
       expect(this.view.$node[0].style.width).toBeFalsy();
+    });
+  });
+
+  describe('when ariaLabelledBy is set', function() {
+    beforeEach(function() {
+      this.view.destroy();
+    });
+
+    describe('when set to a specific id', function() {
+      it('should set aria-labelledby to the specified id', function() {
+        this.view = new Typeahead({
+          input: this.$input,
+          ariaLabelledBy: 'custom-id-attr'
+        });
+
+        expect(this.$input.attr('aria-labelledby')).toBe('custom-id-attr');
+      });
+    });
+
+    describe('when set to false', function() {
+      it('should set aria-labelledby to null', function() {
+        this.view = new Typeahead({
+          input: this.$input,
+          ariaLabelledBy: false
+        });
+
+        expect(this.$input.attr('aria-labelledby')).toBeUndefined();
+      });
+    });
+
+    describe('when not set', function() {
+      beforeEach(function() {
+        this.$input.attr('id', 'custom-input-id');
+      });
+
+      it('should set aria-labelledby to null if no placeholder specified', function() {
+        this.view = new Typeahead({
+          input: this.$input
+        });
+
+        expect(this.$input.attr('aria-labelledby')).toBeUndefined();
+      });
+
+      it('should set aria-labelledby to the input id if a placeholder is specified', function() {
+        this.$input.attr('placeholder', 'custom placeholder');
+
+        this.view = new Typeahead({
+          input: this.$input
+        });
+
+        expect(this.$input.attr('aria-labelledby')).toBe('custom-input-id');
+      });
     });
   });
 });
