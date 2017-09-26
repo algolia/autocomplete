@@ -272,8 +272,8 @@ _.mixin(Dropdown.prototype, EventEmitter, {
       parseInt($el.css('margin-bottom'), 10);
     menuScrollTop = this.$menu.scrollTop();
     menuHeight = this.$menu.height() +
-      parseInt(this.$menu.css('paddingTop'), 10) +
-      parseInt(this.$menu.css('paddingBottom'), 10);
+      parseInt(this.$menu.css('padding-top'), 10) +
+      parseInt(this.$menu.css('padding-bottom'), 10);
 
     if (elTop < 0) {
       this.$menu.scrollTop(menuScrollTop + elTop);
