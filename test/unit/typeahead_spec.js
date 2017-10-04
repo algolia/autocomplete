@@ -884,55 +884,26 @@ describe('Typeahead', function() {
     });
   });
 
-  describe('when ariaLabelledBy is set', function() {
+  describe('when aria-label is set', function() {
     beforeEach(function() {
       this.view.destroy();
     });
 
-    describe('when set to a specific id', function() {
-      it('should set aria-labelledby to the specified id', function() {
-        this.view = new Typeahead({
-          input: this.$input,
-          ariaLabelledBy: 'custom-id-attr'
-        });
-
-        expect(this.$input.attr('aria-labelledby')).toBe('custom-id-attr');
+    it('should set aria-label to the specified string', function() {
+      this.view = new Typeahead({
+        input: this.$input,
+        ariaLabel: 'custom-aria-label'
       });
+
+      expect(this.$input.attr('aria-label')).toBe('custom-aria-label');
     });
 
-    describe('when set to false', function() {
-      it('should set aria-labelledby to null', function() {
-        this.view = new Typeahead({
-          input: this.$input,
-          ariaLabelledBy: false
-        });
-
-        expect(this.$input.attr('aria-labelledby')).toBeUndefined();
-      });
-    });
-
-    describe('when not set', function() {
-      beforeEach(function() {
-        this.$input.attr('id', 'custom-input-id');
+    it('should not set an aria-label if no value is specified', function() {
+      this.view = new Typeahead({
+        input: this.$input
       });
 
-      it('should set aria-labelledby to null if no placeholder specified', function() {
-        this.view = new Typeahead({
-          input: this.$input
-        });
-
-        expect(this.$input.attr('aria-labelledby')).toBeUndefined();
-      });
-
-      it('should set aria-labelledby to the input id if a placeholder is specified', function() {
-        this.$input.attr('placeholder', 'custom placeholder');
-
-        this.view = new Typeahead({
-          input: this.$input
-        });
-
-        expect(this.$input.attr('aria-labelledby')).toBe('custom-input-id');
-      });
+      expect(this.$input.attr('aria-label')).toBeUndefined();
     });
   });
 });

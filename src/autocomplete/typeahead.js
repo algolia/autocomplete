@@ -544,17 +544,6 @@ function buildDom(options) {
     type: $input.attr('type')
   });
 
-  // Use ariaLabelledBy option if specified
-  var ariaLabelledBy = options.ariaLabelledBy;
-  if (ariaLabelledBy === false) {
-    // If it is explicity false, null the field
-    ariaLabelledBy = null;
-  } else if (!ariaLabelledBy && $input.attr('placeholder')) {
-    // If a placeholder is set, label this field with itself, which in this case,
-    // is an explicit pointer to use the placeholder attribute value.
-    ariaLabelledBy = $input.attr('id');
-  }
-
   $input
     .addClass(_.className(options.cssClasses.prefix, options.cssClasses.input, true))
     .attr({
@@ -573,7 +562,7 @@ function buildDom(options) {
         options.datasets[0] && options.datasets[0].displayKey ? 'both' : 'list'),
       // Indicates whether the dropdown it controls is currently expanded or collapsed
       'aria-expanded': 'false',
-      'aria-labelledby': ariaLabelledBy,
+      'aria-label': options.ariaLabel,
       // Explicitly point to the listbox,
       // which is a list of suggestions (aka options)
       'aria-owns': options.listboxId

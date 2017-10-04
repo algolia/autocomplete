@@ -316,7 +316,7 @@ When initializing an autocomplete, there are a number of options you can configu
 * `keyboardShortcuts` - Array of shortcut that will focus the input. For example if you want to bind `s` and `/`
  you can specify: `keyboardShortcuts: ['s', '/']`
 
-* `ariaLabelledBy` - An optional id to use for the `aria-labelledby` attribute. Specify `false` to exclude the attribute. Defaults to using the `placeholder` as the label if a `placeholder` is specified.
+* `ariaLabel` - An optional string that will populate the `aria-label` attribute.
 
 ```html
 <script type="text/template" id="my-custom-menu-template">
@@ -776,7 +776,7 @@ Autocomplete.js is accessible to screen readers, and here's how to test how most
 1. Type a search query
 1. Use the arrow keys to navigate through the results
 
-✔ SUCCESS: results are read (not necessarily in sync with the visually selected cursor)
+✔ SUCCESS: results are read (not necessarily in sync with the visually selected cursor)  
 𐄂 FAIL: no text is read or the screen reader keeps reading the typed query
 
 #### Recommended testing platforms
