@@ -94,7 +94,6 @@ describe('Typeahead', function() {
       var that = this;
       waitsForAndRuns(function() { return that.dropdown.close.calls.count(); }, done, 100);
     });
-
   });
 
   describe('when dropdown triggers suggestionClicked with undefined displayKey', function() {
@@ -871,17 +870,40 @@ describe('Typeahead', function() {
   });
 
   describe('when set autoWidth option', function() {
-    it ('should set default to true', function() {
+    it('should set default to true', function() {
       this.dropdown.trigger('redrawn');
       expect(this.view.autoWidth).toBeTruthy();
       expect(/\d{3}px/.test(this.view.$node[0].style.width)).toBeTruthy();
     });
 
-    it ('should not put width style when autoWidth is false', function() {
+    it('should not put width style when autoWidth is false', function() {
       this.view.autoWidth = false;
       this.dropdown.trigger('redrawn');
       expect(this.view.autoWidth).toBeFalsy();
       expect(this.view.$node[0].style.width).toBeFalsy();
+    });
+  });
+
+  describe('when aria-label is set', function() {
+    beforeEach(function() {
+      this.view.destroy();
+    });
+
+    it('should set aria-label to the specified string', function() {
+      this.view = new Typeahead({
+        input: this.$input,
+        ariaLabel: 'custom-aria-label'
+      });
+
+      expect(this.$input.attr('aria-label')).toBe('custom-aria-label');
+    });
+
+    it('should not set an aria-label if no value is specified', function() {
+      this.view = new Typeahead({
+        input: this.$input
+      });
+
+      expect(this.$input.attr('aria-label')).toBeUndefined();
     });
   });
 });

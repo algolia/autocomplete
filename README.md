@@ -316,6 +316,8 @@ When initializing an autocomplete, there are a number of options you can configu
 * `keyboardShortcuts` - Array of shortcut that will focus the input. For example if you want to bind `s` and `/`
  you can specify: `keyboardShortcuts: ['s', '/']`
 
+* `ariaLabel` - An optional string that will populate the `aria-label` attribute.
+
 ```html
 <script type="text/template" id="my-custom-menu-template">
   <div class="my-custom-menu">
