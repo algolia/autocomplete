@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.28.3
+ * autocomplete.js 0.29.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2017 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -2190,9 +2190,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        options.datasets[0] && options.datasets[0].displayKey ? 'both' : 'list'),
 	      // Indicates whether the dropdown it controls is currently expanded or collapsed
 	      'aria-expanded': 'false',
-	      // If a placeholder is set, label this field with itself, which in this case,
-	      // is an explicit pointer to use the placeholder attribute value.
-	      'aria-labelledby': ($input.attr('placeholder') ? $input.attr('id') : null),
+	      'aria-label': options.ariaLabel,
 	      // Explicitly point to the listbox,
 	      // which is a list of suggestions (aka options)
 	      'aria-owns': options.listboxId
@@ -3445,8 +3443,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      parseInt($el.css('margin-bottom'), 10);
 	    menuScrollTop = this.$menu.scrollTop();
 	    menuHeight = this.$menu.height() +
-	      parseInt(this.$menu.css('paddingTop'), 10) +
-	      parseInt(this.$menu.css('paddingBottom'), 10);
+	      parseInt(this.$menu.css('padding-top'), 10) +
+	      parseInt(this.$menu.css('padding-bottom'), 10);
 
 	    if (elTop < 0) {
 	      this.$menu.scrollTop(menuScrollTop + elTop);
@@ -4015,7 +4013,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.28.3";
+	module.exports = "0.29.0";
 
 
 /***/ },
