@@ -122,7 +122,7 @@ var autocomplete = require('autocomplete.js');
 <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
 <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
 <script>
-  var client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey')
+  var client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey');
   var index = client.initIndex('YourIndex');
   autocomplete('#search-input', { hint: false }, [
     {
