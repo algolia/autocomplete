@@ -52,15 +52,7 @@
 
       $('#contacts').autocomplete({ hint: false }, [
         {
-          source: function(q, cb) {
-            index.search(q, { hitsPerPage: 5 }, function(error, content) {
-              if (error) {
-                cb([]);
-                return;
-              }
-              cb(content.hits, content);
-            });
-          },
+          source: $.fn.autocomplete.sources.hits(index, { hitsPerPage: 5 }),
           displayKey: 'name',
           templates: {
             suggestion: function(suggestion) {
