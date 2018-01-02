@@ -37,31 +37,30 @@
         <div class="col-sm-6 col-sm-offset-3">
           <form action="#" class="form">
             <h3>Basic example</h3>
-            <input class="form-control" id="search-input" name="contacts" type="text" placeholder='Search by name' />
+            <input class="form-control" id="contacts" name="contacts" type="text" placeholder='Search by name' />
           </form>
         </div>
       </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
     <script>
       var client = algoliasearch('latency', '6be0576ff61c053d5f9a3225e2a90f76');
       var index = client.initIndex('contacts');
-      autocomplete('#search-input', { hint: false }, [
+
+      $('#contacts').autocomplete({ hint: false }, [
         {
-          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
-          displayKey: 'my_attribute',
+          source: $.fn.autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          displayKey: 'name',
           templates: {
             suggestion: function(suggestion) {
               return suggestion._highlightResult.name.value;
             }
           }
         }
-      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
-        console.log(suggestion, dataset);
-        alert('dataset: ' + dataset + ', ' + suggestion.name);
-      });
+      ]);
     </script>
   </body>
 </html>
