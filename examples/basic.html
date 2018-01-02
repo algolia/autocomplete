@@ -60,6 +60,7 @@
         }
       ]).on('autocomplete:selected', function(event, suggestion, dataset) {
         console.log(suggestion, dataset);
+        alert('dataset: ' + dataset + ', ' + suggestion.name);
       });
     </script>
   </body>
