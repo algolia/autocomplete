@@ -9,6 +9,8 @@ This JavaScript library adds a fast and fully-featured auto-completion menu to y
 ![jQuery](https://img.shields.io/badge/jQuery-OK-blue.svg)
 ![Zepto.js](https://img.shields.io/badge/Zepto.js-OK-blue.svg)
 ![Angular.js](https://img.shields.io/badge/Angular.js-OK-blue.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 [![Browser tests](https://saucelabs.com/browser-matrix/opensauce-algolia.svg)](https://saucelabs.com/u/opensauce-algolia)
 
