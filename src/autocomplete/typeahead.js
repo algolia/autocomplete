@@ -589,7 +589,8 @@ function buildDom(options) {
   return {
     wrapper: $wrapper,
     input: $input,
-    hint: $hint,
+    // hint needs to be based on wrapper or else it will always exist on input creation
+    hint: $wrapper.find($hint),
     menu: $dropdown
   };
 }

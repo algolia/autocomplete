@@ -906,4 +906,28 @@ describe('Typeahead', function() {
       expect(this.$input.attr('aria-label')).toBeUndefined();
     });
   });
+
+  describe('when hint is set', function () {
+    beforeEach(function() {
+      this.view.destroy();
+    });
+
+    it('should return a hint of length 1 if hint is true', function () {
+      this.view = new Typeahead({
+        input: this.$input,
+        hint: true
+      });
+      var $hint = this.view.$node.find('.aa-hint');
+      expect($hint.length).toBe(1);
+    });
+
+    it('should return a hint of length 0 if hint is false', function () {
+      this.view = new Typeahead({
+        input: this.$input,
+        hint: false
+      });
+      var $hint = this.view.$node.find('.aa-hint');
+      expect($hint.length).toBe(0);
+    });
+  });
 });
