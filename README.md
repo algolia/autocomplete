@@ -705,7 +705,7 @@ The standalone version API is similiar to jQuery's:
 
 ```js
 var search = autocomplete('#search', { hint: false }, [{
-  source: autocomplete.sources.hits(index, { hitsPerPage: 5 }
+  source: autocomplete.sources.hits(index, { hitsPerPage: 5 })
 }]);
 
 search.autocomplete.open();
