@@ -431,9 +431,18 @@ describe('Dropdown', function() {
   });
 
   describe('#update', function() {
-    it('should invoke update on each dataset', function() {
-      this.view.update();
+    it('should invoke update on each dataset that is within the query length', function() {
+      this.dataset.minLength = 1;
+      this.dataset.maxLength = Number.MAX_VALUE;
+      this.view.update('query');
       expect(this.dataset.update).toHaveBeenCalled();
+    });
+
+    it('should invoke clear on each dataset that is not within the query length', function() {
+      this.dataset.minLength = 6;
+      this.dataset.maxLength = Number.MAX_VALUE;
+      this.view.update('query');
+      expect(this.dataset.clear).toHaveBeenCalled();
     });
   });
 

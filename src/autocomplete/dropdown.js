@@ -353,7 +353,11 @@ _.mixin(Dropdown.prototype, EventEmitter, {
     _.each(this.datasets, updateDataset);
 
     function updateDataset(dataset) {
-      dataset.update(query);
+      if (query.length >= dataset.minLength && query.length <= dataset.maxLength) {
+        dataset.update(query);
+      } else {
+        dataset.clear();
+      }
     }
   },
 

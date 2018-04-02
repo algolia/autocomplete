@@ -37,6 +37,9 @@ function Dataset(o) {
 
   this.templates = getTemplates(o.templates, this.displayFn);
 
+  this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
+  this.maxLength = _.isNumber(o.maxLength) ? o.maxLength : Number.MAX_VALUE;
+
   this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
   this.cssClasses = o.cssClasses = _.mixin({}, css.defaultClasses, o.cssClasses || {});
   this.cssClasses.prefix =
