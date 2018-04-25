@@ -278,11 +278,12 @@ describe('Dataset', function() {
       }, 100);
     });
 
-    it('should cache latest query, suggestions and extra render arguments', function() {
+    it('should cache latest query, page, suggestions and extra render arguments', function() {
       this.source.and.callFake(fakeGetWithSyncResultsAndExtraParams);
       this.dataset.update('woah');
 
       expect(this.dataset.cachedQuery).toEqual('woah');
+      expect(this.dataset.cachedPage).toEqual(0);
       expect(this.dataset.cachedSuggestions).toEqual([
         {value: 'one', raw: {value: 'one'}},
         {value: 'two', raw: {value: 'two'}},
@@ -341,13 +342,38 @@ describe('Dataset', function() {
       this.dataset.clear();
       this.dataset.update('woah 2');
       expect(this.source.calls.count()).toBe(2);
+
+      this.dataset.clear();
+      this.dataset.update('woah 2', 1); // 2nd page
+      expect(this.source.calls.count()).toBe(3);
+    });
+
+    it('should call source with a page parameter', function() {
+      this.dataset.update('woah', 42);
+
+      expect(this.source.calls.count()).toBe(1);
+      expect(this.source.calls.argsFor(0)[0]).toEqual('woah');
+      expect(this.source.calls.argsFor(0)[2]).toEqual({page: 42});
+    });
+  });
+
+  describe('#fetchPage', function() {
+    it('should call update with given page for the current query', function() {
+      var updateSpy = spyOn(this.dataset, 'update');
+
+      this.dataset.query = 'woah';
+      this.dataset.fetchPage(42);
+
+      expect(updateSpy.calls.count()).toBe(1);
+      expect(updateSpy.calls.argsFor(0)).toEqual(['woah', 42]);
     });
   });
 
   describe('#cacheSuggestions', function() {
-    it('should assign cachedQuery, cachedSuggestions and cachedRenderArgs properties', function() {
-      this.dataset.cacheSuggestions('woah', ['one', 'two'], 42);
+    it('should assign cachedQuery, cachedPage, cachedSuggestions and cachedRenderArgs properties', function() {
+      this.dataset.cacheSuggestions('woah', 24, ['one', 'two'], 42);
       expect(this.dataset.cachedQuery).toEqual('woah');
+      expect(this.dataset.cachedPage).toEqual(24);
       expect(this.dataset.cachedSuggestions).toEqual(['one', 'two']);
       expect(this.dataset.cachedRenderExtraArgs).toEqual(42);
     });
@@ -356,12 +382,14 @@ describe('Dataset', function() {
   describe('#clearCachedSuggestions', function() {
     it('should delete cachedQuery and cachedSuggestions properties', function() {
       this.dataset.cachedQuery = 'one';
+      this.dataset.cachedPage = 24;
       this.dataset.cachedSuggestions = ['one', 'two'];
       this.dataset.cachedRenderExtraArgs = 42;
 
       this.dataset.clearCachedSuggestions();
 
       expect(this.dataset.cachedQuery).toBeUndefined();
+      expect(this.dataset.cachedPage).toBeUndefined();
       expect(this.dataset.cachedSuggestions).toBeUndefined();
       expect(this.dataset.cachedRenderExtraArgs).toBeUndefined();
     });
