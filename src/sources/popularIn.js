@@ -24,7 +24,7 @@ module.exports = function popularIn(index, params, details, options) {
 
   return sourceFn;
 
-  function sourceFn(query, cb) {
+  function sourceFn(query, cb, additionalParams) {
     index.search(query, params, function(error, content) {
       if (error) {
         _.error(error.message);
@@ -34,7 +34,7 @@ module.exports = function popularIn(index, params, details, options) {
       if (content.hits.length > 0) {
         var first = content.hits[0];
 
-        var detailsParams = _.mixin({hitsPerPage: 0}, details);
+        var detailsParams = _.mixin({hitsPerPage: 0}, details, additionalParams);
         delete detailsParams.source; // not a query parameter
         delete detailsParams.index; // not a query parameter
 

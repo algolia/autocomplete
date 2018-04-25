@@ -12,8 +12,9 @@ module.exports = function search(index, params) {
   }
   return sourceFn;
 
-  function sourceFn(query, cb) {
-    index.search(query, params, function(error, content) {
+  function sourceFn(query, cb, additionalParams) {
+    var searchParams = _.mixin({}, params, additionalParams || {});
+    index.search(query, searchParams, function(error, content) {
       if (error) {
         _.error(error.message);
         return;

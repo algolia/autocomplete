@@ -51,6 +51,10 @@ function Dataset(o) {
         .replace('%DATASET%', this.cssClasses.dataset)
     );
 
+  var onPageClick = _.bind(this._onPageClick, this);
+  var pageButtonClass = _.className(this.cssClasses.prefix, this.cssClasses.page);
+  this.$el.on('click.aa', pageButtonClass, onPageClick);
+
   this.$menu = o.$menu;
   this.clearCachedSuggestions();
 }
@@ -179,47 +183,83 @@ _.mixin(Dataset.prototype, EventEmitter, {
     }
   },
 
+  _onPageClick: function onPageClick($e) {
+    $e.preventDefault();
+
+    var page = DOM.element($e.currentTarget).data('page');
+    this.fetchPage(page);
+  },
+
   // ### public
 
   getRoot: function getRoot() {
     return this.$el;
   },
 
-  update: function update(query) {
+  update: function update(query, page) {
+    page = page || 0;
+
     function handleSuggestions(suggestions) {
       // if the update has been canceled or if the query has changed
       // do not render the suggestions as they've become outdated
-      if (!this.canceled && query === this.query) {
+      if (!this.canceled && query === this.query && page === this.page) {
         // concat all the other arguments that could have been passed
         // to the render function, and forward them to _render
         var extraArgs = [].slice.call(arguments, 1);
-        this.cacheSuggestions(query, suggestions, extraArgs);
+        this.cacheSuggestions(query, page, suggestions, extraArgs);
         this._render.apply(this, [query, suggestions].concat(extraArgs));
       }
     }
 
     this.query = query;
+    this.page = page;
     this.canceled = false;
 
-    if (this.shouldFetchFromCache(query)) {
+    if (this.shouldFetchFromCache(query, page)) {
       handleSuggestions.apply(this, [this.cachedSuggestions].concat(this.cachedRenderExtraArgs));
     } else {
-      this.source(query, handleSuggestions.bind(this));
+      this.source(query, handleSuggestions.bind(this), {page: page});
     }
   },
 
-  cacheSuggestions: function cacheSuggestions(query, suggestions, extraArgs) {
+  fetchPage: function fetchPage(page) {
+    if (page === 'next') {
+      page = this.page + 1;
+    } else if (page === 'prev') {
+      page = this.page - 1;
+    }
+
+    var numberOfPages = this.cachedRenderExtraArgs && this.cachedRenderExtraArgs[0] ?
+      this.cachedRenderExtraArgs[0].nbPages :
+      0;
+
+    var lastPageIndex = numberOfPages - 1;
+    if (page < 0) {
+      page = 0;
+    } else if (lastPageIndex >= 0 && page > lastPageIndex) {
+      page = lastPageIndex;
+    }
+
+    this.update(this.query, page);
+  },
+
+  cacheSuggestions: function cacheSuggestions(query, page, suggestions, extraArgs) {
     this.cachedQuery = query;
+    this.cachedPage = page;
     this.cachedSuggestions = suggestions;
     this.cachedRenderExtraArgs = extraArgs;
   },
 
-  shouldFetchFromCache: function shouldFetchFromCache(query) {
-    return this.cachedQuery === query && this.cachedSuggestions && this.cachedSuggestions.length;
+  shouldFetchFromCache: function shouldFetchFromCache(query, page) {
+    return this.cachedQuery === query
+      && this.cachedPage === page
+      && this.cachedSuggestions
+      && this.cachedSuggestions.length;
   },
 
   clearCachedSuggestions: function clearCachedSuggestions() {
     delete this.cachedQuery;
+    delete this.cachedPage;
     delete this.cachedSuggestions;
     delete this.cachedRenderExtraArgs;
   },

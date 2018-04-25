@@ -61,6 +61,7 @@ var css = {
     suggestion: 'suggestion',
     cursor: 'cursor',
     dataset: 'dataset',
+    page: 'page',
     empty: 'empty'
   },
   // will be merged with the default ones if appendTo is used
