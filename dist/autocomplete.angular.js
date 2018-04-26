@@ -1,7 +1,7 @@
 /*!
  * autocomplete.js 0.29.0
  * https://github.com/algolia/autocomplete.js
- * Copyright 2017 Algolia, Inc. and other contributors; Licensed MIT
+ * Copyright 2018 Algolia, Inc. and other contributors; Licensed MIT
  */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -2323,6 +2323,10 @@
 	        .replace('%DATASET%', this.cssClasses.dataset)
 	    );
 
+	  var onPageClick = _.bind(this._onPageClick, this);
+	  var pageButtonClass = _.className(this.cssClasses.prefix, this.cssClasses.page);
+	  this.$el.on('click.aa', pageButtonClass, onPageClick);
+
 	  this.$menu = o.$menu;
 	  this.clearCachedSuggestions();
 	}
@@ -2451,47 +2455,86 @@
 	    }
 	  },
 
+	  _onPageClick: function onPageClick($e) {
+	    $e.preventDefault();
+
+	    var page = DOM.element($e.currentTarget).data('page');
+	    this.fetchPage(page);
+	  },
+
 	  // ### public
 
 	  getRoot: function getRoot() {
 	    return this.$el;
 	  },
 
-	  update: function update(query) {
+	  update: function update(query, page) {
+	    page = page || 0;
+
 	    function handleSuggestions(suggestions) {
 	      // if the update has been canceled or if the query has changed
 	      // do not render the suggestions as they've become outdated
-	      if (!this.canceled && query === this.query) {
+	      if (!this.canceled && query === this.query && page === this.page) {
 	        // concat all the other arguments that could have been passed
 	        // to the render function, and forward them to _render
 	        var extraArgs = [].slice.call(arguments, 1);
-	        this.cacheSuggestions(query, suggestions, extraArgs);
+	        this.cacheSuggestions(query, page, suggestions, extraArgs);
 	        this._render.apply(this, [query, suggestions].concat(extraArgs));
 	      }
 	    }
 
 	    this.query = query;
+	    this.page = page;
 	    this.canceled = false;
 
-	    if (this.shouldFetchFromCache(query)) {
+	    if (this.shouldFetchFromCache(query, page)) {
 	      handleSuggestions.apply(this, [this.cachedSuggestions].concat(this.cachedRenderExtraArgs));
 	    } else {
-	      this.source(query, handleSuggestions.bind(this));
+	      this.source(query, handleSuggestions.bind(this), {page: page});
 	    }
 	  },
 
-	  cacheSuggestions: function cacheSuggestions(query, suggestions, extraArgs) {
+	  fetchPage: function fetchPage(page) {
+	    var numberOfPages = this.cachedRenderExtraArgs && this.cachedRenderExtraArgs[0] ?
+	      this.cachedRenderExtraArgs[0].nbPages : 0;
+	    var lastPageIndex = numberOfPages - 1;
+
+	    if (page === 'next') {
+	      page = this.page + 1;
+	    } else if (page === 'prev') {
+	      page = this.page - 1;
+	    } else if (page === 'first') {
+	      page = 0;
+	    } else if (page === 'last') {
+	      page = lastPageIndex;
+	    }
+
+	    if (page < 0) {
+	      page = 0;
+	    } else if (lastPageIndex >= 0 && page > lastPageIndex) {
+	      page = lastPageIndex;
+	    }
+
+	    this.update(this.query, page);
+	  },
+
+	  cacheSuggestions: function cacheSuggestions(query, page, suggestions, extraArgs) {
 	    this.cachedQuery = query;
+	    this.cachedPage = page;
 	    this.cachedSuggestions = suggestions;
 	    this.cachedRenderExtraArgs = extraArgs;
 	  },
 
-	  shouldFetchFromCache: function shouldFetchFromCache(query) {
-	    return this.cachedQuery === query && this.cachedSuggestions && this.cachedSuggestions.length;
+	  shouldFetchFromCache: function shouldFetchFromCache(query, page) {
+	    return this.cachedQuery === query
+	      && this.cachedPage === page
+	      && this.cachedSuggestions
+	      && this.cachedSuggestions.length;
 	  },
 
 	  clearCachedSuggestions: function clearCachedSuggestions() {
 	    delete this.cachedQuery;
+	    delete this.cachedPage;
 	    delete this.cachedSuggestions;
 	    delete this.cachedRenderExtraArgs;
 	  },
@@ -2632,6 +2675,7 @@
 	    suggestion: 'suggestion',
 	    cursor: 'cursor',
 	    dataset: 'dataset',
+	    page: 'page',
 	    empty: 'empty'
 	  },
 	  // will be merged with the default ones if appendTo is used
@@ -2698,8 +2742,9 @@
 	  }
 	  return sourceFn;
 
-	  function sourceFn(query, cb) {
-	    index.search(query, params, function(error, content) {
+	  function sourceFn(query, cb, additionalParams) {
+	    var searchParams = _.mixin({}, params, additionalParams || {});
+	    index.search(query, searchParams, function(error, content) {
 	      if (error) {
 	        _.error(error.message);
 	        return;
@@ -2759,7 +2804,7 @@
 
 	  return sourceFn;
 
-	  function sourceFn(query, cb) {
+	  function sourceFn(query, cb, additionalParams) {
 	    index.search(query, params, function(error, content) {
 	      if (error) {
 	        _.error(error.message);
@@ -2769,7 +2814,7 @@
 	      if (content.hits.length > 0) {
 	        var first = content.hits[0];
 
-	        var detailsParams = _.mixin({hitsPerPage: 0}, details);
+	        var detailsParams = _.mixin({hitsPerPage: 0}, details, additionalParams);
 	        delete detailsParams.source; // not a query parameter
 	        delete detailsParams.index; // not a query parameter
 
