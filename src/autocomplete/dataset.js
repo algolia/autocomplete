@@ -223,17 +223,20 @@ _.mixin(Dataset.prototype, EventEmitter, {
   },
 
   fetchPage: function fetchPage(page) {
+    var numberOfPages = this.cachedRenderExtraArgs && this.cachedRenderExtraArgs[0] ?
+      this.cachedRenderExtraArgs[0].nbPages : 0;
+    var lastPageIndex = numberOfPages - 1;
+
     if (page === 'next') {
       page = this.page + 1;
     } else if (page === 'prev') {
       page = this.page - 1;
+    } else if (page === 'first') {
+      page = 0;
+    } else if (page === 'last') {
+      page = lastPageIndex;
     }
 
-    var numberOfPages = this.cachedRenderExtraArgs && this.cachedRenderExtraArgs[0] ?
-      this.cachedRenderExtraArgs[0].nbPages :
-      0;
-
-    var lastPageIndex = numberOfPages - 1;
     if (page < 0) {
       page = 0;
     } else if (lastPageIndex >= 0 && page > lastPageIndex) {
