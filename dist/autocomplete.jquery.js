@@ -1,7 +1,7 @@
 /*!
  * autocomplete.js 0.29.0
  * https://github.com/algolia/autocomplete.js
- * Copyright 2017 Algolia, Inc. and other contributors; Licensed MIT
+ * Copyright 2018 Algolia, Inc. and other contributors; Licensed MIT
  */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -2356,6 +2356,8 @@
 	  this.source = o.source;
 	  this.displayFn = getDisplayFn(o.display || o.displayKey);
 
+	  this.debounce = o.debounce;
+
 	  this.templates = getTemplates(o.templates, this.displayFn);
 
 	  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
@@ -2525,7 +2527,23 @@
 	    if (this.shouldFetchFromCache(query)) {
 	      handleSuggestions.apply(this, [this.cachedSuggestions].concat(this.cachedRenderExtraArgs));
 	    } else {
-	      this.source(query, handleSuggestions.bind(this));
+	      var that = this;
+	      var execSource = function() { that.source(query, handleSuggestions.bind(that)); };
+
+	      if (this.debounce) {
+	        var later = function() {
+	          that.debounceTimeout = null;
+	          execSource();
+	        };
+	        var callNow = !this.debounceTimeout;
+	        clearTimeout(this.debounceTimeout);
+	        this.debounceTimeout = setTimeout(later, this.debounce);
+	        if (callNow) {
+	          execSource();
+	        }
+	      } else {
+	        execSource();
+	      }
 	    }
 	  },
 
