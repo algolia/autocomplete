@@ -1,3 +1,8 @@
+<a name="0.30.0"></a>
+# [0.30.0](https://github.com/algolia/autocomplete.js/compare/v0.29.0...v0.30.0) (2018-04-30)
+
+
+
 <a name="0.29.0"></a>
 # [0.29.0](https://github.com/algolia/autocomplete.js/compare/v0.28.3...v0.29.0) (2017-10-12)
 

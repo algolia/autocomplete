@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.29.0
+ * autocomplete.js 0.30.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2018 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -4031,7 +4031,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.29.0";
+	module.exports = "0.30.0";
 
 
 /***/ },
