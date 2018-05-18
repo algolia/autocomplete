@@ -480,8 +480,8 @@ Datasets can be configured using the following options.
   been forwarded by the source: `function suggestionTemplate(suggestion, [forwarded args])`.
   Defaults to the value of `displayKey` wrapped in a `p` tag i.e. `<p>{{value}}</p>`.
 
-  * `debounce` – If set, will postpone the source execution until after `debounce` milliseconds
-  have elapsed since the last time it was invoked.
+* `debounce` – If set, will postpone the source execution until after `debounce` milliseconds
+have elapsed since the last time it was invoked.
 
 
 ## Sources
