@@ -364,6 +364,31 @@ describe('Dataset', function() {
         done();
       }, 500);
     });
+
+    it('should not call the source if update was canceled', function(done) {
+      var that = this;
+
+      this.dataset = new Dataset({
+        source: this.source,
+        debounce: 250
+      });
+
+      this.source.and.callFake(fakeGetWithSyncResultsAndExtraParams);
+
+      this.dataset.update('woah');
+      expect(this.source.calls.count()).toBe(0);
+
+      this.dataset.update('woah 2');
+      expect(this.source.calls.count()).toBe(0);
+
+      this.dataset.clear();
+      expect(this.source.calls.count()).toBe(0);
+
+      setTimeout(function() {
+        expect(that.source.calls.count()).toBe(0);
+        done();
+      }, 500);
+    });
   });
 
   describe('#cacheSuggestions', function() {
