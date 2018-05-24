@@ -214,12 +214,8 @@ _.mixin(Dataset.prototype, EventEmitter, {
           that.debounceTimeout = null;
           execSource();
         };
-        var callNow = !this.debounceTimeout;
         clearTimeout(this.debounceTimeout);
         this.debounceTimeout = setTimeout(later, this.debounce);
-        if (callNow) {
-          execSource();
-        }
       } else {
         execSource();
       }
