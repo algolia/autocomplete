@@ -7,9 +7,9 @@ env:
   matrix:
   - TEST_SUITE=unit
   - TEST_SUITE=integration BROWSER='firefox'
-  - TEST_SUITE=integration BROWSER='safari:6'
-  - TEST_SUITE=integration BROWSER='safari:7'
-  - TEST_SUITE=integration BROWSER='safari:8'
+  - TEST_SUITE=integration BROWSER='safari:9'
+  - TEST_SUITE=integration BROWSER='safari:10'
+  - TEST_SUITE=integration BROWSER='safari:11'
   - TEST_SUITE=integration BROWSER='internet explorer:9'
   - TEST_SUITE=integration BROWSER='internet explorer:10'
   - TEST_SUITE=integration BROWSER='internet explorer:11'
