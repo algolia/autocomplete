@@ -24,6 +24,13 @@
                 <span class="input-group-addon">Go</span>
               </div>
             </div>
+            <div class="col-sm-4">
+              <h4>Simple auto-complete with debounce</h4>
+              <div class="input-group">
+                <input id="contacts3" name="contacts3" class="form-control" type="text" placeholder="Search actors">
+                <span class="input-group-addon">Go</span>
+              </div>
+            </div>
           </div>
         </div>
       </form>
@@ -81,7 +88,6 @@
         }
       }, [
         {
-          debounce: 1000,
           source: autocomplete.sources.popularIn(
             actors,
             { hitsPerPage: 3 },
@@ -120,6 +126,26 @@
         console.log('selected', suggestion, dataset);
       }).on('autocomplete:shown', function() {
         console.log('shown');
+      });
+
+      autocomplete('#contacts3', { debug: true, hint: false, templates: { empty: 'empty' }, autoselect: true, appendTo: 'body' }, [
+        {
+          debounce: 1000,
+          source: autocomplete.sources.hits(actors),
+          displayKey: 'name',
+          templates: {
+            footer: function(o, content) {
+              return '<div class="aa-info-results">' + content.nbHits + ' results</div>';
+            },
+            suggestion: function(suggestion) {
+              return '<div>' + suggestion._highlightResult.name.value + '</div>';
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(even, suggestion, dataset) {
+        console.log('selected', suggestion, dataset);
+      }).on('autocomplete:cursorchanged', function(even, suggestion, dataset) {
+        console.log('cursorchanged', suggestion, dataset);
       });
     </script>
   </body>

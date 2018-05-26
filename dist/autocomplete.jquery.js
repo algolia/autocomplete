@@ -2528,19 +2528,21 @@
 	      handleSuggestions.apply(this, [this.cachedSuggestions].concat(this.cachedRenderExtraArgs));
 	    } else {
 	      var that = this;
-	      var execSource = function() { that.source(query, handleSuggestions.bind(that)); };
+	      var execSource = function() {
+	        // When the call is debounced the condition avoid to do a useless
+	        // request with the last character when the input has been cleared
+	        if (!that.canceled) {
+	          that.source(query, handleSuggestions.bind(that));
+	        }
+	      };
 
 	      if (this.debounce) {
 	        var later = function() {
 	          that.debounceTimeout = null;
 	          execSource();
 	        };
-	        var callNow = !this.debounceTimeout;
 	        clearTimeout(this.debounceTimeout);
 	        this.debounceTimeout = setTimeout(later, this.debounce);
-	        if (callNow) {
-	          execSource();
-	        }
 	      } else {
 	        execSource();
 	      }

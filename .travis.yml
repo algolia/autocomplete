@@ -7,12 +7,13 @@ env:
   matrix:
   - TEST_SUITE=unit
   - TEST_SUITE=integration BROWSER='firefox'
-  - TEST_SUITE=integration BROWSER='safari:6'
-  - TEST_SUITE=integration BROWSER='safari:7'
-  - TEST_SUITE=integration BROWSER='safari:8'
+  - TEST_SUITE=integration BROWSER='safari:9'
+  - TEST_SUITE=integration BROWSER='safari:10'
+  - TEST_SUITE=integration BROWSER='safari:11'
   - TEST_SUITE=integration BROWSER='internet explorer:9'
   - TEST_SUITE=integration BROWSER='internet explorer:10'
   - TEST_SUITE=integration BROWSER='internet explorer:11'
+  - TEST_SUITE=integration BROWSER='MicrosoftEdge'
   - TEST_SUITE=integration BROWSER='chrome'
   global:
   - secure: wuQpdVaYsj4JGZcYGPPMa6GQHA6RFCEDm1F9IOTOJLAPo9XS3+gcwU3uFqZONf9+f/l7LrF0tpsl1BTDiAQJkig1Z851mPNj0XaMWnBL+2cyfJPzAYBIj18A7xKnyvRWXKtTeDo5l6DKYiA86VQmZSQWulUVYzr7qeIWvONLqrqLpW2Gl910khy2sDO6LJSHqTvXcEwRtL6sIf0O93wxIwGuZM1EBAmZsorvZYSH3wILhT98Jj458OMxm8u2CgoFjjI62tNAksRGJ8E6iDNJOHyGPFxAQhGoqAQWBspHCQWt9aOFGNweig+ReulE9g0Oqfpy2YeE6XYb3rZyUjgDFSBWj4fnwUDqBInn30s4t4tmd0LLrc9VbMg/BkdoPlMMl+FAo/g/82tkAkIoFPfx/ZAlQ3zcVs3L3hPkh3597RWoXLdNIuRqquxaFGadumLRVUZElreMCEQUbk1mOEkbLf/tgW60ZUL9fJbl0qJK0uPXFX/sufxYVC1YfuRX3RpUL1bME8KyhW+zXTkz+x6AqosQYcsdXAzU4VWVJc5fyYjb8rSNMyWkmx+2T4w/DX6nF9ii6ybKm5sN3Z4LBB5ih73/MlKQLxqZTBKYJ5V8MdkTq2raW9nUB+WARd+UOBbmPnsYU3wqW+rXPgwiaVIj6ew6QsCgjQsLWswYwRb6oN8=
