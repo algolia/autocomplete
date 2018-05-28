@@ -22,7 +22,8 @@ fi
 semver $nextVersion -r ">$currentVersion" ||
 error_exit "Cannot bump from $currentVersion to $nextVersion"
 
-if [[ -n $(npm owner add "`npm whoami`") ]]; then
+if ! npm owner ls | grep -q "$(npm whoami)"
+then
   error_exit "Not an owner of the npm repo, ask for it"
 fi
 
