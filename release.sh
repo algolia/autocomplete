@@ -29,7 +29,7 @@ fi
 
 currentBranch=$(git rev-parse --abbrev-ref HEAD)
 if [[ $currentBranch != 'master' ]]; then
-  error_exit "You mut be on master branch"
+  error_exit "You must be on master branch"
 fi
 
 if [[ -n $(git status --porcelain) ]]; then
