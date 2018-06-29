@@ -64,7 +64,8 @@ methods = {
         datasets: datasets,
         keyboardShortcuts: o.keyboardShortcuts,
         appendTo: o.appendTo,
-        autoWidth: o.autoWidth
+        autoWidth: o.autoWidth,
+        ariaLabel: o.ariaLabel
       });
 
       $input.data(typeaheadKey, typeahead);
