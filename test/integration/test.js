@@ -100,6 +100,22 @@ describe('jquery-typeahead.js', function() {
   });
 
   function testSuite () {
+    describe('initial attributes', function() {
+      it('should contain aria-label if specified using options', function(done) {
+        yield this.execute("buildAutocomplete({aria-label: 'blah', hint: false, appendTo: 'body'})");
+        driver.run(function*() {
+          expect(yield input.getAttribute('aria-label')).to.equal('blah');
+        })
+      });
+
+      it('should not contain aria-label if not specified using options', function(done) {
+        yield this.execute("buildAutocomplete({hint: false, appendTo: 'body'})");
+        driver.run(function*() {
+          expect(yield input.getAttribute('aria-label')).to.equal(undefined);
+        })
+      })
+    }
+
     describe('on blur', function() {
       it('should close dropdown', function(done) {
         driver.run(function*() {
