@@ -18,10 +18,11 @@ module.exports = {
   map: null,
   mixin: null,
 
-  isMsie: function() {
+  isMsie: function(agentString) {
+    if (agentString === undefined) { agentString = navigator.userAgent; }
     // from https://github.com/ded/bowser/blob/master/bowser.js
-    if ((/(msie|trident)/i).test(navigator.userAgent)) {
-      var match = navigator.userAgent.match(/(msie |rv:)(\d+(.\d+)?)/i);
+    if ((/(msie|trident)/i).test(agentString)) {
+      var match = agentString.match(/(msie |rv:)(\d+(.\d+)?)/i);
       if (match) { return match[2]; }
     }
     return false;
