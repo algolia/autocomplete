@@ -20,8 +20,11 @@ module.exports = {
 
   isMsie: function() {
     // from https://github.com/ded/bowser/blob/master/bowser.js
-    return (/(msie|trident)/i).test(navigator.userAgent) ?
-      navigator.userAgent.match(/(msie |rv:)(\d+(.\d+)?)/i)[2] : false;
+    if ((/(msie|trident)/i).test(navigator.userAgent)) {
+      var match = navigator.userAgent.match(/(msie |rv:)(\d+(.\d+)?)/i);
+      if (match) { return match[2]; }
+    }
+    return false;
   },
 
   // http://stackoverflow.com/a/6969486
