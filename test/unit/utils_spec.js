@@ -18,4 +18,9 @@ describe('escapeHTML', function() {
     var actual = _.escapeHighlightedString(test, '<span class="highlighted">', '</span>');
     expect(actual).toEqual('<span class="highlighted">&lt;img src=VALUE1 onerror=alert(1) /&gt;</span>OTHER CONTENT<span class="highlighted">VALUE2</span>OTHER CONTENT$');
   });
+
+  it('should report the isMsie state correctly', function() {
+    var actual = _.isMsie();
+    expect(actual).toEqual(false);
+  });
 });
