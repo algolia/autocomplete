@@ -419,7 +419,7 @@ _.mixin(Typeahead.prototype, {
       this.input.setQuery(datum.value);
     }
     if (this.clearOnSelected) {
-      this.input.setInputValue('', true);
+      this.setVal('');
     } else {
       this.input.setInputValue(datum.value, true);
     }
