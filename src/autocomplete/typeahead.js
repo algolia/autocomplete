@@ -31,6 +31,7 @@ function Typeahead(o) {
   this.openOnFocus = !!o.openOnFocus;
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
   this.autoWidth = (o.autoWidth === undefined) ? true : !!o.autoWidth;
+  this.clearOnSelected = !!o.clearOnSelected;
 
   o.hint = !!o.hint;
 
@@ -417,7 +418,11 @@ _.mixin(Typeahead.prototype, {
     if (typeof datum.value !== 'undefined') {
       this.input.setQuery(datum.value);
     }
-    this.input.setInputValue(datum.value, true);
+    if (this.clearOnSelected) {
+      this.input.setInputValue('', true);
+    } else {
+      this.input.setInputValue(datum.value, true);
+    }
 
     this._setLanguageDirection();
 

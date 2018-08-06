@@ -60,6 +60,7 @@ methods = {
         openOnFocus: o.openOnFocus,
         templates: o.templates,
         debug: o.debug,
+        clearOnSelected: o.clearOnSelected,
         cssClasses: o.cssClasses,
         datasets: datasets,
         keyboardShortcuts: o.keyboardShortcuts,
