@@ -383,7 +383,7 @@ describe('Typeahead', function() {
       view.$input.on('autocomplete:selected', spy);
       view.input.trigger('enterKeyed', $e);
 
-      expect(spy).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith(jasmine.objectContaining({
         type: 'autocomplete:selected',
         target: jasmine.any(Object),
