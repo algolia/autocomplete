@@ -290,6 +290,8 @@ When initializing an autocomplete, there are a number of options you can configu
 
 * `debug` – If `true`, the autocomplete will not close on `blur`. Defaults to `false`.
 
+* `clearOnSelected` – If `true`, the autocomplete will empty the search box when a suggestion is selected. This is useful if you want to use this as a way to input tags using the `selected` event.
+
 * `openOnFocus` – If `true`, the dropdown menu will open when the input is focused. Defaults to `false`.
 
 * `appendTo` – If set with a DOM selector, doesn't wrap the input and appends the wrapper and dropdown menu to the first DOM element matching the selector. It automatically positions the wrapper under the input, and sets it to the same width as the input. Can't be used with `hint: true`, because `hint` requires the wrapper around the input.

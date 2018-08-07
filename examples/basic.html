@@ -51,7 +51,7 @@
       autocomplete('#search-input', { hint: false }, [
         {
           source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
-          displayKey: 'my_attribute',
+          displayKey: 'name',
           templates: {
             suggestion: function(suggestion) {
               return suggestion._highlightResult.name.value;
