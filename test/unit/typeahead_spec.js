@@ -384,7 +384,8 @@ describe('Typeahead', function() {
       view.input.trigger('enterKeyed', $e);
 
       expect(spy).toHaveBeenCalled();
-      expect(view.setVal).toHaveBeenCalledWith('', true);
+      expect(view.input.setQuery).toHaveBeenCalledWith('');
+      expect(view.input.setInputValue).toHaveBeenCalledWith('', true);
     });
   });
 
