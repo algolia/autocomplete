@@ -378,12 +378,21 @@ describe('Typeahead', function() {
       });
       view.dropdown.getDatumForCursor.and.returnValue(testDatum);
 
-
+      // select something, and clear
       var $e = jasmine.createSpyObj('event', ['preventDefault']);
       view.$input.on('autocomplete:selected', spy);
       view.input.trigger('enterKeyed', $e);
 
       expect(spy).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith(jasmine.objectContaining({
+        type: 'autocomplete:selected',
+        target: jasmine.any(Object),
+        delegateTarget: jasmine.any(Object),
+        currentTarget: jasmine.any(Object),
+        handleObj: jasmine.objectContaining({
+          type: 'autocomplete:selected'
+        })
+      }), undefined, undefined);
       expect(view.input.setQuery).toHaveBeenCalledWith('');
       expect(view.input.setInputValue).toHaveBeenCalledWith('', true);
     });
