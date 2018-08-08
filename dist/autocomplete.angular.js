@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.30.0
+ * autocomplete.js 0.31.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2018 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -135,6 +135,7 @@
 	            openOnFocus: scope.options.openOnFocus,
 	            templates: scope.options.templates,
 	            debug: scope.options.debug,
+	            clearOnSelected: scope.options.clearOnSelected,
 	            cssClasses: scope.options.cssClasses,
 	            datasets: scope.datasets,
 	            keyboardShortcuts: scope.options.keyboardShortcuts,
@@ -213,10 +214,14 @@
 	  map: null,
 	  mixin: null,
 
-	  isMsie: function() {
+	  isMsie: function(agentString) {
+	    if (agentString === undefined) { agentString = navigator.userAgent; }
 	    // from https://github.com/ded/bowser/blob/master/bowser.js
-	    return (/(msie|trident)/i).test(navigator.userAgent) ?
-	      navigator.userAgent.match(/(msie |rv:)(\d+(.\d+)?)/i)[2] : false;
+	    if ((/(msie|trident)/i).test(agentString)) {
+	      var match = agentString.match(/(msie |rv:)(\d+(.\d+)?)/i);
+	      if (match) { return match[2]; }
+	    }
+	    return false;
 	  },
 
 	  // http://stackoverflow.com/a/6969486
@@ -401,6 +406,7 @@
 	  this.openOnFocus = !!o.openOnFocus;
 	  this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
 	  this.autoWidth = (o.autoWidth === undefined) ? true : !!o.autoWidth;
+	  this.clearOnSelected = !!o.clearOnSelected;
 
 	  o.hint = !!o.hint;
 
@@ -787,7 +793,11 @@
 	    if (typeof datum.value !== 'undefined') {
 	      this.input.setQuery(datum.value);
 	    }
-	    this.input.setInputValue(datum.value, true);
+	    if (this.clearOnSelected) {
+	      this.setVal('');
+	    } else {
+	      this.input.setInputValue(datum.value, true);
+	    }
 
 	    this._setLanguageDirection();
 
@@ -2734,7 +2744,7 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.30.0";
+	module.exports = "0.31.0";
 
 
 /***/ },

@@ -46,10 +46,7 @@ This JavaScript library adds a fast and fully-featured auto-completion menu to y
 - [API](#api)
   - [jQuery](#jquery-1)
   - [Standalone](#standalone-1)
-- [Development](#development)
-- [Tests](#tests)
-  - [Testing accessibility](#testing-accessibility)
-- [Release](#release)
+- [Contributing & releasing](#contributing--releasing)
 - [Credits](#credits)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
