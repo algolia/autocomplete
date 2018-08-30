@@ -1,7 +1,6 @@
 [build]
   base = "."
   publish = "netlify-dist"
-  command = "yarn grunt && mkdir -p netlify-dist/examples && cp examples/* netlify-dist/examples && cp -r dist ./netlify-dist"
-  environment = { YARN_VERSION = "1.9.4" }
+  command = "npm run build && mkdir -p netlify-dist/examples && cp examples/* netlify-dist/examples && cp -r dist ./netlify-dist"
 
 
