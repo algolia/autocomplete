@@ -854,6 +854,8 @@
 	    this.input.destroy();
 	    this.dropdown.destroy();
 
+	    this.$input.off();
+
 	    destroyDomStructure(this.$node, this.cssClasses);
 
 	    this.$node = null;
