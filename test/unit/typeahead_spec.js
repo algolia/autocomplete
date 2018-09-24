@@ -804,6 +804,37 @@ describe('Typeahead', function() {
       // TODO: bad test
       expect(this.$input).not.toHaveClass('aa-input');
     });
+
+    it('should clear user registered events', function() {
+      var spy = jasmine.createSpy();
+
+      // Mock the return value it doesn't trigger otherwise
+      this.dropdown.getDatumForSuggestion.and.returnValue(testDatum);
+
+      this.$input.on('autocomplete:selected', spy);
+      this.dropdown.trigger('suggestionClicked');
+
+      expect(spy).toHaveBeenCalledTimes(1);
+
+      spy.calls.reset();
+      this.view.destroy();
+
+      this.view = new Typeahead({
+        input: this.$input,
+        hint: true,
+        datasets: {}
+      });
+
+      this.dropdown = this.view.dropdown;
+
+      // Mock the return value it doesn't trigger otherwise
+      this.dropdown.getDatumForSuggestion.and.returnValue(testDatum);
+
+      this.$input.on('autocomplete:selected', spy);
+      this.dropdown.trigger('suggestionClicked');
+
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('when instantiated with a custom menu template', function() {
