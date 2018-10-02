@@ -15,6 +15,7 @@ env:
   - TEST_SUITE=integration BROWSER='internet explorer:11'
   - TEST_SUITE=integration BROWSER='MicrosoftEdge'
   - TEST_SUITE=integration BROWSER='chrome'
+  - TEST_SUITE=examples
   global:
   - secure: wuQpdVaYsj4JGZcYGPPMa6GQHA6RFCEDm1F9IOTOJLAPo9XS3+gcwU3uFqZONf9+f/l7LrF0tpsl1BTDiAQJkig1Z851mPNj0XaMWnBL+2cyfJPzAYBIj18A7xKnyvRWXKtTeDo5l6DKYiA86VQmZSQWulUVYzr7qeIWvONLqrqLpW2Gl910khy2sDO6LJSHqTvXcEwRtL6sIf0O93wxIwGuZM1EBAmZsorvZYSH3wILhT98Jj458OMxm8u2CgoFjjI62tNAksRGJ8E6iDNJOHyGPFxAQhGoqAQWBspHCQWt9aOFGNweig+ReulE9g0Oqfpy2YeE6XYb3rZyUjgDFSBWj4fnwUDqBInn30s4t4tmd0LLrc9VbMg/BkdoPlMMl+FAo/g/82tkAkIoFPfx/ZAlQ3zcVs3L3hPkh3597RWoXLdNIuRqquxaFGadumLRVUZElreMCEQUbk1mOEkbLf/tgW60ZUL9fJbl0qJK0uPXFX/sufxYVC1YfuRX3RpUL1bME8KyhW+zXTkz+x6AqosQYcsdXAzU4VWVJc5fyYjb8rSNMyWkmx+2T4w/DX6nF9ii6ybKm5sN3Z4LBB5ih73/MlKQLxqZTBKYJ5V8MdkTq2raW9nUB+WARd+UOBbmPnsYU3wqW+rXPgwiaVIj6ew6QsCgjQsLWswYwRb6oN8=
   - secure: OluVlPpTgaAr1O/dzRvgBBk0M3w8uu1G3wRq9b3AdcldKuLf0kUoCrlh9cyBmowj+JgrfZ1DAyOFKwcyQAhb/HN+ha7BwRf4PNkb2/n5vlDeY7tE9ULuS9ROXIhrskVYUUh391ghQvbw45M7rrUyyJyo+B6Kv4RrwQObcpv9D/M81JRx4QfAAgrNNsCFTwjaf0DFMnmTXyXKIBusqa2DJxb7xslw1Kcu+qEYNWNB8wPoV9O3LOyfPIL5zt6j1HgUim998QBDNaI2rispH2lSPh6vKbomMlfDEDFCVHTmdKqbIb1TC/1/HlHiL5Kgesysev3QtfFjprTYwFZHXwElSrGYeFB+br11RQvOd8L7TCrGIdhGlBQLA6sISiohNrpZ6yGvsA+8JmMMsdOOO+wkHgQkWpzyFFdt+/Ek8+WeP04TsYAh1EPS3FGFeC/1ZqaazYITUaaNXaBqIp3Em07RB1eqyiu7KuO2wY74K3Y4fIAX3l6Od/E+DnUZhrUwwxZ+MnUx+SSZ4oGg4hL8OBrG0f/gaRwOWx/ieqyrcvzIpXYecKrxpYGzsM1NsbVzBiSsCSIt3lYbVxVVJiEjRLKb8L0QVvj4K4yfyQAAjWhcmz+MyCDLnFroaCmmohPF/gorsiaqEuiqTqXyFOAiMsEjZK513UMvPXK4lWWRt3a1/PI=
@@ -26,8 +27,6 @@ before_script:
   - yarn build
 script:
   - yarn test:ci
-after_success:
-  - yarn docs:netlify
 cache: yarn
 addons:
   sauce_connect: true
