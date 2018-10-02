@@ -1,6 +1,0 @@
-[build]
-  base = "."
-  publish = "netlify-dist"
-  command = "yarn build && mkdir -p netlify-dist/examples && cp examples/* netlify-dist/examples && cp -r dist ./netlify-dist"
-
-
