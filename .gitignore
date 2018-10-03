@@ -13,3 +13,4 @@ bower_components
 *.iml
 .idea
 .vscode
+netlify-dist/
