@@ -25,15 +25,8 @@ execa('yarn', ['build'])
   .then(() => execa('mkdir', ['-p', 'netlify-dist/examples']))
   .then(() => execa('cp', ['-r', 'examples', 'netlify-dist']))
   .then(() => execa('mv', ['netlify-dist/examples/index.html', 'netlify-dist']))
-  .then(() => execa('find', ['netlify-dist']))
-  .then(logStdOut)
   .then(() =>
-    execa('sed', [
-      '-i',
-      '',
-      's|href="../|href="./|g',
-      'netlify-dist/index.html'
-    ])
+    execa.shell(`sed -i "" 's|href=\"../|href=\"./|g' netlify-dist/index.html`)
   )
   .then(() => execa('mkdir', ['-p', 'netlify-dist/test']))
   .then(() =>
@@ -47,14 +40,9 @@ execa('yarn', ['build'])
   )
   .then(() => execa('cp', ['-r', 'dist', 'netlify-dist']))
   .then(() =>
-    execa('sed', [
-      '-i',
-      '',
-      's|https://cdn.jsdelivr.net/autocomplete.js/0|../dist|g',
-      'netlify-dist/examples/basic.html',
-      'netlify-dist/examples/basic_angular.html',
-      'netlify-dist/examples/basic_jquery.html'
-    ])
+    execa.shell(
+      `sed -i "" 's|https://cdn.jsdelivr.net/autocomplete.js/0|../dist|g' netlify-dist/examples/basic.html netlify-dist/examples/basic_angular.html netlify-dist/examples/basic_jquery.html`
+    )
   )
   .then(() =>
     client.deploy(process.env.NETLIFY_SITE_ID, 'netlify-dist', {
@@ -64,7 +52,7 @@ execa('yarn', ['build'])
   )
   .then(({deploy: {id, name, deploy_ssl_url: url}}) =>
     console.log(
-      '🕸 site is available at ' +
+      '🕸　site is available at ' +
         url +
         '\n\n' +
         'Deploy details available at https://app.netlify.com/sites/' +
@@ -73,3 +61,4 @@ execa('yarn', ['build'])
         id
     )
   );
+
