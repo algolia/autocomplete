@@ -25,6 +25,8 @@ execa('yarn', ['build'])
   .then(() => execa('mkdir', ['-p', 'netlify-dist/examples']))
   .then(() => execa('cp', ['-r', 'examples', 'netlify-dist']))
   .then(() => execa('mv', ['netlify-dist/examples/index.html', 'netlify-dist']))
+  .then(() => execa('tree', ['netlify-dist']))
+  .then(logStdOut)
   .then(() =>
     execa('sed', [
       '-i',
