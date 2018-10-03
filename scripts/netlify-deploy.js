@@ -2,6 +2,7 @@
 'use strict';
 /* eslint-disable no-console */
 const execa = require('execa');
+const replace = require('replace-in-file');
 const NetlifyAPI = require('netlify');
 
 const client = new NetlifyAPI(process.env.NETLIFY_API_KEY);
@@ -26,7 +27,11 @@ execa('yarn', ['build'])
   .then(() => execa('cp', ['-r', 'examples', 'netlify-dist']))
   .then(() => execa('mv', ['netlify-dist/examples/index.html', 'netlify-dist']))
   .then(() =>
-    execa.shell(`sed -i "" 's|href=\"../|href=\"./|g' netlify-dist/index.html`)
+    replace({
+      files: 'netlify-dist/index.html',
+      from: /href="\.\./g,
+      to: 'href=".'
+    })
   )
   .then(() => execa('mkdir', ['-p', 'netlify-dist/test']))
   .then(() =>
@@ -40,9 +45,15 @@ execa('yarn', ['build'])
   )
   .then(() => execa('cp', ['-r', 'dist', 'netlify-dist']))
   .then(() =>
-    execa.shell(
-      `sed -i "" 's|https://cdn.jsdelivr.net/autocomplete.js/0|../dist|g' netlify-dist/examples/basic.html netlify-dist/examples/basic_angular.html netlify-dist/examples/basic_jquery.html`
-    )
+    replace({
+      files: [
+        'netlify-dist/examples/basic.html',
+        'netlify-dist/examples/basic_angular.html',
+        'netlify-dist/examples/basic_jquery.html'
+      ],
+      from: /https:\/\/cdn.jsdelivr.net\/autocomplete.js\/0/g,
+      to: '../dist'
+    })
   )
   .then(() =>
     client.deploy(process.env.NETLIFY_SITE_ID, 'netlify-dist', {
