@@ -482,6 +482,8 @@ Datasets can be configured using the following options.
 * `debounce` – If set, will postpone the source execution until after `debounce` milliseconds
 have elapsed since the last time it was invoked.
 
+* `disableCache` - If set, subsequent identical queries will always execute the source
+function for suggestions. Defaults to `false`.
 
 ## Sources
 
