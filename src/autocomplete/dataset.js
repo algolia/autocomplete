@@ -34,6 +34,7 @@ function Dataset(o) {
 
   this.source = o.source;
   this.displayFn = getDisplayFn(o.display || o.displayKey);
+  this.filterFn = getFilterFn(o.filter);
 
   this.debounce = o.debounce;
 
@@ -181,6 +182,10 @@ _.mixin(Dataset.prototype, EventEmitter, {
     }
   },
 
+  _applyFilters: function(suggestions) {
+    return this.filterFn(suggestions);
+  },
+
   // ### public
 
   getRoot: function getRoot() {
@@ -192,11 +197,12 @@ _.mixin(Dataset.prototype, EventEmitter, {
       // if the update has been canceled or if the query has changed
       // do not render the suggestions as they've become outdated
       if (!this.canceled && query === this.query) {
+        var filteredSuggestions = this._applyFilters(suggestions);
         // concat all the other arguments that could have been passed
         // to the render function, and forward them to _render
         var extraArgs = [].slice.call(arguments, 1);
-        this.cacheSuggestions(query, suggestions, extraArgs);
-        this._render.apply(this, [query, suggestions].concat(extraArgs));
+        this.cacheSuggestions(query, filteredSuggestions, extraArgs);
+        this._render.apply(this, [query, filteredSuggestions].concat(extraArgs));
       }
     }
 
@@ -274,6 +280,14 @@ function getDisplayFn(display) {
 
   function displayFn(obj) {
     return obj[display];
+  }
+}
+
+function getFilterFn(filter) {
+  return _.isFunction(filter) ? filter : filterFn;
+
+  function filterFn(suggestions) {
+    return suggestions;
   }
 }
 

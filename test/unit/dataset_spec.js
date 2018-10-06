@@ -66,6 +66,27 @@ describe('Dataset', function() {
       expect(this.dataset.getRoot()).toContainText('6');
     });
 
+    it('should allow custom filter functions', function() {
+      this.dataset = new Dataset({
+        name: 'test',
+        filter: function(suggestions) {
+          return suggestions.filter(function(suggestion) {
+            var value = suggestion.value;
+            return value === '1' || value === '3';
+          });
+        },
+        source: this.source = jasmine.createSpy('source')
+      });
+
+      this.source.and.callFake(fakeGetForFilterFn);
+      this.dataset.update('woah');
+
+      expect(this.dataset.getRoot()).toContainText('1');
+      expect(this.dataset.getRoot()).not.toContainText('2');
+      expect(this.dataset.getRoot()).toContainText('3');
+      expect(this.dataset.getRoot()).not.toContainText('4');
+    });
+
     it('should render empty when no suggestions are available', function() {
       this.dataset = new Dataset({
         source: this.source,
@@ -475,6 +496,18 @@ describe('Dataset', function() {
 
   function fakeGetForDisplayFn(query, cb) {
     cb([{display: '4'}, {display: '5'}, {display: '6'}]);
+  }
+
+  function fakeGetForFilterFn(query, cb) {
+    cb([{
+        value: '1',
+      }, {
+        value: '2', 
+      },{
+        value: '3', 
+      },{
+        value: '4', 
+      }]);
   }
 
   function fakeGetWithSyncEmptyResults(query, cb) {
