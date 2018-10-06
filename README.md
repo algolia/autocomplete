@@ -452,6 +452,19 @@ Datasets can be configured using the following options.
   `value`.
   Example function usage: `displayKey: function(suggestion) { return suggestion.nickname || suggestion.firstName }`
 
+* `filter` - For a list of suggestions from the source,
+  determines the list of suggestions to be rendered. It is expected that the
+  function will return suggestion objects of the same type.
+  Example function usage:
+  
+    ```
+    filter: function(suggestions) {
+      return suggestions.filter(function(suggestion) {
+        return !suggestion.hideMe;
+      });
+    }
+    ```
+
 * `templates` – A hash of templates to be used when rendering the dataset. Note
   a precompiled template is a function that takes a JavaScript object as its
   first argument and returns a HTML string.
