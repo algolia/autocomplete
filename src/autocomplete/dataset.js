@@ -37,7 +37,7 @@ function Dataset(o) {
 
   this.debounce = o.debounce;
 
-  this.disableCache = !!o.disableCache;
+  this.enableCache = o.enableCache !== false;
 
   this.templates = getTemplates(o.templates, this.displayFn);
 
@@ -237,11 +237,10 @@ _.mixin(Dataset.prototype, EventEmitter, {
   },
 
   shouldFetchFromCache: function shouldFetchFromCache(query) {
-    if (this.disableCache) {
-      return false;
-    }
-
-    return this.cachedQuery === query && this.cachedSuggestions && this.cachedSuggestions.length;
+    return this.enableCache &&
+      this.cachedQuery === query &&
+      this.cachedSuggestions &&
+      this.cachedSuggestions.length;
   },
 
   clearCachedSuggestions: function clearCachedSuggestions() {

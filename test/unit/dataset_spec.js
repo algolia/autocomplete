@@ -312,7 +312,7 @@ describe('Dataset', function() {
       this.dataset = new Dataset({
         name: 'test',
         source: this.source = jasmine.createSpy('source'),
-        disableCache: true,
+        enableCache: false,
       });
 
       this.source.and.callFake(fakeGetWithSyncResultsAndExtraParams);
