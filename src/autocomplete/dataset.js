@@ -108,6 +108,8 @@ _.mixin(Dataset.prototype, EventEmitter, {
         .html(getSuggestionsHtml.apply(this, renderArgs))
         .prepend(that.templates.header ? getHeaderHtml.apply(this, renderArgs) : null)
         .append(that.templates.footer ? getFooterHtml.apply(this, renderArgs) : null);
+    } else if (suggestions && !Array.isArray(suggestions)) {
+      throw new Error('suggestions must be an array');
     }
 
     if (this.$menu) {

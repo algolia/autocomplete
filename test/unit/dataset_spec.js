@@ -80,6 +80,10 @@ describe('Dataset', function() {
       expect(this.dataset.getRoot()).toContainText('empty');
     });
 
+    it('should throw an error if suggestions is not an array', function() {
+      expect(this.source.and.callFake(fakeGetNonArrayResults)).toThrow();
+    });
+
     it('should set the aa-without class when no suggestions are available', function() {
       var $menu = $('<div />');
       this.dataset = new Dataset({
@@ -475,6 +479,10 @@ describe('Dataset', function() {
 
   function fakeGetForDisplayFn(query, cb) {
     cb([{display: '4'}, {display: '5'}, {display: '6'}]);
+  }
+
+  function fakeGetNonArrayResults(query, cb) {
+    cb({});
   }
 
   function fakeGetWithSyncEmptyResults(query, cb) {
