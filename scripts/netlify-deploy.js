@@ -12,12 +12,13 @@ function logStdOut(opts) {
 }
 
 if (!process.env.NETLIFY_API_KEY || !process.env.NETLIFY_SITE_ID) {
-  throw new Error(
+  console.warn(
     'Both NETLIFY_API_KEY and NETLIFY_SITE_ID are required. ' +
       'They can be found on ' +
       'https://app.netlify.com/sites/autocompletejs-playgrounds/settings/general' +
       ' and https://app.netlify.com/account/applications'
   );
+  process.exit(0);
 }
 
 execa('yarn', ['build'])
