@@ -37,7 +37,7 @@ function Dataset(o) {
 
   this.debounce = o.debounce;
 
-  this.enableCache = o.enableCache !== false;
+  this.cache = o.cache !== false;
 
   this.templates = getTemplates(o.templates, this.displayFn);
 
@@ -237,7 +237,7 @@ _.mixin(Dataset.prototype, EventEmitter, {
   },
 
   shouldFetchFromCache: function shouldFetchFromCache(query) {
-    return this.enableCache &&
+    return this.cache &&
       this.cachedQuery === query &&
       this.cachedSuggestions &&
       this.cachedSuggestions.length;
