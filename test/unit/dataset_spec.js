@@ -297,7 +297,7 @@ describe('Dataset', function() {
       expect(this.dataset.cachedRenderExtraArgs).toEqual([42, true, false]);
     });
 
-    it('should retrieved cached results for subsequent identical queries', function() {
+    it('should retrieve cached results for subsequent identical queries', function() {
       this.source.and.callFake(fakeGetWithSyncResults);
 
       this.dataset.update('woah');
@@ -309,6 +309,29 @@ describe('Dataset', function() {
       this.dataset.clear();
       this.dataset.update('woah');
       expect(this.source.calls.count()).toBe(1);
+      expect(this.dataset.getRoot()).toContainText('one');
+      expect(this.dataset.getRoot()).toContainText('two');
+      expect(this.dataset.getRoot()).toContainText('three');
+    });
+
+    it('should not retrieve cached results for subsequent identical queries if cache is disabled', function() {
+      this.dataset = new Dataset({
+        name: 'test',
+        source: this.source = jasmine.createSpy('source'),
+        cache: false,
+      });
+
+      this.source.and.callFake(fakeGetWithSyncResultsAndExtraParams);
+
+      this.dataset.update('woah');
+      expect(this.source.calls.count()).toBe(1);
+      expect(this.dataset.getRoot()).toContainText('one');
+      expect(this.dataset.getRoot()).toContainText('two');
+      expect(this.dataset.getRoot()).toContainText('three');
+
+      this.dataset.clear();
+      this.dataset.update('woah');
+      expect(this.source.calls.count()).toBe(2);
       expect(this.dataset.getRoot()).toContainText('one');
       expect(this.dataset.getRoot()).toContainText('two');
       expect(this.dataset.getRoot()).toContainText('three');
