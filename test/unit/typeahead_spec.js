@@ -342,7 +342,6 @@ describe('Typeahead', function() {
   });
 
   describe('when debug flag is set', function() {
-
     beforeEach(function() {
       this.view = new Typeahead({
         input: this.$input,
@@ -365,6 +364,37 @@ describe('Typeahead', function() {
 
         expect(this.dropdown.close).not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('when clearOnSelected flag is set to true', function() {
+    it('clears input when selected', function() {
+      var spy = jasmine.createSpy();
+      var view = new Typeahead({
+        input: this.$input,
+        clearOnSelected: true,
+        hint: true,
+        datasets: {}
+      });
+      view.dropdown.getDatumForCursor.and.returnValue(testDatum);
+
+      // select something, and clear
+      var $e = jasmine.createSpyObj('event', ['preventDefault']);
+      view.$input.on('autocomplete:selected', spy);
+      view.input.trigger('enterKeyed', $e);
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(jasmine.objectContaining({
+        type: 'autocomplete:selected',
+        target: jasmine.any(Object),
+        delegateTarget: jasmine.any(Object),
+        currentTarget: jasmine.any(Object),
+        handleObj: jasmine.objectContaining({
+          type: 'autocomplete:selected'
+        })
+      }), undefined, undefined);
+      expect(view.input.setQuery).toHaveBeenCalledWith('');
+      expect(view.input.setInputValue).toHaveBeenCalledWith('', true);
     });
   });
 

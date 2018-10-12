@@ -75,6 +75,7 @@ angular.module('algolia.autocomplete', [])
             openOnFocus: scope.options.openOnFocus,
             templates: scope.options.templates,
             debug: scope.options.debug,
+            clearOnSelected: scope.options.clearOnSelected,
             cssClasses: scope.options.cssClasses,
             datasets: scope.datasets,
             keyboardShortcuts: scope.options.keyboardShortcuts,

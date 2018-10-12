@@ -23,6 +23,7 @@
     "eslint": "1.5.1",
     "eslint-config-airbnb": "0.1.0",
     "eslint-config-algolia": "3.0.0",
+    "execa": "^1.0.0",
     "grunt": "^1.0.1",
     "grunt-banner": "^0.6.0",
     "grunt-cli": "1.2.0",
@@ -57,8 +58,10 @@
     "karma-webpack": "^2.0.3",
     "mocha": "^3.4.1",
     "mversion": "^1.10.1",
+    "netlify": "^2.0.1",
     "node-static": "^0.7.8",
     "phantomjs-prebuilt": "^2.1.12",
+    "replace-in-file": "^3.4.2",
     "semver": "^5.3.0",
     "sinon": "^1.17.6",
     "webpack": "^1.13.2",
@@ -73,9 +76,10 @@
     "test": "karma start --single-run && grunt lint",
     "test:watch": "karma start",
     "test:ci": "./test/ci.sh",
-    "release": "./release.sh"
+    "release": "./scripts/release.sh",
+    "docs:netlify": "./scripts/netlify-deploy.js"
   },
-  "version": "0.30.0",
+  "version": "0.31.0",
   "main": "index.js",
   "dependencies": {
     "immediate": "^3.2.3"
