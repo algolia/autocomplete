@@ -464,7 +464,7 @@ describe('Typeahead', function() {
     });
 
     describe('when cursor is not in use', function() {
-      it('should autocomplete', function() {
+      it('should autocomplete if tabAutocomplete is true', function() {
         var spy;
 
         this.input.getQuery.and.returnValue('bi');
@@ -477,6 +477,23 @@ describe('Typeahead', function() {
 
         expect(this.input.setInputValue).toHaveBeenCalledWith(testDatum.value);
         expect(spy).toHaveBeenCalled();
+      });
+
+      it('should not autocomplete if tabAutocomplete is false', function() {
+        this.view.tabAutocomplete = false;
+        
+        var spy;
+
+        this.input.getQuery.and.returnValue('bi');
+        this.input.getHint.and.returnValue(testDatum.value);
+        this.input.isCursorAtEnd.and.returnValue(true);
+        this.dropdown.getDatumForTopSuggestion.and.returnValue(testDatum);
+        this.$input.on('autocomplete:autocompleted', spy = jasmine.createSpy());
+
+        this.input.trigger('tabKeyed');
+
+        expect(this.input.setInputValue).not.toHaveBeenCalledWith(testDatum.value);
+        expect(spy).not.toHaveBeenCalled();
       });
     });
   });

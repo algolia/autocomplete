@@ -283,6 +283,8 @@ When initializing an autocomplete, there are a number of options you can configu
 
 * `autoselectOnBlur` – If `true`, when the input is blurred, the first rendered suggestion in the dropdown will automatically have the `cursor` class, and pressing `<ENTER>` will select it. This option should be used on mobile, see [#113](https://github.com/algolia/autocomplete.js/issues/113)
 
+* `tabAutocomplete` – If `true`, pressing tab will select the first rendered suggestion in the dropdown. Defaults to `true`.
+
 * `hint` – If `false`, the autocomplete will not show a hint. Defaults to `true`.
 
 * `debug` – If `true`, the autocomplete will not close on `blur`. Defaults to `false`.
