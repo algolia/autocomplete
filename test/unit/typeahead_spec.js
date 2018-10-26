@@ -495,6 +495,18 @@ describe('Typeahead', function() {
         expect(this.input.setInputValue).not.toHaveBeenCalledWith(testDatum.value);
         expect(spy).not.toHaveBeenCalled();
       });
+
+      it('should close the dropdown if tabAutocomplete is false', function() {
+        this.view.tabAutocomplete = false;
+
+        this.input.getQuery.and.returnValue('bi');
+        this.input.getHint.and.returnValue(testDatum.value);
+        this.input.isCursorAtEnd.and.returnValue(true);
+
+        this.input.trigger('tabKeyed');
+
+        expect(this.dropdown.close).toHaveBeenCalled();
+      });
     });
   });
 

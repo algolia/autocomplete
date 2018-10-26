@@ -287,6 +287,8 @@ _.mixin(Typeahead.prototype, {
 
   _onTabKeyed: function onTabKeyed(type, $e) {
     if (!this.tabAutocomplete) {
+      // Closing the dropdown enables further tabbing
+      this.dropdown.close();
       return;
     }
 
