@@ -1,0 +1,11 @@
+test
+examples
+
+.coveralls.yml
+.eslintrc
+.gitattributes
+.github
+.travis.yml
+Gruntfile.js
+karma.conf.js
+yarn.lock
