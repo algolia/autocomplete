@@ -37,6 +37,8 @@ function Dataset(o) {
 
   this.debounce = o.debounce;
 
+  this.cache = o.cache !== false;
+
   this.templates = getTemplates(o.templates, this.displayFn);
 
   this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
@@ -108,6 +110,8 @@ _.mixin(Dataset.prototype, EventEmitter, {
         .html(getSuggestionsHtml.apply(this, renderArgs))
         .prepend(that.templates.header ? getHeaderHtml.apply(this, renderArgs) : null)
         .append(that.templates.footer ? getFooterHtml.apply(this, renderArgs) : null);
+    } else if (suggestions && !Array.isArray(suggestions)) {
+      throw new TypeError('suggestions must be an array');
     }
 
     if (this.$menu) {
@@ -235,7 +239,10 @@ _.mixin(Dataset.prototype, EventEmitter, {
   },
 
   shouldFetchFromCache: function shouldFetchFromCache(query) {
-    return this.cachedQuery === query && this.cachedSuggestions && this.cachedSuggestions.length;
+    return this.cache &&
+      this.cachedQuery === query &&
+      this.cachedSuggestions &&
+      this.cachedSuggestions.length;
   },
 
   clearCachedSuggestions: function clearCachedSuggestions() {
