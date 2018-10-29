@@ -57,6 +57,7 @@ methods = {
         minLength: o.minLength,
         autoselect: o.autoselect,
         autoselectOnBlur: o.autoselectOnBlur,
+        tabAutocomplete: o.tabAutocomplete,
         openOnFocus: o.openOnFocus,
         templates: o.templates,
         debug: o.debug,

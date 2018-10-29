@@ -32,6 +32,7 @@ function Typeahead(o) {
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
   this.autoWidth = (o.autoWidth === undefined) ? true : !!o.autoWidth;
   this.clearOnSelected = !!o.clearOnSelected;
+  this.tabAutocomplete = (o.tabAutocomplete === undefined) ? true : !!o.tabAutocomplete;
 
   o.hint = !!o.hint;
 
@@ -285,6 +286,12 @@ _.mixin(Typeahead.prototype, {
   },
 
   _onTabKeyed: function onTabKeyed(type, $e) {
+    if (!this.tabAutocomplete) {
+      // Closing the dropdown enables further tabbing
+      this.dropdown.close();
+      return;
+    }
+
     var datum;
 
     if (datum = this.dropdown.getDatumForCursor()) {

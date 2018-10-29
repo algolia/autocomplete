@@ -34,7 +34,7 @@ This JavaScript library adds a fast and fully-featured auto-completion menu to y
   - [jQuery](#jquery)
   - [Angular.JS](#angularjs)
 - [Look and Feel](#look-and-feel)
-- [Options](#options)
+- [Global Options](#global-options)
 - [Datasets](#datasets)
 - [Sources](#sources)
   - [Hits](#hits)
@@ -275,13 +275,15 @@ Here is what the [basic example](https://github.com/algolia/autocomplete.js/tree
 
 ![Basic example](./examples/basic.gif)
 
-## Options
+## Global Options
 
-When initializing an autocomplete, there are a number of options you can configure.
+When initializing an autocomplete, there are a number of global options you can configure.
 
 * `autoselect` – If `true`, the first rendered suggestion in the dropdown will automatically have the `cursor` class, and pressing `<ENTER>` will select it.
 
 * `autoselectOnBlur` – If `true`, when the input is blurred, the first rendered suggestion in the dropdown will automatically have the `cursor` class, and pressing `<ENTER>` will select it. This option should be used on mobile, see [#113](https://github.com/algolia/autocomplete.js/issues/113)
+
+* `tabAutocomplete` – If `true`, pressing tab will select the first rendered suggestion in the dropdown. Defaults to `true`.
 
 * `hint` – If `false`, the autocomplete will not show a hint. Defaults to `true`.
 
@@ -633,11 +635,17 @@ All custom events are triggered on the element initialized as the autocomplete.
 
 ### jQuery
 
-Turns any `input[type="text"]` element into an auto-completion menu. `options` is an
+Turns any `input[type="text"]` element into an auto-completion menu. `globalOptions` is an
 options hash that's used to configure the autocomplete to your liking. Refer to
-[Options](#options) for more info regarding the available configs. Subsequent
+[Global Options](#global-options) for more info regarding the available configs. Subsequent
 arguments (`*datasets`), are individual option hashes for datasets. For more
 details regarding datasets, refer to [Datasets](#datasets).
+
+```
+$(selector).autocomplete(globalOptions, datasets)
+```
+
+Example:
 
 ```js
 $('.search-input').autocomplete({
@@ -705,6 +713,12 @@ jQuery.fn._autocomplete = autocomplete;
 ### Standalone
 
 The standalone version API is similiar to jQuery's:
+
+```js
+var search = autocomplete(containerSelector, globalOptions, datasets);
+```
+
+Example:
 
 ```js
 var search = autocomplete('#search', { hint: false }, [{
