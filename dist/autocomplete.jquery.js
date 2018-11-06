@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.31.0
+ * autocomplete.js 0.32.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2018 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -117,6 +117,7 @@
 	        minLength: o.minLength,
 	        autoselect: o.autoselect,
 	        autoselectOnBlur: o.autoselectOnBlur,
+	        tabAutocomplete: o.tabAutocomplete,
 	        openOnFocus: o.openOnFocus,
 	        templates: o.templates,
 	        debug: o.debug,
@@ -415,6 +416,7 @@
 	  this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
 	  this.autoWidth = (o.autoWidth === undefined) ? true : !!o.autoWidth;
 	  this.clearOnSelected = !!o.clearOnSelected;
+	  this.tabAutocomplete = (o.tabAutocomplete === undefined) ? true : !!o.tabAutocomplete;
 
 	  o.hint = !!o.hint;
 
@@ -668,6 +670,12 @@
 	  },
 
 	  _onTabKeyed: function onTabKeyed(type, $e) {
+	    if (!this.tabAutocomplete) {
+	      // Closing the dropdown enables further tabbing
+	      this.dropdown.close();
+	      return;
+	    }
+
 	    var datum;
 
 	    if (datum = this.dropdown.getDatumForCursor()) {
@@ -2368,6 +2376,8 @@
 
 	  this.debounce = o.debounce;
 
+	  this.cache = o.cache !== false;
+
 	  this.templates = getTemplates(o.templates, this.displayFn);
 
 	  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
@@ -2439,6 +2449,8 @@
 	        .html(getSuggestionsHtml.apply(this, renderArgs))
 	        .prepend(that.templates.header ? getHeaderHtml.apply(this, renderArgs) : null)
 	        .append(that.templates.footer ? getFooterHtml.apply(this, renderArgs) : null);
+	    } else if (suggestions && !Array.isArray(suggestions)) {
+	      throw new TypeError('suggestions must be an array');
 	    }
 
 	    if (this.$menu) {
@@ -2566,7 +2578,10 @@
 	  },
 
 	  shouldFetchFromCache: function shouldFetchFromCache(query) {
-	    return this.cachedQuery === query && this.cachedSuggestions && this.cachedSuggestions.length;
+	    return this.cache &&
+	      this.cachedQuery === query &&
+	      this.cachedSuggestions &&
+	      this.cachedSuggestions.length;
 	  },
 
 	  clearCachedSuggestions: function clearCachedSuggestions() {
@@ -2793,7 +2808,7 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.31.0";
+	module.exports = "0.32.0";
 
 
 /***/ },
