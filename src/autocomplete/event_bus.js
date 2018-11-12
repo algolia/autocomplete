@@ -23,11 +23,9 @@ _.mixin(EventBus.prototype, {
 
   // ### public
 
-  trigger: function(type) {
-    var args = [].slice.call(arguments, 1);
-
+  trigger: function(type, suggestion, dataset, context) {
     var event = _.Event(namespace + type);
-    this.$el.trigger(event, args);
+    this.$el.trigger(event, [suggestion, dataset, context]);
     return event;
   }
 });
