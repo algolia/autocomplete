@@ -70,9 +70,9 @@
             }
           }
         }
-      ]).on('autocomplete:selected', function(even, suggestion, dataset) {
-        console.log('selected', suggestion, dataset);
-      }).on('autocomplete:cursorchanged', function(even, suggestion, dataset) {
+      ]).on('autocomplete:selected', function(event, suggestion, dataset, context) {
+        console.log('selected', suggestion, dataset, context);
+      }).on('autocomplete:cursorchanged', function(event, suggestion, dataset) {
         console.log('cursorchanged', suggestion, dataset);
       });
 

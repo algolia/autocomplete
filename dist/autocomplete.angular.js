@@ -358,11 +358,9 @@
 
 	  // ### public
 
-	  trigger: function(type) {
-	    var args = [].slice.call(arguments, 1);
-
+	  trigger: function(type, suggestion, dataset, context) {
 	    var event = _.Event(namespace + type);
-	    this.$el.trigger(event, args);
+	    this.$el.trigger(event, [suggestion, dataset, context]);
 	    return event;
 	  }
 	});
@@ -532,9 +530,10 @@
 
 	  _onSuggestionClicked: function onSuggestionClicked(type, $el) {
 	    var datum;
+	    var context = { selectionMethod: 'click' }
 
 	    if (datum = this.dropdown.getDatumForSuggestion($el)) {
-	      this._select(datum);
+	      this._select(datum, context);
 	    }
 	  },
 
@@ -631,12 +630,13 @@
 
 	    cursorDatum = this.dropdown.getDatumForCursor();
 	    topSuggestionDatum = this.dropdown.getDatumForTopSuggestion();
+	    var context = { selectionMethod: 'blur' }
 
 	    if (!this.debug) {
 	      if (this.autoselectOnBlur && cursorDatum) {
-	        this._select(cursorDatum);
+	        this._select(cursorDatum, context);
 	      } else if (this.autoselectOnBlur && topSuggestionDatum) {
-	        this._select(topSuggestionDatum);
+	        this._select(topSuggestionDatum, context);
 	      } else {
 	        this.isActivated = false;
 	        this.dropdown.empty();
@@ -651,12 +651,13 @@
 
 	    cursorDatum = this.dropdown.getDatumForCursor();
 	    topSuggestionDatum = this.dropdown.getDatumForTopSuggestion();
+	    var context = { selectionMethod: 'enterKey' }
 
 	    if (cursorDatum) {
-	      this._select(cursorDatum);
+	      this._select(cursorDatum, context);
 	      $e.preventDefault();
 	    } else if (this.autoselect && topSuggestionDatum) {
-	      this._select(topSuggestionDatum);
+	      this._select(topSuggestionDatum, context);
 	      $e.preventDefault();
 	    }
 	  },
@@ -669,9 +670,10 @@
 	    }
 
 	    var datum;
+	    var context = { selectionMethod: 'tabKey' }
 
 	    if (datum = this.dropdown.getDatumForCursor()) {
-	      this._select(datum);
+	      this._select(datum, context);
 	      $e.preventDefault();
 	    } else {
 	      this._autocomplete(true);
@@ -797,7 +799,7 @@
 	    }
 	  },
 
-	  _select: function select(datum) {
+	  _select: function select(datum, context) {
 	    if (typeof datum.value !== 'undefined') {
 	      this.input.setQuery(datum.value);
 	    }
@@ -809,7 +811,7 @@
 
 	    this._setLanguageDirection();
 
-	    var event = this.eventBus.trigger('selected', datum.raw, datum.datasetName);
+	    var event = this.eventBus.trigger('selected', datum.raw, datum.datasetName, context);
 	    if (event.isDefaultPrevented() === false) {
 	      this.dropdown.close();
 
