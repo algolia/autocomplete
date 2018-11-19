@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.32.0
+ * autocomplete.js 0.33.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2018 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -540,7 +540,7 @@
 
 	  _onSuggestionClicked: function onSuggestionClicked(type, $el) {
 	    var datum;
-	    var context = { selectionMethod: 'click' }
+	    var context = {selectionMethod: 'click'};
 
 	    if (datum = this.dropdown.getDatumForSuggestion($el)) {
 	      this._select(datum, context);
@@ -640,7 +640,7 @@
 
 	    cursorDatum = this.dropdown.getDatumForCursor();
 	    topSuggestionDatum = this.dropdown.getDatumForTopSuggestion();
-	    var context = { selectionMethod: 'blur' }
+	    var context = {selectionMethod: 'blur'};
 
 	    if (!this.debug) {
 	      if (this.autoselectOnBlur && cursorDatum) {
@@ -661,7 +661,7 @@
 
 	    cursorDatum = this.dropdown.getDatumForCursor();
 	    topSuggestionDatum = this.dropdown.getDatumForTopSuggestion();
-	    var context = { selectionMethod: 'enterKey' }
+	    var context = {selectionMethod: 'enterKey'};
 
 	    if (cursorDatum) {
 	      this._select(cursorDatum, context);
@@ -680,7 +680,7 @@
 	    }
 
 	    var datum;
-	    var context = { selectionMethod: 'tabKey' }
+	    var context = {selectionMethod: 'tabKey'};
 
 	    if (datum = this.dropdown.getDatumForCursor()) {
 	      this._select(datum, context);
@@ -2810,7 +2810,7 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.32.0";
+	module.exports = "0.33.0";
 
 
 /***/ },
