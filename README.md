@@ -42,6 +42,8 @@ This JavaScript library adds a fast and fully-featured auto-completion menu to y
   - [Custom source](#custom-source)
 - [Security](#security)
   - [User-generated data: protecting against XSS](#user-generated-data-protecting-against-xss)
+- [FAQ](#faq)
+  - [How can I `Control`-click on results and have them open in a new tab?](#how-can-i-control-click-on-results-and-have-them-open-in-a-new-tab)
 - [Events](#events)
 - [API](#api)
   - [jQuery](#jquery-1)
@@ -134,8 +136,8 @@ var autocomplete = require('autocomplete.js');
         }
       }
     }
-  ]).on('autocomplete:selected', function(event, suggestion, dataset) {
-    console.log(suggestion, dataset);
+  ]).on('autocomplete:selected', function(event, suggestion, dataset, context) {
+    console.log(event, suggestion, dataset, context);
   });
 </script>
 ```
@@ -164,8 +166,8 @@ var autocomplete = require('autocomplete.js');
         }
       }
     }
-  ]).on('autocomplete:selected', function(event, suggestion, dataset) {
-    console.log(suggestion, dataset);
+  ]).on('autocomplete:selected', function(event, suggestion, dataset, context) {
+    console.log(event, suggestion, dataset, context);
   });
 </script>
 ```
@@ -203,7 +205,7 @@ var autocomplete = require('autocomplete.js');
       };
 
       $scope.$on('autocomplete:selected', function(event, suggestion, dataset) {
-        console.log(suggestion, dataset);
+        console.log(event, suggestion, dataset, context);
       });
     }]);
 </script>
@@ -592,6 +594,35 @@ If you did specify custom highlighting pre/post tags, you can specify them as 2n
   }
 ```
 
+## FAQ
+
+### How can I `Control`-click on results and have them open in a new tab?
+
+You'll need to update your suggestion templates to make them as `<a href>` links
+and not simple divs. `Control`-clicking on them will trigger the default browser
+behavior and open suggestions in a new tab.
+
+To also support keyboard navigation, you'll need to listen to the
+`autocomplete:selected` event and change `window.location` to the destination
+URL.
+
+Note that you might need to check the value of `context.selectionMethod` in
+`autocomplete:selected` first. If it's equal to `click`, you should `return`
+early, otherwise your main window will **also** follow the link.
+
+Here is an example of how it would look like:
+
+```javascript
+autocomplete(…).on('autocomplete:selected', function(event, suggestion, dataset, context) {
+  // Do nothing on click, as the browser will already do it
+  if (context.selectionMethod === 'click') {
+    return;
+  }
+  // Change the page, for example, on other events
+  window.location.assign(suggestion.url);
+});
+```
+
 ## Events
 
 The autocomplete component triggers the following custom events.
@@ -615,9 +646,11 @@ The autocomplete component triggers the following custom events.
   the dataset the suggestion belongs to.
 
 * `autocomplete:selected` – Triggered when a suggestion from the dropdown menu is
-  selected. The event handler will be invoked with 3 arguments: the jQuery
-  event object, the suggestion object, and the name of the dataset the
-  suggestion belongs to.
+  selected. The event handler will be invoked with the following arguments: the jQuery
+  event object, the suggestion object, the name of the dataset the
+  suggestion belongs to and a `context` object. The `context` contains
+  a `.selectionMethod` key that can be either `click`, `enterKey`, `tabKey` or
+  `blur`, depending how the suggestion was selected.
 
 * `autocomplete:cursorremoved` – Triggered when the cursor leaves the selections
   or its current index is lower than 0
