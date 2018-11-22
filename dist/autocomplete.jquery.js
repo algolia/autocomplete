@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.31.0
+ * autocomplete.js 0.33.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2018 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -117,6 +117,7 @@
 	        minLength: o.minLength,
 	        autoselect: o.autoselect,
 	        autoselectOnBlur: o.autoselectOnBlur,
+	        tabAutocomplete: o.tabAutocomplete,
 	        openOnFocus: o.openOnFocus,
 	        templates: o.templates,
 	        debug: o.debug,
@@ -415,6 +416,7 @@
 	  this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
 	  this.autoWidth = (o.autoWidth === undefined) ? true : !!o.autoWidth;
 	  this.clearOnSelected = !!o.clearOnSelected;
+	  this.tabAutocomplete = (o.tabAutocomplete === undefined) ? true : !!o.tabAutocomplete;
 
 	  o.hint = !!o.hint;
 
@@ -538,9 +540,10 @@
 
 	  _onSuggestionClicked: function onSuggestionClicked(type, $el) {
 	    var datum;
+	    var context = {selectionMethod: 'click'};
 
 	    if (datum = this.dropdown.getDatumForSuggestion($el)) {
-	      this._select(datum);
+	      this._select(datum, context);
 	    }
 	  },
 
@@ -637,12 +640,13 @@
 
 	    cursorDatum = this.dropdown.getDatumForCursor();
 	    topSuggestionDatum = this.dropdown.getDatumForTopSuggestion();
+	    var context = {selectionMethod: 'blur'};
 
 	    if (!this.debug) {
 	      if (this.autoselectOnBlur && cursorDatum) {
-	        this._select(cursorDatum);
+	        this._select(cursorDatum, context);
 	      } else if (this.autoselectOnBlur && topSuggestionDatum) {
-	        this._select(topSuggestionDatum);
+	        this._select(topSuggestionDatum, context);
 	      } else {
 	        this.isActivated = false;
 	        this.dropdown.empty();
@@ -657,21 +661,29 @@
 
 	    cursorDatum = this.dropdown.getDatumForCursor();
 	    topSuggestionDatum = this.dropdown.getDatumForTopSuggestion();
+	    var context = {selectionMethod: 'enterKey'};
 
 	    if (cursorDatum) {
-	      this._select(cursorDatum);
+	      this._select(cursorDatum, context);
 	      $e.preventDefault();
 	    } else if (this.autoselect && topSuggestionDatum) {
-	      this._select(topSuggestionDatum);
+	      this._select(topSuggestionDatum, context);
 	      $e.preventDefault();
 	    }
 	  },
 
 	  _onTabKeyed: function onTabKeyed(type, $e) {
+	    if (!this.tabAutocomplete) {
+	      // Closing the dropdown enables further tabbing
+	      this.dropdown.close();
+	      return;
+	    }
+
 	    var datum;
+	    var context = {selectionMethod: 'tabKey'};
 
 	    if (datum = this.dropdown.getDatumForCursor()) {
-	      this._select(datum);
+	      this._select(datum, context);
 	      $e.preventDefault();
 	    } else {
 	      this._autocomplete(true);
@@ -797,7 +809,7 @@
 	    }
 	  },
 
-	  _select: function select(datum) {
+	  _select: function select(datum, context) {
 	    if (typeof datum.value !== 'undefined') {
 	      this.input.setQuery(datum.value);
 	    }
@@ -809,7 +821,7 @@
 
 	    this._setLanguageDirection();
 
-	    var event = this.eventBus.trigger('selected', datum.raw, datum.datasetName);
+	    var event = this.eventBus.trigger('selected', datum.raw, datum.datasetName, context);
 	    if (event.isDefaultPrevented() === false) {
 	      this.dropdown.close();
 
@@ -1055,11 +1067,9 @@
 
 	  // ### public
 
-	  trigger: function(type) {
-	    var args = [].slice.call(arguments, 1);
-
+	  trigger: function(type, suggestion, dataset, context) {
 	    var event = _.Event(namespace + type);
-	    this.$el.trigger(event, args);
+	    this.$el.trigger(event, [suggestion, dataset, context]);
 	    return event;
 	  }
 	});
@@ -2368,6 +2378,8 @@
 
 	  this.debounce = o.debounce;
 
+	  this.cache = o.cache !== false;
+
 	  this.templates = getTemplates(o.templates, this.displayFn);
 
 	  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
@@ -2439,6 +2451,8 @@
 	        .html(getSuggestionsHtml.apply(this, renderArgs))
 	        .prepend(that.templates.header ? getHeaderHtml.apply(this, renderArgs) : null)
 	        .append(that.templates.footer ? getFooterHtml.apply(this, renderArgs) : null);
+	    } else if (suggestions && !Array.isArray(suggestions)) {
+	      throw new TypeError('suggestions must be an array');
 	    }
 
 	    if (this.$menu) {
@@ -2566,7 +2580,10 @@
 	  },
 
 	  shouldFetchFromCache: function shouldFetchFromCache(query) {
-	    return this.cachedQuery === query && this.cachedSuggestions && this.cachedSuggestions.length;
+	    return this.cache &&
+	      this.cachedQuery === query &&
+	      this.cachedSuggestions &&
+	      this.cachedSuggestions.length;
 	  },
 
 	  clearCachedSuggestions: function clearCachedSuggestions() {
@@ -2793,7 +2810,7 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.31.0";
+	module.exports = "0.33.0";
 
 
 /***/ },
