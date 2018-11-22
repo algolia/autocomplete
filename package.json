@@ -83,5 +83,13 @@
   "main": "index.js",
   "dependencies": {
     "immediate": "^3.2.3"
-  }
+  },
+  "files": [
+    "dist",
+    "src",
+    "index.js"
+    "index_jquery.js",
+    "index_angular.js",
+    "version.js"
+  ]
 }
