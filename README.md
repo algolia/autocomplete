@@ -11,6 +11,8 @@ This JavaScript library adds a fast and fully-featured auto-completion menu to y
 ![Zepto.js](https://img.shields.io/badge/Zepto.js-OK-blue.svg)
 ![Angular.js](https://img.shields.io/badge/Angular.js-OK-blue.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code Quality: Javascript](https://img.shields.io/lgtm/grade/javascript/g/algolia/autocomplete.js.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/algolia/autocomplete.js/context:javascript)
+[![Total Alerts](https://img.shields.io/lgtm/alerts/g/algolia/autocomplete.js.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/algolia/autocomplete.js/alerts)
 
 
 [![Browser tests](https://saucelabs.com/browser-matrix/opensauce-algolia.svg)](https://saucelabs.com/u/opensauce-algolia)
