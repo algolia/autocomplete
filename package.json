@@ -90,6 +90,7 @@
     "index.js",
     "index_jquery.js",
     "index_angular.js",
-    "version.js"
+    "version.js",
+    "zepto.js"
   ]
 }
