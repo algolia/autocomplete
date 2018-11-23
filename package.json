@@ -87,7 +87,7 @@
   "files": [
     "dist",
     "src",
-    "index.js"
+    "index.js",
     "index_jquery.js",
     "index_angular.js",
     "version.js"
