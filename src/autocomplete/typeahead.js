@@ -538,7 +538,7 @@ function buildDom(options) {
     .prop('readonly', true)
     .attr({
       'aria-hidden': 'true',
-      autocomplete: 'off',
+      autocomplete: 'nope',
       spellcheck: 'false',
       tabindex: -1
     });
@@ -563,7 +563,7 @@ function buildDom(options) {
   $input
     .addClass(_.className(options.cssClasses.prefix, options.cssClasses.input, true))
     .attr({
-      autocomplete: 'off',
+      autocomplete: 'nope',
       spellcheck: false,
 
       // Accessibility features
