@@ -34,7 +34,7 @@ This JavaScript library adds a fast and fully-featured auto-completion menu to y
   - [jQuery](#jquery)
   - [Angular.JS](#angularjs)
 - [Look and Feel](#look-and-feel)
-- [Options](#options)
+- [Global Options](#global-options)
 - [Datasets](#datasets)
 - [Sources](#sources)
   - [Hits](#hits)
@@ -42,6 +42,8 @@ This JavaScript library adds a fast and fully-featured auto-completion menu to y
   - [Custom source](#custom-source)
 - [Security](#security)
   - [User-generated data: protecting against XSS](#user-generated-data-protecting-against-xss)
+- [FAQ](#faq)
+  - [How can I `Control`-click on results and have them open in a new tab?](#how-can-i-control-click-on-results-and-have-them-open-in-a-new-tab)
 - [Events](#events)
 - [API](#api)
   - [jQuery](#jquery-1)
@@ -134,8 +136,8 @@ var autocomplete = require('autocomplete.js');
         }
       }
     }
-  ]).on('autocomplete:selected', function(event, suggestion, dataset) {
-    console.log(suggestion, dataset);
+  ]).on('autocomplete:selected', function(event, suggestion, dataset, context) {
+    console.log(event, suggestion, dataset, context);
   });
 </script>
 ```
@@ -164,8 +166,8 @@ var autocomplete = require('autocomplete.js');
         }
       }
     }
-  ]).on('autocomplete:selected', function(event, suggestion, dataset) {
-    console.log(suggestion, dataset);
+  ]).on('autocomplete:selected', function(event, suggestion, dataset, context) {
+    console.log(event, suggestion, dataset, context);
   });
 </script>
 ```
@@ -203,7 +205,7 @@ var autocomplete = require('autocomplete.js');
       };
 
       $scope.$on('autocomplete:selected', function(event, suggestion, dataset) {
-        console.log(suggestion, dataset);
+        console.log(event, suggestion, dataset, context);
       });
     }]);
 </script>
@@ -275,13 +277,15 @@ Here is what the [basic example](https://github.com/algolia/autocomplete.js/tree
 
 ![Basic example](./examples/basic.gif)
 
-## Options
+## Global Options
 
-When initializing an autocomplete, there are a number of options you can configure.
+When initializing an autocomplete, there are a number of global options you can configure.
 
 * `autoselect` – If `true`, the first rendered suggestion in the dropdown will automatically have the `cursor` class, and pressing `<ENTER>` will select it.
 
 * `autoselectOnBlur` – If `true`, when the input is blurred, the first rendered suggestion in the dropdown will automatically have the `cursor` class, and pressing `<ENTER>` will select it. This option should be used on mobile, see [#113](https://github.com/algolia/autocomplete.js/issues/113)
+
+* `tabAutocomplete` – If `true`, pressing tab will select the first rendered suggestion in the dropdown. Defaults to `true`.
 
 * `hint` – If `false`, the autocomplete will not show a hint. Defaults to `true`.
 
@@ -482,6 +486,7 @@ Datasets can be configured using the following options.
 * `debounce` – If set, will postpone the source execution until after `debounce` milliseconds
 have elapsed since the last time it was invoked.
 
+* `cache` - If set to `false`, subsequent identical queries will always execute the source function for suggestions. Defaults to `true`.
 
 ## Sources
 
@@ -589,6 +594,35 @@ If you did specify custom highlighting pre/post tags, you can specify them as 2n
   }
 ```
 
+## FAQ
+
+### How can I `Control`-click on results and have them open in a new tab?
+
+You'll need to update your suggestion templates to make them as `<a href>` links
+and not simple divs. `Control`-clicking on them will trigger the default browser
+behavior and open suggestions in a new tab.
+
+To also support keyboard navigation, you'll need to listen to the
+`autocomplete:selected` event and change `window.location` to the destination
+URL.
+
+Note that you might need to check the value of `context.selectionMethod` in
+`autocomplete:selected` first. If it's equal to `click`, you should `return`
+early, otherwise your main window will **also** follow the link.
+
+Here is an example of how it would look like:
+
+```javascript
+autocomplete(…).on('autocomplete:selected', function(event, suggestion, dataset, context) {
+  // Do nothing on click, as the browser will already do it
+  if (context.selectionMethod === 'click') {
+    return;
+  }
+  // Change the page, for example, on other events
+  window.location.assign(suggestion.url);
+});
+```
+
 ## Events
 
 The autocomplete component triggers the following custom events.
@@ -612,9 +646,11 @@ The autocomplete component triggers the following custom events.
   the dataset the suggestion belongs to.
 
 * `autocomplete:selected` – Triggered when a suggestion from the dropdown menu is
-  selected. The event handler will be invoked with 3 arguments: the jQuery
-  event object, the suggestion object, and the name of the dataset the
-  suggestion belongs to.
+  selected. The event handler will be invoked with the following arguments: the jQuery
+  event object, the suggestion object, the name of the dataset the
+  suggestion belongs to and a `context` object. The `context` contains
+  a `.selectionMethod` key that can be either `click`, `enterKey`, `tabKey` or
+  `blur`, depending how the suggestion was selected.
 
 * `autocomplete:cursorremoved` – Triggered when the cursor leaves the selections
   or its current index is lower than 0
@@ -632,11 +668,17 @@ All custom events are triggered on the element initialized as the autocomplete.
 
 ### jQuery
 
-Turns any `input[type="text"]` element into an auto-completion menu. `options` is an
+Turns any `input[type="text"]` element into an auto-completion menu. `globalOptions` is an
 options hash that's used to configure the autocomplete to your liking. Refer to
-[Options](#options) for more info regarding the available configs. Subsequent
+[Global Options](#global-options) for more info regarding the available configs. Subsequent
 arguments (`*datasets`), are individual option hashes for datasets. For more
 details regarding datasets, refer to [Datasets](#datasets).
+
+```
+$(selector).autocomplete(globalOptions, datasets)
+```
+
+Example:
 
 ```js
 $('.search-input').autocomplete({
@@ -704,6 +746,12 @@ jQuery.fn._autocomplete = autocomplete;
 ### Standalone
 
 The standalone version API is similiar to jQuery's:
+
+```js
+var search = autocomplete(containerSelector, globalOptions, datasets);
+```
+
+Example:
 
 ```js
 var search = autocomplete('#search', { hint: false }, [{

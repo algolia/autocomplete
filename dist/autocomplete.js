@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.31.0
+ * autocomplete.js 0.33.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2018 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -112,6 +112,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      minLength: options.minLength,
 	      autoselect: options.autoselect,
 	      autoselectOnBlur: options.autoselectOnBlur,
+	      tabAutocomplete: options.tabAutocomplete,
 	      openOnFocus: options.openOnFocus,
 	      templates: options.templates,
 	      debug: options.debug,
@@ -167,7 +168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* Zepto v1.2.0 - zepto event assets data - zeptojs.com/license */
 	(function(global, factory) {
 	  module.exports = factory(global);
-	}(/* this ##### UPDATED: here we want to use window/global instead of this which is the current file context ##### */ window, function(window) {  
+	}(/* this ##### UPDATED: here we want to use window/global instead of this which is the current file context ##### */ window, function(window) {
 	  var Zepto = (function() {
 	  var undefined, key, $, classList, emptyArray = [], concat = emptyArray.concat, filter = emptyArray.filter, slice = emptyArray.slice,
 	    document = window.document,
@@ -1164,7 +1165,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      handler.proxy = function(e){
 	        e = compatible(e)
 	        if (e.isImmediatePropagationStopped()) return
-	        e.data = data
+	        try {
+	          var dataPropDescriptor = Object.getOwnPropertyDescriptor(e, 'data')
+	          if (!dataPropDescriptor || dataPropDescriptor.writable)
+	            e.data = data
+	        } catch (e) {} // when using strict mode dataPropDescriptor will be undefined when e is InputEvent (even though data property exists). So we surround with try/catch
 	        var result = callback.apply(element, e._args == undefined ? [e] : [e].concat(e._args))
 	        if (result === false) e.preventDefault(), e.stopPropagation()
 	        return result
@@ -1665,6 +1670,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
 	  this.autoWidth = (o.autoWidth === undefined) ? true : !!o.autoWidth;
 	  this.clearOnSelected = !!o.clearOnSelected;
+	  this.tabAutocomplete = (o.tabAutocomplete === undefined) ? true : !!o.tabAutocomplete;
 
 	  o.hint = !!o.hint;
 
@@ -1788,9 +1794,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  _onSuggestionClicked: function onSuggestionClicked(type, $el) {
 	    var datum;
+	    var context = {selectionMethod: 'click'};
 
 	    if (datum = this.dropdown.getDatumForSuggestion($el)) {
-	      this._select(datum);
+	      this._select(datum, context);
 	    }
 	  },
 
@@ -1887,12 +1894,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    cursorDatum = this.dropdown.getDatumForCursor();
 	    topSuggestionDatum = this.dropdown.getDatumForTopSuggestion();
+	    var context = {selectionMethod: 'blur'};
 
 	    if (!this.debug) {
 	      if (this.autoselectOnBlur && cursorDatum) {
-	        this._select(cursorDatum);
+	        this._select(cursorDatum, context);
 	      } else if (this.autoselectOnBlur && topSuggestionDatum) {
-	        this._select(topSuggestionDatum);
+	        this._select(topSuggestionDatum, context);
 	      } else {
 	        this.isActivated = false;
 	        this.dropdown.empty();
@@ -1907,21 +1915,29 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    cursorDatum = this.dropdown.getDatumForCursor();
 	    topSuggestionDatum = this.dropdown.getDatumForTopSuggestion();
+	    var context = {selectionMethod: 'enterKey'};
 
 	    if (cursorDatum) {
-	      this._select(cursorDatum);
+	      this._select(cursorDatum, context);
 	      $e.preventDefault();
 	    } else if (this.autoselect && topSuggestionDatum) {
-	      this._select(topSuggestionDatum);
+	      this._select(topSuggestionDatum, context);
 	      $e.preventDefault();
 	    }
 	  },
 
 	  _onTabKeyed: function onTabKeyed(type, $e) {
+	    if (!this.tabAutocomplete) {
+	      // Closing the dropdown enables further tabbing
+	      this.dropdown.close();
+	      return;
+	    }
+
 	    var datum;
+	    var context = {selectionMethod: 'tabKey'};
 
 	    if (datum = this.dropdown.getDatumForCursor()) {
-	      this._select(datum);
+	      this._select(datum, context);
 	      $e.preventDefault();
 	    } else {
 	      this._autocomplete(true);
@@ -2047,7 +2063,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  },
 
-	  _select: function select(datum) {
+	  _select: function select(datum, context) {
 	    if (typeof datum.value !== 'undefined') {
 	      this.input.setQuery(datum.value);
 	    }
@@ -2059,7 +2075,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    this._setLanguageDirection();
 
-	    var event = this.eventBus.trigger('selected', datum.raw, datum.datasetName);
+	    var event = this.eventBus.trigger('selected', datum.raw, datum.datasetName, context);
 	    if (event.isDefaultPrevented() === false) {
 	      this.dropdown.close();
 
@@ -2305,11 +2321,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // ### public
 
-	  trigger: function(type) {
-	    var args = [].slice.call(arguments, 1);
-
+	  trigger: function(type, suggestion, dataset, context) {
 	    var event = _.Event(namespace + type);
-	    this.$el.trigger(event, args);
+	    this.$el.trigger(event, [suggestion, dataset, context]);
 	    return event;
 	  }
 	});
@@ -3618,6 +3632,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  this.debounce = o.debounce;
 
+	  this.cache = o.cache !== false;
+
 	  this.templates = getTemplates(o.templates, this.displayFn);
 
 	  this.css = _.mixin({}, css, o.appendTo ? css.appendTo : {});
@@ -3689,6 +3705,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        .html(getSuggestionsHtml.apply(this, renderArgs))
 	        .prepend(that.templates.header ? getHeaderHtml.apply(this, renderArgs) : null)
 	        .append(that.templates.footer ? getFooterHtml.apply(this, renderArgs) : null);
+	    } else if (suggestions && !Array.isArray(suggestions)) {
+	      throw new TypeError('suggestions must be an array');
 	    }
 
 	    if (this.$menu) {
@@ -3816,7 +3834,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  shouldFetchFromCache: function shouldFetchFromCache(query) {
-	    return this.cachedQuery === query && this.cachedSuggestions && this.cachedSuggestions.length;
+	    return this.cache &&
+	      this.cachedQuery === query &&
+	      this.cachedSuggestions &&
+	      this.cachedSuggestions.length;
 	  },
 
 	  clearCachedSuggestions: function clearCachedSuggestions() {
@@ -4043,7 +4064,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.31.0";
+	module.exports = "0.33.0";
 
 
 /***/ },

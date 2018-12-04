@@ -32,6 +32,7 @@ function Typeahead(o) {
   this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
   this.autoWidth = (o.autoWidth === undefined) ? true : !!o.autoWidth;
   this.clearOnSelected = !!o.clearOnSelected;
+  this.tabAutocomplete = (o.tabAutocomplete === undefined) ? true : !!o.tabAutocomplete;
 
   o.hint = !!o.hint;
 
@@ -155,9 +156,10 @@ _.mixin(Typeahead.prototype, {
 
   _onSuggestionClicked: function onSuggestionClicked(type, $el) {
     var datum;
+    var context = {selectionMethod: 'click'};
 
     if (datum = this.dropdown.getDatumForSuggestion($el)) {
-      this._select(datum);
+      this._select(datum, context);
     }
   },
 
@@ -254,12 +256,13 @@ _.mixin(Typeahead.prototype, {
 
     cursorDatum = this.dropdown.getDatumForCursor();
     topSuggestionDatum = this.dropdown.getDatumForTopSuggestion();
+    var context = {selectionMethod: 'blur'};
 
     if (!this.debug) {
       if (this.autoselectOnBlur && cursorDatum) {
-        this._select(cursorDatum);
+        this._select(cursorDatum, context);
       } else if (this.autoselectOnBlur && topSuggestionDatum) {
-        this._select(topSuggestionDatum);
+        this._select(topSuggestionDatum, context);
       } else {
         this.isActivated = false;
         this.dropdown.empty();
@@ -274,21 +277,29 @@ _.mixin(Typeahead.prototype, {
 
     cursorDatum = this.dropdown.getDatumForCursor();
     topSuggestionDatum = this.dropdown.getDatumForTopSuggestion();
+    var context = {selectionMethod: 'enterKey'};
 
     if (cursorDatum) {
-      this._select(cursorDatum);
+      this._select(cursorDatum, context);
       $e.preventDefault();
     } else if (this.autoselect && topSuggestionDatum) {
-      this._select(topSuggestionDatum);
+      this._select(topSuggestionDatum, context);
       $e.preventDefault();
     }
   },
 
   _onTabKeyed: function onTabKeyed(type, $e) {
+    if (!this.tabAutocomplete) {
+      // Closing the dropdown enables further tabbing
+      this.dropdown.close();
+      return;
+    }
+
     var datum;
+    var context = {selectionMethod: 'tabKey'};
 
     if (datum = this.dropdown.getDatumForCursor()) {
-      this._select(datum);
+      this._select(datum, context);
       $e.preventDefault();
     } else {
       this._autocomplete(true);
@@ -414,7 +425,7 @@ _.mixin(Typeahead.prototype, {
     }
   },
 
-  _select: function select(datum) {
+  _select: function select(datum, context) {
     if (typeof datum.value !== 'undefined') {
       this.input.setQuery(datum.value);
     }
@@ -426,7 +437,7 @@ _.mixin(Typeahead.prototype, {
 
     this._setLanguageDirection();
 
-    var event = this.eventBus.trigger('selected', datum.raw, datum.datasetName);
+    var event = this.eventBus.trigger('selected', datum.raw, datum.datasetName, context);
     if (event.isDefaultPrevented() === false) {
       this.dropdown.close();
 

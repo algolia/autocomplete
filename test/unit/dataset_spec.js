@@ -80,6 +80,12 @@ describe('Dataset', function() {
       expect(this.dataset.getRoot()).toContainText('empty');
     });
 
+    it('should throw an error if suggestions is not an array', function() {
+      this.source.and.callFake(fakeGetWithSyncNonArrayResults);
+      expect(this.dataset.update.bind(this.dataset, 'woah'))
+        .toThrowError(TypeError, 'suggestions must be an array');
+    });
+
     it('should set the aa-without class when no suggestions are available', function() {
       var $menu = $('<div />');
       this.dataset = new Dataset({
@@ -291,7 +297,7 @@ describe('Dataset', function() {
       expect(this.dataset.cachedRenderExtraArgs).toEqual([42, true, false]);
     });
 
-    it('should retrieved cached results for subsequent identical queries', function() {
+    it('should retrieve cached results for subsequent identical queries', function() {
       this.source.and.callFake(fakeGetWithSyncResults);
 
       this.dataset.update('woah');
@@ -303,6 +309,29 @@ describe('Dataset', function() {
       this.dataset.clear();
       this.dataset.update('woah');
       expect(this.source.calls.count()).toBe(1);
+      expect(this.dataset.getRoot()).toContainText('one');
+      expect(this.dataset.getRoot()).toContainText('two');
+      expect(this.dataset.getRoot()).toContainText('three');
+    });
+
+    it('should not retrieve cached results for subsequent identical queries if cache is disabled', function() {
+      this.dataset = new Dataset({
+        name: 'test',
+        source: this.source = jasmine.createSpy('source'),
+        cache: false,
+      });
+
+      this.source.and.callFake(fakeGetWithSyncResultsAndExtraParams);
+
+      this.dataset.update('woah');
+      expect(this.source.calls.count()).toBe(1);
+      expect(this.dataset.getRoot()).toContainText('one');
+      expect(this.dataset.getRoot()).toContainText('two');
+      expect(this.dataset.getRoot()).toContainText('three');
+
+      this.dataset.clear();
+      this.dataset.update('woah');
+      expect(this.source.calls.count()).toBe(2);
       expect(this.dataset.getRoot()).toContainText('one');
       expect(this.dataset.getRoot()).toContainText('two');
       expect(this.dataset.getRoot()).toContainText('three');
@@ -475,6 +504,10 @@ describe('Dataset', function() {
 
   function fakeGetForDisplayFn(query, cb) {
     cb([{display: '4'}, {display: '5'}, {display: '6'}]);
+  }
+
+  function fakeGetWithSyncNonArrayResults(query, cb) {
+    cb({});
   }
 
   function fakeGetWithSyncEmptyResults(query, cb) {
