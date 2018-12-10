@@ -1564,7 +1564,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return result;
 	    }
 	    this.each(obj, function(val, key) {
-	      result = test.call(null, val, key, obj) && result;
+	      if(result)result = test.call(null, val, key, obj) && result;
 	    });
 	    return !!result;
 	  },
