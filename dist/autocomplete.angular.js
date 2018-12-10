@@ -261,7 +261,10 @@
 	      return result;
 	    }
 	    this.each(obj, function(val, key) {
-	      if(result)result = test.call(null, val, key, obj) && result;
+	      result = test.call(null, val, key, obj);
+	      if (!result) {
+	        return false;
+	      }
 	    });
 	    return !!result;
 	  },
