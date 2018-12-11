@@ -42,3 +42,22 @@ describe('escapeHTML', function() {
     expect(actual).toEqual(false);
   });
 });
+
+describe('every', function(){
+  it('_.every should return false when at least one result is true ', function(){
+    // simulating an implementation of Array.prototype.each
+    _.each = function(obj, callback) {
+      for (var i = 0; i < obj.length; i++){
+        callback(obj[i], i, _);
+        //note that we do not return here to break for loop, angular does not do this
+      }
+    };
+    expect(
+      _.every([
+        { isEmpty: function(){ return true; } },
+        { isEmpty: function(){ return false; } }
+      ], function (dataset) {
+        return dataset.isEmpty();
+    })).toEqual(false);
+  })
+});
