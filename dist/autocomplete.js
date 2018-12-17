@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.34.0
+ * autocomplete.js 0.35.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2018 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -1564,9 +1564,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return result;
 	    }
 	    this.each(obj, function(val, key) {
-	      result = test.call(null, val, key, obj);
-	      if (!result) {
-	        return false;
+	      if (result) {
+	        result = test.call(null, val, key, obj) && result;
 	      }
 	    });
 	    return !!result;
@@ -2176,7 +2175,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    .prop('readonly', true)
 	    .attr({
 	      'aria-hidden': 'true',
-	      autocomplete: 'nope',
+	      autocomplete: 'off',
 	      spellcheck: 'false',
 	      tabindex: -1
 	    });
@@ -2201,7 +2200,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  $input
 	    .addClass(_.className(options.cssClasses.prefix, options.cssClasses.input, true))
 	    .attr({
-	      autocomplete: 'nope',
+	      autocomplete: 'off',
 	      spellcheck: false,
 
 	      // Accessibility features
@@ -4064,7 +4063,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.34.0";
+	module.exports = "0.35.0";
 
 
 /***/ },
