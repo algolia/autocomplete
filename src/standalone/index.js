@@ -51,7 +51,8 @@ function autocomplete(selector, options, datasets, typeaheadObject) {
       datasets: datasets,
       keyboardShortcuts: options.keyboardShortcuts,
       appendTo: options.appendTo,
-      autoWidth: options.autoWidth
+      autoWidth: options.autoWidth,
+      ariaLabel: options.ariaLabel || input.getAttribute('aria-label')
     });
     $input.data(typeaheadKey, typeahead);
   });
