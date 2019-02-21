@@ -1,3 +1,13 @@
+<a name="0.36.0"></a>
+# [0.36.0](https://github.com/algolia/autocomplete.js/compare/v0.35.0...v0.36.0) (2019-02-21)
+
+
+### Bug Fixes
+
+* **standalone:** use aria label from input ([#276](https://github.com/algolia/autocomplete.js/issues/276)) ([4b94466](https://github.com/algolia/autocomplete.js/commit/4b94466))
+
+
+
 <a name="0.35.0"></a>
 # [0.35.0](https://github.com/algolia/autocomplete.js/compare/v0.34.0...v0.35.0) (2018-12-17)
 

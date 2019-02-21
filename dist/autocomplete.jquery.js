@@ -1,7 +1,7 @@
 /*!
- * autocomplete.js 0.35.0
+ * autocomplete.js 0.36.0
  * https://github.com/algolia/autocomplete.js
- * Copyright 2018 Algolia, Inc. and other contributors; Licensed MIT
+ * Copyright 2019 Algolia, Inc. and other contributors; Licensed MIT
  */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -2809,7 +2809,7 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.35.0";
+	module.exports = "0.36.0";
 
 
 /***/ },

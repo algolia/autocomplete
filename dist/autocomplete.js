@@ -1,7 +1,7 @@
 /*!
- * autocomplete.js 0.35.0
+ * autocomplete.js 0.36.0
  * https://github.com/algolia/autocomplete.js
- * Copyright 2018 Algolia, Inc. and other contributors; Licensed MIT
+ * Copyright 2019 Algolia, Inc. and other contributors; Licensed MIT
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -121,7 +121,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      datasets: datasets,
 	      keyboardShortcuts: options.keyboardShortcuts,
 	      appendTo: options.appendTo,
-	      autoWidth: options.autoWidth
+	      autoWidth: options.autoWidth,
+	      ariaLabel: options.ariaLabel || input.getAttribute('aria-label')
 	    });
 	    $input.data(typeaheadKey, typeahead);
 	  });
@@ -4063,7 +4064,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.35.0";
+	module.exports = "0.36.0";
 
 
 /***/ },
