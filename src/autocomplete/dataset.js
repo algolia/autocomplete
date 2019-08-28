@@ -256,9 +256,11 @@ _.mixin(Dataset.prototype, EventEmitter, {
   },
 
   clear: function clear() {
-    this.cancel();
-    this.$el.empty();
-    this.trigger('rendered', '');
+    if (this.$el) {
+      this.cancel();
+      this.$el.empty();
+      this.trigger('rendered', '');
+    }
   },
 
   isEmpty: function isEmpty() {
