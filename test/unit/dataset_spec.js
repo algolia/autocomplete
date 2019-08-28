@@ -462,6 +462,14 @@ describe('Dataset', function() {
       this.dataset.clear();
       expect(spy).toHaveBeenCalled();
     });
+
+    it('should do nothing if this.$el is not defined', function() {
+      this.source.and.callFake(fakeGetWithSyncResults);
+      this.dataset.update('woah');
+      this.dataset.destroy();
+      this.dataset.clear();
+      expect(this.dataset.getRoot()).toBeNull();
+    });
   });
 
   describe('#isEmpty', function() {
