@@ -463,7 +463,7 @@ describe('Dataset', function() {
       expect(spy).toHaveBeenCalled();
     });
 
-    it('should do nothing if this.$el is not defined', function() {
+    it('should not throw if called right after destroy()', function() {
       this.source.and.callFake(fakeGetWithSyncResults);
       this.dataset.update('woah');
       this.dataset.destroy();
