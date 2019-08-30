@@ -1,5 +1,5 @@
 /*!
- * autocomplete.js 0.36.0
+ * autocomplete.js 0.37.0
  * https://github.com/algolia/autocomplete.js
  * Copyright 2019 Algolia, Inc. and other contributors; Licensed MIT
  */
@@ -3851,9 +3851,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  clear: function clear() {
-	    this.cancel();
-	    this.$el.empty();
-	    this.trigger('rendered', '');
+	    if (this.$el) {
+	      this.cancel();
+	      this.$el.empty();
+	      this.trigger('rendered', '');
+	    }
 	  },
 
 	  isEmpty: function isEmpty() {
@@ -4064,7 +4066,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.36.0";
+	module.exports = "0.37.0";
 
 
 /***/ },

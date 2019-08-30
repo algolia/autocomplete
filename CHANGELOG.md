@@ -1,3 +1,13 @@
+<a name="0.37.0"></a>
+# [0.37.0](https://github.com/algolia/autocomplete.js/compare/v0.36.0...v0.37.0) (2019-08-30)
+
+
+### Bug Fixes
+
+* **clear:** Avoid error when clear is called after destroy ([#287](https://github.com/algolia/autocomplete.js/issues/287)) ([244425d](https://github.com/algolia/autocomplete.js/commit/244425d))
+
+
+
 <a name="0.36.0"></a>
 # [0.36.0](https://github.com/algolia/autocomplete.js/compare/v0.35.0...v0.36.0) (2019-02-21)
 
