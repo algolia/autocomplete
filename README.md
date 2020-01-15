@@ -117,6 +117,8 @@ var autocomplete = require('autocomplete.js');
  1. Include `autocomplete.min.js`
  1. Initialize the auto-completion menu calling the `autocomplete` function
 
+ **Warning**: `autocomplete.js` is not compatible with the latest version algoliasearch v4, therefore we highly recommend you use algoliasearch v3 as specified in the code snippet below.
+
 ```html
 <input type="text" id="search-input" placeholder="Search unicorns..." />
 
@@ -146,6 +148,8 @@ var autocomplete = require('autocomplete.js');
 
  1. Include `autocomplete.jquery.min.js` after including `jQuery`
  1. Initialize the auto-completion menu calling the `autocomplete` jQuery plugin
+ 
+ **Warning**: `autocomplete.js` is not compatible with the latest version algoliasearch v4, therefore we highly recommend you use algoliasearch v3 as specified in the code snippet below.
 
 ```html
 <input type="text" id="search-input" />
@@ -177,6 +181,8 @@ var autocomplete = require('autocomplete.js');
  1. Include `autocomplete.angular.min.js` after including `jQuery` & `Angular.js`
  1. Inject the `algolia.autocomplete` module
  1. Add the `autocomplete`, `aa-datasets` and the optional `aa-options` attribute to your search bar
+
+ **Warning**: `autocomplete.js` is not compatible with the latest version algoliasearch v4, therefore we highly recommend you use algoliasearch v3 as specified in the code snippet below.
 
 ```html
 <div ng-controller="yourController">
