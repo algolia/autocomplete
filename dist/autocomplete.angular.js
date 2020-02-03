@@ -1,7 +1,7 @@
 /*!
- * autocomplete.js 0.37.0
+ * autocomplete.js 0.37.1
  * https://github.com/algolia/autocomplete.js
- * Copyright 2019 Algolia, Inc. and other contributors; Licensed MIT
+ * Copyright 2020 Algolia, Inc. and other contributors; Licensed MIT
  */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -2762,7 +2762,7 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "0.37.0";
+	module.exports = "0.37.1";
 
 
 /***/ },
@@ -2770,9 +2770,18 @@
 /***/ function(module, exports) {
 
 	'use strict';
+
 	module.exports = function parseAlgoliaClientVersion(agent) {
-	  var parsed = agent.match(/Algolia for vanilla JavaScript (\d+\.)(\d+\.)(\d+)/);
-	  if (parsed) return [parsed[1], parsed[2], parsed[3]];
+	  var parsed =
+	    // User agent for algoliasearch >= 3.33.0
+	    agent.match(/Algolia for JavaScript \((\d+\.)(\d+\.)(\d+)\)/) ||
+	    // User agent for algoliasearch < 3.33.0
+	    agent.match(/Algolia for vanilla JavaScript (\d+\.)(\d+\.)(\d+)/);
+
+	  if (parsed) {
+	    return [parsed[1], parsed[2], parsed[3]];
+	  }
+
 	  return undefined;
 	};
 
