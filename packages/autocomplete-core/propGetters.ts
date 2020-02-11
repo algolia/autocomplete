@@ -11,13 +11,13 @@ import {
   GetLabelProps,
   GetMenuProps,
   AutocompleteStore,
-  RequiredAutocompleteOptions,
+  AutocompleteOptions,
   AutocompleteSetters,
 } from './types';
 
 interface GetPropGettersOptions<TItem> extends AutocompleteSetters<TItem> {
   store: AutocompleteStore<TItem>;
-  props: RequiredAutocompleteOptions<TItem>;
+  props: AutocompleteOptions<TItem>;
 }
 
 export function getPropGetters<TItem>({

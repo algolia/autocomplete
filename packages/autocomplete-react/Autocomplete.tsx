@@ -5,15 +5,16 @@ import { useRef, useState } from 'preact/hooks';
 
 import { createAutocomplete } from '../autocomplete-core';
 import { getDefaultProps } from '../autocomplete-core/defaultProps';
-import {
-  AutocompleteState,
-  AutocompleteOptions,
-} from '../autocomplete-core/types';
 import { SearchBox } from './SearchBox';
 import { Dropdown } from './Dropdown';
 
+import {
+  PublicAutocompleteOptions,
+  AutocompleteState,
+} from '../autocomplete-core/types/index';
+
 export function Autocomplete<TItem extends {}>(
-  providedProps: AutocompleteOptions<TItem>
+  providedProps: PublicAutocompleteOptions<TItem>
 ) {
   const props = getDefaultProps(providedProps);
   const [state, setState] = useState<AutocompleteState<TItem>>(

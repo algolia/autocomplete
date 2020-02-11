@@ -5,11 +5,11 @@ import {
   noop,
 } from './utils';
 
-import { AutocompleteOptions, RequiredAutocompleteOptions } from './types';
+import { PublicAutocompleteOptions, AutocompleteOptions } from './types';
 
 export function getDefaultProps<TItem>(
-  props: AutocompleteOptions<TItem>
-): RequiredAutocompleteOptions<TItem> {
+  props: PublicAutocompleteOptions<TItem>
+): AutocompleteOptions<TItem> {
   const environment: typeof window = (typeof window !== 'undefined'
     ? window
     : {}) as typeof window;

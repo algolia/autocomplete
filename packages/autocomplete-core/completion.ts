@@ -1,4 +1,4 @@
-import { AutocompleteState, RequiredAutocompleteOptions } from './types';
+import { AutocompleteState, AutocompleteOptions } from './types';
 import {
   getSuggestionFromHighlightedIndex,
   getRelativeHighlightedIndex,
@@ -6,7 +6,7 @@ import {
 
 interface GetCompletionProps<TItem> {
   state: AutocompleteState<TItem>;
-  props: RequiredAutocompleteOptions<TItem>;
+  props: AutocompleteOptions<TItem>;
 }
 
 export function getCompletion<TItem>({

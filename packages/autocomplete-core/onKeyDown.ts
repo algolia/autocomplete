@@ -8,14 +8,14 @@ import {
 
 import {
   AutocompleteStore,
-  RequiredAutocompleteOptions,
+  AutocompleteOptions,
   AutocompleteSetters,
 } from './types';
 
 interface OnKeyDownOptions<TItem> extends AutocompleteSetters<TItem> {
   event: KeyboardEvent;
   store: AutocompleteStore<TItem>;
-  props: RequiredAutocompleteOptions<TItem>;
+  props: AutocompleteOptions<TItem>;
 }
 
 export function onKeyDown<TItem>({

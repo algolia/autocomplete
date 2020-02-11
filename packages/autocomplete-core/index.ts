@@ -4,11 +4,11 @@ import { getPropGetters } from './propGetters';
 import { getAutocompleteSetters } from './autocompleteSetters';
 import { getCompletion } from './completion';
 
-import { AutocompleteOptions, AutocompleteInstance } from './types';
+import { PublicAutocompleteOptions, AutocompleteApi } from './types';
 
 function createAutocomplete<TItem extends {}>(
-  options: AutocompleteOptions<TItem>
-): AutocompleteInstance<TItem> {
+  options: PublicAutocompleteOptions<TItem>
+): AutocompleteApi<TItem> {
   const props = getDefaultProps(options);
   const store = createStore(props.initialState);
 

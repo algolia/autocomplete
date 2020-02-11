@@ -1,9 +1,10 @@
 import {
   AutocompleteState,
-  AutocompleteOptions,
-  Suggestion,
+  PublicAutocompleteOptions,
+  PublicAutocompleteSource,
   AutocompleteSource,
-  NormalizedGetSources,
+  GetSources,
+  AutocompleteSuggestion,
 } from './types';
 
 export const noop = () => {};
@@ -14,7 +15,7 @@ export function generateAutocompleteId() {
   return `autocomplete-${autocompleteId++}`;
 }
 
-export function getItemsCount(state: AutocompleteState<unknown>) {
+export function getItemsCount(state: AutocompleteState<any>) {
   if (state.suggestions.length === 0) {
     return 0;
   }
@@ -37,7 +38,9 @@ export function isSpecialClick(event: MouseEvent): boolean {
   );
 }
 
-function normalizeSource(source: AutocompleteSource) {
+function normalizeSource<TItem>(
+  source: PublicAutocompleteSource<TItem>
+): AutocompleteSource<TItem> {
   return {
     getInputValue({ state }) {
       return state.query;
@@ -53,13 +56,13 @@ function normalizeSource(source: AutocompleteSource) {
 }
 
 export function normalizeGetSources<TItem>(
-  getSources: AutocompleteOptions<TItem>['getSources']
-): NormalizedGetSources {
+  getSources: PublicAutocompleteOptions<TItem>['getSources']
+): GetSources<TItem> {
   return options => {
     return Promise.resolve(getSources(options)).then(sources =>
       Promise.all(
         sources.map(source => {
-          return Promise.resolve(normalizeSource(source));
+          return Promise.resolve(normalizeSource<TItem>(source));
         })
       )
     );
@@ -99,7 +102,7 @@ export function getSuggestionFromHighlightedIndex<TItem>({
   state,
 }: {
   state: AutocompleteState<TItem>;
-}): AutocompleteSource | undefined {
+}): AutocompleteSuggestion<TItem> {
   // Given 3 sources with respectively 1, 2 and 3 suggestions: [1, 2, 3]
   // We want to get the accumulated counts:
   // [1, 1 + 2, 1 + 2 + 3] = [1, 3, 3 + 3] = [1, 3, 6]
@@ -123,10 +126,7 @@ export function getSuggestionFromHighlightedIndex<TItem>({
     return acc;
   }, 0);
 
-  const suggestion: Suggestion<TItem> | undefined =
-    state.suggestions[suggestionIndex];
-
-  return suggestion;
+  return state.suggestions[suggestionIndex];
 }
 
 /**

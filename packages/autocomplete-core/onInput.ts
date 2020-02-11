@@ -1,7 +1,7 @@
 import {
   AutocompleteStore,
   AutocompleteSetters,
-  RequiredAutocompleteOptions,
+  AutocompleteOptions,
   AutocompleteState,
 } from './types';
 
@@ -10,7 +10,7 @@ let lastStalledId: number | null = null;
 interface OnInputOptions<TItem> extends AutocompleteSetters<TItem> {
   query: string;
   store: AutocompleteStore<TItem>;
-  props: RequiredAutocompleteOptions<TItem>;
+  props: AutocompleteOptions<TItem>;
   /**
    * The next partial state to apply after the function is called.
    *
@@ -99,7 +99,7 @@ export function onInput<TItem>({
       )
         .then(suggestions => {
           setStatus('idle');
-          setSuggestions(suggestions);
+          setSuggestions(suggestions as any);
           setIsOpen(
             nextState.isOpen ??
               (query.length >= props.minLength &&

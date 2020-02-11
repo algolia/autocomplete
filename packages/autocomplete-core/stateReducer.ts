@@ -1,6 +1,6 @@
 import { getItemsCount, getNextHighlightedIndex } from './utils';
 
-import { AutocompleteState, RequiredAutocompleteOptions } from './types';
+import { AutocompleteState, AutocompleteOptions } from './types';
 
 type ActionType =
   | 'setHighlightedIndex'
@@ -29,7 +29,7 @@ interface Action {
 export const stateReducer = <TItem>(
   state: AutocompleteState<TItem>,
   action: Action,
-  props: RequiredAutocompleteOptions<TItem>
+  props: AutocompleteOptions<TItem>
 ): AutocompleteState<TItem> => {
   switch (action.type) {
     case 'setHighlightedIndex': {
