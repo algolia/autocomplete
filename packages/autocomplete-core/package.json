@@ -1,0 +1,23 @@
+{
+  "name": "@francoischalifour/autocomplete-core",
+  "description": "Core primitives for building autocomplete experiences.",
+  "version": "1.0.0-alpha.10",
+  "license": "MIT",
+  "source": "index.tsx",
+  "types": "dist/es/index.d.ts",
+  "module": "dist/es/index.js",
+  "main": "dist/umd/autocomplete-core.js",
+  "umd:main": "dist/umd/autocomplete-core.js",
+  "unpkg": "dist/umd/autocomplete-core.js",
+  "jsdelivr": "dist/umd/autocomplete-core.js",
+  "homepage": "https://github.com/algolia/autocomplete.js",
+  "repository": "algolia/autocomplete.js",
+  "author": {
+    "name": "Algolia, Inc.",
+    "url": "https://www.algolia.com"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist/"
+  ]
+}

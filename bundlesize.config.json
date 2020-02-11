@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "path": "packages/autocomplete-core/dist/umd/autocomplete-core.js",
+      "maxSize": "5 kB"
+    },
+    {
+      "path": "packages/autocomplete-presets/dist/umd/autocomplete-presets.js",
+      "maxSize": "1.5 kB"
+    },
+    {
+      "path": "packages/autocomplete-react/dist/umd/autocomplete-react.js",
+      "maxSize": "10 kB"
+    }
+  ]
+}

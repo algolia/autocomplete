@@ -1,16 +1,19 @@
-*.swp
+# Generated files
+node_modules/
 .DS_Store
-
-.grunt
-_SpecRunner.html
+.eslintcache
+*.log
 coverage/
+.cache
 
-node_modules
-npm-debug.log
+# Bundle build files
+dist/
 
-bower_components
+# Deployment build files
+/website/stories
 
-*.iml
-.idea
-.vscode
-netlify-dist/
+# IDE
+.vscode/
+
+# Environment files
+.env

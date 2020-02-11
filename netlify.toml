@@ -1,0 +1,6 @@
+[build]
+  command="yarn run website:build"
+  publish="website"
+
+[build.environment]
+  YARN_VERSION = "1.19.1"

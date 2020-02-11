@@ -1,790 +1,1172 @@
 # Autocomplete.js
 
+<p align="center">
 
-This JavaScript library adds a fast and fully-featured auto-completion menu to your search box displaying results "as you type". It can easily be combined with Algolia's realtime search engine. The library is available as a jQuery plugin, an Angular.js directive or a standalone library.
+Autocomplete.js is a JavaScript library that creates a fast and fully-featured auto-completion experience.
 
-[![build status](https://travis-ci.org/algolia/algoliasearch-client-node.svg?branch=master)](http://travis-ci.org/algolia/autocomplete.js)
-[![NPM version](https://badge.fury.io/js/autocomplete.js.svg)](http://badge.fury.io/js/autocomplete.js)
-[![Coverage Status](https://coveralls.io/repos/algolia/autocomplete.js/badge.svg?branch=master)](https://coveralls.io/r/algolia/autocomplete.js?branch=master)
-[![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/autocomplete.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/autocomplete.js)
-![jQuery](https://img.shields.io/badge/jQuery-OK-blue.svg)
-![Zepto.js](https://img.shields.io/badge/Zepto.js-OK-blue.svg)
-![Angular.js](https://img.shields.io/badge/Angular.js-OK-blue.svg)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+</p>
 
+---
 
-[![Browser tests](https://saucelabs.com/browser-matrix/opensauce-algolia.svg)](https://saucelabs.com/u/opensauce-algolia)
+[![Version](https://img.shields.io/npm/v/autocomplete.js.svg?style=flat-square)](https://www.npmjs.com/package/autocomplete.js) [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/autocomplete.js/badge?style=flat-square)](https://www.jsdelivr.com/package/npm/autocomplete.js) [![MIT License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
-## Table of Contents
+<details>
+
+<summary><strong>Contents</strong></summary>
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Features](#features)
-- [Installation](#installation)
-  - [jsDelivr](#jsdelivr)
-  - [cdnjs](#cdnjs)
-  - [npm](#npm)
-  - [Bower](#bower)
-  - [Source dist/](#source-dist)
-  - [Browserify](#browserify)
 - [Usage](#usage)
-  - [Standalone](#standalone)
-  - [jQuery](#jquery)
-  - [Angular.JS](#angularjs)
-- [Look and Feel](#look-and-feel)
-- [Global Options](#global-options)
-- [Datasets](#datasets)
-- [Sources](#sources)
-  - [Hits](#hits)
-  - [PopularIn (aka "xxxxx in yyyyy")](#popularin-aka-xxxxx-in-yyyyy)
-  - [Custom source](#custom-source)
-- [Security](#security)
-  - [User-generated data: protecting against XSS](#user-generated-data-protecting-against-xss)
-- [FAQ](#faq)
-  - [How can I `Control`-click on results and have them open in a new tab?](#how-can-i-control-click-on-results-and-have-them-open-in-a-new-tab)
-- [Events](#events)
+- [Installation](#installation)
 - [API](#api)
-  - [jQuery](#jquery-1)
-  - [Standalone](#standalone-1)
-- [Contributing & releasing](#contributing--releasing)
-- [Credits](#credits)
+  - [Options](#options)
+  - [Sources](#sources)
+  - [State](#state)
+  - [Global templates](#global-templates)
+- [Top-level API](#top-level-api)
+  - [`autocomplete`](#autocomplete)
+  - [`getAlgoliaHits`](#getalgoliahits)
+  - [`getAlgoliaResults`](#getalgoliaresults)
+  - [`highlightAlgoliaHit`](#highlightalgoliahit)
+  - [`reverseHighlightAlgoliaHit`](#reversehighlightalgoliahit)
+  - [`snippetAlgoliaHit`](#snippetalgoliahit)
+- [Design](#design)
+  - [Search box](#search-box)
+  - [Dropdown](#dropdown)
+- [Examples](#examples)
+- [Browser support](#browser-support)
+- [Contributing](#contributing)
+- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+</details>
+
 ## Features
 
-* Displays suggestions to end-users as they type
-* Shows top suggestion as a hint (i.e. background text)
-* Supports custom templates to allow for UI flexibility
-* Works well with RTL languages and input method editors
-* Triggers custom events
-
-
-## Installation
-
-The `autocomplete.js` library must be included **after** jQuery, Zepto or Angular.js (with jQuery).
-
-### jsDelivr
-
-```html
-<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
-<!-- OR -->
-<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
-<!-- OR -->
-<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
-```
-
-### cdnjs
-
-```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.min.js"></script>
-<!-- OR -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.jquery.min.js"></script>
-<!-- OR -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/<VERSION>/autocomplete.angular.min.js"></script>
-```
-
-### npm
-
-```sh
-npm install --save autocomplete.js
-```
-
-### Bower
-
-```sh
-bower install algolia-autocomplete.js -S
-```
-
-### Source dist/
-
-You can find the built version in [dist/](https://github.com/algolia/autocomplete.js/tree/master/dist).
-
-### Browserify
-
-You can require it and use [Browserify](http://browserify.org/):
-
-```js
-var autocomplete = require('autocomplete.js');
-```
+- Displays suggestions as you type
+- Shows top suggestion as a completion
+- Supports custom templates for UI flexibility
+- Works well with RTL languages
+- Triggers custom hooks to plug your logic
+- Plugs easily to Algolia's realtime search engine
 
 ## Usage
 
-### Standalone
+> [Try it out live](http://codesandbox.io/s/github/francoischalifour/autocomplete.js/tree/next/examples/autocomplete.js)
 
- 1. Include `autocomplete.min.js`
- 1. Initialize the auto-completion menu calling the `autocomplete` function
-
-```html
-<input type="text" id="search-input" placeholder="Search unicorns..." />
-
-<!-- [ ... ] -->
-<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
-<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
-<script>
-  var client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey');
-  var index = client.initIndex('YourIndex');
-  autocomplete('#search-input', { hint: false }, [
-    {
-      source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
-      displayKey: 'my_attribute',
-      templates: {
-        suggestion: function(suggestion) {
-          return suggestion._highlightResult.my_attribute.value;
-        }
-      }
-    }
-  ]).on('autocomplete:selected', function(event, suggestion, dataset, context) {
-    console.log(event, suggestion, dataset, context);
-  });
-</script>
-```
-
-### jQuery
-
- 1. Include `autocomplete.jquery.min.js` after including `jQuery`
- 1. Initialize the auto-completion menu calling the `autocomplete` jQuery plugin
+###### HTML
 
 ```html
-<input type="text" id="search-input" />
-
-<!-- [ ... ] -->
-<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
-<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
-<script>
-  var client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey')
-  var index = client.initIndex('YourIndex');
-  $('#search-input').autocomplete({ hint: false }, [
-    {
-      source: $.fn.autocomplete.sources.hits(index, { hitsPerPage: 5 }),
-      displayKey: 'my_attribute',
-      templates: {
-        suggestion: function(suggestion) {
-          return suggestion._highlightResult.my_attribute.value;
-        }
-      }
-    }
-  ]).on('autocomplete:selected', function(event, suggestion, dataset, context) {
-    console.log(event, suggestion, dataset, context);
-  });
-</script>
+<body>
+  <div id="autocomplete"></div>
+</body>
 ```
 
-### Angular.JS
+###### JavaScript
 
- 1. Include `autocomplete.angular.min.js` after including `jQuery` & `Angular.js`
- 1. Inject the `algolia.autocomplete` module
- 1. Add the `autocomplete`, `aa-datasets` and the optional `aa-options` attribute to your search bar
+```js
+const items = [
+  { value: 'Apple', count: 120 },
+  { value: 'Banana', count: 100 },
+  { value: 'Cherry', count: 50 },
+  { value: 'Orange', count: 150 },
+];
 
-```html
-<div ng-controller="yourController">
-  <input type="text" id="search-input" autocomplete aa-datasets="getDatasets()" />
-</div>
-
-<!-- [ include jQuery + Angular.js ] -->
-<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.angular.min.js"></script>
-<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.angular.min.js"></script>
-<script>
-  angular.module('myApp', ['algoliasearch', 'algolia.autocomplete'])
-    .controller('yourController', ['$scope', 'algolia', function($scope, algolia) {
-      var client = algolia.Client('YourApplicationID', 'YourSearchOnlyAPIKey');
-      var index = client.initIndex('YourIndex');
-
-      $scope.getDatasets = function() {
-        return {
-          source: algolia.sources.hits(index, { hitsPerPage: 5 }),
-          displayKey: 'my_attribute',
-          templates: {
-            suggestion: function(suggestion) {
-              return suggestion._highlightResult.my_attribute.value;
-            }
-          }
-        };
-      };
-
-      $scope.$on('autocomplete:selected', function(event, suggestion, dataset) {
-        console.log(event, suggestion, dataset, context);
-      });
-    }]);
-</script>
-```
-
-**Note:** You need to rely on `jQuery`, the lite version embedded in Angular.js won't work.
-
-## Look and Feel
-
-Below is a faux mustache template describing the DOM structure of an autocomplete
-dropdown menu. Keep in mind that `header`, `footer`, `suggestion`, and `empty`
-come from the provided templates detailed [here](#datasets).
-
-```html
-<span class="aa-dropdown-menu{{#datasets}} aa-{{'with' or 'without'}}-{{name}}{{/datasets}}">
-  {{#datasets}}
-    <div class="aa-dataset-{{name}}">
-      {{{header}}}
-      <span class="aa-suggestions">
-        {{#suggestions}}
-          <div class="aa-suggestion">{{{suggestion}}}</div>
-        {{/suggestions}}
-        {{^suggestions}}
-          {{{empty}}}
-        {{/suggestions}}
-      </span>
-      {{{footer}}}
-    </div>
-  {{/datasets}}
-  {{empty}}
-</span>
-```
-
-When an end-user mouses or keys over a `.aa-suggestion`, the class `aa-cursor` will be added to it. You can use this class as a hook for styling the "under cursor" state of suggestions.
-
-
-Add the following CSS rules to add a default style:
-
-```css
-.algolia-autocomplete {
-  width: 100%;
-}
-.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
-  width: 100%;
-}
-.algolia-autocomplete .aa-hint {
-  color: #999;
-}
-.algolia-autocomplete .aa-dropdown-menu {
-  width: 100%;
-  background-color: #fff;
-  border: 1px solid #999;
-  border-top: none;
-}
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
-  cursor: pointer;
-  padding: 5px 4px;
-}
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
-  background-color: #B2D7FF;
-}
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
-  font-weight: bold;
-  font-style: normal;
-}
-```
-
-Here is what the [basic example](https://github.com/algolia/autocomplete.js/tree/master/examples) looks like:
-
-![Basic example](./examples/basic.gif)
-
-## Global Options
-
-When initializing an autocomplete, there are a number of global options you can configure.
-
-* `autoselect` – If `true`, the first rendered suggestion in the dropdown will automatically have the `cursor` class, and pressing `<ENTER>` will select it.
-
-* `autoselectOnBlur` – If `true`, when the input is blurred, the first rendered suggestion in the dropdown will automatically have the `cursor` class, and pressing `<ENTER>` will select it. This option should be used on mobile, see [#113](https://github.com/algolia/autocomplete.js/issues/113)
-
-* `tabAutocomplete` – If `true`, pressing tab will select the first rendered suggestion in the dropdown. Defaults to `true`.
-
-* `hint` – If `false`, the autocomplete will not show a hint. Defaults to `true`.
-
-* `debug` – If `true`, the autocomplete will not close on `blur`. Defaults to `false`.
-
-* `clearOnSelected` – If `true`, the autocomplete will empty the search box when a suggestion is selected. This is useful if you want to use this as a way to input tags using the `selected` event.
-
-* `openOnFocus` – If `true`, the dropdown menu will open when the input is focused. Defaults to `false`.
-
-* `appendTo` – If set with a DOM selector, doesn't wrap the input and appends the wrapper and dropdown menu to the first DOM element matching the selector. It automatically positions the wrapper under the input, and sets it to the same width as the input. Can't be used with `hint: true`, because `hint` requires the wrapper around the input.
-
-* `dropdownMenuContainer` – If set with a DOM selector, it overrides the container of the dropdown menu.
-
-* `templates` – An optional hash overriding the default templates.
-  * `dropdownMenu` – the dropdown menu template. The template should include all *dataset* placeholders.
-  * `header` – the header to prepend to the dropdown menu
-  * `footer` – the footer to append to the dropdown menu
-  * `empty` – the template to display when none of the datasets are returning results. The templating function
-    is called with a context containing the underlying `query`.
-
-* `cssClasses` – An optional hash overriding the default css classes.
-  * `root` – the root classes. Defaults to `algolia-autocomplete`.
-  * `prefix` – the CSS class prefix of all nested elements. Defaults to `aa`.
-  * `noPrefix` - set this to true if you wish to not use any prefix. Without this option, all nested elements classes will have a leading dash. Defaults to `false`.
-  * `dropdownMenu` – the dropdown menu CSS class. Defaults to `dropdown-menu`.
-  * `input` – the input CSS class. Defaults to `input`.
-  * `hint` – the hint CSS class. Defaults to `hint`.
-  * `suggestions` – the suggestions list CSS class. Defaults to `suggestions`.
-  * `suggestion` – the suggestion wrapper CSS class. Defaults to `suggestion`.
-  * `cursor` – the cursor CSS class. Defaults to `cursor`.
-  * `dataset` – the dataset CSS class. Defaults to `dataset`.
-  * `empty` – the empty CSS class. Defaults to `empty`.
-
-* `keyboardShortcuts` - Array of shortcut that will focus the input. For example if you want to bind `s` and `/`
- you can specify: `keyboardShortcuts: ['s', '/']`
-
-* `ariaLabel` - An optional string that will populate the `aria-label` attribute.
-
-```html
-<script type="text/template" id="my-custom-menu-template">
-  <div class="my-custom-menu">
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="aa-dataset-d1"></div>
-      </div>
-      <div class="col-sm-6">
-        <div class="aa-dataset-d2"></div>
-        <div class="aa-dataset-d3"></div>
-      </div>
-    </div>
-  </div>
-</script>
-<style>
-body {
-	font-family: -apple-system, sans-serif;
-}
-.algolia-autocomplete {
-  width: 100%;
-}
-.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
-  width: 100%;
-}
-.algolia-autocomplete .aa-hint {
-  color: #999;
-}
-.algolia-autocomplete .aa-dropdown-menu {
-  width: 100%;
-  background-color: #fff;
-  border: 1px solid #999;
-  border-top: none;
-}
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
-  cursor: pointer;
-  padding: 5px 4px;
-}
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
-  background-color: #B2D7FF;
-}
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
-  font-weight: bold;
-  font-style: normal;
-}
-
-.branding {
-font-size: 1.3em;
-margin: 0.5em 0.2em;
-}
-
-.branding img {
-	height: 1.3em;
-	margin-bottom: - 0.3em;
-}
-</style>
-<script>
-  $('#search-input').autocomplete(
-    {
-      templates: {
-        dropdownMenu: '#my-custom-menu-template',
-        footer: '<div class="branding">Powered by <img src="https://www.algolia.com/static_assets/images/press/downloads/algolia-logo-light.svg" /></div>'
-      }
-    },
-    [
+autocomplete({
+  container: '#autocomplete',
+  getSources() {
+    return [
       {
-        source: $.fn.autocomplete.sources.hits(index1, { hitsPerPage: 5 }),
-        name: 'd1',
+        getSuggestions({ query }) {
+          return items.filter(item =>
+            item.value.toLocaleLowerCase().includes(query.toLocaleLowerCase())
+          );
+        },
+        getInputValue({ suggestion }) {
+          return suggestion.value;
+        },
         templates: {
-          header: '<h4>List 1</h4>',
-          suggestion: function(suggestion) {
-            // FIXME
-          }
-        }
+          suggestion({ suggestion }) {
+            return `<div>${suggestion.value} (${suggestion.count})</div>`;
+          },
+        },
       },
-      {
-        source: $.fn.autocomplete.sources.hits(index2, { hitsPerPage: 2 }),
-        name: 'd2',
-        templates: {
-          header: '<h4>List 2</h4>',
-          suggestion: function(suggestion) {
-            // FIXME
-          }
-        }
-      },
-      {
-        source: $.fn.autocomplete.sources.hits(index3, { hitsPerPage: 2 }),
-        name: 'd3',
-        templates: {
-          header: '<h4>List 3</h4>',
-          suggestion: function(suggestion, answer) {
-            // FIXME
-          }
-        }
-      }
-    ]
-  );
-</script>
-```
-
-* `minLength` – The minimum character length needed before suggestions start
-  getting rendered. Defaults to `1`.
-
-* `autoWidth` – This option allow you to control the width of autocomplete wrapper. When `false` the autocomplete wrapper will not have the width style attribute and you are be able to put your specific width property in your css to control the wrapper. Default value is `true`.
-
-One scenario for use this option. e.g. You have a `max-width` css attribute in your `autocomplete-dropdown-menu` and you need to width grows until fill the `max-width`. In this scenario you put a `width: auto` in your autocomplete wrapper css class and the `max-width` in your autocomplete dropdown class and all done.
-
-## Datasets
-
-An autocomplete is composed of one or more datasets. When an end-user modifies the
-value of the underlying input, each dataset will attempt to render suggestions for the
-new value.
-
-Datasets can be configured using the following options.
-
-* `source` – The backing data source for suggestions. Expected to be a function
-  with the signature `(query, cb)`. It is expected that the function will
-  compute the suggestion set (i.e. an array of JavaScript objects) for `query`
-  and then invoke `cb` with said set. `cb` can be invoked synchronously or
-  asynchronously.
-
-* `name` – The name of the dataset. This will be appended to `tt-dataset-` to
-  form the class name of the containing DOM element.  Must only consist of
-  underscores, dashes, letters (`a-z`), and numbers. Defaults to a random
-  number.
-
-* `displayKey` – For a given suggestion object, determines the string
-  representation of it. This will be used when setting the value of the input
-  control after a suggestion is selected. Can be either a key string or a
-  function that transforms a suggestion object into a string. Defaults to
-  `value`.
-  Example function usage: `displayKey: function(suggestion) { return suggestion.nickname || suggestion.firstName }`
-
-* `templates` – A hash of templates to be used when rendering the dataset. Note
-  a precompiled template is a function that takes a JavaScript object as its
-  first argument and returns a HTML string.
-
-  * `empty` – Rendered when `0` suggestions are available for the given query.
-  Can be either a HTML string or a precompiled template. The templating function
-  is called with a context containing `query`, `isEmpty`, and any optional
-  arguments that may have been forwarded by the source:
-  `function emptyTemplate({ query, isEmpty }, [forwarded args])`.
-
-  * `footer` – Rendered at the bottom of the dataset. Can be either a HTML
-  string or a precompiled template. The templating function
-  is called with a context containing `query`, `isEmpty`, and any optional
-  arguments that may have been forwarded by the source:
-  `function footerTemplate({ query, isEmpty }, [forwarded args])`.
-
-  * `header` – Rendered at the top of the dataset. Can be either a HTML string
-  or a precompiled template. The templating function
-  is called with a context containing `query`, `isEmpty`, and any optional
-  arguments that may have been forwarded by the source:
-  `function headerTemplate({ query, isEmpty }, [forwarded args])`.
-
-  * `suggestion` – Used to render a single suggestion. The templating function
-  is called with the `suggestion`, and any optional arguments that may have
-  been forwarded by the source: `function suggestionTemplate(suggestion, [forwarded args])`.
-  Defaults to the value of `displayKey` wrapped in a `p` tag i.e. `<p>{{value}}</p>`.
-
-* `debounce` – If set, will postpone the source execution until after `debounce` milliseconds
-have elapsed since the last time it was invoked.
-
-* `cache` - If set to `false`, subsequent identical queries will always execute the source function for suggestions. Defaults to `true`.
-
-## Sources
-
-A few helpers are provided by default to ease the creation of Algolia-based sources.
-
-### Hits
-
-To build a source based on Algolia's `hits` array, just use:
-
-```js
-{
-  source: autocomplete.sources.hits(indexObj, { hitsPerPage: 2 }),
-  templates: {
-    suggestion: function(suggestion, answer) {
-      // FIXME
-    }
-  }
-}
-```
-
-### PopularIn (aka "xxxxx in yyyyy")
-
-To build an Amazon-like autocomplete menu, suggesting popular queries and for the most popular one displaying the associated categories, you can use the `popularIn` source:
-
-```js
-{
-  source: autocomplete.sources.popularIn(popularQueriesIndexObj, { hitsPerPage: 3 }, {
-    source: 'sourceAttribute',           // attribute of the `popularQueries` index use to query the `index` index
-    index: productsIndexObj,             // targeted index
-    facets: 'facetedCategoryAttribute',  // facet used to enrich the most popular query
-    maxValuesPerFacet: 3                 // maximum number of facets returned
-  }, {
-    includeAll: true,                    // should it include an extra "All department" suggestion
-    allTitle: 'All departments'          // the included category label
-  }),
-  templates: {
-    suggestion: function(suggestion, answer) {
-      var value = suggestion.sourceAttribute;
-      if (suggestion.facet) {
-        // this is the first suggestion
-        // and it has been enriched with the matching facet
-        value += ' in ' + suggestion.facet.value + ' (' + suggestion.facet.count + ')';
-      }
-      return value;
-    }
-  }
-}
-```
-
-### Custom source
-
-The `source` options can also take a function. It enables you to have more control of the results returned by Algolia search. The function `function(query, callback)` takes 2 parameters
-  * `query: String`: the text typed in the autocomplete
-  * `callback: Function`: the callback to call at the end of your processing with the array of suggestions
-
-```js
-source: function(query, callback) {
-  var index = client.initIndex('myindex');
-  index.search(query, { hitsPerPage: 1, facetFilters: 'category:mycat' }).then(function(answer) {
-    callback(answer.hits);
-  }, function() {
-    callback([]);
-  });
-}
-```
-
-Or by reusing an existing source:
-
-```js
-var hitsSource = autocomplete.sources.hits(index, { hitsPerPage: 5 });
-
-source: function(query, callback) {
-  hitsSource(query, function(suggestions) {
-    // FIXME: Do stuff with the array of returned suggestions
-    callback(suggestions);
-  });
-}
-```
-
-## Security
-
-### User-generated data: protecting against XSS
-
-Malicious users may attempt to engineer XSS attacks by storing HTML/JS in their data. It is important that user-generated data be properly escaped before using it in an *autocomplete.js* template.
-
-In order to easily do that, *autocomplete.js* provides you with a helper function escaping all HTML code but the highlighting tags:
-
-```js
-  templates: {
-    suggestion: function(suggestion) {
-      var val = suggestion._highlightResult.name.value;
-      return autocomplete.escapeHighlightedString(val);
-    }
-  }
-```
-
-If you did specify custom highlighting pre/post tags, you can specify them as 2nd and 3rd parameter:
-
-```js
-  templates: {
-    suggestion: function(suggestion) {
-      var val = suggestion._highlightResult.name.value;
-      return autocomplete.escapeHighlightedString(val, '<span class="highlighted">', '</span>');
-    }
-  }
-```
-
-## FAQ
-
-### How can I `Control`-click on results and have them open in a new tab?
-
-You'll need to update your suggestion templates to make them as `<a href>` links
-and not simple divs. `Control`-clicking on them will trigger the default browser
-behavior and open suggestions in a new tab.
-
-To also support keyboard navigation, you'll need to listen to the
-`autocomplete:selected` event and change `window.location` to the destination
-URL.
-
-Note that you might need to check the value of `context.selectionMethod` in
-`autocomplete:selected` first. If it's equal to `click`, you should `return`
-early, otherwise your main window will **also** follow the link.
-
-Here is an example of how it would look like:
-
-```javascript
-autocomplete(…).on('autocomplete:selected', function(event, suggestion, dataset, context) {
-  // Do nothing on click, as the browser will already do it
-  if (context.selectionMethod === 'click') {
-    return;
-  }
-  // Change the page, for example, on other events
-  window.location.assign(suggestion.url);
+    ];
+  },
 });
 ```
 
-## Events
+You can learn more about the [options](#options) and the [top-level API](#top-level-api).
 
-The autocomplete component triggers the following custom events.
+## Installation
 
-* `autocomplete:opened` – Triggered when the dropdown menu of the autocomplete is
-  opened.
+Autocomplete.js is available on the [npm](https://www.npmjs.com/) registry.
 
-* `autocomplete:shown` – Triggered when the dropdown menu of the autocomplete is
-  shown (opened and non-empty).
+```sh
+yarn add @francoischalifour/autocomplete.js@alpha
+# or
+npm install @francoischalifour/autocomplete.js@alpha
+```
 
-* `autocomplete:empty` – Triggered when all datasets are empty.
+If you do not wish to use a package manager, you can use standalone endpoints:
 
-* `autocomplete:closed` – Triggered when the dropdown menu of the autocomplete is
-  closed.
+```html
+<!-- jsDelivr -->
+<script src="https://cdn.jsdelivr.net/npm/@francoischalifour/autocomplete.js@alpha"></script>
 
-* `autocomplete:updated` – Triggered when a dataset is rendered.
-
-* `autocomplete:cursorchanged` – Triggered when the dropdown menu cursor is moved
-  to a different suggestion. The event handler will be invoked with 3
-  arguments: the jQuery event object, the suggestion object, and the name of
-  the dataset the suggestion belongs to.
-
-* `autocomplete:selected` – Triggered when a suggestion from the dropdown menu is
-  selected. The event handler will be invoked with the following arguments: the jQuery
-  event object, the suggestion object, the name of the dataset the
-  suggestion belongs to and a `context` object. The `context` contains
-  a `.selectionMethod` key that can be either `click`, `enterKey`, `tabKey` or
-  `blur`, depending how the suggestion was selected.
-
-* `autocomplete:cursorremoved` – Triggered when the cursor leaves the selections
-  or its current index is lower than 0
-
-* `autocomplete:autocompleted` – Triggered when the query is autocompleted.
-  Autocompleted means the query was changed to the hint. The event handler will
-  be invoked with 3 arguments: the jQuery event object, the suggestion object,
-  and the name of the dataset the suggestion belongs to.
-
-* `autocomplete:redrawn` – Triggered when `appendTo` is used and the wrapper is resized/repositionned.
-
-All custom events are triggered on the element initialized as the autocomplete.
+<!-- unpkg -->
+<script src="https://unpkg.com/@francoischalifour/autocomplete.js@alpha"></script>
+```
 
 ## API
 
-### jQuery
+### Options
 
-Turns any `input[type="text"]` element into an auto-completion menu. `globalOptions` is an
-options hash that's used to configure the autocomplete to your liking. Refer to
-[Global Options](#global-options) for more info regarding the available configs. Subsequent
-arguments (`*datasets`), are individual option hashes for datasets. For more
-details regarding datasets, refer to [Datasets](#datasets).
+#### `container`
 
+> `string | HTMLElement` | **required**
+
+The container for the autocomplete search box.
+
+#### `getSources`
+
+> `(options: { query: string }) => AutocompleteSource[] | Promise<AutocompleteSource[]>`
+
+Called to fetch the [sources](#sources).
+
+#### `dropdownContainer`
+
+> `string | HTMLElement` | defaults to `document.body`
+
+The container for the autocomplete dropdown.
+
+#### `dropdownAlignment`
+
+> `'left' | 'right'` | defaults to `'left'`
+
+The dropdown alignment related to the container.
+
+#### `getDropdownPosition`
+
+> `(options: { containerRect: ClientRect, dropdownPosition: DropdownPosition }) => DropdownPosition` | defaults to `({ dropdownPosition }) => dropdownPosition`
+
+Called to compute the dropdown position. This function is called at first load and when the window is resized.
+
+<details>
+
+<summary><code>DropdownPosition</code> definition</summary>
+
+```ts
+interface DropdownPosition {
+  top: number;
+  left?: number;
+  right?: number;
+}
 ```
-$(selector).autocomplete(globalOptions, datasets)
-```
 
-Example:
+</details>
+
+<details>
+
+<summary>Example</summary>
+
+**Removing margins on mobile**
 
 ```js
-$('.search-input').autocomplete({
-  minLength: 3
-},
-{
-  name: 'my-dataset',
-  source: mySource
+autocomplete({
+  // ...
+  getDropdownPosition({ dropdownPosition }) {
+    // Desktop: we want to return the dropdown position as is.
+    if (window.matchMedia('(min-width: 650px)').matches) {
+      return dropdownPosition;
+    }
+
+    // Mobile: we want to return the dropdown position without left or right
+    // margins.
+    return { top: dropdownPosition.top };
+  },
 });
 ```
 
-#### jQuery#autocomplete('destroy')
+</details>
 
-Removes the autocomplete functionality and reverts the `input` element back to its
-original state.
+#### `placeholder`
 
-```js
-$('.search-input').autocomplete('destroy');
-```
+> `string` | defaults to `""`
 
-#### jQuery#autocomplete('open')
+The text that appears in the search box input when there is no query.
 
-Opens the dropdown menu of the autocomplete. Note that being open does not mean that
-the menu is visible. The menu is only visible when it is open and has content.
+It is fowarded to the [`input`'s placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefplaceholder).
 
-```js
-$('.search-input').autocomplete('open');
-```
+#### `showCompletion`
 
-#### jQuery#autocomplete('close')
+> `boolean` | defaults to `false`
 
-Closes the dropdown menu of the autocomplete.
+Whether to show the highlighted suggestion as completion in the input.
 
-```js
-$('.search-input').autocomplete('close');
-```
+![`showCompletion` preview](https://user-images.githubusercontent.com/6137112/68124812-7e989800-ff10-11e9-88a5-f28c1466b665.png)
 
-#### jQuery#autocomplete('val')
+#### `minLength`
 
-Returns the current value of the autocomplete. The value is the text the user has
-entered into the `input` element.
+> `number` | defaults to `1`
 
-```js
-var myVal = $('.search-input').autocomplete('val');
-```
+The minimum number of characters long the autocomplete opens.
 
-#### jQuery#autocomplete('val', val)
+#### `autofocus`
 
-Sets the value of the autocomplete. This should be used in place of `jQuery#val`.
+> `boolean` | defaults to `false`
 
-```js
-$('.search-input').autocomplete('val', myVal);
-```
+Whether to focus the search box when the page is loaded.
 
-#### jQuery.fn.autocomplete.noConflict()
+#### `keyboardShortcuts`
 
-Returns a reference to the autocomplete plugin and reverts `jQuery.fn.autocomplete`
-to its previous value. Can be used to avoid naming collisions.
+> `string[]`
 
-```js
-var autocomplete = jQuery.fn.autocomplete.noConflict();
-jQuery.fn._autocomplete = autocomplete;
-```
+The keyboard shortcuts keys to focus the input.
 
-### Standalone
+#### `defaultHighlightedIndex`
 
-The standalone version API is similiar to jQuery's:
+> `number` | defaults to `0` (the first item)
 
-```js
-var search = autocomplete(containerSelector, globalOptions, datasets);
-```
+The default item index to pre-select.
 
-Example:
+#### `stallThreshold`
 
-```js
-var search = autocomplete('#search', { hint: false }, [{
-  source: autocomplete.sources.hits(index, { hitsPerPage: 5 })
-}]);
+> `number` | defaults to `300`
 
-search.autocomplete.open();
-search.autocomplete.close();
-search.autocomplete.getVal();
-search.autocomplete.setVal('Hey Jude');
-search.autocomplete.destroy();
-search.autocomplete.getWrapper(); // since autocomplete.js wraps your input into another div, you can access that div
-```
+The number of milliseconds that must elapse before the autocomplete experience is stalled. The timeout is set from the moment [`getSources`](#getsources) is called.
 
-You can also pass a custom Typeahead instance in Autocomplete.js constructor:
+When the experience is stalled:
 
-```js
-var search = autocomplete('#search', { hint: false }, [{ ... }], new Typeahead({ ... }));
-```
+- The CSS class `algolia-autocomplete--stalled` is added to the autocomplete container
+- The `isStalled` boolean is `true` in the [state](#state)
 
-#### autocomplete.noConflict()
+#### `initialState`
 
-Returns a reference to the autocomplete plugin and reverts `window.autocomplete`
-to its previous value. Can be used to avoid naming collisions.
+> [`State`](#state)
+
+The initial state to apply when the page is loaded.
+
+#### `templates`
+
+> [`GlobalTemplates`](#global-templates)
+
+Refer to the "[Global Templates](#global-templates)" section.
+
+#### `transformResultsRender`
+
+> `(results: JSX.Element[]) => JSX.Element | JSX.Element[]`
+
+Called before rendering the results.
+
+Useful to wrap results in containers to organize the display.
+
+<details>
+
+<summary>Example</summary>
 
 ```js
-var algoliaAutocomplete = autocomplete.noConflict();
+autocomplete({
+  // ...
+  transformResultsRender(results) {
+    const [recentSearches, querySuggestions, products] = results;
+
+    return (
+      <div style={{ display: 'flex' }}>
+        <div style={{ flex: 1 }}>
+          {recentSearches}
+          {querySuggestions}
+        </div>
+
+        <div style={{ flex: 2 }}>{products}</div>
+      </div>
+    );
+  },
+});
 ```
 
-## Contributing & releasing
+</details>
 
-see [CONTRIBUTING.md](./CONTRIBUTING.md)
+#### `environment`
 
-## Credits
+> `typeof window` | defaults to `window`
 
-This library has originally been forked from [Twitter's typeahead.js](https://github.com/twitter/typeahead.js) library.
+The environment from where your JavaScript is running.
+
+Useful if you're using Autocomplete.js in a different context than [`window`](https://developer.mozilla.org/en-US/docs/Web/API/Window).
+
+#### `navigator`
+
+> `Navigator`
+
+API used to redirect users when a suggestion link is open programmatically (using keyboard navigation). It defines how a URL should be open in the current tab, in a new tab and in a new window.
+
+The source needs to specify [`getSuggestionUrl`](#getsuggestionurl) for the suggestion URL to be provided.
+
+<details>
+
+<summary>Example</summary>
+
+```js
+autocomplete({
+  // ...
+  navigator: {
+    navigate({ suggestionUrl }) {
+      environment.location.assign(suggestionUrl);
+    },
+    navigateNewTab({ suggestionUrl }) {
+      const windowReference = environment.open(suggestionUrl, '_blank');
+
+      if (windowReference) {
+        windowReference.focus();
+      }
+    },
+    navigateNewWindow({ suggestionUrl }) {
+      environment.open(suggestionUrl, '_blank');
+    },
+  },
+});
+```
+
+</details>
+
+#### `onFocus`
+
+> `(options: { state: AutocompleteState, ...setters }) => void`
+
+Called when the input is focused.
+
+This function is also called when the input is clicked while already having the focus _and_ the dropdown is closed.
+
+#### `onError`
+
+> `(options: { state: AutocompleteState, ...setters }) => void` | defaults to `({ state }) => throw state.error`
+
+Called when an error is thrown while getting the suggestions.
+
+When an error is caught:
+
+- The error is thrown (default `onError` implementation)
+- The CSS class `algolia-autocomplete--errored` is added to the autocomplete container
+- The error is available in the [state](#state)
+
+#### `onClick`
+
+> `(event: MouseEvent, options: { state: AutocompleteState, ...setters, suggestion: any, suggestionValue: string }) => void`
+
+Called when a [`click` event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event) is fired on an item.
+
+This function is useful to alter the behavior when a special key is held (e.g. keeping the dropdown open when the meta key is used).
+
+#### `onKeyDown`
+
+> `(event: KeyboardEvent, options: { state: AutocompleteState, ...setters, suggestion?: any, suggestionValue?: string, suggestionUrl?: string }) => void` | defaults to an accessible behavior
+
+Called when a [`keydown` event](https://developer.mozilla.org/en-US/docs/Web/API/Document/keydown_event) is fired.
+
+This function is useful to alter the behavior when a special key is held.
+
+<details>
+
+<summary>Example</summary>
+
+```js
+autocomplete({
+  // ...
+  onKeyDown(event, { suggestionUrl, suggestion }) {
+    if (!suggestionUrl) {
+      return;
+    }
+
+    if (event.key === 'Enter') {
+      if (event.metaKey || event.ctrlKey) {
+        const windowReference = window.open(suggestion.url, '_blank');
+        windowReference.focus();
+      } else if (event.shiftKey) {
+        window.open(suggestion.url, '_blank');
+      } else if (event.altKey) {
+        // Keep native browser behavior
+      } else {
+        window.location.assign(suggestion.url);
+      }
+    }
+  },
+});
+```
+
+</details>
+
+#### `onInput`
+
+> `(options: { query: string, state: AutocompleteState, ...setters }) => void | Promise <void | { state: AutocompleteState }>`
+
+Called when the input changes.
+
+This turns experience is "controlled" mode. You'll be in charge of updating the state with the [top-level API](#autocomplete).
+
+#### `shouldDropdownOpen`
+
+> `(options: { state: AutocompleteState }) => boolean` | defaults to `({ state }) => state.results.some(result => result.suggestions.length > 0)`
+
+Called to check whether the dropdown should open based on the Autocomplete state.
+
+The default behavior is to open the dropdown when there are results.
+
+### Sources
+
+An Autocomplete source refers to an object with the following properties:
+
+#### `getInputValue`
+
+> `(options: { suggestion: Suggestion, state: AutocompleteState }) => string` | defaults to `({ state }) => state.query`
+
+Called to get the value of the suggestion. The value is used to fill the search box.
+
+If you do not wish to update the input value when an item is selected, you can return `state.query`.
+
+<details>
+  <summary>Example</summary>
+
+```js
+const items = [{ value: 'Apple' }, { value: 'Banana' }];
+
+const source = {
+  getInputValue: ({ suggestion }) => suggestion.value,
+  // ...
+};
+```
+
+</details>
+
+#### `getSuggestionUrl`
+
+> `(options: { suggestion: Suggestion, state: AutocompleteState }) => string | undefined`
+
+Called to get the URL of the suggestion. The value is used to add keyboard accessibility features to allow to open suggestions in the current tab, in a new tab or in a new window.
+
+<details>
+  <summary>Example</summary>
+
+```js
+const items = [
+  { value: 'Google', url: 'https://google.com' },
+  { value: 'Amazon', url: 'https://amazon.com' },
+];
+
+const source = {
+  getSuggestionUrl: ({ suggestion }) => suggestion.url,
+  // ...
+};
+```
+
+</details>
+
+#### `getSuggestions`
+
+> `(options: { query: string, state: AutocompleteState, ...setters }) => Suggestion[] | Promise<Suggestion[]>` | **required**
+
+Called when the input changes. You can use this function to filter/search the items based on the query.
+
+<details>
+  <summary>Example</summary>
+
+```js
+const items = [{ value: 'Apple' }, { value: 'Banana' }];
+
+const source = {
+  getSuggestions({ query }) {
+    return items.filter(item => item.value.includes(query));
+  },
+  // ...
+};
+```
+
+</details>
+
+#### `templates`
+
+> **required**
+
+Templates to use for the source. A template supports strings and JSX elements.
+
+##### `header`
+
+> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+
+The template to display before the suggestions.
+
+##### `suggestion`
+
+> `(options: { suggestion: Suggestion, state: AutocompleteState, ...setters }) => string | JSX.Element`
+
+The template for each suggestion.
+
+##### `footer`
+
+> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+
+The template to display after the suggestions.
+
+##### `empty`
+
+> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+
+The template to display when there are no suggestions.
+
+<details>
+  <summary>Example</summary>
+
+**Using strings**
+
+```js
+const items = [{ value: 'Apple' }, { value: 'Banana' }];
+
+const source = {
+  templates: {
+    header() {
+      return '<h2>Fruits</h2>';
+    },
+    suggestion({ suggestion }) {
+      return suggestion.value;
+    },
+    footer() {
+      return '<a href="/fruits">See more</a>';
+    },
+  },
+  // ...
+};
+```
+
+**Using JSX elements**
+
+```jsx
+const items = [{ value: 'Apple' }, { value: 'Banana' }];
+
+const source = {
+  templates: {
+    header() {
+      return <h2>Fruits</h2>;
+    },
+    suggestion({ suggestion }) {
+      return suggestion.value;
+    },
+    footer() {
+      return <a href="/fruits">See more</a>;
+    },
+  },
+  // ...
+};
+```
+
+</details>
+
+#### `onSelect`
+
+> `(options: { state: AutocompleteState, ...setters }) => void` | defaults to `({ setIsOpen }) => setIsOpen(false)`
+
+Called when an item is selected.
+
+#### `classNames`
+
+> `ClassNames`
+
+CSS classes to add to the template of the source.
+
+<details>
+
+<summary>Example</summary>
+
+```js
+const source = {
+  classNames: {
+    root: 'dropdown',
+    list: 'dropdown-menu',
+    suggestion: 'dropdown-item',
+  },
+  // ...
+};
+```
+
+</details>
+
+##### `root`
+
+> `string`
+
+The CSS class to add to the source root.
+
+##### `list`
+
+> `string`
+
+The CSS class to add to the source list.
+
+##### `suggestion`
+
+> `string`
+
+The CSS class to add to each source suggestion.
+
+##### `header`
+
+> `string`
+
+The CSS class to add to the source header.
+
+##### `footer`
+
+> `string`
+
+The CSS class to add to the source footer.
+
+##### `empty`
+
+> `string`
+
+The CSS class to add to the empty source.
+
+### State
+
+The Autocomplete.js state drives the behavior of the experience.
+
+#### Getters
+
+The state can be initially set with [`initialState`](#initial-state) and it's is passed to all templates.
+
+##### `query`
+
+> `string` | defaults to `''`
+
+The query.
+
+##### `results`
+
+> `Result[]` | defaults to `[]`
+
+The results of all the sources.
+
+<details>
+
+<summary><code>Result</code> definition</summary>
+
+```ts
+interface Result {
+  source: AutocompleteSource;
+  suggestions: any[];
+}
+```
+
+</details>
+
+##### `isOpen`
+
+> `boolean` | defaults to `false`
+
+Whether the dropdown is open.
+
+##### `isLoading`
+
+> `boolean` | defaults to `false`
+
+Whether the experience is loading.
+
+##### `isStalled`
+
+> `boolean` | defaults to `false`
+
+Whether the experience is stalled.
+
+##### `error`
+
+> `null | Error` | defaults to `null`
+
+The error that happened, `null` if none.
+
+##### `context`
+
+> `object` | defaults to `{}`
+
+The autocomplete context to store data in. It's useful to use custom data in templates.
+
+#### Setters
+
+Each state has a setter that can be used in the lifecycle of Autocomplete.js.
+
+##### `setQuery`
+
+> `(value: string | ((prevState: string) => string)) => void`
+
+Sets the [`query`](#query) value in the state.
+
+##### `setResults`
+
+> `(value: Result[] | ((prevState: Result[]) => Result[])) => void`
+
+Sets the [`results`](#results) value in the state.
+
+##### `setIsOpen`
+
+> `(value: boolean | ((prevState: boolean) => boolean)) => void`
+
+Sets the [`isOpen`](#isopen) value in the state.
+
+##### `setIsLoading`
+
+> `(value: boolean | ((prevState: boolean) => boolean)) => void`
+
+Sets the [`isLoading`](isLoading) value in the state.
+
+##### `setIsStalled`
+
+> `(value: boolean | ((prevState: boolean) => boolean)) => void`
+
+Sets the [`isStalled`](isStalled) value in the state.
+
+##### `setError`
+
+> `(value: Error | null | ((prevState: Error | null) => Error | null)) => void`
+
+Sets the [`error`](error) value in the state.
+
+##### `setContext`
+
+> `(value: object | ((prevState: object) => object)) => void`
+
+Sets the [`context`](context) value in the state.
+
+<details>
+  <summary>Example</summary>
+
+**Storing `nbHits` from the Algolia response**
+
+```js
+autocomplete({
+  // ...
+  getSources({ query, setContext }) {
+    return getAlgoliaResults({
+      searchClient,
+      queries: [
+        {
+          indexName: 'instant_search',
+          query,
+          params: {
+            attributesToSnippet: ['description'],
+          },
+        },
+      ],
+    }).then(results => {
+      const productsResults = results[0];
+
+      setContext({
+        nbProducts: productsResults.nbHits,
+      });
+
+      return [
+        {
+          // ...
+          templates: {
+            header({ state }) {
+              return `<h2>Products (${state.context.nbProducts})</h2>`;
+            },
+          },
+        },
+      ];
+    });
+  },
+});
+```
+
+</details>
+
+### Global templates
+
+In addition to the source templates, Autocomplete.js supports some global templates.
+
+#### `header`
+
+> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+
+The template to display before all sources.
+
+#### `footer`
+
+> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+
+The template to display after all sources.
+
+#### `submitIcon`
+
+> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+
+The template for the submit icon.
+
+#### `resetIcon`
+
+> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+
+The template for the reset icon. The template for the submit icon.
+
+#### `loadingIcon`
+
+> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+
+The template for the loading icon.
+
+## Top-level API
+
+### `autocomplete`
+
+`autocomplete` is the default export from the `autocomplete.js` package. It is the main function that starts the autocomplete experience and accepts [options](#options).
+
+The `autocomplete` function returns an API that allows you to turn Autocomplete.js in a "controlled" mode. It returns all the [setters](#setters) so that you update the state of the experience.
+
+```js
+// Instantiate Autocomplete.js
+const autocompleteSearch = autocomplete({
+  // options
+});
+
+// Retrieve the state of your app that you want to forward to Autocomplete.js
+const app = getAppState();
+
+// Update the state of Autocomplete.js based on your app state
+autocompleteSearch.setQuery(app.query);
+autocompleteSearch.setResults(
+  app.indices.map(index => {
+    return {
+      source: getSource({ index }),
+      suggestions: index.hits,
+    };
+  })
+);
+autocompleteSearch.setIsOpen(app.isOpen);
+autocompleteSearch.setIsLoading(app.isLoading);
+autocompleteSearch.setIsStalled(app.isStalled);
+autocompleteSearch.setError(app.error);
+autocompleteSearch.setContext(app.context);
+```
+
+### `getAlgoliaHits`
+
+> `(options: { searchClient: SearchClient, query: string, searchParameters: SearchParameters[] }) => Promise<Response['hits']>`
+
+Function that retrieves and merges Algolia hits from multiple indices.
+
+This function comes with default Algolia search parameters:
+
+- [`hitsPerPage`](https://www.algolia.com/doc/api-reference/api-parameters/hitsPerPage/): `5`
+- [`highlightPreTag`](https://www.algolia.com/doc/api-reference/api-parameters/highlightPreTag/): `<mark>`
+- [`highlightPostTag`](https://www.algolia.com/doc/api-reference/api-parameters/highlightPostTag/): `</mark>`
+
+<details>
+  <summary>Example</summary>
+
+```js
+import autocomplete, { getAlgoliaHits } from 'autocomplete.js';
+import algoliasearch from 'algoliasearch';
+
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
+
+autocomplete({
+  // ...
+  getSources({ query }) {
+    return [
+      {
+        // ...
+        getSuggestions({ query }) {
+          return getAlgoliaHits({
+            searchClient,
+            queries: [
+              {
+                indexName: 'instant_search',
+                query,
+                params: {
+                  hitsPerPage: 3,
+                },
+              },
+            ],
+          });
+        },
+      },
+    ];
+  },
+});
+```
+
+</details>
+
+### `getAlgoliaResults`
+
+> `(options: { searchClient: SearchClient, query: string, searchParameters: SearchParameters[] }) => Promise<MultiResponse['results']>`
+
+Function that retrieves Algolia results from multiple indices.
+
+This function comes with default Algolia search parameters:
+
+- [`hitsPerPage`](https://www.algolia.com/doc/api-reference/api-parameters/hitsPerPage/): `5`
+- [`highlightPreTag`](https://www.algolia.com/doc/api-reference/api-parameters/highlightPreTag/): `<mark>`
+- [`highlightPostTag`](https://www.algolia.com/doc/api-reference/api-parameters/highlightPostTag/): `</mark>`
+
+<details>
+  <summary>Example</summary>
+
+```js
+import autocomplete, { getAlgoliaResults } from 'autocomplete.js';
+import algoliasearch from 'algoliasearch';
+
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
+
+autocomplete({
+  // ...
+  getSources({ query }) {
+    return [
+      {
+        // ...
+        getSuggestions({ query }) {
+          return getAlgoliaResults({
+            searchClient,
+            queries: [
+              {
+                indexName: 'instant_search',
+                query,
+                params: {
+                  hitsPerPage: 3,
+                },
+              },
+            ],
+          }).then(results => {
+            const firstResult = results[0];
+
+            return firstResult.hits;
+          });
+        },
+      },
+    ];
+  },
+});
+```
+
+</details>
+
+### `highlightAlgoliaHit`
+
+Highlights and escapes the value of a record.
+
+<details>
+
+<summary>Example</summary>
+
+```js
+import autocomplete, { highlightAlgoliaHit } from 'autocomplete.js';
+
+autocomplete({
+  // ...
+  templates: {
+    suggestion({ suggestion }) {
+      return highlightAlgoliaHit({
+        hit: suggestion,
+        attribute: 'name',
+      });
+    },
+  },
+});
+```
+
+</details>
+
+### `reverseHighlightAlgoliaHit`
+
+This function reverse-highlights and escapes the value of a record.
+
+It's useful when following the pattern of [Query Suggestions](https://www.algolia.com/doc/guides/getting-insights-and-analytics/leveraging-analytics-data/query-suggestions/) to highlight the difference between what the user types and the suggestion shown.
+
+<details>
+
+<summary>Example</summary>
+
+```js
+import autocomplete, { reverseHighlightAlgoliaHit } from 'autocomplete.js';
+
+autocomplete({
+  // ...
+  templates: {
+    suggestion({ suggestion }) {
+      return reverseHighlightAlgoliaHit({
+        hit: suggestion,
+        attribute: 'query',
+      });
+    },
+  },
+});
+```
+
+</details>
+
+### `snippetAlgoliaHit`
+
+Highlights and escapes the snippet value of a record.
+
+<details>
+
+<summary>Example</summary>
+
+```js
+import autocomplete, { snippetAlgoliaHit } from 'autocomplete.js';
+
+autocomplete({
+  // ...
+  templates: {
+    suggestion({ suggestion }) {
+      return snippetAlgoliaHit({
+        hit: suggestion,
+        attribute: 'name',
+      });
+    },
+  },
+});
+```
+
+</details>
+
+## Design
+
+### Search box
+
+<details>
+
+<summary>HTML output</summary>
+
+```html
+<div
+  class="algolia-autocomplete"
+  role="combobox"
+  aria-haspopup="listbox"
+  aria-labelledby="autocomplete-0-label"
+>
+  <form role="search" novalidate="" class="algolia-autocomplete-form">
+    <label
+      for="autocomplete-0-input"
+      class="algolia-autocomplete-magnifierLabel"
+    >
+      <svg>
+        ...
+      </svg>
+    </label>
+
+    <div class="algolia-autocomplete-loadingIndicator">
+      <svg>
+        ...
+      </svg>
+    </div>
+
+    <div class="algolia-autocomplete-searchbox">
+      <input
+        id="autocomplete-0-input"
+        class="algolia-autocomplete-input"
+        aria-autocomplete="list"
+        aria-labelledby="autocomplete-0-label"
+        autocomplete="off"
+        placeholder="Search…"
+        type="search"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        maxlength="512"
+      />
+    </div>
+
+    <button
+      type="reset"
+      title="Clear the query"
+      class="algolia-autocomplete-reset"
+      hidden="true"
+    >
+      <svg>
+        ...
+      </svg>
+    </button>
+  </form>
+</div>
+```
+
+</details>
+
+### Dropdown
+
+<details>
+
+<summary>HTML output</summary>
+
+```html
+<div class="algolia-autocomplete-dropdown">
+  <div class="algolia-autocomplete-dropdown-container">
+    <header class="algolia-autocomplete-header">
+      Global header
+    </header>
+
+    <section class="algolia-autocomplete-suggestions">
+      <header class="algolia-autocomplete-suggestions-header">
+        <h2>Fruits</h2>
+      </header>
+
+      <ul
+        id="autocomplete-0-menu"
+        role="listbox"
+        aria-labelledby="autocomplete-0-label"
+      >
+        <li
+          class="algolia-autocomplete-suggestions-item"
+          id="autocomplete-0-item-0"
+          role="option"
+          tabindex="0"
+        >
+          Apple
+        </li>
+        <li
+          class="algolia-autocomplete-suggestions-item"
+          id="autocomplete-0-item-1"
+          role="option"
+          tabindex="0"
+        >
+          Banana
+        </li>
+      </ul>
+
+      <footer class="algolia-autocomplete-suggestions-footer">
+        Showing 2 out of 10 fruits
+      </footer>
+    </section>
+
+    <footer class="algolia-autocomplete-footer">
+      Global footer
+    </footer>
+  </div>
+</div>
+```
+
+</details>
+
+## Examples
+
+<!-- TODO -->
+
+## Browser support
+
+<!-- TODO -->
+
+## Contributing
+
+Please refer to the [contributing guide](CONTRIBUTING.md).
+
+## License
+
+Autocomplete.js is [MIT licensed](LICENSE).

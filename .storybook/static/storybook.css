@@ -1,0 +1,28 @@
+body {
+  font-family: 'Nunito Sans', -apple-system, '.SFNSText-Regular',
+    'San Francisco', BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica,
+    Arial, sans-serif;
+  margin: auto;
+  max-width: 600px;
+  padding: 2rem 1rem;
+}
+
+.suggestions-header {
+  color: #5d6494;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.078125rem;
+  line-height: 1.2rem;
+  margin: 0 0 0.5rem;
+  padding-top: 1rem;
+  text-transform: uppercase;
+}
+
+/* Used to demo injected classNames appended to the template after the source */
+.extra-bgc-nebula {
+  background-color: #5468ff;
+}
+
+.extra-color-mars-1 {
+  background-color: #ed5a6a;
+}

@@ -1,0 +1,173 @@
+:root {
+  --algolia-autocomplete-input-color: #5d6494;
+  --algolia-autocomplete-highlight-color: #5468ff;
+  --algolia-autocomplete-background-light-color: #f5f5fa;
+  --algolia-autocomplete-background-highlight-color: rgba(218, 219, 234, 0.4);
+  --algolia-autocomplete-border-color: rgba(197, 201, 224, 0.4);
+}
+
+.algolia-autocomplete,
+.algolia-autocomplete *,
+.algolia-autocomplete-dropdown,
+.algolia-autocomplete-dropdown * {
+  box-sizing: border-box;
+}
+
+.algolia-autocomplete-dropdown a {
+  text-decoration: none;
+}
+
+.algolia-autocomplete-form {
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid var(--algolia-autocomplete-border-color);
+  border-radius: 6px;
+  -webkit-box-align: center;
+  box-shadow: 0 2px 3px 0 var(--algolia-autocomplete-border-color);
+  display: -webkit-box;
+  display: flex;
+  margin: 0;
+  padding: 0 8px;
+  position: relative;
+}
+
+.algolia-autocomplete-searchbox {
+  display: flex;
+  flex: 1;
+}
+
+.algolia-autocomplete-input,
+.algolia-autocomplete-completion {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: inherit;
+  border: none;
+  font: inherit;
+  height: 100%;
+  outline: none;
+  padding: 1rem;
+  width: 100%;
+}
+
+.algolia-autocomplete-input::-webkit-search-cancel-button,
+.algolia-autocomplete-input::-webkit-search-decoration,
+.algolia-autocomplete-input::-webkit-search-results-button,
+.algolia-autocomplete-input::-webkit-search-results-decoration {
+  display: none;
+}
+
+.algolia-autocomplete-completion {
+  opacity: 0.4;
+  pointer-events: none;
+  position: absolute;
+}
+
+.algolia-autocomplete-loadingIndicator,
+.algolia-autocomplete-magnifierLabel,
+.algolia-autocomplete-reset {
+  color: var(--algolia-autocomplete-input-color);
+  height: 2rem;
+  width: 2rem;
+}
+
+.algolia-autocomplete--stalled .algolia-autocomplete-loadingIndicator,
+.algolia-autocomplete-magnifierLabel,
+.algolia-autocomplete-reset {
+  align-items: center;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  display: -webkit-box;
+  display: flex;
+  justify-content: center;
+}
+
+.algolia-autocomplete--stalled .algolia-autocomplete-magnifierLabel,
+.algolia-autocomplete-loadingIndicator {
+  display: none;
+}
+
+.algolia-autocomplete-reset {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  right: 0;
+}
+
+.algolia-autocomplete-reset[hidden] {
+  display: none;
+}
+
+.algolia-autocomplete-reset:focus {
+  background: var(--algolia-autocomplete-background-light-color);
+  color: #5468ff;
+  color: var(--algolia-autocomplete-highlight-color);
+  outline: none;
+}
+
+.algolia-autocomplete-loadingIndicator svg,
+.algolia-autocomplete-magnifierLabel svg {
+  height: 18px;
+  width: 18px;
+}
+
+.algolia-autocomplete-reset svg {
+  height: 10px;
+  width: 10px;
+}
+
+.algolia-autocomplete-dropdown {
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px 0 rgba(93, 100, 148, 0.2),
+    0 5px 15px 0 rgba(37, 44, 97, 0.15);
+  margin-top: 0.5rem;
+  max-width: 600px;
+  overflow: scroll;
+  -ms-overflow-style: none;
+  padding: 0.5rem;
+  scrollbar-width: none;
+  width: 100%;
+  z-index: 1;
+}
+
+.algolia-autocomplete-dropdown::-webkit-scrollbar {
+  display: none;
+}
+
+.algolia-autocomplete-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.algolia-autocomplete-dropdown-container {
+  position: relative;
+}
+
+.algolia-autocomplete-suggestions-item {
+  cursor: default;
+  padding: 0.5rem;
+}
+
+.algolia-autocomplete-suggestions-item a {
+  color: inherit;
+  display: block;
+}
+
+.algolia-autocomplete-suggestions-item[aria-selected='true'] {
+  background-color: rgba(218, 219, 234, 0.4);
+  background-color: var(--algolia-autocomplete-background-highlight-color);
+  border-radius: 0.1875rem;
+}
+
+.algolia-autocomplete-suggestions mark {
+  background: none;
+  color: #5468ff;
+  color: var(--algolia-autocomplete-highlight-color);
+  font-weight: 700;
+}

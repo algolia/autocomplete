@@ -1,0 +1,10 @@
+{
+  "extends": ["config:js-lib", "algolia"],
+  "packageRules": [
+    {
+      "packagePatterns": ["^@types"],
+      "depTypeList": ["devDependencies"],
+      "rangeStrategy": "replace"
+    }
+  ]
+}
