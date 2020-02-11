@@ -1,11 +1,20 @@
 import { stateReducer } from './stateReducer';
 
-import { AutocompleteInstance, AutocompleteItem } from './types';
+import {
+  AutocompleteInstance,
+  AutocompleteStore,
+  RequiredAutocompleteOptions,
+} from './types';
 
-export function getAutocompleteSetters<TItem extends AutocompleteItem>({
+interface GetAutocompleteSettersOptions<TItem> {
+  store: AutocompleteStore<TItem>;
+  props: RequiredAutocompleteOptions<TItem>;
+}
+
+export function getAutocompleteSetters<TItem>({
   store,
   props,
-}) {
+}: GetAutocompleteSettersOptions<TItem>) {
   const setHighlightedIndex: AutocompleteInstance<
     TItem
   >['setHighlightedIndex'] = value => {

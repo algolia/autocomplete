@@ -1,9 +1,5 @@
 export type StateUpdater<TState> = (value: TState) => void;
 
-export interface AutocompleteItem {
-  __autocomplete_id: number;
-}
-
 type SuggestionsOptions = any;
 
 export type AutocompleteSource = any;
@@ -229,6 +225,12 @@ export interface AutocompleteOptions<TItem> {
    */
   placeholder?: string;
   /**
+   * Whether to focus the search box when the page is loaded.
+   *
+   * @default false
+   */
+  autoFocus?: boolean;
+  /**
    * The default item index to pre-select.
    *
    * @default 0
@@ -298,6 +300,7 @@ export interface RequiredAutocompleteOptions<TItem> {
   id: string;
   onStateChange<TItem>(props: { state: AutocompleteState<TItem> }): void;
   placeholder: string;
+  autoFocus: boolean;
   defaultHighlightedIndex: number;
   showCompletion: boolean;
   minLength: number;

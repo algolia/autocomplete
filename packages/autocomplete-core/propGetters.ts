@@ -10,9 +10,17 @@ import {
   GetItemProps,
   GetLabelProps,
   GetMenuProps,
+  AutocompleteStore,
+  RequiredAutocompleteOptions,
+  AutocompleteSetters,
 } from './types';
 
-export function getPropGetters({
+interface GetPropGettersOptions<TItem> extends AutocompleteSetters<TItem> {
+  store: AutocompleteStore<TItem>;
+  props: RequiredAutocompleteOptions<TItem>;
+}
+
+export function getPropGetters<TItem>({
   store,
   props,
   setHighlightedIndex,
@@ -21,7 +29,7 @@ export function getPropGetters({
   setIsOpen,
   setStatus,
   setContext,
-}) {
+}: GetPropGettersOptions<TItem>) {
   const getRootProps: GetRootProps = rest => {
     return {
       role: 'combobox',
@@ -106,7 +114,7 @@ export function getPropGetters({
     return {
       'aria-autocomplete': 'list',
       'aria-activedescendant':
-        store.getState().isOpen && props.highlightedIndex >= 0
+        store.getState().isOpen && store.getState().highlightedIndex >= 0
           ? `${props.id}-item-${store.getState().highlightedIndex}`
           : null,
       'aria-controls': store.getState().isOpen ? `${props.id}-menu` : null,
@@ -118,7 +126,7 @@ export function getPropGetters({
       autoCapitalize: 'off',
       spellCheck: false,
       autofocus: props.autoFocus,
-      placeholder: props.showCompletion ? '' : props.placeholder,
+      placeholder: props.placeholder,
       // @TODO: see if this accessibility attribute is necessary
       // 'aria-expanded': store.getStore().isOpen,
       onInput: (event: InputEvent) => {
