@@ -2,7 +2,7 @@
 
 import { h, Ref } from 'preact';
 
-import { GetInputProps } from '../autocomplete-core/types/index';
+import { GetInputProps, GetLabelProps } from '../autocomplete-core/types/index';
 
 export interface SearchBoxProps {
   placeholder: string;
@@ -13,6 +13,7 @@ export interface SearchBoxProps {
   onReset: (event: Event) => void;
   onSubmit: (event: Event) => void;
   getInputProps: GetInputProps;
+  getLabelProps: GetLabelProps;
   onInputRef: Ref<HTMLInputElement | null>;
 }
 
@@ -27,8 +28,8 @@ export function SearchBox(props: SearchBoxProps) {
       onReset={props.onReset}
     >
       <label
-        htmlFor={props.getInputProps().id}
         className="algolia-autocomplete-magnifierLabel"
+        {...props.getLabelProps()}
       >
         <svg viewBox="0 0 18 18">
           <path

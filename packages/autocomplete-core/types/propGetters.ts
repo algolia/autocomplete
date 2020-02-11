@@ -27,7 +27,7 @@ export type GetFormProps = (props: {
   onReset(event: Event): void;
 };
 
-export type GetInputProps = (props?: {
+export type GetInputProps = (props: {
   [key: string]: unknown;
   inputElement: HTMLInputElement;
 }) => {
@@ -36,10 +36,10 @@ export type GetInputProps = (props?: {
   autofocus: boolean;
   placeholder: string;
   autoComplete: 'on' | 'off';
-  autoCorrect: 'off';
-  autoCapitalize: 'off';
+  autoCorrect: 'on' | 'off';
+  autoCapitalize: 'on' | 'off';
   spellCheck: boolean;
-  'aria-autocomplete': 'list';
+  'aria-autocomplete': 'both';
   'aria-activedescendant': string | null;
   'aria-controls': string | null;
   'aria-labelledby': string;

@@ -41,7 +41,9 @@ export function getPropGetters<TItem>({
     };
   };
 
-  const getFormProps: GetFormProps = rest => {
+  const getFormProps: GetFormProps = providedProps => {
+    const { inputElement, ...rest } = providedProps;
+
     return {
       onSubmit: event => {
         event.preventDefault();
@@ -62,8 +64,8 @@ export function getPropGetters<TItem>({
         );
         props.onStateChange({ state: store.getState() });
 
-        if (rest?.inputElement) {
-          rest.inputElement.blur();
+        if (providedProps.inputElement) {
+          providedProps.inputElement.blur();
         }
       },
       onReset: event => {
@@ -88,15 +90,15 @@ export function getPropGetters<TItem>({
         );
         props.onStateChange({ state: store.getState() });
 
-        if (rest?.inputElement) {
-          rest.inputElement.focus();
+        if (providedProps.inputElement) {
+          providedProps.inputElement.focus();
         }
       },
       ...rest,
     };
   };
 
-  const getInputProps: GetInputProps = rest => {
+  const getInputProps: GetInputProps = providedProps => {
     function onFocus() {
       // We want to trigger a query when `minLength` is reached because the
       // dropdown should open with the current query.
@@ -120,8 +122,10 @@ export function getPropGetters<TItem>({
       props.onStateChange({ state: store.getState() });
     }
 
+    const { inputElement, ...rest } = providedProps;
+
     return {
-      'aria-autocomplete': 'list',
+      'aria-autocomplete': 'both',
       'aria-activedescendant':
         store.getState().isOpen && store.getState().highlightedIndex >= 0
           ? `${props.id}-item-${store.getState().highlightedIndex}`
@@ -187,7 +191,8 @@ export function getPropGetters<TItem>({
         // We mimic this event by catching the `onClick` event which
         // triggers the `onFocus` for the dropdown to open.
         if (
-          rest?.inputElement === props.environment.document.activeElement &&
+          providedProps.inputElement ===
+            props.environment.document.activeElement &&
           !store.getState().isOpen &&
           store.getState().query.length >= props.minLength
         ) {
@@ -198,18 +203,16 @@ export function getPropGetters<TItem>({
     };
   };
 
-  const getItemProps: GetItemProps<any> = rest => {
-    if (rest.item === undefined) {
-      throw new Error('`getItemProps` expects an `item`.');
-    }
+  const getItemProps: GetItemProps<any> = providedProps => {
+    const { item, source, ...rest } = providedProps;
 
     return {
-      id: `${props.id}-item-${rest.item.__autocomplete_id}`,
+      id: `${props.id}-item-${item.__autocomplete_id}`,
       role: 'option',
       'aria-selected':
-        store.getState().highlightedIndex === rest.item.__autocomplete_id,
+        store.getState().highlightedIndex === item.__autocomplete_id,
       onMouseMove() {
-        if (rest.item.__autocomplete_id === store.getState().highlightedIndex) {
+        if (item.__autocomplete_id === store.getState().highlightedIndex) {
           return;
         }
 
@@ -218,7 +221,7 @@ export function getPropGetters<TItem>({
             store.getState(),
             {
               type: 'mousemove',
-              value: rest.item.__autocomplete_id,
+              value: item.__autocomplete_id,
             },
             props
           )
@@ -237,8 +240,8 @@ export function getPropGetters<TItem>({
         }
 
         onInput({
-          query: rest.source.getInputValue({
-            suggestion: rest.item,
+          query: source.getInputValue({
+            suggestion: item,
             state: store.getState(),
           }),
           store,
