@@ -167,15 +167,16 @@ export interface AutocompleteSourceOptions<TItem> {
   /**
    * Called when an item is selected.
    */
-  onSelect?: (options: ItemEventHandlerOptions<TItem>) => void;
+  onSelect?: (options: ItemEventHandlerParams<TItem>) => void;
 }
 
-export interface EventHandlerOptions<TItem> extends AutocompleteSetters<TItem> {
+interface EventHandlerParams<TItem> extends AutocompleteSetters<TItem> {
   state: AutocompleteState<TItem>;
+  event: Event;
 }
 
-export interface ItemEventHandlerOptions<TItem>
-  extends EventHandlerOptions<TItem> {
+export interface ItemEventHandlerParams<TItem>
+  extends EventHandlerParams<TItem> {
   suggestion: Suggestion<TItem>;
   suggestionValue: ReturnType<AutocompleteSource['getInputValue']>;
   suggestionUrl: ReturnType<AutocompleteSource['getSuggestionUrl']>;
@@ -285,6 +286,10 @@ export interface AutocompleteOptions<TItem> {
    * The function called to determine whether the dropdown should open.
    */
   shouldDropdownOpen?(options: { state: AutocompleteState<TItem> }): boolean;
+  /**
+   * The function called when the autocomplete form is submitted.
+   */
+  onSubmit?(params: EventHandlerParams<TItem>): void;
 }
 
 export type NormalizedAutocompleteSource = {
@@ -310,4 +315,5 @@ export interface RequiredAutocompleteOptions<TItem> {
   environment: Environment;
   navigator: Navigator;
   shouldDropdownOpen(options: { state: AutocompleteState<TItem> }): boolean;
+  onSubmit(params: EventHandlerParams<TItem>): void;
 }

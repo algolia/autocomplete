@@ -46,7 +46,16 @@ export function getPropGetters<TItem>({
       onSubmit: event => {
         event.preventDefault();
 
-        // @TODO: call the `onInputChange` or `onSubmit` user prop?
+        props.onSubmit({
+          state: store.getState(),
+          setHighlightedIndex,
+          setQuery,
+          setSuggestions,
+          setIsOpen,
+          setStatus,
+          setContext,
+          event,
+        });
 
         store.setState(
           stateReducer(store.getState(), { type: 'submit', value: null }, props)

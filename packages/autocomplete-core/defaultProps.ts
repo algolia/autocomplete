@@ -25,6 +25,7 @@ export function getDefaultProps<TItem>(
     environment,
     shouldDropdownOpen: ({ state }) => getItemsCount(state) > 0,
     onStateChange: noop,
+    onSubmit: noop,
     ...props,
     // The following props need to be deeply defaulted.
     initialState: {
