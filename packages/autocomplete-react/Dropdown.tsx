@@ -5,7 +5,6 @@ import { h } from 'preact';
 import { reverseHighlightAlgoliaHit } from '../autocomplete-presets';
 
 interface DropdownProps {
-  isOpen: boolean;
   suggestions: any;
   status: string;
   getItemProps(options?: object): any;
@@ -13,7 +12,6 @@ interface DropdownProps {
 }
 
 export const Dropdown = ({
-  isOpen,
   status,
   suggestions,
   getItemProps,
@@ -21,7 +19,6 @@ export const Dropdown = ({
 }: DropdownProps) => {
   return (
     <div
-      hidden={!isOpen}
       className={[
         'algolia-autocomplete-dropdown',
         status === 'stalled' && 'algolia-autocomplete-dropdown--stalled',

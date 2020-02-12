@@ -61,13 +61,14 @@ export function Autocomplete<TItem extends {}>(
         })}
       />
 
-      <Dropdown
-        suggestions={state.suggestions}
-        isOpen={state.isOpen}
-        status={state.status}
-        getItemProps={autocomplete.current.getItemProps}
-        getMenuProps={autocomplete.current.getMenuProps}
-      />
+      {state.isOpen && (
+        <Dropdown
+          suggestions={state.suggestions}
+          status={state.status}
+          getItemProps={autocomplete.current.getItemProps}
+          getMenuProps={autocomplete.current.getMenuProps}
+        />
+      )}
     </div>
   );
 }
