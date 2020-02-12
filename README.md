@@ -407,9 +407,9 @@ Called when the input changes.
 
 This turns experience is "controlled" mode. You'll be in charge of updating the state with the [top-level API](#autocomplete).
 
-#### `shouldDropdownOpen`
+#### `shouldDropdownShow`
 
-> `(options: { state: AutocompleteState }) => boolean` | defaults to `({ state }) => state.results.some(result => result.suggestions.length > 0)`
+> `(options: { state: AutocompleteState }) => boolean` | defaults to `({ state }) => state.suggestions.some(suggestion => suggestion.items.length > 0)`
 
 Called to check whether the dropdown should open based on the Autocomplete state.
 

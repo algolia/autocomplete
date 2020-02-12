@@ -22,7 +22,7 @@ export function getDefaultProps<TItem>(
     showCompletion: false,
     stallThreshold: 300,
     environment,
-    shouldDropdownOpen: ({ state }) => getItemsCount(state) > 0,
+    shouldDropdownShow: ({ state }) => getItemsCount(state) > 0,
     onStateChange: noop,
     onSubmit: noop,
     ...props,

@@ -49,7 +49,7 @@ export function onInput<TItem>({
       }))
     );
     setIsOpen(
-      nextState.isOpen ?? props.shouldDropdownOpen({ state: store.getState() })
+      nextState.isOpen ?? props.shouldDropdownShow({ state: store.getState() })
     );
 
     return;
@@ -103,7 +103,7 @@ export function onInput<TItem>({
           setIsOpen(
             nextState.isOpen ??
               (query.length >= props.minLength &&
-                props.shouldDropdownOpen({ state: store.getState() }))
+                props.shouldDropdownShow({ state: store.getState() }))
           );
         })
         .catch(error => {

@@ -181,7 +181,7 @@ export interface PublicAutocompleteOptions<TItem> {
   /**
    * The function called to determine whether the dropdown should open.
    */
-  shouldDropdownOpen?(options: { state: AutocompleteState<TItem> }): boolean;
+  shouldDropdownShow?(options: { state: AutocompleteState<TItem> }): boolean;
   /**
    * The function called when the autocomplete form is submitted.
    */
@@ -202,6 +202,6 @@ export interface AutocompleteOptions<TItem> {
   getSources: GetSources<TItem>;
   environment: Environment;
   navigator: Navigator<TItem>;
-  shouldDropdownOpen(options: { state: AutocompleteState<TItem> }): boolean;
+  shouldDropdownShow(options: { state: AutocompleteState<TItem> }): boolean;
   onSubmit(params: EventHandlerParams<TItem>): void;
 }
