@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Nunito Sans', -apple-system, '.SFNSText-Regular',
     'San Francisco', BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica,
@@ -16,13 +20,4 @@ body {
   margin: 0 0 0.5rem;
   padding-top: 1rem;
   text-transform: uppercase;
-}
-
-/* Used to demo injected classNames appended to the template after the source */
-.extra-bgc-nebula {
-  background-color: #5468ff;
-}
-
-.extra-color-mars-1 {
-  background-color: #ed5a6a;
 }

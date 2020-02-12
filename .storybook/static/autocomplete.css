@@ -125,14 +125,12 @@
   border-radius: 6px;
   box-shadow: 0 2px 4px 0 rgba(93, 100, 148, 0.2),
     0 5px 15px 0 rgba(37, 44, 97, 0.15);
-  margin-top: 0.5rem;
-  max-width: 600px;
+  max-width: 480px;
   overflow: scroll;
   -ms-overflow-style: none;
   padding: 0.5rem;
   scrollbar-width: none;
   width: 100%;
-  z-index: 1;
 }
 
 .algolia-autocomplete-dropdown::-webkit-scrollbar {
