@@ -15,7 +15,6 @@ export function getDefaultProps<TItem>(
     : {}) as typeof window;
 
   return {
-    id: generateAutocompleteId(),
     minLength: 1,
     placeholder: '',
     autoFocus: false,
@@ -27,6 +26,9 @@ export function getDefaultProps<TItem>(
     onStateChange: noop,
     onSubmit: noop,
     ...props,
+    // Since `generateAutocompleteId` triggers a side effect (it increments
+    // and internal counter), we don't want to execute it if unnecessary.
+    id: props.id ?? generateAutocompleteId(),
     // The following props need to be deeply defaulted.
     initialState: {
       highlightedIndex: 0,
