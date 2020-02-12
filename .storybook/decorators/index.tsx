@@ -10,7 +10,7 @@ interface StoryProps {
 type StoryFn = ({ container, dropdownContainer }: StoryProps) => void;
 
 interface StoryOptions {
-  searchBoxPosition: 'left' | 'right';
+  searchBoxPosition: 'start' | 'end';
 }
 
 export function withPlayground(storyFn: StoryFn, options?: StoryOptions) {
@@ -61,7 +61,7 @@ function Header({ searchBoxPosition, children }) {
   };
 
   switch (searchBoxPosition) {
-    case 'left':
+    case 'start':
       return (
         <header
           style={{
@@ -73,7 +73,7 @@ function Header({ searchBoxPosition, children }) {
           <h1 style={{ fontSize: '1.2rem', fontWeight: '600' }}>Website</h1>
         </header>
       );
-    case 'right':
+    case 'end':
       return (
         <header
           style={{

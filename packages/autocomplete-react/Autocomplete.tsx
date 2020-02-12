@@ -21,20 +21,20 @@ export function Autocomplete<TItem extends {}>(
     props.initialState
   );
 
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const searchBoxRef = useRef<HTMLFormElement | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
   const autocomplete = useRef(
     createAutocomplete<TItem>({
       ...props,
       onStateChange({ state }) {
         setState(state as any);
 
-        if (props.onStateChange) {
-          props.onStateChange({ state });
-        }
+        props.onStateChange({ state });
       },
     })
   );
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <div
@@ -48,8 +48,8 @@ export function Autocomplete<TItem extends {}>(
       {...autocomplete.current.getRootProps()}
     >
       <SearchBox
+        inputRef={inputRef}
         placeholder={props.placeholder}
-        onInputRef={inputRef}
         query={state.query}
         isOpen={state.isOpen}
         status={state.status}
@@ -64,6 +64,7 @@ export function Autocomplete<TItem extends {}>(
       {state.isOpen && (
         <Dropdown
           suggestions={state.suggestions}
+          isOpen={state.isOpen}
           status={state.status}
           getItemProps={autocomplete.current.getItemProps}
           getMenuProps={autocomplete.current.getMenuProps}

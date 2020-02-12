@@ -14,7 +14,7 @@ export interface SearchBoxProps {
   onSubmit: (event: Event) => void;
   getInputProps: GetInputProps;
   getLabelProps: GetLabelProps;
-  onInputRef: Ref<HTMLInputElement | null>;
+  inputRef: Ref<HTMLInputElement>;
 }
 
 export function SearchBox(props: SearchBoxProps) {
@@ -80,8 +80,8 @@ export function SearchBox(props: SearchBoxProps) {
         <input
           className="algolia-autocomplete-input"
           {...props.getInputProps({
-            ref: props.onInputRef,
-            inputElement: (props.onInputRef as any).current,
+            ref: props.inputRef,
+            inputElement: (props.inputRef as any).current,
             type: 'search',
             maxLength: '512',
           })}

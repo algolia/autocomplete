@@ -4,19 +4,21 @@ import { h } from 'preact';
 
 import { reverseHighlightAlgoliaHit } from '../autocomplete-presets';
 
+import {
+  AutocompleteSuggestion,
+  GetItemProps,
+  GetMenuProps,
+} from '../autocomplete-core/types';
+
 interface DropdownProps {
-  suggestions: any;
+  isOpen: boolean;
   status: string;
-  getItemProps(options?: object): any;
-  getMenuProps(options?: object): any;
+  suggestions: Array<AutocompleteSuggestion<any>>;
+  getItemProps: GetItemProps<any>;
+  getMenuProps: GetMenuProps;
 }
 
-export const Dropdown = ({
-  status,
-  suggestions,
-  getItemProps,
-  getMenuProps,
-}: DropdownProps) => {
+export const Dropdown = (props: DropdownProps) => {
   return (
     <div
       className={[
@@ -26,46 +28,49 @@ export const Dropdown = ({
       ]
         .filter(Boolean)
         .join(' ')}
+      hidden={!props.isOpen}
     >
-      <div className="algolia-autocomplete-dropdown-container">
-        {suggestions.map((suggestion, index) => {
-          const { source, items } = suggestion;
+      {props.isOpen && (
+        <div className="algolia-autocomplete-dropdown-container">
+          {props.suggestions.map((suggestion, index) => {
+            const { source, items } = suggestion;
 
-          return (
-            <section
-              key={`result-${index}`}
-              className="algolia-autocomplete-suggestions"
-            >
-              {items.length > 0 && (
-                <ul {...getMenuProps()}>
-                  {items.map((item, index) => {
-                    return (
-                      <li
-                        key={`item-${index}`}
-                        className="algolia-autocomplete-suggestions-item"
-                        {...getItemProps({
-                          item,
-                          source,
-                          tabIndex: 0,
-                        })}
-                      >
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: reverseHighlightAlgoliaHit({
-                              hit: item,
-                              attribute: 'query',
-                            }),
-                          }}
-                        />
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-            </section>
-          );
-        })}
-      </div>
+            return (
+              <section
+                key={`result-${index}`}
+                className="algolia-autocomplete-suggestions"
+              >
+                {items.length > 0 && (
+                  <ul {...props.getMenuProps()}>
+                    {items.map((item, index) => {
+                      return (
+                        <li
+                          key={`item-${index}`}
+                          className="algolia-autocomplete-suggestions-item"
+                          {...props.getItemProps({
+                            item,
+                            source,
+                            tabIndex: 0,
+                          })}
+                        >
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: reverseHighlightAlgoliaHit({
+                                hit: item,
+                                attribute: 'query',
+                              }),
+                            }}
+                          />
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </section>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

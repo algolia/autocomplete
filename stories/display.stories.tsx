@@ -61,7 +61,7 @@ storiesOf('Display', module)
         return container;
       },
       {
-        searchBoxPosition: 'left',
+        searchBoxPosition: 'start',
       }
     )
   )
@@ -74,7 +74,7 @@ storiesOf('Display', module)
         return container;
       },
       {
-        searchBoxPosition: 'right',
+        searchBoxPosition: 'end',
       }
     )
   );
