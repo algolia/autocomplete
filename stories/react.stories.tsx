@@ -14,7 +14,7 @@ const searchClient = algoliasearch(
 );
 
 storiesOf('React', module).add(
-  'Default',
+  'Component',
   withPlayground(({ container }) => {
     render(
       <Autocomplete
