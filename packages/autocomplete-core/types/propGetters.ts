@@ -39,7 +39,7 @@ export type GetInputProps = (props: {
   autoCorrect: 'on' | 'off';
   autoCapitalize: 'on' | 'off';
   spellCheck: boolean;
-  'aria-autocomplete': 'both';
+  'aria-autocomplete': 'none' | 'inline' | 'list' | 'both';
   'aria-activedescendant': string | null;
   'aria-controls': string | null;
   'aria-labelledby': string;

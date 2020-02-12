@@ -125,7 +125,7 @@ export function getPropGetters<TItem>({
     const { inputElement, ...rest } = providedProps;
 
     return {
-      'aria-autocomplete': 'both',
+      'aria-autocomplete': props.showCompletion ? 'both' : 'list',
       'aria-activedescendant':
         store.getState().isOpen && store.getState().highlightedIndex >= 0
           ? `${props.id}-item-${store.getState().highlightedIndex}`
