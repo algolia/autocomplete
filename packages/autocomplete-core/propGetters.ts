@@ -239,11 +239,13 @@ export function getPropGetters<TItem>({
           return;
         }
 
+        const inputValue = source.getInputValue({
+          suggestion: item,
+          state: store.getState(),
+        });
+
         onInput({
-          query: source.getInputValue({
-            suggestion: item,
-            state: store.getState(),
-          }),
+          query: inputValue,
           store,
           props,
           setHighlightedIndex,
@@ -255,9 +257,26 @@ export function getPropGetters<TItem>({
           nextState: {
             isOpen: false,
           },
-        });
+        }).then(() => {
+          source.onSelect({
+            suggestion: item,
+            suggestionValue: inputValue,
+            suggestionUrl: source.getSuggestionUrl({
+              suggestion: item,
+              state: store.getState(),
+            }),
+            source,
+            state: store.getState(),
+            setHighlightedIndex,
+            setQuery,
+            setSuggestions,
+            setIsOpen,
+            setStatus,
+            setContext,
+          });
 
-        props.onStateChange({ state: store.getState() });
+          props.onStateChange({ state: store.getState() });
+        });
       },
       ...rest,
     };

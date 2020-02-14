@@ -13,42 +13,85 @@ const searchClient = algoliasearch(
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
-storiesOf('React', module).add(
-  'Component',
-  withPlayground(({ container, dropdownContainer }) => {
-    render(
-      <Autocomplete
-        placeholder="Search items…"
-        showCompletion={true}
-        defaultHighlightedIndex={-1}
-        dropdownContainer={dropdownContainer}
-        getSources={() => {
-          return [
-            {
-              getInputValue({ suggestion }) {
-                return suggestion.query;
-              },
-              getSuggestions({ query }) {
-                return getAlgoliaHits({
-                  searchClient,
-                  queries: [
-                    {
-                      indexName: 'instant_search_demo_query_suggestions',
-                      query,
-                      params: {
-                        hitsPerPage: 4,
+storiesOf('React', module)
+  .add(
+    'Component',
+    withPlayground(({ container, dropdownContainer }) => {
+      render(
+        <Autocomplete
+          placeholder="Search items…"
+          showCompletion={true}
+          defaultHighlightedIndex={-1}
+          dropdownContainer={dropdownContainer}
+          getSources={() => {
+            return [
+              {
+                getInputValue({ suggestion }) {
+                  return suggestion.query;
+                },
+                getSuggestions({ query }) {
+                  return getAlgoliaHits({
+                    searchClient,
+                    queries: [
+                      {
+                        indexName: 'instant_search_demo_query_suggestions',
+                        query,
+                        params: {
+                          hitsPerPage: 4,
+                        },
                       },
-                    },
-                  ],
-                });
+                    ],
+                  });
+                },
               },
-            },
-          ];
-        }}
-      />,
-      container
-    );
+            ];
+          }}
+        />,
+        container
+      );
 
-    return container;
-  })
-);
+      return container;
+    })
+  )
+  .add(
+    'Dropdown stays open onSelect',
+    withPlayground(({ container, dropdownContainer }) => {
+      render(
+        <Autocomplete
+          placeholder="Search items…"
+          showCompletion={true}
+          defaultHighlightedIndex={-1}
+          dropdownContainer={dropdownContainer}
+          getSources={() => {
+            return [
+              {
+                getInputValue({ suggestion }) {
+                  return suggestion.query;
+                },
+                onSelect(props) {
+                  props.setIsOpen(true);
+                },
+                getSuggestions({ query }) {
+                  return getAlgoliaHits({
+                    searchClient,
+                    queries: [
+                      {
+                        indexName: 'instant_search_demo_query_suggestions',
+                        query,
+                        params: {
+                          hitsPerPage: 4,
+                        },
+                      },
+                    ],
+                  });
+                },
+              },
+            ];
+          }}
+        />,
+        container
+      );
+
+      return container;
+    })
+  );

@@ -156,9 +156,23 @@ export function onKeyDown<TItem>({
         nextState: {
           isOpen: false,
         },
-      });
+      }).then(() => {
+        suggestion.source.onSelect({
+          suggestion: item,
+          suggestionValue: inputValue,
+          suggestionUrl: itemUrl,
+          source: suggestion.source,
+          state: store.getState(),
+          setHighlightedIndex,
+          setQuery,
+          setSuggestions,
+          setIsOpen,
+          setStatus,
+          setContext,
+        });
 
-      props.onStateChange({ state: store.getState() });
+        props.onStateChange({ state: store.getState() });
+      });
 
       if (itemUrl !== undefined) {
         props.navigator.navigate({
