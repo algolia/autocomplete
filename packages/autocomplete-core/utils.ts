@@ -51,6 +51,7 @@ function normalizeSource<TItem>(
     onSelect({ setIsOpen }) {
       setIsOpen(false);
     },
+    onHighlight: noop,
     ...source,
   };
 }
@@ -98,7 +99,7 @@ export function getNextHighlightedIndex(
 // We don't have access to the autocomplete source when we call `onKeyDown`
 // or `onClick` because those are native browser events.
 // However, we can get the source from the suggestion index.
-export function getSuggestionFromHighlightedIndex<TItem>({
+function getSuggestionFromHighlightedIndex<TItem>({
   state,
 }: {
   state: AutocompleteState<TItem>;
@@ -139,7 +140,13 @@ export function getSuggestionFromHighlightedIndex<TItem>({
  *         (absolute: 3, relative: 1)
  * @param param0
  */
-export function getRelativeHighlightedIndex({ state, suggestion }): number {
+function getRelativeHighlightedIndex<TItem>({
+  state,
+  suggestion,
+}: {
+  state: AutocompleteState<TItem>;
+  suggestion: AutocompleteSuggestion<TItem>;
+}): number {
   let isOffsetFound = false;
   let counter = 0;
   let previousItemsOffset = 0;
@@ -158,4 +165,24 @@ export function getRelativeHighlightedIndex({ state, suggestion }): number {
   }
 
   return state.highlightedIndex - previousItemsOffset;
+}
+
+export function getHighlightedItem<TItem>({
+  state,
+}: {
+  state: AutocompleteState<TItem>;
+}) {
+  const suggestion = getSuggestionFromHighlightedIndex({ state });
+  const item =
+    suggestion.items[getRelativeHighlightedIndex({ state, suggestion })];
+  const source = suggestion.source;
+  const itemValue = source.getInputValue({ suggestion: item, state });
+  const itemUrl = source.getSuggestionUrl({ suggestion: item, state });
+
+  return {
+    item,
+    itemValue,
+    itemUrl,
+    source,
+  };
 }

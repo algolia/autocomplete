@@ -26,10 +26,13 @@ interface ItemParams<TItem> {
 }
 
 interface OnSelectParams<TItem>
-  extends AutocompleteSetters<TItem>,
-    ItemParams<TItem> {
+  extends ItemParams<TItem>,
+    AutocompleteSetters<TItem> {
   state: AutocompleteState<TItem>;
+  event: Event;
 }
+
+type OnHighlightParams<TItem> = OnSelectParams<TItem>;
 
 interface OnSubmitParams<TItem> extends AutocompleteSetters<TItem> {
   state: AutocompleteState<TItem>;
@@ -67,9 +70,16 @@ export interface PublicAutocompleteSource<TItem> {
     | Array<AutocompleteSuggestion<TItem>>
     | Promise<Array<AutocompleteSuggestion<TItem>>>;
   /**
-   * Called when an item is selected.
+   * Function called when an item is selected.
    */
   onSelect?(params: OnSelectParams<TItem>): void;
+  /**
+   * Function called when an item is highlighted.
+   *
+   * An item is highlighted either via keyboard navigation or via mouse over.
+   * You can trigger different behaviors based on the event `type`.
+   */
+  onHighlight?(params: OnHighlightParams<TItem>): void;
 }
 
 export type AutocompleteSource<TItem> = {

@@ -1,10 +1,7 @@
 import { stateReducer } from './stateReducer';
 import { onInput } from './onInput';
 import { getCompletion } from './completion';
-import {
-  getSuggestionFromHighlightedIndex,
-  getRelativeHighlightedIndex,
-} from './utils';
+import { getHighlightedItem } from './utils';
 
 import {
   AutocompleteStore,
@@ -50,6 +47,27 @@ export function onKeyDown<TItem>({
       `${props.id}-item-${store.getState().highlightedIndex}`
     );
     nodeItem?.scrollIntoView(false);
+
+    if (store.getState().highlightedIndex >= 0) {
+      const { item, itemValue, itemUrl, source } = getHighlightedItem({
+        state: store.getState(),
+      });
+
+      source.onHighlight({
+        suggestion: item,
+        suggestionValue: itemValue,
+        suggestionUrl: itemUrl,
+        source,
+        state: store.getState(),
+        setHighlightedIndex,
+        setQuery,
+        setSuggestions,
+        setIsOpen,
+        setStatus,
+        setContext,
+        event,
+      });
+    }
   } else if (
     (event.key === 'Tab' ||
       // When the user hits the right arrow and is at the end of the input
@@ -97,30 +115,17 @@ export function onKeyDown<TItem>({
     );
     props.onStateChange({ state: store.getState() });
   } else if (event.key === 'Enter') {
+    // No item is selected, so we let the browser handle the native `onSubmit`
+    // form event.
     if (store.getState().highlightedIndex < 0) {
       return;
     }
 
-    const suggestion = getSuggestionFromHighlightedIndex({
-      state: store.getState(),
-    });
+    // This prevents the `onSubmit` event to be sent because an item is
+    // highlighted.
+    event.preventDefault();
 
-    const item =
-      suggestion.items[
-        getRelativeHighlightedIndex({ state: store.getState(), suggestion })
-      ];
-
-    if (item) {
-      // This prevents the `onSubmit` event to be sent when an item is selected.
-      event.preventDefault();
-    }
-
-    const itemUrl = suggestion.source.getSuggestionUrl({
-      suggestion: item,
-      state: store.getState(),
-    });
-    const inputValue = suggestion.source.getInputValue({
-      suggestion: item,
+    const { item, itemValue, itemUrl, source } = getHighlightedItem({
       state: store.getState(),
     });
 
@@ -144,7 +149,7 @@ export function onKeyDown<TItem>({
       // Keep native browser behavior
     } else {
       onInput({
-        query: inputValue,
+        query: itemValue,
         store,
         props,
         setHighlightedIndex,
@@ -157,11 +162,11 @@ export function onKeyDown<TItem>({
           isOpen: false,
         },
       }).then(() => {
-        suggestion.source.onSelect({
+        source.onSelect({
           suggestion: item,
-          suggestionValue: inputValue,
+          suggestionValue: itemValue,
           suggestionUrl: itemUrl,
-          source: suggestion.source,
+          source,
           state: store.getState(),
           setHighlightedIndex,
           setQuery,
@@ -169,6 +174,7 @@ export function onKeyDown<TItem>({
           setIsOpen,
           setStatus,
           setContext,
+          event,
         });
 
         props.onStateChange({ state: store.getState() });

@@ -1,8 +1,5 @@
 import { AutocompleteState, AutocompleteOptions } from './types';
-import {
-  getSuggestionFromHighlightedIndex,
-  getRelativeHighlightedIndex,
-} from './utils';
+import { getHighlightedItem } from './utils';
 
 interface GetCompletionProps<TItem> {
   state: AutocompleteState<TItem>;
@@ -22,25 +19,13 @@ export function getCompletion<TItem>({
     return null;
   }
 
-  const suggestion = getSuggestionFromHighlightedIndex({ state });
-
-  if (!suggestion) {
-    return null;
-  }
-
-  const item =
-    suggestion.items[getRelativeHighlightedIndex({ state, suggestion })];
-  const inputValue = suggestion.source.getInputValue({
-    suggestion: item,
-    state,
-  });
+  const { itemValue } = getHighlightedItem({ state });
 
   // The completion should appear only if the _first_ characters of the query
   // match with the suggestion.
   if (
     state.query.length > 0 &&
-    inputValue.toLocaleLowerCase().indexOf(state.query.toLocaleLowerCase()) ===
-      0
+    itemValue.toLocaleLowerCase().indexOf(state.query.toLocaleLowerCase()) === 0
   ) {
     // If the query typed has a different case than the suggestion, we want
     // to show the completion matching the case of the query. This makes both
@@ -49,7 +34,7 @@ export function getCompletion<TItem>({
     //  - query: 'Gui'
     //  - suggestion: 'guitar'
     //  => completion: 'Guitar'
-    const completion = state.query + inputValue.slice(state.query.length);
+    const completion = state.query + itemValue.slice(state.query.length);
 
     if (completion === state.query) {
       return null;

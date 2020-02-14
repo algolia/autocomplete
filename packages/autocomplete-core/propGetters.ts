@@ -1,7 +1,7 @@
 import { stateReducer } from './stateReducer';
 import { onInput } from './onInput';
 import { onKeyDown } from './onKeyDown';
-import { isSpecialClick } from './utils';
+import { isSpecialClick, getHighlightedItem } from './utils';
 
 import {
   GetRootProps,
@@ -211,7 +211,7 @@ export function getPropGetters<TItem>({
       role: 'option',
       'aria-selected':
         store.getState().highlightedIndex === item.__autocomplete_id,
-      onMouseMove() {
+      onMouseMove(event) {
         if (item.__autocomplete_id === store.getState().highlightedIndex) {
           return;
         }
@@ -227,6 +227,27 @@ export function getPropGetters<TItem>({
           )
         );
         props.onStateChange({ state: store.getState() });
+
+        if (store.getState().highlightedIndex >= 0) {
+          const { item, itemValue, itemUrl, source } = getHighlightedItem({
+            state: store.getState(),
+          });
+
+          source.onHighlight({
+            suggestion: item,
+            suggestionValue: itemValue,
+            suggestionUrl: itemUrl,
+            source,
+            state: store.getState(),
+            setHighlightedIndex,
+            setQuery,
+            setSuggestions,
+            setIsOpen,
+            setStatus,
+            setContext,
+            event,
+          });
+        }
       },
       onMouseDown(event: MouseEvent) {
         // Prevents the `activeElement` from being changed to the item so it
@@ -273,6 +294,7 @@ export function getPropGetters<TItem>({
             setIsOpen,
             setStatus,
             setContext,
+            event,
           });
 
           props.onStateChange({ state: store.getState() });

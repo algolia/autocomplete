@@ -94,4 +94,47 @@ storiesOf('React', module)
 
       return container;
     })
+  )
+  .add(
+    'Replaces query onHighlight',
+    withPlayground(({ container, dropdownContainer }) => {
+      render(
+        <Autocomplete
+          placeholder="Search items…"
+          defaultHighlightedIndex={-1}
+          dropdownContainer={dropdownContainer}
+          getSources={() => {
+            return [
+              {
+                getInputValue({ suggestion }) {
+                  return suggestion.query;
+                },
+                onHighlight({ suggestionValue, setQuery, event }) {
+                  if (event.type === 'keydown') {
+                    setQuery(suggestionValue);
+                  }
+                },
+                getSuggestions({ query }) {
+                  return getAlgoliaHits({
+                    searchClient,
+                    queries: [
+                      {
+                        indexName: 'instant_search_demo_query_suggestions',
+                        query,
+                        params: {
+                          hitsPerPage: 4,
+                        },
+                      },
+                    ],
+                  });
+                },
+              },
+            ];
+          }}
+        />,
+        container
+      );
+
+      return container;
+    })
   );
