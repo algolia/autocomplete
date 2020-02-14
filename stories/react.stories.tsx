@@ -21,8 +21,8 @@ storiesOf('React', module)
         <Autocomplete
           placeholder="Search items…"
           showCompletion={true}
-          defaultHighlightedIndex={-1}
           dropdownContainer={dropdownContainer}
+          defaultHighlightedIndex={null}
           getSources={() => {
             return [
               {
@@ -60,7 +60,6 @@ storiesOf('React', module)
         <Autocomplete
           placeholder="Search items…"
           showCompletion={true}
-          defaultHighlightedIndex={-1}
           dropdownContainer={dropdownContainer}
           getSources={() => {
             return [
@@ -101,7 +100,6 @@ storiesOf('React', module)
       render(
         <Autocomplete
           placeholder="Search items…"
-          defaultHighlightedIndex={-1}
           dropdownContainer={dropdownContainer}
           getSources={() => {
             return [

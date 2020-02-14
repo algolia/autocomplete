@@ -1,7 +1,7 @@
 import { AutocompleteSuggestion } from './api';
 
 export interface AutocompleteState<TItem> {
-  highlightedIndex: number;
+  highlightedIndex: number | null;
   query: string;
   suggestions: Array<AutocompleteSuggestion<TItem>>;
   isOpen: boolean;

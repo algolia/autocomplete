@@ -81,9 +81,10 @@ export const stateReducer = <TItem>(
       return {
         ...state,
         highlightedIndex: getNextHighlightedIndex(
-          action.value.shiftKey ? 5 : 1,
+          1,
           state.highlightedIndex,
-          getItemsCount(state)
+          getItemsCount(state),
+          props.defaultHighlightedIndex
         ),
       };
     }
@@ -92,9 +93,10 @@ export const stateReducer = <TItem>(
       return {
         ...state,
         highlightedIndex: getNextHighlightedIndex(
-          action.value.shiftKey ? -5 : -1,
+          -1,
           state.highlightedIndex,
-          getItemsCount(state)
+          getItemsCount(state),
+          props.defaultHighlightedIndex
         ),
       };
     }
@@ -119,7 +121,7 @@ export const stateReducer = <TItem>(
     case 'submit': {
       return {
         ...state,
-        highlightedIndex: -1,
+        highlightedIndex: null,
         isOpen: false,
         status: 'idle',
         statusContext: {},
@@ -129,7 +131,7 @@ export const stateReducer = <TItem>(
     case 'reset': {
       return {
         ...state,
-        highlightedIndex: -1,
+        highlightedIndex: null,
         isOpen: false,
         status: 'idle',
         statusContext: {},
@@ -151,7 +153,7 @@ export const stateReducer = <TItem>(
       return {
         ...state,
         isOpen: __DEV__ ? state.isOpen : false,
-        highlightedIndex: -1,
+        highlightedIndex: null,
       };
     }
 

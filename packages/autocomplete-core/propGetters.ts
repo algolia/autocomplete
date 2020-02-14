@@ -127,7 +127,7 @@ export function getPropGetters<TItem>({
     return {
       'aria-autocomplete': props.showCompletion ? 'both' : 'list',
       'aria-activedescendant':
-        store.getState().isOpen && store.getState().highlightedIndex >= 0
+        store.getState().isOpen && store.getState().highlightedIndex !== null
           ? `${props.id}-item-${store.getState().highlightedIndex}`
           : null,
       'aria-controls': store.getState().isOpen ? `${props.id}-menu` : null,
@@ -228,7 +228,7 @@ export function getPropGetters<TItem>({
         );
         props.onStateChange({ state: store.getState() });
 
-        if (store.getState().highlightedIndex >= 0) {
+        if (store.getState().highlightedIndex !== null) {
           const { item, itemValue, itemUrl, source } = getHighlightedItem({
             state: store.getState(),
           });

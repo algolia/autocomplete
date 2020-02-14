@@ -11,9 +11,9 @@ export function getCompletion<TItem>({
   props,
 }: GetCompletionProps<TItem>): string | null {
   if (
-    !props.showCompletion ||
-    state.highlightedIndex < 0 ||
-    !state.isOpen ||
+    props.showCompletion === false ||
+    state.isOpen === false ||
+    state.highlightedIndex === null ||
     state.status === 'stalled'
   ) {
     return null;

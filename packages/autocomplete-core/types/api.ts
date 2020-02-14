@@ -155,9 +155,9 @@ export interface PublicAutocompleteOptions<TItem> {
   /**
    * The default item index to pre-select.
    *
-   * @default 0
+   * @default null
    */
-  defaultHighlightedIndex?: number;
+  defaultHighlightedIndex?: number | null;
   /**
    * Whether to show the highlighted suggestion as completion in the input.
    *
@@ -217,7 +217,7 @@ export interface AutocompleteOptions<TItem> {
   onStateChange<TItem>(props: { state: AutocompleteState<TItem> }): void;
   placeholder: string;
   autoFocus: boolean;
-  defaultHighlightedIndex: number;
+  defaultHighlightedIndex: number | null;
   showCompletion: boolean;
   minLength: number;
   stallThreshold: number;
