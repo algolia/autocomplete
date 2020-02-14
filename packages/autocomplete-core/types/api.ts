@@ -65,7 +65,7 @@ export type GetSources<TItem> = (
   options: GetSourcesOptions<TItem>
 ) => Promise<Array<AutocompleteSource<TItem>>>;
 
-interface Environment {
+export interface Environment {
   [prop: string]: unknown;
   addEventListener: Window['addEventListener'];
   removeEventListener: Window['removeEventListener'];

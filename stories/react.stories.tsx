@@ -15,12 +15,13 @@ const searchClient = algoliasearch(
 
 storiesOf('React', module).add(
   'Component',
-  withPlayground(({ container }) => {
+  withPlayground(({ container, dropdownContainer }) => {
     render(
       <Autocomplete
         placeholder="Search items…"
         showCompletion={true}
         defaultHighlightedIndex={-1}
+        dropdownContainer={dropdownContainer}
         getSources={() => {
           return [
             {

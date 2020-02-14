@@ -1,6 +1,7 @@
 /** @jsx h */
 
 import { h } from 'preact';
+import { Ref } from 'preact/compat';
 
 import { reverseHighlightAlgoliaHit } from '../autocomplete-presets';
 
@@ -16,6 +17,7 @@ interface DropdownProps {
   suggestions: Array<AutocompleteSuggestion<any>>;
   getItemProps: GetItemProps<any>;
   getMenuProps: GetMenuProps;
+  dropdownRef: Ref<HTMLDivElement | null>;
 }
 
 export const Dropdown = (props: DropdownProps) => {
@@ -28,6 +30,7 @@ export const Dropdown = (props: DropdownProps) => {
       ]
         .filter(Boolean)
         .join(' ')}
+      ref={props.dropdownRef}
       hidden={!props.isOpen}
     >
       {props.isOpen && (

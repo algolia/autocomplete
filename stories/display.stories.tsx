@@ -13,9 +13,10 @@ const searchClient = algoliasearch(
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
-function Component() {
+function Component(props) {
   return (
     <Autocomplete
+      {...props}
       getSources={() => {
         return [
           {
@@ -46,8 +47,8 @@ function Component() {
 storiesOf('Display', module)
   .add(
     'Heading search bar',
-    withPlayground(({ container }) => {
-      render(<Component />, container);
+    withPlayground(({ container, dropdownContainer }) => {
+      render(<Component dropdownContainer={dropdownContainer} />, container);
 
       return container;
     })
@@ -55,8 +56,14 @@ storiesOf('Display', module)
   .add(
     'Left search bar',
     withPlayground(
-      ({ container }) => {
-        render(<Component />, container);
+      ({ container, dropdownContainer }) => {
+        render(
+          <Component
+            dropdownContainer={dropdownContainer}
+            dropdownPlacement="start"
+          />,
+          container
+        );
 
         return container;
       },
@@ -68,8 +75,14 @@ storiesOf('Display', module)
   .add(
     'Right search bar',
     withPlayground(
-      ({ container }) => {
-        render(<Component />, container);
+      ({ container, dropdownContainer }) => {
+        render(
+          <Component
+            dropdownContainer={dropdownContainer}
+            dropdownPlacement="end"
+          />,
+          container
+        );
 
         return container;
       },

@@ -131,6 +131,7 @@
   padding: 0.5rem;
   scrollbar-width: none;
   width: 100%;
+  margin-top: 5px;
 }
 
 .algolia-autocomplete-dropdown::-webkit-scrollbar {
