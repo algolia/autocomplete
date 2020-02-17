@@ -14,10 +14,14 @@ import { Dropdown } from './Dropdown';
 import {
   AutocompleteState,
   AutocompleteOptions,
+  PublicAutocompleteOptions,
 } from '../autocomplete-core/types/index';
 
 interface PublicRendererProps {
   dropdownContainer?: string | HTMLElement;
+  /**
+   * The dropdown placement related to the container.
+   */
   dropdownPlacement?: 'start' | 'end';
 }
 
@@ -26,8 +30,8 @@ interface RendererProps extends Required<PublicRendererProps> {
 }
 
 interface PublicProps<TItem>
-  extends AutocompleteOptions<TItem>,
-    RendererProps {}
+  extends PublicAutocompleteOptions<TItem>,
+    PublicRendererProps {}
 
 export function getDefaultRendererProps(
   rendererProps: PublicRendererProps,
