@@ -1,21 +1,20 @@
 /** @jsx h */
 
 import { h } from 'preact';
-import { useRef, useState, useLayoutEffect } from 'preact/hooks';
+import { useRef, useLayoutEffect } from 'preact/hooks';
 import { createPortal } from 'preact/compat';
 import { createPopper } from '@popperjs/core/lib/popper-lite';
 
-import { createAutocomplete } from '../autocomplete-core';
 import { getDefaultProps } from '../autocomplete-core/defaultProps';
 import { getHTMLElement } from './getHTMLElement';
 import { SearchBox } from './SearchBox';
 import { Dropdown } from './Dropdown';
 
 import {
-  AutocompleteState,
   AutocompleteOptions,
   PublicAutocompleteOptions,
 } from '../autocomplete-core/types/index';
+import { useAutocomplete } from './useAutocomplete';
 
 interface PublicRendererProps {
   dropdownContainer?: string | HTMLElement;
@@ -62,24 +61,12 @@ export function Autocomplete<TItem extends {}>(
     props
   );
 
-  const [state, setState] = useState<AutocompleteState<TItem>>(
-    props.initialState
-  );
+  const [state, autocomplete] = useAutocomplete<TItem>(props);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const searchBoxRef = useRef<HTMLFormElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const popper = useRef<ReturnType<typeof createPopper> | null>(null);
-  const autocomplete = useRef(
-    createAutocomplete<TItem>({
-      ...props,
-      onStateChange({ state }) {
-        setState(state as any);
-
-        props.onStateChange({ state });
-      },
-    })
-  );
 
   useLayoutEffect(() => {
     if (searchBoxRef.current && dropdownRef.current) {
@@ -130,7 +117,7 @@ export function Autocomplete<TItem extends {}>(
       ]
         .filter(Boolean)
         .join(' ')}
-      {...autocomplete.current.getRootProps()}
+      {...autocomplete.getRootProps()}
     >
       <SearchBox
         searchBoxRef={searchBoxRef}
@@ -139,10 +126,10 @@ export function Autocomplete<TItem extends {}>(
         query={state.query}
         isOpen={state.isOpen}
         status={state.status}
-        getLabelProps={autocomplete.current.getLabelProps}
-        getInputProps={autocomplete.current.getInputProps}
-        completion={autocomplete.current.getCompletion()}
-        {...autocomplete.current.getFormProps({
+        getLabelProps={autocomplete.getLabelProps}
+        getInputProps={autocomplete.getInputProps}
+        completion={autocomplete.getCompletion()}
+        {...autocomplete.getFormProps({
           inputElement: inputRef.current,
         })}
       />
@@ -153,8 +140,8 @@ export function Autocomplete<TItem extends {}>(
           suggestions={state.suggestions}
           isOpen={state.isOpen}
           status={state.status}
-          getItemProps={autocomplete.current.getItemProps}
-          getMenuProps={autocomplete.current.getMenuProps}
+          getItemProps={autocomplete.getItemProps}
+          getMenuProps={autocomplete.getMenuProps}
         />,
         rendererProps.dropdownContainer
       )}
