@@ -41,7 +41,6 @@ export function onKeyDown<TItem>({
         props
       )
     );
-    props.onStateChange({ state: store.getState() });
 
     const nodeItem = props.environment.document.getElementById(
       `${props.id}-item-${store.getState().highlightedIndex}`
@@ -94,8 +93,6 @@ export function onKeyDown<TItem>({
         setStatus,
         setContext,
       });
-
-      props.onStateChange({ state: store.getState() });
     }
   } else if (event.key === 'Escape') {
     // This prevents the default browser behavior on `input[type="search"]`
@@ -113,7 +110,6 @@ export function onKeyDown<TItem>({
         props
       )
     );
-    props.onStateChange({ state: store.getState() });
   } else if (event.key === 'Enter') {
     // No item is selected, so we let the browser handle the native `onSubmit`
     // form event.
@@ -176,8 +172,6 @@ export function onKeyDown<TItem>({
           setContext,
           event,
         });
-
-        props.onStateChange({ state: store.getState() });
       });
 
       if (itemUrl !== undefined) {

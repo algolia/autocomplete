@@ -62,7 +62,6 @@ export function getPropGetters<TItem>({
         store.setState(
           stateReducer(store.getState(), { type: 'submit', value: null }, props)
         );
-        props.onStateChange({ state: store.getState() });
 
         if (providedProps.inputElement) {
           providedProps.inputElement.blur();
@@ -88,7 +87,6 @@ export function getPropGetters<TItem>({
         store.setState(
           stateReducer(store.getState(), { type: 'reset', value: {} }, props)
         );
-        props.onStateChange({ state: store.getState() });
 
         if (providedProps.inputElement) {
           providedProps.inputElement.focus();
@@ -119,7 +117,6 @@ export function getPropGetters<TItem>({
       store.setState(
         stateReducer(store.getState(), { type: 'focus', value: {} }, props)
       );
-      props.onStateChange({ state: store.getState() });
     }
 
     const { inputElement, ...rest } = providedProps;
@@ -180,7 +177,6 @@ export function getPropGetters<TItem>({
             props
           )
         );
-        props.onStateChange({ state: store.getState() });
       },
       onClick: () => {
         // When the dropdown is closed and you click on the input while
@@ -226,7 +222,6 @@ export function getPropGetters<TItem>({
             props
           )
         );
-        props.onStateChange({ state: store.getState() });
 
         if (store.getState().highlightedIndex !== null) {
           const { item, itemValue, itemUrl, source } = getHighlightedItem({
@@ -296,8 +291,6 @@ export function getPropGetters<TItem>({
             setContext,
             event,
           });
-
-          props.onStateChange({ state: store.getState() });
         });
       },
       ...rest,
@@ -328,7 +321,6 @@ export function getPropGetters<TItem>({
             props
           )
         );
-        props.onStateChange({ state: store.getState() });
       },
       ...rest,
     };

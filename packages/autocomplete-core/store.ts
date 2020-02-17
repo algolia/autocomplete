@@ -1,7 +1,10 @@
 import { AutocompleteState, AutocompleteStore } from './types';
 
+type Listener<TItem> = (params: { state: AutocompleteState<TItem> }) => void;
+
 export function createStore<TItem>(
-  initialState: AutocompleteState<TItem>
+  initialState: AutocompleteState<TItem>,
+  listener: Listener<TItem>
 ): AutocompleteStore<TItem> {
   return {
     state: initialState,
@@ -10,6 +13,8 @@ export function createStore<TItem>(
     },
     setState(nextState) {
       this.state = nextState;
+
+      listener({ state: this.state });
     },
   };
 }

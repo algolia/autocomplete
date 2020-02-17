@@ -10,7 +10,7 @@ function createAutocomplete<TItem extends {}>(
   options: PublicAutocompleteOptions<TItem>
 ): AutocompleteApi<TItem> {
   const props = getDefaultProps(options);
-  const store = createStore(props.initialState);
+  const store = createStore(props.initialState, props.onStateChange);
 
   const {
     setHighlightedIndex,
