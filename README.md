@@ -133,7 +133,7 @@ The container for the autocomplete search box.
 
 #### `getSources`
 
-> `(options: { query: string }) => AutocompleteSource[] | Promise<AutocompleteSource[]>`
+> `(params: { query: string }) => AutocompleteSource[] | Promise<AutocompleteSource[]>`
 
 Called to fetch the [sources](#sources).
 
@@ -143,15 +143,15 @@ Called to fetch the [sources](#sources).
 
 The container for the autocomplete dropdown.
 
-#### `dropdownAlignment`
+#### `dropdownPlacement`
 
-> `'left' | 'right'` | defaults to `'left'`
+> `'start' | 'end'` | defaults to `'start'`
 
-The dropdown alignment related to the container.
+The dropdown placement related to the container.
 
-#### `getDropdownPosition`
+#### `getDropdownPosition` 🚧
 
-> `(options: { containerRect: ClientRect, dropdownPosition: DropdownPosition }) => DropdownPosition` | defaults to `({ dropdownPosition }) => dropdownPosition`
+> `(params: { containerRect: ClientRect, dropdownPosition: DropdownPosition }) => DropdownPosition` | defaults to `({ dropdownPosition }) => dropdownPosition`
 
 Called to compute the dropdown position. This function is called at first load and when the window is resized.
 
@@ -215,13 +215,13 @@ Whether to show the highlighted suggestion as completion in the input.
 
 The minimum number of characters long the autocomplete opens.
 
-#### `autofocus`
+#### `autoFocus`
 
 > `boolean` | defaults to `false`
 
 Whether to focus the search box when the page is loaded.
 
-#### `keyboardShortcuts`
+#### `keyboardShortcuts` 🚧
 
 > `string[]`
 
@@ -229,7 +229,7 @@ The keyboard shortcuts keys to focus the input.
 
 #### `defaultHighlightedIndex`
 
-> `number` | defaults to `0` (the first item)
+> `number | null` | defaults to `null`
 
 The default item index to pre-select.
 
@@ -242,7 +242,7 @@ The number of milliseconds that must elapse before the autocomplete experience i
 When the experience is stalled:
 
 - The CSS class `algolia-autocomplete--stalled` is added to the autocomplete container
-- The `isStalled` boolean is `true` in the [state](#state)
+- The `status` state is set to `"stalled"` in the [state](#state)
 
 #### `initialState`
 
@@ -250,13 +250,13 @@ When the experience is stalled:
 
 The initial state to apply when the page is loaded.
 
-#### `templates`
+#### `templates` 🚧
 
 > [`GlobalTemplates`](#global-templates)
 
 Refer to the "[Global Templates](#global-templates)" section.
 
-#### `transformResultsRender`
+#### `transformResultsRender` 🚧
 
 > `(results: JSX.Element[]) => JSX.Element | JSX.Element[]`
 
@@ -333,17 +333,17 @@ autocomplete({
 
 </details>
 
-#### `onFocus`
+#### `onFocus` 🚧
 
-> `(options: { state: AutocompleteState, ...setters }) => void`
+> `(params: { state: AutocompleteState, ...setters }) => void`
 
 Called when the input is focused.
 
 This function is also called when the input is clicked while already having the focus _and_ the dropdown is closed.
 
-#### `onError`
+#### `onError` 🚧
 
-> `(options: { state: AutocompleteState, ...setters }) => void` | defaults to `({ state }) => throw state.error`
+> `(params: { state: AutocompleteState, ...setters }) => void` | defaults to `({ state }) => throw state.error`
 
 Called when an error is thrown while getting the suggestions.
 
@@ -353,15 +353,15 @@ When an error is caught:
 - The CSS class `algolia-autocomplete--errored` is added to the autocomplete container
 - The error is available in the [state](#state)
 
-#### `onClick`
+#### `onClick` 🚧
 
-> `(event: MouseEvent, options: { state: AutocompleteState, ...setters, suggestion: any, suggestionValue: string }) => void`
+> `(event: MouseEvent, params: { state: AutocompleteState, ...setters, suggestion: any, suggestionValue: string }) => void`
 
 Called when a [`click` event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event) is fired on an item.
 
 This function is useful to alter the behavior when a special key is held (e.g. keeping the dropdown open when the meta key is used).
 
-#### `onKeyDown`
+#### `onKeyDown` 🚧
 
 > `(event: KeyboardEvent, options: { state: AutocompleteState, ...setters, suggestion?: any, suggestionValue?: string, suggestionUrl?: string }) => void` | defaults to an accessible behavior
 
@@ -399,9 +399,9 @@ autocomplete({
 
 </details>
 
-#### `onInput`
+#### `onInput` 🚧
 
-> `(options: { query: string, state: AutocompleteState, ...setters }) => void | Promise <void | { state: AutocompleteState }>`
+> `(params: { query: string, state: AutocompleteState, ...setters }) => void | Promise <void | { state: AutocompleteState }>`
 
 Called when the input changes.
 
@@ -409,7 +409,7 @@ This turns experience is "controlled" mode. You'll be in charge of updating the 
 
 #### `shouldDropdownShow`
 
-> `(options: { state: AutocompleteState }) => boolean` | defaults to `({ state }) => state.suggestions.some(suggestion => suggestion.items.length > 0)`
+> `(params: { state: AutocompleteState }) => boolean` | defaults to `({ state }) => state.suggestions.some(suggestion => suggestion.items.length > 0)`
 
 Called to check whether the dropdown should open based on the Autocomplete state.
 
@@ -421,7 +421,7 @@ An Autocomplete source refers to an object with the following properties:
 
 #### `getInputValue`
 
-> `(options: { suggestion: Suggestion, state: AutocompleteState }) => string` | defaults to `({ state }) => state.query`
+> `(params: { suggestion: Suggestion, state: AutocompleteState }) => string` | defaults to `({ state }) => state.query`
 
 Called to get the value of the suggestion. The value is used to fill the search box.
 
@@ -443,7 +443,7 @@ const source = {
 
 #### `getSuggestionUrl`
 
-> `(options: { suggestion: Suggestion, state: AutocompleteState }) => string | undefined`
+> `(params: { suggestion: Suggestion, state: AutocompleteState }) => string | undefined`
 
 Called to get the URL of the suggestion. The value is used to add keyboard accessibility features to allow to open suggestions in the current tab, in a new tab or in a new window.
 
@@ -466,7 +466,7 @@ const source = {
 
 #### `getSuggestions`
 
-> `(options: { query: string, state: AutocompleteState, ...setters }) => Suggestion[] | Promise<Suggestion[]>` | **required**
+> `(params: { query: string, state: AutocompleteState, ...setters }) => Suggestion[] | Promise<Suggestion[]>` | **required**
 
 Called when the input changes. You can use this function to filter/search the items based on the query.
 
@@ -486,7 +486,7 @@ const source = {
 
 </details>
 
-#### `templates`
+#### `templates` 🚧
 
 > **required**
 
@@ -494,25 +494,25 @@ Templates to use for the source. A template supports strings and JSX elements.
 
 ##### `header`
 
-> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+> `(params: { state: AutocompleteState, ...setters }) => string | JSX.Element`
 
 The template to display before the suggestions.
 
 ##### `suggestion`
 
-> `(options: { suggestion: Suggestion, state: AutocompleteState, ...setters }) => string | JSX.Element`
+> `(params: { suggestion: Suggestion, state: AutocompleteState, ...setters }) => string | JSX.Element`
 
 The template for each suggestion.
 
 ##### `footer`
 
-> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+> `(params: { state: AutocompleteState, ...setters }) => string | JSX.Element`
 
 The template to display after the suggestions.
 
 ##### `empty`
 
-> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+> `(params: { state: AutocompleteState, ...setters }) => string | JSX.Element`
 
 The template to display when there are no suggestions.
 
@@ -565,11 +565,11 @@ const source = {
 
 #### `onSelect`
 
-> `(options: { state: AutocompleteState, ...setters }) => void` | defaults to `({ setIsOpen }) => setIsOpen(false)`
+> `(params: { state: AutocompleteState, ...setters }) => void` | defaults to `({ setIsOpen }) => setIsOpen(false)`
 
 Called when an item is selected.
 
-#### `classNames`
+#### `classNames` 🚧
 
 > `ClassNames`
 
@@ -642,20 +642,20 @@ The state can be initially set with [`initialState`](#initial-state) and it's is
 
 The query.
 
-##### `results`
+##### `suggestions`
 
-> `Result[]` | defaults to `[]`
+> `Suggestion[]` | defaults to `[]`
 
-The results of all the sources.
+The suggestion of all the sources.
 
 <details>
 
-<summary><code>Result</code> definition</summary>
+<summary><code>Suggestion</code> definition</summary>
 
 ```ts
-interface Result {
+interface Suggestion<TItem> {
   source: AutocompleteSource;
-  suggestions: any[];
+  items: TItem[];
 }
 ```
 
@@ -667,23 +667,11 @@ interface Result {
 
 Whether the dropdown is open.
 
-##### `isLoading`
+##### `status`
 
-> `boolean` | defaults to `false`
+> `'idle' | 'loading' | 'stalled' | 'error'` | defaults to `idle`
 
-Whether the experience is loading.
-
-##### `isStalled`
-
-> `boolean` | defaults to `false`
-
-Whether the experience is stalled.
-
-##### `error`
-
-> `null | Error` | defaults to `null`
-
-The error that happened, `null` if none.
+The status of the autocomplete experience.
 
 ##### `context`
 
@@ -697,45 +685,33 @@ Each state has a setter that can be used in the lifecycle of Autocomplete.js.
 
 ##### `setQuery`
 
-> `(value: string | ((prevState: string) => string)) => void`
+> `(value: string) => void`
 
 Sets the [`query`](#query) value in the state.
 
-##### `setResults`
+##### `setSuggetions`
 
-> `(value: Result[] | ((prevState: Result[]) => Result[])) => void`
+> `(value: Suggestion[]) => void`
 
-Sets the [`results`](#results) value in the state.
+Sets the [`suggestions`](#suggestions) value in the state.
 
 ##### `setIsOpen`
 
-> `(value: boolean | ((prevState: boolean) => boolean)) => void`
+> `(value: boolean) => void`
 
 Sets the [`isOpen`](#isopen) value in the state.
 
-##### `setIsLoading`
+##### `setStatus`
 
-> `(value: boolean | ((prevState: boolean) => boolean)) => void`
+> `(value: 'idle' | 'loading' | 'stalled' | 'error') => void`
 
-Sets the [`isLoading`](isLoading) value in the state.
-
-##### `setIsStalled`
-
-> `(value: boolean | ((prevState: boolean) => boolean)) => void`
-
-Sets the [`isStalled`](isStalled) value in the state.
-
-##### `setError`
-
-> `(value: Error | null | ((prevState: Error | null) => Error | null)) => void`
-
-Sets the [`error`](error) value in the state.
+Sets the [`status`](#status) value in the state.
 
 ##### `setContext`
 
-> `(value: object | ((prevState: object) => object)) => void`
+> `(value: object) => void`
 
-Sets the [`context`](context) value in the state.
+Sets the [`context`](#context) value in the state.
 
 <details>
   <summary>Example</summary>
@@ -781,43 +757,43 @@ autocomplete({
 
 </details>
 
-### Global templates
+### Global templates 🚧
 
 In addition to the source templates, Autocomplete.js supports some global templates.
 
 #### `header`
 
-> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+> `(params: { state: AutocompleteState, ...setters }) => string | JSX.Element`
 
 The template to display before all sources.
 
 #### `footer`
 
-> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+> `(params: { state: AutocompleteState, ...setters }) => string | JSX.Element`
 
 The template to display after all sources.
 
 #### `submitIcon`
 
-> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+> `(params: { state: AutocompleteState, ...setters }) => string | JSX.Element`
 
 The template for the submit icon.
 
 #### `resetIcon`
 
-> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+> `(params: { state: AutocompleteState, ...setters }) => string | JSX.Element`
 
 The template for the reset icon. The template for the submit icon.
 
 #### `loadingIcon`
 
-> `(options: { state: AutocompleteState, ...setters }) => string | JSX.Element`
+> `(params: { state: AutocompleteState, ...setters }) => string | JSX.Element`
 
 The template for the loading icon.
 
 ## Top-level API
 
-### `autocomplete`
+### `autocomplete` 🚧
 
 `autocomplete` is the default export from the `autocomplete.js` package. It is the main function that starts the autocomplete experience and accepts [options](#options).
 
@@ -834,24 +810,23 @@ const app = getAppState();
 
 // Update the state of Autocomplete.js based on your app state
 autocompleteSearch.setQuery(app.query);
-autocompleteSearch.setResults(
+autocompleteSearch.setSuggestions(
   app.indices.map(index => {
     return {
       source: getSource({ index }),
-      suggestions: index.hits,
+      items: index.hits,
     };
   })
 );
 autocompleteSearch.setIsOpen(app.isOpen);
 autocompleteSearch.setIsLoading(app.isLoading);
 autocompleteSearch.setIsStalled(app.isStalled);
-autocompleteSearch.setError(app.error);
 autocompleteSearch.setContext(app.context);
 ```
 
 ### `getAlgoliaHits`
 
-> `(options: { searchClient: SearchClient, query: string, searchParameters: SearchParameters[] }) => Promise<Response['hits']>`
+> `(params: { searchClient: SearchClient, query: string, searchParameters: SearchParameters[] }) => Promise<Response['hits']>`
 
 Function that retrieves and merges Algolia hits from multiple indices.
 
@@ -903,7 +878,7 @@ autocomplete({
 
 ### `getAlgoliaResults`
 
-> `(options: { searchClient: SearchClient, query: string, searchParameters: SearchParameters[] }) => Promise<MultiResponse['results']>`
+> `(params: { searchClient: SearchClient, query: string, searchParameters: SearchParameters[] }) => Promise<MultiResponse['results']>`
 
 Function that retrieves Algolia results from multiple indices.
 
