@@ -28,4 +28,12 @@ module.exports = {
     // Useful to call functions like `nodeItem?.scrollIntoView()`.
     'no-unused-expressions': 0,
   },
+  overrides: [
+    {
+      files: ['**/rollup.config.js', 'stories/**/*'],
+      rules: {
+        'import/no-extraneous-dependencies': 'off',
+      },
+    },
+  ],
 };

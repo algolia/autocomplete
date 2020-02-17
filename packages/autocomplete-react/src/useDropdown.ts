@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect, Ref } from 'preact/hooks';
 import { createPopper } from '@popperjs/core/lib/popper-lite';
 
-import { AutocompleteState } from '../autocomplete-core/types';
+import { AutocompleteState } from '@francoischalifour/autocomplete-core';
 import { RendererProps } from './Autocomplete';
 
 export function useDropdown<TItem>(

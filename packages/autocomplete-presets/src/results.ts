@@ -1,4 +1,3 @@
-import { version } from './package.json';
 import { flatten } from './utils';
 
 type SearchClient = any;
@@ -24,10 +23,12 @@ export function getAlgoliaSource({
   if (typeof (searchClient as Client).addAlgoliaAgent === 'function') {
     if (__DEV__) {
       (searchClient as Client).addAlgoliaAgent(
-        `autocomplete.js (${version}-development)`
+        `autocomplete.js (${__VERSION__}-development)`
       );
     } else {
-      (searchClient as Client).addAlgoliaAgent(`autocomplete.js (${version})`);
+      (searchClient as Client).addAlgoliaAgent(
+        `autocomplete.js (${__VERSION__})`
+      );
     }
   }
 

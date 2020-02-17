@@ -5,8 +5,8 @@ import { storiesOf } from '@storybook/html';
 import algoliasearch from 'algoliasearch/lite';
 
 import { withPlayground } from '../.storybook/decorators';
-import { Autocomplete } from '../packages/autocomplete-react';
-import { getAlgoliaHits } from '../packages/autocomplete-presets';
+import { Autocomplete } from '@francoischalifour/autocomplete-react';
+import { getAlgoliaHits } from '@francoischalifour/autocomplete-presets';
 
 const searchClient = algoliasearch(
   'latency',

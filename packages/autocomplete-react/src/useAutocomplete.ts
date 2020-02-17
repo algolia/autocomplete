@@ -1,7 +1,9 @@
 import { useState, useRef } from 'preact/hooks';
 
-import { createAutocomplete } from '../autocomplete-core';
-import { AutocompleteOptions } from '../autocomplete-core/types';
+import {
+  createAutocomplete,
+  AutocompleteOptions,
+} from '@francoischalifour/autocomplete-core';
 
 export function useAutocomplete<TItem>(props: AutocompleteOptions<TItem>) {
   const [state, setState] = useState(props.initialState);

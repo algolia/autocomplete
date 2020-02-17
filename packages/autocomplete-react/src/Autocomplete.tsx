@@ -4,15 +4,15 @@ import { h } from 'preact';
 import { useRef } from 'preact/hooks';
 import { createPortal } from 'preact/compat';
 
-import { getDefaultProps } from '../autocomplete-core/defaultProps';
+import {
+  getDefaultProps,
+  AutocompleteOptions,
+  PublicAutocompleteOptions,
+} from '@francoischalifour/autocomplete-core';
 import { getHTMLElement } from './getHTMLElement';
 import { SearchBox } from './SearchBox';
 import { Dropdown } from './Dropdown';
 
-import {
-  AutocompleteOptions,
-  PublicAutocompleteOptions,
-} from '../autocomplete-core/types/index';
 import { useAutocomplete } from './useAutocomplete';
 import { useDropdown } from './useDropdown';
 

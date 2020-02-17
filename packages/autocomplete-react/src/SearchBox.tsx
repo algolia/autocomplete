@@ -2,7 +2,10 @@
 
 import { h, Ref } from 'preact';
 
-import { GetInputProps, GetLabelProps } from '../autocomplete-core/types/index';
+import {
+  GetInputProps,
+  GetLabelProps,
+} from '@francoischalifour/autocomplete-core';
 
 export interface SearchBoxProps {
   placeholder: string;

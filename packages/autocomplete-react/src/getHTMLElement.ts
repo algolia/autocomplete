@@ -1,4 +1,4 @@
-import { Environment } from '../autocomplete-core/types';
+import { Environment } from '@francoischalifour/autocomplete-core';
 
 export function getHTMLElement(
   value: string | HTMLElement,

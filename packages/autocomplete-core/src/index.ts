@@ -5,6 +5,7 @@ import { getAutocompleteSetters } from './autocompleteSetters';
 import { getCompletion } from './completion';
 
 import { PublicAutocompleteOptions, AutocompleteApi } from './types';
+export * from './types';
 
 function createAutocomplete<TItem extends {}>(
   options: PublicAutocompleteOptions<TItem>
@@ -55,4 +56,4 @@ function createAutocomplete<TItem extends {}>(
   };
 }
 
-export { createAutocomplete };
+export { createAutocomplete, getDefaultProps };

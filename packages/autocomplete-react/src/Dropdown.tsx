@@ -3,13 +3,13 @@
 import { h } from 'preact';
 import { Ref } from 'preact/compat';
 
-import { reverseHighlightAlgoliaHit } from '../autocomplete-presets';
+import { reverseHighlightAlgoliaHit } from '@francoischalifour/autocomplete-presets';
 
 import {
   AutocompleteSuggestion,
   GetItemProps,
   GetMenuProps,
-} from '../autocomplete-core/types';
+} from '@francoischalifour/autocomplete-core';
 
 interface DropdownProps {
   isOpen: boolean;

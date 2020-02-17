@@ -20,10 +20,9 @@
     "**/__fixtures__/**/*",
     "**/__mocks__/**/*",
     "**/__tests__/**/*",
-    "dist",
-    "node_modules",
+    "**/dist",
+    "**/node_modules",
     "stories",
-    "examples",
-    "website"
+    "examples"
   ]
 }
