@@ -3,7 +3,7 @@
 import { h } from 'preact';
 import { Ref } from 'preact/compat';
 
-import { reverseHighlightAlgoliaHit } from '@francoischalifour/autocomplete-presets';
+import { reverseHighlightAlgoliaHit } from '@francoischalifour/autocomplete-preset-algolia';
 
 import {
   AutocompleteSuggestion,

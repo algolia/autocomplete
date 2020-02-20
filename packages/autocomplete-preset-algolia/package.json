@@ -1,6 +1,6 @@
 {
-  "name": "@francoischalifour/autocomplete-presets",
-  "description": "Presets for building autocomplete experiences.",
+  "name": "@francoischalifour/autocomplete-preset-algolia",
+  "description": "Presets for building autocomplete experiences with Algolia.",
   "version": "1.0.0-alpha.10",
   "license": "MIT",
   "source": "src/index.ts",

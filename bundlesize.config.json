@@ -5,7 +5,7 @@
       "maxSize": "7.1 kB"
     },
     {
-      "path": "packages/autocomplete-presets/dist/umd/index.js",
+      "path": "packages/autocomplete-preset-algolia/dist/umd/index.js",
       "maxSize": "2.5 kB"
     },
     {

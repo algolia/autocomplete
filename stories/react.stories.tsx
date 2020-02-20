@@ -4,9 +4,9 @@ import { h, render } from 'preact';
 import { storiesOf } from '@storybook/html';
 import algoliasearch from 'algoliasearch/lite';
 
-import { withPlayground } from '../.storybook/decorators';
 import { Autocomplete } from '@francoischalifour/autocomplete-react';
-import { getAlgoliaHits } from '@francoischalifour/autocomplete-presets';
+import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
+import { withPlayground } from '../.storybook/decorators';
 
 const searchClient = algoliasearch(
   'latency',
