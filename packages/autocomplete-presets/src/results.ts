@@ -1,7 +1,7 @@
 import { flatten } from './utils';
 
 type SearchClient = any;
-type Client = any;
+export type Client = any;
 type SearchResponse = any;
 type QueryParameters = any;
 
@@ -16,20 +16,11 @@ interface GetAlgoliaSourceParams {
   queries: SearchParameters[];
 }
 
-export function getAlgoliaSource({
-  searchClient,
-  queries,
-}: GetAlgoliaSourceParams) {
+function getAlgoliaSource({ searchClient, queries }: GetAlgoliaSourceParams) {
   if (typeof (searchClient as Client).addAlgoliaAgent === 'function') {
-    if (__DEV__) {
-      (searchClient as Client).addAlgoliaAgent(
-        `autocomplete.js (${__VERSION__}-development)`
-      );
-    } else {
-      (searchClient as Client).addAlgoliaAgent(
-        `autocomplete.js (${__VERSION__})`
-      );
-    }
+    (searchClient as Client).addAlgoliaAgent(
+      `Autocomplete.js (${__VERSION__})`
+    );
   }
 
   return searchClient.search(
@@ -65,10 +56,6 @@ export function getAlgoliaHits({
 }: GetAlgoliaSourceParams): Promise<SearchResponse['hits']> {
   return getAlgoliaSource({ searchClient, queries }).then(response => {
     const results = response.results;
-
-    if (!results) {
-      return [];
-    }
 
     // @TODO: should `getAlgoliaHits` flatten the hits?
     return flatten(results.map(result => result.hits));
