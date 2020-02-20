@@ -26,20 +26,20 @@ module.exports = api => {
       ],
     ],
     plugins: [
-      !isTest && [
-        // When testing, __DEV__ is replaced by Jest(jest.config.js)
-        'inline-replace-variables',
-        {
-          __DEV__: {
-            type: 'node',
-            replacement: "process.env.NODE_ENV === 'development'",
+      !isTest &&
+        [
+          'inline-replace-variables',
+          {
+            __DEV__: {
+              type: 'node',
+              replacement: "process.env.NODE_ENV === 'development'",
+            },
+            __VERSION__: {
+              type: 'node',
+              replacement: JSON.stringify(version),
+            },
           },
-          __VERSION__: {
-            type: 'node',
-            replacement: JSON.stringify(version),
-          },
-        },
-      ],
+        ].filter(Boolean),
     ],
   };
 };
