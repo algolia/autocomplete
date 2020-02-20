@@ -1,9 +1,10 @@
 import { stateReducer } from './stateReducer';
 import { onInput } from './onInput';
 import { onKeyDown } from './onKeyDown';
-import { isSpecialClick, getHighlightedItem } from './utils';
+import { isSpecialClick, getHighlightedItem, isOrContainsNode } from './utils';
 
 import {
+  GetEnvironmentProps,
   GetRootProps,
   GetFormProps,
   GetInputProps,
@@ -30,6 +31,64 @@ export function getPropGetters<TItem>({
   setStatus,
   setContext,
 }: GetPropGettersOptions<TItem>) {
+  const isTouchDevice = 'ontouchstart' in props.environment;
+
+  const getEnvironmentProps: GetEnvironmentProps = getterProps => {
+    return {
+      // On touch devices, we do not rely on the native `blur` event of the
+      // input to close the dropdown, but rather on a custom `touchstart` event
+      // outside of the autocomplete elements.
+      // This ensures a working experience on mobile because we blur the input
+      // on touch devices when the user starts scrolling (`touchmove`).
+      onTouchStart(event) {
+        if (store.getState().isOpen === false) {
+          return;
+        }
+
+        const isTargetWithinAutocomplete = [
+          getterProps.searchBoxElement,
+          getterProps.dropdownElement,
+        ].some(contextNode => {
+          return (
+            contextNode &&
+            (isOrContainsNode(contextNode, event.target as Node) ||
+              isOrContainsNode(
+                contextNode,
+                props.environment.document.activeElement!
+              ))
+          );
+        });
+
+        if (isTargetWithinAutocomplete === false) {
+          store.setState(
+            stateReducer(
+              store.getState(),
+              {
+                type: 'blur',
+                value: null,
+              },
+              props
+            )
+          );
+        }
+      },
+      // When scrolling on touch devices (mobiles, tablets, etc.), we want to
+      // mimic the native platform behavior where the input is blurred to
+      // hide the virtual keyboard. This gives more vertical space to
+      // discover all the suggestions showing up in the dropdown.
+      onTouchMove() {
+        if (
+          store.getState().isOpen === false ||
+          getterProps.inputElement !== props.environment.document.activeElement
+        ) {
+          return;
+        }
+
+        getterProps.inputElement.blur();
+      },
+    };
+  };
+
   const getRootProps: GetRootProps = rest => {
     return {
       role: 'combobox',
@@ -119,7 +178,7 @@ export function getPropGetters<TItem>({
       );
     }
 
-    const { inputElement, ...rest } = providedProps;
+    const { inputElement, dropdownElement, ...rest } = providedProps;
 
     return {
       'aria-autocomplete': props.showCompletion ? 'both' : 'list',
@@ -167,16 +226,20 @@ export function getPropGetters<TItem>({
       },
       onFocus,
       onBlur: () => {
-        store.setState(
-          stateReducer(
-            store.getState(),
-            {
-              type: 'blur',
-              value: null,
-            },
-            props
-          )
-        );
+        // We do rely on the `blur` event on touch devices.
+        // See explanation in `onTouchStart`.
+        if (!isTouchDevice) {
+          store.setState(
+            stateReducer(
+              store.getState(),
+              {
+                type: 'blur',
+                value: null,
+              },
+              props
+            )
+          );
+        }
       },
       onClick: () => {
         // When the dropdown is closed and you click on the input while
@@ -327,6 +390,7 @@ export function getPropGetters<TItem>({
   };
 
   return {
+    getEnvironmentProps,
     getRootProps,
     getFormProps,
     getInputProps,

@@ -19,6 +19,7 @@ export interface SearchBoxProps {
   getLabelProps: GetLabelProps;
   inputRef: Ref<HTMLInputElement>;
   searchBoxRef: Ref<HTMLFormElement>;
+  dropdownRef: Ref<HTMLElement>;
 }
 
 export function SearchBox(props: SearchBoxProps) {
@@ -87,6 +88,7 @@ export function SearchBox(props: SearchBoxProps) {
           {...props.getInputProps({
             ref: props.inputRef,
             inputElement: (props.inputRef as any).current,
+            dropdownElement: (props.dropdownRef as any).current,
             type: 'search',
             maxLength: '512',
           })}

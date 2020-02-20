@@ -16,10 +16,10 @@ type ActionType =
   | 'submit'
   | 'reset'
   | 'focus'
+  | 'blur'
   | 'mousemove'
   | 'mouseleave'
-  | 'click'
-  | 'blur';
+  | 'click';
 
 interface Action {
   type: ActionType;
@@ -148,11 +148,9 @@ export const stateReducer = <TItem>(
     }
 
     case 'blur': {
-      // In development mode, we prefer keeping the dropdown open on blur
-      // to use the browser dev tools.
       return {
         ...state,
-        isOpen: __DEV__ ? state.isOpen : false,
+        isOpen: false,
         highlightedIndex: null,
       };
     }

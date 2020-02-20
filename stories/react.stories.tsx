@@ -135,4 +135,41 @@ storiesOf('React', module)
 
       return container;
     })
+  )
+  .add(
+    'Long list of items',
+    withPlayground(({ container, dropdownContainer }) => {
+      render(
+        <Autocomplete
+          placeholder="Search items…"
+          dropdownContainer={dropdownContainer}
+          getSources={() => {
+            return [
+              {
+                getInputValue({ suggestion }) {
+                  return suggestion.query;
+                },
+                getSuggestions({ query }) {
+                  return getAlgoliaHits({
+                    searchClient,
+                    queries: [
+                      {
+                        indexName: 'instant_search_demo_query_suggestions',
+                        query,
+                        params: {
+                          hitsPerPage: 40,
+                        },
+                      },
+                    ],
+                  });
+                },
+              },
+            ];
+          }}
+        />,
+        container
+      );
+
+      return container;
+    })
   );

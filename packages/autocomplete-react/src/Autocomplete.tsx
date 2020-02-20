@@ -1,7 +1,7 @@
 /** @jsx h */
 
 import { h } from 'preact';
-import { useRef } from 'preact/hooks';
+import { useRef, useEffect } from 'preact/hooks';
 import { createPortal } from 'preact/compat';
 
 import {
@@ -71,6 +71,26 @@ export function Autocomplete<TItem extends {}>(
   const [state, autocomplete] = useAutocomplete<TItem>(props);
   useDropdown<TItem>(rendererProps, state, searchBoxRef, dropdownRef);
 
+  useEffect(() => {
+    if (!(searchBoxRef.current && dropdownRef.current && inputRef.current)) {
+      return undefined;
+    }
+
+    const { onTouchStart, onTouchMove } = autocomplete.getEnvironmentProps({
+      searchBoxElement: searchBoxRef.current,
+      dropdownElement: dropdownRef.current,
+      inputElement: inputRef.current,
+    });
+
+    props.environment.addEventListener('touchstart', onTouchStart);
+    props.environment.addEventListener('touchmove', onTouchMove);
+
+    return () => {
+      props.environment.removeEventListener('touchstart', onTouchStart);
+      props.environment.removeEventListener('touchmove', onTouchMove);
+    };
+  }, [autocomplete, searchBoxRef, dropdownRef, inputRef, props.environment]);
+
   return (
     <div
       className={[
@@ -85,6 +105,7 @@ export function Autocomplete<TItem extends {}>(
       <SearchBox
         searchBoxRef={searchBoxRef}
         inputRef={inputRef}
+        dropdownRef={dropdownRef}
         placeholder={props.placeholder}
         query={state.query}
         isOpen={state.isOpen}
