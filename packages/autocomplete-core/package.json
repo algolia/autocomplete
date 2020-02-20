@@ -29,5 +29,8 @@
   "sideEffects": false,
   "files": [
     "dist/"
-  ]
+  ],
+  "devDependencies": {
+    "rollup-plugin-filesize": "6.2.1"
+  }
 }
