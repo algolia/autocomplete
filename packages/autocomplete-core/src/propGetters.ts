@@ -1,4 +1,3 @@
-import { stateReducer } from './stateReducer';
 import { onInput } from './onInput';
 import { onKeyDown } from './onKeyDown';
 import { isSpecialClick, getHighlightedItem, isOrContainsNode } from './utils';
@@ -60,16 +59,7 @@ export function getPropGetters<TItem>({
         });
 
         if (isTargetWithinAutocomplete === false) {
-          store.setState(
-            stateReducer(
-              store.getState(),
-              {
-                type: 'blur',
-                value: null,
-              },
-              props
-            )
-          );
+          store.send('blur', null);
         }
       },
       // When scrolling on touch devices (mobiles, tablets, etc.), we want to
@@ -118,9 +108,7 @@ export function getPropGetters<TItem>({
           event,
         });
 
-        store.setState(
-          stateReducer(store.getState(), { type: 'submit', value: null }, props)
-        );
+        store.send('submit', null);
 
         if (providedProps.inputElement) {
           providedProps.inputElement.blur();
@@ -143,9 +131,7 @@ export function getPropGetters<TItem>({
           });
         }
 
-        store.setState(
-          stateReducer(store.getState(), { type: 'reset', value: {} }, props)
-        );
+        store.send('reset', null);
 
         if (providedProps.inputElement) {
           providedProps.inputElement.focus();
@@ -173,9 +159,7 @@ export function getPropGetters<TItem>({
         });
       }
 
-      store.setState(
-        stateReducer(store.getState(), { type: 'focus', value: {} }, props)
-      );
+      store.send('focus', null);
     }
 
     const { inputElement, dropdownElement, ...rest } = providedProps;
@@ -229,16 +213,7 @@ export function getPropGetters<TItem>({
         // We do rely on the `blur` event on touch devices.
         // See explanation in `onTouchStart`.
         if (!isTouchDevice) {
-          store.setState(
-            stateReducer(
-              store.getState(),
-              {
-                type: 'blur',
-                value: null,
-              },
-              props
-            )
-          );
+          store.send('blur', null);
         }
       },
       onClick: () => {
@@ -275,16 +250,7 @@ export function getPropGetters<TItem>({
           return;
         }
 
-        store.setState(
-          stateReducer(
-            store.getState(),
-            {
-              type: 'mousemove',
-              value: item.__autocomplete_id,
-            },
-            props
-          )
-        );
+        store.send('mousemove', item.__autocomplete_id);
 
         if (store.getState().highlightedIndex !== null) {
           const { item, itemValue, itemUrl, source } = getHighlightedItem({
@@ -374,16 +340,7 @@ export function getPropGetters<TItem>({
       'aria-labelledby': `${props.id}-label`,
       id: `${props.id}-menu`,
       onMouseLeave() {
-        store.setState(
-          stateReducer(
-            store.getState(),
-            {
-              type: 'mouseleave',
-              value: null,
-            },
-            props
-          )
-        );
+        store.send('mouseleave', null);
       },
       ...rest,
     };

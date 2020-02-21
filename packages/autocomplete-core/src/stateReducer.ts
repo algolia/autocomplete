@@ -1,25 +1,6 @@
 import { getItemsCount, getNextHighlightedIndex } from './utils';
 
-import { AutocompleteState, AutocompleteOptions } from './types';
-
-type ActionType =
-  | 'setHighlightedIndex'
-  | 'setQuery'
-  | 'setSuggestions'
-  | 'setIsOpen'
-  | 'setStatus'
-  | 'setContext'
-  | 'ArrowUp'
-  | 'ArrowDown'
-  | 'Escape'
-  | 'Enter'
-  | 'submit'
-  | 'reset'
-  | 'focus'
-  | 'blur'
-  | 'mousemove'
-  | 'mouseleave'
-  | 'click';
+import { AutocompleteState, AutocompleteOptions, ActionType } from './types';
 
 interface Action {
   type: ActionType;
@@ -27,8 +8,8 @@ interface Action {
 }
 
 export const stateReducer = <TItem>(
-  state: AutocompleteState<TItem>,
   action: Action,
+  state: AutocompleteState<TItem>,
   props: AutocompleteOptions<TItem>
 ): AutocompleteState<TItem> => {
   switch (action.type) {

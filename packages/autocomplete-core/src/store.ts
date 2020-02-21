@@ -1,20 +1,23 @@
-import { AutocompleteState, AutocompleteStore } from './types';
+import { stateReducer } from './stateReducer';
 
-type Listener<TItem> = (params: { state: AutocompleteState<TItem> }) => void;
+import { AutocompleteOptions, AutocompleteStore } from './types';
 
 export function createStore<TItem>(
-  initialState: AutocompleteState<TItem>,
-  listener: Listener<TItem>
+  props: AutocompleteOptions<TItem>
 ): AutocompleteStore<TItem> {
   return {
-    state: initialState,
+    state: props.initialState,
     getState() {
       return this.state;
     },
-    setState(nextState) {
-      this.state = nextState;
+    send(action, payload) {
+      this.state = stateReducer(
+        { type: action, value: payload },
+        this.state,
+        props
+      );
 
-      listener({ state: this.state });
+      props.onStateChange({ state: this.state });
     },
   };
 }

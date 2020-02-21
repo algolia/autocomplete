@@ -1,4 +1,3 @@
-import { stateReducer } from './stateReducer';
 import { onInput } from './onInput';
 import { getCompletion } from './completion';
 import { getHighlightedItem } from './utils';
@@ -31,16 +30,7 @@ export function onKeyDown<TItem>({
     // Arrow down.
     event.preventDefault();
 
-    store.setState(
-      stateReducer(
-        store.getState(),
-        {
-          type: event.key,
-          value: { shiftKey: event.shiftKey },
-        },
-        props
-      )
-    );
+    store.send(event.key, { shiftKey: event.shiftKey });
 
     const nodeItem = props.environment.document.getElementById(
       `${props.id}-item-${store.getState().highlightedIndex}`
@@ -100,16 +90,7 @@ export function onKeyDown<TItem>({
     // dropdown.
     event.preventDefault();
 
-    store.setState(
-      stateReducer(
-        store.getState(),
-        {
-          type: event.key,
-          value: {},
-        },
-        props
-      )
-    );
+    store.send(event.key, null);
   } else if (event.key === 'Enter') {
     // No item is selected, so we let the browser handle the native `onSubmit`
     // form event.
