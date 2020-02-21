@@ -172,4 +172,74 @@ storiesOf('React', module)
 
       return container;
     })
+  )
+  .add(
+    'Controlled mode',
+    withPlayground(({ container, dropdownContainer }) => {
+      render(
+        <Autocomplete
+          placeholder="Search items…"
+          dropdownContainer={dropdownContainer}
+          onInput={({
+            query,
+            setHighlightedIndex,
+            setQuery,
+            setSuggestions,
+            setIsOpen,
+          }) => {
+            setQuery(query);
+
+            if (query.length < 1) {
+              setHighlightedIndex(null);
+              setIsOpen(false);
+              setSuggestions([
+                {
+                  source: {
+                    getInputValue: ({ suggestion }) => suggestion.query,
+                    getSuggestionUrl: () => undefined,
+                    getSuggestions: () => [],
+                    onSelect: () => {},
+                    onHighlight: () => {},
+                  },
+                  items: [],
+                },
+              ]);
+
+              return;
+            }
+
+            getAlgoliaHits({
+              searchClient,
+              queries: [
+                {
+                  indexName: 'instant_search_demo_query_suggestions',
+                  query,
+                },
+              ],
+            }).then(items => {
+              setHighlightedIndex(null);
+              setIsOpen(items.length > 0);
+              setSuggestions([
+                {
+                  source: {
+                    getInputValue: ({ suggestion }) => suggestion.query,
+                    getSuggestionUrl: () => undefined,
+                    getSuggestions: () => items,
+                    onSelect: () => {},
+                    onHighlight: () => {},
+                  },
+                  items,
+                },
+              ]);
+            });
+          }}
+          getSources={() => {
+            return [];
+          }}
+        />,
+        container
+      );
+
+      return container;
+    })
   );

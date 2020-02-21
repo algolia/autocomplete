@@ -1,13 +1,13 @@
 import {
-  AutocompleteStore,
-  AutocompleteSetters,
   AutocompleteOptions,
+  AutocompleteSetters,
+  AutocompleteStore,
   AutocompleteState,
 } from './types';
 
 let lastStalledId: number | null = null;
 
-interface OnInputOptions<TItem> extends AutocompleteSetters<TItem> {
+interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {
   query: string;
   store: AutocompleteStore<TItem>;
   props: AutocompleteOptions<TItem>;
@@ -32,7 +32,22 @@ export function onInput<TItem>({
   setStatus,
   setContext,
   nextState = {},
-}: OnInputOptions<TItem>): Promise<void> {
+}: OnInputParams<TItem>): Promise<void> {
+  if (props.onInput) {
+    return Promise.resolve(
+      props.onInput({
+        query,
+        state: store.getState(),
+        setHighlightedIndex,
+        setQuery,
+        setSuggestions,
+        setIsOpen,
+        setStatus,
+        setContext,
+      })
+    );
+  }
+
   if (lastStalledId) {
     clearTimeout(lastStalledId);
   }

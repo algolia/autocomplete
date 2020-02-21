@@ -39,6 +39,11 @@ interface OnSubmitParams<TItem> extends AutocompleteSetters<TItem> {
   event: Event;
 }
 
+interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {
+  query: string;
+  state: AutocompleteState<TItem>;
+}
+
 export interface PublicAutocompleteSource<TItem> {
   /**
    * Get the string value of the suggestion. The value is used to fill the search box.
@@ -209,6 +214,13 @@ export interface PublicAutocompleteOptions<TItem> {
    * The function called when the autocomplete form is submitted.
    */
   onSubmit?(params: OnSubmitParams<TItem>): void;
+  /**
+   * The function called when the input changes.
+   *
+   * This turns the experience in controlled mode, leaving you in charge of
+   * updating the state.
+   */
+  onInput?(params: OnInputParams<TItem>): void | Promise<any>;
 }
 
 // Props manipulated internally with default values.
@@ -227,4 +239,5 @@ export interface AutocompleteOptions<TItem> {
   navigator: Navigator<TItem>;
   shouldDropdownShow(params: { state: AutocompleteState<TItem> }): boolean;
   onSubmit(params: OnSubmitParams<TItem>): void;
+  onInput?(params: OnInputParams<TItem>): void | Promise<any>;
 }

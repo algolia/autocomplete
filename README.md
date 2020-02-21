@@ -399,13 +399,13 @@ autocomplete({
 
 </details>
 
-#### `onInput` 🚧
+#### `onInput`
 
-> `(params: { query: string, state: AutocompleteState, ...setters }) => void | Promise <void | { state: AutocompleteState }>`
+> `(params: { query: string, props: AutocompleteOptions, state: AutocompleteState, ...setters }) => void | Promise <any>`
 
 Called when the input changes.
 
-This turns experience is "controlled" mode. You'll be in charge of updating the state with the [top-level API](#autocomplete).
+This turns experience in "controlled" mode. You'll be in charge of updating the state.
 
 #### `shouldDropdownShow`
 
