@@ -33,6 +33,7 @@ export function getDefaultProps<TItem>(
     initialState: {
       highlightedIndex: null,
       query: '',
+      completion: null,
       suggestions: [],
       isOpen: false,
       status: 'idle',

@@ -4,9 +4,7 @@ import { AutocompleteState } from './state';
 
 export interface AutocompleteApi<TItem>
   extends AutocompleteSetters<TItem>,
-    AutocompleteAccessibilityGetters<TItem> {
-  getCompletion(): string | null;
-}
+    AutocompleteAccessibilityGetters<TItem> {}
 
 export interface AutocompleteSuggestion<TItem> {
   source: AutocompleteSource<TItem>;

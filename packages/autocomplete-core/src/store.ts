@@ -1,8 +1,14 @@
-import { stateReducer } from './stateReducer';
+import { getCompletion } from './completion';
 
-import { AutocompleteOptions, AutocompleteStore } from './types';
+import {
+  AutocompleteOptions,
+  AutocompleteStore,
+  Reducer,
+  AutocompleteState,
+} from './types';
 
 export function createStore<TItem>(
+  reducer: Reducer,
   props: AutocompleteOptions<TItem>
 ): AutocompleteStore<TItem> {
   return {
@@ -11,13 +17,22 @@ export function createStore<TItem>(
       return this.state;
     },
     send(action, payload) {
-      this.state = stateReducer(
-        { type: action, value: payload },
-        this.state,
+      this.state = withCompletion(
+        reducer({ type: action, value: payload }, this.state, props),
         props
       );
 
       props.onStateChange({ state: this.state });
     },
+  };
+}
+
+function withCompletion<TItem>(
+  state: AutocompleteState<TItem>,
+  props: AutocompleteOptions<TItem>
+) {
+  return {
+    ...state,
+    completion: getCompletion({ state, props }),
   };
 }

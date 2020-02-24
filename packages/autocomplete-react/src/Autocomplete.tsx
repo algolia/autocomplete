@@ -110,9 +110,9 @@ export function Autocomplete<TItem extends {}>(
         query={state.query}
         isOpen={state.isOpen}
         status={state.status}
+        completion={state.completion}
         getLabelProps={autocomplete.getLabelProps}
         getInputProps={autocomplete.getInputProps}
-        completion={autocomplete.getCompletion()}
         {...autocomplete.getFormProps({
           inputElement: inputRef.current,
         })}

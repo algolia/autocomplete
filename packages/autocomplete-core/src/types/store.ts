@@ -1,3 +1,4 @@
+import { AutocompleteOptions } from './api';
 import { AutocompleteState } from './state';
 
 export interface AutocompleteStore<TItem> {
@@ -6,7 +7,18 @@ export interface AutocompleteStore<TItem> {
   send(action: ActionType, payload: any): void;
 }
 
-export type ActionType =
+export type Reducer = <TItem>(
+  action: Action,
+  state: AutocompleteState<TItem>,
+  props: AutocompleteOptions<TItem>
+) => AutocompleteState<TItem>;
+
+type Action = {
+  type: ActionType;
+  value: any;
+};
+
+type ActionType =
   | 'setHighlightedIndex'
   | 'setQuery'
   | 'setSuggestions'

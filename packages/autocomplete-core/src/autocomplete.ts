@@ -1,8 +1,8 @@
+import { stateReducer } from './stateReducer';
 import { getDefaultProps } from './defaultProps';
 import { createStore } from './store';
 import { getPropGetters } from './propGetters';
 import { getAutocompleteSetters } from './setters';
-import { getCompletion } from './completion';
 
 import { PublicAutocompleteOptions, AutocompleteApi } from './types';
 
@@ -10,7 +10,7 @@ function createAutocomplete<TItem extends {}>(
   options: PublicAutocompleteOptions<TItem>
 ): AutocompleteApi<TItem> {
   const props = getDefaultProps(options);
-  const store = createStore(props);
+  const store = createStore(stateReducer, props);
 
   const {
     setHighlightedIndex,
@@ -53,7 +53,6 @@ function createAutocomplete<TItem extends {}>(
     getItemProps,
     getLabelProps,
     getMenuProps,
-    getCompletion: () => getCompletion({ state: store.getState(), props }),
   };
 }
 
