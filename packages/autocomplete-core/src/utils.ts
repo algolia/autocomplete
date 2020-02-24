@@ -63,7 +63,7 @@ export function normalizeGetSources<TItem>(
   return options => {
     return Promise.resolve(getSources(options)).then(sources =>
       Promise.all(
-        sources.map(source => {
+        sources.filter(Boolean).map(source => {
           return Promise.resolve(normalizeSource<TItem>(source));
         })
       )
