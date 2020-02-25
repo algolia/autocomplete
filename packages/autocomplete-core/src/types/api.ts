@@ -168,11 +168,11 @@ export interface PublicAutocompleteOptions<TItem> {
    */
   showCompletion?: boolean;
   /**
-   * The minimum number of characters long the autocomplete opens.
+   * Whether to open the dropdown on focus when there's no query.
    *
-   * @default 1
+   * @default false
    */
-  minLength?: number;
+  openOnFocus?: boolean;
   /**
    * The number of milliseconds that must elapse before the autocomplete
    * experience is stalled.
@@ -229,7 +229,7 @@ export interface AutocompleteOptions<TItem> {
   autoFocus: boolean;
   defaultHighlightedIndex: number | null;
   showCompletion: boolean;
-  minLength: number;
+  openOnFocus: boolean;
   stallThreshold: number;
   initialState: AutocompleteState<TItem>;
   getSources: GetSources<TItem>;

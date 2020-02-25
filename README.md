@@ -209,11 +209,11 @@ Whether to show the highlighted suggestion as completion in the input.
 
 ![`showCompletion` preview](https://user-images.githubusercontent.com/6137112/68124812-7e989800-ff10-11e9-88a5-f28c1466b665.png)
 
-#### `minLength`
+#### `openOnFocus`
 
-> `number` | defaults to `1`
+> `boolean` | defaults to `false`
 
-The minimum number of characters long the autocomplete opens.
+Whether to open the dropdown on focus when there's no query.
 
 #### `autoFocus`
 

@@ -55,7 +55,7 @@ export function onInput<TItem>({
   setHighlightedIndex(props.defaultHighlightedIndex);
   setQuery(query);
 
-  if (query.length < props.minLength) {
+  if (query.length === 0 && props.openOnFocus === false) {
     setStatus('idle');
     setSuggestions(
       store.getState().suggestions.map(suggestion => ({
@@ -117,7 +117,7 @@ export function onInput<TItem>({
           setSuggestions(suggestions as any);
           setIsOpen(
             nextState.isOpen ??
-              (query.length >= props.minLength &&
+              ((query.length === 0 && props.openOnFocus) ||
                 props.shouldDropdownShow({ state: store.getState() }))
           );
         })

@@ -17,7 +17,7 @@ const searchClient = algoliasearch(
 autocomplete({
   container: '#autocomplete',
   placeholder: 'Search…',
-  minLength: 0,
+  openOnFocus: true,
   showCompletion: true,
   defaultHighlightedIndex: -1,
   shouldDropdownOpen({ state }) {

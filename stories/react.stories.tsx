@@ -242,4 +242,44 @@ storiesOf('React', module)
 
       return container;
     })
+  )
+  .add(
+    'Open on focus',
+    withPlayground(({ container, dropdownContainer }) => {
+      render(
+        <Autocomplete
+          placeholder="Search items…"
+          showCompletion={true}
+          dropdownContainer={dropdownContainer}
+          defaultHighlightedIndex={0}
+          openOnFocus={true}
+          getSources={() => {
+            return [
+              {
+                getInputValue({ suggestion }) {
+                  return suggestion.query;
+                },
+                getSuggestions({ query }) {
+                  return getAlgoliaHits({
+                    searchClient,
+                    queries: [
+                      {
+                        indexName: 'instant_search_demo_query_suggestions',
+                        query,
+                        params: {
+                          hitsPerPage: 4,
+                        },
+                      },
+                    ],
+                  });
+                },
+              },
+            ];
+          }}
+        />,
+        container
+      );
+
+      return container;
+    })
   );

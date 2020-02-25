@@ -103,8 +103,14 @@ export const stateReducer: Reducer = (action, state, props) => {
     case 'reset': {
       return {
         ...state,
-        highlightedIndex: null,
-        isOpen: false,
+        highlightedIndex:
+          // Since we open the menu on reset when openOnFocus=true
+          // we need to restore the highlighted index to the defaultHighlightedIndex. (DocSearch use-case)
+
+          // Since we close the menu when openOnFocus=false
+          // we lose track of the highlighted index. (Query-suggestions use-case)
+          props.openOnFocus === true ? props.defaultHighlightedIndex : null,
+        isOpen: props.openOnFocus, // @TODO: Check with UX team if we want to close the menu on reset.
         status: 'idle',
         statusContext: {},
         query: '',
@@ -115,7 +121,7 @@ export const stateReducer: Reducer = (action, state, props) => {
       return {
         ...state,
         highlightedIndex: props.defaultHighlightedIndex,
-        isOpen: state.query.length >= props.minLength,
+        isOpen: props.openOnFocus || state.query.length > 0,
       };
     }
 

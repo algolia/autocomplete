@@ -15,7 +15,7 @@ export function getDefaultProps<TItem>(
     : {}) as typeof window;
 
   return {
-    minLength: 1,
+    openOnFocus: false,
     placeholder: '',
     autoFocus: false,
     defaultHighlightedIndex: null,
