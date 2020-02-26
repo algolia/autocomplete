@@ -1,7 +1,7 @@
 /** @jsx h */
 
 import { h } from 'preact';
-import { useRef, useEffect } from 'preact/hooks';
+import { useRef, useEffect, Ref } from 'preact/hooks';
 import { createPortal } from 'preact/compat';
 
 import {
@@ -25,10 +25,18 @@ interface PublicRendererProps {
    * The dropdown placement related to the container.
    */
   dropdownPlacement?: 'start' | 'end';
+  /**
+   * The ref to the input element.
+   *
+   * Useful for managing focus.
+   */
+  inputRef?: Ref<HTMLInputElement | null>;
 }
 
-export interface RendererProps extends Required<PublicRendererProps> {
+export interface RendererProps extends PublicRendererProps {
   dropdownContainer: HTMLElement;
+  dropdownPlacement: 'start' | 'end';
+  inputRef?: Ref<HTMLInputElement | null>;
 }
 
 interface PublicProps<TItem>
@@ -47,6 +55,7 @@ export function getDefaultRendererProps<TItem>(
         )
       : autocompleteProps.environment.document.body,
     dropdownPlacement: rendererProps.dropdownPlacement ?? 'start',
+    inputRef: rendererProps.inputRef,
   };
 }
 
@@ -56,15 +65,20 @@ export function Autocomplete<TItem extends {}>(
   const {
     dropdownContainer,
     dropdownPlacement,
+    inputRef: providedInputRef,
     ...autocompleteProps
   } = providedProps;
   const props = getDefaultProps(autocompleteProps);
   const rendererProps = getDefaultRendererProps(
-    { dropdownContainer, dropdownPlacement },
+    {
+      dropdownContainer,
+      dropdownPlacement,
+      inputRef: providedInputRef,
+    },
     props
   );
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const inputRef = providedInputRef ?? useRef<HTMLInputElement | null>(null);
   const searchBoxRef = useRef<HTMLFormElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
