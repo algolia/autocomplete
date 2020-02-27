@@ -36,5 +36,14 @@ module.exports = {
         'import/no-extraneous-dependencies': 'off',
       },
     },
+    {
+      files: ['packages/website/**/*'],
+      settings: {
+        react: {
+          pragma: 'React',
+          version: 'detect',
+        },
+      },
+    },
   ],
 };

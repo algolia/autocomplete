@@ -2,7 +2,8 @@
   "name": "@francoischalifour/autocomplete-monorepo",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "website"
   ],
   "scripts": {
     "prepare": "yarn run build",
@@ -23,7 +24,10 @@
     "type-check": "tsc --noEmit",
     "website:build": "yarn run build && yarn run storybook:build",
     "release:prepare": "shipjs prepare",
-    "release:trigger": "shipjs trigger"
+    "release:trigger": "shipjs trigger",
+    "doc:start": "cd packages/website/ && yarn start",
+    "doc:build": "cd packages/website/ && yarn build",
+    "doc:deploy": "cd packages/website/ && yarn deploy"
   },
   "devDependencies": {
     "@babel/cli": "7.8.4",
