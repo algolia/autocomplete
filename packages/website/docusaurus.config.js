@@ -9,6 +9,7 @@ module.exports = {
   organizationName: 'algolia',
   projectName: 'autocomplete',
   themeConfig: {
+    sidebarCollapsible: false,
     navbar: {
       title: 'Autocomplete',
       logo: {
@@ -35,12 +36,12 @@ module.exports = {
           title: 'Docs',
           items: [
             {
-              label: 'Style Guide',
-              to: 'docs/doc1',
+              label: 'Getting Started',
+              to: 'docs/getting-started',
             },
             {
-              label: 'Second Doc',
-              to: 'docs/doc2',
+              label: 'API',
+              to: 'docs/createAutocomplete',
             },
           ],
         },
