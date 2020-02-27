@@ -4,16 +4,19 @@
  * work well for content-centric websites.
  */
 
-/* You can override the default Infima variables here. */
+body {
+  --ifm-font-size-base: 1rem;
+}
+
 :root {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: rgb(33, 175, 144);
-  --ifm-color-primary-darker: rgb(31, 165, 136);
-  --ifm-color-primary-darkest: rgb(26, 136, 112);
-  --ifm-color-primary-light: rgb(70, 203, 174);
-  --ifm-color-primary-lighter: rgb(102, 212, 189);
-  --ifm-color-primary-lightest: rgb(146, 224, 208);
-  --ifm-code-font-size: 95%;
+  --ifm-color-primary: #5468ff;
+  --ifm-color-primary-dark: #2b3cbb;
+  --ifm-color-primary-darker: #141d61;
+  --ifm-color-primary-darkest: #111432;
+  --ifm-color-primary-light: #7c8aff;
+  --ifm-color-primary-lighter: #cacfff;
+  --ifm-color-primary-lightest: #f2f3ff;
+  --ifm-code-font-size: 90%;
 }
 
 .docusaurus-highlight-code-line {
@@ -21,4 +24,14 @@
   display: block;
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
+}
+
+.markdown {
+  font-size: 1.1rem;
+}
+
+.markdown > p:first-child {
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: #9698c3;
 }

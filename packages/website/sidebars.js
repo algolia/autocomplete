@@ -1,8 +1,30 @@
 /* eslint-disable import/no-commonjs */
 
 module.exports = {
-  someSidebar: {
-    Docusaurus: ['doc1', 'doc2', 'doc3'],
-    Features: ['mdx'],
+  docs: {
+    'The Basics': ['getting-started', 'more-resources'],
+    API: [
+      {
+        type: 'category',
+        label: 'Autocomplete',
+        items: ['createAutocomplete'],
+      },
+      {
+        type: 'category',
+        label: 'React',
+        items: ['useAutocomplete'],
+      },
+      {
+        type: 'category',
+        label: 'Algolia Preset',
+        items: [
+          'highlightAlgoliaHit',
+          'reverseHighlightAlgoliaHit',
+          'snippetAlgoliaHit',
+          'getAlgoliaHits',
+          'getAlgoliaResults',
+        ],
+      },
+    ],
   },
 };

@@ -2,7 +2,7 @@
 
 module.exports = {
   title: 'Autocomplete',
-  tagline: 'The new Algolia Autocomplete discovering experience 🔎',
+  tagline: 'JavaScript library for building autocomplete search experiences.',
   url: 'https://autocomplete-experimental.netlify.com',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
@@ -16,7 +16,11 @@ module.exports = {
         src: 'img/logo.svg',
       },
       links: [
-        { to: 'docs/doc1', label: 'Docs', position: 'left' },
+        {
+          to: 'docs/getting-started',
+          label: 'Docs',
+          position: 'right',
+        },
         {
           href: 'https://github.com/francoischalifour/autocomplete.js',
           label: 'GitHub',
