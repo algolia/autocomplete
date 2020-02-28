@@ -181,7 +181,7 @@ export interface PublicAutocompleteOptions<TItem> {
    */
   stallThreshold?: number;
   /**
-   * The initial state to apply when the page is loaded.
+   * The initial state to apply when autocomplete is created.
    */
   initialState?: Partial<AutocompleteState<TItem>>;
   /**
@@ -194,14 +194,14 @@ export interface PublicAutocompleteOptions<TItem> {
     | Promise<Array<PublicAutocompleteSource<TItem>>>;
   /**
    * The environment from where your JavaScript is running.
-   * Useful if you're using Autocomplete.js in a different context than
+   * Useful if you're using autocomplete in a different context than
    * `window`.
    *
    * @default window
    */
   environment?: Environment;
   /**
-   * Navigator's API to redirect the user when a link should be open.
+   * Navigator API to redirect the user when a link should be opened.
    */
   navigator?: Navigator<TItem>;
   /**
@@ -218,7 +218,7 @@ export interface PublicAutocompleteOptions<TItem> {
    * This turns the experience in controlled mode, leaving you in charge of
    * updating the state.
    */
-  onInput?(params: OnInputParams<TItem>): void | Promise<any>;
+  onInput?(params: OnInputParams<TItem>): void;
 }
 
 // Props manipulated internally with default values.

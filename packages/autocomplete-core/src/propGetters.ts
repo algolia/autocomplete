@@ -161,7 +161,7 @@ export function getPropGetters<TItem>({
       store.send('focus', null);
     }
 
-    const { inputElement, dropdownElement, ...rest } = providedProps;
+    const { inputElement, ...rest } = providedProps;
 
     return {
       'aria-autocomplete': props.showCompletion ? 'both' : 'list',

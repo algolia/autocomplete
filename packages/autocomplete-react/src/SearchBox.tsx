@@ -88,7 +88,6 @@ export function SearchBox(props: SearchBoxProps) {
           {...props.getInputProps({
             ref: props.inputRef,
             inputElement: (props.inputRef as any).current,
-            dropdownElement: (props.dropdownRef as any).current,
             type: 'search',
             maxLength: '512',
           })}

@@ -41,7 +41,6 @@ export type GetFormProps = (props: {
 export type GetInputProps = (props: {
   [key: string]: unknown;
   inputElement: HTMLInputElement;
-  dropdownElement: HTMLElement;
 }) => {
   id: string;
   value: string;
