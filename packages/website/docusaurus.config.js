@@ -5,7 +5,7 @@ module.exports = {
   tagline: 'JavaScript library for building autocomplete search experiences.',
   url: 'https://autocomplete-experimental.netlify.com',
   baseUrl: '/',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/logo.png',
   organizationName: 'algolia',
   projectName: 'autocomplete',
   themeConfig: {
@@ -14,7 +14,7 @@ module.exports = {
       title: 'Autocomplete',
       logo: {
         alt: 'Autocomplete',
-        src: 'img/logo.svg',
+        src: 'img/logo.png',
       },
       links: [
         {
