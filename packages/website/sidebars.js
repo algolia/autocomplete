@@ -2,7 +2,17 @@
 
 module.exports = {
   docs: {
-    'The Basics': ['getting-started', 'more-resources'],
+    'The Basics': [
+      'getting-started',
+      'state',
+      'context',
+      'sources',
+      'keyboard-navigation',
+      'layout',
+      'prop-getters',
+      'controlled-mode',
+      'more-resources',
+    ],
     API: [
       {
         type: 'category',

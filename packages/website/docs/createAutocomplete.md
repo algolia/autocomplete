@@ -4,11 +4,6 @@ id: createAutocomplete
 
 This function returns the methods to create an autocomplete experience.
 
-<!-- prettier-ignore -->
-:::caution
-This page is incomplete.
-:::
-
 # Example
 
 ```js
@@ -39,13 +34,107 @@ const autocomplete = createAutocomplete({
 
 # Reference
 
-## Options
+## Required props
+
+### `getSources`
+
+The sources to get the suggestions from.
+
+## Optional props
 
 ### `id`
 
 > `string` | defaults to `"autocomplete-0"` (incremented for each instance)
 
 The autocomplete ID to create accessible attributes.
+
+### `onStateChange`
+
+> `(params: { state: AutocompleteState<TItem> }) => void`
+
+Function called when the internal state changes.
+
+### `placeholder`
+
+> `string`
+
+The text that appears in the search box input when there is no query.
+
+### `autoFocus`
+
+> `boolean` | defaults to `false`
+
+Whether to focus the search box when the page is loaded.
+
+### `defaultHighlightedIndex`
+
+> `number | null` | default to `null`
+
+The default item index to pre-select.
+
+We recommend using `0` when the query typed aims at opening suggestion links, without triggering an actual search.
+
+### `showCompletion`
+
+> `boolean` | defaults to `false`
+
+Whether to show the highlighted suggestion as completion in the input.
+
+### `openOnFocus`
+
+> `boolean` | defaults to `false`
+
+Whether to open the dropdown on focus when there's no query.
+
+### `stallThreshold`
+
+> `number` | defaults to `300`
+
+The number of milliseconds that must elapse before the autocomplete experience is stalled.
+
+### `initialState`
+
+> `Partial<AutocompleteState>`
+
+The initial state to apply when autocomplete is created.
+
+### `environment`
+
+> `typeof window` | defaults to `window`
+
+The environment from where your JavaScript is running.
+
+Useful if you're using autocomplete in a different context than `window`.
+
+### `navigator`
+
+> `Navigator`
+
+Navigator API to redirect the user when a link should be opened.
+
+Learn more on the [Navigator API](navigator-api) documentation.
+
+### `shouldDropdownShow`
+
+> `(params: { state: AutocompleteState }) => boolean`
+
+The function called to determine whether the dropdown should open.
+
+By default, it opens when there are suggestions in the state.
+
+### `onSubmit`
+
+> `(params: { state: AutocompleteState, event: Event, ...setters }) => void`
+
+The function called when the autocomplete form is submitted.
+
+### `onInput`
+
+> `(params: {query: string, state: AutocompleteState, ...setters }) => void`
+
+The function called when the input changes.
+
+This turns the experience in controlled mode, leaving you in charge of updating the state.
 
 ## Returned props
 
@@ -67,194 +156,4 @@ const {
 } = createAutocomplete(options);
 ```
 
-### `getEnvironmentProps`
-
-Returns the props to attach to the [environment](#environment).
-
-You need to pass `searchBoxElement`, `dropdownElement` and `inputElement` so that the library creates the correct touch events for touch devices.
-
-```ts
-type GetEnvironmentProps = (props: {
-  [key: string]: unknown;
-  searchBoxElement: HTMLElement;
-  dropdownElement: HTMLElement;
-  inputElement: HTMLInputElement;
-}) => {
-  onTouchStart(event: TouchEvent): void;
-  onTouchMove(event: TouchEvent): void;
-};
-```
-
-### `getRootProps`
-
-Returns the props to attach to the root element.
-
-```ts
-type GetRootProps = (props?: {
-  [key: string]: unknown;
-}) => {
-  role: string;
-  'aria-expanded': boolean;
-  'aria-haspopup': string;
-  'aria-owns': string;
-  'aria-labelledby': string;
-};
-```
-
-### `getFormProps`
-
-Returns the props to attach to the form element.
-
-You need to pass the `inputElement` so that the library can manage the focus of the input.
-
-```ts
-type GetFormProps = (props: {
-  [key: string]: unknown;
-  inputElement: HTMLInputElement | null;
-}) => {
-  onSubmit(event: Event): void;
-  onReset(event: Event): void;
-};
-```
-
-### `getInputProps`
-
-Returns the props to attach to the input element.
-
-You need to pass the `inputElement` so that the library can manage the focus of the input.
-
-```ts
-type GetInputProps = (props: {
-  [key: string]: unknown;
-  inputElement: HTMLInputElement;
-}) => {
-  id: string;
-  value: string;
-  autofocus: boolean;
-  placeholder: string;
-  autoComplete: 'on' | 'off';
-  autoCorrect: 'on' | 'off';
-  autoCapitalize: 'on' | 'off';
-  spellCheck: boolean;
-  'aria-autocomplete': 'none' | 'inline' | 'list' | 'both';
-  'aria-activedescendant': string | null;
-  'aria-controls': string | null;
-  'aria-labelledby': string;
-  onInput(event: Event): void;
-  onKeyDown(event: KeyboardEvent): void;
-  onFocus(): void;
-  onBlur(): void;
-  onClick(event: MouseEvent): void;
-};
-```
-
-### `getItemProps`
-
-Returns the props to attach to each item.
-
-You need to pass the `item` and the `source` so that the library computes the state.
-
-```ts
-type GetItemProps<TItem> = (props: {
-  [key: string]: unknown;
-  item: TItem;
-  source: AutocompleteSource<TItem>;
-}) => {
-  id: string;
-  role: string;
-  'aria-selected': boolean;
-  onMouseMove(event: MouseEvent): void;
-  onMouseDown(event: MouseEvent): void;
-  onClick(event: MouseEvent): void;
-};
-```
-
-### `getLabelProps`
-
-Returns the props to attach to the label.
-
-```ts
-type GetLabelProps = (props?: {
-  [key: string]: unknown;
-}) => {
-  htmlFor: string;
-  id: string;
-};
-```
-
-### `getMenuProps`
-
-Returns the props to attach to the menu.
-
-```ts
-type GetMenuProps = (props?: {
-  [key: string]: unknown;
-}) => {
-  role: string;
-  'aria-labelledby': string;
-  id: string;
-};
-```
-
-### `setHighlightedIndex`
-
-> `(value: number | null) => void`
-
-Sets the currently highlighted item index. Pass `null` to unselect items.
-
-### `setQuery`
-
-> `(value: string) => void`
-
-Sets the query.
-
-### `setSuggestions`
-
-> `(value: any) => void`
-
-Sets the suggestions.
-
-### `setIsOpen`
-
-> `(value: boolean) => void`
-
-Sets the open state of the dropdown.
-
-### `setStatus`
-
-> `(value: 'idle' | 'loading' | 'stalled' | 'error') => void`
-
-Sets the status of the experience.
-
-### `setContext`
-
-> `(value: object) => void`
-
-Sets the context passed in the lifecycle hooks.
-
-```js
-const autocomplete = createAutocomplete({
-  // ...
-  getSources({ query, setContext }) {
-    return getAlgoliaResults({
-      searchClient,
-      queries: [
-        {
-          indexName: 'instant_search',
-          query,
-        },
-      ],
-    }).then(results => {
-      const productsResults = results[0];
-
-      setContext({
-        nbProducts: productsResults.nbHits,
-      });
-
-      return [
-        // ...
-      ];
-    });
-  },
-});
-```
+This function returns the [prop getters](prop-getters) and the [state setters](state#setters)
