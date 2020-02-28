@@ -12,7 +12,7 @@ This API defines how a URL should be opened with different key modifiers:
 - **In a new window** triggered on <kbd>⇧ Enter</kbd>
 
 <!-- prettier-ignore -->
-:::note
+:::important
 To activate keyboard navigation, use [`getSuggestionUrl`](createAutocomplete#getsuggestionurl) in your source to provide the value to process as a URL. This indicates the navigator API which links to open on <kbd>Enter</kbd>.
 :::
 
