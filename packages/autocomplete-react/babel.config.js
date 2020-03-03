@@ -22,6 +22,6 @@ module.exports = api => {
         },
       ],
     ],
-    plugins: [['@babel/plugin-transform-react-jsx', { pragma: 'h' }]],
+    plugins: [['@babel/plugin-transform-react-jsx']],
   };
 };

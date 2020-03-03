@@ -1,12 +1,9 @@
-/** @jsx h */
-
-import { h } from 'preact';
-import { Ref } from 'preact/compat';
+import React from 'react';
 
 import { reverseHighlightAlgoliaHit } from '@francoischalifour/autocomplete-preset-algolia';
 
 import {
-  AutocompleteSuggestion,
+  AutocompleteState,
   GetItemProps,
   GetMenuProps,
 } from '@francoischalifour/autocomplete-core';
@@ -14,10 +11,10 @@ import {
 interface DropdownProps {
   isOpen: boolean;
   status: string;
-  suggestions: Array<AutocompleteSuggestion<any>>;
-  getItemProps: GetItemProps<any>;
+  suggestions: AutocompleteState<any>['suggestions'];
+  getItemProps: GetItemProps<any, React.MouseEvent>;
   getMenuProps: GetMenuProps;
-  dropdownRef: Ref<HTMLDivElement | null>;
+  dropdownRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 export const Dropdown = (props: DropdownProps) => {
@@ -53,7 +50,6 @@ export const Dropdown = (props: DropdownProps) => {
                           {...props.getItemProps({
                             item,
                             source,
-                            tabIndex: 0,
                           })}
                         >
                           <div

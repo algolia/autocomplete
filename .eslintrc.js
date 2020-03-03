@@ -6,8 +6,8 @@ module.exports = {
   },
   settings: {
     react: {
+      pragma: 'React',
       version: 'detect',
-      pragma: 'h',
     },
     'import/resolver': {
       node: {
@@ -34,15 +34,6 @@ module.exports = {
       files: ['**/rollup.config.js', 'stories/**/*'],
       rules: {
         'import/no-extraneous-dependencies': 'off',
-      },
-    },
-    {
-      files: ['packages/website/**/*'],
-      settings: {
-        react: {
-          pragma: 'React',
-          version: 'detect',
-        },
       },
     },
   ],

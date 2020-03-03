@@ -1,8 +1,5 @@
-/** @jsx h */
-
-import { h } from 'preact';
-import { useRef, useEffect, Ref } from 'preact/hooks';
-import { createPortal } from 'preact/compat';
+import React, { useRef, useEffect, MutableRefObject } from 'react';
+import { createPortal } from 'react-dom';
 
 import {
   getDefaultProps,
@@ -30,13 +27,13 @@ interface PublicRendererProps {
    *
    * Useful for managing focus.
    */
-  inputRef?: Ref<HTMLInputElement | null>;
+  inputRef?: MutableRefObject<HTMLInputElement | null>;
 }
 
 export interface RendererProps extends PublicRendererProps {
   dropdownContainer: HTMLElement;
   dropdownPlacement: 'start' | 'end';
-  inputRef?: Ref<HTMLInputElement | null>;
+  inputRef?: MutableRefObject<HTMLInputElement | null>;
 }
 
 interface PublicProps<TItem>

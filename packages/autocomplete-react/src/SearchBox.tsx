@@ -1,6 +1,4 @@
-/** @jsx h */
-
-import { h, Ref } from 'preact';
+import React from 'react';
 
 import {
   GetInputProps,
@@ -13,13 +11,17 @@ export interface SearchBoxProps {
   isOpen: boolean;
   status: string;
   query: string;
-  onReset: (event: Event) => void;
-  onSubmit: (event: Event) => void;
-  getInputProps: GetInputProps;
+  onReset(event: React.FormEvent): void;
+  onSubmit(event: React.FormEvent): void;
+  getInputProps: GetInputProps<
+    React.ChangeEvent,
+    React.MouseEvent,
+    React.KeyboardEvent
+  >;
   getLabelProps: GetLabelProps;
-  inputRef: Ref<HTMLInputElement>;
-  searchBoxRef: Ref<HTMLFormElement>;
-  dropdownRef: Ref<HTMLElement>;
+  inputRef: React.MutableRefObject<HTMLInputElement | null>;
+  searchBoxRef: React.MutableRefObject<HTMLFormElement | null>;
+  dropdownRef: React.MutableRefObject<HTMLElement | null>;
 }
 
 export function SearchBox(props: SearchBoxProps) {
@@ -56,8 +58,6 @@ export function SearchBox(props: SearchBoxProps) {
             <g transform="translate(1 1)" strokeWidth="2">
               <circle strokeOpacity=".3" cx="18" cy="18" r="18" />
               <path d="M36 18c0-9.94-8.06-18-18-18">
-                {/*
-                    // @ts-ignore */}
                 <animateTransform
                   attributeName="transform"
                   type="rotate"
@@ -77,7 +77,6 @@ export function SearchBox(props: SearchBoxProps) {
           <span
             className="algolia-autocomplete-completion"
             aria-live={'assertive'}
-            aria-suggest={`Press tab to select "${props.completion}"`}
           >
             {props.completion}
           </span>

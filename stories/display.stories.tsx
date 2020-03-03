@@ -1,8 +1,5 @@
-/** @jsx h */
-
-import { h, render } from 'preact';
-import { useState, useEffect, useRef, useCallback } from 'preact/hooks';
-import { createPortal } from 'preact/compat';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { render, createPortal } from 'react-dom';
 import { storiesOf } from '@storybook/html';
 import algoliasearch from 'algoliasearch/lite';
 

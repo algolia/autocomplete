@@ -2,9 +2,19 @@ import { AutocompleteAccessibilityGetters } from './getters';
 import { AutocompleteSetters } from './setters';
 import { AutocompleteState } from './state';
 
-export interface AutocompleteApi<TItem>
+export interface AutocompleteApi<
+  TItem,
+  TEvent = Event,
+  TMouseEvent = MouseEvent,
+  TKeyboardEvent = KeyboardEvent
+>
   extends AutocompleteSetters<TItem>,
-    AutocompleteAccessibilityGetters<TItem> {}
+    AutocompleteAccessibilityGetters<
+      TItem,
+      TEvent,
+      TMouseEvent,
+      TKeyboardEvent
+    > {}
 
 export interface AutocompleteSuggestion<TItem> {
   source: AutocompleteSource<TItem>;
@@ -27,14 +37,14 @@ interface OnSelectParams<TItem>
   extends ItemParams<TItem>,
     AutocompleteSetters<TItem> {
   state: AutocompleteState<TItem>;
-  event: Event;
+  event: any;
 }
 
 type OnHighlightParams<TItem> = OnSelectParams<TItem>;
 
 interface OnSubmitParams<TItem> extends AutocompleteSetters<TItem> {
   state: AutocompleteState<TItem>;
-  event: Event;
+  event: any;
 }
 
 interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {

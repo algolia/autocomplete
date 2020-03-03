@@ -20,7 +20,7 @@ interface GetPropGettersOptions<TItem> extends AutocompleteSetters<TItem> {
   props: AutocompleteOptions<TItem>;
 }
 
-export function getPropGetters<TItem>({
+export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
   store,
   props,
   setHighlightedIndex,
@@ -84,18 +84,18 @@ export function getPropGetters<TItem>({
       role: 'combobox',
       'aria-expanded': store.getState().isOpen,
       'aria-haspopup': 'listbox',
-      'aria-owns': store.getState().isOpen ? `${props.id}-menu` : null,
+      'aria-owns': store.getState().isOpen ? `${props.id}-menu` : undefined,
       'aria-labelledby': `${props.id}-label`,
       ...rest,
     };
   };
 
-  const getFormProps: GetFormProps = providedProps => {
+  const getFormProps: GetFormProps<TEvent> = providedProps => {
     const { inputElement, ...rest } = providedProps;
 
     return {
       onSubmit: event => {
-        event.preventDefault();
+        ((event as unknown) as Event).preventDefault();
 
         props.onSubmit({
           state: store.getState(),
@@ -115,7 +115,7 @@ export function getPropGetters<TItem>({
         }
       },
       onReset: event => {
-        event.preventDefault();
+        ((event as unknown) as Event).preventDefault();
 
         if (props.openOnFocus) {
           onInput({
@@ -140,7 +140,11 @@ export function getPropGetters<TItem>({
     };
   };
 
-  const getInputProps: GetInputProps = providedProps => {
+  const getInputProps: GetInputProps<
+    TEvent,
+    TMouseEvent,
+    TKeyboardEvent
+  > = providedProps => {
     function onFocus() {
       // We want to trigger a query when `openOnFocus` is true
       // because the dropdown should open with the current query.
@@ -168,8 +172,8 @@ export function getPropGetters<TItem>({
       'aria-activedescendant':
         store.getState().isOpen && store.getState().highlightedIndex !== null
           ? `${props.id}-item-${store.getState().highlightedIndex}`
-          : null,
-      'aria-controls': store.getState().isOpen ? `${props.id}-menu` : null,
+          : undefined,
+      'aria-controls': store.getState().isOpen ? `${props.id}-menu` : undefined,
       'aria-labelledby': `${props.id}-label`,
       value: store.getState().query,
       id: `${props.id}-input`,
@@ -177,13 +181,14 @@ export function getPropGetters<TItem>({
       autoCorrect: 'off',
       autoCapitalize: 'off',
       spellCheck: false,
-      autofocus: props.autoFocus,
+      autoFocus: props.autoFocus,
       placeholder: props.placeholder,
       // @TODO: see if this accessibility attribute is necessary
       // 'aria-expanded': store.getStore().isOpen,
-      onInput: (event: InputEvent) => {
+      onChange: event => {
         onInput({
-          query: (event.currentTarget as HTMLInputElement).value,
+          query: (((event as unknown) as Event)
+            .currentTarget as HTMLInputElement).value,
           store,
           props,
           setHighlightedIndex,
@@ -194,9 +199,9 @@ export function getPropGetters<TItem>({
           setContext,
         });
       },
-      onKeyDown: (event: KeyboardEvent) => {
+      onKeyDown: event => {
         onKeyDown({
-          event,
+          event: (event as unknown) as KeyboardEvent,
           store,
           props,
           setHighlightedIndex,
@@ -235,7 +240,7 @@ export function getPropGetters<TItem>({
     };
   };
 
-  const getItemProps: GetItemProps<any> = providedProps => {
+  const getItemProps: GetItemProps<any, TMouseEvent> = providedProps => {
     const { item, source, ...rest } = providedProps;
 
     return {
@@ -271,14 +276,14 @@ export function getPropGetters<TItem>({
           });
         }
       },
-      onMouseDown(event: MouseEvent) {
+      onMouseDown(event) {
         // Prevents the `activeElement` from being changed to the item so it
         // can remain with the current `activeElement`.
-        event.preventDefault();
+        ((event as unknown) as MouseEvent).preventDefault();
       },
-      onClick(event: MouseEvent) {
+      onClick(event) {
         // We ignore all modified clicks to support default browsers' behavior.
-        if (isSpecialClick(event)) {
+        if (isSpecialClick((event as unknown) as MouseEvent)) {
           return;
         }
 

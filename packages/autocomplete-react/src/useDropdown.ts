@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, Ref } from 'preact/hooks';
+import { useRef, useLayoutEffect, MutableRefObject } from 'react';
 import { createPopper } from '@popperjs/core/lib/popper-lite';
 
 import { AutocompleteState } from '@francoischalifour/autocomplete-core';
@@ -7,8 +7,8 @@ import { RendererProps } from './Autocomplete';
 export function useDropdown<TItem>(
   props: RendererProps,
   state: AutocompleteState<TItem>,
-  searchBoxRef: Ref<HTMLFormElement | null>,
-  dropdownRef: Ref<HTMLDivElement | null>
+  searchBoxRef: MutableRefObject<HTMLFormElement | null>,
+  dropdownRef: MutableRefObject<HTMLDivElement | null>
 ) {
   const popper = useRef<ReturnType<typeof createPopper> | null>(null);
 

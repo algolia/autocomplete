@@ -6,9 +6,14 @@ import { getAutocompleteSetters } from './setters';
 
 import { PublicAutocompleteOptions, AutocompleteApi } from './types';
 
-function createAutocomplete<TItem extends {}>(
+function createAutocomplete<
+  TItem extends {},
+  TEvent = Event,
+  TMouseEvent = MouseEvent,
+  TKeyboardEvent = KeyboardEvent
+>(
   options: PublicAutocompleteOptions<TItem>
-): AutocompleteApi<TItem> {
+): AutocompleteApi<TItem, TEvent, TMouseEvent, TKeyboardEvent> {
   const props = getDefaultProps(options);
   const store = createStore(stateReducer, props);
 
@@ -28,7 +33,7 @@ function createAutocomplete<TItem extends {}>(
     getItemProps,
     getLabelProps,
     getMenuProps,
-  } = getPropGetters({
+  } = getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     store,
     props,
     setHighlightedIndex,
