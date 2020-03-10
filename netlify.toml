@@ -1,6 +1,6 @@
 [build]
-  command="yarn run website:build"
+  command="yarn run website:deploy"
   publish="packages/website/build"
 
 [build.environment]
-  YARN_VERSION = "1.19.1"
+  YARN_VERSION = "1.22.4"

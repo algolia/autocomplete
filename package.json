@@ -23,6 +23,7 @@
     "watch-and-storybook": "concurrently \"yarn run watch\" \"yarn run storybook\"",
     "type-check": "tsc --noEmit",
     "website:build": "yarn run doc:build && yarn run build && yarn run storybook:build",
+    "website:deploy": "yarn run doc:build && yarn run storybook:build",
     "release:prepare": "shipjs prepare",
     "release:trigger": "shipjs trigger",
     "doc:start": "cd packages/website/ && yarn start",
