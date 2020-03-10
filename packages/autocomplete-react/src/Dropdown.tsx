@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { reverseHighlightAlgoliaHit } from '@francoischalifour/autocomplete-preset-algolia';
-
 import {
   AutocompleteState,
   GetDropdownProps,
   GetMenuProps,
   GetItemProps,
 } from '@francoischalifour/autocomplete-core';
+
+import { ReverseHighlight } from './Highlight';
 
 interface DropdownProps {
   isOpen: boolean;
@@ -55,14 +55,7 @@ export const Dropdown = (props: DropdownProps) => {
                             source,
                           })}
                         >
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: reverseHighlightAlgoliaHit({
-                                hit: item,
-                                attribute: 'query',
-                              }),
-                            }}
-                          />
+                          <ReverseHighlight hit={item} attribute="query" />
                         </li>
                       );
                     })}

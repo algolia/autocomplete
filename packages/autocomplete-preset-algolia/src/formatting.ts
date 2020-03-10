@@ -1,29 +1,21 @@
-const htmlEscapes = {
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '"': '&quot;',
-  "'": '&#39;',
+type ParseAttributeParams = {
+  highlightPreTag: string;
+  highlightPostTag: string;
+  highlightedValue: string;
 };
 
-const unescapedHtml = /[&<>"']/g;
-const hasUnescapedHtml = RegExp(unescapedHtml.source);
+type ParsedAttribute = { value: string; isHighlighted: boolean };
 
-function escape(value: string): string {
-  return value && hasUnescapedHtml.test(value)
-    ? value.replace(unescapedHtml, char => htmlEscapes[char])
-    : value;
-}
-
-function parseHighlightedAttribute({
-  highlightPreTag,
-  highlightPostTag,
+export function parseAttribute({
+  highlightPreTag = '<mark>',
+  highlightPostTag = '</mark>',
   highlightedValue,
-}) {
+}: ParseAttributeParams): ParsedAttribute[] {
   const splitByPreTag = highlightedValue.split(highlightPreTag);
   const firstValue = splitByPreTag.shift();
-  const elements =
-    firstValue === '' ? [] : [{ value: firstValue, isHighlighted: false }];
+  const elements = !firstValue
+    ? []
+    : [{ value: firstValue, isHighlighted: false }];
 
   if (highlightPostTag === highlightPreTag) {
     let isHighlighted = true;
@@ -53,105 +45,83 @@ function parseHighlightedAttribute({
   return elements;
 }
 
-function getPropertyByPath(hit: object, path: string): string {
+function getAttributeValueByPath(hit: object, path: string): string {
   const parts = path.split('.');
   const value = parts.reduce((current, key) => current && current[key], hit);
 
-  return typeof value === 'string' ? value : '';
+  if (typeof value !== 'string') {
+    throw new Error(
+      `The attribute ${JSON.stringify(path)} does not exist on the hit.`
+    );
+  }
+
+  return value;
 }
 
-interface HighlightOptions {
+type SharedParseAttributeParams = {
   hit: any;
   attribute: string;
-  highlightPreTag?: string;
-  highlightPostTag?: string;
-  ignoreEscape?: string[];
-}
+  highlightPreTag: string;
+  highlightPostTag: string;
+};
 
-interface GetHighlightedValue extends HighlightOptions {
-  hitKey: '_highlightResult' | '_snippetResult';
-}
-
-function getHighlightedValue({
-  hit,
-  hitKey,
-  attribute,
-  highlightPreTag = '<mark>',
-  highlightPostTag = '</mark>',
-  ignoreEscape = [],
-}: GetHighlightedValue): string {
-  const highlightedValue = getPropertyByPath(
-    hit,
-    `${hitKey}.${attribute}.value`
-  );
-
-  return parseHighlightedAttribute({
-    highlightPreTag,
-    highlightPostTag,
-    highlightedValue,
-  })
-    .map(part => {
-      const escapedValue =
-        ignoreEscape.indexOf(part.value) === -1
-          ? part.value
-          : escape(part.value);
-
-      return part.isHighlighted
-        ? `${highlightPreTag}${escapedValue}${highlightPostTag}`
-        : escapedValue;
-    })
-    .join('');
-}
-
-export function highlightAlgoliaHit(options: HighlightOptions): string {
-  return getHighlightedValue({
-    hitKey: '_highlightResult',
-    ...options,
-  });
-}
-
-export function snippetAlgoliaHit(options: HighlightOptions): string {
-  return getHighlightedValue({
-    hitKey: '_snippetResult',
-    ...options,
-  });
-}
-
-export function reverseHighlightAlgoliaHit({
+export function parseHighlightedAttribute({
   hit,
   attribute,
-  highlightPreTag = '<mark>',
-  highlightPostTag = '</mark>',
-  ignoreEscape = [],
-}: HighlightOptions): string {
-  const highlightedValue = getPropertyByPath(
+  highlightPreTag,
+  highlightPostTag,
+}: SharedParseAttributeParams): ParsedAttribute[] {
+  const highlightedValue = getAttributeValueByPath(
     hit,
     `_highlightResult.${attribute}.value`
   );
-  const parsedHighlightedAttribute = parseHighlightedAttribute({
+
+  return parseAttribute({
     highlightPreTag,
     highlightPostTag,
     highlightedValue,
   });
-  const noPartsMatch = !parsedHighlightedAttribute.some(
-    part => part.isHighlighted
+}
+
+export function parseReverseHighlightedAttribute({
+  hit,
+  attribute,
+  highlightPreTag,
+  highlightPostTag,
+}: SharedParseAttributeParams): ParsedAttribute[] {
+  const highlightedValue = getAttributeValueByPath(
+    hit,
+    `_highlightResult.${attribute}.value`
   );
 
-  return parsedHighlightedAttribute
-    .map(part => {
-      const escapedValue =
-        ignoreEscape.indexOf(part.value) === -1
-          ? part.value
-          : escape(part.value);
+  const parts = parseAttribute({
+    highlightPreTag,
+    highlightPostTag,
+    highlightedValue,
+  });
 
-      // We don't want to highlight the whole word when no parts match.
-      if (noPartsMatch) {
-        return escapedValue;
-      }
+  // We don't want to highlight the whole word when no parts match.
+  if (!parts.some(part => part.isHighlighted)) {
+    return parts.map(part => ({ ...part, isHighlighted: false }));
+  }
 
-      return part.isHighlighted
-        ? escapedValue
-        : `${highlightPreTag}${escapedValue}${highlightPostTag}`;
-    })
-    .join('');
+  return parts.map(part => ({ ...part, isHighlighted: !part.isHighlighted }));
+}
+
+export function parseSnippetedAttribute({
+  hit,
+  attribute,
+  highlightPreTag,
+  highlightPostTag,
+}: SharedParseAttributeParams): ParsedAttribute[] {
+  const highlightedValue = getAttributeValueByPath(
+    hit,
+    `_snippetResult.${attribute}.value`
+  );
+
+  return parseAttribute({
+    highlightPreTag,
+    highlightPostTag,
+    highlightedValue,
+  });
 }
