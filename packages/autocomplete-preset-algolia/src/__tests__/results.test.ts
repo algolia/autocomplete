@@ -105,7 +105,7 @@ describe('getAlgoliaResults', () => {
 
     expect((searchClient as Client).addAlgoliaAgent).toHaveBeenCalledTimes(1);
     expect((searchClient as Client).addAlgoliaAgent).toHaveBeenCalledWith(
-      'Autocomplete.js (version-test)'
+      'autocomplete-core (version-test)'
     );
   });
 });
@@ -196,7 +196,7 @@ describe('getAlgoliaHits', () => {
 
     expect((searchClient as Client).addAlgoliaAgent).toHaveBeenCalledTimes(1);
     expect((searchClient as Client).addAlgoliaAgent).toHaveBeenCalledWith(
-      'Autocomplete.js (version-test)'
+      'autocomplete-core (version-test)'
     );
   });
 });

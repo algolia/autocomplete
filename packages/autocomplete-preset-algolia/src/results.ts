@@ -19,7 +19,7 @@ interface GetAlgoliaSourceParams {
 function getAlgoliaSource({ searchClient, queries }: GetAlgoliaSourceParams) {
   if (typeof (searchClient as Client).addAlgoliaAgent === 'function') {
     (searchClient as Client).addAlgoliaAgent(
-      `Autocomplete.js (${__VERSION__})`
+      `autocomplete-core (${__VERSION__})`
     );
   }
 
