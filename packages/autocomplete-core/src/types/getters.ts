@@ -9,10 +9,11 @@ export interface AutocompleteAccessibilityGetters<
   getEnvironmentProps: GetEnvironmentProps;
   getRootProps: GetRootProps;
   getFormProps: GetFormProps<TEvent>;
-  getInputProps: GetInputProps<TEvent, TMouseEvent, TKeyboardEvent>;
-  getItemProps: GetItemProps<TItem, TMouseEvent>;
   getLabelProps: GetLabelProps;
+  getInputProps: GetInputProps<TEvent, TMouseEvent, TKeyboardEvent>;
+  getDropdownProps: GetDropdownProps;
   getMenuProps: GetMenuProps;
+  getItemProps: GetItemProps<TItem, TMouseEvent>;
 }
 
 export type GetEnvironmentProps = (props: {
@@ -52,6 +53,13 @@ export type GetFormProps<TEvent = Event> = (props: {
   onReset(event: TEvent): void;
 };
 
+export type GetLabelProps = (props?: {
+  [key: string]: unknown;
+}) => {
+  htmlFor: string;
+  id: string;
+};
+
 export type GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (props: {
   [key: string]: unknown;
   inputElement: HTMLInputElement;
@@ -75,6 +83,20 @@ export type GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (props: {
   onClick(event: TMouseEvent): void;
 };
 
+export type GetDropdownProps = (props?: {
+  [key: string]: unknown;
+}) => {
+  onMouseLeave(): void;
+};
+
+export type GetMenuProps = (props?: {
+  [key: string]: unknown;
+}) => {
+  role: string;
+  'aria-labelledby': string;
+  id: string;
+};
+
 export type GetItemProps<TItem, TMouseEvent = MouseEvent> = (props: {
   [key: string]: unknown;
   item: TItem;
@@ -86,19 +108,4 @@ export type GetItemProps<TItem, TMouseEvent = MouseEvent> = (props: {
   onMouseMove(event: TMouseEvent): void;
   onMouseDown(event: TMouseEvent): void;
   onClick(event: TMouseEvent): void;
-};
-
-export type GetLabelProps = (props?: {
-  [key: string]: unknown;
-}) => {
-  htmlFor: string;
-  id: string;
-};
-
-export type GetMenuProps = (props?: {
-  [key: string]: unknown;
-}) => {
-  role: string;
-  'aria-labelledby': string;
-  id: string;
 };

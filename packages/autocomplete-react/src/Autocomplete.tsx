@@ -135,8 +135,9 @@ export function Autocomplete<TItem extends {}>(
           suggestions={state.suggestions}
           isOpen={state.isOpen}
           status={state.status}
-          getItemProps={autocomplete.getItemProps}
           getMenuProps={autocomplete.getMenuProps}
+          getDropdownProps={autocomplete.getDropdownProps}
+          getItemProps={autocomplete.getItemProps}
         />,
         rendererProps.dropdownContainer
       )}

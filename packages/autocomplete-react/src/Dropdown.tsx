@@ -4,16 +4,18 @@ import { reverseHighlightAlgoliaHit } from '@francoischalifour/autocomplete-pres
 
 import {
   AutocompleteState,
-  GetItemProps,
+  GetDropdownProps,
   GetMenuProps,
+  GetItemProps,
 } from '@francoischalifour/autocomplete-core';
 
 interface DropdownProps {
   isOpen: boolean;
   status: string;
   suggestions: AutocompleteState<any>['suggestions'];
-  getItemProps: GetItemProps<any, React.MouseEvent>;
+  getDropdownProps: GetDropdownProps;
   getMenuProps: GetMenuProps;
+  getItemProps: GetItemProps<any, React.MouseEvent>;
   dropdownRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
@@ -29,6 +31,7 @@ export const Dropdown = (props: DropdownProps) => {
         .join(' ')}
       ref={props.dropdownRef}
       hidden={!props.isOpen}
+      {...props.getDropdownProps()}
     >
       {props.isOpen && (
         <div className="algolia-autocomplete-dropdown-container">

@@ -6,10 +6,11 @@ import {
   GetEnvironmentProps,
   GetRootProps,
   GetFormProps,
-  GetInputProps,
-  GetItemProps,
   GetLabelProps,
+  GetInputProps,
+  GetDropdownProps,
   GetMenuProps,
+  GetItemProps,
   AutocompleteStore,
   AutocompleteOptions,
   AutocompleteSetters,
@@ -30,8 +31,6 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
   setStatus,
   setContext,
 }: GetPropGettersOptions<TItem>) {
-  const isTouchDevice = 'ontouchstart' in props.environment;
-
   const getEnvironmentProps: GetEnvironmentProps = getterProps => {
     return {
       // On touch devices, we do not rely on the native `blur` event of the
@@ -165,6 +164,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
       store.send('focus', null);
     }
 
+    const isTouchDevice = 'ontouchstart' in props.environment;
     const { inputElement, ...rest } = providedProps;
 
     return {
@@ -235,6 +235,32 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         ) {
           onFocus();
         }
+      },
+      ...rest,
+    };
+  };
+
+  const getLabelProps: GetLabelProps = rest => {
+    return {
+      htmlFor: `${props.id}-input`,
+      id: `${props.id}-label`,
+      ...rest,
+    };
+  };
+
+  const getMenuProps: GetMenuProps = rest => {
+    return {
+      role: 'listbox',
+      'aria-labelledby': `${props.id}-label`,
+      id: `${props.id}-menu`,
+      ...rest,
+    };
+  };
+
+  const getDropdownProps: GetDropdownProps = rest => {
+    return {
+      onMouseLeave() {
+        store.send('mouseleave', null);
       },
       ...rest,
     };
@@ -329,33 +355,14 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     };
   };
 
-  const getLabelProps: GetLabelProps = rest => {
-    return {
-      htmlFor: `${props.id}-input`,
-      id: `${props.id}-label`,
-      ...rest,
-    };
-  };
-
-  const getMenuProps: GetMenuProps = rest => {
-    return {
-      role: 'listbox',
-      'aria-labelledby': `${props.id}-label`,
-      id: `${props.id}-menu`,
-      onMouseLeave() {
-        store.send('mouseleave', null);
-      },
-      ...rest,
-    };
-  };
-
   return {
     getEnvironmentProps,
     getRootProps,
     getFormProps,
-    getInputProps,
-    getItemProps,
     getLabelProps,
+    getInputProps,
+    getDropdownProps,
     getMenuProps,
+    getItemProps,
   };
 }

@@ -29,10 +29,11 @@ function createAutocomplete<
     getEnvironmentProps,
     getRootProps,
     getFormProps,
-    getInputProps,
-    getItemProps,
     getLabelProps,
+    getInputProps,
+    getDropdownProps,
     getMenuProps,
+    getItemProps,
   } = getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     store,
     props,
@@ -55,9 +56,10 @@ function createAutocomplete<
     getRootProps,
     getFormProps,
     getInputProps,
-    getItemProps,
     getLabelProps,
+    getDropdownProps,
     getMenuProps,
+    getItemProps,
   };
 }
 
