@@ -23,6 +23,11 @@ module.exports = {
           position: 'right',
         },
         {
+          href: 'https://autocomplete-experimental.netlify.com/stories',
+          label: 'Stories',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/francoischalifour/autocomplete.js',
           label: 'GitHub',
           position: 'right',
