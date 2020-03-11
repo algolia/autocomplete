@@ -134,7 +134,7 @@ var autocomplete = require('autocomplete.js');
       index
         .search(query, params)
         .then(function(res) {
-          cb(res.hits);
+          cb(res.hits, res);
         })
         .catch(function(err) {
           console.error(err);
