@@ -1,35 +1,51 @@
 /* eslint-disable import/no-commonjs */
 
-const fs = require('fs');
-const path = require('path');
+const packages = [
+  'packages/autocomplete-core',
+  'packages/autocomplete-preset-algolia',
+  'packages/autocomplete-react',
+];
 
 module.exports = {
+  monorepo: {
+    mainVersionFile: 'lerna.json',
+    packagesToBump: packages,
+    packagesToPublish: packages,
+  },
   mergeStrategy: {
     toSameBranch: ['next'],
   },
   publishCommand({ tag }) {
     return `yarn publish --access public --tag ${tag}`;
   },
-  versionUpdated({ version, dir }) {
-    // Bump the string version in the version file
-    const versionPath = path.resolve(dir, 'src/version.ts');
-    fs.writeFileSync(versionPath, `export const version = '${version}';\n`);
+  versionUpdated({ version, exec }) {
+    const update = ({ package, deps }) => {
+      /*
+        With caret(^), the dependencies need to be quoted, like the following:
+        > yarn workspace abc add "def@^1.0.0" "ghi@^1.0.0"
+      */
+      const depsWithVersion = deps.map(dep => `"${dep}@^${version}"`).join(' ');
+      exec(`yarn workspace ${package} add ${depsWithVersion}`);
+    };
+
+    // Ship.js read json and write like fs.writeFileSync(JSON.stringify(json, null, 2));
+    // It causes a lint error with lerna.json file.
+    exec('eslint lerna.json --fix');
+
+    update({
+      package: '@francoischalifour/autocomplete-react',
+      deps: [
+        '@francoischalifour/autocomplete-core',
+        '@francoischalifour/autocomplete-preset-algolia',
+      ],
+    });
   },
-  // @TODO: this will be possible once this is addressed:
-  // https://github.com/algolia/shipjs/issues/604
-  // afterPublish({ exec, dir }) {
-  //   // Update the Autocomplete.js version in the examples
-  //   const examplePath = path.resolve(dir, 'examples/autocomplete.js');
-  //   const { version } = require('./package.json');
-
-  //   // eslint-disable-next-line no-console
-  //   console.log('Updating Autocomplete.js dependency in examples...');
-
-  //   exec(
-  //     `cd ${examplePath} && yarn upgrade @francoischalifour/autocomplete.js@${version}`
-  //   );
-  //   exec('git add examples');
-  //   exec('git commit -m "chore(examples): update autocomplete.js dependency"');
-  //   exec('git push origin next');
-  // },
+  // skip preparation if it contains only `chore` commits
+  shouldPrepare: ({ releaseType, commitNumbersPerType }) => {
+    const { fix = 0 } = commitNumbersPerType;
+    if (releaseType === 'patch' && fix === 0) {
+      return false;
+    }
+    return true;
+  },
 };
