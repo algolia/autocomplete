@@ -28,6 +28,7 @@ module.exports = {
     '@typescript-eslint/camelcase': ['error', { allow: ['__autocomplete_id'] }],
     // Useful to call functions like `nodeItem?.scrollIntoView()`.
     'no-unused-expressions': 0,
+    complexity: 0,
   },
   overrides: [
     {

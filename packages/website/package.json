@@ -12,6 +12,7 @@
     "@docusaurus/core": "2.0.0-alpha.43",
     "@docusaurus/preset-classic": "2.0.0-alpha.43",
     "classnames": "2.2.6",
+    "docsearch-react": "1.0.0-alpha.10",
     "react": "16.13.0",
     "react-dom": "16.13.0"
   },

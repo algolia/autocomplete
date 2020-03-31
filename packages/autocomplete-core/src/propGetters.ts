@@ -39,7 +39,10 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
       // This ensures a working experience on mobile because we blur the input
       // on touch devices when the user starts scrolling (`touchmove`).
       onTouchStart(event) {
-        if (store.getState().isOpen === false) {
+        if (
+          store.getState().isOpen === false ||
+          event.target === getterProps.inputElement
+        ) {
           return;
         }
 
@@ -65,10 +68,12 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
       // mimic the native platform behavior where the input is blurred to
       // hide the virtual keyboard. This gives more vertical space to
       // discover all the suggestions showing up in the dropdown.
-      onTouchMove() {
+      onTouchMove(event: TouchEvent) {
         if (
           store.getState().isOpen === false ||
-          getterProps.inputElement !== props.environment.document.activeElement
+          getterProps.inputElement !==
+            props.environment.document.activeElement ||
+          event.target === getterProps.inputElement
         ) {
           return;
         }

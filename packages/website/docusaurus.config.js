@@ -87,6 +87,10 @@ module.exports = {
       ],
       copyright: `Copyright © ${new Date().getFullYear()} • Designed and built by Algolia`,
     },
+    algolia: {
+      indexName: 'autocomplete',
+      apiKey: 'a5c3ccfd361b8bcb9708e679c43ae0e5',
+    },
   },
   presets: [
     [

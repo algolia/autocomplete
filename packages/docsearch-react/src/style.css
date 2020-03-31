@@ -1,0 +1,543 @@
+/* Variables */
+
+/* primary
+secondary
+bg
+bg light
+bg dark
+text default
+text muted
+spacing
+font size */
+
+:root {
+  --docsearch-input-color: var(--ifm-color-emphasis-800);
+  --docsearch-highlight-color: var(--ifm-color-primary);
+  --docsearch-placeholder-color: rgb(150, 155, 175);
+  --docsearch-container-background: rgb(60, 65, 85, 0.8);
+  --docsearch-modal-background: var(--ifm-color-emphasis-100);
+  --docsearch-modal-shadow: inset 1px 1px 0px 0px rgba(255, 255, 255, 0.5),
+    0px 3px 8px 0px rgba(85, 90, 100, 1);
+  --docsearch-searchbox-background: rgb(210, 215, 225);
+  --docsearch-searchbox-active-background: rgb(195, 200, 220);
+  --docsearch-searchbox-shadow: inset 1px 2px 6px 0px rgb(190, 195, 215),
+    inset 0px 1px 1px 0px rgb(134, 146, 221), 1px 1px 0px 0px white;
+  --docsearch-hit-color: var(--ifm-color-emphasis-800);
+  --docsearch-hit-active-color: white;
+  --docsearch-hit-background: white;
+  --docsearch-hit-shadow: 0px 2px 6px 0px rgb(212, 217, 225);
+  --docsearch-key-gradient: linear-gradient(
+    -225deg,
+    rgb(213, 219, 228) 0%,
+    rgb(248, 248, 248) 100%
+  );
+  --docsearch-key-shadow: inset 0px -2px 0px 0px rgb(205, 205, 230),
+    inset 0px 0px 1px 1px white, 0px 1px 2px 1px rgba(30, 35, 90, 0.4);
+  --docsearch-footer-background: white;
+  --docsearch-footer-shadow: 0px -5px 7px 0px rgba(69, 98, 155, 0.12);
+  --docsearch-logo-color: #5468ff;
+  --docsearch-muted-color: rgb(190, 195, 215);
+  --docsearch-modal-width: 560px;
+  --docsearch-modal-height: 600px;
+  --docsearch-searchbox-height: 56px;
+  --docsearch-hit-height: 56px;
+  --docsearch-footer-height: 44px;
+  --docsearch-spacing: 12px;
+}
+
+/* Darkmode */
+
+html[data-theme='dark'] {
+  --docsearch-container-background: rgba(9, 10, 17, 0.8);
+  --docsearch-modal-background: rgb(21, 23, 42);
+  --docsearch-modal-shadow: inset 1px 1px 0px 0px rgb(44, 46, 64),
+    0px 3px 8px 0px rgb(0, 3, 9);
+  --docsearch-searchbox-background: rgb(9, 10, 17);
+  --docsearch-searchbox-shadow: inset 0px 0px 0 2px var(--ifm-color-primary);
+  --docsearch-searchbox-active-background: rgb(9, 10, 17);
+  --docsearch-hit-color: var(--ifm-color-emphasis-500);
+  --docsearch-hit-shadow: none;
+  --docsearch-hit-background: rgb(9, 10, 17);
+  --docsearch-key-gradient: linear-gradient(
+    -26.56505117707799deg,
+    rgb(86, 88, 114) 0%,
+    rgb(49, 53, 91) 100%
+  );
+  --docsearch-key-shadow: inset 0px -2px 0px 0px rgb(40, 45, 85),
+    inset 0px 0px 1px 1px rgb(81, 87, 125), 0px 2px 2px 0px rgb(3, 4, 9);
+  --docsearch-footer-background: rgb(30, 33, 54);
+  --docsearch-footer-shadow: inset 0px 1px 0px 0px rgba(73, 76, 106, 0.52),
+    0px -4px 8px 0px rgba(0, 0, 0, 0.34);
+  --docsearch-logo-color: #fff;
+  --docsearch-muted-color: rgb(100, 105, 125);
+}
+
+.DocSearch--active .main-wrapper {
+  filter: blur(2px);
+}
+
+/* Search Button */
+
+.DocSearch-SearchButton {
+  display: flex;
+  height: 40px;
+  margin: 0 0 0 20px;
+  padding: 0 12px;
+  margin-left: 2em;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  align-items: center;
+  background: var(--docsearch-searchbox-background);
+  color: var(--ifm-color-emphasis-900);
+  transition: background-color 0.4s ease-out, box-shadow 0.4s ease-out;
+}
+
+.DocSearch-SearchButton:hover,
+.DocSearch-SearchButton:active,
+.DocSearch-SearchButton:focus {
+  outline: none;
+  box-shadow: var(--docsearch-searchbox-shadow);
+  background: var(--docsearch-searchbox-active-background);
+}
+
+.DocSearch-SearchButton-Icon {
+  color: var(--docsearch-highlight-color);
+}
+
+.DocSearch-SearchButton-Placeholder {
+  margin: 0 8px;
+  font-size: 1rem;
+}
+
+.DocSearch-SearchButton-Key {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 18px;
+  margin-right: 0.4em;
+  padding-bottom: 2px;
+  border-radius: 3px;
+  background: var(--docsearch-key-gradient);
+  box-shadow: var(--docsearch-key-shadow);
+  color: var(--ifm-color-emphasis-600);
+}
+
+/* Body modifier */
+
+.DocSearch--active {
+  /*
+   * We need to mark it as important because some websites override the
+   * `style` attribute (e.g. Docusaurus).
+   */
+  overflow: hidden !important;
+}
+
+/* Hide Docusaurus hamburger button when modal is opened */
+.DocSearch--active .menu__button {
+  display: none !important;
+}
+
+/* Container & Modal */
+
+.DocSearch-Container,
+.DocSearch-Container * {
+  box-sizing: border-box;
+}
+
+.DocSearch-Container {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: var(--docsearch-container-background);
+  animation: container 0.1s ease-in forwards;
+}
+
+@keyframes container {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.DocSearch-Container a {
+  text-decoration: none;
+}
+
+.DocSearch-Modal {
+  position: relative;
+  flex-direction: column;
+  max-width: var(--docsearch-modal-width);
+  margin: 60px auto auto auto;
+  border-radius: 6px;
+  background: var(--docsearch-modal-background);
+  box-shadow: var(--docsearch-modal-shadow);
+}
+
+/* Modal Searchbox */
+
+.DocSearch-SearchBar {
+  display: flex;
+  padding: var(--docsearch-spacing) var(--docsearch-spacing) 0;
+}
+
+.DocSearch-Form {
+  display: flex;
+  width: 100%;
+  position: relative;
+  height: var(--docsearch-searchbox-height);
+  padding: 0 var(--docsearch-spacing);
+  align-items: center;
+  border-radius: 4px;
+  background: var(--docsearch-searchbox-background);
+  box-shadow: var(--docsearch-searchbox-shadow);
+}
+
+.DocSearch-Input {
+  height: 100%;
+  flex: 1;
+  width: 80%;
+  padding-left: 8px;
+  font: inherit;
+  font-size: 1.2em;
+  appearance: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--docsearch-input-color);
+}
+
+.DocSearch-Input::placeholder {
+  color: var(--docsearch-placeholder-color);
+}
+
+.DocSearch-Input::-webkit-search-cancel-button,
+.DocSearch-Input::-webkit-search-decoration,
+.DocSearch-Input::-webkit-search-results-button,
+.DocSearch-Input::-webkit-search-results-decoration {
+  display: none;
+}
+
+.DocSearch-LoadingIndicator,
+.DocSearch-MagnifierLabel,
+.DocSearch-Reset {
+  height: 20px;
+  width: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.DocSearch-Container--Stalled .DocSearch-LoadingIndicator,
+.DocSearch-MagnifierLabel,
+.DocSearch-Reset {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.DocSearch-Container--Stalled .DocSearch-MagnifierLabel,
+.DocSearch-LoadingIndicator {
+  display: none;
+}
+
+.DocSearch-Reset {
+  appearance: none;
+  right: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+
+.DocSearch-Reset[hidden] {
+  display: none;
+}
+
+.DocSearch-Reset:focus {
+  outline: none;
+}
+
+.DocSearch-Reset svg {
+  height: 10px;
+  width: 10px;
+}
+
+.DocSearch-LoadingIndicator svg,
+.DocSearch-MagnifierLabel svg {
+  height: 24px;
+  width: 24px;
+}
+
+.DocSearch-MagnifierLabel {
+  color: var(--docsearch-highlight-color);
+}
+
+.DocSearch-Cancel {
+  display: none;
+}
+
+/* Modal Dropdown */
+
+.DocSearch-Dropdown {
+  height: calc(
+    var(--docsearch-modal-height) - var(--docsearch-searchbox-height) -
+      var(--docsearch-spacing) * 2 - var(--docsearch-footer-height)
+  );
+  padding: 0 var(--docsearch-spacing) var(--docsearch-hit-height);
+  margin-bottom: var(--docsearch-footer-height);
+  overflow-y: scroll;
+  letter-spacing: 0.02em;
+}
+
+.DocSearch-Dropdown ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.DocSearch-Dropdown-Container {
+  position: relative;
+}
+
+/* Modal Footer */
+
+.DocSearch-Footer {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  height: var(--docsearch-footer-height);
+  padding: 0 var(--docsearch-spacing);
+  flex-direction: row-reverse;
+  flex-shrink: 0;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0 0 8px 8px;
+  background: var(--docsearch-footer-background);
+  box-shadow: var(--docsearch-footer-shadow);
+  z-index: var(--ifm-z-index-fixed);
+}
+
+.DocSearch-Commands {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.DocSearch-Commands li:not(:last-of-type) {
+  margin-right: 0.8em;
+}
+
+.DocSearch-Commands {
+  display: flex;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.DocSearch-Commands li {
+  display: flex;
+  align-items: center;
+}
+
+.DocSearch-Commands-Key {
+  display: flex;
+  width: 20px;
+  height: 18px;
+  margin-right: 0.4em;
+  padding-bottom: 2px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  background: var(--docsearch-key-gradient);
+  box-shadow: var(--docsearch-key-shadow);
+}
+
+.DocSearch-Logo a {
+  display: flex;
+}
+
+.DocSearch-Logo svg {
+  margin-left: 8px;
+  color: var(--docsearch-logo-color);
+}
+
+.DocSearch-Label {
+  font-size: 0.75em;
+  line-height: 1.8em;
+  color: var(--docsearch-muted-color);
+}
+
+/* Hit */
+
+.DocSearch-Hits mark {
+  background: none;
+  color: var(--docsearch-highlight-color);
+}
+
+.DocSearch-Hit {
+  display: flex;
+  position: relative;
+  border-radius: 4px;
+  background: var(--docsearch-hit-background);
+  box-shadow: var(--docsearch-hit-shadow);
+  padding-left: var(--docsearch-spacing);
+  margin-bottom: 4px;
+}
+
+.DocSearch-Hit-source {
+  margin: 0 calc(var(--docsearch-spacing) * -1);
+  padding: 8px var(--docsearch-spacing) 0;
+  line-height: 32px;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--docsearch-highlight-color);
+  letter-spacing: 0;
+  position: sticky;
+  top: 0;
+  z-index: var(--ifm-z-index-fixed);
+  background: var(--docsearch-modal-background);
+}
+
+.DocSearch-Hit-Tree {
+  width: 24px;
+  height: var(--docsearch-hit-height);
+  margin-right: 4px;
+  color: var(--docsearch-muted-color);
+  opacity: 0.5;
+}
+
+.DocSearch-Hit[aria-selected='true'] {
+  /* transition: background-color ease 0.1s; */
+  background-color: var(--docsearch-highlight-color);
+}
+
+.DocSearch-Hit[aria-selected='true'] .DocSearch-Hit-title,
+.DocSearch-Hit[aria-selected='true'] mark,
+.DocSearch-Hit[aria-selected='true'] .DocSearch-Hit-text,
+.DocSearch-Hit[aria-selected='true'] .DocSearch-Hit-path,
+.DocSearch-Hit[aria-selected='true'] .DocSearch-Hit-icon,
+.DocSearch-Hit[aria-selected='true'] .DocSearch-Hit-action {
+  color: var(--docsearch-hit-active-color) !important;
+}
+
+.DocSearch-Hit a {
+  display: block;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.DocSearch-Hit[aria-selected='true'] mark {
+  text-decoration: underline;
+}
+
+.DocSearch-Hit-Container {
+  display: flex;
+  height: var(--docsearch-hit-height);
+  padding: 0 var(--docsearch-spacing) 0 0;
+  flex-direction: row;
+  align-items: center;
+  color: var(--docsearch-hit-color);
+}
+
+.DocSearch-Hit-icon,
+.DocSearch-Hit-action {
+  height: 20px;
+  width: 20px;
+  color: var(--docsearch-muted-color);
+}
+
+.DocSearch-Hit-content-wrapper {
+  position: relative;
+  display: flex;
+  width: 80%;
+  margin: 0 8px;
+  line-height: 1.1em;
+  flex: 1 0 auto;
+  font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.DocSearch-Hit-title {
+  font-size: 0.9em;
+}
+
+.DocSearch-Hit-path {
+  font-size: 0.7em;
+  color: var(--docsearch-muted-color);
+}
+
+/* No Results */
+
+.DocSearch-NoResults {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+  padding: var(--docsearch-spacing) 0;
+  margin-top: var(--docsearch-spacing);
+}
+
+/* Responsive */
+
+@media (max-width: 750px) {
+  :root {
+    /* quickfix https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser */
+    --docsearch-modal-height: calc(100vh - 110px);
+    --docsearch-spacing: 10px;
+    --docsearch-footer-height: 40px;
+  }
+  .DocSearch-SearchButton-KeySeparator,
+  .DocSearch-SearchButton-Key {
+    display: none;
+  }
+  .DocSearch-Modal {
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0 auto;
+  }
+  .DocSearch-Cancel {
+    display: inline-block;
+    width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-left: var(--docsearch-spacing);
+    padding: 0;
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    background: none;
+    flex: none;
+    font: inherit;
+    font-size: 1em;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--docsearch-highlight-color);
+    animation: cancel-button ease-out 0.2s forwards;
+  }
+
+  @keyframes cancel-button {
+    100% {
+      width: 4em;
+    }
+  }
+
+  .DocSearch-Commands {
+    display: none;
+  }
+  .DocSearch-Hit {
+    letter-spacing: 0;
+  }
+}
+
+/* todo: hide keyboard shortcut on smartphones, touchscreens device - cross browser limitation with media q, maybe js is better https://codepen.io/Ferie/pen/vQOMmO?editors=1010 */
+@media (hover: none) and (pointer: coarse) {
+  /* ... */
+}

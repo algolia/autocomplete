@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 55.2 (78181) - https://sketchapp.com -->
+    <title>ee397e5b-5117-4da7-bdc8-0d42da41349d@1.00x</title>
+    <desc>Created with sketchtool.</desc>
+    <g id="autocomplete" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="icon/source/recent" stroke="#D4D9E1" stroke-width="2">
+            <g id="Group" transform="translate(0.096664, 2.499066)">
+                <path d="M3.08304498,4.09716157 C3.43350031,3.49361228 3.86713807,2.92510915 4.38395826,2.40828896 C7.59501021,-0.802762985 12.801154,-0.802762985 16.012206,2.40828896 C19.2232579,5.6193409 19.2232579,10.8254847 16.012206,14.0365367 L16.012206,14.0365367 C13.3386797,16.7100629 9.28210578,17.1576076 6.14553896,15.3791705 C5.51491669,15.021607 4.92148395,14.5740624 4.38395826,14.0365367" id="Path"></path>
+                <polyline id="Path-3" transform="translate(3.428951, 3.774856) rotate(-45.000000) translate(-3.428951, -3.774856) " points="4.80253786 6.52203073 2.05536332 3.77485619 4.80253786 1.02768166"></polyline>
+                <path d="M10.3565991,3.50093368 L10.3565991,9.09953008" id="Line-3"></path>
+                <path d="M10.3565991,9.10586193 L12.9033365,10.5009337" id="Line"></path>
+            </g>
+        </g>
+    </g>
+</svg>
