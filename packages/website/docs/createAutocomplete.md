@@ -7,24 +7,33 @@ This function returns the methods to create an autocomplete experience.
 # Example
 
 ```js
-const items = [
-  { value: 'Apple', count: 120 },
-  { value: 'Banana', count: 100 },
-  { value: 'Cherry', count: 50 },
-  { value: 'Orange', count: 150 },
-];
+import algoliasearch from 'algoliasearch/lite';
+import { createAutocomplete } from '@francoischalifour/autocomplete-core';
+import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
+
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
 
 const autocomplete = createAutocomplete({
   getSources() {
     return [
       {
+        getInputValue: ({ suggestion }) => suggestion.query,
         getSuggestions({ query }) {
-          return items.filter(item =>
-            item.value.toLocaleLowerCase().includes(query.toLocaleLowerCase())
-          );
-        },
-        getInputValue({ suggestion }) {
-          return suggestion.value;
+          return getAlgoliaHits({
+            searchClient,
+            queries: [
+              {
+                indexName: 'instant_search_demo_query_suggestions',
+                query,
+                params: {
+                  hitsPerPage: 4,
+                },
+              },
+            ],
+          });
         },
       },
     ];
@@ -38,7 +47,7 @@ const autocomplete = createAutocomplete({
 
 ### `getSources`
 
-The sources to get the suggestions from.
+The [sources](sources) to get the suggestions from.
 
 ## Optional props
 

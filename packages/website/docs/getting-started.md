@@ -21,17 +21,17 @@ Autocomplete is a JavaScript library for **building autocomplete search experien
 Autocomplete is available on the [npm](https://www.npmjs.com/) registry.
 
 ```sh
-yarn add @francoischalifour/autocomplete.js@alpha
+yarn add @francoischalifour/autocomplete-core@alpha
 # or
-npm install @francoischalifour/autocomplete.js@alpha
+npm install @francoischalifour/autocomplete-core@alpha
 ```
 
 If you do not wish to use a package manager, you can use standalone endpoints:
 
 ```html
 <!-- jsDelivr -->
-<script src="https://cdn.jsdelivr.net/npm/@francoischalifour/autocomplete.js@alpha"></script>
+<script src="https://cdn.jsdelivr.net/npm/@francoischalifour/autocomplete-core@alpha"></script>
 
 <!-- unpkg -->
-<script src="https://unpkg.com/@francoischalifour/autocomplete.js@alpha"></script>
+<script src="https://unpkg.com/@francoischalifour/autocomplete-core@alpha"></script>
 ```

@@ -83,7 +83,7 @@ The status of the experience.
 
 The autocomplete context passed to lifecycle hooks.
 
-Lean more on the [Context](context) page.
+Learn more on the [Context](context) page.
 
 ## Setters
 
@@ -129,4 +129,4 @@ Sets the suggestions of the experience.
 
 Sets the context passed in the lifecycle hooks.
 
-Lean more on the [Context](context) page.
+Learn more on the [Context](context) page.
