@@ -8,10 +8,8 @@
   --docsearch-modal-background: var(--ifm-color-emphasis-100);
   --docsearch-modal-shadow: inset 1px 1px 0px 0px rgba(255, 255, 255, 0.5),
     0px 3px 8px 0px rgba(85, 90, 100, 1);
-  --docsearch-searchbox-background: rgb(210, 215, 225);
-  --docsearch-searchbox-active-background: rgb(195, 200, 220);
-  --docsearch-searchbox-shadow: inset 1px 2px 6px 0px rgb(190, 195, 215),
-    inset 0px 1px 1px 0px rgb(134, 146, 221), 1px 1px 0px 0px white;
+  --docsearch-searchbox-background: var(--ifm-color-emphasis-300);
+  --docsearch-searchbox-shadow: inset 0px 0px 0px 2px var(--ifm-color-primary);
   --docsearch-hit-color: var(--ifm-color-emphasis-800);
   --docsearch-hit-active-color: white;
   --docsearch-hit-background: white;
@@ -26,7 +24,7 @@
   --docsearch-footer-background: white;
   --docsearch-footer-shadow: 0px -5px 7px 0px rgba(69, 98, 155, 0.12);
   --docsearch-logo-color: #5468ff;
-  --docsearch-muted-color: rgb(190, 195, 215);
+  --docsearch-muted-color: rgb(150, 159, 175);
   --docsearch-modal-width: 560px;
   --docsearch-modal-height: 600px;
   --docsearch-searchbox-height: 56px;
@@ -43,8 +41,6 @@ html[data-theme='dark'] {
   --docsearch-modal-shadow: inset 1px 1px 0px 0px rgb(44, 46, 64),
     0px 3px 8px 0px rgb(0, 3, 9);
   --docsearch-searchbox-background: rgb(9, 10, 17);
-  --docsearch-searchbox-shadow: inset 0px 0px 0 2px var(--ifm-color-primary);
-  --docsearch-searchbox-active-background: rgb(9, 10, 17);
   --docsearch-hit-color: var(--ifm-color-emphasis-500);
   --docsearch-hit-shadow: none;
   --docsearch-hit-background: rgb(9, 10, 17);
@@ -59,7 +55,7 @@ html[data-theme='dark'] {
   --docsearch-footer-shadow: inset 0px 1px 0px 0px rgba(73, 76, 106, 0.52),
     0px -4px 8px 0px rgba(0, 0, 0, 0.34);
   --docsearch-logo-color: #fff;
-  --docsearch-muted-color: rgb(100, 105, 125);
+  --docsearch-muted-color: rgb(127, 132, 151);
 }
 
 .DocSearch--active .main-wrapper {
@@ -80,7 +76,7 @@ html[data-theme='dark'] {
   background: var(--docsearch-searchbox-background);
   color: var(--ifm-color-emphasis-900);
   font-weight: 500;
-  transition: background-color 0.4s ease-out, box-shadow 0.4s ease-out;
+  transition: box-shadow 0.4s ease-out;
 }
 
 .DocSearch-SearchButton:hover,
@@ -88,7 +84,6 @@ html[data-theme='dark'] {
 .DocSearch-SearchButton:focus {
   outline: none;
   box-shadow: var(--docsearch-searchbox-shadow);
-  background: var(--docsearch-searchbox-active-background);
 }
 
 .DocSearch-SearchButton-Icon {
@@ -253,6 +248,7 @@ html[data-theme='dark'] {
   border-radius: 50%;
   background: none;
   cursor: pointer;
+  color: var(--docsearch-icon);
 }
 
 .DocSearch-Reset[hidden] {
@@ -287,7 +283,7 @@ html[data-theme='dark'] {
 .DocSearch-Dropdown {
   height: calc(
     var(--docsearch-modal-height) - var(--docsearch-searchbox-height) -
-      var(--docsearch-spacing) * 2 - var(--docsearch-footer-height)
+      var(--docsearch-spacing) - var(--docsearch-footer-height)
   );
   padding: 0 var(--docsearch-spacing);
   overflow-y: scroll;
@@ -402,8 +398,8 @@ html[data-theme='dark'] {
   position: sticky;
   top: 0;
   z-index: var(--ifm-z-index-fixed);
-  margin: 0 calc(var(--docsearch-spacing) * -1);
-  padding: 8px var(--docsearch-spacing) 0;
+  margin: 0 calc(var(--docsearch-spacing) * -1 + 1px);
+  padding: 8px calc(var(--docsearch-spacing) - 1px) 0;
   line-height: 32px;
   font-size: 0.85em;
   font-weight: 600;
