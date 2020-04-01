@@ -41,28 +41,28 @@ export function Results(props: ResultsProps) {
                       source,
                     })}
                   >
-                    {item.__docsearch_parent && (
-                      <svg className="DocSearch-Hit-Tree">
-                        <g
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          fill="none"
-                          fillRule="evenodd"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          {item.__docsearch_parent !==
-                          items[index + 1]?.__docsearch_parent ? (
-                            <path d="M8 8v22M26.5 30H8.3" />
-                          ) : (
-                            <path d="M8 8v44M26.5 30H8.3" />
-                          )}
-                        </g>
-                      </svg>
-                    )}
-
                     <a href={item.url}>
+
                       <div className="DocSearch-Hit-Container">
+                      {item.__docsearch_parent && (
+                        <svg className="DocSearch-Hit-Tree">
+                          <g
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            fill="none"
+                            fillRule="evenodd"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            {item.__docsearch_parent !==
+                              items[index + 1]?.__docsearch_parent ? (
+                                <path d="M8 8v22M26.5 30H8.3" />
+                              ) : (
+                                <path d="M8 8v44M26.5 30H8.3" />
+                              )}
+                          </g>
+                        </svg>
+                      )}
                         <div className="DocSearch-Hit-icon">
                           <SourceIcon type={item.type} />
                         </div>

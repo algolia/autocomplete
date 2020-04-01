@@ -1,15 +1,5 @@
 /* Variables */
 
-/* primary
-secondary
-bg
-bg light
-bg dark
-text default
-text muted
-spacing
-font size */
-
 :root {
   --docsearch-input-color: var(--ifm-color-emphasis-800);
   --docsearch-highlight-color: var(--ifm-color-primary);
@@ -81,15 +71,15 @@ html[data-theme='dark'] {
 .DocSearch-SearchButton {
   display: flex;
   height: 40px;
-  margin: 0 0 0 20px;
+  margin: 0 0 0 16px;
   padding: 0 12px;
-  margin-left: 2em;
   border: none;
   border-radius: 20px;
   cursor: pointer;
   align-items: center;
   background: var(--docsearch-searchbox-background);
   color: var(--ifm-color-emphasis-900);
+  font-weight: 500;
   transition: background-color 0.4s ease-out, box-shadow 0.4s ease-out;
 }
 
@@ -299,10 +289,8 @@ html[data-theme='dark'] {
     var(--docsearch-modal-height) - var(--docsearch-searchbox-height) -
       var(--docsearch-spacing) * 2 - var(--docsearch-footer-height)
   );
-  padding: 0 var(--docsearch-spacing) var(--docsearch-hit-height);
-  margin-bottom: var(--docsearch-footer-height);
+  padding: 0 var(--docsearch-spacing);
   overflow-y: scroll;
-  letter-spacing: 0.02em;
 }
 
 .DocSearch-Dropdown ul {
@@ -318,12 +306,12 @@ html[data-theme='dark'] {
 /* Modal Footer */
 
 .DocSearch-Footer {
-  position: absolute;
-  bottom: 0;
+  position: relative;
   display: flex;
   width: 100%;
   height: var(--docsearch-footer-height);
   padding: 0 var(--docsearch-spacing);
+  z-index: 300;
   flex-direction: row-reverse;
   flex-shrink: 0;
   justify-content: space-between;
@@ -331,7 +319,6 @@ html[data-theme='dark'] {
   border-radius: 0 0 8px 8px;
   background: var(--docsearch-footer-background);
   box-shadow: var(--docsearch-footer-shadow);
-  z-index: var(--ifm-z-index-fixed);
 }
 
 .DocSearch-Commands {
@@ -379,11 +366,15 @@ html[data-theme='dark'] {
 
 .DocSearch-Label {
   font-size: 0.75em;
-  line-height: 1.8em;
+  line-height: 1.6em;
   color: var(--docsearch-muted-color);
 }
 
 /* Hit */
+
+.DocSearch-Hits:last-of-type{
+  margin-bottom: 40px;
+ }
 
 .DocSearch-Hits mark {
   background: none;
@@ -394,36 +385,40 @@ html[data-theme='dark'] {
   display: flex;
   position: relative;
   border-radius: 4px;
+  padding-bottom: 4px;
+}
+
+.DocSearch-Hit a {
+  display: block;
+  border-radius: 4px;
+  width: 100%;
+  padding-left: var(--docsearch-spacing);
   background: var(--docsearch-hit-background);
   box-shadow: var(--docsearch-hit-shadow);
-  padding-left: var(--docsearch-spacing);
-  margin-bottom: 4px;
+  transition: background-color ease 0.1s;
 }
 
 .DocSearch-Hit-source {
+  position: sticky;
+  top: 0;
+  z-index: var(--ifm-z-index-fixed);
   margin: 0 calc(var(--docsearch-spacing) * -1);
   padding: 8px var(--docsearch-spacing) 0;
   line-height: 32px;
   font-size: 0.85em;
   font-weight: 600;
   color: var(--docsearch-highlight-color);
-  letter-spacing: 0;
-  position: sticky;
-  top: 0;
-  z-index: var(--ifm-z-index-fixed);
   background: var(--docsearch-modal-background);
 }
 
 .DocSearch-Hit-Tree {
   width: 24px;
   height: var(--docsearch-hit-height);
-  margin-right: 4px;
   color: var(--docsearch-muted-color);
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
-.DocSearch-Hit[aria-selected='true'] {
-  /* transition: background-color ease 0.1s; */
+.DocSearch-Hit[aria-selected='true'] a{
   background-color: var(--docsearch-highlight-color);
 }
 
@@ -434,12 +429,6 @@ html[data-theme='dark'] {
 .DocSearch-Hit[aria-selected='true'] .DocSearch-Hit-icon,
 .DocSearch-Hit[aria-selected='true'] .DocSearch-Hit-action {
   color: var(--docsearch-hit-active-color) !important;
-}
-
-.DocSearch-Hit a {
-  display: block;
-  border-radius: 4px;
-  width: 100%;
 }
 
 .DocSearch-Hit[aria-selected='true'] mark {
@@ -470,7 +459,7 @@ html[data-theme='dark'] {
   line-height: 1.1em;
   flex: 1 0 auto;
   font-weight: 500;
-  overflow: hidden;
+  overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   justify-content: center;
@@ -497,7 +486,6 @@ html[data-theme='dark'] {
 }
 
 /* Responsive */
-
 @media (max-width: 750px) {
   :root {
     /* quickfix https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser */
@@ -529,7 +517,6 @@ html[data-theme='dark'] {
     font: inherit;
     font-size: 1em;
     font-weight: 500;
-    letter-spacing: 0.02em;
     color: var(--docsearch-highlight-color);
     animation: cancel-button ease-out 0.2s forwards;
   }
@@ -543,8 +530,8 @@ html[data-theme='dark'] {
   .DocSearch-Commands {
     display: none;
   }
-  .DocSearch-Hit {
-    letter-spacing: 0;
+  .DocSearch-Hit-Tree {
+    display: none;
   }
 }
 
