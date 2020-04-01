@@ -14,7 +14,12 @@ export interface AutocompleteApi<
       TEvent,
       TMouseEvent,
       TKeyboardEvent
-    > {}
+    > {
+  /**
+   * Triggers a search to refresh the state.
+   */
+  refresh(): Promise<void>;
+}
 
 export interface AutocompleteSuggestion<TItem> {
   source: AutocompleteSource<TItem>;

@@ -14,6 +14,9 @@ interface DropdownProps {
   state: AutocompleteState<InternalDocSearchHit>;
   getMenuProps: GetMenuProps;
   getItemProps: GetItemProps<InternalDocSearchHit, React.MouseEvent>;
+  setQuery(value: string): void;
+  refresh(): Promise<void>;
+  inputRef: React.MutableRefObject<HTMLInputElement>;
 }
 
 export function Dropdown(props: DropdownProps) {
@@ -25,7 +28,14 @@ export function Dropdown(props: DropdownProps) {
     props.state.status === 'idle' &&
     props.state.suggestions.every(source => source.items.length === 0)
   ) {
-    return <NoResults query={props.state.query} />;
+    return (
+      <NoResults
+        setQuery={props.setQuery}
+        refresh={props.refresh}
+        state={props.state}
+        inputRef={props.inputRef}
+      />
+    );
   }
 
   return (

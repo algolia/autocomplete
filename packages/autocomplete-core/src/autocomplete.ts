@@ -5,6 +5,7 @@ import { getPropGetters } from './propGetters';
 import { getAutocompleteSetters } from './setters';
 
 import { PublicAutocompleteOptions, AutocompleteApi } from './types';
+import { onInput } from './onInput';
 
 function createAutocomplete<
   TItem extends {},
@@ -45,6 +46,20 @@ function createAutocomplete<
     setContext,
   });
 
+  function refresh() {
+    return onInput({
+      query: store.getState().query,
+      store,
+      props,
+      setHighlightedIndex,
+      setQuery,
+      setSuggestions,
+      setIsOpen,
+      setStatus,
+      setContext,
+    });
+  }
+
   return {
     setHighlightedIndex,
     setQuery,
@@ -60,6 +75,7 @@ function createAutocomplete<
     getDropdownProps,
     getMenuProps,
     getItemProps,
+    refresh,
   };
 }
 

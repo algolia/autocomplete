@@ -169,6 +169,17 @@ html[data-theme='dark'] {
   text-decoration: none;
 }
 
+.DocSearch-Link {
+  appearance: none;
+  background: none;
+  border: none;
+  color: var(--docsearch-highlight-color);
+  cursor: pointer;
+  font: inherit;
+  margin: 0;
+  padding: 0;
+}
+
 .DocSearch-Modal {
   position: relative;
   flex-direction: column;

@@ -51,6 +51,8 @@ export function DocSearch({
     getInputProps,
     getMenuProps,
     getItemProps,
+    setQuery,
+    refresh,
   } = React.useMemo(
     () =>
       createAutocomplete<
@@ -66,7 +68,7 @@ export function DocSearch({
         onStateChange({ state }) {
           setState(state as any);
         },
-        getSources({ query }) {
+        getSources({ query, state, setContext }) {
           return getAlgoliaHits({
             searchClient,
             queries: [
@@ -116,6 +118,14 @@ export function DocSearch({
               };
             });
             const sources = groupBy(formattedHits, hit => hit.hierarchy.lvl0);
+
+            // We store the `lvl0`s to display them as search suggestions
+            // in the “no results“ screen.
+            if (state.context.searchSuggestions === undefined) {
+              setContext({
+                searchSuggestions: Object.keys(sources),
+              });
+            }
 
             return Object.values<DocSearchHit[]>(sources).map(items => {
               return {
@@ -220,9 +230,12 @@ export function DocSearch({
 
         <div className="DocSearch-Dropdown" ref={dropdownRef}>
           <Dropdown
+            inputRef={inputRef}
             state={state}
             getMenuProps={getMenuProps}
             getItemProps={getItemProps}
+            setQuery={setQuery}
+            refresh={refresh}
           />
         </div>
 
