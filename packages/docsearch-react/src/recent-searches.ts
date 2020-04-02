@@ -23,7 +23,7 @@ function createStorage<TItem>() {
     };
   }
 
-  const STORAGE_KEY = '__AUTOCOMPLETE_RECENT_SEARCHES__';
+  const STORAGE_KEY = '__DOCSEARCH_RECENT_SEARCHES__';
 
   return {
     setItem(item: TItem[]) {
