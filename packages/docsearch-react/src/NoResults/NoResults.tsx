@@ -20,8 +20,8 @@ interface NoResultsProps
 export function NoResults(props: NoResultsProps) {
   return (
     <div className="DocSearch-NoResults">
-      <p className="Docsearch-Hit-title">
-        No results for “{props.state.query}“.
+      <p className="DocSearch-Title">
+        No results for "<strong>{props.state.query}</strong>".
       </p>
 
       <p>
@@ -32,7 +32,6 @@ export function NoResults(props: NoResultsProps) {
             (acc, search) => [
               ...acc,
               acc.length > 0 ? ', ' : '',
-              '“',
               <button
                 className="DocSearch-Link"
                 key={search}
@@ -44,15 +43,14 @@ export function NoResults(props: NoResultsProps) {
               >
                 {search}
               </button>,
-              '“',
             ],
             []
           )}
-        .
+        &nbsp;...
       </p>
 
-      <p className="DocSearch-Label">
-        If you believe this query should return results, please{' '}
+      <p className="DocSearch-Help">
+        If you believe this query should return results,<br/>please{' '}
         <a
           href="https://github.com/algolia/docsearch-configs/issues/new?template=Missing_results.md"
           target="_blank"

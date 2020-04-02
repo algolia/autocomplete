@@ -6,6 +6,8 @@ import {
 
 import { RecentDocSearchHit } from '../types';
 
+import { ResetIcon } from '../SearchBox/ResetIcon';
+
 interface EmptyScreenProps
   extends AutocompleteApi<
   RecentDocSearchHit,
@@ -22,8 +24,8 @@ interface EmptyScreenProps
 export function EmptyScreen(props: EmptyScreenProps) {
   if (props.state.status === 'idle' && props.hasSuggestions === false) {
     return (
-      <div>
-        <p>Select results and your history will appear here.</p>
+      <div className="DocSearch-EmptyScreen">
+        <p className="DocSearch-Help">Your search history will appear here.</p>
       </div>
     );
   }
@@ -117,9 +119,7 @@ export function EmptyScreen(props: EmptyScreenProps) {
                               props.onAction(item);
                             }}
                           >
-                            <svg width="20" height="20">
-
-                            </svg>
+                            <ResetIcon />
                           </button>
                         </div>
                       </div>
