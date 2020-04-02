@@ -60,7 +60,6 @@ export function Results(props: ResultsProps) {
                           <svg className="DocSearch-Hit-Tree">
                             <g
                               stroke="currentColor"
-                              strokeWidth="2"
                               fill="none"
                               fillRule="evenodd"
                               strokeLinecap="round"

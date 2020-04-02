@@ -5,14 +5,13 @@ export function SelectIcon() {
     <svg width="20" height="20">
       <g
         stroke="currentColor"
-        strokeWidth="2"
         fill="none"
         fillRule="evenodd"
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <path d="M16 2v5c0 2-1 4-4 4H4" />
-        <path d="M8 16l-5-5 5-4" />
+        <path d="M18 3v4c0 2-2 4-4 4H2" />
+        <path d="M8 17l-6-6 6-6" />
       </g>
     </svg>
   );

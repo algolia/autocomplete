@@ -8,10 +8,10 @@ import { RecentDocSearchHit } from '../types';
 
 interface EmptyScreenProps
   extends AutocompleteApi<
-    RecentDocSearchHit,
-    React.FormEvent,
-    React.MouseEvent,
-    React.KeyboardEvent
+  RecentDocSearchHit,
+  React.FormEvent,
+  React.MouseEvent,
+  React.KeyboardEvent
   > {
   state: AutocompleteState<RecentDocSearchHit>;
   hasSuggestions: boolean;
@@ -52,10 +52,9 @@ export function EmptyScreen(props: EmptyScreenProps) {
                     <a href={item.url}>
                       <div className="DocSearch-Hit-Container">
                         <div className="DocSearch-Hit-icon">
-                          <svg width="20" height="20">
+                          <svg width="20" height="20" viewBox="0 0 20 20">
                             <g
                               stroke="currentColor"
-                              strokeWidth="2"
                               fill="none"
                               fillRule="evenodd"
                               strokeLinecap="round"
@@ -119,17 +118,7 @@ export function EmptyScreen(props: EmptyScreenProps) {
                             }}
                           >
                             <svg width="20" height="20">
-                              <g
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                              >
-                                <path
-                                  d="M10,10 L15.0853291,4.91467086 L10,10 L15.0853291,15.0853291 L10,10 Z M10,10 L4.91467086,4.91467086 L10,10 L4.91467086,15.0853291 L10,10 Z"
-                                  transform="translate(10.000000, 10.000000) rotate(-360.000000) translate(-10.000000, -10.000000) "
-                                ></path>
-                              </g>
+
                             </svg>
                           </button>
                         </div>

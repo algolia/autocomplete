@@ -4,7 +4,7 @@
   --docsearch-input-color: var(--ifm-color-emphasis-800);
   --docsearch-highlight-color: var(--ifm-color-primary);
   --docsearch-placeholder-color: rgb(150, 155, 175);
-  --docsearch-container-background: rgb(60, 65, 85, 0.8);
+  --docsearch-container-background: rgba(101, 108, 133, 0.8);
   --docsearch-modal-background: var(--ifm-color-emphasis-100);
   --docsearch-modal-shadow: inset 1px 1px 0px 0px rgba(255, 255, 255, 0.5),
     0px 3px 8px 0px rgba(85, 90, 100, 1);
@@ -31,6 +31,7 @@
   --docsearch-hit-height: 56px;
   --docsearch-footer-height: 44px;
   --docsearch-spacing: 12px;
+  --docsearch-icon-stroke-width: 1.6;
 }
 
 /* Darkmode */
@@ -86,12 +87,12 @@ html[data-theme='dark'] {
   box-shadow: var(--docsearch-searchbox-shadow);
 }
 
-.DocSearch-SearchButton-Icon {
-  color: var(--docsearch-highlight-color);
+.DocSearch-Search-Icon {
+  stroke-width: var(--docsearch-icon-stroke-width);
 }
 
 .DocSearch-SearchButton-Placeholder {
-  margin: 0 8px;
+  margin: 0 1em 0 .5em;
   font-size: 1rem;
 }
 
@@ -222,8 +223,6 @@ html[data-theme='dark'] {
 .DocSearch-LoadingIndicator,
 .DocSearch-MagnifierLabel,
 .DocSearch-Reset {
-  height: 20px;
-  width: 20px;
   margin: 0;
   padding: 0;
 }
@@ -248,7 +247,14 @@ html[data-theme='dark'] {
   border-radius: 50%;
   background: none;
   cursor: pointer;
+  stroke-width: var(--docsearch-icon-stroke-width);
   color: var(--docsearch-icon);
+  animation: reset-button .2s ease-in forwards;
+}
+
+@keyframes reset-button {
+  0% {opacity: 0}
+  100% { opacity: 1}
 }
 
 .DocSearch-Reset[hidden] {
@@ -259,15 +265,10 @@ html[data-theme='dark'] {
   outline: none;
 }
 
-.DocSearch-Reset svg {
-  height: 10px;
-  width: 10px;
-}
-
 .DocSearch-LoadingIndicator svg,
 .DocSearch-MagnifierLabel svg {
-  height: 24px;
-  width: 24px;
+  width:24px;
+  height:24px;
 }
 
 .DocSearch-MagnifierLabel {
@@ -445,6 +446,7 @@ html[data-theme='dark'] {
   height: 20px;
   width: 20px;
   color: var(--docsearch-muted-color);
+  stroke-width: var(--docsearch-icon-stroke-width);
 }
 
 .DocSearch-Hit-action-button {
@@ -524,6 +526,7 @@ html[data-theme='dark'] {
     font-weight: 500;
     color: var(--docsearch-highlight-color);
     animation: cancel-button ease-out 0.2s forwards;
+    outline: none;
   }
 
   @keyframes cancel-button {

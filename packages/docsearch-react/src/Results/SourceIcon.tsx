@@ -15,9 +15,8 @@ function LvlIcon() {
   return (
     <svg width="20" height="20">
       <path
-        d="M17 6h-4-1V1l5 5v11l-1 2H4l-1-1V2l1-1h8l5 5z"
+        d="M17 6v12c0 .52-.2 1-1 1H4c-.7 0-1-.33-1-1V2c0-.55.42-1 1-1h8l5 5h-4c-.59 0-1-.4-1-1V1l5 5z"
         stroke="currentColor"
-        strokeWidth="2"
         fill="none"
         fillRule="evenodd"
         strokeLinejoin="round"
@@ -32,7 +31,6 @@ function AnchorIcon() {
       <path
         d="M13 13h4-4V8H7v5h6v4-4H7V8H3h4V3v5h6V3v5h4-4v5zm-6 0v4-4H3h4z"
         stroke="currentColor"
-        strokeWidth="2"
         fill="none"
         fillRule="evenodd"
         strokeLinecap="round"
@@ -48,7 +46,6 @@ function ContentIcon() {
       <path
         d="M17 5H3h14zm0 5H3h14zm0 5H3h14z"
         stroke="currentColor"
-        strokeWidth="2"
         fill="none"
         fillRule="evenodd"
         strokeLinejoin="round"
