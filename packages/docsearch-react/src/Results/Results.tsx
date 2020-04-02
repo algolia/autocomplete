@@ -1,24 +1,34 @@
 import React from 'react';
 import {
-  GetMenuProps,
-  GetItemProps,
-  AutocompleteSuggestion,
+  AutocompleteApi,
+  AutocompleteState,
 } from '@francoischalifour/autocomplete-core';
 
+import { Snippet } from '../Snippet';
 import { SourceIcon } from './SourceIcon';
 import { SelectIcon } from './ActionIcon';
 import { InternalDocSearchHit } from '../types';
 
-interface ResultsProps {
-  suggestions: Array<AutocompleteSuggestion<InternalDocSearchHit>>;
-  getMenuProps: GetMenuProps;
-  getItemProps: GetItemProps<InternalDocSearchHit, React.MouseEvent>;
+interface ResultsProps
+  extends AutocompleteApi<
+    InternalDocSearchHit,
+    React.FormEvent,
+    React.MouseEvent,
+    React.KeyboardEvent
+  > {
+  state: AutocompleteState<InternalDocSearchHit>;
+  onItemClick(item: InternalDocSearchHit): void;
+  onAction(search: InternalDocSearchHit): void;
 }
 
 export function Results(props: ResultsProps) {
   return (
     <div className="DocSearch-Dropdown-Container">
-      {props.suggestions.map(({ source, items }) => {
+      {props.state.suggestions.map(({ source, items }) => {
+        if (items.length === 0) {
+          return null;
+        }
+
         const title = items[0].hierarchy.lvl0;
 
         return (
@@ -39,49 +49,49 @@ export function Results(props: ResultsProps) {
                     {...props.getItemProps({
                       item,
                       source,
+                      onClick() {
+                        props.onItemClick(item);
+                      },
                     })}
                   >
                     <a href={item.url}>
-
                       <div className="DocSearch-Hit-Container">
-                      {item.__docsearch_parent && (
-                        <svg className="DocSearch-Hit-Tree">
-                          <g
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            fill="none"
-                            fillRule="evenodd"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            {item.__docsearch_parent !==
+                        {item.__docsearch_parent && (
+                          <svg className="DocSearch-Hit-Tree">
+                            <g
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              fill="none"
+                              fillRule="evenodd"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              {item.__docsearch_parent !==
                               items[index + 1]?.__docsearch_parent ? (
                                 <path d="M8 8v22M26.5 30H8.3" />
                               ) : (
                                 <path d="M8 8v44M26.5 30H8.3" />
                               )}
-                          </g>
-                        </svg>
-                      )}
+                            </g>
+                          </svg>
+                        )}
+
                         <div className="DocSearch-Hit-icon">
                           <SourceIcon type={item.type} />
                         </div>
 
                         {item.hierarchy[item.type] && item.type === 'lvl1' && (
                           <div className="DocSearch-Hit-content-wrapper">
-                            <span
+                            <Snippet
                               className="DocSearch-Hit-title"
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  item._snippetResult.hierarchy.lvl1.value,
-                              }}
+                              hit={item}
+                              attribute="hierarchy.lvl1"
                             />
                             {item.content && (
-                              <span
+                              <Snippet
                                 className="DocSearch-Hit-path"
-                                dangerouslySetInnerHTML={{
-                                  __html: item._snippetResult.content.value,
-                                }}
+                                hit={item}
+                                attribute="content"
                               />
                             )}
                           </div>
@@ -94,38 +104,30 @@ export function Results(props: ResultsProps) {
                             item.type === 'lvl5' ||
                             item.type === 'lvl6') && (
                             <div className="DocSearch-Hit-content-wrapper">
-                              <span
+                              <Snippet
                                 className="DocSearch-Hit-title"
-                                dangerouslySetInnerHTML={{
-                                  __html:
-                                    item._snippetResult.hierarchy[item.type]
-                                      .value,
-                                }}
+                                hit={item}
+                                attribute={`hierarchy.${item.type}`}
                               />
-                              <span
+                              <Snippet
                                 className="DocSearch-Hit-path"
-                                dangerouslySetInnerHTML={{
-                                  __html:
-                                    item._snippetResult.hierarchy.lvl1.value,
-                                }}
+                                hit={item}
+                                attribute="hierarchy.lvl1"
                               />
                             </div>
                           )}
 
                         {item.type === 'content' && (
                           <div className="DocSearch-Hit-content-wrapper">
-                            <span
+                            <Snippet
                               className="DocSearch-Hit-title"
-                              dangerouslySetInnerHTML={{
-                                __html: item._snippetResult.content.value,
-                              }}
+                              hit={item}
+                              attribute="content"
                             />
-                            <span
+                            <Snippet
                               className="DocSearch-Hit-path"
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  item._snippetResult.hierarchy.lvl1.value,
-                              }}
+                              hit={item}
+                              attribute="hierarchy.lvl1"
                             />
                           </div>
                         )}

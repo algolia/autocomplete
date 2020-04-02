@@ -1,11 +1,20 @@
 import React from 'react';
-import { AutocompleteState } from '@francoischalifour/autocomplete-core';
+import {
+  AutocompleteApi,
+  AutocompleteState,
+} from '@francoischalifour/autocomplete-core';
 
-interface NoResultsProps {
-  state: AutocompleteState<any>;
-  setQuery(value: string): void;
-  refresh(): Promise<void>;
-  inputRef: React.MutableRefObject<HTMLInputElement>;
+import { InternalDocSearchHit } from '../types';
+
+interface NoResultsProps
+  extends AutocompleteApi<
+    InternalDocSearchHit,
+    React.FormEvent,
+    React.MouseEvent,
+    React.KeyboardEvent
+  > {
+  state: AutocompleteState<InternalDocSearchHit>;
+  inputRef: React.MutableRefObject<null | HTMLInputElement>;
 }
 
 export function NoResults(props: NoResultsProps) {
@@ -30,7 +39,7 @@ export function NoResults(props: NoResultsProps) {
                 onClick={() => {
                   props.setQuery(search.toLowerCase() + ' ');
                   props.refresh();
-                  props.inputRef.current.focus();
+                  props.inputRef.current!.focus();
                 }}
               >
                 {search}

@@ -1,48 +1,49 @@
 import React from 'react';
 import {
+  AutocompleteApi,
   AutocompleteState,
-  GetMenuProps,
-  GetItemProps,
 } from '@francoischalifour/autocomplete-core';
 
-import { InternalDocSearchHit } from '../types';
-import { Error } from '../Error';
-import { NoResults } from '../NoResults';
+import { InternalDocSearchHit, RecentDocSearchHit } from '../types';
+import { EmptyScreen } from '../EmptyScreen';
 import { Results } from '../Results';
+import { NoResults } from '../NoResults';
+import { Error } from '../Error';
 
-interface DropdownProps {
-  state: AutocompleteState<InternalDocSearchHit>;
-  getMenuProps: GetMenuProps;
-  getItemProps: GetItemProps<InternalDocSearchHit, React.MouseEvent>;
-  setQuery(value: string): void;
-  refresh(): Promise<void>;
-  inputRef: React.MutableRefObject<HTMLInputElement>;
+interface DropdownProps<TItem>
+  extends AutocompleteApi<
+    TItem,
+    React.FormEvent,
+    React.MouseEvent,
+    React.KeyboardEvent
+  > {
+  state: AutocompleteState<TItem>;
+  onItemClick(search: RecentDocSearchHit): void;
+  onAction(search: RecentDocSearchHit): void;
+  inputRef: React.MutableRefObject<null | HTMLInputElement>;
 }
 
-export function Dropdown(props: DropdownProps) {
+export function Dropdown(props: DropdownProps<InternalDocSearchHit>) {
   if (props.state.status === 'error') {
     return <Error />;
   }
 
-  if (
-    props.state.status === 'idle' &&
-    props.state.suggestions.every(source => source.items.length === 0)
-  ) {
+  const hasSuggestions = props.state.suggestions.some(
+    source => source.items.length > 0
+  );
+
+  if (!props.state.query) {
     return (
-      <NoResults
-        setQuery={props.setQuery}
-        refresh={props.refresh}
-        state={props.state}
-        inputRef={props.inputRef}
+      <EmptyScreen
+        {...(props as DropdownProps<any>)}
+        hasSuggestions={hasSuggestions}
       />
     );
   }
 
-  return (
-    <Results
-      suggestions={props.state.suggestions}
-      getMenuProps={props.getMenuProps}
-      getItemProps={props.getItemProps}
-    />
-  );
+  if (props.state.status === 'idle' && hasSuggestions === false) {
+    return <NoResults {...props} />;
+  }
+
+  return <Results {...props} />;
 }

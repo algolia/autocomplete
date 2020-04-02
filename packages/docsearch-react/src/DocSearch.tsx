@@ -5,11 +5,17 @@ import {
 } from '@francoischalifour/autocomplete-core';
 import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
 
-import { DocSearchHit, InternalDocSearchHit } from './types';
+import {
+  DocSearchHit,
+  InternalDocSearchHit,
+  RecentDocSearchHit,
+} from './types';
 import { createSearchClient, groupBy, noop } from './utils';
 import { SearchBox } from './SearchBox';
 import { Dropdown } from './Dropdown';
 import { Footer } from './Footer';
+
+import { createRecentSearches } from './recent-searches';
 
 interface DocSearchProps {
   appId?: string;
@@ -42,18 +48,9 @@ export function DocSearch({
     appId,
     apiKey,
   ]);
+  const recentSearches = useRef(createRecentSearches<RecentDocSearchHit>());
 
-  const {
-    getEnvironmentProps,
-    getRootProps,
-    getFormProps,
-    getLabelProps,
-    getInputProps,
-    getMenuProps,
-    getItemProps,
-    setQuery,
-    refresh,
-  } = React.useMemo(
+  const autocomplete = React.useMemo(
     () =>
       createAutocomplete<
         InternalDocSearchHit,
@@ -127,9 +124,27 @@ export function DocSearch({
               });
             }
 
+            if (!query) {
+              return [
+                {
+                  onSelect({ suggestion }) {
+                    recentSearches.current.saveSearch(suggestion);
+                    onClose();
+                  },
+                  getSuggestionUrl({ suggestion }) {
+                    return suggestion.url;
+                  },
+                  getSuggestions() {
+                    return recentSearches.current.getSearches();
+                  },
+                },
+              ];
+            }
+
             return Object.values<DocSearchHit[]>(sources).map(items => {
               return {
-                onSelect() {
+                onSelect({ suggestion }) {
+                  recentSearches.current.saveSearch(suggestion);
                   onClose();
                 },
                 getSuggestionUrl({ suggestion }) {
@@ -164,6 +179,8 @@ export function DocSearch({
       }),
     [indexName, searchParameters, searchClient, onClose]
   );
+
+  const { getEnvironmentProps, getRootProps } = autocomplete;
 
   useEffect(() => {
     const isMobileMediaQuery = window.matchMedia('(max-width: 750px)');
@@ -219,23 +236,26 @@ export function DocSearch({
       <div className="DocSearch-Modal">
         <header className="DocSearch-SearchBar" ref={searchBoxRef}>
           <SearchBox
-            inputRef={inputRef}
-            query={state.query}
-            getFormProps={getFormProps}
-            getLabelProps={getLabelProps}
-            getInputProps={getInputProps}
+            {...autocomplete}
+            state={state}
             onClose={onClose}
+            inputRef={inputRef}
           />
         </header>
 
         <div className="DocSearch-Dropdown" ref={dropdownRef}>
           <Dropdown
-            inputRef={inputRef}
+            {...autocomplete}
             state={state}
-            getMenuProps={getMenuProps}
-            getItemProps={getItemProps}
-            setQuery={setQuery}
-            refresh={refresh}
+            inputRef={inputRef}
+            onItemClick={item => {
+              recentSearches.current.saveSearch(item);
+              onClose();
+            }}
+            onAction={item => {
+              recentSearches.current.deleteSearch(item);
+              autocomplete.refresh();
+            }}
           />
         </div>
 

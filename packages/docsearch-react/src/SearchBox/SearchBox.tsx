@@ -1,24 +1,23 @@
 import React, { MutableRefObject } from 'react';
 import {
-  GetFormProps,
-  GetLabelProps,
-  GetInputProps,
+  AutocompleteApi,
+  AutocompleteState,
 } from '@francoischalifour/autocomplete-core';
 
+import { InternalDocSearchHit } from '../types';
 import { SearchIcon } from './SearchIcon';
 import { ResetIcon } from './ResetIcon';
 import { LoadingIcon } from './LoadingIcon';
 
-interface SearchBoxProps {
-  inputRef: MutableRefObject<HTMLInputElement | null>;
-  query: string;
-  getFormProps: GetFormProps<React.FormEvent>;
-  getLabelProps: GetLabelProps;
-  getInputProps: GetInputProps<
-    React.ChangeEvent,
+interface SearchBoxProps
+  extends AutocompleteApi<
+    InternalDocSearchHit,
+    React.FormEvent,
     React.MouseEvent,
     React.KeyboardEvent
-  >;
+  > {
+  state: AutocompleteState<InternalDocSearchHit>;
+  inputRef: MutableRefObject<HTMLInputElement | null>;
   onClose(): void;
 }
 
@@ -59,7 +58,7 @@ export function SearchBox(props: SearchBoxProps) {
           type="reset"
           title="Clear the query"
           className="DocSearch-Reset"
-          hidden={!props.query}
+          hidden={!props.state.query}
           onClick={onReset}
         >
           <ResetIcon />

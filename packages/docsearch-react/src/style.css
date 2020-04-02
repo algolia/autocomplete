@@ -447,6 +447,15 @@ html[data-theme='dark'] {
   color: var(--docsearch-muted-color);
 }
 
+.DocSearch-Hit-action-button {
+  appearance: none;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
 .DocSearch-Hit-content-wrapper {
   position: relative;
   display: flex;
