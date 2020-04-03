@@ -8,7 +8,7 @@ import { InternalDocSearchHit } from './types';
 import { Results } from './Results';
 import { SourceIcon, SelectIcon } from './icons';
 
-interface ResultsProps
+interface ResultsScreenProps
   extends AutocompleteApi<
     InternalDocSearchHit,
     React.FormEvent,
@@ -19,7 +19,7 @@ interface ResultsProps
   onItemClick(item: InternalDocSearchHit): void;
 }
 
-export function ResultsScreen(props: ResultsProps) {
+export function ResultsScreen(props: ResultsScreenProps) {
   return (
     <div className="DocSearch-Dropdown-Container">
       {props.state.suggestions.map((suggestion, index) => {

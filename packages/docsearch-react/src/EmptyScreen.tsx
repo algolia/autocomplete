@@ -57,6 +57,7 @@ export function EmptyScreen(props: EmptyScreenProps) {
                   event.preventDefault();
                   event.stopPropagation();
                   props.favoriteSearches.add(item);
+                  props.recentSearches.remove(item);
                   props.refresh();
                 }}
               >
@@ -91,18 +92,20 @@ export function EmptyScreen(props: EmptyScreenProps) {
           </div>
         )}
         renderAction={({ item }) => (
-          <button
-            className="DocSearch-Hit-action-button"
-            title="Remove this search from favorite"
-            onClick={event => {
-              event.preventDefault();
-              event.stopPropagation();
-              props.favoriteSearches.remove(item);
-              props.refresh();
-            }}
-          >
-            <ResetIcon />
-          </button>
+          <div className="DocSearch-Hit-action">
+            <button
+              className="DocSearch-Hit-action-button"
+              title="Remove this search from favorite"
+              onClick={event => {
+                event.preventDefault();
+                event.stopPropagation();
+                props.favoriteSearches.remove(item);
+                props.refresh();
+              }}
+            >
+              <ResetIcon />
+            </button>
+          </div>
         )}
       />
     </div>

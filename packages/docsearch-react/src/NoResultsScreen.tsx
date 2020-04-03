@@ -6,7 +6,7 @@ import {
 
 import { InternalDocSearchHit } from './types';
 
-interface NoResultsProps
+interface NoResultsScreenProps
   extends AutocompleteApi<
     InternalDocSearchHit,
     React.FormEvent,
@@ -17,7 +17,7 @@ interface NoResultsProps
   inputRef: React.MutableRefObject<null | HTMLInputElement>;
 }
 
-export function NoResultsScreen(props: NoResultsProps) {
+export function NoResultsScreen(props: NoResultsScreenProps) {
   return (
     <div className="DocSearch-NoResults">
       <p className="DocSearch-Title">

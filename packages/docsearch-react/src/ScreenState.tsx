@@ -11,7 +11,7 @@ import { ResultsScreen } from './ResultsScreen';
 import { NoResultsScreen } from './NoResultsScreen';
 import { ErrorScreen } from './ErrorScreen';
 
-interface DropdownProps<TItem>
+interface ScreenStateProps<TItem>
   extends AutocompleteApi<
     TItem,
     React.FormEvent,
@@ -25,7 +25,7 @@ interface DropdownProps<TItem>
   inputRef: React.MutableRefObject<null | HTMLInputElement>;
 }
 
-export function ScreenState(props: DropdownProps<InternalDocSearchHit>) {
+export function ScreenState(props: ScreenStateProps<InternalDocSearchHit>) {
   if (props.state.status === 'error') {
     return <ErrorScreen />;
   }
@@ -37,7 +37,7 @@ export function ScreenState(props: DropdownProps<InternalDocSearchHit>) {
   if (!props.state.query) {
     return (
       <EmptyScreen
-        {...(props as DropdownProps<any>)}
+        {...(props as ScreenStateProps<any>)}
         hasSuggestions={hasSuggestions}
       />
     );
