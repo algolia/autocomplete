@@ -1,3 +1,3 @@
 export * from './DocSearchHit';
 export * from './InternalDocSearchHit';
-export * from './RecentDocSearchHit';
+export * from './StoredDocSearchHit';

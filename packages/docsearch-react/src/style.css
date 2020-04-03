@@ -460,6 +460,10 @@ html[data-theme='dark'] {
   stroke-width: var(--docsearch-icon-stroke-width);
 }
 
+.DocSearch-Hit-action + .DocSearch-Hit-action {
+  margin-left: 5px;
+}
+
 .DocSearch-Hit-action-button {
   appearance: none;
   background: none;

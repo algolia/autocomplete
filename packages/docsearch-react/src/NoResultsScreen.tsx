@@ -4,7 +4,7 @@ import {
   AutocompleteState,
 } from '@francoischalifour/autocomplete-core';
 
-import { InternalDocSearchHit } from '../types';
+import { InternalDocSearchHit } from './types';
 
 interface NoResultsProps
   extends AutocompleteApi<
@@ -17,7 +17,7 @@ interface NoResultsProps
   inputRef: React.MutableRefObject<null | HTMLInputElement>;
 }
 
-export function NoResults(props: NoResultsProps) {
+export function NoResultsScreen(props: NoResultsProps) {
   return (
     <div className="DocSearch-NoResults">
       <p className="DocSearch-Title">
@@ -50,7 +50,9 @@ export function NoResults(props: NoResultsProps) {
       </p>
 
       <p className="DocSearch-Help">
-        If you believe this query should return results,<br/>please{' '}
+        If you believe this query should return results,
+        <br />
+        please{' '}
         <a
           href="https://github.com/algolia/docsearch-configs/issues/new?template=Missing_results.md"
           target="_blank"

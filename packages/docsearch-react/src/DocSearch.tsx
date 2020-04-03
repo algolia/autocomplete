@@ -8,14 +8,14 @@ import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
 import {
   DocSearchHit,
   InternalDocSearchHit,
-  RecentDocSearchHit,
+  StoredDocSearchHit,
 } from './types';
 import { createSearchClient, groupBy, noop } from './utils';
 import { SearchBox } from './SearchBox';
-import { Dropdown } from './Dropdown';
+import { ScreenState } from './ScreenState';
 import { Footer } from './Footer';
 
-import { createRecentSearches } from './recent-searches';
+import { createStoredSearches } from './stored-searches';
 
 interface DocSearchProps {
   appId?: string;
@@ -48,7 +48,18 @@ export function DocSearch({
     appId,
     apiKey,
   ]);
-  const recentSearches = useRef(createRecentSearches<RecentDocSearchHit>());
+  const recentSearches = useRef(
+    createStoredSearches<StoredDocSearchHit>({
+      key: '__DOCSEARCH_RECENT_SEARCHES__',
+      limit: 5,
+    })
+  ).current;
+  const favoriteSearches = useRef(
+    createStoredSearches<StoredDocSearchHit>({
+      key: '__DOCSEARCH_FAVORITE_SEARCHES__',
+      limit: 10,
+    })
+  ).current;
 
   const autocomplete = React.useMemo(
     () =>
@@ -128,14 +139,26 @@ export function DocSearch({
               return [
                 {
                   onSelect({ suggestion }) {
-                    recentSearches.current.saveSearch(suggestion);
+                    recentSearches.add(suggestion);
                     onClose();
                   },
                   getSuggestionUrl({ suggestion }) {
                     return suggestion.url;
                   },
                   getSuggestions() {
-                    return recentSearches.current.getSearches();
+                    return recentSearches.getAll();
+                  },
+                },
+                {
+                  onSelect({ suggestion }) {
+                    recentSearches.add(suggestion);
+                    onClose();
+                  },
+                  getSuggestionUrl({ suggestion }) {
+                    return suggestion.url;
+                  },
+                  getSuggestions() {
+                    return favoriteSearches.getAll();
                   },
                 },
               ];
@@ -144,7 +167,7 @@ export function DocSearch({
             return Object.values<DocSearchHit[]>(sources).map(items => {
               return {
                 onSelect({ suggestion }) {
-                  recentSearches.current.saveSearch(suggestion);
+                  recentSearches.add(suggestion);
                   onClose();
                 },
                 getSuggestionUrl({ suggestion }) {
@@ -177,7 +200,14 @@ export function DocSearch({
           });
         },
       }),
-    [indexName, searchParameters, searchClient, onClose]
+    [
+      indexName,
+      searchParameters,
+      searchClient,
+      onClose,
+      recentSearches,
+      favoriteSearches,
+    ]
   );
 
   const { getEnvironmentProps, getRootProps } = autocomplete;
@@ -244,18 +274,16 @@ export function DocSearch({
         </header>
 
         <div className="DocSearch-Dropdown" ref={dropdownRef}>
-          <Dropdown
+          <ScreenState
             {...autocomplete}
             state={state}
-            inputRef={inputRef}
+            recentSearches={recentSearches}
+            favoriteSearches={favoriteSearches}
             onItemClick={item => {
-              recentSearches.current.saveSearch(item);
+              recentSearches.add(item);
               onClose();
             }}
-            onAction={item => {
-              recentSearches.current.deleteSearch(item);
-              autocomplete.refresh();
-            }}
+            inputRef={inputRef}
           />
         </div>
 

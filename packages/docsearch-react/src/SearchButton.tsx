@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { SearchIcon } from '../SearchBox/SearchIcon';
+
+import { SearchIcon } from './icons/SearchIcon';
 
 interface SearchButtonProps {
   onClick(): void;

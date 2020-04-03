@@ -1,6 +1,6 @@
 import { createElement } from 'react';
 
-import { InternalDocSearchHit } from './types';
+import { StoredDocSearchHit } from './types';
 
 function getPropertyByPath(object: object, path: string): any {
   const parts = path.split('.');
@@ -8,25 +8,25 @@ function getPropertyByPath(object: object, path: string): any {
   return parts.reduce((current, key) => current && current[key], object);
 }
 
-interface SnippetProps {
+interface SnippetProps<TItem> {
   [prop: string]: unknown;
-  hit: InternalDocSearchHit;
+  hit: TItem;
   attribute: string;
   tagName?: string;
 }
 
-export function Snippet({
+export function Snippet<TItem extends StoredDocSearchHit>({
   hit,
   attribute,
   tagName = 'span',
   ...rest
-}: SnippetProps) {
+}: SnippetProps<TItem>) {
   return createElement(tagName, {
     ...rest,
     dangerouslySetInnerHTML: {
       __html:
         getPropertyByPath(hit, `_snippetResult.${attribute}.value`) ||
-        hit[attribute],
+        getPropertyByPath(hit, attribute),
     },
   });
 }

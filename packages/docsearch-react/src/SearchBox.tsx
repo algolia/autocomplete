@@ -4,10 +4,10 @@ import {
   AutocompleteState,
 } from '@francoischalifour/autocomplete-core';
 
-import { InternalDocSearchHit } from '../types';
-import { SearchIcon } from './SearchIcon';
-import { ResetIcon } from './ResetIcon';
-import { LoadingIcon } from './LoadingIcon';
+import { InternalDocSearchHit } from './types';
+import { SearchIcon } from './icons/SearchIcon';
+import { ResetIcon } from './icons/ResetIcon';
+import { LoadingIcon } from './icons/LoadingIcon';
 
 interface SearchBoxProps
   extends AutocompleteApi<

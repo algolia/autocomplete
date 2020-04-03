@@ -1,4 +1,4 @@
-import { DocSearchHit, RecentDocSearchHit } from './types';
+import { DocSearchHit, StoredDocSearchHit } from './types';
 
 function isLocalStorageSupported() {
   const key = '__TEST_KEY__';
@@ -13,7 +13,7 @@ function isLocalStorageSupported() {
   }
 }
 
-function createStorage<TItem>() {
+function createStorage<TItem>(key: string) {
   if (isLocalStorageSupported() === false) {
     return {
       setItem() {},
@@ -23,57 +23,67 @@ function createStorage<TItem>() {
     };
   }
 
-  const STORAGE_KEY = '__DOCSEARCH_RECENT_SEARCHES__';
-
   return {
     setItem(item: TItem[]) {
-      return window.localStorage.setItem(STORAGE_KEY, JSON.stringify(item));
+      return window.localStorage.setItem(key, JSON.stringify(item));
     },
     getItem(): TItem[] {
-      const item = window.localStorage.getItem(STORAGE_KEY);
+      const item = window.localStorage.getItem(key);
 
       return item ? JSON.parse(item) : [];
     },
   };
 }
 
-export function createRecentSearches<TItem extends RecentDocSearchHit>() {
-  const storage = createStorage<TItem>();
+type CreateStoredSearchesOptions = {
+  key: string;
+  limit?: number;
+};
+
+export type StoredSearchPlugin<TItem> = {
+  add(item: TItem): void;
+  remove(item: TItem): void;
+  getAll(): TItem[];
+};
+
+export function createStoredSearches<TItem extends StoredDocSearchHit>({
+  key,
+  limit = 5,
+}: CreateStoredSearchesOptions): StoredSearchPlugin<TItem> {
+  const storage = createStorage<TItem>(key);
   let items = storage.getItem();
 
   return {
-    saveSearch(search: TItem) {
+    add(item: TItem) {
       const {
         _highlightResult,
         _snippetResult,
-        ...item
-      } = (search as unknown) as DocSearchHit;
+        ...hit
+      } = (item as unknown) as DocSearchHit;
 
-      if (item.type === 'content') {
-        return false;
+      if (hit.type === 'content') {
+        return;
       }
 
       const isQueryAlreadySaved = items.findIndex(
-        x => x.objectID === item.objectID
+        x => x.objectID === hit.objectID
       );
 
       if (isQueryAlreadySaved > -1) {
         items.splice(isQueryAlreadySaved, 1);
       }
 
-      items.unshift(item as TItem);
-      items = items.slice(0, 5);
+      items.unshift(hit as TItem);
+      items = items.slice(0, limit);
 
       storage.setItem(items);
-
-      return true;
     },
-    deleteSearch(item: TItem) {
+    remove(item: TItem) {
       items = items.filter(x => x.objectID !== item.objectID);
 
       storage.setItem(items);
     },
-    getSearches() {
+    getAll() {
       return items;
     },
   };
