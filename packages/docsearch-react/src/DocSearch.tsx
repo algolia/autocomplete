@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import {
   createAutocomplete,
   AutocompleteState,
@@ -39,39 +39,41 @@ export function DocSearch({
     suggestions: [],
   } as any);
 
-  const searchBoxRef = useRef<HTMLDivElement | null>(null);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const snipetLength = useRef<number>(10);
+  const searchBoxRef = React.useRef<HTMLDivElement | null>(null);
+  const dropdownRef = React.useRef<HTMLDivElement | null>(null);
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const snipetLength = React.useRef<number>(10);
 
   const searchClient = React.useMemo(() => createSearchClient(appId, apiKey), [
     appId,
     apiKey,
   ]);
-  const recentSearches = useRef(
-    createStoredSearches<StoredDocSearchHit>({
-      key: '__DOCSEARCH_RECENT_SEARCHES__',
-      limit: 5,
-    })
-  ).current;
-  const favoriteSearches = useRef(
+  const favoriteSearches = React.useRef(
     createStoredSearches<StoredDocSearchHit>({
       key: '__DOCSEARCH_FAVORITE_SEARCHES__',
       limit: 10,
     })
   ).current;
+  const recentSearches = React.useRef(
+    createStoredSearches<StoredDocSearchHit>({
+      key: '__DOCSEARCH_RECENT_SEARCHES__',
+      limit: 5,
+    })
+  ).current;
 
-  function saveRecentSearch(item: StoredDocSearchHit) {
-    // We save the recent search only if it's not favorited.
-    if (
-      favoriteSearches
-        .getAll()
-        .findIndex(search => search.objectID === item.objectID) === -1
-    ) {
-      console.log('SAVED SEARCH');
-      recentSearches.add(item);
-    }
-  }
+  const saveRecentSearch = React.useCallback(
+    function saveRecentSearch(item: StoredDocSearchHit) {
+      // We save the recent search only if it's not favorited.
+      if (
+        favoriteSearches
+          .getAll()
+          .findIndex(search => search.objectID === item.objectID) === -1
+      ) {
+        recentSearches.add(item);
+      }
+    },
+    [favoriteSearches, recentSearches]
+  );
 
   const autocomplete = React.useMemo(
     () =>
@@ -219,12 +221,13 @@ export function DocSearch({
       onClose,
       recentSearches,
       favoriteSearches,
+      saveRecentSearch,
     ]
   );
 
   const { getEnvironmentProps, getRootProps } = autocomplete;
 
-  useEffect(() => {
+  React.useEffect(() => {
     const isMobileMediaQuery = window.matchMedia('(max-width: 750px)');
 
     if (isMobileMediaQuery.matches) {
@@ -232,13 +235,13 @@ export function DocSearch({
     }
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (dropdownRef.current) {
       dropdownRef.current.scrollTop = 0;
     }
   }, [state.query]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!(searchBoxRef.current && dropdownRef.current && inputRef.current)) {
       return undefined;
     }

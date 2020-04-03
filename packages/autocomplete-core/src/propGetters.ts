@@ -286,7 +286,12 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
 
         store.send('mousemove', item.__autocomplete_id);
 
-        if (store.getState().highlightedIndex !== null) {
+        if (
+          store.getState().highlightedIndex !== null &&
+          store
+            .getState()
+            .suggestions.some(suggestion => suggestion.items.length > 0)
+        ) {
           const { item, itemValue, itemUrl, source } = getHighlightedItem({
             state: store.getState(),
           });
