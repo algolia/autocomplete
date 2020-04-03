@@ -61,6 +61,18 @@ export function DocSearch({
     })
   ).current;
 
+  function saveRecentSearch(item: StoredDocSearchHit) {
+    // We save the recent search only if it's not favorited.
+    if (
+      favoriteSearches
+        .getAll()
+        .findIndex(search => search.objectID === item.objectID) === -1
+    ) {
+      console.log('SAVED SEARCH');
+      recentSearches.add(item);
+    }
+  }
+
   const autocomplete = React.useMemo(
     () =>
       createAutocomplete<
@@ -139,7 +151,7 @@ export function DocSearch({
               return [
                 {
                   onSelect({ suggestion }) {
-                    recentSearches.add(suggestion);
+                    saveRecentSearch(suggestion);
                     onClose();
                   },
                   getSuggestionUrl({ suggestion }) {
@@ -151,7 +163,7 @@ export function DocSearch({
                 },
                 {
                   onSelect({ suggestion }) {
-                    recentSearches.add(suggestion);
+                    saveRecentSearch(suggestion);
                     onClose();
                   },
                   getSuggestionUrl({ suggestion }) {
@@ -167,7 +179,7 @@ export function DocSearch({
             return Object.values<DocSearchHit[]>(sources).map(items => {
               return {
                 onSelect({ suggestion }) {
-                  recentSearches.add(suggestion);
+                  saveRecentSearch(suggestion);
                   onClose();
                 },
                 getSuggestionUrl({ suggestion }) {
@@ -280,7 +292,7 @@ export function DocSearch({
             recentSearches={recentSearches}
             favoriteSearches={favoriteSearches}
             onItemClick={item => {
-              recentSearches.add(item);
+              saveRecentSearch(item);
               onClose();
             }}
             inputRef={inputRef}
