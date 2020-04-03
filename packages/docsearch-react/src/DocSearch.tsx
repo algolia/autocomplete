@@ -57,7 +57,9 @@ export function DocSearch({
   const recentSearches = React.useRef(
     createStoredSearches<StoredDocSearchHit>({
       key: '__DOCSEARCH_RECENT_SEARCHES__',
-      limit: 5,
+      // We display 7 recent searches and there's no favorites, but only
+      // 4 when there are favorites.
+      limit: favoriteSearches.getAll().length === 0 ? 7 : 4,
     })
   ).current;
 
