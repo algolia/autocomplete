@@ -2,7 +2,7 @@ import React from 'react';
 
 export function SelectIcon() {
   return (
-    <svg width="20" height="20">
+    <svg width="20" height="20" viewBox="0 0 20 20">
       <g
         stroke="currentColor"
         fill="none"

@@ -454,14 +454,28 @@ html[data-theme='dark'] {
 
 .DocSearch-Hit-icon,
 .DocSearch-Hit-action {
-  height: 20px;
-  width: 20px;
   color: var(--docsearch-muted-color);
   stroke-width: var(--docsearch-icon-stroke-width);
 }
 
+.DocSearch-Hit-icon {
+  height: 20px;
+  width: 20px;
+}
+
+.DocSearch-Hit-action {
+  height: 22px;
+  width: 22px;
+}
+
+.DocSearch-Hit-action svg{
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
 .DocSearch-Hit-action + .DocSearch-Hit-action {
-  margin-left: 5px;
+  margin-left: 6px;
 }
 
 .DocSearch-Hit-action-button {
@@ -469,8 +483,22 @@ html[data-theme='dark'] {
   background: none;
   color: inherit;
   border: none;
-  padding: 0;
+  padding: 2px;
   cursor: pointer;
+  border-radius: 50%;
+}
+
+.DocSearch-Hit-action-button:hover {
+  transition: background-color .1s ease-in;
+  background: rgba(0,0,0,0.2);
+}
+
+.DocSearch-Hit-action-button:active {
+  transform: scale(1.2);
+}
+
+.DocSearch-Hit-action-button:hover path{
+  fill: white;
 }
 
 .DocSearch-Hit-content-wrapper {
@@ -553,6 +581,7 @@ html[data-theme='dark'] {
   .DocSearch-Commands {
     display: none;
   }
+
   .DocSearch-Hit-Tree {
     display: none;
   }
