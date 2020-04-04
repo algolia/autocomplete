@@ -89,6 +89,12 @@ export function DocSearch({
         autoFocus: true,
         placeholder: 'Search docs...',
         openOnFocus: true,
+        initialState: {
+          query:
+            typeof window !== 'undefined'
+              ? window.getSelection()!.toString()
+              : '',
+        },
         onStateChange({ state }) {
           setState(state as any);
         },
