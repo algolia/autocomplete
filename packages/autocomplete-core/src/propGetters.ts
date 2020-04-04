@@ -170,7 +170,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     }
 
     const isTouchDevice = 'ontouchstart' in props.environment;
-    const { inputElement, ...rest } = providedProps;
+    const { inputElement, maxLength = 512, ...rest } = providedProps;
 
     return {
       'aria-autocomplete': props.showCompletion ? 'both' : 'list',
@@ -188,12 +188,11 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
       spellCheck: false,
       autoFocus: props.autoFocus,
       placeholder: props.placeholder,
-      // @TODO: see if this accessibility attribute is necessary
-      // 'aria-expanded': store.getStore().isOpen,
+      maxLength,
       onChange: event => {
         onInput({
           query: (((event as unknown) as Event)
-            .currentTarget as HTMLInputElement).value,
+            .currentTarget as HTMLInputElement).value.slice(0, maxLength),
           store,
           props,
           setHighlightedIndex,

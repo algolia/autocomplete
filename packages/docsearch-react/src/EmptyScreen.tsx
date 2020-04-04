@@ -95,7 +95,7 @@ export function EmptyScreen(props: EmptyScreenProps) {
           <div className="DocSearch-Hit-action">
             <button
               className="DocSearch-Hit-action-button"
-              title="Remove this search from favorite"
+              title="Remove this search from favorites"
               onClick={event => {
                 event.preventDefault();
                 event.stopPropagation();

@@ -63,6 +63,7 @@ export type GetLabelProps = (props?: {
 export type GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (props: {
   [key: string]: unknown;
   inputElement: HTMLInputElement;
+  maxLength?: number;
 }) => {
   id: string;
   value: string;
@@ -72,6 +73,7 @@ export type GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (props: {
   autoCorrect: 'on' | 'off';
   autoCapitalize: 'on' | 'off';
   spellCheck: boolean;
+  maxLength: number;
   'aria-autocomplete': 'none' | 'inline' | 'list' | 'both';
   'aria-activedescendant': string | undefined;
   'aria-controls': string | undefined;

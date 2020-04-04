@@ -5,17 +5,17 @@ import {
 } from '@francoischalifour/autocomplete-core';
 import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
 
+import { MAX_QUERY_SIZE } from './constants';
 import {
   DocSearchHit,
   InternalDocSearchHit,
   StoredDocSearchHit,
 } from './types';
 import { createSearchClient, groupBy, noop } from './utils';
+import { createStoredSearches } from './stored-searches';
 import { SearchBox } from './SearchBox';
 import { ScreenState } from './ScreenState';
 import { Footer } from './Footer';
-
-import { createStoredSearches } from './stored-searches';
 
 interface DocSearchProps {
   appId?: string;
@@ -44,7 +44,12 @@ export function DocSearch({
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const snipetLength = React.useRef<number>(10);
   const initialQuery = React.useRef(
-    typeof window !== 'undefined' ? window.getSelection()!.toString() : ''
+    typeof window !== 'undefined'
+      ? window
+          .getSelection()!
+          .toString()
+          .slice(0, MAX_QUERY_SIZE)
+      : ''
   ).current;
 
   const searchClient = React.useMemo(() => createSearchClient(appId, apiKey), [
@@ -234,7 +239,7 @@ export function DocSearch({
     ]
   );
 
-  const { getEnvironmentProps, getRootProps } = autocomplete;
+  const { getEnvironmentProps, getRootProps, refresh } = autocomplete;
 
   React.useEffect(() => {
     const isMobileMediaQuery = window.matchMedia('(max-width: 750px)');
@@ -249,6 +254,17 @@ export function DocSearch({
       dropdownRef.current.scrollTop = 0;
     }
   }, [state.query]);
+
+  // We don't focus the input when there's an initial query (i.e. Selection
+  // Search) because users rather want to see the results directly, without the
+  // keyboard appearing.
+  // We therefore need to refresh the autocomplete instance to load all the
+  // results, which is usually triggered on focus.
+  React.useEffect(() => {
+    if (initialQuery.length > 0) {
+      refresh();
+    }
+  }, [initialQuery, refresh]);
 
   React.useEffect(() => {
     if (!(searchBoxRef.current && dropdownRef.current && inputRef.current)) {
@@ -292,7 +308,7 @@ export function DocSearch({
           <SearchBox
             {...autocomplete}
             state={state}
-            initialQuery={initialQuery}
+            autoFocus={initialQuery.length === 0}
             onClose={onClose}
             inputRef={inputRef}
           />

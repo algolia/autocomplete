@@ -4,6 +4,7 @@ import {
   AutocompleteState,
 } from '@francoischalifour/autocomplete-core';
 
+import { MAX_QUERY_SIZE } from './constants';
 import { InternalDocSearchHit } from './types';
 import { SearchIcon } from './icons/SearchIcon';
 import { ResetIcon } from './icons/ResetIcon';
@@ -17,7 +18,7 @@ interface SearchBoxProps
     React.KeyboardEvent
   > {
   state: AutocompleteState<InternalDocSearchHit>;
-  initialQuery: string;
+  autoFocus: boolean;
   inputRef: MutableRefObject<HTMLInputElement | null>;
   onClose(): void;
 }
@@ -26,17 +27,6 @@ export function SearchBox(props: SearchBoxProps) {
   const { onSubmit, onReset } = props.getFormProps({
     inputElement: props.inputRef.current,
   });
-  const { initialQuery, refresh } = props;
-
-  // We don't focus the input when there's an initial query because users
-  // rather want to see the results directly. We therefore need to refresh
-  // the autocomplete instance to load all the results, which is usually
-  // triggered on focus.
-  React.useEffect(() => {
-    if (initialQuery.length > 0) {
-      refresh();
-    }
-  }, [initialQuery, refresh]);
 
   return (
     <>
@@ -60,10 +50,10 @@ export function SearchBox(props: SearchBoxProps) {
           className="DocSearch-Input"
           ref={props.inputRef}
           {...props.getInputProps({
-            autoFocus: props.initialQuery.length === 0,
+            autoFocus: props.autoFocus,
             inputElement: props.inputRef.current!,
             type: 'search',
-            maxLength: '512',
+            maxLength: MAX_QUERY_SIZE,
           })}
         />
 
