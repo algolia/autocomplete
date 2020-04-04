@@ -6,7 +6,7 @@ import {
 
 import { StoredSearchPlugin } from './stored-searches';
 import { InternalDocSearchHit, StoredDocSearchHit } from './types';
-import { EmptyScreen } from './EmptyScreen';
+import { StartScreen } from './StartScreen';
 import { ResultsScreen } from './ResultsScreen';
 import { NoResultsScreen } from './NoResultsScreen';
 import { ErrorScreen } from './ErrorScreen';
@@ -36,7 +36,7 @@ export function ScreenState(props: ScreenStateProps<InternalDocSearchHit>) {
 
   if (!props.state.query) {
     return (
-      <EmptyScreen
+      <StartScreen
         {...(props as ScreenStateProps<any>)}
         hasSuggestions={hasSuggestions}
       />

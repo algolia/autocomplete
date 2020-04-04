@@ -9,7 +9,7 @@ import { StoredSearchPlugin } from './stored-searches';
 import { Results } from './Results';
 import { ResetIcon, RecentIcon, StarIcon } from './icons';
 
-interface EmptyScreenProps
+interface StartScreenProps
   extends AutocompleteApi<
     StoredDocSearchHit,
     React.FormEvent,
@@ -23,10 +23,10 @@ interface EmptyScreenProps
   favoriteSearches: StoredSearchPlugin<StoredDocSearchHit>;
 }
 
-export function EmptyScreen(props: EmptyScreenProps) {
+export function StartScreen(props: StartScreenProps) {
   if (props.state.status === 'idle' && props.hasSuggestions === false) {
     return (
-      <div className="DocSearch-EmptyScreen">
+      <div className="DocSearch-StartScreen">
         <p className="DocSearch-Help">Your search history will appear here.</p>
       </div>
     );
