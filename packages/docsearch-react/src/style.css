@@ -538,7 +538,7 @@ html[data-theme='dark'] {
 @media (max-width: 750px) {
   :root {
     /* quickfix https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser */
-    --docsearch-modal-height: calc(100vh - 110px);
+    --docsearch-modal-height: 100vh;
     --docsearch-spacing: 10px;
     --docsearch-footer-height: 40px;
   }
@@ -549,7 +549,9 @@ html[data-theme='dark'] {
   .DocSearch-Modal {
     border-radius: 0;
     box-shadow: none;
-    margin: 0 auto;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
   }
   .DocSearch-Cancel {
     display: inline-block;
