@@ -43,6 +43,9 @@ export function DocSearch({
   const dropdownRef = React.useRef<HTMLDivElement | null>(null);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const snipetLength = React.useRef<number>(10);
+  const initialQuery = React.useRef(
+    typeof window !== 'undefined' ? window.getSelection()!.toString() : ''
+  ).current;
 
   const searchClient = React.useMemo(() => createSearchClient(appId, apiKey), [
     appId,
@@ -90,10 +93,7 @@ export function DocSearch({
         placeholder: 'Search docs...',
         openOnFocus: true,
         initialState: {
-          query:
-            typeof window !== 'undefined'
-              ? window.getSelection()!.toString()
-              : '',
+          query: initialQuery,
         },
         onStateChange({ state }) {
           setState(state as any);
@@ -230,6 +230,7 @@ export function DocSearch({
       recentSearches,
       favoriteSearches,
       saveRecentSearch,
+      initialQuery,
     ]
   );
 
@@ -291,6 +292,7 @@ export function DocSearch({
           <SearchBox
             {...autocomplete}
             state={state}
+            initialQuery={initialQuery}
             onClose={onClose}
             inputRef={inputRef}
           />
