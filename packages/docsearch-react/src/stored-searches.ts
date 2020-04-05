@@ -51,7 +51,7 @@ export function createStoredSearches<TItem extends StoredDocSearchHit>({
   limit = 5,
 }: CreateStoredSearchesOptions): StoredSearchPlugin<TItem> {
   const storage = createStorage<TItem>(key);
-  let items = storage.getItem();
+  let items = storage.getItem().slice(0, limit);
 
   return {
     add(item: TItem) {
