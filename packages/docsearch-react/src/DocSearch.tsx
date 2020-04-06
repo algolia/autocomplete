@@ -95,7 +95,7 @@ export function DocSearch({
       >({
         defaultHighlightedIndex: 0,
         autoFocus: true,
-        placeholder: 'Search docs...',
+        placeholder: 'Search docs',
         openOnFocus: true,
         initialState: {
           query: initialQuery,
