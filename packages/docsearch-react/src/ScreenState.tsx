@@ -25,27 +25,39 @@ interface ScreenStateProps<TItem>
   inputRef: React.MutableRefObject<null | HTMLInputElement>;
 }
 
-export function ScreenState(props: ScreenStateProps<InternalDocSearchHit>) {
-  if (props.state.status === 'error') {
-    return <ErrorScreen />;
-  }
+export const ScreenState = React.memo(
+  (props: ScreenStateProps<InternalDocSearchHit>) => {
+    if (props.state.status === 'error') {
+      return <ErrorScreen />;
+    }
 
-  const hasSuggestions = props.state.suggestions.some(
-    suggestion => suggestion.items.length > 0
-  );
+    const hasSuggestions = props.state.suggestions.some(
+      suggestion => suggestion.items.length > 0
+    );
 
-  if (!props.state.query) {
+    if (!props.state.query) {
+      return (
+        <StartScreen
+          {...(props as ScreenStateProps<any>)}
+          hasSuggestions={hasSuggestions}
+        />
+      );
+    }
+
+    if (hasSuggestions === false) {
+      return <NoResultsScreen {...props} />;
+    }
+
+    return <ResultsScreen {...props} />;
+  },
+  function areEqual(_prevProps, nextProps) {
+    // We don't update the screen when Autocomplete is loading or stalled to
+    // avoid UI flashes:
+    //  - Empty screen → Results screen
+    //  - NoResults screen → NoResults screen with another query
     return (
-      <StartScreen
-        {...(props as ScreenStateProps<any>)}
-        hasSuggestions={hasSuggestions}
-      />
+      nextProps.state.status === 'loading' ||
+      nextProps.state.status === 'stalled'
     );
   }
-
-  if (props.state.status === 'idle' && hasSuggestions === false) {
-    return <NoResultsScreen {...props} />;
-  }
-
-  return <ResultsScreen {...props} />;
-}
+);
