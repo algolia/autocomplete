@@ -88,7 +88,6 @@ export function SearchBox(props: SearchBoxProps) {
             ref: props.inputRef,
             inputElement: (props.inputRef as any).current,
             type: 'search',
-            maxLength: '512',
           })}
         />
       </div>
