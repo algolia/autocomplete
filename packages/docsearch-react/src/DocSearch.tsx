@@ -103,7 +103,7 @@ export function DocSearch({
         onStateChange({ state }) {
           setState(state as any);
         },
-        getSources({ query, state, setContext }) {
+        getSources({ query, state, setContext, setStatus }) {
           return getAlgoliaHits({
             searchClient,
             queries: [
@@ -141,30 +141,70 @@ export function DocSearch({
                 },
               },
             ],
-          }).then((hits: DocSearchHit[]) => {
-            const formattedHits = hits.map(hit => {
-              const url = new URL(hit.url);
-              return {
-                ...hit,
-                url: hit.url
-                  // @TODO: temporary convenience for development.
-                  .replace(url.origin, '')
-                  .replace('#__docusaurus', ''),
-              };
-            });
-            const sources = groupBy(formattedHits, hit => hit.hierarchy.lvl0);
+          })
+            .catch(error => {
+              // The Algolia `RetryError` happens when all the servers have
+              // failed, meaning that there's no chance the response comes
+              // back. This is the right time to display an error.
+              // See https://github.com/algolia/algoliasearch-client-javascript/blob/2ffddf59bc765cd1b664ee0346b28f00229d6e12/packages/transporter/src/errors/createRetryError.ts#L5
+              if (error.name === 'RetryError') {
+                setStatus('error');
+              }
 
-            // We store the `lvl0`s to display them as search suggestions
-            // in the “no results“ screen.
-            if (state.context.searchSuggestions === undefined) {
-              setContext({
-                searchSuggestions: Object.keys(sources),
+              throw error;
+            })
+            .then((hits: DocSearchHit[]) => {
+              const formattedHits = hits.map(hit => {
+                const url = new URL(hit.url);
+                return {
+                  ...hit,
+                  url: hit.url
+                    // @TODO: temporary convenience for development.
+                    .replace(url.origin, '')
+                    .replace('#__docusaurus', ''),
+                };
               });
-            }
+              const sources = groupBy(formattedHits, hit => hit.hierarchy.lvl0);
 
-            if (!query) {
-              return [
-                {
+              // We store the `lvl0`s to display them as search suggestions
+              // in the “no results“ screen.
+              if (state.context.searchSuggestions === undefined) {
+                setContext({
+                  searchSuggestions: Object.keys(sources),
+                });
+              }
+
+              if (!query) {
+                return [
+                  {
+                    onSelect({ suggestion }) {
+                      saveRecentSearch(suggestion);
+                      onClose();
+                    },
+                    getSuggestionUrl({ suggestion }) {
+                      return suggestion.url;
+                    },
+                    getSuggestions() {
+                      return recentSearches.getAll();
+                    },
+                  },
+                  {
+                    onSelect({ suggestion }) {
+                      saveRecentSearch(suggestion);
+                      onClose();
+                    },
+                    getSuggestionUrl({ suggestion }) {
+                      return suggestion.url;
+                    },
+                    getSuggestions() {
+                      return favoriteSearches.getAll();
+                    },
+                  },
+                ];
+              }
+
+              return Object.values<DocSearchHit[]>(sources).map(items => {
+                return {
                   onSelect({ suggestion }) {
                     saveRecentSearch(suggestion);
                     onClose();
@@ -173,58 +213,30 @@ export function DocSearch({
                     return suggestion.url;
                   },
                   getSuggestions() {
-                    return recentSearches.getAll();
-                  },
-                },
-                {
-                  onSelect({ suggestion }) {
-                    saveRecentSearch(suggestion);
-                    onClose();
-                  },
-                  getSuggestionUrl({ suggestion }) {
-                    return suggestion.url;
-                  },
-                  getSuggestions() {
-                    return favoriteSearches.getAll();
-                  },
-                },
-              ];
-            }
-
-            return Object.values<DocSearchHit[]>(sources).map(items => {
-              return {
-                onSelect({ suggestion }) {
-                  saveRecentSearch(suggestion);
-                  onClose();
-                },
-                getSuggestionUrl({ suggestion }) {
-                  return suggestion.url;
-                },
-                getSuggestions() {
-                  return Object.values(
-                    groupBy(items, item => item.hierarchy.lvl1)
-                  )
-                    .map(hits =>
-                      hits.map(item => {
-                        return {
-                          ...item,
-                          // eslint-disable-next-line @typescript-eslint/camelcase
-                          __docsearch_parent:
-                            item.type !== 'lvl1' &&
-                            hits.find(
-                              siblingItem =>
-                                siblingItem.type === 'lvl1' &&
-                                siblingItem.hierarchy.lvl1 ===
-                                  item.hierarchy.lvl1
-                            ),
-                        };
-                      })
+                    return Object.values(
+                      groupBy(items, item => item.hierarchy.lvl1)
                     )
-                    .flat();
-                },
-              };
+                      .map(hits =>
+                        hits.map(item => {
+                          return {
+                            ...item,
+                            // eslint-disable-next-line @typescript-eslint/camelcase
+                            __docsearch_parent:
+                              item.type !== 'lvl1' &&
+                              hits.find(
+                                siblingItem =>
+                                  siblingItem.type === 'lvl1' &&
+                                  siblingItem.hierarchy.lvl1 ===
+                                    item.hierarchy.lvl1
+                              ),
+                          };
+                        })
+                      )
+                      .flat();
+                  },
+                };
+              });
             });
-          });
         },
       }),
     [
