@@ -104,6 +104,35 @@ export function DocSearch({
           setState(state as any);
         },
         getSources({ query, state, setContext, setStatus }) {
+          if (!query) {
+            return [
+              {
+                onSelect({ suggestion }) {
+                  saveRecentSearch(suggestion);
+                  onClose();
+                },
+                getSuggestionUrl({ suggestion }) {
+                  return suggestion.url;
+                },
+                getSuggestions() {
+                  return recentSearches.getAll();
+                },
+              },
+              {
+                onSelect({ suggestion }) {
+                  saveRecentSearch(suggestion);
+                  onClose();
+                },
+                getSuggestionUrl({ suggestion }) {
+                  return suggestion.url;
+                },
+                getSuggestions() {
+                  return favoriteSearches.getAll();
+                },
+              },
+            ];
+          }
+
           return getAlgoliaHits({
             searchClient,
             queries: [
@@ -172,35 +201,6 @@ export function DocSearch({
                 setContext({
                   searchSuggestions: Object.keys(sources),
                 });
-              }
-
-              if (!query) {
-                return [
-                  {
-                    onSelect({ suggestion }) {
-                      saveRecentSearch(suggestion);
-                      onClose();
-                    },
-                    getSuggestionUrl({ suggestion }) {
-                      return suggestion.url;
-                    },
-                    getSuggestions() {
-                      return recentSearches.getAll();
-                    },
-                  },
-                  {
-                    onSelect({ suggestion }) {
-                      saveRecentSearch(suggestion);
-                      onClose();
-                    },
-                    getSuggestionUrl({ suggestion }) {
-                      return suggestion.url;
-                    },
-                    getSuggestions() {
-                      return favoriteSearches.getAll();
-                    },
-                  },
-                ];
               }
 
               return Object.values<DocSearchHit[]>(sources).map(items => {
