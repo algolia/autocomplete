@@ -38,7 +38,7 @@ export function ResultsScreen(props: ResultsScreenProps) {
             renderIcon={({ item, index }) => (
               <>
                 {item.__docsearch_parent && (
-                  <svg className="DocSearch-Hit-Tree">
+                  <svg className="DocSearch-Hit-Tree" viewBox="0 0 24 54">
                     <g
                       stroke="currentColor"
                       fill="none"
@@ -48,9 +48,9 @@ export function ResultsScreen(props: ResultsScreenProps) {
                     >
                       {item.__docsearch_parent !==
                       suggestion.items[index + 1]?.__docsearch_parent ? (
-                        <path d="M8 8v22M26.5 30H8.3" />
+                        <path d="M8 6v42M20 27H8.3"/>
                       ) : (
-                        <path d="M8 8v44M26.5 30H8.3" />
+                        <path d="M8 6v21M20 27H8.3"/>
                       )}
                     </g>
                   </svg>
