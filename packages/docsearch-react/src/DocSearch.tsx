@@ -99,6 +99,7 @@ export function DocSearch({
         React.MouseEvent,
         React.KeyboardEvent
       >({
+        id: 'docsearch',
         defaultHighlightedIndex: 0,
         autoFocus: true,
         placeholder: 'Search docs',
