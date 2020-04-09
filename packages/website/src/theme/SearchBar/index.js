@@ -1,12 +1,13 @@
 /* eslint-disable import/no-unresolved */
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { SearchButton } from 'docsearch-react';
 
 let DocSearch = null;
 
-export default function SearchBar() {
+function SearchBar() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isShowing, setIsShowing] = useState(false);
   const { siteConfig = {} } = useDocusaurusContext();
@@ -21,10 +22,10 @@ export default function SearchBar() {
   const load = useCallback(
     function load() {
       if (isLoaded === true) {
-        return;
+        return Promise.resolve();
       }
 
-      Promise.all([
+      return Promise.all([
         import('docsearch-react'),
         import('docsearch-react/dist/esm/style.css'),
       ]).then(([{ DocSearch: DocSearchComp }]) => {
@@ -37,9 +38,10 @@ export default function SearchBar() {
 
   const onOpen = useCallback(
     function onOpen() {
-      load();
-      setIsShowing(true);
-      document.body.classList.add('DocSearch--active');
+      load().then(() => {
+        setIsShowing(true);
+        document.body.classList.add('DocSearch--active');
+      });
     },
     [load, setIsShowing]
   );
@@ -79,15 +81,20 @@ export default function SearchBar() {
     <>
       <SearchButton onClick={onOpen} />
 
-      {isLoaded && isShowing && (
-        <DocSearch
-          appId={appId}
-          apiKey={apiKey}
-          indexName={indexName}
-          searchParameters={searchParameters}
-          onClose={onClose}
-        />
-      )}
+      {isLoaded &&
+        isShowing &&
+        createPortal(
+          <DocSearch
+            appId={appId}
+            apiKey={apiKey}
+            indexName={indexName}
+            searchParameters={searchParameters}
+            onClose={onClose}
+          />,
+          document.body
+        )}
     </>
   );
 }
+
+export default SearchBar;

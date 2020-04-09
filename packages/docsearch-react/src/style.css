@@ -91,7 +91,7 @@ html[data-theme='dark'] {
   --docsearch-muted-color: rgb(127, 132, 151);
 }
 
-.DocSearch--active .main-wrapper {
+.DocSearch--active #__docusaurus {
   filter: blur(2px);
 }
 
@@ -167,6 +167,7 @@ html[data-theme='dark'] {
 }
 
 .DocSearch-Container {
+  z-index: var(--ifm-z-index-fixed);
   height: 100vh;
   width: 100vw;
   position: fixed;
