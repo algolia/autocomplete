@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useHistory } from '@docusaurus/router';
+import Link from '@docusaurus/Link';
 import { SearchButton } from 'docsearch-react';
 
 let DocSearch = null;
@@ -97,11 +98,28 @@ function SearchBar() {
                 history.push(suggestionUrl);
               },
             }}
+            transformItems={items => {
+              return items.map(item => {
+                const url = new URL(item.url);
+
+                return {
+                  ...item,
+                  url: item.url
+                    .replace(url.origin, '')
+                    .replace('#__docusaurus', ''),
+                };
+              });
+            }}
+            hitComponent={Hit}
           />,
           document.body
         )}
     </>
   );
+}
+
+function Hit({ hit, children }) {
+  return <Link to={hit.url}>{children}</Link>;
 }
 
 export default SearchBar;

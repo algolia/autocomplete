@@ -14,20 +14,23 @@ import {
 } from './types';
 import { createSearchClient, groupBy, noop } from './utils';
 import { createStoredSearches } from './stored-searches';
+import { Hit } from './Hit';
 import { SearchBox } from './SearchBox';
 import { ScreenState } from './ScreenState';
 import { Footer } from './Footer';
 
 interface DocSearchProps
-  extends Omit<
-    PublicAutocompleteOptions<InternalDocSearchHit>,
-    'onStateChange' | 'getSources'
-  > {
+  extends Pick<PublicAutocompleteOptions<InternalDocSearchHit>, 'navigator'> {
   appId?: string;
   apiKey: string;
   indexName: string;
-  searchParameters: any;
-  onClose(): void;
+  searchParameters?: any;
+  onClose?(): void;
+  transformItems?(items: DocSearchHit[]): DocSearchHit[];
+  hitComponent?(props: {
+    hit: DocSearchHit;
+    children: React.ReactNode;
+  }): JSX.Element;
 }
 
 export function DocSearch({
@@ -36,7 +39,9 @@ export function DocSearch({
   indexName,
   searchParameters,
   onClose = noop,
-  ...autocompleteProps
+  transformItems = x => x,
+  hitComponent = Hit,
+  navigator,
 }: DocSearchProps) {
   const [state, setState] = React.useState<
     AutocompleteState<InternalDocSearchHit>
@@ -107,7 +112,7 @@ export function DocSearch({
         initialState: {
           query: initialQuery,
         },
-        ...autocompleteProps,
+        navigator,
         onStateChange({ state }) {
           setState(state as any);
         },
@@ -191,17 +196,7 @@ export function DocSearch({
               throw error;
             })
             .then((hits: DocSearchHit[]) => {
-              const formattedHits = hits.map(hit => {
-                const url = new URL(hit.url);
-                return {
-                  ...hit,
-                  url: hit.url
-                    // @TODO: temporary convenience for development.
-                    .replace(url.origin, '')
-                    .replace('#__docusaurus', ''),
-                };
-              });
-              const sources = groupBy(formattedHits, hit => hit.hierarchy.lvl0);
+              const sources = groupBy(hits, hit => hit.hierarchy.lvl0);
 
               // We store the `lvl0`s to display them as search suggestions
               // in the “no results“ screen.
@@ -224,6 +219,7 @@ export function DocSearch({
                     return Object.values(
                       groupBy(items, item => item.hierarchy.lvl1)
                     )
+                      .map(transformItems)
                       .map(hits =>
                         hits.map(item => {
                           return {
@@ -256,6 +252,8 @@ export function DocSearch({
       favoriteSearches,
       saveRecentSearch,
       initialQuery,
+      navigator,
+      transformItems,
     ]
   );
 
@@ -338,6 +336,7 @@ export function DocSearch({
           <ScreenState
             {...autocomplete}
             state={state}
+            hitComponent={hitComponent}
             recentSearches={recentSearches}
             favoriteSearches={favoriteSearches}
             onItemClick={item => {

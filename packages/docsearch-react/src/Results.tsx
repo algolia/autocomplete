@@ -4,7 +4,11 @@ import {
   AutocompleteState,
 } from '@francoischalifour/autocomplete-core';
 
-import { StoredDocSearchHit, InternalDocSearchHit } from './types';
+import {
+  DocSearchHit,
+  InternalDocSearchHit,
+  StoredDocSearchHit,
+} from './types';
 import { Snippet } from './Snippet';
 
 interface ResultsProps<TItem>
@@ -19,6 +23,10 @@ interface ResultsProps<TItem>
   renderIcon(props: { item: TItem; index: number }): React.ReactNode;
   renderAction(props: { item: TItem }): React.ReactNode;
   onItemClick(item: TItem): void;
+  hitComponent(props: {
+    hit: DocSearchHit;
+    children: React.ReactNode;
+  }): JSX.Element;
 }
 
 export function Results<TItem extends StoredDocSearchHit>(
@@ -27,6 +35,8 @@ export function Results<TItem extends StoredDocSearchHit>(
   if (props.suggestion.items.length === 0) {
     return null;
   }
+
+  const Hit = props.hitComponent;
 
   return (
     <section className="DocSearch-Hits">
@@ -52,7 +62,7 @@ export function Results<TItem extends StoredDocSearchHit>(
                 },
               })}
             >
-              <a href={item.url}>
+              <Hit hit={item}>
                 <div className="DocSearch-Hit-Container">
                   {props.renderIcon({ item, index })}
 
@@ -110,7 +120,7 @@ export function Results<TItem extends StoredDocSearchHit>(
 
                   {props.renderAction({ item })}
                 </div>
-              </a>
+              </Hit>
             </li>
           );
         })}
