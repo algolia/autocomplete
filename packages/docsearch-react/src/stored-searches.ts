@@ -61,10 +61,6 @@ export function createStoredSearches<TItem extends StoredDocSearchHit>({
         ...hit
       } = (item as unknown) as DocSearchHit;
 
-      if (hit.type === 'content') {
-        return;
-      }
-
       const isQueryAlreadySaved = items.findIndex(
         x => x.objectID === hit.objectID
       );
