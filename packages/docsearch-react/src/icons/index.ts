@@ -6,3 +6,5 @@ export * from './SearchIcon';
 export * from './SelectIcon';
 export * from './SourceIcon';
 export * from './StarIcon';
+export * from './ErrorIcon';
+export * from './NoResultsIcon';

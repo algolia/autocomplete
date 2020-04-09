@@ -6,6 +6,8 @@ import {
 
 import { InternalDocSearchHit } from './types';
 
+import { NoResultsIcon } from './icons';
+
 interface NoResultsScreenProps
   extends AutocompleteApi<
     InternalDocSearchHit,
@@ -22,6 +24,9 @@ export function NoResultsScreen(props: NoResultsScreenProps) {
 
   return (
     <div className="DocSearch-NoResults">
+      <div className="DocSearch-Screen-Icon">
+        <NoResultsIcon/>
+      </div>
       <p className="DocSearch-Title">
         No results for "<strong>{props.state.query}</strong>".
       </p>
@@ -32,9 +37,8 @@ export function NoResultsScreen(props: NoResultsScreenProps) {
           {searchSuggestions.slice(0, 3).reduce<React.ReactNode[]>(
             (acc, search) => [
               ...acc,
-              acc.length > 0 ? ', ' : '',
               <button
-                className="DocSearch-Link"
+                className="DocSearch-Prefill"
                 key={search}
                 onClick={() => {
                   props.setQuery(search.toLowerCase() + ' ');
@@ -47,14 +51,11 @@ export function NoResultsScreen(props: NoResultsScreenProps) {
             ],
             []
           )}
-          &nbsp;...
         </p>
       )}
 
       <p className="DocSearch-Help">
-        If you believe this query should return results,
-        <br />
-        please{' '}
+        If you believe this query should return results, please{' '}
         <a
           href="https://github.com/algolia/docsearch-configs/issues/new?template=Missing_results.md"
           target="_blank"
