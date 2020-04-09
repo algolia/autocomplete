@@ -83,14 +83,18 @@ export function DocSearch({
   ).current;
 
   const saveRecentSearch = React.useCallback(
-    function saveRecentSearch(item: StoredDocSearchHit) {
+    function saveRecentSearch(item: InternalDocSearchHit) {
+      // We don't store `content` record, but their parent if available.
+      const search = item.type === 'content' ? item.__docsearch_parent : item;
+
       // We save the recent search only if it's not favorited.
       if (
+        search &&
         favoriteSearches
           .getAll()
-          .findIndex(search => search.objectID === item.objectID) === -1
+          .findIndex(x => x.objectID === search.objectID) === -1
       ) {
-        recentSearches.add(item);
+        recentSearches.add(search);
       }
     },
     [favoriteSearches, recentSearches]
