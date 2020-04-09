@@ -2,6 +2,7 @@ import React from 'react';
 import {
   createAutocomplete,
   AutocompleteState,
+  PublicAutocompleteOptions,
 } from '@francoischalifour/autocomplete-core';
 import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
 
@@ -17,7 +18,11 @@ import { SearchBox } from './SearchBox';
 import { ScreenState } from './ScreenState';
 import { Footer } from './Footer';
 
-interface DocSearchProps {
+interface DocSearchProps
+  extends Omit<
+    PublicAutocompleteOptions<InternalDocSearchHit>,
+    'onStateChange' | 'getSources'
+  > {
   appId?: string;
   apiKey: string;
   indexName: string;
@@ -31,6 +36,7 @@ export function DocSearch({
   indexName,
   searchParameters,
   onClose = noop,
+  ...autocompleteProps
 }: DocSearchProps) {
   const [state, setState] = React.useState<
     AutocompleteState<InternalDocSearchHit>
@@ -100,6 +106,7 @@ export function DocSearch({
         initialState: {
           query: initialQuery,
         },
+        ...autocompleteProps,
         onStateChange({ state }) {
           setState(state as any);
         },

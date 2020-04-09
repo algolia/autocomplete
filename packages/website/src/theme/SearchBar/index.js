@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import { useHistory } from '@docusaurus/router';
 import { SearchButton } from 'docsearch-react';
 
 let DocSearch = null;
@@ -11,6 +12,7 @@ function SearchBar() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isShowing, setIsShowing] = useState(false);
   const { siteConfig = {} } = useDocusaurusContext();
+  const history = useHistory();
 
   const {
     indexName,
@@ -90,6 +92,11 @@ function SearchBar() {
             indexName={indexName}
             searchParameters={searchParameters}
             onClose={onClose}
+            navigator={{
+              navigate({ suggestionUrl }) {
+                history.push(suggestionUrl);
+              },
+            }}
           />,
           document.body
         )}
