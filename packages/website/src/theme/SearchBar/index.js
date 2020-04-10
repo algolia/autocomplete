@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useHistory } from '@docusaurus/router';
@@ -12,6 +12,7 @@ let DocSearch = null;
 function SearchBar() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isShowing, setIsShowing] = useState(false);
+  const scrollY = useRef(0);
   const { siteConfig = {} } = useDocusaurusContext();
   const history = useHistory();
 
@@ -42,6 +43,7 @@ function SearchBar() {
   const onOpen = useCallback(
     function onOpen() {
       load().then(() => {
+        scrollY.current = window.scrollY;
         setIsShowing(true);
         document.body.classList.add('DocSearch--active');
       });
@@ -53,6 +55,7 @@ function SearchBar() {
     function onClose() {
       setIsShowing(false);
       document.body.classList.remove('DocSearch--active');
+      window.scrollTo(0, scrollY.current);
     },
     [setIsShowing]
   );
