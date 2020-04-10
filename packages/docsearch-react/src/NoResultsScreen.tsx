@@ -20,7 +20,8 @@ interface NoResultsScreenProps
 }
 
 export function NoResultsScreen(props: NoResultsScreenProps) {
-  const searchSuggestions: string[] = props.state.context.searchSuggestions;
+  const searchSuggestions: string[] | undefined =
+    props.state.context.searchSuggestions;
 
   return (
     <div className="DocSearch-NoResults">
@@ -31,7 +32,7 @@ export function NoResultsScreen(props: NoResultsScreenProps) {
         No results for "<strong>{props.state.query}</strong>".
       </p>
 
-      {searchSuggestions.length > 0 && (
+      {searchSuggestions && searchSuggestions.length > 0 && (
         <p>
           Try searching for{' '}
           {searchSuggestions.slice(0, 3).reduce<React.ReactNode[]>(
