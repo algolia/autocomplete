@@ -14,6 +14,7 @@ import {
 } from './types';
 import { createSearchClient, groupBy, noop } from './utils';
 import { createStoredSearches } from './stored-searches';
+import { useTrapFocus } from './useTrapFocus';
 import { Hit } from './Hit';
 import { SearchBox } from './SearchBox';
 import { ScreenState } from './ScreenState';
@@ -50,6 +51,7 @@ export function DocSearch({
     suggestions: [],
   } as any);
 
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
   const searchBoxRef = React.useRef<HTMLDivElement | null>(null);
   const dropdownRef = React.useRef<HTMLDivElement | null>(null);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -62,6 +64,8 @@ export function DocSearch({
           .slice(0, MAX_QUERY_SIZE)
       : ''
   ).current;
+
+  useTrapFocus({ container: containerRef.current });
 
   const searchClient = React.useMemo(() => createSearchClient(appId, apiKey), [
     appId,
@@ -320,6 +324,7 @@ export function DocSearch({
 
   return (
     <div
+      ref={containerRef}
       className={[
         'DocSearch-Container',
         state.status === 'stalled' && 'DocSearch-Container--Stalled',
