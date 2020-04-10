@@ -12,8 +12,9 @@ import {
   InternalDocSearchHit,
   StoredDocSearchHit,
 } from './types';
-import { createSearchClient, groupBy, noop } from './utils';
+import { groupBy, noop } from './utils';
 import { createStoredSearches } from './stored-searches';
+import { useSearchClient } from './useSearchClient';
 import { useTrapFocus } from './useTrapFocus';
 import { Hit } from './Hit';
 import { SearchBox } from './SearchBox';
@@ -66,11 +67,7 @@ export function DocSearch({
   ).current;
 
   useTrapFocus({ container: containerRef.current });
-
-  const searchClient = React.useMemo(() => createSearchClient(appId, apiKey), [
-    appId,
-    apiKey,
-  ]);
+  const searchClient = useSearchClient(appId, apiKey);
   const favoriteSearches = React.useRef(
     createStoredSearches<StoredDocSearchHit>({
       key: '__DOCSEARCH_FAVORITE_SEARCHES__',
@@ -88,7 +85,7 @@ export function DocSearch({
 
   const saveRecentSearch = React.useCallback(
     function saveRecentSearch(item: InternalDocSearchHit) {
-      // We don't store `content` record, but their parent if available.
+      // We don't store `content` records, but their parent if available.
       const search = item.type === 'content' ? item.__docsearch_parent : item;
 
       // We save the recent search only if it's not favorited.
