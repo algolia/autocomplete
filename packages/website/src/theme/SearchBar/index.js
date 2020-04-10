@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useHistory } from '@docusaurus/router';
 import Link from '@docusaurus/Link';
+import Head from '@docusaurus/Head';
 import { SearchButton } from 'docsearch-react';
 
 let DocSearch = null;
@@ -85,6 +86,10 @@ function SearchBar() {
 
   return (
     <>
+      <Head>
+        <link rel="preconnect" href={`${appId}-dsn.algolia.net`} />
+      </Head>
+
       <SearchButton onClick={onOpen} />
 
       {isLoaded &&
