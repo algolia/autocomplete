@@ -564,7 +564,7 @@ html[data-theme='dark'] {
   width: 80%;
   margin: 0 8px;
   line-height: 1.1em;
-  flex: 1 0 auto;
+  flex: 2 1 auto;
   font-weight: 500;
   overflow-x: hidden;
   white-space: nowrap;
@@ -619,21 +619,39 @@ html[data-theme='dark'] {
 /* Responsive */
 @media (max-width: 750px) {
   :root {
-    /* quickfix https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser */
-    --docsearch-modal-height: calc(100vh - 200px);
     --docsearch-spacing: 10px;
     --docsearch-footer-height: 40px;
   }
+
+  .DocSearch--active #__docusaurus{
+    display: none;
+  }
+
   .DocSearch-SearchButton-KeySeparator,
   .DocSearch-SearchButton-Key {
     display: none;
   }
 
   .DocSearch-Dropdown {
-    height: calc(
-      var(--docsearch-modal-height) - var(--docsearch-searchbox-height) -
-        var(--docsearch-spacing) - var(--docsearch-footer-height)
-    );
+    height: 100%;
+  }
+
+  .DocSearch-Container {
+    height: -webkit-fill-available;
+    position: absolute;
+    animation: none;
+  }
+
+  .DocSearch-Footer {
+    border-radius: 0;
+    position: absolute;
+    bottom: 0;
+  }
+
+  .DocSearch-Hit-content-wrapper {
+    position: relative;
+    display: flex;
+    width: 80%;
   }
 
   .DocSearch-Modal {
@@ -642,6 +660,7 @@ html[data-theme='dark'] {
     margin: 0;
     width: 100%;
     max-width: 100%;
+    height: -webkit-fill-available;
   }
 
   .DocSearch-Cancel {
