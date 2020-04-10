@@ -27,6 +27,7 @@ interface DocSearchProps
   appId?: string;
   apiKey: string;
   indexName: string;
+  placeholder?: string;
   searchParameters?: any;
   onClose?(): void;
   transformItems?(items: DocSearchHit[]): DocSearchHit[];
@@ -40,6 +41,7 @@ export function DocSearch({
   appId = 'BH4D9OD16A',
   apiKey,
   indexName,
+  placeholder = 'Search docs',
   searchParameters,
   onClose = noop,
   transformItems = x => x,
@@ -112,7 +114,7 @@ export function DocSearch({
         id: 'docsearch',
         defaultHighlightedIndex: 0,
         autoFocus: true,
-        placeholder: 'Search docs',
+        placeholder,
         openOnFocus: true,
         initialState: {
           query: initialQuery,
@@ -267,6 +269,7 @@ export function DocSearch({
       favoriteSearches,
       saveRecentSearch,
       initialQuery,
+      placeholder,
       navigator,
       transformItems,
     ]
@@ -310,6 +313,7 @@ export function DocSearch({
   return (
     <div
       ref={containerRef}
+      {...getRootProps({})}
       className={[
         'DocSearch-Container',
         state.status === 'stalled' && 'DocSearch-Container--Stalled',
@@ -317,13 +321,11 @@ export function DocSearch({
       ]
         .filter(Boolean)
         .join(' ')}
-      {...getRootProps({
-        onClick(event: React.MouseEvent) {
-          if (event.target === event.currentTarget) {
-            onClose();
-          }
-        },
-      })}
+      onClick={event => {
+        if (event.target === event.currentTarget) {
+          onClose();
+        }
+      }}
     >
       <div className="DocSearch-Modal">
         <header className="DocSearch-SearchBar" ref={searchBoxRef}>
