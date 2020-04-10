@@ -131,7 +131,7 @@ html[data-theme='dark'] {
 }
 
 .DocSearch-SearchButton-Placeholder {
-  margin: 0 1em 0 .5em;
+  padding: 0 .5em;
   font-size: 1rem;
 }
 
@@ -149,6 +149,7 @@ html[data-theme='dark'] {
   color: var(--ifm-color-emphasis-600);
 }
 
+
 /* Body modifier */
 
 .DocSearch--active {
@@ -157,11 +158,6 @@ html[data-theme='dark'] {
    * `style` attribute (e.g. Docusaurus).
    */
   overflow: hidden !important;
-}
-
-/* Hide Docusaurus hamburger button when modal is opened */
-.DocSearch--active .menu__button {
-  display: none !important;
 }
 
 /* Container & Modal */
@@ -179,16 +175,6 @@ html[data-theme='dark'] {
   left: 0;
   top: 0;
   background-color: var(--docsearch-container-background);
-  animation: container 0.1s ease-in forwards;
-}
-
-@keyframes container {
-  0% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 .DocSearch-Container a {
@@ -289,12 +275,7 @@ html[data-theme='dark'] {
   cursor: pointer;
   stroke-width: var(--docsearch-icon-stroke-width);
   color: var(--docsearch-icon-color);
-  animation: reset-button .1s ease-in forwards;
-}
-
-@keyframes reset-button {
-  0% {opacity: 0}
-  100% { opacity: 1}
+  animation: fade-in .1s ease-in forwards;
 }
 
 .DocSearch-Reset[hidden] {
@@ -639,7 +620,6 @@ html[data-theme='dark'] {
   .DocSearch-Container {
     height: -webkit-fill-available;
     position: absolute;
-    animation: none;
   }
 
   .DocSearch-Footer {
@@ -678,16 +658,8 @@ html[data-theme='dark'] {
     font-size: 1em;
     font-weight: 500;
     color: var(--docsearch-highlight-color);
-    animation: cancel-button ease-out 0.2s forwards;
     outline: none;
-    transform: scale(0);
     user-select: none;
-  }
-
-  @keyframes cancel-button {
-    100% {
-      transform: scale(1);
-    }
   }
 
   .DocSearch-Commands {
@@ -702,4 +674,9 @@ html[data-theme='dark'] {
 /* todo: hide keyboard shortcut on smartphones, touchscreens device - cross browser limitation with media q, maybe js is better https://codepen.io/Ferie/pen/vQOMmO?editors=1010 */
 @media (hover: none) and (pointer: coarse) {
   /* ... */
+}
+
+@keyframes fade-in {
+  0% {opacity: 0}
+  100% { opacity: 1}
 }
