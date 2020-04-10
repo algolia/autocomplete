@@ -16,6 +16,7 @@ import { groupBy, noop } from './utils';
 import { createStoredSearches } from './stored-searches';
 import { useSearchClient } from './useSearchClient';
 import { useTrapFocus } from './useTrapFocus';
+import { useTouchEvents } from './useTouchEvents';
 import { Hit } from './Hit';
 import { SearchBox } from './SearchBox';
 import { ScreenState } from './ScreenState';
@@ -66,7 +67,6 @@ export function DocSearch({
       : ''
   ).current;
 
-  useTrapFocus({ container: containerRef.current });
   const searchClient = useSearchClient(appId, apiKey);
   const favoriteSearches = React.useRef(
     createStoredSearches<StoredDocSearchHit>({
@@ -274,6 +274,14 @@ export function DocSearch({
 
   const { getEnvironmentProps, getRootProps, refresh } = autocomplete;
 
+  useTouchEvents({
+    getEnvironmentProps,
+    dropdownElement: dropdownRef.current,
+    searchBoxElement: searchBoxRef.current,
+    inputElement: inputRef.current,
+  });
+  useTrapFocus({ container: containerRef.current });
+
   React.useEffect(() => {
     const isMobileMediaQuery = window.matchMedia('(max-width: 750px)');
 
@@ -298,26 +306,6 @@ export function DocSearch({
       refresh();
     }
   }, [initialQuery, refresh]);
-
-  React.useEffect(() => {
-    if (!(searchBoxRef.current && dropdownRef.current && inputRef.current)) {
-      return undefined;
-    }
-
-    const { onTouchStart, onTouchMove } = getEnvironmentProps({
-      searchBoxElement: searchBoxRef.current,
-      dropdownElement: dropdownRef.current,
-      inputElement: inputRef.current,
-    });
-
-    window.addEventListener('touchstart', onTouchStart);
-    window.addEventListener('touchmove', onTouchMove);
-
-    return () => {
-      window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchmove', onTouchMove);
-    };
-  }, [getEnvironmentProps, searchBoxRef, dropdownRef, inputRef]);
 
   return (
     <div
