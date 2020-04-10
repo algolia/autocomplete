@@ -109,7 +109,6 @@ html[data-theme='dark'] {
   background: var(--docsearch-searchbox-background);
   color: var(--ifm-color-emphasis-900);
   font-weight: 500;
-  transition: background-color 0.3s ease-out;
   user-select: none;
 }
 
@@ -123,6 +122,12 @@ html[data-theme='dark'] {
 
 .DocSearch-Search-Icon {
   stroke-width: var(--docsearch-icon-stroke-width);
+}
+
+.DocSearch-SearchButton:hover .DocSearch-Search-Icon,
+.DocSearch-SearchButton:active .DocSearch-Search-Icon,
+.DocSearch-SearchButton:focus .DocSearch-Search-Icon{
+  color: var(--docsearch-primary-color);
 }
 
 .DocSearch-SearchButton-Placeholder {
@@ -420,6 +425,7 @@ html[data-theme='dark'] {
   font-size: 0.9em;
   color: var(--docsearch-muted-color);
   user-select: none;
+  margin: 0;
 }
 
 .DocSearch-Title {
@@ -429,7 +435,7 @@ html[data-theme='dark'] {
 /* Hit */
 
 .DocSearch-Hits:last-of-type{
-  margin-bottom: 40px;
+  margin-bottom: 24px;
  }
 
 .DocSearch-Hits mark {
@@ -456,9 +462,9 @@ html[data-theme='dark'] {
 .DocSearch-Hit-source {
   position: sticky;
   top: 0;
-  z-index: var(--ifm-z-index-fixed);
-  margin: 0 calc(var(--docsearch-spacing) * -1 + 1px);
-  padding: 8px calc(var(--docsearch-spacing) - 1px) 0;
+  z-index: 10;
+  margin: 0 -4px;
+  padding: 8px 4px 0;
   line-height: 32px;
   font-size: 0.85em;
   font-weight: 600;
@@ -614,7 +620,7 @@ html[data-theme='dark'] {
 @media (max-width: 750px) {
   :root {
     /* quickfix https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser */
-    --docsearch-modal-height: 100vh;
+    --docsearch-modal-height: calc(100vh - 200px);
     --docsearch-spacing: 10px;
     --docsearch-footer-height: 40px;
   }
@@ -622,6 +628,14 @@ html[data-theme='dark'] {
   .DocSearch-SearchButton-Key {
     display: none;
   }
+
+  .DocSearch-Dropdown {
+    height: calc(
+      var(--docsearch-modal-height) - var(--docsearch-searchbox-height) -
+        var(--docsearch-spacing) - var(--docsearch-footer-height)
+    );
+  }
+
   .DocSearch-Modal {
     border-radius: 0;
     box-shadow: none;
@@ -629,6 +643,7 @@ html[data-theme='dark'] {
     width: 100%;
     max-width: 100%;
   }
+
   .DocSearch-Cancel {
     display: inline-block;
     white-space: nowrap;
