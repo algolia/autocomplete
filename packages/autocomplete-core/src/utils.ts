@@ -108,7 +108,7 @@ function getSuggestionFromHighlightedIndex<TItem>({
   state,
 }: {
   state: AutocompleteState<TItem>;
-}): AutocompleteSuggestion<TItem> {
+}): AutocompleteSuggestion<TItem> | undefined {
   // Given 3 sources with respectively 1, 2 and 3 suggestions: [1, 2, 3]
   // We want to get the accumulated counts:
   // [1, 1 + 2, 1 + 2 + 3] = [1, 3, 3 + 3] = [1, 3, 6]
@@ -178,6 +178,11 @@ export function getHighlightedItem<TItem>({
   state: AutocompleteState<TItem>;
 }) {
   const suggestion = getSuggestionFromHighlightedIndex({ state });
+
+  if (!suggestion) {
+    return null;
+  }
+
   const item =
     suggestion.items[getRelativeHighlightedIndex({ state, suggestion })];
   const source = suggestion.source;

@@ -19,7 +19,7 @@ export function getCompletion<TItem>({
     return null;
   }
 
-  const { itemValue } = getHighlightedItem({ state });
+  const { itemValue } = getHighlightedItem({ state })!;
 
   // The completion should appear only if the _first_ characters of the query
   // match with the suggestion.
