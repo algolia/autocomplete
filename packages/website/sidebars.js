@@ -35,6 +35,11 @@ module.exports = {
           'getAlgoliaResults',
         ],
       },
+      {
+        type: 'category',
+        label: 'DocSearch',
+        items: ['DocSearch', 'DocSearchButton', 'DocSearchModal'],
+      },
     ],
   },
 };
