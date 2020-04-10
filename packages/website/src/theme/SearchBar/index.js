@@ -19,7 +19,7 @@ function SearchBar() {
 
   const {
     indexName,
-    appId,
+    appId = 'BH4D9OD16A',
     apiKey,
     searchParameters,
   } = siteConfig.themeConfig.algolia;
