@@ -87,7 +87,11 @@ function SearchBar() {
   return (
     <>
       <Head>
-        <link rel="preconnect" href={`${appId}-dsn.algolia.net`} />
+        <link
+          rel="preconnect"
+          href={`https://${appId}-dsn.algolia.net`}
+          crossOrigin
+        />
       </Head>
 
       <SearchButton onClick={onOpen} />
