@@ -431,6 +431,18 @@ html[data-theme='dark'] {
   padding-bottom: 4px;
 }
 
+.DocSearch-Hit--deleting {
+  transition: all 250ms linear;
+  opacity: 0;
+}
+
+.DocSearch-Hit--favoriting {
+  transition: all 250ms linear;
+  transform: scale(0);
+  transition-delay: 250ms;
+  transform-origin: top center;
+}
+
 .DocSearch-Hit a {
   display: block;
   border-radius: 4px;

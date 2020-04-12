@@ -47,7 +47,11 @@ export function StartScreen(props: StartScreenProps) {
             <RecentIcon />
           </div>
         )}
-        renderAction={({ item }) => (
+        renderAction={({
+          item,
+          runFavoriteTransition,
+          runDeleteTransition,
+        }) => (
           <>
             <div className="DocSearch-Hit-action">
               <button
@@ -56,9 +60,12 @@ export function StartScreen(props: StartScreenProps) {
                 onClick={event => {
                   event.preventDefault();
                   event.stopPropagation();
-                  props.favoriteSearches.add(item);
-                  props.recentSearches.remove(item);
-                  props.refresh();
+
+                  runFavoriteTransition(() => {
+                    props.favoriteSearches.add(item);
+                    props.recentSearches.remove(item);
+                    props.refresh();
+                  });
                 }}
               >
                 <StarIcon />
@@ -71,8 +78,11 @@ export function StartScreen(props: StartScreenProps) {
                 onClick={event => {
                   event.preventDefault();
                   event.stopPropagation();
-                  props.recentSearches.remove(item);
-                  props.refresh();
+
+                  runDeleteTransition(() => {
+                    props.recentSearches.remove(item);
+                    props.refresh();
+                  });
                 }}
               >
                 <ResetIcon />
@@ -91,7 +101,7 @@ export function StartScreen(props: StartScreenProps) {
             <StarIcon />
           </div>
         )}
-        renderAction={({ item }) => (
+        renderAction={({ item, runDeleteTransition }) => (
           <div className="DocSearch-Hit-action">
             <button
               className="DocSearch-Hit-action-button"
@@ -99,8 +109,11 @@ export function StartScreen(props: StartScreenProps) {
               onClick={event => {
                 event.preventDefault();
                 event.stopPropagation();
-                props.favoriteSearches.remove(item);
-                props.refresh();
+
+                runDeleteTransition(() => {
+                  props.favoriteSearches.remove(item);
+                  props.refresh();
+                });
               }}
             >
               <ResetIcon />

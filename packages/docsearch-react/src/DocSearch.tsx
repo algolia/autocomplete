@@ -87,7 +87,7 @@ export function DocSearch({
 
   const saveRecentSearch = React.useCallback(
     function saveRecentSearch(item: InternalDocSearchHit) {
-      // We don't store `content` records, but their parent if available.
+      // We don't store `content` record, but their parent if available.
       const search = item.type === 'content' ? item.__docsearch_parent : item;
 
       // We save the recent search only if it's not favorited.
