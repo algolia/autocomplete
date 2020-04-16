@@ -36,7 +36,7 @@ interface ResultsProps<TItem>
 export function Results<TItem extends StoredDocSearchHit>(
   props: ResultsProps<TItem>
 ) {
-  if (props.suggestion.items.length === 0) {
+  if (!props.suggestion || props.suggestion.items.length === 0) {
     return null;
   }
 

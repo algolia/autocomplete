@@ -48,9 +48,9 @@ export function ResultsScreen(props: ResultsScreenProps) {
                     >
                       {item.__docsearch_parent !==
                       suggestion.items[index + 1]?.__docsearch_parent ? (
-                        <path d="M8 6v21M20 27H8.3"/>
-                        ) : (
-                        <path d="M8 6v42M20 27H8.3"/>
+                        <path d="M8 6v21M20 27H8.3" />
+                      ) : (
+                        <path d="M8 6v42M20 27H8.3" />
                       )}
                     </g>
                   </svg>
