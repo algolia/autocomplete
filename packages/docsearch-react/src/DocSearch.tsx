@@ -118,6 +118,9 @@ export function DocSearch({
         openOnFocus: true,
         initialState: {
           query: initialQuery,
+          context: {
+            searchSuggestions: [],
+          },
         },
         navigator,
         onStateChange({ state }) {
@@ -207,7 +210,10 @@ export function DocSearch({
 
               // We store the `lvl0`s to display them as search suggestions
               // in the “no results“ screen.
-              if (state.context.searchSuggestions === undefined) {
+              if (
+                (state.context.searchSuggestions as any[]).length <
+                Object.keys(sources).length
+              ) {
                 setContext({
                   searchSuggestions: Object.keys(sources),
                 });
