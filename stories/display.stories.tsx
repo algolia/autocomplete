@@ -181,7 +181,7 @@ storiesOf('Display', module)
                 createPortal(
                   <div
                     ref={modalRef}
-                    onClick={event => {
+                    onClick={(event) => {
                       if (event.target === modalRef.current) {
                         setIsShowing(false);
                       }

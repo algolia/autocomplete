@@ -215,7 +215,7 @@ storiesOf('React', module)
                   query,
                 },
               ],
-            }).then(items => {
+            }).then((items) => {
               setHighlightedIndex(null);
               setIsOpen(items.length > 0);
               setSuggestions([

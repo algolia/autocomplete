@@ -5,12 +5,10 @@
     - do at least one GitHub search in current issues, maybe your question is already here
 -->
 
-**Do you want to request a *feature* or report a *bug*?**
+**Do you want to request a _feature_ or report a _bug_?**
 
 **What is the current behavior?**
 
-**If the current behavior is a bug, please provide all the steps to reproduce and a minimal
-[JSFiddle](https://jsfiddle.net/) example or a repository on GitHub that we can `npm install`
-and `npm start`.**
+**If the current behavior is a bug, please provide all the steps to reproduce and a minimal [JSFiddle](https://jsfiddle.net/) example or a repository on GitHub that we can `npm install` and `npm start`.**
 
 **What is the expected behavior?**

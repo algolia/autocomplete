@@ -81,7 +81,7 @@ autocomplete({
     return [
       {
         getSuggestions({ query }) {
-          return items.filter(item =>
+          return items.filter((item) =>
             item.value.toLocaleLowerCase().includes(query.toLocaleLowerCase())
           );
         },
@@ -478,7 +478,7 @@ const items = [{ value: 'Apple' }, { value: 'Banana' }];
 
 const source = {
   getSuggestions({ query }) {
-    return items.filter(item => item.value.includes(query));
+    return items.filter((item) => item.value.includes(query));
   },
   // ...
 };
@@ -733,7 +733,7 @@ autocomplete({
           },
         },
       ],
-    }).then(results => {
+    }).then((results) => {
       const productsResults = results[0];
 
       setContext({
@@ -811,7 +811,7 @@ const app = getAppState();
 // Update the state of Autocomplete.js based on your app state
 autocompleteSearch.setQuery(app.query);
 autocompleteSearch.setSuggestions(
-  app.indices.map(index => {
+  app.indices.map((index) => {
     return {
       source: getSource({ index }),
       items: index.hits,
@@ -918,7 +918,7 @@ autocomplete({
                 },
               },
             ],
-          }).then(results => {
+          }).then((results) => {
             const firstResult = results[0];
 
             return firstResult.hits;

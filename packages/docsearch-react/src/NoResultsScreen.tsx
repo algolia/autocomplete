@@ -39,7 +39,7 @@ export function NoResultsScreen(props: NoResultsScreenProps) {
             {searchSuggestions.slice(0, 3).reduce<React.ReactNode[]>(
               (acc, search) => [
                 ...acc,
-                <li>
+                <li key={search}>
                   <button
                     className="DocSearch-Prefill"
                     key={search}
@@ -60,7 +60,7 @@ export function NoResultsScreen(props: NoResultsScreenProps) {
       )}
 
       <p className="DocSearch-Help">
-        You believe this query should return results?{' '}
+        Believe this query should return results?{' '}
         <a
           href="https://github.com/algolia/docsearch-configs/issues/new?template=Missing_results.md"
           target="_blank"

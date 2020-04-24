@@ -21,7 +21,7 @@ autocomplete({
   showCompletion: true,
   defaultHighlightedIndex: -1,
   shouldDropdownOpen({ state }) {
-    return state.results.some(result => result.suggestions.length > 0);
+    return state.results.some((result) => result.suggestions.length > 0);
   },
   getSources({ query, setContext }) {
     return getAlgoliaResults({
@@ -42,7 +42,7 @@ autocomplete({
           },
         },
       ],
-    }).then(results => {
+    }).then((results) => {
       const [querySuggestionsResults, productsResults] = results;
       const querySuggestionsHits = querySuggestionsResults.hits;
       const productsHits = productsResults.hits;
