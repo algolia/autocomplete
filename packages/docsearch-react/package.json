@@ -10,7 +10,10 @@
   },
   "sideEffects": false,
   "files": [
-    "dist/"
+    "dist/",
+    "button.js",
+    "modal.js",
+    "style.js"
   ],
   "source": "src/index.ts",
   "types": "dist/esm/index.d.ts",
