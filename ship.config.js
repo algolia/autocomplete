@@ -23,28 +23,32 @@ module.exports = {
     return `yarn publish --access public --tag ${tag}`;
   },
   versionUpdated({ exec, dir, version }) {
-    // @TODO: toggle when we release the React package
-    // const update = ({ package, deps }) => {
-    //   /*
-    //     With caret(^), the dependencies need to be quoted, like the following:
-    //     > yarn workspace abc add "def@^1.0.0" "ghi@^1.0.0"
-    //   */
-    //   const depsWithVersion = deps.map(dep => `"${dep}@^${version}"`).join(' ');
-    //   exec(`yarn workspace ${package} add ${depsWithVersion}`);
-    // };
+    const update = (...changes) => {
+      for (const change of changes) {
+        const { package, deps } = change;
+
+        /*
+        With caret(^), the dependencies need to be quoted, like the following:
+        > yarn workspace abc add "def@^1.0.0" "ghi@^1.0.0"
+      */
+        const depsWithVersion = deps
+          .map((dep) => `"${dep}@^${version}"`)
+          .join(' ');
+        exec(`yarn workspace ${package} add ${depsWithVersion}`);
+      }
+    };
 
     // Ship.js read json and write like fs.writeFileSync(JSON.stringify(json, null, 2));
     // It causes a lint error with lerna.json file.
     exec('eslint lerna.json --fix');
 
-    // @TODO: toggle when we release the React package
-    // update({
-    //   package: '@francoischalifour/autocomplete-react',
-    //   deps: [
-    //     '@francoischalifour/autocomplete-core',
-    //     '@francoischalifour/autocomplete-preset-algolia',
-    //   ],
-    // });
+    update({
+      package: '@francoischalifour/docsearch-react',
+      deps: [
+        '@francoischalifour/autocomplete-core',
+        '@francoischalifour/autocomplete-preset-algolia',
+      ],
+    });
 
     fs.writeFileSync(
       path.resolve(dir, 'packages', 'docsearch-react', 'src', 'version.ts'),
