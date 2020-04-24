@@ -44,7 +44,7 @@ export function DocSearchModal({
   placeholder = 'Search docs',
   searchParameters,
   onClose = noop,
-  transformItems = x => x,
+  transformItems = (x) => x,
   hitComponent = Hit,
   navigator,
 }: DocSearchProps) {
@@ -62,10 +62,7 @@ export function DocSearchModal({
   const snipetLength = React.useRef<number>(10);
   const initialQuery = React.useRef(
     typeof window !== 'undefined'
-      ? window
-          .getSelection()!
-          .toString()
-          .slice(0, MAX_QUERY_SIZE)
+      ? window.getSelection()!.toString().slice(0, MAX_QUERY_SIZE)
       : ''
   ).current;
 
@@ -95,7 +92,7 @@ export function DocSearchModal({
         search &&
         favoriteSearches
           .getAll()
-          .findIndex(x => x.objectID === search.objectID) === -1
+          .findIndex((x) => x.objectID === search.objectID) === -1
       ) {
         recentSearches.add(search);
       }
@@ -195,7 +192,7 @@ export function DocSearchModal({
               },
             ],
           })
-            .catch(error => {
+            .catch((error) => {
               // The Algolia `RetryError` happens when all the servers have
               // failed, meaning that there's no chance the response comes
               // back. This is the right time to display an error.
@@ -207,7 +204,7 @@ export function DocSearchModal({
               throw error;
             })
             .then((hits: DocSearchHit[]) => {
-              const sources = groupBy(hits, hit => hit.hierarchy.lvl0);
+              const sources = groupBy(hits, (hit) => hit.hierarchy.lvl0);
 
               // We store the `lvl0`s to display them as search suggestions
               // in the “no results“ screen.
@@ -220,7 +217,7 @@ export function DocSearchModal({
                 });
               }
 
-              return Object.values<DocSearchHit[]>(sources).map(items => {
+              return Object.values<DocSearchHit[]>(sources).map((items) => {
                 return {
                   onSelect({ suggestion }) {
                     saveRecentSearch(suggestion);
@@ -231,10 +228,10 @@ export function DocSearchModal({
                   },
                   getSuggestions() {
                     return Object.values(
-                      groupBy(items, item => item.hierarchy.lvl1)
+                      groupBy(items, (item) => item.hierarchy.lvl1)
                     )
-                      .map(items => {
-                        return items.map(item => {
+                      .map((items) => {
+                        return items.map((item) => {
                           const url = new URL(item.url);
 
                           return {
@@ -244,15 +241,15 @@ export function DocSearchModal({
                         });
                       })
                       .map(transformItems)
-                      .map(hits =>
-                        hits.map(item => {
+                      .map((hits) =>
+                        hits.map((item) => {
                           return {
                             ...item,
                             // eslint-disable-next-line @typescript-eslint/camelcase
                             __docsearch_parent:
                               item.type !== 'lvl1' &&
                               hits.find(
-                                siblingItem =>
+                                (siblingItem) =>
                                   siblingItem.type === 'lvl1' &&
                                   siblingItem.hierarchy.lvl1 ===
                                     item.hierarchy.lvl1
@@ -328,7 +325,7 @@ export function DocSearchModal({
       ]
         .filter(Boolean)
         .join(' ')}
-      onClick={event => {
+      onClick={(event) => {
         if (event.target === event.currentTarget) {
           onClose();
         }
@@ -352,7 +349,7 @@ export function DocSearchModal({
             hitComponent={hitComponent}
             recentSearches={recentSearches}
             favoriteSearches={favoriteSearches}
-            onItemClick={item => {
+            onItemClick={(item) => {
               saveRecentSearch(item);
               onClose();
             }}

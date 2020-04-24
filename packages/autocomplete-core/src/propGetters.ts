@@ -31,7 +31,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
   setStatus,
   setContext,
 }: GetPropGettersOptions<TItem>) {
-  const getEnvironmentProps: GetEnvironmentProps = getterProps => {
+  const getEnvironmentProps: GetEnvironmentProps = (getterProps) => {
     return {
       // On touch devices, we do not rely on the native `blur` event of the
       // input to close the dropdown, but rather on a custom `touchstart` event
@@ -49,7 +49,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         const isTargetWithinAutocomplete = [
           getterProps.searchBoxElement,
           getterProps.dropdownElement,
-        ].some(contextNode => {
+        ].some((contextNode) => {
           return (
             contextNode &&
             (isOrContainsNode(contextNode, event.target as Node) ||
@@ -83,7 +83,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     };
   };
 
-  const getRootProps: GetRootProps = rest => {
+  const getRootProps: GetRootProps = (rest) => {
     return {
       role: 'combobox',
       'aria-expanded': store.getState().isOpen,
@@ -94,11 +94,11 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     };
   };
 
-  const getFormProps: GetFormProps<TEvent> = providedProps => {
+  const getFormProps: GetFormProps<TEvent> = (providedProps) => {
     const { inputElement, ...rest } = providedProps;
 
     return {
-      onSubmit: event => {
+      onSubmit: (event) => {
         ((event as unknown) as Event).preventDefault();
 
         props.onSubmit({
@@ -118,7 +118,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
           providedProps.inputElement.blur();
         }
       },
-      onReset: event => {
+      onReset: (event) => {
         ((event as unknown) as Event).preventDefault();
 
         if (props.openOnFocus) {
@@ -144,11 +144,9 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     };
   };
 
-  const getInputProps: GetInputProps<
-    TEvent,
-    TMouseEvent,
-    TKeyboardEvent
-  > = providedProps => {
+  const getInputProps: GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (
+    providedProps
+  ) => {
     function onFocus() {
       // We want to trigger a query when `openOnFocus` is true
       // because the dropdown should open with the current query.
@@ -189,7 +187,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
       autoFocus: props.autoFocus,
       placeholder: props.placeholder,
       maxLength,
-      onChange: event => {
+      onChange: (event) => {
         onInput({
           query: (((event as unknown) as Event)
             .currentTarget as HTMLInputElement).value.slice(0, maxLength),
@@ -203,7 +201,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
           setContext,
         });
       },
-      onKeyDown: event => {
+      onKeyDown: (event) => {
         onKeyDown({
           event: (event as unknown) as KeyboardEvent,
           store,
@@ -244,7 +242,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     };
   };
 
-  const getLabelProps: GetLabelProps = rest => {
+  const getLabelProps: GetLabelProps = (rest) => {
     return {
       htmlFor: `${props.id}-input`,
       id: `${props.id}-label`,
@@ -252,7 +250,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     };
   };
 
-  const getMenuProps: GetMenuProps = rest => {
+  const getMenuProps: GetMenuProps = (rest) => {
     return {
       role: 'listbox',
       'aria-labelledby': `${props.id}-label`,
@@ -261,7 +259,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     };
   };
 
-  const getDropdownProps: GetDropdownProps = rest => {
+  const getDropdownProps: GetDropdownProps = (rest) => {
     return {
       onMouseLeave() {
         store.send('mouseleave', null);
@@ -270,7 +268,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     };
   };
 
-  const getItemProps: GetItemProps<any, TMouseEvent> = providedProps => {
+  const getItemProps: GetItemProps<any, TMouseEvent> = (providedProps) => {
     const { item, source, ...rest } = providedProps;
 
     return {

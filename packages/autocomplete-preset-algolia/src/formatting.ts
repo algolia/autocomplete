@@ -20,12 +20,12 @@ export function parseAttribute({
   if (highlightPostTag === highlightPreTag) {
     let isHighlighted = true;
 
-    splitByPreTag.forEach(split => {
+    splitByPreTag.forEach((split) => {
       elements.push({ value: split, isHighlighted });
       isHighlighted = !isHighlighted;
     });
   } else {
-    splitByPreTag.forEach(split => {
+    splitByPreTag.forEach((split) => {
       const splitByPostTag = split.split(highlightPostTag);
 
       elements.push({
@@ -101,11 +101,11 @@ export function parseReverseHighlightedAttribute({
   });
 
   // We don't want to highlight the whole word when no parts match.
-  if (!parts.some(part => part.isHighlighted)) {
-    return parts.map(part => ({ ...part, isHighlighted: false }));
+  if (!parts.some((part) => part.isHighlighted)) {
+    return parts.map((part) => ({ ...part, isHighlighted: false }));
   }
 
-  return parts.map(part => ({ ...part, isHighlighted: !part.isHighlighted }));
+  return parts.map((part) => ({ ...part, isHighlighted: !part.isHighlighted }));
 }
 
 export function parseSnippetedAttribute({

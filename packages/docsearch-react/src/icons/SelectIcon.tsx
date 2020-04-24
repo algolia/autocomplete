@@ -2,7 +2,12 @@ import React from 'react';
 
 export function SelectIcon() {
   return (
-    <svg className="DocSearch-Hit-Select-Icon" width="20" height="20" viewBox="0 0 20 20">
+    <svg
+      className="DocSearch-Hit-Select-Icon"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+    >
       <g
         stroke="currentColor"
         fill="none"

@@ -110,8 +110,8 @@ function SearchBar() {
                 history.push(suggestionUrl);
               },
             }}
-            transformItems={items => {
-              return items.map(item => {
+            transformItems={(items) => {
+              return items.map((item) => {
                 return {
                   ...item,
                   url: item.url.replace('#__docusaurus', ''),

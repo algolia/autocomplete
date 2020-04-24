@@ -23,7 +23,7 @@ getAlgoliaHits({
       },
     },
   ],
-}).then(hits => {
+}).then((hits) => {
   console.log(hits);
 });
 ```

@@ -42,7 +42,7 @@ const autocomplete = createAutocomplete({
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
             { label: 'GitHub', url: 'https://github.com' },
-          ].filter(item => item.toLowerCase().includes(query.toLowerCase()));
+          ].filter((item) => item.toLowerCase().includes(query.toLowerCase()));
         },
         getSuggestionUrl: ({ suggestion }) => suggestion.url,
       },
@@ -169,7 +169,7 @@ const autocomplete = createAutocomplete({
           query,
         },
       ],
-    }).then(results => {
+    }).then((results) => {
       const [querySuggestions, products] = results;
 
       return [
@@ -216,7 +216,7 @@ const items = [{ value: 'Apple' }, { value: 'Banana' }];
 
 const source = {
   getSuggestions({ query }) {
-    return items.filter(item => item.value.includes(query));
+    return items.filter((item) => item.value.includes(query));
   },
   // ...
 };

@@ -24,7 +24,7 @@ function getAlgoliaSource({ searchClient, queries }: GetAlgoliaSourceParams) {
   }
 
   return searchClient.search(
-    queries.map(searchParameters => {
+    queries.map((searchParameters) => {
       const { indexName, query, params } = searchParameters;
 
       return {
@@ -45,7 +45,7 @@ export function getAlgoliaResults({
   searchClient,
   queries,
 }: GetAlgoliaSourceParams): Promise<SearchResponse['results']> {
-  return getAlgoliaSource({ searchClient, queries }).then(response => {
+  return getAlgoliaSource({ searchClient, queries }).then((response) => {
     return response.results;
   });
 }
@@ -54,10 +54,10 @@ export function getAlgoliaHits({
   searchClient,
   queries,
 }: GetAlgoliaSourceParams): Promise<SearchResponse['hits']> {
-  return getAlgoliaSource({ searchClient, queries }).then(response => {
+  return getAlgoliaSource({ searchClient, queries }).then((response) => {
     const results = response.results;
 
     // @TODO: should `getAlgoliaHits` flatten the hits?
-    return flatten(results.map(result => result.hits));
+    return flatten(results.map((result) => result.hits));
   });
 }

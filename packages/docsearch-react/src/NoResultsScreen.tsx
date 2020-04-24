@@ -10,10 +10,10 @@ import { NoResultsIcon } from './icons';
 
 interface NoResultsScreenProps
   extends AutocompleteApi<
-  InternalDocSearchHit,
-  React.FormEvent,
-  React.MouseEvent,
-  React.KeyboardEvent
+    InternalDocSearchHit,
+    React.FormEvent,
+    React.MouseEvent,
+    React.KeyboardEvent
   > {
   state: AutocompleteState<InternalDocSearchHit>;
   inputRef: React.MutableRefObject<null | HTMLInputElement>;
@@ -39,17 +39,19 @@ export function NoResultsScreen(props: NoResultsScreenProps) {
             {searchSuggestions.slice(0, 3).reduce<React.ReactNode[]>(
               (acc, search) => [
                 ...acc,
-                <li><button
-                  className="DocSearch-Prefill"
-                  key={search}
-                  onClick={() => {
-                    props.setQuery(search.toLowerCase() + ' ');
-                    props.refresh();
-                    props.inputRef.current!.focus();
-                  }}
-                >
-                  {search}
-                </button></li>,
+                <li>
+                  <button
+                    className="DocSearch-Prefill"
+                    key={search}
+                    onClick={() => {
+                      props.setQuery(search.toLowerCase() + ' ');
+                      props.refresh();
+                      props.inputRef.current!.focus();
+                    }}
+                  >
+                    {search}
+                  </button>
+                </li>,
               ],
               []
             )}

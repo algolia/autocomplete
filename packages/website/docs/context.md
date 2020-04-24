@@ -21,7 +21,7 @@ const autocomplete = createAutocomplete({
           query,
         },
       ],
-    }).then(results => {
+    }).then((results) => {
       const productsResults = results[0];
 
       setContext({

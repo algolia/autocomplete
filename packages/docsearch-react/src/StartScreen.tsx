@@ -57,7 +57,7 @@ export function StartScreen(props: StartScreenProps) {
               <button
                 className="DocSearch-Hit-action-button"
                 title="Save this search"
-                onClick={event => {
+                onClick={(event) => {
                   event.preventDefault();
                   event.stopPropagation();
 
@@ -75,7 +75,7 @@ export function StartScreen(props: StartScreenProps) {
               <button
                 className="DocSearch-Hit-action-button"
                 title="Remove this search from history"
-                onClick={event => {
+                onClick={(event) => {
                   event.preventDefault();
                   event.stopPropagation();
 
@@ -106,7 +106,7 @@ export function StartScreen(props: StartScreenProps) {
             <button
               className="DocSearch-Hit-action-button"
               title="Remove this search from favorites"
-              onClick={event => {
+              onClick={(event) => {
                 event.preventDefault();
                 event.stopPropagation();
 

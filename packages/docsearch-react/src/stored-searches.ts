@@ -62,7 +62,7 @@ export function createStoredSearches<TItem extends StoredDocSearchHit>({
       } = (item as unknown) as DocSearchHit;
 
       const isQueryAlreadySaved = items.findIndex(
-        x => x.objectID === hit.objectID
+        (x) => x.objectID === hit.objectID
       );
 
       if (isQueryAlreadySaved > -1) {
@@ -75,7 +75,7 @@ export function createStoredSearches<TItem extends StoredDocSearchHit>({
       storage.setItem(items);
     },
     remove(item: TItem) {
-      items = items.filter(x => x.objectID !== item.objectID);
+      items = items.filter((x) => x.objectID !== item.objectID);
 
       storage.setItem(items);
     },

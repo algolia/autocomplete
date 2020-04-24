@@ -32,7 +32,7 @@ export const ScreenState = React.memo(
     }
 
     const hasSuggestions = props.state.suggestions.some(
-      suggestion => suggestion.items.length > 0
+      (suggestion) => suggestion.items.length > 0
     );
 
     if (!props.state.query) {

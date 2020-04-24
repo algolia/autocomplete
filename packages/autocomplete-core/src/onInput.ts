@@ -58,7 +58,7 @@ export function onInput<TItem>({
   if (query.length === 0 && props.openOnFocus === false) {
     setStatus('idle');
     setSuggestions(
-      store.getState().suggestions.map(suggestion => ({
+      store.getState().suggestions.map((suggestion) => ({
         ...suggestion,
         items: [],
       }))
@@ -87,12 +87,12 @@ export function onInput<TItem>({
       setStatus,
       setContext,
     })
-    .then(sources => {
+    .then((sources) => {
       setStatus('loading');
 
       // @TODO: convert `Promise.all` to fetching strategy.
       return Promise.all(
-        sources.map(source => {
+        sources.map((source) => {
           return Promise.resolve(
             source.getSuggestions({
               query,
@@ -104,7 +104,7 @@ export function onInput<TItem>({
               setStatus,
               setContext,
             })
-          ).then(items => {
+          ).then((items) => {
             return {
               source,
               items,
@@ -112,7 +112,7 @@ export function onInput<TItem>({
           });
         })
       )
-        .then(suggestions => {
+        .then((suggestions) => {
           setStatus('idle');
           setSuggestions(suggestions as any);
           setIsOpen(
@@ -121,7 +121,7 @@ export function onInput<TItem>({
                 props.shouldDropdownShow({ state: store.getState() }))
           );
         })
-        .catch(error => {
+        .catch((error) => {
           setStatus('error');
 
           throw error;

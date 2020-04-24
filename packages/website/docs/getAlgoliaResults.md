@@ -23,7 +23,7 @@ getAlgoliaResults({
       },
     },
   ],
-}).then(results => {
+}).then((results) => {
   console.log(results);
 });
 ```

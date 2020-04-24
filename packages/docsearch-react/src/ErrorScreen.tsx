@@ -7,9 +7,7 @@ export function ErrorScreen() {
       <div className="DocSearch-Screen-Icon">
         <ErrorIcon />
       </div>
-      <p className="DocSearch-Title">
-        Unable to fetch results
-      </p>
+      <p className="DocSearch-Title">Unable to fetch results</p>
       <p className="DocSearch-Help">
         You might want to check your network connection.
       </p>

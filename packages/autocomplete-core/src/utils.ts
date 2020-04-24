@@ -60,10 +60,10 @@ function normalizeSource<TItem>(
 export function normalizeGetSources<TItem>(
   getSources: PublicAutocompleteOptions<TItem>['getSources']
 ): GetSources<TItem> {
-  return options => {
-    return Promise.resolve(getSources(options)).then(sources =>
+  return (options) => {
+    return Promise.resolve(getSources(options)).then((sources) =>
       Promise.all(
-        sources.filter(Boolean).map(source => {
+        sources.filter(Boolean).map((source) => {
           return Promise.resolve(normalizeSource<TItem>(source));
         })
       )
@@ -113,7 +113,7 @@ function getSuggestionFromHighlightedIndex<TItem>({
   // We want to get the accumulated counts:
   // [1, 1 + 2, 1 + 2 + 3] = [1, 3, 3 + 3] = [1, 3, 6]
   const accumulatedSuggestionsCount = state.suggestions
-    .map(suggestion => suggestion.items.length)
+    .map((suggestion) => suggestion.items.length)
     .reduce<number[]>((acc, suggestionCount, index) => {
       const previousValue = acc[index - 1] || 0;
       const nextValue = previousValue + suggestionCount;
