@@ -1,3 +1,12 @@
+# [](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.11...v) (2020-04-24)
+
+
+### Bug Fixes
+
+* **docsearch:** add index name to localStorage key ([f5fbaa3](https://github.com/francoischalifour/autocomplete.js/commit/f5fbaa3b544038caa76cd8382af2a9c990f80a4f))
+
+
+
 # [1.0.0-alpha.11](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.10...v1.0.0-alpha.11) (2020-04-24)
 
 ### Features
