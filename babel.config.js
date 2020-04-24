@@ -97,6 +97,27 @@ module.exports = api => {
           ],
         ]),
       },
+      {
+        test: 'packages/docsearch-react',
+        plugins: clean([
+          '@babel/plugin-transform-react-jsx',
+          !isTest && [
+            'inline-replace-variables',
+            {
+              __DEV__: {
+                type: 'node',
+                replacement: "process.env.NODE_ENV === 'development'",
+              },
+              __VERSION__: {
+                type: 'node',
+                replacement: JSON.stringify(
+                  require('./packages/docsearch-react/package.json').version
+                ),
+              },
+            },
+          ],
+        ]),
+      },
     ],
   };
 };
