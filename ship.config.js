@@ -5,6 +5,7 @@ const packages = [
   'packages/autocomplete-preset-algolia',
   // @TODO: toggle when we release the React package
   // 'packages/autocomplete-react',
+  'packages/docsearch-react',
 ];
 
 module.exports = {
