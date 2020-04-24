@@ -1,7 +1,7 @@
 {
   "name": "@francoischalifour/autocomplete-core",
   "description": "Core primitives for building autocomplete experiences.",
-  "version": "1.0.0-alpha.12",
+  "version": "1.0.0-alpha.13",
   "license": "MIT",
   "source": "src/index.ts",
   "types": "dist/esm/index.d.ts",

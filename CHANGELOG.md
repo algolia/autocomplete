@@ -1,3 +1,9 @@
+# [1.0.0-alpha.13](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.12...v1.0.0-alpha.13) (2020-04-24)
+
+### Bug Fixes
+
+- **fix**: update workspace dependencies when releasing ([076b7be](076b7be69f89fa677a66cb0a91c51d02d440ac0a))
+
 # [1.0.0-alpha.12](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.11...v1.0.0-alpha.12) (2020-04-24)
 
 ### Bug Fixes
