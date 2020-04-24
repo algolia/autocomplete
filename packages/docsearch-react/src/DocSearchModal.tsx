@@ -69,13 +69,13 @@ export function DocSearchModal({
   const searchClient = useSearchClient(appId, apiKey);
   const favoriteSearches = React.useRef(
     createStoredSearches<StoredDocSearchHit>({
-      key: '__DOCSEARCH_FAVORITE_SEARCHES__',
+      key: `__DOCSEARCH_FAVORITE_SEARCHES__${indexName}`,
       limit: 10,
     })
   ).current;
   const recentSearches = React.useRef(
     createStoredSearches<StoredDocSearchHit>({
-      key: '__DOCSEARCH_RECENT_SEARCHES__',
+      key: `__DOCSEARCH_RECENT_SEARCHES__${indexName}`,
       // We display 7 recent searches and there's no favorites, but only
       // 4 when there are favorites.
       limit: favoriteSearches.getAll().length === 0 ? 7 : 4,
