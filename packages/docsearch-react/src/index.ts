@@ -1,2 +1,2 @@
-export * from './DocSearch';
-export * from './SearchButton';
+export * from './DocSearchModal';
+export * from './DocSearchButton';

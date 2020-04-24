@@ -33,8 +33,8 @@ function SearchBar() {
       return Promise.all([
         import('docsearch-react'),
         import('docsearch-react/dist/esm/style.css'),
-      ]).then(([{ DocSearch: DocSearchComp }]) => {
-        DocSearch = DocSearchComp;
+      ]).then(([{ DocSearchModal }]) => {
+        DocSearch = DocSearchModal;
         setIsLoaded(true);
       });
     },

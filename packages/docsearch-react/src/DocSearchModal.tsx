@@ -37,7 +37,7 @@ interface DocSearchProps
   }): JSX.Element;
 }
 
-export function DocSearch({
+export function DocSearchModal({
   appId = 'BH4D9OD16A',
   apiKey,
   indexName,
@@ -126,6 +126,7 @@ export function DocSearch({
         onStateChange({ state }) {
           setState(state as any);
         },
+        // @ts-ignore Temporarily ignore bad typing in autocomplete-core.
         getSources({ query, state, setContext, setStatus }) {
           if (!query) {
             return [
