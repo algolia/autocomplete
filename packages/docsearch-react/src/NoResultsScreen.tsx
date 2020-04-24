@@ -29,7 +29,7 @@ export function NoResultsScreen(props: NoResultsScreenProps) {
         <NoResultsIcon />
       </div>
       <p className="DocSearch-Title">
-        No results for "<strong>{props.state.query}</strong>".
+        No results for "<strong>{props.state.query}</strong>"
       </p>
 
       {searchSuggestions && searchSuggestions.length > 0 && (
