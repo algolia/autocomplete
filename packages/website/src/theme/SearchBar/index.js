@@ -6,7 +6,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useHistory } from '@docusaurus/router';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
-import { SearchButton } from 'docsearch-react';
+import { DocSearchButton } from '@francoischalifour/docsearch-react/button';
 
 let DocSearch = null;
 
@@ -31,8 +31,8 @@ function SearchBar() {
       }
 
       return Promise.all([
-        import('docsearch-react'),
-        import('docsearch-react/dist/esm/style.css'),
+        import('@francoischalifour/docsearch-react/modal'),
+        import('@francoischalifour/docsearch-react/style'),
       ]).then(([{ DocSearchModal }]) => {
         DocSearch = DocSearchModal;
         setIsLoaded(true);
@@ -94,7 +94,7 @@ function SearchBar() {
         />
       </Head>
 
-      <SearchButton onClick={onOpen} />
+      <DocSearchButton onClick={onOpen} />
 
       {isLoaded &&
         isShowing &&

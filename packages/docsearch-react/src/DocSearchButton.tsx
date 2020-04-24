@@ -17,7 +17,7 @@ function isAppleDevice() {
   return /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
 }
 
-export function SearchButton(props: SearchButtonProps) {
+export function DocSearchButton(props: SearchButtonProps) {
   const [key, setKey] = useState(() =>
     isAppleDevice() ? ACTION_KEY_APPLE : ACTION_KEY_DEFAULT
   );
