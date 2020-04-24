@@ -538,13 +538,17 @@ html[data-theme='dark'] {
   border-radius: 50%;
 }
 
+svg.DocSearch-Hit-Select-Icon {
+  display: none;
+}
+.DocSearch-Hit[aria-selected='true'] svg.DocSearch-Hit-Select-Icon {
+  display: block;
+}
+
+
 .DocSearch-Hit-action-button:hover {
   transition: background-color .1s ease-in;
   background: rgba(0,0,0,0.2);
-}
-
-.DocSearch-Hit-action-button:active {
-  transform: scale(1.2);
 }
 
 .DocSearch-Hit-action-button:hover path{
@@ -557,7 +561,7 @@ html[data-theme='dark'] {
   width: 80%;
   margin: 0 8px;
   line-height: 1.1em;
-  flex: 2 1 auto;
+  flex: 1 1 auto;
   font-weight: 500;
   overflow-x: hidden;
   white-space: nowrap;
@@ -592,21 +596,47 @@ html[data-theme='dark'] {
   padding-bottom: 12px;
 }
 
+.DocSearch-NoResults-Prefill-List {
+  text-align: left;
+  display: flex;
+  padding-bottom: 24px;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+
+.DocSearch-NoResults-Prefill-List p{
+  width: 50%;
+  text-align: right;
+}
+
+.DocSearch-NoResults-Prefill-List ul{
+  padding: 0 12px;
+  flex-grow: 1;
+  width: 50%;
+}
+
+.DocSearch-NoResults-Prefill-List li{
+  list-style-type: '- ';
+  list-style-position: inside;
+  padding: 0;
+  margin:0;
+}
+
 .DocSearch-Prefill {
   appearance: none;
   cursor: pointer;
   border: none;
   display: inline-block;
   border-radius: 1em;
-  font-size: 0.8em;
-  background-color: var(--docsearch-muted-color);
-  margin: 0 4px;
-  padding: 4px 12px;
+  font-size: 1em;
+  background: none;
+  /* background-color: var(--docsearch-muted-color); */
+  padding: 0;
 }
 
 .DocSearch-Prefill:hover {
   outline: none;
-  background-color: var(--docsearch-primary-color);
+  color: var(--docsearch-primary-color);
 }
 
 /* Responsive */

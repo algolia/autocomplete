@@ -27,7 +27,7 @@ export function StartScreen(props: StartScreenProps) {
   if (props.state.status === 'idle' && props.hasSuggestions === false) {
     return (
       <div className="DocSearch-StartScreen">
-        <p className="DocSearch-Help">Your search history will appear here.</p>
+        <p className="DocSearch-Help">No recent searches</p>
       </div>
     );
   }
