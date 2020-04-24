@@ -1,4 +1,6 @@
 /* eslint-disable import/no-commonjs */
+const fs = require('fs');
+const path = require('path');
 
 const packages = [
   'packages/autocomplete-core',
@@ -20,7 +22,7 @@ module.exports = {
   publishCommand({ tag }) {
     return `yarn publish --access public --tag ${tag}`;
   },
-  versionUpdated({ exec }) {
+  versionUpdated({ exec, dir, version }) {
     // @TODO: toggle when we release the React package
     // const update = ({ package, deps }) => {
     //   /*
@@ -43,6 +45,11 @@ module.exports = {
     //     '@francoischalifour/autocomplete-preset-algolia',
     //   ],
     // });
+
+    fs.writeFileSync(
+      path.resolve(dir, 'packages', 'docsearch-react', 'src', 'version.ts'),
+      `export const version = '${version}';\n`
+    );
   },
   // skip preparation if it contains only `chore` commits
   shouldPrepare: ({ releaseType, commitNumbersPerType }) => {
