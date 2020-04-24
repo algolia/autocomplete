@@ -595,25 +595,17 @@ svg.DocSearch-Hit-Select-Icon {
 
 .DocSearch-NoResults-Prefill-List {
   text-align: left;
-  display: flex;
   padding-bottom: 24px;
-  align-items: flex-start;
-  flex-wrap: nowrap;
-}
-
-.DocSearch-NoResults-Prefill-List p{
-  width: 50%;
-  text-align: right;
+  display: inline-block;
 }
 
 .DocSearch-NoResults-Prefill-List ul{
-  padding: 0 12px;
-  flex-grow: 1;
-  width: 50%;
+  padding: 8px 0 0;
+  display: inline-block;
 }
 
 .DocSearch-NoResults-Prefill-List li{
-  list-style-type: '- ';
+  list-style-type: '» ';
   list-style-position: inside;
 }
 
@@ -624,13 +616,14 @@ svg.DocSearch-Hit-Select-Icon {
   display: inline-block;
   border-radius: 1em;
   font-size: 1em;
+  font-weight: 700;
   background: none;
   color: var(--docsearch-primary-color);
-  text-decoration: underline;
   padding: 0;
 }
 
 .DocSearch-Prefill:hover {
+  text-decoration: underline;
   outline: none;
 }
 
