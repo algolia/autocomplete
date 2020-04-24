@@ -1,6 +1,5 @@
 {
-  "name": "@francoischalifour/autocomplete-website",
-  "version": "1.0.0",
+  "name": "website",
   "private": true,
   "scripts": {
     "start": "docusaurus start",
