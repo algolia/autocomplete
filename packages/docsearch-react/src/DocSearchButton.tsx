@@ -2,10 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import { SearchIcon } from './icons/SearchIcon';
 
-interface SearchButtonProps {
-  onClick(): void;
-}
-
 const ACTION_KEY_DEFAULT = 'Ctrl';
 const ACTION_KEY_APPLE = '⌘';
 
@@ -17,7 +13,12 @@ function isAppleDevice() {
   return /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
 }
 
-export function DocSearchButton(props: SearchButtonProps) {
+export function DocSearchButton(
+  props: React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  >
+) {
   const [key, setKey] = useState(() =>
     isAppleDevice() ? ACTION_KEY_APPLE : ACTION_KEY_DEFAULT
   );
@@ -29,11 +30,7 @@ export function DocSearchButton(props: SearchButtonProps) {
   }, []);
 
   return (
-    <button
-      type="button"
-      className="DocSearch-SearchButton"
-      onClick={props.onClick}
-    >
+    <button type="button" className="DocSearch-SearchButton" {...props}>
       <SearchIcon />
       <span className="DocSearch-SearchButton-Placeholder">Search</span>
       <span className="DocSearch-SearchButton-Key">{key}</span>

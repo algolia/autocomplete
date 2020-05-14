@@ -25,26 +25,29 @@ function SearchBar() {
     searchParameters,
   } = siteConfig.themeConfig.algolia;
 
-  const load = useCallback(function load() {
-    if (DocSearchModal) {
-      return Promise.resolve();
-    }
+  const importDocSearchModalIfNeeded = useCallback(
+    function importDocSearchModalIfNeeded() {
+      if (DocSearchModal) {
+        return Promise.resolve();
+      }
 
-    return Promise.all([
-      import('@francoischalifour/docsearch-react/modal'),
-      import('@francoischalifour/docsearch-react/style'),
-    ]).then(([{ DocSearchModal: Modal }]) => {
-      DocSearchModal = Modal;
-    });
-  }, []);
+      return Promise.all([
+        import('@francoischalifour/docsearch-react/modal'),
+        import('@francoischalifour/docsearch-react/style'),
+      ]).then(([{ DocSearchModal: Modal }]) => {
+        DocSearchModal = Modal;
+      });
+    },
+    []
+  );
 
   const onOpen = useCallback(
     function onOpen() {
-      load().then(() => {
+      importDocSearchModalIfNeeded().then(() => {
         setIsOpen(true);
       });
     },
-    [load, setIsOpen]
+    [importDocSearchModalIfNeeded, setIsOpen]
   );
 
   const onClose = useCallback(
@@ -66,7 +69,11 @@ function SearchBar() {
         />
       </Head>
 
-      <DocSearchButton onClick={onOpen} />
+      <DocSearchButton
+        onTouchStart={importDocSearchModalIfNeeded}
+        onMouseOver={importDocSearchModalIfNeeded}
+        onClick={onOpen}
+      />
 
       {isOpen &&
         createPortal(
