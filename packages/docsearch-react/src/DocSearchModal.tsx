@@ -65,6 +65,7 @@ export function DocSearchModal({
       ? window.getSelection()!.toString().slice(0, MAX_QUERY_SIZE)
       : ''
   ).current;
+  const scrollY = React.useRef(0);
 
   const searchClient = useSearchClient(appId, apiKey);
   const favoriteSearches = React.useRef(
@@ -278,6 +279,16 @@ export function DocSearchModal({
     inputElement: inputRef.current,
   });
   useTrapFocus({ container: containerRef.current });
+
+  React.useEffect(() => {
+    document.body.classList.add('DocSearch--active');
+    scrollY.current = window.scrollY;
+
+    return () => {
+      document.body.classList.remove('DocSearch--active');
+      window.scrollTop = scrollY.current;
+    };
+  }, []);
 
   React.useEffect(() => {
     const isMobileMediaQuery = window.matchMedia('(max-width: 750px)');
