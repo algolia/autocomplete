@@ -56,7 +56,7 @@ function SearchBar() {
     function onClose() {
       setIsShowing(false);
       document.body.classList.remove('DocSearch--active');
-      window.scrollTo(0, scrollY.current);
+      window.scrollTop = scrollY.current;
     },
     [setIsShowing]
   );
