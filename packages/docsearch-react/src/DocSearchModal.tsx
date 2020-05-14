@@ -2,7 +2,6 @@ import React from 'react';
 import {
   createAutocomplete,
   AutocompleteState,
-  PublicAutocompleteOptions,
 } from '@francoischalifour/autocomplete-core';
 import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
 
@@ -17,24 +16,14 @@ import { createStoredSearches } from './stored-searches';
 import { useSearchClient } from './useSearchClient';
 import { useTrapFocus } from './useTrapFocus';
 import { useTouchEvents } from './useTouchEvents';
+import { DocSearchProps } from './DocSearch';
 import { Hit } from './Hit';
 import { SearchBox } from './SearchBox';
 import { ScreenState } from './ScreenState';
 import { Footer } from './Footer';
 
-interface DocSearchProps
-  extends Pick<PublicAutocompleteOptions<InternalDocSearchHit>, 'navigator'> {
-  appId?: string;
-  apiKey: string;
-  indexName: string;
-  placeholder?: string;
-  searchParameters?: any;
+interface DocSearchModalProps extends DocSearchProps {
   onClose?(): void;
-  transformItems?(items: DocSearchHit[]): DocSearchHit[];
-  hitComponent?(props: {
-    hit: DocSearchHit;
-    children: React.ReactNode;
-  }): JSX.Element;
 }
 
 export function DocSearchModal({
@@ -47,7 +36,7 @@ export function DocSearchModal({
   transformItems = (x) => x,
   hitComponent = Hit,
   navigator,
-}: DocSearchProps) {
+}: DocSearchModalProps) {
   const [state, setState] = React.useState<
     AutocompleteState<InternalDocSearchHit>
   >({

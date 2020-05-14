@@ -33,8 +33,8 @@ function SearchBar() {
     return Promise.all([
       import('@francoischalifour/docsearch-react/modal'),
       import('@francoischalifour/docsearch-react/style'),
-    ]).then(([{ DocSearchModal: DocSearchModalComponent }]) => {
-      DocSearchModal = DocSearchModalComponent;
+    ]).then(([{ DocSearchModal: Modal }]) => {
+      DocSearchModal = Modal;
     });
   }, []);
 
