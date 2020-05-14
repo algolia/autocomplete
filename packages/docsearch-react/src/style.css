@@ -98,10 +98,6 @@ html[data-theme='dark'] {
   --docsearch-muted-color: rgb(127, 132, 151);
 }
 
-.DocSearch--active #__docusaurus {
-  filter: blur(2px);
-}
-
 /* Search Button */
 
 .DocSearch-SearchButton {
