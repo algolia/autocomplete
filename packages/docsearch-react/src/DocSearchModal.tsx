@@ -230,16 +230,6 @@ export function DocSearchModal({
                     return Object.values(
                       groupBy(items, (item) => item.hierarchy.lvl1)
                     )
-                      .map((items) => {
-                        return items.map((item) => {
-                          const url = new URL(item.url);
-
-                          return {
-                            ...item,
-                            url: item.url.replace(url.origin, ''),
-                          };
-                        });
-                      })
                       .map(transformItems)
                       .map((hits) =>
                         hits.map((item) => {

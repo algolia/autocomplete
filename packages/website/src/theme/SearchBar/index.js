@@ -112,9 +112,13 @@ function SearchBar() {
             }}
             transformItems={(items) => {
               return items.map((item) => {
+                const url = new URL(item.url);
+
                 return {
                   ...item,
-                  url: item.url.replace('#__docusaurus', ''),
+                  url: item.url
+                    .replace(url.origin, '')
+                    .replace('#__docusaurus', ''),
                 };
               });
             }}
