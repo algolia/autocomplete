@@ -1,3 +1,17 @@
+# [1.0.0-alpha.14](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.13...v1.0.0-alpha.14) (2020-05-15)
+
+### Bug Fixes
+
+- **docsearch:** remove blur effect to avoid performance issues ([978229f](https://github.com/francoischalifour/autocomplete.js/commit/978229f2b838f71effe04b77876cbcf36f17e0a4))
+- **docsearch:** use `scrollTop` for IE support ([b51e81d](https://github.com/francoischalifour/autocomplete.js/commit/b51e81d94b473ed3602b02073911899cc5dc6a4a))
+- **docsearch:** use absolute URLs ([e1ed4e8](https://github.com/francoischalifour/autocomplete.js/commit/e1ed4e887a9e57af37e384fb08423d293502423c))
+
+### Features
+
+- **docsearch:** add `DocSearch` component ([218944e](https://github.com/francoischalifour/autocomplete.js/commit/218944e4412dc0afee54521895247736a86f16ca))
+- **docsearch:** add `useDocSearchKeyboardEvents` API ([5697895](https://github.com/francoischalifour/autocomplete.js/commit/5697895167e7bdc61429b9794c92ef57cd0315bc))
+- **docusaurus:** import DocSearch modal on hover ([e680f24](https://github.com/francoischalifour/autocomplete.js/commit/e680f2453a9339467f3e502586d3bccc23edb911))
+
 # [1.0.0-alpha.13](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.12...v1.0.0-alpha.13) (2020-04-24)
 
 ### Bug Fixes
