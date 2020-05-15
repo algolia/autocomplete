@@ -1,1 +1,1 @@
-export * from './dist/esm/style.css';
+export * from './dist/style.css';
