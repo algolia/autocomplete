@@ -40,15 +40,15 @@ module.exports = {
 
     updatePackageDependencies(
       {
+        package: '@francoischalifour/autocomplete-website',
+        dependencies: [`@docsearch/react@${version}`],
+      },
+      {
         package: '@docsearch/react',
         dependencies: [
           `@francoischalifour/autocomplete-core@^${version}`,
           `@francoischalifour/autocomplete-preset-algolia@^${version}`,
         ],
-      },
-      {
-        package: '@francoischalifour/autocomplete-website',
-        dependencies: [`@docsearch/react@${version}`],
       }
     );
 
