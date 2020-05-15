@@ -5,8 +5,6 @@ const path = require('path');
 const packages = [
   'packages/autocomplete-core',
   'packages/autocomplete-preset-algolia',
-  // @TODO: toggle when we release the React package
-  // 'packages/autocomplete-react',
   'packages/docsearch-react',
 ];
 
@@ -43,7 +41,7 @@ module.exports = {
     exec('eslint lerna.json --fix');
 
     update({
-      package: '@francoischalifour/docsearch-react',
+      package: '@docsearch/react',
       deps: [
         '@francoischalifour/autocomplete-core',
         '@francoischalifour/autocomplete-preset-algolia',

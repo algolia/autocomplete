@@ -6,10 +6,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useHistory } from '@docusaurus/router';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
-import {
-  DocSearchButton,
-  useDocSearchKeyboardEvents,
-} from '@francoischalifour/docsearch-react';
+import { DocSearchButton, useDocSearchKeyboardEvents } from '@docsearch/react';
 
 let DocSearchModal = null;
 
@@ -32,8 +29,8 @@ function SearchBar() {
       }
 
       return Promise.all([
-        import('@francoischalifour/docsearch-react/modal'),
-        import('@francoischalifour/docsearch-react/style'),
+        import('@docsearch/react/modal'),
+        import('@docsearch/react/style'),
       ]).then(([{ DocSearchModal: Modal }]) => {
         DocSearchModal = Modal;
       });

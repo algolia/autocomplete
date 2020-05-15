@@ -1,5 +1,5 @@
 {
-  "name": "@francoischalifour/docsearch-react",
+  "name": "@docsearch/react",
   "version": "1.0.0-alpha.13",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete.js",
