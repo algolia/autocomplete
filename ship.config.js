@@ -1,4 +1,5 @@
 /* eslint-disable import/no-commonjs */
+
 const fs = require('fs');
 const path = require('path');
 
@@ -21,44 +22,49 @@ module.exports = {
     return `yarn publish --access public --tag ${tag}`;
   },
   versionUpdated({ exec, dir, version }) {
-    const update = (...changes) => {
+    const updatePackageDependencies = (...changes) => {
       for (const change of changes) {
-        const { package, deps } = change;
+        const { package, dependencies } = change;
 
-        /*
-        With caret(^), the dependencies need to be quoted, like the following:
-        > yarn workspace abc add "def@^1.0.0" "ghi@^1.0.0"
-      */
-        const depsWithVersion = deps
-          .map((dep) => `"${dep}@^${version}"`)
-          .join(' ');
-        exec(`yarn workspace ${package} add ${depsWithVersion}`);
+        exec(
+          `yarn workspace ${package} add ${dependencies
+            .map((dep) => `"${dep}"`)
+            .join(' ')}`
+        );
       }
     };
 
-    // Ship.js read json and write like fs.writeFileSync(JSON.stringify(json, null, 2));
-    // It causes a lint error with lerna.json file.
+    // Ship.js reads JSON and writes with `fs.writeFileSync(JSON.stringify(json, null, 2))`
+    // which causes a lint error in the `lerna.json` file.
     exec('eslint lerna.json --fix');
 
-    update({
-      package: '@docsearch/react',
-      deps: [
-        '@francoischalifour/autocomplete-core',
-        '@francoischalifour/autocomplete-preset-algolia',
-      ],
-    });
+    updatePackageDependencies(
+      {
+        package: '@docsearch/react',
+        dependencies: [
+          `@francoischalifour/autocomplete-core@^${version}`,
+          `@francoischalifour/autocomplete-preset-algolia@^${version}`,
+        ],
+      },
+      {
+        package: '@francoischalifour/autocomplete-website',
+        dependencies: [`@docsearch/react@${version}`],
+      }
+    );
 
     fs.writeFileSync(
       path.resolve(dir, 'packages', 'docsearch-react', 'src', 'version.ts'),
       `export const version = '${version}';\n`
     );
   },
-  // skip preparation if it contains only `chore` commits
+  // Skip preparation if it contains only `chore` commits
   shouldPrepare: ({ releaseType, commitNumbersPerType }) => {
     const { fix = 0 } = commitNumbersPerType;
+
     if (releaseType === 'patch' && fix === 0) {
       return false;
     }
+
     return true;
   },
 };
