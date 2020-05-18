@@ -1,6 +1,7 @@
 /* Variables */
 
 :root {
+
   /* Extract rgb from primary with JS
   function extractRgb (css) {
     return css.match(/[0-9.]+/gi)
@@ -9,24 +10,30 @@
   --docsearch-primary-color-R: 84;
   --docsearch-primary-color-G: 104;
   --docsearch-primary-color-B: 255;
+
   --docsearch-primary-color: rgb(
     var(--docsearch-primary-color-R),
     var(--docsearch-primary-color-G),
     var(--docsearch-primary-color-B)
   );
 
-  --docsearch-input-color: var(--ifm-color-emphasis-800);
-
+  --docsearch-spacing: 12px;
+  --docsearch-icon-stroke-width: 1.4;
   --docsearch-highlight-color: var(--docsearch-primary-color);
-
-  --docsearch-placeholder-color: rgb(150, 155, 175);
-
+  --docsearch-text-color: var(--ifm-color-emphasis-900);
+  --docsearch-muted-color: rgb(150, 159, 175);
   --docsearch-container-background: rgba(101, 108, 133, 0.8);
+  --docsearch-logo-color: rgba(84,10,255);
 
+  /* modal */
+  --docsearch-modal-width: 560px;
+  --docsearch-modal-height: 600px;
   --docsearch-modal-background: var(--ifm-color-emphasis-100);
   --docsearch-modal-shadow: inset 1px 1px 0px 0px rgba(255, 255, 255, 0.5),
     0px 3px 8px 0px rgba(85, 90, 100, 1);
 
+  /* searchbox */
+  --docsearch-searchbox-height: 56px;
   --docsearch-searchbox-background: var(--ifm-color-emphasis-300);
   --docsearch-searchbox-focus-background: white;
   --docsearch-searchbox-shadow: inset 0px 0px 0px 2px
@@ -37,11 +44,14 @@
       0.5
     );
 
+  /* hit */
+  --docsearch-hit-height: 56px;
   --docsearch-hit-color: var(--ifm-color-emphasis-800);
   --docsearch-hit-active-color: white;
   --docsearch-hit-background: white;
   --docsearch-hit-shadow: 0px 1px 3px 0px rgb(212, 217, 225);
 
+  /* key */
   --docsearch-key-gradient: linear-gradient(
     -225deg,
     rgb(213, 219, 228) 0%,
@@ -50,26 +60,12 @@
   --docsearch-key-shadow: inset 0px -2px 0px 0px rgb(205, 205, 230),
     inset 0px 0px 1px 1px white, 0px 1px 2px 1px rgba(30, 35, 90, 0.4);
 
+  /* footer */
+  --docsearch-footer-height: 44px;
   --docsearch-footer-background: white;
   --docsearch-footer-shadow: 0px -1px 0px 0px rgb(224, 227, 232),
     0px -3px 6px 0px rgba(69, 98, 155, 0.12);
 
-  --docsearch-logo-color: #5468ff;
-
-  --docsearch-muted-color: rgb(150, 159, 175);
-
-  --docsearch-modal-width: 560px;
-  --docsearch-modal-height: 600px;
-
-  --docsearch-searchbox-height: 56px;
-
-  --docsearch-hit-height: 56px;
-
-  --docsearch-footer-height: 44px;
-
-  --docsearch-spacing: 12px;
-
-  --docsearch-icon-stroke-width: 1.4;
 }
 
 /* Darkmode */
@@ -94,7 +90,7 @@ html[data-theme='dark'] {
   --docsearch-footer-background: rgb(30, 33, 54);
   --docsearch-footer-shadow: inset 0px 1px 0px 0px rgba(73, 76, 106, 0.5),
     0px -4px 8px 0px rgba(0, 0, 0, 0.2);
-  --docsearch-logo-color: #fff;
+  --docsearch-logo-color: rgb(255,255,255);
   --docsearch-muted-color: rgb(127, 132, 151);
 }
 
@@ -110,7 +106,7 @@ html[data-theme='dark'] {
   cursor: pointer;
   align-items: center;
   background: var(--docsearch-searchbox-background);
-  color: var(--ifm-color-emphasis-900);
+  color: var(--docsearch-text-color);
   font-weight: 500;
   user-select: none;
 }
@@ -149,7 +145,7 @@ html[data-theme='dark'] {
   border-radius: 3px;
   background: var(--docsearch-key-gradient);
   box-shadow: var(--docsearch-key-shadow);
-  color: var(--ifm-color-emphasis-600);
+  color: var(--docsearch-muted-color);
 }
 
 /* Body modifier */
@@ -234,11 +230,11 @@ html[data-theme='dark'] {
   border: none;
   outline: none;
   background: transparent;
-  color: var(--docsearch-input-color);
+  color: var(--docsearch-text-color);
 }
 
 .DocSearch-Input::placeholder {
-  color: var(--docsearch-placeholder-color);
+  color: var(--docsearch-muted-color);
 }
 
 .DocSearch-Input::-webkit-search-cancel-button,
@@ -299,7 +295,7 @@ html[data-theme='dark'] {
 
 .DocSearch-Reset:hover {
   transition: background-color 0.1s ease-in;
-  background: var(--ifm-color-emphasis-300);
+  background: var(--docsearch-muted-color);
 }
 
 .DocSearch-LoadingIndicator svg,
@@ -365,7 +361,7 @@ html[data-theme='dark'] {
 
 .DocSearch-Commands {
   display: flex;
-  color: var(--ifm-color-emphasis-600);
+  color: var(--docsearch-muted-color);
 }
 
 .DocSearch-Commands li {
