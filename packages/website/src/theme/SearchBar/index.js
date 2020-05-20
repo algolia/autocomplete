@@ -10,6 +10,10 @@ import { DocSearchButton, useDocSearchKeyboardEvents } from '@docsearch/react';
 
 let DocSearchModal = null;
 
+function Hit({ hit, children }) {
+  return <Link to={hit.url}>{children}</Link>;
+}
+
 function SearchBar() {
   const { siteConfig = {} } = useDocusaurusContext();
   const history = useHistory();
@@ -59,6 +63,9 @@ function SearchBar() {
   return (
     <>
       <Head>
+        {/* This hints the browser that the website will load data from Algolia,
+        and allows it to preconnect to the DocSearch cluster. It makes the first
+        query faster, especially on mobile. */}
         <link
           rel="preconnect"
           href={`https://${appId}-dsn.algolia.net`}
@@ -68,6 +75,7 @@ function SearchBar() {
 
       <DocSearchButton
         onTouchStart={importDocSearchModalIfNeeded}
+        onFocus={importDocSearchModalIfNeeded}
         onMouseOver={importDocSearchModalIfNeeded}
         onClick={onOpen}
       />
@@ -87,13 +95,15 @@ function SearchBar() {
             }}
             transformItems={(items) => {
               return items.map((item) => {
-                const url = new URL(item.url);
+                // We transform the absolute URL into a relative URL.
+                // Alternatively, we can use `new URL(item.url)` but it's not
+                // supported in IE.
+                const a = document.createElement('a');
+                a.href = item.url;
 
                 return {
                   ...item,
-                  url: item.url
-                    .replace(url.origin, '')
-                    .replace('#__docusaurus', ''),
+                  url: `${a.pathname}${a.hash}`,
                 };
               });
             }}
@@ -103,10 +113,6 @@ function SearchBar() {
         )}
     </>
   );
-}
-
-function Hit({ hit, children }) {
-  return <Link to={hit.url}>{children}</Link>;
 }
 
 export default SearchBar;
