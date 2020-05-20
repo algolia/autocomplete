@@ -1,3 +1,12 @@
+# [1.0.0-alpha.15](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.14...v1.0.0-alpha.15) (2020-05-20)
+
+### Bug Fixes
+
+- **css:** scroll windows ([a966e74](https://github.com/francoischalifour/autocomplete.js/commit/a966e74aee86cf4b7b25818c3f2b0e2b463636ef))
+- **css:** separate docusaurus css variables ([f41c31d](https://github.com/francoischalifour/autocomplete.js/commit/f41c31dd4af5bf5178982ed725f03dc67d0d4a6e))
+- **docsearch:** use `scrollTop` on body ([129c1d1](https://github.com/francoischalifour/autocomplete.js/commit/129c1d13aa77e1f6c38d09ee3b9cfa2eb9df8f57))
+- **website:** update DocSearch integration ([d41605d](https://github.com/francoischalifour/autocomplete.js/commit/d41605dd0d1451c1760ad78ab361fa5a52e35820))
+
 # [1.0.0-alpha.14](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.13...v1.0.0-alpha.14) (2020-05-15)
 
 ### Bug Fixes
