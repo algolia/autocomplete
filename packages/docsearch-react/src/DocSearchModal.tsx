@@ -275,7 +275,7 @@ export function DocSearchModal({
 
     return () => {
       document.body.classList.remove('DocSearch--active');
-      window.scrollTop = scrollY.current;
+      document.body.scrollTop = scrollY.current;
     };
   }, []);
 
