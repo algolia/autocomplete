@@ -307,7 +307,9 @@ export function DocSearchModal({
   return (
     <div
       ref={containerRef}
-      {...getRootProps({})}
+      {...getRootProps({
+        'aria-expanded': true,
+      })}
       className={[
         'DocSearch-Container',
         state.status === 'stalled' && 'DocSearch-Container--Stalled',
