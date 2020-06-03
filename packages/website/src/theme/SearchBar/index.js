@@ -14,12 +14,7 @@ function Hit({ hit, children }) {
   return <Link to={hit.url}>{children}</Link>;
 }
 
-function DocSearch({
-  indexName,
-  appId = 'BH4D9OD16A',
-  apiKey,
-  searchParameters,
-}) {
+function DocSearch({ indexName, appId, apiKey, searchParameters }) {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
 
