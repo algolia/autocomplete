@@ -13,6 +13,7 @@ module.exports = {
       'controlled-mode',
       'more-resources',
     ],
+    Guides: ['creating-a-renderer'],
     API: [
       {
         type: 'category',
