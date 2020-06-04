@@ -2,28 +2,14 @@
 
 :root {
 
-  /* Extract rgb from primary with JS
-  function extractRgb (css) {
-    return css.match(/[0-9.]+/gi)
-  } */
-
-  --docsearch-primary-color-R: 84;
-  --docsearch-primary-color-G: 104;
-  --docsearch-primary-color-B: 255;
-
-  --docsearch-primary-color: rgb(
-    var(--docsearch-primary-color-R),
-    var(--docsearch-primary-color-G),
-    var(--docsearch-primary-color-B)
-  );
-
+  --docsearch-primary-color: rgb(84,104,255);
   --docsearch-spacing: 12px;
   --docsearch-icon-stroke-width: 1.4;
   --docsearch-highlight-color: var(--docsearch-primary-color);
   --docsearch-text-color: var(--ifm-color-emphasis-900);
   --docsearch-muted-color: rgb(150, 159, 175);
   --docsearch-container-background: rgba(101, 108, 133, 0.8);
-  --docsearch-logo-color: rgba(84,10,255);
+  --docsearch-logo-color: rgba(84,104,255);
 
   /* modal */
   --docsearch-modal-width: 560px;
@@ -36,13 +22,7 @@
   --docsearch-searchbox-height: 56px;
   --docsearch-searchbox-background: var(--ifm-color-emphasis-300);
   --docsearch-searchbox-focus-background: white;
-  --docsearch-searchbox-shadow: inset 0px 0px 0px 2px
-    rgba(
-      var(--docsearch-primary-color-R),
-      var(--docsearch-primary-color-G),
-      var(--docsearch-primary-color-B),
-      0.5
-    );
+  --docsearch-searchbox-shadow: inset 0px 0px 0px 2px var(--docsearch-primary-color);
 
   /* hit */
   --docsearch-hit-height: 56px;
@@ -86,7 +66,7 @@ html[data-theme='dark'] {
     rgb(49, 53, 91) 100%
   );
   --docsearch-key-shadow: inset 0px -2px 0px 0px rgb(40, 45, 85),
-    inset 0px 0px 1px 1px rgb(81, 87, 125), 0px 2px 2px 0px rgb(3, 4, 9);
+    inset 0px 0px 1px 1px rgb(81, 87, 125), 0px 2px 2px 0px rgba(3, 4, 9, 0.3);
   --docsearch-footer-background: rgb(30, 33, 54);
   --docsearch-footer-shadow: inset 0px 1px 0px 0px rgba(73, 76, 106, 0.5),
     0px -4px 8px 0px rgba(0, 0, 0, 0.2);
@@ -640,6 +620,10 @@ svg.DocSearch-Hit-Select-Icon {
     display: none;
   }
 
+  .DocSearch-SearchButton-Placeholder{
+    display: none;
+  }
+
   .DocSearch-Dropdown {
     height: 100%;
   }
@@ -696,11 +680,6 @@ svg.DocSearch-Hit-Select-Icon {
   .DocSearch-Hit-Tree {
     display: none;
   }
-}
-
-/* todo: hide keyboard shortcut on smartphones, touchscreens device - cross browser limitation with media q, maybe js is better https://codepen.io/Ferie/pen/vQOMmO?editors=1010 */
-@media (hover: none) and (pointer: coarse) {
-  /* ... */
 }
 
 @keyframes fade-in {
