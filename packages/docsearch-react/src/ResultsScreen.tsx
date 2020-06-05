@@ -16,6 +16,9 @@ interface ResultsScreenProps
     React.KeyboardEvent
   > {
   state: AutocompleteState<InternalDocSearchHit>;
+  resultsFooterComponent(props: {
+    state: AutocompleteState<InternalDocSearchHit>;
+  }): JSX.Element;
   onItemClick(item: InternalDocSearchHit): void;
 }
 
@@ -69,6 +72,10 @@ export function ResultsScreen(props: ResultsScreenProps) {
           />
         );
       })}
+
+      <section className="DocSearch-HitsFooter">
+        <props.resultsFooterComponent state={props.state} />
+      </section>
     </div>
   );
 }

@@ -412,6 +412,19 @@ html[data-theme='dark'] {
   color: var(--docsearch-highlight-color);
 }
 
+.DocSearch-HitsFooter {
+  margin-bottom: var(--docsearch-spacing);
+  padding: var(--docsearch-spacing);
+  color: var(--docsearch-muted-color);
+  display: flex;
+  justify-content: center;
+}
+
+.DocSearch-HitsFooter a {
+  color: inherit;
+  border-bottom: 1px solid;
+}
+
 .DocSearch-Hit {
   display: flex;
   position: relative;

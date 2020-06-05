@@ -3,7 +3,7 @@ import {
   createAutocomplete,
   AutocompleteState,
 } from '@francoischalifour/autocomplete-core';
-import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
+import { getAlgoliaResults } from '@francoischalifour/autocomplete-preset-algolia';
 
 import { MAX_QUERY_SIZE } from './constants';
 import {
@@ -35,6 +35,7 @@ export function DocSearchModal({
   onClose = noop,
   transformItems = (x) => x,
   hitComponent = Hit,
+  resultsFooterComponent = () => null,
   navigator,
 }: DocSearchModalProps) {
   const [state, setState] = React.useState<
@@ -144,7 +145,7 @@ export function DocSearchModal({
             ];
           }
 
-          return getAlgoliaHits({
+          return getAlgoliaResults({
             searchClient,
             queries: [
               {
@@ -193,7 +194,9 @@ export function DocSearchModal({
 
               throw error;
             })
-            .then((hits: DocSearchHit[]) => {
+            .then((results) => {
+              const hits: DocSearchHit[] = results[0].hits;
+              const nbHits: number = results[0].nbHits;
               const sources = groupBy(hits, (hit) => hit.hierarchy.lvl0);
 
               // We store the `lvl0`s to display them as search suggestions
@@ -206,6 +209,8 @@ export function DocSearchModal({
                   searchSuggestions: Object.keys(sources),
                 });
               }
+
+              setContext({ nbHits });
 
               return Object.values<DocSearchHit[]>(sources).map((items) => {
                 return {
@@ -339,6 +344,7 @@ export function DocSearchModal({
             {...autocomplete}
             state={state}
             hitComponent={hitComponent}
+            resultsFooterComponent={resultsFooterComponent}
             recentSearches={recentSearches}
             favoriteSearches={favoriteSearches}
             onItemClick={(item) => {
