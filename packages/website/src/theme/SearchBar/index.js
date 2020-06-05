@@ -14,49 +14,32 @@ function Hit({ hit, children }) {
   return <Link to={hit.url}>{children}</Link>;
 }
 
-function SearchBar() {
-  const { siteConfig = {} } = useDocusaurusContext();
+function DocSearch({ indexName, appId, apiKey, searchParameters }) {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
 
-  const {
-    indexName,
-    appId = 'BH4D9OD16A',
-    apiKey,
-    searchParameters,
-  } = siteConfig.themeConfig.algolia;
+  const importDocSearchModalIfNeeded = useCallback(() => {
+    if (DocSearchModal) {
+      return Promise.resolve();
+    }
 
-  const importDocSearchModalIfNeeded = useCallback(
-    function importDocSearchModalIfNeeded() {
-      if (DocSearchModal) {
-        return Promise.resolve();
-      }
+    return Promise.all([
+      import('@docsearch/react/modal'),
+      import('@docsearch/react/style'),
+    ]).then(([{ DocSearchModal: Modal }]) => {
+      DocSearchModal = Modal;
+    });
+  }, []);
 
-      return Promise.all([
-        import('@docsearch/react/modal'),
-        import('@docsearch/react/style'),
-      ]).then(([{ DocSearchModal: Modal }]) => {
-        DocSearchModal = Modal;
-      });
-    },
-    []
-  );
+  const onOpen = useCallback(() => {
+    importDocSearchModalIfNeeded().then(() => {
+      setIsOpen(true);
+    });
+  }, [importDocSearchModalIfNeeded, setIsOpen]);
 
-  const onOpen = useCallback(
-    function onOpen() {
-      importDocSearchModalIfNeeded().then(() => {
-        setIsOpen(true);
-      });
-    },
-    [importDocSearchModalIfNeeded, setIsOpen]
-  );
-
-  const onClose = useCallback(
-    function onClose() {
-      setIsOpen(false);
-    },
-    [setIsOpen]
-  );
+  const onClose = useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
 
   useDocSearchKeyboardEvents({ isOpen, onOpen, onClose });
 
@@ -113,6 +96,21 @@ function SearchBar() {
         )}
     </>
   );
+}
+
+function SearchBar() {
+  const { siteConfig = {} } = useDocusaurusContext();
+
+  if (!siteConfig.themeConfig.algolia) {
+    // eslint-disable-next-line no-console
+    console.warn(`DocSearch requires an \`algolia\` field in your \`themeConfig\`.
+
+See: https://v2.docusaurus.io/docs/search/#using-algolia-docsearch`);
+
+    return null;
+  }
+
+  return <DocSearch {...siteConfig.themeConfig.algolia} />;
 }
 
 export default SearchBar;
