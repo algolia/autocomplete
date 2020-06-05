@@ -9,7 +9,11 @@ export function groupBy<TValue extends object>(
       acc[key] = [];
     }
 
-    acc[key].push(item);
+    // We limit each section to show 5 hits maximum.
+    // This acts as a frontend alternative to `distinct`.
+    if (acc[key].length < 5) {
+      acc[key].push(item);
+    }
 
     return acc;
   }, {});
