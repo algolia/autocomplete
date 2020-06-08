@@ -177,7 +177,6 @@ export function DocSearchModal({
                   highlightPreTag: '<mark>',
                   highlightPostTag: '</mark>',
                   hitsPerPage: 20,
-                  distinct: 4,
                   ...searchParameters,
                 },
               },
