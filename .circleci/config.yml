@@ -77,8 +77,8 @@ jobs:
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
       - run:
-          name: Release
-          command: yarn run release:trigger
+          name: Release if needed
+          command: yarn run shipjs trigger
 
 workflows:
   version: 2
