@@ -279,7 +279,9 @@ export function DocSearchModal({
 
     return () => {
       document.body.classList.remove('DocSearch--active');
-      document.body.scrollTop = scrollY.current;
+      // IE11 doesn't support `scrollTo` so we check that the method exists
+      // first.
+      window.scrollTo?.(0, scrollY.current);
     };
   }, []);
 
