@@ -10,6 +10,7 @@ function isAppleDevice() {
   if (typeof navigator === 'undefined') {
     return ACTION_KEY_DEFAULT;
   }
+
   return /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
 }
 
@@ -35,8 +36,7 @@ export function DocSearchButton(
       <span className="DocSearch-SearchButton-Placeholder">Search</span>
 
       <span className="DocSearch-SearchButton-Key">
-        {key === 'Ctrl' && <ControlKeyIcon />}
-        {key !== 'Ctrl' && key}
+        {key === ACTION_KEY_DEFAULT ? <ControlKeyIcon /> : key}
       </span>
       <span className="DocSearch-SearchButton-Key">K</span>
     </button>
