@@ -1,3 +1,9 @@
+# [1.0.0-alpha.17](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.16...v1.0.0-alpha.17) (2020-06-08)
+
+### Bug Fixes
+
+- **docsearch:** use `scrollTo` when unmounting modal ([aae0a14](https://github.com/francoischalifour/autocomplete.js/commit/aae0a1420caf17bb87249c988c735be5d5ae5c8a))
+
 # [1.0.0-alpha.16](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.15...v1.0.0-alpha.16) (2020-06-08)
 
 ### Bug Fixes
