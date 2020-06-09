@@ -295,6 +295,7 @@ html[data-theme='dark'] {
     var(--docsearch-modal-height) - var(--docsearch-searchbox-height) -
       var(--docsearch-spacing) - var(--docsearch-footer-height)
   );
+  overflow-y: auto; /* firefox */
   overflow-y: overlay;
   padding: 0 var(--docsearch-spacing);
   scrollbar-color: var(--docsearch-muted-color)
