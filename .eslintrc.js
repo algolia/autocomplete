@@ -37,5 +37,15 @@ module.exports = {
         'import/no-extraneous-dependencies': 'off',
       },
     },
+    {
+      files: ['cypress/**/*'],
+      plugins: ['cypress'],
+      env: {
+        'cypress/globals': true,
+      },
+      rules: {
+        'jest/expect-expect': 0,
+      },
+    },
   ],
 };
