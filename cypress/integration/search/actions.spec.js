@@ -9,7 +9,7 @@ context('Start', () => {
     cy.get('.DocSearch-Input').should('be.focus');
   });
 
-  it('Open Modal with key shortcut on non macOS', () => {
+  it('Open Modal with key shortcut on Windows/Linux', () => {
     cy.get('body').type('{ctrl}k');
     cy.get('.DocSearch-Modal').should('be.visible');
     cy.get('.DocSearch-Input').should('be.focus');
@@ -38,7 +38,7 @@ context('End', () => {
     cy.get('.DocSearch-Modal').should('not.be.visible');
   });
 
-  it('Close Modal with key shortcut on non macOS', () => {
+  it('Close Modal with key shortcut on Windows/Linux', () => {
     cy.get('body').type('{ctrl}k');
     cy.get('.DocSearch-Modal').should('not.be.visible');
   });
@@ -59,8 +59,6 @@ context('Search', () => {
     cy.get('.DocSearch-Input').type('get');
     cy.get('.DocSearch-Hits').should('be.visible');
   });
-
-
 });
 
 context('Recent and Favorites', () => {
@@ -68,35 +66,33 @@ context('Recent and Favorites', () => {
     cy.visit('http://localhost:3000/');
     cy.get('.DocSearch-SearchButton').click();
     cy.get('.DocSearch-Input').type('get');
-    // cy.get('body').type('{downArrow}{upArrow}');
     cy.get('.DocSearch-Hits #docsearch-item-0').click({ force: true });
   });
 
   it('Recent search is displayed after visiting a result', () => {
     cy.get('.DocSearch-SearchButton').click();
+    cy.contains('Recent').should('be.visible');
     cy.get('#docsearch-item-0').should('be.visible');
   });
 
-  it('Recent searches can be favorited', () => {
+  it('Recent search can be deleted', () => {
     cy.get('.DocSearch-SearchButton').click();
-    cy.contains('Recent').should('be.visible');
-    cy.get('.DocSearch-Hit-action-button[title="Save this search"]').click();
-    cy.get('body').type('{esc}');
+    cy.get('#docsearch-item-0').find('[data-cy=remove-recent]').trigger('click');
+    cy.contains('No recent searches').should('be.visible');
+  });
+
+  it('Recent search can be favorited', () => {
     cy.get('.DocSearch-SearchButton').click();
+    cy.get('#docsearch-item-0').find('[data-cy=fav-recent]').trigger('click');
     cy.contains('Favorites').should('be.visible');
     cy.get('#docsearch-item-0').should('be.visible');
   });
 
-  it('Favorites can be deleted', () => {
-      cy.get('.DocSearch-SearchButton').click();
-      cy.contains('Recent').should('be.visible');
-      cy.get('.DocSearch-Hit-action-button[title="Save this search"]').click();
-      cy.get('body').type('{esc}');
-      cy.get('.DocSearch-SearchButton').click();
-      cy.contains('Favorites').should('be.visible');
-      cy.get('#docsearch-item-0').should('be.visible');
-      cy.get('.DocSearch-Hit-action-button[title="Remove this search from history"]').click();
-      cy.contains('No recent searches').should('be.visible');
-    });
-
+  it('Favorite can be deleted', () => {
+    cy.get('.DocSearch-SearchButton').click();
+    cy.get('#docsearch-item-0').find('[data-cy=fav-recent]').trigger('click');
+    cy.wait(2000);
+    cy.get('#docsearch-item-0').find('[data-cy=remove-fav]').trigger('click');
+    cy.contains('No recent searches').should('be.visible');
+  });
 });
