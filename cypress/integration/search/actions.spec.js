@@ -59,6 +59,24 @@ context('Search', () => {
     cy.get('.DocSearch-Input').type('get');
     cy.get('.DocSearch-Hits').should('be.visible');
   });
+
+  it('Keyboard Navigation leads to result', () => {
+    cy.get('.DocSearch-Input').type('get');
+    cy.get('.DocSearch-Input').type('{downArrow}{downArrow}{upArrow}');
+    cy.get('.DocSearch-Input').type('{enter}');
+    cy.url().should('include', '/docs/getalgoliaresults/');
+  });
+
+  it('Pointer Navigation leads to result', () => {
+    cy.get('.DocSearch-Input').type('get');
+    cy.get('.DocSearch-Hits #docsearch-item-1 > a').click({ force: true });
+    cy.url().should('include', '/docs/getalgoliaresults/');
+  });
+
+  it("No Results are displayed if query doesn't match", () => {
+    cy.get('.DocSearch-Input').type('zzzzz');
+    cy.contains('No results for "zzzzz"').should('be.visible');
+  });
 });
 
 context('Recent and Favorites', () => {
@@ -66,7 +84,7 @@ context('Recent and Favorites', () => {
     cy.visit('http://localhost:3000/');
     cy.get('.DocSearch-SearchButton').click();
     cy.get('.DocSearch-Input').type('get');
-    cy.get('.DocSearch-Hits #docsearch-item-0').click({ force: true });
+    cy.get('.DocSearch-Hits #docsearch-item-0 > a').click({ force: true });
   });
 
   it('Recent search is displayed after visiting a result', () => {
