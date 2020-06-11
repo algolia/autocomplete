@@ -23,6 +23,7 @@ import { ScreenState } from './ScreenState';
 import { Footer } from './Footer';
 
 interface DocSearchModalProps extends DocSearchProps {
+  initialScrollY: number;
   onClose?(): void;
 }
 
@@ -37,6 +38,7 @@ export function DocSearchModal({
   hitComponent = Hit,
   resultsFooterComponent = () => null,
   navigator,
+  initialScrollY = 0,
 }: DocSearchModalProps) {
   const [state, setState] = React.useState<
     AutocompleteState<InternalDocSearchHit>
@@ -275,14 +277,16 @@ export function DocSearchModal({
 
   React.useEffect(() => {
     document.body.classList.add('DocSearch--active');
-    scrollY.current = window.scrollY;
 
     return () => {
       document.body.classList.remove('DocSearch--active');
+
       // IE11 doesn't support `scrollTo` so we check that the method exists
       // first.
-      window.scrollTo?.(0, scrollY.current);
+      window.scrollTo?.(0, initialScrollY);
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
