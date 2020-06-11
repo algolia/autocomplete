@@ -10,7 +10,7 @@
     },
     {
       "path": "packages/autocomplete-react/dist/umd/index.js",
-      "maxSize": "20.5 kB"
+      "maxSize": "20.75 kB"
     },
     {
       "path": "packages/docsearch-react/dist/umd/index.js",
