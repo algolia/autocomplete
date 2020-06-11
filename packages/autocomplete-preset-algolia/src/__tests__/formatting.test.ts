@@ -1,14 +1,14 @@
 import {
-  highlightAlgoliaHit,
-  reverseHighlightAlgoliaHit,
-  snippetAlgoliaHit,
+  parseHighlightedAttribute,
+  parseReverseHighlightedAttribute,
+  parseSnippetedAttribute,
 } from '../formatting';
 
 describe('highlight', () => {
-  describe('highlightAlgoliaHit', () => {
-    test('returns the highlighted value of the hit', () => {
+  describe('parseHighlightedAttribute', () => {
+    test('returns the highlighted parts of the hit', () => {
       expect(
-        highlightAlgoliaHit({
+        parseHighlightedAttribute({
           attribute: 'title',
           hit: {
             _highlightResult: {
@@ -17,32 +17,36 @@ describe('highlight', () => {
               },
             },
           },
+          highlightPreTag: '<mark>',
+          highlightPostTag: '</mark>',
         })
-      ).toEqual('<mark>He</mark>llo t<mark>he</mark>re');
-    });
-
-    test('allows custom tags', () => {
-      expect(
-        highlightAlgoliaHit({
-          highlightPreTag: '<em>',
-          highlightPostTag: '</em>',
-          attribute: 'title',
-          hit: {
-            _highlightResult: {
-              title: {
-                value: '<em>He</em>llo t<em>he</em>re',
-              },
-            },
+      ).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "isHighlighted": true,
+            "value": "He",
           },
-        })
-      ).toEqual('<em>He</em>llo t<em>he</em>re');
+          Object {
+            "isHighlighted": false,
+            "value": "llo t",
+          },
+          Object {
+            "isHighlighted": true,
+            "value": "he",
+          },
+          Object {
+            "isHighlighted": false,
+            "value": "re",
+          },
+        ]
+      `);
     });
   });
 
-  describe('reverseHighlightAlgoliaHit', () => {
-    test('returns the reverse-highlighted value of the hit', () => {
+  describe('parseReverseHighlightedAttribute', () => {
+    test('returns the reverse-highlighted parts of the hit', () => {
       expect(
-        reverseHighlightAlgoliaHit({
+        parseReverseHighlightedAttribute({
           attribute: 'title',
           hit: {
             _highlightResult: {
@@ -51,41 +55,54 @@ describe('highlight', () => {
               },
             },
           },
+          highlightPreTag: '<mark>',
+          highlightPostTag: '</mark>',
         })
-      ).toEqual('He<mark>llo t</mark>he<mark>re</mark>');
-    });
-
-    test('allows custom tags', () => {
-      expect(
-        reverseHighlightAlgoliaHit({
-          highlightPreTag: '<em>',
-          highlightPostTag: '</em>',
-          attribute: 'title',
-          hit: {
-            _highlightResult: {
-              title: {
-                value: '<em>He</em>llo t<em>he</em>re',
-              },
-            },
+      ).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "isHighlighted": false,
+            "value": "He",
           },
-        })
-      ).toEqual('He<em>llo t</em>he<em>re</em>');
+          Object {
+            "isHighlighted": true,
+            "value": "llo t",
+          },
+          Object {
+            "isHighlighted": false,
+            "value": "he",
+          },
+          Object {
+            "isHighlighted": true,
+            "value": "re",
+          },
+        ]
+      `);
     });
 
-    test('returns the non-highlighted value when every part matches', () => {
+    test('returns the non-highlighted parts when every part matches', () => {
       expect(
-        reverseHighlightAlgoliaHit({
+        parseReverseHighlightedAttribute({
           attribute: 'title',
           hit: { _highlightResult: { title: { value: 'Hello' } } },
+          highlightPreTag: '<mark>',
+          highlightPostTag: '</mark>',
         })
-      ).toEqual('Hello');
+      ).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "isHighlighted": false,
+            "value": "Hello",
+          },
+        ]
+      `);
     });
   });
 
-  describe('snippetAlgoliaHit', () => {
-    test('returns the highlighted snippet value of the hit', () => {
+  describe('parseSnippetedAttribute', () => {
+    test('returns the highlighted snippet parts of the hit', () => {
       expect(
-        snippetAlgoliaHit({
+        parseSnippetedAttribute({
           attribute: 'title',
           hit: {
             _snippetResult: {
@@ -94,25 +111,29 @@ describe('highlight', () => {
               },
             },
           },
+          highlightPreTag: '<mark>',
+          highlightPostTag: '</mark>',
         })
-      ).toEqual('<mark>He</mark>llo t<mark>he</mark>re');
-    });
-
-    test('allows custom tags', () => {
-      expect(
-        snippetAlgoliaHit({
-          highlightPreTag: '<em>',
-          highlightPostTag: '</em>',
-          attribute: 'title',
-          hit: {
-            _snippetResult: {
-              title: {
-                value: '<em>He</em>llo t<em>he</em>re',
-              },
-            },
+      ).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "isHighlighted": true,
+            "value": "He",
           },
-        })
-      ).toEqual('<em>He</em>llo t<em>he</em>re');
+          Object {
+            "isHighlighted": false,
+            "value": "llo t",
+          },
+          Object {
+            "isHighlighted": true,
+            "value": "he",
+          },
+          Object {
+            "isHighlighted": false,
+            "value": "re",
+          },
+        ]
+      `);
     });
   });
 });

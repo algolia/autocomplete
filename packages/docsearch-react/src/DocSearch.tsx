@@ -1,6 +1,9 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { PublicAutocompleteOptions } from '@francoischalifour/autocomplete-core';
+import {
+  PublicAutocompleteOptions,
+  AutocompleteState,
+} from '@francoischalifour/autocomplete-core';
 
 import { DocSearchHit, InternalDocSearchHit } from './types';
 import { DocSearchButton } from './DocSearchButton';
@@ -19,24 +22,21 @@ export interface DocSearchProps
     hit: DocSearchHit;
     children: React.ReactNode;
   }): JSX.Element;
+  resultsFooterComponent?(props: {
+    state: AutocompleteState<InternalDocSearchHit>;
+  }): JSX.Element | null;
 }
 
 export function DocSearch(props: DocSearchProps) {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const onOpen = React.useCallback(
-    function onOpen() {
-      setIsOpen(true);
-    },
-    [setIsOpen]
-  );
+  const onOpen = React.useCallback(() => {
+    setIsOpen(true);
+  }, [setIsOpen]);
 
-  const onClose = React.useCallback(
-    function onClose() {
-      setIsOpen(false);
-    },
-    [setIsOpen]
-  );
+  const onClose = React.useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
 
   useDocSearchKeyboardEvents({ isOpen, onOpen, onClose });
 
@@ -46,7 +46,11 @@ export function DocSearch(props: DocSearchProps) {
 
       {isOpen &&
         createPortal(
-          <DocSearchModal {...props} onClose={onClose} />,
+          <DocSearchModal
+            {...props}
+            initialScrollY={window.scrollY}
+            onClose={onClose}
+          />,
           document.body
         )}
     </>
