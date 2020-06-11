@@ -135,7 +135,7 @@ At this point, you should already have a usable autocomplete input:
 
 To improve the `input` control, we can wrap it in a `form` and apply the form props given by Autocomplete:
 
-```js {12,14}
+```js
 function Autocomplete() {
   // ...
   const inputRef = React.useRef(null);
@@ -161,7 +161,7 @@ function Autocomplete() {
 
 You can add a label that represents the input:
 
-```js {14}
+```js
 function Autocomplete() {
   // ...
   const inputRef = React.useRef(null);
@@ -186,7 +186,7 @@ function Autocomplete() {
 
 A good practice for search inputs is to display a reset button. You can conditionally display it based on if there's a query, and trigger the `onReset` event from `getFormProps` on it.
 
-```js {4-6,15-16,20-22}
+```js
 function Autocomplete() {
   // ...
 
@@ -220,7 +220,7 @@ function Autocomplete() {
 
 You can display UI hints when the network is unstable, which can help users understand why results are not updating in real time.
 
-```js {12-13}
+```js
 function Autocomplete() {
   // ...
 
