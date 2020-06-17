@@ -1,5 +1,6 @@
 {
   "projectId": "nf9rdc",
   "viewportWidth": 1000,
-  "viewportHeight": 800
+  "viewportHeight": 800,
+  "baseUrl": "http://localhost:3000"
 }

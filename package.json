@@ -26,7 +26,13 @@
     "release": "shipjs prepare",
     "doc:start": "cd packages/website/ && yarn start",
     "doc:build": "cd packages/website/ && yarn build",
-    "doc:deploy": "cd packages/website/ && yarn deploy"
+    "doc:deploy": "cd packages/website/ && yarn deploy",
+    "doc:test": "cd packages/website/ && yarn start --no-open",
+    "cy:test": "cypress run --spec 'cypress/integration/**/*' --headless",
+    "cy:run": "start-server-and-test doc:test http://localhost:3000 cy:run",
+    "cy:run:chrome": "yarn run cy:run --browser chrome ",
+    "cy:run:firefox": "yarn run cy:run --browser firefox",
+    "cy:run:edge": "yarn run cy:run --browser edge"
   },
   "devDependencies": {
     "@babel/cli": "7.10.1",
@@ -83,6 +89,8 @@
     "vue": "2.6.11",
     "vue-loader": "15.8.3",
     "vue-template-compiler": "2.6.11",
-    "webpack": "4.41.5"
+    "wait-on": "^5.0.1",
+    "webpack": "4.41.5",
+    "start-server-and-test": "^1.11.0"
   }
 }
