@@ -30,9 +30,8 @@
     "doc:test": "cd packages/website/ && yarn start --no-open",
     "cy:verify": "cypress verify",
     "cy:info": "cypress info",
-    "cy:record": "yarn cy:run --record --key=$CYPRESS_TOKEN",
-    "cy:run": "start-server-and-test doc:test http://localhost:3000 cy:test",
-    "cy:test": "cypress run --spec 'cypress/integration/**/*' --headless",
+    "cy:record": "cypress run --spec 'cypress/integration/**/*' --headless --record",
+    "cy:run": "start-server-and-test doc:test http://localhost:3000 cy:record",
     "cy:run:chrome": "yarn run cy:run --browser chrome ",
     "cy:run:firefox": "yarn run cy:run --browser firefox",
     "cy:run:edge": "yarn run cy:run --browser edge"
