@@ -31,7 +31,8 @@
     "cy:test": "cypress run --spec 'cypress/integration/**/*' --headless",
     "cy:verify": "cypress verify",
     "cy:info": "cypress info",
-    "cy:run": "start-server-and-test doc:test http://localhost:3000 cy:run",
+    "cy:run": "start-server-and-test doc:test http://localhost:3000 cy:test",
+    "cy:record": "cy:run --record --key=process.env.CYPRESS_TOKEN",
     "cy:run:chrome": "yarn run cy:run --browser chrome ",
     "cy:run:firefox": "yarn run cy:run --browser firefox",
     "cy:run:edge": "yarn run cy:run --browser edge"

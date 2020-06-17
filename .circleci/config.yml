@@ -91,7 +91,6 @@ jobs:
 
   test_cypress:
     <<: *cypress
-    parallelism: 2
     steps:
       - checkout
       - run: *install_yarn_version
@@ -101,6 +100,8 @@ jobs:
       - run:
           name: Cypress test Actions
           command: yarn run cy:run
+      - store_test_results:
+          path: cypress-results
       - store_artifacts:
           path: cypress\screenshots
       - store_artifacts:
