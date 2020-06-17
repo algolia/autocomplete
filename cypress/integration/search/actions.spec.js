@@ -95,7 +95,9 @@ context('Recent and Favorites', () => {
 
   it('Recent search can be deleted', () => {
     cy.get('.DocSearch-SearchButton').click();
-    cy.get('#docsearch-item-0').find('[data-cy=remove-recent]').trigger('click');
+    cy.get('#docsearch-item-0')
+      .find('[data-cy=remove-recent]')
+      .trigger('click');
     cy.contains('No recent searches').should('be.visible');
   });
 
