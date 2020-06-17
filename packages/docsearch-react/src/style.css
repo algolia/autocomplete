@@ -657,6 +657,7 @@ svg.DocSearch-Hit-Select-Icon {
   }
 
   .DocSearch-Container {
+    height: 100vh;
     height: -webkit-fill-available;
     position: absolute;
   }
@@ -676,6 +677,7 @@ svg.DocSearch-Hit-Select-Icon {
   .DocSearch-Modal {
     border-radius: 0;
     box-shadow: none;
+    height: 100vh;
     height: -webkit-fill-available;
     margin: 0;
     max-width: 100%;
