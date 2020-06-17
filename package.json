@@ -28,11 +28,11 @@
     "doc:build": "cd packages/website/ && yarn build",
     "doc:deploy": "cd packages/website/ && yarn deploy",
     "doc:test": "cd packages/website/ && yarn start --no-open",
-    "cy:test": "cypress run --spec 'cypress/integration/**/*' --headless",
     "cy:verify": "cypress verify",
     "cy:info": "cypress info",
+    "cy:record": "yarn cy:run --record --key=$CYPRESS_TOKEN",
     "cy:run": "start-server-and-test doc:test http://localhost:3000 cy:test",
-    "cy:record": "cy:run --record --key=process.env.CYPRESS_TOKEN",
+    "cy:test": "cypress run --spec 'cypress/integration/**/*' --headless",
     "cy:run:chrome": "yarn run cy:run --browser chrome ",
     "cy:run:firefox": "yarn run cy:run --browser firefox",
     "cy:run:edge": "yarn run cy:run --browser edge"
