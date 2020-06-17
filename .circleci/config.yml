@@ -91,9 +91,9 @@ jobs:
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
+      - save_cache: *save_yarn_cache
       - run: yarn run cy:verify
       - run: yarn run cy:info 
-      - save_cache: *save_yarn_cache
       - run:
           name: Cypress test Actions
           command: yarn run cy:run
