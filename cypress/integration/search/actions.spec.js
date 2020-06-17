@@ -7,18 +7,21 @@ context('Start', () => {
     cy.get('.DocSearch-SearchButton').click();
     cy.get('.DocSearch-Modal').should('be.visible');
     cy.get('.DocSearch-Input').should('be.focus');
+    cy.percySnapshot();
   });
 
   it('Open Modal with key shortcut on Windows/Linux', () => {
     cy.get('body').type('{ctrl}k');
     cy.get('.DocSearch-Modal').should('be.visible');
     cy.get('.DocSearch-Input').should('be.focus');
+    cy.percySnapshot();
   });
 
   it('Open Modal with key shortcut on macOS', () => {
     cy.get('body').type('{meta}k');
     cy.get('.DocSearch-Modal').should('be.visible');
     cy.get('.DocSearch-Input').should('be.focus');
+    cy.percySnapshot();
   });
 });
 
