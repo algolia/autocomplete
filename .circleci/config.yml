@@ -28,7 +28,7 @@ defaults: &defaults
 cypress: &cypress
   working_directory: ~/autocompletejs
   docker:
-    - image: cypress/browsers
+    - image: cypress/browsers:node13.8.0-chrome81-ff75
       environment:
         ## this enables colors in the output
         TERM: xterm
@@ -38,7 +38,6 @@ version: 2.1
 jobs:
   test_build:
     <<: *defaults
-    parallelism: 2
     steps:
       - checkout
       - run: *install_yarn_version
@@ -92,6 +91,7 @@ jobs:
 
   test_cypress:
     <<: *cypress
+    parallelism: 2
     steps:
       - checkout
       - run: *install_yarn_version
