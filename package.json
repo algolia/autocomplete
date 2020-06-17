@@ -29,6 +29,8 @@
     "doc:deploy": "cd packages/website/ && yarn deploy",
     "doc:test": "cd packages/website/ && yarn start --no-open",
     "cy:test": "cypress run --spec 'cypress/integration/**/*' --headless",
+    "cy:verify": "cypress verify",
+    "cy:info": "cypress info",
     "cy:run": "start-server-and-test doc:test http://localhost:3000 cy:run",
     "cy:run:chrome": "yarn run cy:run --browser chrome ",
     "cy:run:firefox": "yarn run cy:run --browser firefox",
