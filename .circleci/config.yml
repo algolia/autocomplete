@@ -92,7 +92,8 @@ jobs:
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
-      - cypress/install
+      - cypress/install:
+          yarn: true
       - run: yarn run cy:verify
       - run: yarn run cy:info 
       - run:
