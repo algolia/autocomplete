@@ -25,7 +25,11 @@ defaults: &defaults
   docker:
     - image: circleci/node:12.14.1
 
-version: 2
+version: 2.1
+  orbs:
+    cypress: cypress-io/cypress@1
+    win: circleci/windows@1
+
 jobs:
   test_build:
     <<: *defaults
@@ -80,8 +84,26 @@ jobs:
           name: Release if needed
           command: yarn run shipjs trigger
 
+  test_cypress:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: *install_yarn_version
+      - restore_cache: *restore_yarn_cache
+      - run: *run_yarn_install
+      - run: yarn run cy:verify
+      - run: yarn run cy:info 
+      - save_cache: *save_yarn_cache
+      - run:
+          name: Cypress test Actions
+          command: yarn run cy:run
+      - store_artifacts:
+          path: cypress\screenshots
+      - store_artifacts:
+          path: cypress\videos
+
 workflows:
-  version: 2
+  version: 2.1
   ci:
     jobs:
       - test_build:
@@ -96,6 +118,8 @@ workflows:
           filters:
             branches:
               only: next
+      - test_cypress:
+          yarn: true
       - release:
           filters:
             branches:
