@@ -25,14 +25,20 @@ defaults: &defaults
   docker:
     - image: circleci/node:12.14.1
 
+cypress: &cypress
+  working_directory: ~/autocompletejs
+  docker:
+    - image: cypress/browsers
+      environment:
+        ## this enables colors in the output
+        TERM: xterm
+
 version: 2.1
-orbs:
-  cypress: cypress-io/cypress@1
-  win: circleci/windows@1
 
 jobs:
   test_build:
     <<: *defaults
+    parallelism: 2
     steps:
       - checkout
       - run: *install_yarn_version
@@ -85,17 +91,13 @@ jobs:
           command: yarn run shipjs trigger
 
   test_cypress:
-    <<: *defaults
+    <<: *cypress
     steps:
       - checkout
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
-      - cypress/install:
-          yarn: true
-      - run: yarn run cy:verify
-      - run: yarn run cy:info 
       - run:
           name: Cypress test Actions
           command: yarn run cy:run
