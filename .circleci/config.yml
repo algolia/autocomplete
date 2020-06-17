@@ -118,8 +118,7 @@ workflows:
           filters:
             branches:
               only: next
-      - test_cypress:
-          yarn: true
+      - test_cypress
       - release:
           filters:
             branches:
