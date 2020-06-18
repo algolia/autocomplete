@@ -34,7 +34,8 @@
     "cy:run": "start-server-and-test doc:test http://localhost:3000 cy:record",
     "cy:run:chrome": "yarn run cy:run --browser chrome ",
     "cy:run:firefox": "yarn run cy:run --browser firefox",
-    "cy:run:edge": "yarn run cy:run --browser edge"
+    "cy:run:edge": "yarn run cy:run --browser edge",
+    "docsearch:lint:css": "stylelint packages/docsearch-react/src/**/*.css"
   },
   "devDependencies": {
     "@babel/cli": "7.10.1",
@@ -90,6 +91,14 @@
     "rollup-plugin-terser": "5.2.0",
     "shipjs": "0.19.0",
     "start-server-and-test": "^1.11.0",
+    "stylelint": "13.6.1",
+    "stylelint-a11y": "1.2.3",
+    "stylelint-config-prettier": "8.0.1",
+    "stylelint-config-sass-guidelines": "7.0.0",
+    "stylelint-config-standard": "20.0.0",
+    "stylelint-no-unsupported-browser-features": "4.0.0",
+    "stylelint-order": "4.0.0",
+    "stylelint-prettier": "1.1.2",
     "typescript": "3.7.5",
     "vue": "2.6.11",
     "vue-loader": "15.8.3",
