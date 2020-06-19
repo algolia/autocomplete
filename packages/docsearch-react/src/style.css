@@ -398,7 +398,6 @@ html[data-theme='dark'] {
 
 @media screen and (prefers-reduced-motion: reduce) {
   .DocSearch-Hit--deleting {
-    opacity: 0;
     transition: none;
   }
 }
@@ -410,10 +409,7 @@ html[data-theme='dark'] {
 
 @media screen and (prefers-reduced-motion: reduce) {
   .DocSearch-Hit--favoriting {
-    transform: scale(0);
-    transform-origin: top center;
     transition: none;
-    transition-delay: 250ms;
   }
 }
 
@@ -507,41 +503,25 @@ html[data-theme='dark'] {
   padding: 2px;
 }
 
-.DocSearch-Hit-Select-Icon {
+svg.DocSearch-Hit-Select-Icon {
   display: none;
 }
+
 .DocSearch-Hit[aria-selected='true'] .DocSearch-Hit-Select-Icon {
   display: block;
-}
-
-@media screen and (prefers-reduced-motion: reduce) {
-  .DocSearch-Hit-action-button:hover,
-  .DocSearch-Hit-action-button:focus {
-    background: rgba(0, 0, 0, 0.2);
-    transition: none;
-  }
-}
-
-@media screen and (prefers-reduced-motion: reduce) {
-  .DocSearch-Hit-action-button:hover,
-  .DocSearch-Hit-action-button:focus {
-    background: rgba(0, 0, 0, 0.2);
-    transition: none;
-  }
-}
-
-@media screen and (prefers-reduced-motion: reduce) {
-.DocSearch-Hit-action-button:hover,
-.DocSearch-Hit-action-button:focus {
-  background: rgba(0, 0, 0, 0.2);
-  transition: none;
-}
 }
 
 .DocSearch-Hit-action-button:hover,
 .DocSearch-Hit-action-button:focus {
   background: rgba(0, 0, 0, 0.2);
   transition: background-color 0.1s ease-in;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  .DocSearch-Hit-action-button:hover,
+  .DocSearch-Hit-action-button:focus {
+    transition: none;
+  }
 }
 
 .DocSearch-Hit-action-button:hover path,
