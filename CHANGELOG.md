@@ -1,3 +1,25 @@
+# [1.0.0-alpha.19](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.18...v1.0.0-alpha.19) (2020-06-24)
+
+### Bug Fixes
+
+- **ci:** fix orbs declaration ([db902a1](https://github.com/francoischalifour/autocomplete.js/commit/db902a12972a206f2b75646f40625376a80cad82))
+- **ci:** Install cypress ([fb32788](https://github.com/francoischalifour/autocomplete.js/commit/fb327886b6d22d3c59cab2f8e6a32b24c5bd8eaf))
+- **ci:** install cypress with Yarn ([5f7dc27](https://github.com/francoischalifour/autocomplete.js/commit/5f7dc27547bcf195586d1ddb43f5a981bc1c7f42))
+- **ci:** npm script + percy ([949a24a](https://github.com/francoischalifour/autocomplete.js/commit/949a24a9da50a6f1ca2c7b0a6891d0a09f63ae20))
+- **ci:** remove test cypress job args ([c1bf37b](https://github.com/francoischalifour/autocomplete.js/commit/c1bf37b7966eb468281410e055a107f0e9ac3d0d))
+- **ci:** rerun ([04fb6f6](https://github.com/francoischalifour/autocomplete.js/commit/04fb6f6f93da0fdd14949cb79176a1b678e83dbd))
+- **ci:** use cypress docker image ([fa5521b](https://github.com/francoischalifour/autocomplete.js/commit/fa5521bce55e029e8510e41903024c4252ac2567))
+- **ci:** use latest cypress browsers image with node 13 ([bdab390](https://github.com/francoischalifour/autocomplete.js/commit/bdab3901876668e7cbc5b3b15498ca82af90077a))
+- **css:** fixed Modal height undefined on Gecko ([85753c5](https://github.com/francoischalifour/autocomplete.js/commit/85753c546da2465b731f70c4f7b6c6e06206feea))
+- **cypress:** Added Verify and Info npm scripts ([5f4ae05](https://github.com/francoischalifour/autocomplete.js/commit/5f4ae05c58fb76d92517fab07f622444c3d9a5b3))
+- **cypress:** changed env var name for cypress key ([28307a8](https://github.com/francoischalifour/autocomplete.js/commit/28307a84c92b2fe79939cfa4e0755a44326de54c))
+- **docsearch:** hoist `transformItems` default value ([1e0ae9e](https://github.com/francoischalifour/autocomplete.js/commit/1e0ae9eefb5fc185cbf41e6ac5c876ed8be24075))
+- **lint:** Disable import/no-common for percy ([8af940d](https://github.com/francoischalifour/autocomplete.js/commit/8af940d69bf9eb35bcc70fbc533abdcf721ea209))
+- **lint:** set cariage return in prettier config ([3016601](https://github.com/francoischalifour/autocomplete.js/commit/3016601a47699a37e9fa30620e71eef3f30f8c6d))
+- **lint:** set eol to auto ([e6db26e](https://github.com/francoischalifour/autocomplete.js/commit/e6db26e57aaf433b149dc16d9a846cdfa19c0314))
+- **test:** lint ([896ef59](https://github.com/francoischalifour/autocomplete.js/commit/896ef5959f06576f03d6ecd4ff7ee6ce96333a6d))
+- **ypress:** Record reuslts ([7dac93e](https://github.com/francoischalifour/autocomplete.js/commit/7dac93e6a538f69bfe44bfdfe0fbb939b0e241e1))
+
 # [1.0.0-alpha.18](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.17...v1.0.0-alpha.18) (2020-06-11)
 
 ### Bug Fixes
