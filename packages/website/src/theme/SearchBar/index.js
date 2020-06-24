@@ -22,6 +22,21 @@ function ResultsFooter({ state }) {
   );
 }
 
+function transformItems(items) {
+  return items.map((item) => {
+    // We transform the absolute URL into a relative URL.
+    // Alternatively, we can use `new URL(item.url)` but it's not
+    // supported in IE.
+    const a = document.createElement('a');
+    a.href = item.url;
+
+    return {
+      ...item,
+      url: `${a.pathname}${a.hash}`,
+    };
+  });
+}
+
 function DocSearch({ indexName, appId, apiKey, searchParameters }) {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
@@ -85,20 +100,7 @@ function DocSearch({ indexName, appId, apiKey, searchParameters }) {
                 history.push(suggestionUrl);
               },
             }}
-            transformItems={(items) => {
-              return items.map((item) => {
-                // We transform the absolute URL into a relative URL.
-                // Alternatively, we can use `new URL(item.url)` but it's not
-                // supported in IE.
-                const a = document.createElement('a');
-                a.href = item.url;
-
-                return {
-                  ...item,
-                  url: `${a.pathname}${a.hash}`,
-                };
-              });
-            }}
+            transformItems={transformItems}
             hitComponent={Hit}
             resultsFooterComponent={ResultsFooter}
           />,

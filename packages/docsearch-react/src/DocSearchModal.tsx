@@ -27,6 +27,10 @@ interface DocSearchModalProps extends DocSearchProps {
   onClose?(): void;
 }
 
+function defaultTransformItems(x: DocSearchHit[]) {
+  return x;
+}
+
 export function DocSearchModal({
   appId = 'BH4D9OD16A',
   apiKey,
@@ -34,7 +38,7 @@ export function DocSearchModal({
   placeholder = 'Search docs',
   searchParameters,
   onClose = noop,
-  transformItems = (x) => x,
+  transformItems = defaultTransformItems,
   hitComponent = Hit,
   resultsFooterComponent = () => null,
   navigator,
