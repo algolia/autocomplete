@@ -1,3 +1,9 @@
+# [1.0.0-alpha.20](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.19...v1.0.0-alpha.20) (2020-07-01)
+
+### Features
+
+- **docsearch:** add `/` keyboard shortcut ([d3a7275](https://github.com/francoischalifour/autocomplete.js/commit/d3a7275f03c8d397d797c9375a42bf977fc824ed))
+
 # [1.0.0-alpha.19](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.18...v1.0.0-alpha.19) (2020-06-24)
 
 ### Bug Fixes
