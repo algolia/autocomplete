@@ -23,6 +23,13 @@ context('Start', () => {
     cy.get('.DocSearch-Input').should('be.focus');
     cy.percySnapshot();
   });
+
+  it('Open Modal with forward slash key shortcut', () => {
+    cy.get('body').type('/');
+    cy.get('.DocSearch-Modal').should('be.visible');
+    cy.get('.DocSearch-Input').should('be.focus');
+    cy.percySnapshot();
+  });
 });
 
 context('End', () => {
