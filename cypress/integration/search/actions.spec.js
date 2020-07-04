@@ -1,10 +1,12 @@
+const baseUrl = Cypress.config().baseUrl;
+
 context('Start', () => {
   before(() => {
     cy.exec('yarn cy:clean');
   });
 
   beforeEach(() => {
-    cy.visit('http://localhost:3000/');
+    cy.visit(baseUrl);
   });
 
   it('Open Modal on Search Button click', () => {
@@ -35,7 +37,7 @@ context('Start', () => {
 
 context('End', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/');
+    cy.visit(baseUrl);
     cy.get('.DocSearch-SearchButton').click();
   });
 
@@ -63,7 +65,7 @@ context('End', () => {
 
 context('Search', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/');
+    cy.visit(baseUrl);
     cy.get('.DocSearch-SearchButton').click();
   });
 
@@ -96,7 +98,7 @@ context('Search', () => {
 
 context('Recent and Favorites', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/');
+    cy.visit(baseUrl);
     cy.get('.DocSearch-SearchButton').click();
     cy.get('.DocSearch-Input').type('get');
     cy.get('.DocSearch-Hits #docsearch-item-0 > a').click({ force: true });
