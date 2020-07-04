@@ -103,7 +103,6 @@ context('Recent and Favorites', () => {
   });
 
   it('Recent search is displayed after visiting a result', () => {
-    cy.percySnapshot();
     cy.get('.DocSearch-SearchButton').click();
     cy.contains('Recent').should('be.visible');
     cy.get('#docsearch-item-0').should('be.visible');
