@@ -79,12 +79,13 @@
   font-size: 1.2em;
   height: 100%;
   outline: none;
-  padding-left: 8px;
+  padding: 0 0 0 8px;
   width: 80%;
 }
 
 .DocSearch-Input::placeholder {
   color: var(--docsearch-muted-color);
+  opacity: 1; /* Firefox */
 }
 
 .DocSearch-Input::-webkit-search-cancel-button,
