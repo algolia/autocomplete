@@ -553,15 +553,6 @@ svg.DocSearch-Hit-Select-Icon {
     display: none;
   }
 
-  .DocSearch-SearchButton-KeySeparator,
-  .DocSearch-SearchButton-Key {
-    display: none;
-  }
-
-  .DocSearch-SearchButton-Placeholder {
-    display: none;
-  }
-
   .DocSearch-Dropdown {
     height: 100%;
   }
