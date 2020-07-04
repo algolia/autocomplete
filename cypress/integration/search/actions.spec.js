@@ -1,4 +1,8 @@
 context('Start', () => {
+  before(() => {
+    cy.exec('yarn cy:clean');
+  });
+
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
   });
@@ -7,28 +11,25 @@ context('Start', () => {
     cy.get('.DocSearch-SearchButton').click();
     cy.get('.DocSearch-Modal').should('be.visible');
     cy.get('.DocSearch-Input').should('be.focus');
-    cy.percySnapshot();
+    cy.viewportShot('modal-opened');
   });
 
   it('Open Modal with key shortcut on Windows/Linux', () => {
     cy.get('body').type('{ctrl}k');
     cy.get('.DocSearch-Modal').should('be.visible');
     cy.get('.DocSearch-Input').should('be.focus');
-    cy.percySnapshot();
   });
 
   it('Open Modal with key shortcut on macOS', () => {
     cy.get('body').type('{meta}k');
     cy.get('.DocSearch-Modal').should('be.visible');
     cy.get('.DocSearch-Input').should('be.focus');
-    cy.percySnapshot();
   });
 
   it('Open Modal with forward slash key shortcut', () => {
     cy.get('body').type('/');
     cy.get('.DocSearch-Modal').should('be.visible');
     cy.get('.DocSearch-Input').should('be.focus');
-    cy.percySnapshot();
   });
 });
 
@@ -41,6 +42,7 @@ context('End', () => {
   it('Close Modal with Esc key', () => {
     cy.get('body').type('{esc}');
     cy.get('.DocSearch-Modal').should('not.be.visible');
+    cy.viewportShot('modal-closed');
   });
 
   it('Close Modal by clicking outside its container', () => {
@@ -68,6 +70,7 @@ context('Search', () => {
   it('Results are displayed after a Query', () => {
     cy.get('.DocSearch-Input').type('get');
     cy.get('.DocSearch-Hits').should('be.visible');
+    cy.viewportShot('search-results');
   });
 
   it('Keyboard Navigation leads to result', () => {
@@ -75,6 +78,7 @@ context('Search', () => {
     cy.get('.DocSearch-Input').type('{downArrow}{downArrow}{upArrow}');
     cy.get('.DocSearch-Input').type('{enter}');
     cy.url().should('include', '/docs/getalgoliaresults/');
+    cy.viewportShot('result-page-anchor');
   });
 
   it('Pointer Navigation leads to result', () => {
@@ -86,6 +90,7 @@ context('Search', () => {
   it("No Results are displayed if query doesn't match", () => {
     cy.get('.DocSearch-Input').type('zzzzz');
     cy.contains('No results for "zzzzz"').should('be.visible');
+    cy.viewportShot('no-results');
   });
 });
 
@@ -98,9 +103,11 @@ context('Recent and Favorites', () => {
   });
 
   it('Recent search is displayed after visiting a result', () => {
+    cy.percySnapshot();
     cy.get('.DocSearch-SearchButton').click();
     cy.contains('Recent').should('be.visible');
     cy.get('#docsearch-item-0').should('be.visible');
+    cy.viewportShot('recent-search');
   });
 
   it('Recent search can be deleted', () => {
@@ -116,6 +123,7 @@ context('Recent and Favorites', () => {
     cy.get('#docsearch-item-0').find('[data-cy=fav-recent]').trigger('click');
     cy.contains('Favorites').should('be.visible');
     cy.get('#docsearch-item-0').should('be.visible');
+    cy.viewportShot('favorite');
   });
 
   it('Favorite can be deleted', () => {

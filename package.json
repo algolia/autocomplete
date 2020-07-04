@@ -32,9 +32,10 @@
     "cy:info": "cypress info",
     "cy:record": "percy exec -- cypress run --spec 'cypress/integration/**/*' --headless --record",
     "cy:run": "start-server-and-test doc:test http://localhost:3000 cy:record",
-    "cy:run:chrome": "yarn run cy:run --browser chrome ",
+    "cy:run:chrome": "yarn run cy:run --browser chrome",
     "cy:run:firefox": "yarn run cy:run --browser firefox",
     "cy:run:edge": "yarn run cy:run --browser edge",
+    "cy:clean": "rm -rf cypress/screenshots",
     "docsearch:lint:css": "stylelint packages/docsearch-react/src/**/*.css"
   },
   "devDependencies": {
