@@ -2,27 +2,24 @@ import '@percy/cypress';
 
 Cypress.Commands.add('darkmode', () => {
   cy.get('.react-toggle').click({ force: true });
+  cy.get('.react-toggle-screenreader-only').blur();
 });
 
-Cypress.Commands.add('viewportShot', (name) => {
-  const sizes = ['iphone-x', 'ipad-2', 'macbook-11'];
-  cy.percySnapshot(`${name}`);
-  sizes.forEach((size) => {
-    if (Cypress._.isArray(size)) {
-      cy.viewport(size[0], size[1]);
-    } else {
-      cy.viewport(size);
-    }
-    cy.screenshot(`${name}__${size}`, { capture: 'viewport' });
-  });
-  cy.darkmode();
-  cy.percySnapshot(`${name}__darkmode`);
-  sizes.forEach((size) => {
-    if (Cypress._.isArray(size)) {
-      cy.viewport(size[0], size[1]);
-    } else {
-      cy.viewport(size);
-    }
-    cy.screenshot(`${name}__${size}__darkmode`, { capture: 'viewport' });
-  });
+Cypress.Commands.add('openModal', () => {
+  cy.get('.DocSearch-SearchButton').click();
 });
+
+Cypress.Commands.add('closeModal', () => {
+  cy.get('body').type('{esc}');
+});
+
+Cypress.Commands.add('typeQueryMatching', () => {
+  cy.wait(1000);
+  cy.get('.DocSearch-Input').type('get');
+});
+
+Cypress.Commands.add('typeQueryNotMatching', () => {
+  cy.wait(1000);
+  cy.get('.DocSearch-Input').type('zzzzz');
+});
+
