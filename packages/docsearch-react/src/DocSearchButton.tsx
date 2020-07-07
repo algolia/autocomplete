@@ -14,12 +14,13 @@ function isAppleDevice() {
   return /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
 }
 
-export function DocSearchButton(
-  props: React.DetailedHTMLProps<
+export const DocSearchButton = React.forwardRef<
+  HTMLButtonElement,
+  React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   >
-) {
+>((props, ref) => {
   const [key, setKey] = useState(() =>
     isAppleDevice() ? ACTION_KEY_APPLE : ACTION_KEY_DEFAULT
   );
@@ -31,7 +32,12 @@ export function DocSearchButton(
   }, []);
 
   return (
-    <button type="button" className="DocSearch-SearchButton" {...props}>
+    <button
+      type="button"
+      className="DocSearch-SearchButton"
+      {...props}
+      ref={ref}
+    >
       <SearchIcon />
       <span className="DocSearch-SearchButton-Placeholder">Search</span>
 
@@ -41,4 +47,4 @@ export function DocSearchButton(
       <span className="DocSearch-SearchButton-Key">K</span>
     </button>
   );
-}
+});

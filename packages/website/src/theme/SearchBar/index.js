@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useHistory } from '@docusaurus/router';
@@ -40,6 +40,7 @@ function transformItems(items) {
 function DocSearch({ indexName, appId, apiKey, searchParameters }) {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
+  const searchButtonRef = useRef(null);
 
   const importDocSearchModalIfNeeded = useCallback(() => {
     if (DocSearchModal) {
@@ -64,7 +65,7 @@ function DocSearch({ indexName, appId, apiKey, searchParameters }) {
     setIsOpen(false);
   }, [setIsOpen]);
 
-  useDocSearchKeyboardEvents({ isOpen, onOpen, onClose });
+  useDocSearchKeyboardEvents({ isOpen, onOpen, onClose, searchButtonRef });
 
   return (
     <>
@@ -84,6 +85,7 @@ function DocSearch({ indexName, appId, apiKey, searchParameters }) {
         onFocus={importDocSearchModalIfNeeded}
         onMouseOver={importDocSearchModalIfNeeded}
         onClick={onOpen}
+        ref={searchButtonRef}
       />
 
       {isOpen &&

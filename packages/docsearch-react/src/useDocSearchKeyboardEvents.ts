@@ -1,6 +1,11 @@
 import React from 'react';
 
-export function useDocSearchKeyboardEvents({ isOpen, onOpen, onClose }) {
+export function useDocSearchKeyboardEvents({
+  isOpen,
+  onOpen,
+  onClose,
+  searchButtonRef,
+}) {
   React.useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (
@@ -19,6 +24,12 @@ export function useDocSearchKeyboardEvents({ isOpen, onOpen, onClose }) {
           onOpen();
         }
       }
+
+      if (searchButtonRef.current === document.activeElement) {
+        if (/[a-zA-Z0-9]/.test(String.fromCharCode(event.keyCode))) {
+          onOpen();
+        }
+      }
     }
 
     window.addEventListener('keydown', onKeyDown);
@@ -26,5 +37,5 @@ export function useDocSearchKeyboardEvents({ isOpen, onOpen, onClose }) {
     return () => {
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [isOpen, onOpen, onClose]);
+  }, [isOpen, onOpen, onClose, searchButtonRef]);
 }
