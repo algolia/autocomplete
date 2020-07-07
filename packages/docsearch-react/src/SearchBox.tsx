@@ -28,6 +28,12 @@ export function SearchBox(props: SearchBoxProps) {
     inputElement: props.inputRef.current,
   });
 
+  React.useEffect(() => {
+    if (props.autoFocus && props.inputRef.current) {
+      props.inputRef.current.focus();
+    }
+  }, [props.autoFocus, props.inputRef]);
+
   return (
     <>
       <form
@@ -50,7 +56,6 @@ export function SearchBox(props: SearchBoxProps) {
           className="DocSearch-Input"
           ref={props.inputRef}
           {...props.getInputProps({
-            autoFocus: props.autoFocus,
             inputElement: props.inputRef.current!,
             type: 'search',
             maxLength: MAX_QUERY_SIZE,

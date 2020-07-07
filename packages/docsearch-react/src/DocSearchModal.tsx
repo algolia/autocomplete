@@ -106,7 +106,6 @@ export function DocSearchModal({
       >({
         id: 'docsearch',
         defaultHighlightedIndex: 0,
-        autoFocus: true,
         placeholder,
         openOnFocus: true,
         initialState: {
