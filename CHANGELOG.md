@@ -1,3 +1,17 @@
+# [1.0.0-alpha.21](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.20...v1.0.0-alpha.21) (2020-07-07)
+
+### Bug Fixes
+
+- **css:** don't display key shortcuts on mobile ([1adc418](https://github.com/francoischalifour/autocomplete.js/commit/1adc418722f0017b1d504e7d3f7dda8e8104a352))
+- **css:** firefox placeholder opacity ([49f7ac3](https://github.com/francoischalifour/autocomplete.js/commit/49f7ac3c9a7680a4e49593f278cb815d52d8d48b))
+- **docsearch:** remove theme media query ([a1030e4](https://github.com/francoischalifour/autocomplete.js/commit/a1030e493c22c5c615fa9c49e385030452b18729))
+- **test:** removed extra percy snapshot ([24e38b7](https://github.com/francoischalifour/autocomplete.js/commit/24e38b7771471609e190c5c1a61c57627126551a))
+
+### Features
+
+- **docsearch:** support keyboard on focus on default integration ([7600f2a](https://github.com/francoischalifour/autocomplete.js/commit/7600f2a385b193fe5f60b67e135c1810e496052c))
+- **docsearch:** support typing query when search button is focused ([#54](https://github.com/francoischalifour/autocomplete.js/issues/54)) ([dcf2247](https://github.com/francoischalifour/autocomplete.js/commit/dcf22474d93ab261d59d12a44b3d677b7271e86e))
+
 # [1.0.0-alpha.20](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.19...v1.0.0-alpha.20) (2020-07-01)
 
 ### Features
