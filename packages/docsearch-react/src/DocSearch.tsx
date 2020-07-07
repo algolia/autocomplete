@@ -29,6 +29,7 @@ export interface DocSearchProps
 
 export function DocSearch(props: DocSearchProps) {
   const [isOpen, setIsOpen] = React.useState(false);
+  const searchButtonRef = React.useRef<HTMLButtonElement>(null);
 
   const onOpen = React.useCallback(() => {
     setIsOpen(true);
@@ -38,11 +39,11 @@ export function DocSearch(props: DocSearchProps) {
     setIsOpen(false);
   }, [setIsOpen]);
 
-  useDocSearchKeyboardEvents({ isOpen, onOpen, onClose });
+  useDocSearchKeyboardEvents({ isOpen, onOpen, onClose, searchButtonRef });
 
   return (
     <>
-      <DocSearchButton onClick={onOpen} />
+      <DocSearchButton onClick={onOpen} ref={searchButtonRef} />
 
       {isOpen &&
         createPortal(
