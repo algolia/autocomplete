@@ -23,6 +23,7 @@ import { ScreenState } from './ScreenState';
 import { Footer } from './Footer';
 
 interface DocSearchModalProps extends DocSearchProps {
+  initialQuery?: string;
   initialScrollY: number;
   onClose?(): void;
 }
@@ -42,6 +43,7 @@ export function DocSearchModal({
   hitComponent = Hit,
   resultsFooterComponent = () => null,
   navigator,
+  initialQuery: queryFromProp = '',
   initialScrollY = 0,
 }: DocSearchModalProps) {
   const [state, setState] = React.useState<
@@ -57,7 +59,7 @@ export function DocSearchModal({
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const snipetLength = React.useRef<number>(10);
   const initialQuery = React.useRef(
-    typeof window !== 'undefined'
+    queryFromProp || typeof window !== 'undefined'
       ? window.getSelection()!.toString().slice(0, MAX_QUERY_SIZE)
       : ''
   ).current;

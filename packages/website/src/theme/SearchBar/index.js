@@ -41,6 +41,7 @@ function DocSearch({ indexName, appId, apiKey, searchParameters }) {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const searchButtonRef = useRef(null);
+  const [initialQuery, setInitialQuery] = useState('');
 
   const importDocSearchModalIfNeeded = useCallback(() => {
     if (DocSearchModal) {
@@ -55,11 +56,15 @@ function DocSearch({ indexName, appId, apiKey, searchParameters }) {
     });
   }, []);
 
-  const onOpen = useCallback(() => {
-    importDocSearchModalIfNeeded().then(() => {
-      setIsOpen(true);
-    });
-  }, [importDocSearchModalIfNeeded, setIsOpen]);
+  const onOpen = useCallback(
+    ({ query = '' } = {}) => {
+      importDocSearchModalIfNeeded().then(() => {
+        setIsOpen(true);
+        setInitialQuery(query);
+      });
+    },
+    [importDocSearchModalIfNeeded, setIsOpen]
+  );
 
   const onClose = useCallback(() => {
     setIsOpen(false);
@@ -95,6 +100,7 @@ function DocSearch({ indexName, appId, apiKey, searchParameters }) {
             apiKey={apiKey}
             indexName={indexName}
             searchParameters={searchParameters}
+            initialQuery={initialQuery}
             initialScrollY={window.scrollY}
             onClose={onClose}
             navigator={{
