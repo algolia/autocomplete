@@ -30,7 +30,7 @@ export function useDocSearchKeyboardEvents({
         searchButtonRef.current === document.activeElement
       ) {
         if (/[a-zA-Z0-9]/.test(String.fromCharCode(event.keyCode))) {
-          onOpen({ query: event.keyCode });
+          onOpen();
         }
       }
     }

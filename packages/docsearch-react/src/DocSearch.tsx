@@ -30,15 +30,10 @@ export interface DocSearchProps
 export function DocSearch(props: DocSearchProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const searchButtonRef = React.useRef<HTMLButtonElement>(null);
-  const [initialQuery, setInitialQuery] = React.useState('');
 
-  const onOpen = React.useCallback(
-    ({ query = '' } = {}) => {
-      setIsOpen(true);
-      setInitialQuery(query);
-    },
-    [setIsOpen]
-  );
+  const onOpen = React.useCallback(() => {
+    setIsOpen(true);
+  }, [setIsOpen]);
 
   const onClose = React.useCallback(() => {
     setIsOpen(false);
@@ -54,7 +49,6 @@ export function DocSearch(props: DocSearchProps) {
         createPortal(
           <DocSearchModal
             {...props}
-            initialQuery={initialQuery}
             initialScrollY={window.scrollY}
             onClose={onClose}
           />,
