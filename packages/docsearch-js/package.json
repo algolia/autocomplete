@@ -1,6 +1,6 @@
 {
   "name": "@docsearch/js",
-  "version": "1.0.0-alpha.21",
+  "version": "1.0.0-alpha.22",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete.js",
   "repository": "algolia/autocomplete.js",
@@ -30,7 +30,7 @@
     "watch": "concurrently \"yarn build:esm:watch\" \"yarn build:types:watch\""
   },
   "dependencies": {
-    "@docsearch/react": "^1.0.0-alpha.21",
+    "@docsearch/react": "^1.0.0-alpha.22",
     "preact": "^10.0.0"
   }
 }

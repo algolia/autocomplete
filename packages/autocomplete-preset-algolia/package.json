@@ -1,7 +1,7 @@
 {
   "name": "@francoischalifour/autocomplete-preset-algolia",
   "description": "Presets for building autocomplete experiences with Algolia.",
-  "version": "1.0.0-alpha.21",
+  "version": "1.0.0-alpha.22",
   "license": "MIT",
   "source": "src/index.ts",
   "types": "dist/esm/index.d.ts",

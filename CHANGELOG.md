@@ -1,3 +1,19 @@
+# [1.0.0-alpha.22](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.21...v1.0.0-alpha.22) (2020-07-09)
+
+### Bug Fixes
+
+- **docsearch:** support initial query ([dc476d3](https://github.com/francoischalifour/autocomplete.js/commit/dc476d322de3a8d4d589c638076767e009dd59e4))
+- **website:** import DS variables and button styles dynamically ([bef75be](https://github.com/francoischalifour/autocomplete.js/commit/bef75be039479c6b45c0f12ec12c21d1af42520f))
+
+### Features
+
+- **docsearch:** attach `docsearch.js` user agent to vanilla renderer ([e1bd8d3](https://github.com/francoischalifour/autocomplete.js/commit/e1bd8d3a94147b325adacafd5f609d5184d4aeb2))
+- **docsearch:** introduce `transformSearchClient` API ([edf6b9b](https://github.com/francoischalifour/autocomplete.js/commit/edf6b9b77b187d6d32e43c335593eb8b1a3daacf))
+- **docsearch:** introduce DocSearch.js v3 ([#56](https://github.com/francoischalifour/autocomplete.js/issues/56)) ([0ff2462](https://github.com/francoischalifour/autocomplete.js/commit/0ff2462b44eb6b42f1e4d8f53361315b0247a17b))
+- **docsearch:** track `docsearch-react` UA ([2c280e2](https://github.com/francoischalifour/autocomplete.js/commit/2c280e2ad9ca6a8d99c7e60ac6da48dd06991d30))
+- **website:** lazy load DocSearch styles ([e3bc021](https://github.com/francoischalifour/autocomplete.js/commit/e3bc021b52e282c5e516e84c2988e4c8c8355837))
+- **website:** track `docsearch-docusaurus` UA ([eb400f2](https://github.com/francoischalifour/autocomplete.js/commit/eb400f2e4ac4c4fe2eb08bb84581ea07dd20665a))
+
 # [1.0.0-alpha.21](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.20...v1.0.0-alpha.21) (2020-07-07)
 
 ### Bug Fixes
