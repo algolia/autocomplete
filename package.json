@@ -36,7 +36,7 @@
     "cy:run:firefox": "yarn run cy:run --browser firefox",
     "cy:run:edge": "yarn run cy:run --browser edge",
     "cy:clean": "rm -rf cypress/screenshots",
-    "docsearch:lint:css": "stylelint packages/docsearch-react/src/**/*.css"
+    "docsearch:lint:css": "stylelint packages/docsearch-css/src/**/*.css"
   },
   "devDependencies": {
     "@babel/cli": "7.10.1",
@@ -44,6 +44,7 @@
     "@babel/preset-env": "7.10.2",
     "@babel/preset-typescript": "7.10.1",
     "@percy/cypress": "2.3.1",
+    "@rollup/plugin-alias": "3.1.1",
     "@rollup/plugin-json": "4.0.2",
     "@rollup/plugin-node-resolve": "7.1.1",
     "@rollup/plugin-replace": "2.3.1",
