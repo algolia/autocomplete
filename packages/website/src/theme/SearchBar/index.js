@@ -47,11 +47,10 @@ function transformSearchClient(searchClient) {
   return searchClient;
 }
 
-function DocSearch({ indexName, appId, apiKey, searchParameters }) {
+function DocSearch(props) {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const searchButtonRef = useRef(null);
-  const [initialQuery, setInitialQuery] = useState('');
 
   const importDocSearchModalIfNeeded = useCallback(() => {
     if (DocSearchModal) {
@@ -66,15 +65,11 @@ function DocSearch({ indexName, appId, apiKey, searchParameters }) {
     });
   }, []);
 
-  const onOpen = useCallback(
-    ({ query = '' } = {}) => {
-      importDocSearchModalIfNeeded().then(() => {
-        setIsOpen(true);
-        setInitialQuery(query);
-      });
-    },
-    [importDocSearchModalIfNeeded, setIsOpen]
-  );
+  const onOpen = useCallback(() => {
+    importDocSearchModalIfNeeded().then(() => {
+      setIsOpen(true);
+    });
+  }, [importDocSearchModalIfNeeded, setIsOpen]);
 
   const onClose = useCallback(() => {
     setIsOpen(false);
@@ -90,7 +85,7 @@ function DocSearch({ indexName, appId, apiKey, searchParameters }) {
         query faster, especially on mobile. */}
         <link
           rel="preconnect"
-          href={`https://${appId}-dsn.algolia.net`}
+          href={`https://${props.appId}-dsn.algolia.net`}
           crossOrigin
         />
       </Head>
@@ -106,11 +101,6 @@ function DocSearch({ indexName, appId, apiKey, searchParameters }) {
       {isOpen &&
         createPortal(
           <DocSearchModal
-            appId={appId}
-            apiKey={apiKey}
-            indexName={indexName}
-            searchParameters={searchParameters}
-            initialQuery={initialQuery}
             initialScrollY={window.scrollY}
             onClose={onClose}
             navigator={{
@@ -122,6 +112,7 @@ function DocSearch({ indexName, appId, apiKey, searchParameters }) {
             hitComponent={Hit}
             resultsFooterComponent={ResultsFooter}
             transformSearchClient={transformSearchClient}
+            {...props}
           />,
           document.body
         )}
