@@ -5,7 +5,7 @@ import {
   AutocompleteState,
 } from '@francoischalifour/autocomplete-core';
 
-import { DocSearchHit, InternalDocSearchHit } from './types';
+import { DocSearchHit, InternalDocSearchHit, SearchClient } from './types';
 import { DocSearchButton } from './DocSearchButton';
 import { DocSearchModal } from './DocSearchModal';
 import { useDocSearchKeyboardEvents } from './useDocSearchKeyboardEvents';
@@ -25,6 +25,8 @@ export interface DocSearchProps
   resultsFooterComponent?(props: {
     state: AutocompleteState<InternalDocSearchHit>;
   }): JSX.Element | null;
+  transformSearchClient?(searchClient: SearchClient): SearchClient;
+  disableUserPersonalization?: boolean;
 }
 
 export function DocSearch(props: DocSearchProps) {

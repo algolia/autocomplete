@@ -21,13 +21,16 @@ interface StartScreenProps
   onItemClick(item: StoredDocSearchHit): void;
   recentSearches: StoredSearchPlugin<StoredDocSearchHit>;
   favoriteSearches: StoredSearchPlugin<StoredDocSearchHit>;
+  disableUserPersonalization: boolean;
 }
 
 export function StartScreen(props: StartScreenProps) {
   if (props.state.status === 'idle' && props.hasSuggestions === false) {
     return (
       <div className="DocSearch-StartScreen">
-        <p className="DocSearch-Help">No recent searches</p>
+        {!props.disableUserPersonalization && (
+          <p className="DocSearch-Help">No recent searches</p>
+        )}
       </div>
     );
   }

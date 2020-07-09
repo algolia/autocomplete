@@ -9,7 +9,6 @@ import { MAX_QUERY_SIZE } from './constants';
 import {
   DocSearchHit,
   InternalDocSearchHit,
-  SearchClient,
   StoredDocSearchHit,
 } from './types';
 import { groupBy, identity, noop } from './utils';
@@ -24,7 +23,6 @@ import { ScreenState } from './ScreenState';
 import { Footer } from './Footer';
 
 interface DocSearchModalProps extends DocSearchProps {
-  transformSearchClient?(searchClient: SearchClient): SearchClient;
   initialScrollY: number;
   onClose?(): void;
 }
@@ -42,6 +40,7 @@ export function DocSearchModal({
   navigator,
   initialScrollY = 0,
   transformSearchClient = identity,
+  disableUserPersonalization = false,
 }: DocSearchModalProps) {
   const [state, setState] = React.useState<
     AutocompleteState<InternalDocSearchHit>
@@ -79,6 +78,10 @@ export function DocSearchModal({
 
   const saveRecentSearch = React.useCallback(
     function saveRecentSearch(item: InternalDocSearchHit) {
+      if (disableUserPersonalization) {
+        return;
+      }
+
       // We don't store `content` record, but their parent if available.
       const search = item.type === 'content' ? item.__docsearch_parent : item;
 
@@ -92,7 +95,7 @@ export function DocSearchModal({
         recentSearches.add(search);
       }
     },
-    [favoriteSearches, recentSearches]
+    [favoriteSearches, recentSearches, disableUserPersonalization]
   );
 
   const autocomplete = React.useMemo(
@@ -120,6 +123,10 @@ export function DocSearchModal({
         // @ts-ignore Temporarily ignore bad typing in autocomplete-core.
         getSources({ query, state, setContext, setStatus }) {
           if (!query) {
+            if (disableUserPersonalization) {
+              return [];
+            }
+
             return [
               {
                 onSelect({ suggestion }) {
@@ -263,6 +270,7 @@ export function DocSearchModal({
       placeholder,
       navigator,
       transformItems,
+      disableUserPersonalization,
     ]
   );
 
@@ -351,6 +359,7 @@ export function DocSearchModal({
             state={state}
             hitComponent={hitComponent}
             resultsFooterComponent={resultsFooterComponent}
+            disableUserPersonalization={disableUserPersonalization}
             recentSearches={recentSearches}
             favoriteSearches={favoriteSearches}
             onItemClick={(item) => {
