@@ -8,8 +8,8 @@ import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import { DocSearchButton, useDocSearchKeyboardEvents } from '@docsearch/react';
 
-import '@docsearch/react/style/variables';
-import '@docsearch/react/style/button';
+import('@docsearch/react/style/variables');
+import('@docsearch/react/style/button');
 
 let DocSearchModal = null;
 
