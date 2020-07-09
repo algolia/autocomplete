@@ -9,9 +9,10 @@ import { MAX_QUERY_SIZE } from './constants';
 import {
   DocSearchHit,
   InternalDocSearchHit,
+  SearchClient,
   StoredDocSearchHit,
 } from './types';
-import { groupBy, noop } from './utils';
+import { groupBy, identity, noop } from './utils';
 import { createStoredSearches } from './stored-searches';
 import { useSearchClient } from './useSearchClient';
 import { useTrapFocus } from './useTrapFocus';
@@ -23,12 +24,9 @@ import { ScreenState } from './ScreenState';
 import { Footer } from './Footer';
 
 interface DocSearchModalProps extends DocSearchProps {
+  transformSearchClient?(searchClient: SearchClient): SearchClient;
   initialScrollY: number;
   onClose?(): void;
-}
-
-function defaultTransformItems(x: DocSearchHit[]) {
-  return x;
 }
 
 export function DocSearchModal({
@@ -38,11 +36,12 @@ export function DocSearchModal({
   placeholder = 'Search docs',
   searchParameters,
   onClose = noop,
-  transformItems = defaultTransformItems,
+  transformItems = identity,
   hitComponent = Hit,
   resultsFooterComponent = () => null,
   navigator,
   initialScrollY = 0,
+  transformSearchClient = identity,
 }: DocSearchModalProps) {
   const [state, setState] = React.useState<
     AutocompleteState<InternalDocSearchHit>
@@ -62,7 +61,7 @@ export function DocSearchModal({
       : ''
   ).current;
 
-  const searchClient = useSearchClient(appId, apiKey);
+  const searchClient = useSearchClient(appId, apiKey, transformSearchClient);
   const favoriteSearches = React.useRef(
     createStoredSearches<StoredDocSearchHit>({
       key: `__DOCSEARCH_FAVORITE_SEARCHES__${indexName}`,
