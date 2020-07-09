@@ -1,6 +1,6 @@
 import React, { render } from 'preact/compat';
 
-import { DocSearch } from '@docsearch/react';
+import { DocSearch, version } from '@docsearch/react';
 
 function getHTMLElement(
   value: string | HTMLElement,
@@ -15,7 +15,16 @@ function getHTMLElement(
 
 export function docsearch(props) {
   render(
-    <DocSearch {...props} />,
+    <DocSearch
+      {...props}
+      transformSearchClient={(searchClient) => {
+        searchClient.addAlgoliaAgent(`docsearch.js (${version})`);
+
+        return props.transformSearchClient
+          ? props.transformSearchClient(searchClient)
+          : searchClient;
+      }}
+    />,
     getHTMLElement(props.container, props.environment)
   );
 }
