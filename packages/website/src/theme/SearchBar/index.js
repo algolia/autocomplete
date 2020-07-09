@@ -6,7 +6,11 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useHistory } from '@docusaurus/router';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
-import { DocSearchButton, useDocSearchKeyboardEvents } from '@docsearch/react';
+import {
+  DocSearchButton,
+  useDocSearchKeyboardEvents,
+  version as docSearchVersion,
+} from '@docsearch/react';
 
 let DocSearchModal = null;
 
@@ -35,6 +39,12 @@ function transformItems(items) {
       url: `${a.pathname}${a.hash}`,
     };
   });
+}
+
+function transformSearchClient(searchClient) {
+  searchClient.addAlgoliaAgent(`docsearch-docusaurus (${docSearchVersion})`);
+
+  return searchClient;
 }
 
 function DocSearch({ indexName, appId, apiKey, searchParameters }) {
@@ -111,6 +121,7 @@ function DocSearch({ indexName, appId, apiKey, searchParameters }) {
             transformItems={transformItems}
             hitComponent={Hit}
             resultsFooterComponent={ResultsFooter}
+            transformSearchClient={transformSearchClient}
           />,
           document.body
         )}
