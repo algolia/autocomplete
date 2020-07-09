@@ -10,7 +10,7 @@ interface GetAlgoliaSourceParams {
 
 export function getAlgoliaHits(params: GetAlgoliaSourceParams) {
   if (typeof params.searchClient.addAlgoliaAgent === 'function') {
-    params.searchClient.addAlgoliaAgent(`autocomplete-react (${__VERSION__})`);
+    params.searchClient.addAlgoliaAgent('autocomplete-react', __VERSION__);
   }
 
   return originalGetAlgoliaHits(params);

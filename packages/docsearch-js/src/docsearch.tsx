@@ -18,7 +18,7 @@ export function docsearch(props) {
     <DocSearch
       {...props}
       transformSearchClient={(searchClient) => {
-        searchClient.addAlgoliaAgent(`docsearch.js (${version})`);
+        searchClient.addAlgoliaAgent('docsearch.js', version);
 
         return props.transformSearchClient
           ? props.transformSearchClient(searchClient)
