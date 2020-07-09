@@ -17,7 +17,7 @@
   "jsdelivr": "dist/style.css",
   "scripts": {
     "build": "yarn build:clean && yarn build:css",
-    "build:css": "mkdir dist && cp src/_variables.css dist/ && cp src/modal.css dist/ && cp src/search-button.css dist/ && cat src/*.css > dist/style.css",
+    "build:css": "mkdir dist && cp src/_variables.css dist/ && cp src/modal.css dist/ && cp src/button.css dist/ && cat src/*.css > dist/style.css",
     "build:css:watch": "chokidar src/*.css --command \"yarn build:css\"",
     "build:clean": "rm -rf ./dist",
     "watch": "concurrently \"yarn build:css:watch\""

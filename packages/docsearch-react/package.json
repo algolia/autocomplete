@@ -11,9 +11,9 @@
   "sideEffects": false,
   "files": [
     "dist/",
+    "style/",
     "button.js",
-    "modal.js",
-    "style.js"
+    "modal.js"
   ],
   "source": "src/index.ts",
   "types": "dist/esm/index.d.ts",

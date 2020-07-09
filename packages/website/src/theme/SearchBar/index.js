@@ -8,6 +8,9 @@ import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import { DocSearchButton, useDocSearchKeyboardEvents } from '@docsearch/react';
 
+import '@docsearch/react/style/variables';
+import '@docsearch/react/style/button';
+
 let DocSearchModal = null;
 
 function Hit({ hit, children }) {
@@ -57,7 +60,7 @@ function DocSearch({ indexName, appId, apiKey, searchParameters }) {
 
     return Promise.all([
       import('@docsearch/react/modal'),
-      import('@docsearch/react/style'),
+      import('@docsearch/react/style/modal'),
     ]).then(([{ DocSearchModal: Modal }]) => {
       DocSearchModal = Modal;
     });
