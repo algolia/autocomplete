@@ -26,11 +26,13 @@ interface StartScreenProps
 
 export function StartScreen(props: StartScreenProps) {
   if (props.state.status === 'idle' && props.hasSuggestions === false) {
+    if (props.disableUserPersonalization) {
+      return null;
+    }
+
     return (
       <div className="DocSearch-StartScreen">
-        {!props.disableUserPersonalization && (
-          <p className="DocSearch-Help">No recent searches</p>
-        )}
+        <p className="DocSearch-Help">No recent searches</p>
       </div>
     );
   }
