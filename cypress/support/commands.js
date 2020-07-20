@@ -22,4 +22,3 @@ Cypress.Commands.add('typeQueryNotMatching', () => {
   cy.wait(1000);
   cy.get('.DocSearch-Input').type('zzzzz');
 });
-

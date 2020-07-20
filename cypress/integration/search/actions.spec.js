@@ -1,7 +1,6 @@
 const baseUrl = Cypress.config().baseUrl;
 
 context('Start', () => {
-
   beforeEach(() => {
     cy.visit(baseUrl);
   });

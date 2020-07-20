@@ -14,7 +14,6 @@ describe('Screenshots', () => {
   // cy.percySnapshot(name);
   modes.forEach((mode) => {
     context(mode, () => {
-
       sizes.forEach((size) => {
         context(size, () => {
           it('Open Modal', () => {
