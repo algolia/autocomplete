@@ -9,6 +9,7 @@ This component displays the DocSearch button that opens the modal.
 ```js
 import React from 'react';
 import { createPortal } from 'react-dom';
+import { DocSearchButton, DocSearchModal } from '@docsearch/react';
 
 function App({ apiKey, indexName }) {
   const [isShowing, setIsShowing] = React.useState(false);

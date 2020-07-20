@@ -9,6 +9,7 @@ This component displays the DocSearch modal.
 ```js
 import React from 'react';
 import { createPortal } from 'react-dom';
+import { DocSearchButton, DocSearchModal } from '@docsearch/react';
 
 function App({ apiKey, indexName }) {
   const [isShowing, setIsShowing] = React.useState(false);
@@ -96,3 +97,9 @@ function Hit({ hit, children }) {
 > `Navigator`
 
 [Navigator API](keyboard-navigation) to redirect the user when a link should be opened.
+
+### `disableUserPersonalization`
+
+> `boolean` | defaults to `false`
+
+Whether to disable all personalized features: recent searches, favorite searches.
