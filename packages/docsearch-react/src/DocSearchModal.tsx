@@ -41,6 +41,7 @@ export function DocSearchModal({
   initialScrollY = 0,
   transformSearchClient = identity,
   disableUserPersonalization = false,
+  initialQuery: initialQueryFromProp = '',
 }: DocSearchModalProps) {
   const [state, setState] = React.useState<
     AutocompleteState<InternalDocSearchHit>
@@ -55,7 +56,7 @@ export function DocSearchModal({
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const snipetLength = React.useRef<number>(10);
   const initialQuery = React.useRef(
-    typeof window !== 'undefined'
+    initialQueryFromProp || typeof window !== 'undefined'
       ? window.getSelection()!.toString().slice(0, MAX_QUERY_SIZE)
       : ''
   ).current;

@@ -49,8 +49,9 @@ function transformSearchClient(searchClient) {
 
 function DocSearch(props) {
   const history = useHistory();
-  const [isOpen, setIsOpen] = useState(false);
   const searchButtonRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [initialQuery, setInitialQuery] = useState(null);
 
   const importDocSearchModalIfNeeded = useCallback(() => {
     if (DocSearchModal) {
@@ -75,7 +76,18 @@ function DocSearch(props) {
     setIsOpen(false);
   }, [setIsOpen]);
 
-  useDocSearchKeyboardEvents({ isOpen, onOpen, onClose, searchButtonRef });
+  function onInput(event) {
+    setIsOpen(true);
+    setInitialQuery(event.key);
+  }
+
+  useDocSearchKeyboardEvents({
+    isOpen,
+    onOpen,
+    onClose,
+    onInput,
+    searchButtonRef,
+  });
 
   return (
     <>
@@ -102,6 +114,7 @@ function DocSearch(props) {
         createPortal(
           <DocSearchModal
             initialScrollY={window.scrollY}
+            initialQuery={initialQuery}
             onClose={onClose}
             navigator={{
               navigate({ suggestionUrl }) {

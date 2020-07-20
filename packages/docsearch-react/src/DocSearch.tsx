@@ -27,11 +27,13 @@ export interface DocSearchProps
   }): JSX.Element | null;
   transformSearchClient?(searchClient: SearchClient): SearchClient;
   disableUserPersonalization?: boolean;
+  initialQuery?: string;
 }
 
 export function DocSearch(props: DocSearchProps) {
-  const [isOpen, setIsOpen] = React.useState(false);
   const searchButtonRef = React.useRef<HTMLButtonElement>(null);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [initialQuery, setInitialQuery] = React.useState(undefined);
 
   const onOpen = React.useCallback(() => {
     setIsOpen(true);
@@ -41,7 +43,18 @@ export function DocSearch(props: DocSearchProps) {
     setIsOpen(false);
   }, [setIsOpen]);
 
-  useDocSearchKeyboardEvents({ isOpen, onOpen, onClose, searchButtonRef });
+  function onInput(event) {
+    setIsOpen(true);
+    setInitialQuery(event.key);
+  }
+
+  useDocSearchKeyboardEvents({
+    isOpen,
+    onOpen,
+    onClose,
+    onInput,
+    searchButtonRef,
+  });
 
   return (
     <>
@@ -52,6 +65,7 @@ export function DocSearch(props: DocSearchProps) {
           <DocSearchModal
             {...props}
             initialScrollY={window.scrollY}
+            initialQuery={initialQuery}
             onClose={onClose}
           />,
           document.body

@@ -66,6 +66,12 @@ The text that appears in the search box input when there is no query.
 
 [Search parameters](https://www.algolia.com/doc/api-reference/search-api-parameters/) to forward to Algolia.
 
+### `initialQuery`
+
+> `string`
+
+The initial query when the modal opens.
+
 ### `onClose`
 
 > `() => void`
