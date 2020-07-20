@@ -40,13 +40,6 @@ function transformItems(items) {
   });
 }
 
-function transformSearchClient(searchClient) {
-  // @TODO: attach Docusaurus version to user agent
-  searchClient.addAlgoliaAgent('docusaurus');
-
-  return searchClient;
-}
-
 function DocSearch(props) {
   const history = useHistory();
   const searchButtonRef = useRef(null);
@@ -76,10 +69,13 @@ function DocSearch(props) {
     setIsOpen(false);
   }, [setIsOpen]);
 
-  function onInput(event) {
-    setIsOpen(true);
-    setInitialQuery(event.key);
-  }
+  const onInput = useCallback(
+    (event) => {
+      setIsOpen(true);
+      setInitialQuery(event.key);
+    },
+    [setIsOpen, setInitialQuery]
+  );
 
   useDocSearchKeyboardEvents({
     isOpen,
@@ -124,7 +120,6 @@ function DocSearch(props) {
             transformItems={transformItems}
             hitComponent={Hit}
             resultsFooterComponent={ResultsFooter}
-            transformSearchClient={transformSearchClient}
             {...props}
           />,
           document.body

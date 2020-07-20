@@ -43,10 +43,13 @@ export function DocSearch(props: DocSearchProps) {
     setIsOpen(false);
   }, [setIsOpen]);
 
-  function onInput(event) {
-    setIsOpen(true);
-    setInitialQuery(event.key);
-  }
+  const onInput = React.useCallback(
+    (event) => {
+      setIsOpen(true);
+      setInitialQuery(event.key);
+    },
+    [setIsOpen, setInitialQuery]
+  );
 
   useDocSearchKeyboardEvents({
     isOpen,
