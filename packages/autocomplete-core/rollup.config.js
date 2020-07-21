@@ -2,6 +2,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import babel from 'rollup-plugin-babel';
 import filesize from 'rollup-plugin-filesize';
+import { terser } from 'rollup-plugin-terser';
 
 import { name } from './package.json';
 
@@ -26,6 +27,7 @@ export const sharedPlugins = [
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     rootMode: 'upward',
   }),
+  terser(),
   filesize({
     showMinifiedSize: false,
     showGzippedSize: true,
