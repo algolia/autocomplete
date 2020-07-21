@@ -1,13 +1,13 @@
+import {
+  AutocompleteState,
+  PublicAutocompleteOptions,
+} from '@francoischalifour/autocomplete-core';
 import React from 'react';
 import { createPortal } from 'react-dom';
-import {
-  PublicAutocompleteOptions,
-  AutocompleteState,
-} from '@francoischalifour/autocomplete-core';
 
-import { DocSearchHit, InternalDocSearchHit, SearchClient } from './types';
 import { DocSearchButton } from './DocSearchButton';
 import { DocSearchModal } from './DocSearchModal';
+import { DocSearchHit, InternalDocSearchHit, SearchClient } from './types';
 import { useDocSearchKeyboardEvents } from './useDocSearchKeyboardEvents';
 
 export interface DocSearchProps

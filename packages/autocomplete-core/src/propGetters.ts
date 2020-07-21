@@ -1,20 +1,19 @@
 import { onInput } from './onInput';
 import { onKeyDown } from './onKeyDown';
-import { isSpecialClick, getHighlightedItem, isOrContainsNode } from './utils';
-
 import {
-  GetEnvironmentProps,
-  GetRootProps,
-  GetFormProps,
-  GetLabelProps,
-  GetInputProps,
-  GetDropdownProps,
-  GetMenuProps,
-  GetItemProps,
-  AutocompleteStore,
   AutocompleteOptions,
   AutocompleteSetters,
+  AutocompleteStore,
+  GetDropdownProps,
+  GetEnvironmentProps,
+  GetFormProps,
+  GetInputProps,
+  GetItemProps,
+  GetLabelProps,
+  GetMenuProps,
+  GetRootProps,
 } from './types';
+import { getHighlightedItem, isOrContainsNode, isSpecialClick } from './utils';
 
 interface GetPropGettersOptions<TItem> extends AutocompleteSetters<TItem> {
   store: AutocompleteStore<TItem>;

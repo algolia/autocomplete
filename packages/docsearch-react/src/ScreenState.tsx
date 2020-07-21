@@ -1,15 +1,15 @@
-import React from 'react';
 import {
   AutocompleteApi,
   AutocompleteState,
 } from '@francoischalifour/autocomplete-core';
+import React from 'react';
 
+import { ErrorScreen } from './ErrorScreen';
+import { NoResultsScreen } from './NoResultsScreen';
+import { ResultsScreen } from './ResultsScreen';
+import { StartScreen } from './StartScreen';
 import { StoredSearchPlugin } from './stored-searches';
 import { InternalDocSearchHit, StoredDocSearchHit } from './types';
-import { StartScreen } from './StartScreen';
-import { ResultsScreen } from './ResultsScreen';
-import { NoResultsScreen } from './NoResultsScreen';
-import { ErrorScreen } from './ErrorScreen';
 
 interface ScreenStateProps<TItem>
   extends AutocompleteApi<

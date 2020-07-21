@@ -1,9 +1,8 @@
-import React from 'react';
-
 import {
   GetInputProps,
   GetLabelProps,
 } from '@francoischalifour/autocomplete-core';
+import React from 'react';
 
 export interface SearchBoxProps {
   placeholder: string;

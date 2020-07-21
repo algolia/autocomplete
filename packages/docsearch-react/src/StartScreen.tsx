@@ -1,13 +1,13 @@
-import React from 'react';
 import {
   AutocompleteApi,
   AutocompleteState,
 } from '@francoischalifour/autocomplete-core';
+import React from 'react';
 
-import { StoredDocSearchHit } from './types';
-import { StoredSearchPlugin } from './stored-searches';
+import { RecentIcon, ResetIcon, StarIcon } from './icons';
 import { Results } from './Results';
-import { ResetIcon, RecentIcon, StarIcon } from './icons';
+import { StoredSearchPlugin } from './stored-searches';
+import { StoredDocSearchHit } from './types';
 
 interface StartScreenProps
   extends AutocompleteApi<

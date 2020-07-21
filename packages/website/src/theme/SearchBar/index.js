@@ -1,12 +1,12 @@
 /* eslint-disable import/no-unresolved */
 
-import React, { useState, useCallback, useRef } from 'react';
-import { createPortal } from 'react-dom';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import { useHistory } from '@docusaurus/router';
-import Link from '@docusaurus/Link';
-import Head from '@docusaurus/Head';
 import { DocSearchButton, useDocSearchKeyboardEvents } from '@docsearch/react';
+import Head from '@docusaurus/Head';
+import Link from '@docusaurus/Link';
+import { useHistory } from '@docusaurus/router';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import React, { useCallback, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import('@docsearch/react/style/variables');
 import('@docsearch/react/style/button');

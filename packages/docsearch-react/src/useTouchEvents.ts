@@ -1,5 +1,5 @@
-import React from 'react';
 import { AutocompleteApi } from '@francoischalifour/autocomplete-core';
+import React from 'react';
 
 interface UseTouchEventsProps {
   getEnvironmentProps: AutocompleteApi<any>['getEnvironmentProps'];

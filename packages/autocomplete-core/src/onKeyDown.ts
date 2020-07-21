@@ -1,12 +1,11 @@
-import { onInput } from './onInput';
 import { getCompletion } from './completion';
-import { getHighlightedItem } from './utils';
-
+import { onInput } from './onInput';
 import {
-  AutocompleteStore,
   AutocompleteOptions,
   AutocompleteSetters,
+  AutocompleteStore,
 } from './types';
+import { getHighlightedItem } from './utils';
 
 interface OnKeyDownOptions<TItem> extends AutocompleteSetters<TItem> {
   event: KeyboardEvent;

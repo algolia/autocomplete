@@ -1,5 +1,5 @@
-import React from 'react';
 import algoliasearch from 'algoliasearch/dist/algoliasearch-lite.esm.browser';
+import React from 'react';
 
 import { SearchClient } from './types';
 import { version } from './version';

@@ -1,26 +1,26 @@
-import React from 'react';
 import {
-  createAutocomplete,
   AutocompleteState,
+  createAutocomplete,
 } from '@francoischalifour/autocomplete-core';
 import { getAlgoliaResults } from '@francoischalifour/autocomplete-preset-algolia';
+import React from 'react';
 
 import { MAX_QUERY_SIZE } from './constants';
+import { DocSearchProps } from './DocSearch';
+import { Footer } from './Footer';
+import { Hit } from './Hit';
+import { ScreenState } from './ScreenState';
+import { SearchBox } from './SearchBox';
+import { createStoredSearches } from './stored-searches';
 import {
   DocSearchHit,
   InternalDocSearchHit,
   StoredDocSearchHit,
 } from './types';
-import { groupBy, identity, noop } from './utils';
-import { createStoredSearches } from './stored-searches';
 import { useSearchClient } from './useSearchClient';
-import { useTrapFocus } from './useTrapFocus';
 import { useTouchEvents } from './useTouchEvents';
-import { DocSearchProps } from './DocSearch';
-import { Hit } from './Hit';
-import { SearchBox } from './SearchBox';
-import { ScreenState } from './ScreenState';
-import { Footer } from './Footer';
+import { useTrapFocus } from './useTrapFocus';
+import { groupBy, identity, noop } from './utils';
 
 interface DocSearchModalProps extends DocSearchProps {
   initialScrollY: number;

@@ -1,15 +1,14 @@
-import React, { useRef, useEffect, MutableRefObject } from 'react';
-import { createPortal } from 'react-dom';
-
 import {
-  getDefaultProps,
   AutocompleteOptions,
   PublicAutocompleteOptions,
+  getDefaultProps,
 } from '@francoischalifour/autocomplete-core';
+import React, { MutableRefObject, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
+
+import { Dropdown } from './Dropdown';
 import { getHTMLElement } from './getHTMLElement';
 import { SearchBox } from './SearchBox';
-import { Dropdown } from './Dropdown';
-
 import { useAutocomplete } from './useAutocomplete';
 import { useDropdown } from './useDropdown';
 

@@ -1,5 +1,6 @@
-import { name } from './package.json';
 import { plugins } from '../../rollup.base.config';
+
+import { name } from './package.json';
 
 export default {
   input: 'src/index.ts',

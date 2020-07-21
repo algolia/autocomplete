@@ -1,14 +1,14 @@
-import React, { MutableRefObject } from 'react';
 import {
   AutocompleteApi,
   AutocompleteState,
 } from '@francoischalifour/autocomplete-core';
+import React, { MutableRefObject } from 'react';
 
 import { MAX_QUERY_SIZE } from './constants';
-import { InternalDocSearchHit } from './types';
-import { SearchIcon } from './icons/SearchIcon';
-import { ResetIcon } from './icons/ResetIcon';
 import { LoadingIcon } from './icons/LoadingIcon';
+import { ResetIcon } from './icons/ResetIcon';
+import { SearchIcon } from './icons/SearchIcon';
+import { InternalDocSearchHit } from './types';
 
 interface SearchBoxProps
   extends AutocompleteApi<

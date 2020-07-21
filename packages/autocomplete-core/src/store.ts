@@ -1,10 +1,9 @@
 import { getCompletion } from './completion';
-
 import {
   AutocompleteOptions,
+  AutocompleteState,
   AutocompleteStore,
   Reducer,
-  AutocompleteState,
 } from './types';
 
 export function createStore<TItem>(

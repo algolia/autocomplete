@@ -1,11 +1,10 @@
-import React from 'react';
-
 import {
   AutocompleteState,
   GetDropdownProps,
-  GetMenuProps,
   GetItemProps,
+  GetMenuProps,
 } from '@francoischalifour/autocomplete-core';
+import React from 'react';
 
 import { ReverseHighlight } from './Highlight';
 

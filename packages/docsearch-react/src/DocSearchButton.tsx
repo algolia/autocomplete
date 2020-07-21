@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { SearchIcon } from './icons/SearchIcon';
 import { ControlKeyIcon } from './icons/ControlKeyIcon';
+import { SearchIcon } from './icons/SearchIcon';
 
 const ACTION_KEY_DEFAULT = 'Ctrl';
 const ACTION_KEY_APPLE = '⌘';

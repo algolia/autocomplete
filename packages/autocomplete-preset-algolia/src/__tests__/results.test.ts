@@ -1,4 +1,4 @@
-import { getAlgoliaResults, getAlgoliaHits, Client } from '../results';
+import { Client, getAlgoliaHits, getAlgoliaResults } from '../results';
 
 function createSearchClient() {
   return {

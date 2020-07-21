@@ -1,9 +1,9 @@
-import React from 'react';
 import {
   parseHighlightedAttribute,
   parseReverseHighlightedAttribute,
   parseSnippetedAttribute,
 } from '@francoischalifour/autocomplete-preset-algolia';
+import React from 'react';
 
 type HighlighterProps = {
   [prop: string]: unknown;

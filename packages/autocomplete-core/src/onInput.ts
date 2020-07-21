@@ -1,8 +1,8 @@
 import {
   AutocompleteOptions,
   AutocompleteSetters,
-  AutocompleteStore,
   AutocompleteState,
+  AutocompleteStore,
 } from './types';
 
 let lastStalledId: number | null = null;

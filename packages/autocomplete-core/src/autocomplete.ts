@@ -1,11 +1,10 @@
-import { stateReducer } from './stateReducer';
 import { getDefaultProps } from './defaultProps';
-import { createStore } from './store';
+import { onInput } from './onInput';
 import { getPropGetters } from './propGetters';
 import { getAutocompleteSetters } from './setters';
-
-import { PublicAutocompleteOptions, AutocompleteApi } from './types';
-import { onInput } from './onInput';
+import { stateReducer } from './stateReducer';
+import { createStore } from './store';
+import { AutocompleteApi, PublicAutocompleteOptions } from './types';
 
 function createAutocomplete<
   TItem extends {},

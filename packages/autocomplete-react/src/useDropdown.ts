@@ -1,7 +1,7 @@
-import { useRef, useLayoutEffect, MutableRefObject } from 'react';
-import { createPopper } from '@popperjs/core/lib/popper-lite';
-
 import { AutocompleteState } from '@francoischalifour/autocomplete-core';
+import { createPopper } from '@popperjs/core/lib/popper-lite';
+import { MutableRefObject, useLayoutEffect, useRef } from 'react';
+
 import { RendererProps } from './Autocomplete';
 
 export function useDropdown<TItem>(

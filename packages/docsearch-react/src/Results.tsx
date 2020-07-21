@@ -1,15 +1,15 @@
-import React from 'react';
 import {
   AutocompleteApi,
   AutocompleteState,
 } from '@francoischalifour/autocomplete-core';
+import React from 'react';
 
+import { Snippet } from './Snippet';
 import {
   DocSearchHit,
   InternalDocSearchHit,
   StoredDocSearchHit,
 } from './types';
-import { Snippet } from './Snippet';
 
 interface ResultsProps<TItem>
   extends AutocompleteApi<

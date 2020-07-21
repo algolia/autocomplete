@@ -1,9 +1,8 @@
-import React, { useState, useRef } from 'react';
-
 import {
-  createAutocomplete,
   AutocompleteOptions,
+  createAutocomplete,
 } from '@francoischalifour/autocomplete-core';
+import React, { useRef, useState } from 'react';
 
 export function useAutocomplete<
   TItem,

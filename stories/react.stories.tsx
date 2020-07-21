@@ -1,10 +1,10 @@
-import React from 'react';
-import { render } from 'react-dom';
+import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
+import { Autocomplete } from '@francoischalifour/autocomplete-react';
 import { storiesOf } from '@storybook/html';
 import algoliasearch from 'algoliasearch/lite';
+import React from 'react';
+import { render } from 'react-dom';
 
-import { Autocomplete } from '@francoischalifour/autocomplete-react';
-import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
 import { withPlayground } from '../.storybook/decorators';
 
 const searchClient = algoliasearch(

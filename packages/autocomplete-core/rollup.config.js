@@ -1,5 +1,6 @@
-import { name } from './package.json';
 import { plugins } from '../../rollup.base.config';
+
+import { name } from './package.json';
 
 if (process.env.NODE_ENV === 'production' && !process.env.VERSION) {
   throw new Error(

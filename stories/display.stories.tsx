@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { render, createPortal } from 'react-dom';
-import { storiesOf } from '@storybook/html';
-import algoliasearch from 'algoliasearch/lite';
-
-import { withPlayground } from '../.storybook/decorators';
 import {
   Autocomplete,
   getAlgoliaHits,
 } from '@francoischalifour/autocomplete-react';
+import { storiesOf } from '@storybook/html';
+import algoliasearch from 'algoliasearch/lite';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal, render } from 'react-dom';
+
+import { withPlayground } from '../.storybook/decorators';
 
 const searchClient = algoliasearch(
   'latency',

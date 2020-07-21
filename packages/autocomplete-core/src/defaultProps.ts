@@ -1,11 +1,10 @@
+import { AutocompleteOptions, PublicAutocompleteOptions } from './types';
 import {
   generateAutocompleteId,
   getItemsCount,
-  normalizeGetSources,
   noop,
+  normalizeGetSources,
 } from './utils';
-
-import { PublicAutocompleteOptions, AutocompleteOptions } from './types';
 
 export function getDefaultProps<TItem>(
   props: PublicAutocompleteOptions<TItem>

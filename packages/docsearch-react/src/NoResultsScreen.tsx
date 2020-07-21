@@ -1,12 +1,11 @@
-import React from 'react';
 import {
   AutocompleteApi,
   AutocompleteState,
 } from '@francoischalifour/autocomplete-core';
-
-import { InternalDocSearchHit } from './types';
+import React from 'react';
 
 import { NoResultsIcon } from './icons';
+import { InternalDocSearchHit } from './types';
 
 interface NoResultsScreenProps
   extends AutocompleteApi<

@@ -1,12 +1,12 @@
-import React from 'react';
 import {
   AutocompleteApi,
   AutocompleteState,
 } from '@francoischalifour/autocomplete-core';
+import React from 'react';
 
-import { InternalDocSearchHit } from './types';
+import { SelectIcon, SourceIcon } from './icons';
 import { Results } from './Results';
-import { SourceIcon, SelectIcon } from './icons';
+import { InternalDocSearchHit } from './types';
 
 interface ResultsScreenProps
   extends AutocompleteApi<

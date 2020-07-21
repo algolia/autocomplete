@@ -1,11 +1,11 @@
 import {
+  AutocompleteOptions,
+  AutocompleteSource,
   AutocompleteState,
+  AutocompleteSuggestion,
+  GetSources,
   PublicAutocompleteOptions,
   PublicAutocompleteSource,
-  AutocompleteSource,
-  GetSources,
-  AutocompleteSuggestion,
-  AutocompleteOptions,
 } from './types';
 
 export const noop = () => {};

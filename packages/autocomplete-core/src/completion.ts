@@ -1,4 +1,4 @@
-import { AutocompleteState, AutocompleteOptions } from './types';
+import { AutocompleteOptions, AutocompleteState } from './types';
 import { getHighlightedItem } from './utils';
 
 interface GetCompletionProps<TItem> {

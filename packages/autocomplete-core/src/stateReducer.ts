@@ -1,6 +1,5 @@
-import { getItemsCount, getNextHighlightedIndex } from './utils';
-
 import { Reducer } from './types';
+import { getItemsCount, getNextHighlightedIndex } from './utils';
 
 export const stateReducer: Reducer = (action, state, props) => {
   switch (action.type) {

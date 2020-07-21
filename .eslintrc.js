@@ -29,6 +29,25 @@ module.exports = {
     // Useful to call functions like `nodeItem?.scrollIntoView()`.
     'no-unused-expressions': 0,
     complexity: 0,
+    'import/order': [
+      'error',
+      {
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
+        'newlines-between': 'always',
+        groups: ['builtin', 'external', 'parent', 'sibling', 'index'],
+        pathGroups: [
+          {
+            pattern: '@/**/*',
+            group: 'parent',
+            position: 'before',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['builtin'],
+      },
+    ],
   },
   overrides: [
     {

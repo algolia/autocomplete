@@ -1,6 +1,5 @@
-import React, { render } from 'preact/compat';
-
 import { DocSearch, version } from '@docsearch/react';
+import React, { render } from 'preact/compat';
 
 function getHTMLElement(
   value: string | HTMLElement,
