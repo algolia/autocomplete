@@ -1,7 +1,5 @@
-import json from '@rollup/plugin-json';
-
 import { name } from './package.json';
-import { sharedPlugins } from '../autocomplete-core/rollup.config';
+import { plugins } from '../../rollup.base.config';
 
 export default {
   input: 'src/index.ts',
@@ -11,5 +9,5 @@ export default {
     name,
     sourcemap: true,
   },
-  plugins: [json(), ...sharedPlugins],
+  plugins,
 };
