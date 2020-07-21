@@ -1,5 +1,4 @@
 import json from '@rollup/plugin-json';
-import alias from '@rollup/plugin-alias';
 
 import { sharedPlugins } from '../autocomplete-core/rollup.config';
 
@@ -11,14 +10,5 @@ export default {
     sourcemap: true,
     name: 'docsearch',
   },
-  plugins: [
-    json(),
-    alias({
-      entries: [
-        { find: 'react', replacement: 'preact/compat' },
-        { find: 'react-dom', replacement: 'preact/compat' },
-      ],
-    }),
-    ...sharedPlugins,
-  ],
+  plugins: [json(), ...sharedPlugins],
 };

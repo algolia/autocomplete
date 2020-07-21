@@ -22,6 +22,18 @@ module.exports = (api) => {
         },
       ],
     ],
-    plugins: [['@babel/plugin-transform-react-jsx']],
+    plugins: [
+      ['@babel/plugin-transform-react-jsx'],
+      [
+        'module-resolver',
+        {
+          root: ['./src'],
+          alias: {
+            react: 'preact/compat',
+            'react-dom': 'preact/compat',
+          },
+        },
+      ],
+    ],
   };
 };
