@@ -1,3 +1,20 @@
+# [1.0.0-alpha.23](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.22...v1.0.0-alpha.23) (2020-07-22)
+
+### Bug Fixes
+
+- **docsearch:** add padding to dropdown when no recent searches ([0e3d0f5](https://github.com/francoischalifour/autocomplete.js/commit/0e3d0f570abee1361651e07de47b93c1b990a8b0))
+- **docsearch:** rename `DocSearch-Button` CSS class ([f3a5449](https://github.com/francoischalifour/autocomplete.js/commit/f3a5449a7ddfdf987422e213db3b2baa52d54d0e))
+- **docsearch:** use Preact alias in Babel config ([31b3bd4](https://github.com/francoischalifour/autocomplete.js/commit/31b3bd42d6677c2dbd40ee7012059bcd1202c781))
+- **search:** hide content when `disableUserPersonalization` ([4940538](https://github.com/francoischalifour/autocomplete.js/commit/4940538563b89545612fbe8f19acbd0f89d1219d))
+- **website:** memoize `onInput` callback ([9fa7d30](https://github.com/francoischalifour/autocomplete.js/commit/9fa7d30629578774d318989a7200385034e5ff3c))
+
+### Features
+
+- **docsearch:** introduce `disableUserPersonalization` API ([de31121](https://github.com/francoischalifour/autocomplete.js/commit/de311210ae2bc63d7907abfbf75b61d3b624e976))
+- **docsearch:** support `initialQuery` ([11aa27b](https://github.com/francoischalifour/autocomplete.js/commit/11aa27bf332b91542cf9c0f6f7e88b0412172fb6)), closes [#51](https://github.com/francoischalifour/autocomplete.js/issues/51)
+- **DocSearch:** add `DocSearch` CSS class to DocSearch elements ([0e93615](https://github.com/francoischalifour/autocomplete.js/commit/0e9361568440281f5c632d7a086cda523bf4948e))
+- **website:** forward Docusaurus props to DocSearch ([abfb06d](https://github.com/francoischalifour/autocomplete.js/commit/abfb06d6ebb6973ac40c890fa9d91dbe05459c13))
+
 # [1.0.0-alpha.22](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.21...v1.0.0-alpha.22) (2020-07-09)
 
 ### Bug Fixes
