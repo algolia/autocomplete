@@ -32,19 +32,14 @@ export const DocSearchButton = React.forwardRef<
   }, []);
 
   return (
-    <button
-      type="button"
-      className="DocSearch-SearchButton"
-      {...props}
-      ref={ref}
-    >
+    <button type="button" className="DocSearch-Button" {...props} ref={ref}>
       <SearchIcon />
-      <span className="DocSearch-SearchButton-Placeholder">Search</span>
+      <span className="DocSearch-Button-Placeholder">Search</span>
 
-      <span className="DocSearch-SearchButton-Key">
+      <span className="DocSearch-Button-Key">
         {key === ACTION_KEY_DEFAULT ? <ControlKeyIcon /> : key}
       </span>
-      <span className="DocSearch-SearchButton-Key">K</span>
+      <span className="DocSearch-Button-Key">K</span>
     </button>
   );
 });

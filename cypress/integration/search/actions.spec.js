@@ -6,7 +6,7 @@ context('Start', () => {
   });
 
   it('Open Modal on Search Button click', () => {
-    cy.get('.DocSearch-SearchButton').click();
+    cy.get('.DocSearch-Button').click();
     cy.get('.DocSearch-Modal').should('be.visible');
     cy.get('.DocSearch-Input').should('be.focus');
     cy.percySnapshot('modal-opened');
@@ -34,7 +34,7 @@ context('Start', () => {
 context('End', () => {
   beforeEach(() => {
     cy.visit(baseUrl);
-    cy.get('.DocSearch-SearchButton').click();
+    cy.get('.DocSearch-Button').click();
   });
 
   it('Close Modal with Esc key', () => {
@@ -62,7 +62,7 @@ context('End', () => {
 context('Search', () => {
   beforeEach(() => {
     cy.visit(baseUrl);
-    cy.get('.DocSearch-SearchButton').click();
+    cy.get('.DocSearch-Button').click();
   });
 
   it('Results are displayed after a Query', () => {
@@ -102,20 +102,20 @@ context('Search', () => {
 context('Recent and Favorites', () => {
   beforeEach(() => {
     cy.visit(baseUrl);
-    cy.get('.DocSearch-SearchButton').click();
+    cy.get('.DocSearch-Button').click();
     cy.get('.DocSearch-Input').type('get');
     cy.get('.DocSearch-Hits #docsearch-item-0 > a').click({ force: true });
   });
 
   it('Recent search is displayed after visiting a result', () => {
-    cy.get('.DocSearch-SearchButton').click();
+    cy.get('.DocSearch-Button').click();
     cy.contains('Recent').should('be.visible');
     cy.get('#docsearch-item-0').should('be.visible');
     cy.percySnapshot('recent-search');
   });
 
   it('Recent search can be deleted', () => {
-    cy.get('.DocSearch-SearchButton').click();
+    cy.get('.DocSearch-Button').click();
     cy.get('#docsearch-item-0')
       .find('[data-cy=remove-recent]')
       .trigger('click');
@@ -123,7 +123,7 @@ context('Recent and Favorites', () => {
   });
 
   it('Recent search can be favorited', () => {
-    cy.get('.DocSearch-SearchButton').click();
+    cy.get('.DocSearch-Button').click();
     cy.get('#docsearch-item-0').find('[data-cy=fav-recent]').trigger('click');
     cy.contains('Favorites').should('be.visible');
     cy.get('#docsearch-item-0').should('be.visible');
@@ -131,7 +131,7 @@ context('Recent and Favorites', () => {
   });
 
   it('Favorite can be deleted', () => {
-    cy.get('.DocSearch-SearchButton').click();
+    cy.get('.DocSearch-Button').click();
     cy.get('#docsearch-item-0').find('[data-cy=fav-recent]').trigger('click');
     cy.wait(2000);
     cy.get('#docsearch-item-0').find('[data-cy=remove-fav]').trigger('click');

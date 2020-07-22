@@ -6,7 +6,7 @@ Cypress.Commands.add('darkmode', () => {
 });
 
 Cypress.Commands.add('openModal', () => {
-  cy.get('.DocSearch-SearchButton').click();
+  cy.get('.DocSearch-Button').click();
 });
 
 Cypress.Commands.add('closeModal', () => {
