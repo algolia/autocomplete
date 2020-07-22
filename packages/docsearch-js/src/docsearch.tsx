@@ -1,9 +1,9 @@
-import { DocSearch, version } from '@docsearch/react';
+import { DocSearch, DocSearchProps, version } from '@docsearch/react';
 import React, { render } from 'preact/compat';
 
 function getHTMLElement(
   value: string | HTMLElement,
-  environment: typeof window = window
+  environment: DocSearchProps['environment'] = window
 ): HTMLElement {
   if (typeof value === 'string') {
     return environment.document.querySelector<HTMLElement>(value)!;
@@ -12,7 +12,7 @@ function getHTMLElement(
   return value;
 }
 
-export function docsearch(props) {
+export function docsearch(props: DocSearchProps) {
   render(
     <DocSearch
       {...props}

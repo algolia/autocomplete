@@ -20,14 +20,13 @@
   "unpkg": "dist/umd/index.js",
   "jsdelivr": "dist/umd/index.js",
   "scripts": {
-    "build": "yarn build:clean && yarn build:umd && yarn build:esm",
-    "build:esm": "babel src --root-mode upward --extensions '.ts,.tsx' --out-dir dist/esm",
-    "build:esm:watch": "yarn build:esm --watch",
-    "build:umd": "rollup --config",
-    "build:types": "tsc -p ./tsconfig.declaration.json --outDir ./dist/esm",
-    "build:types:watch": "chokidar \"**/*.ts\" \"**/*.tsx\" --command \"yarn build:types\" --ignore \"dist\"",
+    "build": "yarn build:clean && yarn build:umd && yarn build:esm && yarn build:types",
+    "build:umd": "BUILD=umd rollup --config",
+    "build:esm": "BUILD=esm rollup --config",
+    "build:types": "tsc -p ./tsconfig.declaration.json --outFile ./dist/esm/index.d.ts",
     "build:clean": "rm -rf ./dist",
-    "watch": "concurrently \"yarn build:esm:watch\" \"yarn build:types:watch\""
+    "on:change": "concurrently \"yarn build:esm\" \"yarn build:types\"",
+    "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
     "@docsearch/react": "^1.0.0-alpha.23",
