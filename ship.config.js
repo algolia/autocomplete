@@ -17,9 +17,6 @@ module.exports = {
     packagesToBump: packages,
     packagesToPublish: packages,
   },
-  mergeStrategy: {
-    toSameBranch: ['next'],
-  },
   publishCommand({ tag }) {
     return `yarn publish --access public --tag ${tag}`;
   },
@@ -38,7 +35,7 @@ module.exports = {
 
     // Ship.js reads JSON and writes with `fs.writeFileSync(JSON.stringify(json, null, 2))`
     // which causes a lint error in the `lerna.json` file.
-    exec('eslint lerna.json --fix');
+    exec('yarn eslint lerna.json --fix');
 
     updatePackageDependencies(
       {
