@@ -331,6 +331,7 @@ export function DocSearchModal({
         'aria-expanded': true,
       })}
       className={[
+        'DocSearch',
         'DocSearch-Container',
         state.status === 'stalled' && 'DocSearch-Container--Stalled',
         state.status === 'error' && 'DocSearch-Container--Errored',
