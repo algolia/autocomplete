@@ -177,6 +177,7 @@
 /* Modal Dropdown */
 
 .DocSearch-Dropdown {
+  min-height: var(--docsearch-spacing);
   max-height: calc(
     var(--docsearch-modal-height) - var(--docsearch-searchbox-height) -
       var(--docsearch-spacing) - var(--docsearch-footer-height)
