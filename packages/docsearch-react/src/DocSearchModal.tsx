@@ -321,6 +321,10 @@ export function DocSearchModal({
   React.useEffect(() => {
     if (initialQuery.length > 0) {
       refresh();
+
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
     }
   }, [initialQuery, refresh]);
 
