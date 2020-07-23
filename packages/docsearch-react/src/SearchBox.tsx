@@ -24,7 +24,7 @@ interface SearchBoxProps
 }
 
 export function SearchBox(props: SearchBoxProps) {
-  const { onSubmit, onReset } = props.getFormProps({
+  const { onReset } = props.getFormProps({
     inputElement: props.inputRef.current,
   });
 
@@ -41,7 +41,9 @@ export function SearchBox(props: SearchBoxProps) {
         role="search"
         noValidate
         className="DocSearch-Form"
-        onSubmit={onSubmit}
+        onSubmit={(event) => {
+          event.preventDefault();
+        }}
         onReset={onReset}
       >
         <label className="DocSearch-MagnifierLabel" {...props.getLabelProps()}>
