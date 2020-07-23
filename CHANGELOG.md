@@ -1,3 +1,10 @@
+# [1.0.0-alpha.24](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.23...v1.0.0-alpha.24) (2020-07-23)
+
+### Bug Fixes
+
+- **docsearch:** don't blur input on submit ([86da0fc](https://github.com/francoischalifour/autocomplete.js/commit/86da0fc3c66f8bb0757ce7b3a760ea752184de82))
+- **docsearch:** focus input on Selection Search ([9f1fa52](https://github.com/francoischalifour/autocomplete.js/commit/9f1fa52c68b765a36060aef8ce25728cda37affa))
+
 # [1.0.0-alpha.23](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.22...v1.0.0-alpha.23) (2020-07-22)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@docsearch/react",
-  "version": "1.0.0-alpha.23",
+  "version": "1.0.0-alpha.24",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete.js",
   "repository": "algolia/autocomplete.js",
@@ -32,9 +32,9 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@docsearch/css": "^1.0.0-alpha.23",
-    "@francoischalifour/autocomplete-core": "^1.0.0-alpha.23",
-    "@francoischalifour/autocomplete-preset-algolia": "^1.0.0-alpha.23",
+    "@docsearch/css": "^1.0.0-alpha.24",
+    "@francoischalifour/autocomplete-core": "^1.0.0-alpha.24",
+    "@francoischalifour/autocomplete-preset-algolia": "^1.0.0-alpha.24",
     "algoliasearch": "^4.0.0"
   },
   "peerDependencies": {

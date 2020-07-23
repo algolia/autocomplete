@@ -1,6 +1,6 @@
 {
   "name": "@docsearch/js",
-  "version": "1.0.0-alpha.23",
+  "version": "1.0.0-alpha.24",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete.js",
   "repository": "algolia/autocomplete.js",
@@ -29,7 +29,7 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@docsearch/react": "^1.0.0-alpha.23",
+    "@docsearch/react": "^1.0.0-alpha.24",
     "preact": "^10.0.0"
   }
 }
