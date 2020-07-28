@@ -35,6 +35,7 @@ export const DocSearchButton = React.forwardRef<
     <button
       type="button"
       className="DocSearch DocSearch-Button"
+      aria-label="Search"
       {...props}
       ref={ref}
     >
