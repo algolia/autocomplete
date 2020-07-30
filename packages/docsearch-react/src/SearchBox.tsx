@@ -60,6 +60,7 @@ export function SearchBox(props: SearchBoxProps) {
           {...props.getInputProps({
             inputElement: props.inputRef.current!,
             type: 'search',
+            autoFocus: props.autoFocus,
             maxLength: MAX_QUERY_SIZE,
           })}
         />
