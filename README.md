@@ -64,7 +64,7 @@ This JavaScript library adds a fast and fully-featured auto-completion menu to y
 
 ## Installation
 
-The `autocomplete.js` library must be included **after** jQuery, Zepto or Angular.js (with jQuery).
+The `autocomplete.js` library must be included **after** jQuery, Zepto or Angular.js (with jQuery). Else, it will use the embedded Zepto.
 
 ### jsDelivr
 
