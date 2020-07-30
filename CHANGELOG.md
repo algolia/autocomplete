@@ -1,3 +1,13 @@
+# [1.0.0-alpha.25](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.24...v1.0.0-alpha.25) (2020-07-30)
+
+### Bug Fixes
+
+- **docsearch:** pass `autoFocus` prop to autocomplete for mobiles ([8f4d3fb](https://github.com/francoischalifour/autocomplete.js/commit/8f4d3fb8d9926e74d44da2b7b1eb388e5283b0db))
+
+### Features
+
+- **docsearch:** add `aria-label` to search button ([5bc08ca](https://github.com/francoischalifour/autocomplete.js/commit/5bc08cabc87c876fb26bf7608509cfcd000fac89))
+
 # [1.0.0-alpha.24](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.23...v1.0.0-alpha.24) (2020-07-23)
 
 ### Bug Fixes
