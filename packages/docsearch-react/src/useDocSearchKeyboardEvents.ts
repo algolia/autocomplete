@@ -8,6 +8,18 @@ interface UseDocSearchKeyboardEventsProps {
   searchButtonRef?: React.RefObject<HTMLButtonElement>;
 }
 
+function isEditingContent(event: KeyboardEvent): boolean {
+  const element = event.target as HTMLElement;
+  const tagName = element.tagName;
+
+  return (
+    element.isContentEditable ||
+    tagName === 'INPUT' ||
+    tagName === 'SELECT' ||
+    tagName === 'TEXTAREA'
+  );
+}
+
 export function useDocSearchKeyboardEvents({
   isOpen,
   onOpen,
@@ -23,7 +35,7 @@ export function useDocSearchKeyboardEvents({
         (event.key === 'k' && (event.metaKey || event.ctrlKey)) ||
         // The `/` shortcut opens but doesn't close the modal because it's
         // a character.
-        (event.key === '/' && !isOpen)
+        (!isEditingContent(event) && event.key === '/' && !isOpen)
       ) {
         event.preventDefault();
 
