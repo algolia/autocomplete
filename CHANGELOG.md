@@ -1,11 +1,8 @@
-# [](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.25...v) (2020-08-04)
-
+# [1.0.0-alpha.26](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.26) (2020-08-04)
 
 ### Bug Fixes
 
-* **docsearch:** don't open modal on `/` when editing text ([6118725](https://github.com/francoischalifour/autocomplete.js/commit/6118725dda6a3c0fc92ec478923c6b3187a43ad7))
-
-
+- **docsearch:** don't open modal on `/` when editing text ([6118725](https://github.com/francoischalifour/autocomplete.js/commit/6118725dda6a3c0fc92ec478923c6b3187a43ad7))
 
 # [1.0.0-alpha.25](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.24...v1.0.0-alpha.25) (2020-07-30)
 
