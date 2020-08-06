@@ -16,6 +16,7 @@ interface NoResultsScreenProps
   > {
   state: AutocompleteState<InternalDocSearchHit>;
   inputRef: React.MutableRefObject<null | HTMLInputElement>;
+  indexName: string;
 }
 
 export function NoResultsScreen(props: NoResultsScreenProps) {
@@ -61,7 +62,7 @@ export function NoResultsScreen(props: NoResultsScreenProps) {
       <p className="DocSearch-Help">
         Believe this query should return results?{' '}
         <a
-          href="https://github.com/algolia/docsearch-configs/issues/new?template=Missing_results.md"
+          href={`https://github.com/algolia/docsearch-configs/issues/new?template=Missing_results.md&title=[${props.indexName}]+Missing+results+for+query+"${props.state.query}"`}
           target="_blank"
           rel="noopener noreferrer"
         >

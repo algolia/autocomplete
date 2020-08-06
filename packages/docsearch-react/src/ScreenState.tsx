@@ -4,6 +4,7 @@ import {
 } from '@francoischalifour/autocomplete-core';
 import React from 'react';
 
+import { DocSearchProps } from './DocSearch';
 import { ErrorScreen } from './ErrorScreen';
 import { NoResultsScreen } from './NoResultsScreen';
 import { ResultsScreen } from './ResultsScreen';
@@ -23,6 +24,8 @@ interface ScreenStateProps<TItem>
   favoriteSearches: StoredSearchPlugin<StoredDocSearchHit>;
   onItemClick(item: StoredDocSearchHit): void;
   inputRef: React.MutableRefObject<null | HTMLInputElement>;
+  hitComponent: DocSearchProps['hitComponent'];
+  indexName: DocSearchProps['indexName'];
 }
 
 export const ScreenState = React.memo(

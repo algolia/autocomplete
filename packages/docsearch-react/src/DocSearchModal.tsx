@@ -362,6 +362,7 @@ export function DocSearchModal({
         <div className="DocSearch-Dropdown" ref={dropdownRef}>
           <ScreenState
             {...autocomplete}
+            indexName={indexName}
             state={state}
             hitComponent={hitComponent}
             resultsFooterComponent={resultsFooterComponent}
