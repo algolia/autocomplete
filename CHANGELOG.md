@@ -1,4 +1,15 @@
-# [1.0.0-alpha.26](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.26) (2020-08-04)
+# [1.0.0-alpha.27](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.26...vv1.0.0-alpha.27) (2020-08-07)
+
+### Bug Fixes
+
+- **docsearch:** fix vanilla DocSearch types ([2b5e7aa](https://github.com/francoischalifour/autocomplete.js/commit/2b5e7aad3cc02c4021970bc1971a719843416474))
+
+### Features
+
+- **docsearch:** export DocSearch types ([b499fee](https://github.com/francoischalifour/autocomplete.js/commit/b499fee3e88a496b89c62f327f25e114c8e8f486))
+- **docsearch:** update missing results issue link ([fb8d735](https://github.com/francoischalifour/autocomplete.js/commit/fb8d735354d5b06752abd1008f14cef8bd986b42))
+
+# [1.0.0-alpha.26](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.25...v1.0.0-alpha.26) (2020-08-04)
 
 ### Bug Fixes
 

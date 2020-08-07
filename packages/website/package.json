@@ -9,7 +9,7 @@
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@docsearch/react": "1.0.0-alpha.26",
+    "@docsearch/react": "1.0.0-alpha.27",
     "@docusaurus/core": "2.0.0-alpha.58",
     "@docusaurus/preset-classic": "2.0.0-alpha.58",
     "classnames": "2.2.6",
