@@ -4,12 +4,9 @@ import {
 } from '@francoischalifour/autocomplete-core';
 import React from 'react';
 
+import { DocSearchProps } from './DocSearch';
 import { Snippet } from './Snippet';
-import {
-  DocSearchHit,
-  InternalDocSearchHit,
-  StoredDocSearchHit,
-} from './types';
+import { InternalDocSearchHit, StoredDocSearchHit } from './types';
 
 interface ResultsProps<TItem>
   extends AutocompleteApi<
@@ -27,10 +24,7 @@ interface ResultsProps<TItem>
     runFavoriteTransition: (cb: () => void) => void;
   }): React.ReactNode;
   onItemClick(item: TItem): void;
-  hitComponent(props: {
-    hit: DocSearchHit;
-    children: React.ReactNode;
-  }): JSX.Element;
+  hitComponent: DocSearchProps['hitComponent'];
 }
 
 export function Results<TItem extends StoredDocSearchHit>(
@@ -78,7 +72,7 @@ function Result<TItem extends StoredDocSearchHit>({
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [isFavoriting, setIsFavoriting] = React.useState(false);
   const action = React.useRef<(() => void) | null>(null);
-  const Hit = hitComponent;
+  const Hit = hitComponent!;
 
   function runDeleteTransition(cb: () => void) {
     setIsDeleting(true);

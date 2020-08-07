@@ -1,26 +1,11 @@
-import {
-  AutocompleteApi,
-  AutocompleteState,
-} from '@francoischalifour/autocomplete-core';
 import React from 'react';
 
 import { SelectIcon, SourceIcon } from './icons';
 import { Results } from './Results';
+import { ScreenStateProps } from './ScreenState';
 import { InternalDocSearchHit } from './types';
 
-interface ResultsScreenProps
-  extends AutocompleteApi<
-    InternalDocSearchHit,
-    React.FormEvent,
-    React.MouseEvent,
-    React.KeyboardEvent
-  > {
-  state: AutocompleteState<InternalDocSearchHit>;
-  resultsFooterComponent(props: {
-    state: AutocompleteState<InternalDocSearchHit>;
-  }): JSX.Element;
-  onItemClick(item: InternalDocSearchHit): void;
-}
+type ResultsScreenProps = ScreenStateProps<InternalDocSearchHit>;
 
 export function ResultsScreen(props: ResultsScreenProps) {
   return (
@@ -73,9 +58,11 @@ export function ResultsScreen(props: ResultsScreenProps) {
         );
       })}
 
-      <section className="DocSearch-HitsFooter">
-        <props.resultsFooterComponent state={props.state} />
-      </section>
+      {props.resultsFooterComponent && (
+        <section className="DocSearch-HitsFooter">
+          <props.resultsFooterComponent state={props.state} />
+        </section>
+      )}
     </div>
   );
 }

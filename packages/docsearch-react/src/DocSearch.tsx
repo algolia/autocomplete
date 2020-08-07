@@ -7,7 +7,12 @@ import { createPortal } from 'react-dom';
 
 import { DocSearchButton } from './DocSearchButton';
 import { DocSearchModal } from './DocSearchModal';
-import { DocSearchHit, InternalDocSearchHit, SearchClient } from './types';
+import {
+  DocSearchHit,
+  InternalDocSearchHit,
+  StoredDocSearchHit,
+  SearchClient,
+} from './types';
 import { useDocSearchKeyboardEvents } from './useDocSearchKeyboardEvents';
 
 export interface DocSearchProps
@@ -19,7 +24,7 @@ export interface DocSearchProps
   searchParameters?: any;
   transformItems?(items: DocSearchHit[]): DocSearchHit[];
   hitComponent?(props: {
-    hit: DocSearchHit;
+    hit: InternalDocSearchHit | StoredDocSearchHit;
     children: React.ReactNode;
   }): JSX.Element;
   resultsFooterComponent?(props: {

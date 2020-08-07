@@ -1,27 +1,12 @@
-import {
-  AutocompleteApi,
-  AutocompleteState,
-} from '@francoischalifour/autocomplete-core';
 import React from 'react';
 
 import { RecentIcon, ResetIcon, StarIcon } from './icons';
 import { Results } from './Results';
-import { StoredSearchPlugin } from './stored-searches';
-import { StoredDocSearchHit } from './types';
+import { ScreenStateProps } from './ScreenState';
+import { InternalDocSearchHit } from './types';
 
-interface StartScreenProps
-  extends AutocompleteApi<
-    StoredDocSearchHit,
-    React.FormEvent,
-    React.MouseEvent,
-    React.KeyboardEvent
-  > {
-  state: AutocompleteState<StoredDocSearchHit>;
+interface StartScreenProps extends ScreenStateProps<InternalDocSearchHit> {
   hasSuggestions: boolean;
-  onItemClick(item: StoredDocSearchHit): void;
-  recentSearches: StoredSearchPlugin<StoredDocSearchHit>;
-  favoriteSearches: StoredSearchPlugin<StoredDocSearchHit>;
-  disableUserPersonalization: boolean;
 }
 
 export function StartScreen(props: StartScreenProps) {

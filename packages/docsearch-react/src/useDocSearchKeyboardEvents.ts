@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface UseDocSearchKeyboardEventsProps {
+export interface UseDocSearchKeyboardEventsProps {
   isOpen: boolean;
   onOpen(): void;
   onClose(): void;

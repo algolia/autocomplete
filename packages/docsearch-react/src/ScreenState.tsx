@@ -12,7 +12,7 @@ import { StartScreen } from './StartScreen';
 import { StoredSearchPlugin } from './stored-searches';
 import { InternalDocSearchHit, StoredDocSearchHit } from './types';
 
-interface ScreenStateProps<TItem>
+export interface ScreenStateProps<TItem>
   extends AutocompleteApi<
     TItem,
     React.FormEvent,
@@ -22,10 +22,12 @@ interface ScreenStateProps<TItem>
   state: AutocompleteState<TItem>;
   recentSearches: StoredSearchPlugin<StoredDocSearchHit>;
   favoriteSearches: StoredSearchPlugin<StoredDocSearchHit>;
-  onItemClick(item: StoredDocSearchHit): void;
+  onItemClick(item: InternalDocSearchHit): void;
   inputRef: React.MutableRefObject<null | HTMLInputElement>;
   hitComponent: DocSearchProps['hitComponent'];
   indexName: DocSearchProps['indexName'];
+  disableUserPersonalization: boolean;
+  resultsFooterComponent: DocSearchProps['resultsFooterComponent'];
 }
 
 export const ScreenState = React.memo(
@@ -39,12 +41,7 @@ export const ScreenState = React.memo(
     );
 
     if (!props.state.query) {
-      return (
-        <StartScreen
-          {...(props as ScreenStateProps<any>)}
-          hasSuggestions={hasSuggestions}
-        />
-      );
+      return <StartScreen {...props} hasSuggestions={hasSuggestions} />;
     }
 
     if (hasSuggestions === false) {

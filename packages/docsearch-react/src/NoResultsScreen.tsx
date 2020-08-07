@@ -1,27 +1,14 @@
-import {
-  AutocompleteApi,
-  AutocompleteState,
-} from '@francoischalifour/autocomplete-core';
 import React from 'react';
 
 import { NoResultsIcon } from './icons';
+import { ScreenStateProps } from './ScreenState';
 import { InternalDocSearchHit } from './types';
 
-interface NoResultsScreenProps
-  extends AutocompleteApi<
-    InternalDocSearchHit,
-    React.FormEvent,
-    React.MouseEvent,
-    React.KeyboardEvent
-  > {
-  state: AutocompleteState<InternalDocSearchHit>;
-  inputRef: React.MutableRefObject<null | HTMLInputElement>;
-  indexName: string;
-}
+type NoResultsScreenProps = ScreenStateProps<InternalDocSearchHit>;
 
 export function NoResultsScreen(props: NoResultsScreenProps) {
-  const searchSuggestions: string[] | undefined =
-    props.state.context.searchSuggestions;
+  const searchSuggestions: string[] | undefined = props.state.context
+    .searchSuggestions as string[];
 
   return (
     <div className="DocSearch-NoResults">

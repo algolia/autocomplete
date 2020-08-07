@@ -22,7 +22,7 @@ import { useTouchEvents } from './useTouchEvents';
 import { useTrapFocus } from './useTrapFocus';
 import { groupBy, identity, noop } from './utils';
 
-interface DocSearchModalProps extends DocSearchProps {
+export interface DocSearchModalProps extends DocSearchProps {
   initialScrollY: number;
   onClose?(): void;
 }
