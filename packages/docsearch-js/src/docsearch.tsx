@@ -1,4 +1,8 @@
-import { DocSearch, DocSearchProps, version } from '@docsearch/react';
+import {
+  DocSearch,
+  DocSearchProps as DocSearchComponentProps,
+  version,
+} from '@docsearch/react';
 import React, { render } from 'preact/compat';
 
 function getHTMLElement(
@@ -10,6 +14,11 @@ function getHTMLElement(
   }
 
   return value;
+}
+
+interface DocSearchProps extends DocSearchComponentProps {
+  container: string | HTMLElement;
+  environment?: typeof window;
 }
 
 export function docsearch(props: DocSearchProps) {
