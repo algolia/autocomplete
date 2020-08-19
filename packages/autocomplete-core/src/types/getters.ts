@@ -77,6 +77,7 @@ export type GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (props: {
   autoCapitalize: 'on' | 'off';
   spellCheck: boolean;
   maxLength: number;
+  type: 'search';
   'aria-autocomplete': 'none' | 'inline' | 'list' | 'both';
   'aria-activedescendant': string | undefined;
   'aria-controls': string | undefined;

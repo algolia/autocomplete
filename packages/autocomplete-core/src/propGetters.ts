@@ -189,6 +189,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
       autoFocus: props.autoFocus,
       placeholder: props.placeholder,
       maxLength,
+      type: 'search',
       onChange: (event) => {
         onInput({
           query: (((event as unknown) as Event)
