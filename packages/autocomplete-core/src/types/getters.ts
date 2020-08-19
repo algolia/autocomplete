@@ -49,6 +49,9 @@ export type GetFormProps<TEvent = Event> = (props: {
   [key: string]: unknown;
   inputElement: HTMLInputElement | null;
 }) => {
+  action: '';
+  noValidate: true;
+  role: 'search';
   onSubmit(event: TEvent): void;
   onReset(event: TEvent): void;
 };
