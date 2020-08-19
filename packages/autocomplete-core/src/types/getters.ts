@@ -75,7 +75,7 @@ export type GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (props: {
   autoComplete: 'on' | 'off';
   autoCorrect: 'on' | 'off';
   autoCapitalize: 'on' | 'off';
-  spellCheck: boolean;
+  spellCheck: 'false';
   maxLength: number;
   type: 'search';
   'aria-autocomplete': 'none' | 'inline' | 'list' | 'both';

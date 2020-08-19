@@ -185,7 +185,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
       autoComplete: 'off',
       autoCorrect: 'off',
       autoCapitalize: 'off',
-      spellCheck: false,
+      spellCheck: 'false',
       autoFocus: props.autoFocus,
       placeholder: props.placeholder,
       maxLength,
