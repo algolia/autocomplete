@@ -262,8 +262,14 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     };
   };
 
-  const getDropdownProps: GetDropdownProps = (rest) => {
+  const getDropdownProps: GetDropdownProps<TMouseEvent> = (rest) => {
     return {
+      onMouseDown(event) {
+        // Prevents the `activeElement` from being changed to the dropdown so
+        // that the blur event is not triggered, otherwise it closes the
+        // dropdown.
+        ((event as unknown) as MouseEvent).preventDefault();
+      },
       onMouseLeave() {
         store.send('mouseleave', null);
       },

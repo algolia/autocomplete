@@ -89,9 +89,10 @@ export type GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (props: {
   onClick(event: TMouseEvent): void;
 };
 
-export type GetDropdownProps = (props?: {
+export type GetDropdownProps<TMouseEvent> = (props?: {
   [key: string]: unknown;
 }) => {
+  onMouseDown(event: TMouseEvent): void;
   onMouseLeave(): void;
 };
 
