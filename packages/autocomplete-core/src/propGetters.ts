@@ -170,7 +170,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     }
 
     const isTouchDevice = 'ontouchstart' in props.environment;
-    const { inputElement, maxLength = 512, ...rest } = providedProps;
+    const { inputElement, maxLength = 512, ...rest } = providedProps || {};
 
     return {
       'aria-autocomplete': props.showCompletion ? 'both' : 'list',
