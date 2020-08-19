@@ -97,6 +97,9 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     const { inputElement, ...rest } = providedProps;
 
     return {
+      noValidate: true,
+      role: 'search',
+      action: '',
       onSubmit: (event) => {
         ((event as unknown) as Event).preventDefault();
 
