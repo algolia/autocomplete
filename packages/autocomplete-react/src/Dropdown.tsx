@@ -12,7 +12,7 @@ interface DropdownProps {
   isOpen: boolean;
   status: string;
   suggestions: AutocompleteState<any>['suggestions'];
-  getDropdownProps: GetDropdownProps;
+  getDropdownProps: GetDropdownProps<React.MouseEvent>;
   getMenuProps: GetMenuProps;
   getItemProps: GetItemProps<any, React.MouseEvent>;
   dropdownRef: React.MutableRefObject<HTMLDivElement | null>;
