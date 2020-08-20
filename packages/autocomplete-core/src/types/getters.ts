@@ -11,7 +11,7 @@ export interface AutocompleteAccessibilityGetters<
   getFormProps: GetFormProps<TEvent>;
   getLabelProps: GetLabelProps;
   getInputProps: GetInputProps<TEvent, TMouseEvent, TKeyboardEvent>;
-  getDropdownProps: GetDropdownProps;
+  getDropdownProps: GetDropdownProps<TMouseEvent>;
   getMenuProps: GetMenuProps;
   getItemProps: GetItemProps<TItem, TMouseEvent>;
 }
