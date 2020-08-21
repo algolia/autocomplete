@@ -50,7 +50,11 @@ type GetSources<TItem> = (
 export interface AutocompleteOptions<TItem>
   extends PublicAutocompleteCoreOptions<TItem> {
   container: string | HTMLElement;
-  render(params: { root: HTMLElement; sections: HTMLElement[] }): void;
+  render(params: {
+    root: HTMLElement;
+    sections: HTMLElement[];
+    state: AutocompleteState<TItem>;
+  }): void;
   getSources: GetSources<TItem>;
 }
 
@@ -189,7 +193,7 @@ export function autocomplete<TItem>({
       return section;
     });
 
-    renderDropdown({ root: dropdown, sections });
+    renderDropdown({ root: dropdown, sections, state });
   }
 
   form.appendChild(label);
