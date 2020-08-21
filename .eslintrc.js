@@ -51,7 +51,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/rollup.config.js', 'stories/**/*'],
+      files: ['**/rollup.config.js', 'stories/**/*', '**/__tests__/**'],
       rules: {
         'import/no-extraneous-dependencies': 'off',
       },
