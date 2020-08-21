@@ -1,11 +1,6 @@
-import { AutocompleteOptions } from '@francoischalifour/autocomplete-core';
-
-export function getHTMLElement(
-  value: string | HTMLElement,
-  environment: AutocompleteOptions<any>['environment']
-): HTMLElement {
+export function getHTMLElement(value: string | HTMLElement): HTMLElement {
   if (typeof value === 'string') {
-    return environment.document.querySelector<HTMLElement>(value)!;
+    return document.querySelector<HTMLElement>(value)!;
   }
 
   return value;

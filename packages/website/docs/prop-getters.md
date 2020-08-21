@@ -77,7 +77,7 @@ type GetInputProps = (props: {
   autoCapitalize: 'on' | 'off';
   spellCheck: 'false';
   'aria-autocomplete': 'none' | 'inline' | 'list' | 'both';
-  'aria-activedescendant': string | null;
+  'aria-activedescendant': string | undefined;
   'aria-controls': string | null;
   'aria-labelledby': string;
   onInput(event: Event): void;

@@ -6,7 +6,7 @@ import { stateReducer } from './stateReducer';
 import { createStore } from './store';
 import { AutocompleteApi, PublicAutocompleteOptions } from './types';
 
-function createAutocomplete<
+export function createAutocomplete<
   TItem extends {},
   TEvent = Event,
   TMouseEvent = MouseEvent,
@@ -77,5 +77,3 @@ function createAutocomplete<
     refresh,
   };
 }
-
-export { createAutocomplete };

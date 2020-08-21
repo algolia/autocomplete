@@ -1,6 +1,6 @@
 import {
   createAutocomplete,
-  AutocompleteOptions as AutocompleteCoreOptions,
+  PublicAutocompleteOptions as PublicAutocompleteCoreOptions,
   AutocompleteSource as AutocompleteCoreSource,
   AutocompleteState,
   GetSourcesParams,
@@ -9,6 +9,14 @@ import {
 import { getHTMLElement } from './getHTMLElement';
 import { setProperties } from './setProperties';
 
+/**
+ * Renders the template in the root element.
+ *
+ * If the template is a string, we update the HTML of the root to this string.
+ * If the template is empty, it means that users manipulated the root element
+ * DOM programatically (e.g., attached events, used a renderer like Preact), so
+ * this needs to be a noop.
+ */
 function renderTemplate(template: string | void, root: HTMLElement) {
   if (typeof template === 'string') {
     root.innerHTML = template;
@@ -40,7 +48,7 @@ type GetSources<TItem> = (
 ) => Promise<Array<AutocompleteSource<TItem>>>;
 
 export interface AutocompleteOptions<TItem>
-  extends AutocompleteCoreOptions<TItem> {
+  extends PublicAutocompleteCoreOptions<TItem> {
   container: string | HTMLElement;
   render(params: { root: HTMLElement; sections: HTMLElement[] }): void;
   getSources: GetSources<TItem>;
@@ -51,7 +59,7 @@ export function autocomplete<TItem>({
   render: renderDropdown = defaultRender,
   ...props
 }: AutocompleteOptions<TItem>) {
-  const containerElement = getHTMLElement(container, props.environment);
+  const containerElement = getHTMLElement(container);
   const inputWrapper = document.createElement('div');
   const input = document.createElement('input');
   const root = document.createElement('div');
@@ -60,7 +68,7 @@ export function autocomplete<TItem>({
   const resetButton = document.createElement('button');
   const dropdown = document.createElement('div');
 
-  const autocomplete = createAutocomplete({
+  const autocomplete = createAutocomplete<TItem>({
     onStateChange(options) {
       const { state } = options;
       render(state as any);
@@ -82,25 +90,24 @@ export function autocomplete<TItem>({
 
   const rootProps = autocomplete.getRootProps();
   setProperties(root, rootProps);
+  root.classList.add('aa-Autocomplete');
 
   const formProps = autocomplete.getFormProps({ inputElement: input });
   setProperties(form, formProps);
-  form.setAttribute('action', '');
-  form.setAttribute('role', 'search');
-  form.setAttribute('no-validate', '');
-  form.classList.add('algolia-autocomplete-form');
+  form.classList.add('aa-Form');
 
   const labelProps = autocomplete.getLabelProps();
   setProperties(label, labelProps);
   label.textContent = 'Search items';
 
-  inputWrapper.classList.add('autocomplete-input-wrapper');
+  inputWrapper.classList.add('aa-InputWrapper');
 
   const inputProps = autocomplete.getInputProps({ inputElement: input });
   setProperties(input, inputProps);
+  input.classList.add('aa-Input');
 
   const completion = document.createElement('span');
-  completion.classList.add('autocomplete-completion');
+  completion.classList.add('aa-Completion');
 
   resetButton.setAttribute('type', 'reset');
   resetButton.textContent = 'ｘ';
@@ -108,7 +115,7 @@ export function autocomplete<TItem>({
 
   const dropdownProps = autocomplete.getDropdownProps({});
   setProperties(dropdown, dropdownProps);
-  dropdown.classList.add('autocomplete-dropdown');
+  dropdown.classList.add('aa-Dropdown');
   dropdown.setAttribute('hidden', '');
 
   function render(state: AutocompleteState<TItem>) {
@@ -128,9 +135,9 @@ export function autocomplete<TItem>({
     }
 
     if (state.status === 'stalled') {
-      dropdown.classList.add('autocomplete-dropdown--stalled');
+      dropdown.classList.add('aa-Dropdown--stalled');
     } else {
-      dropdown.classList.remove('autocomplete-dropdown--stalled');
+      dropdown.classList.remove('aa-Dropdown--stalled');
     }
 
     const sections = state.suggestions.map((suggestion) => {
