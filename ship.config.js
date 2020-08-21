@@ -6,6 +6,7 @@ const path = require('path');
 const packages = [
   'packages/autocomplete-core',
   'packages/autocomplete-preset-algolia',
+  'packages/autocomplete-js',
   'packages/docsearch-css',
   'packages/docsearch-react',
   'packages/docsearch-js',
@@ -38,6 +39,13 @@ module.exports = {
     exec('yarn eslint lerna.json --fix');
 
     updatePackageDependencies(
+      {
+        package: '@francoischalifour/autocomplete-js',
+        dependencies: [
+          `@francoischalifour/autocomplete-core@^${version}`,
+          `@francoischalifour/autocomplete-preset-algolia@^${version}`,
+        ],
+      },
       {
         package: '@docsearch/react',
         dependencies: [
