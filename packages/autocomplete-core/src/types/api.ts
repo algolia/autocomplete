@@ -110,17 +110,19 @@ export type GetSources<TItem> = (
   params: GetSourcesParams<TItem>
 ) => Promise<Array<AutocompleteSource<TItem>>>;
 
-export interface Environment {
-  [prop: string]: unknown;
-  addEventListener: Window['addEventListener'];
-  removeEventListener: Window['removeEventListener'];
-  setTimeout: Window['setTimeout'];
-  document: Window['document'];
-  location: {
-    assign: Location['assign'];
-  };
-  open: Window['open'];
-}
+export type Environment =
+  | Window
+  | {
+      [prop: string]: unknown;
+      addEventListener: Window['addEventListener'];
+      removeEventListener: Window['removeEventListener'];
+      setTimeout: Window['setTimeout'];
+      document: Window['document'];
+      location: {
+        assign: Location['assign'];
+      };
+      open: Window['open'];
+    };
 
 interface Navigator<TItem> {
   /**

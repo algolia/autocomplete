@@ -1,6 +1,6 @@
 type ParseAttributeParams = {
-  highlightPreTag: string;
-  highlightPostTag: string;
+  highlightPreTag?: string;
+  highlightPostTag?: string;
   highlightedValue: string;
 };
 
@@ -61,8 +61,8 @@ function getAttributeValueByPath(hit: object, path: string): string {
 type SharedParseAttributeParams = {
   hit: any;
   attribute: string;
-  highlightPreTag: string;
-  highlightPostTag: string;
+  highlightPreTag?: string;
+  highlightPostTag?: string;
 };
 
 export function parseHighlightedAttribute({
