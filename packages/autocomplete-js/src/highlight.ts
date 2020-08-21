@@ -25,8 +25,8 @@ export function highlightItem({
     return (
       acc +
       (current.isHighlighted
-        ? current.value
-        : `${highlightPreTag}${current.value}${highlightPostTag}`)
+        ? `${highlightPreTag}${current.value}${highlightPostTag}`
+        : current.value)
     );
   }, '');
 }
@@ -46,8 +46,8 @@ export function reverseHighlightItem({
     return (
       acc +
       (current.isHighlighted
-        ? current.value
-        : `${highlightPreTag}${current.value}${highlightPostTag}`)
+        ? `${highlightPreTag}${current.value}${highlightPostTag}`
+        : current.value)
     );
   }, '');
 }
