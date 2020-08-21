@@ -342,7 +342,7 @@ export function DocSearchModal({
       ]
         .filter(Boolean)
         .join(' ')}
-      onClick={(event) => {
+      onMouseDown={(event) => {
         if (event.target === event.currentTarget) {
           onClose();
         }
