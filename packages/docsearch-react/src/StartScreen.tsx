@@ -45,7 +45,6 @@ export function StartScreen(props: StartScreenProps) {
           <>
             <div className="DocSearch-Hit-action">
               <button
-                data-cy="fav-recent"
                 className="DocSearch-Hit-action-button"
                 title="Save this search"
                 onClick={(event) => {
@@ -63,7 +62,6 @@ export function StartScreen(props: StartScreenProps) {
             </div>
             <div className="DocSearch-Hit-action">
               <button
-                data-cy="remove-recent"
                 className="DocSearch-Hit-action-button"
                 title="Remove this search from history"
                 onClick={(event) => {
@@ -94,7 +92,6 @@ export function StartScreen(props: StartScreenProps) {
         renderAction={({ item, runDeleteTransition }) => (
           <div className="DocSearch-Hit-action">
             <button
-              data-cy="remove-fav"
               className="DocSearch-Hit-action-button"
               title="Remove this search from favorites"
               onClick={(event) => {

@@ -117,14 +117,16 @@ context('Recent and Favorites', () => {
   it('Recent search can be deleted', () => {
     cy.get('.DocSearch-Button').click();
     cy.get('#docsearch-item-0')
-      .find('[data-cy=remove-recent]')
+      .find('[title="Remove this search from history"]')
       .trigger('click');
     cy.contains('No recent searches').should('be.visible');
   });
 
   it('Recent search can be favorited', () => {
     cy.get('.DocSearch-Button').click();
-    cy.get('#docsearch-item-0').find('[data-cy=fav-recent]').trigger('click');
+    cy.get('#docsearch-item-0')
+      .find('[title="Save this search"]')
+      .trigger('click');
     cy.contains('Favorites').should('be.visible');
     cy.get('#docsearch-item-0').should('be.visible');
     cy.percySnapshot('favorite');
@@ -132,9 +134,13 @@ context('Recent and Favorites', () => {
 
   it('Favorite can be deleted', () => {
     cy.get('.DocSearch-Button').click();
-    cy.get('#docsearch-item-0').find('[data-cy=fav-recent]').trigger('click');
+    cy.get('#docsearch-item-0')
+      .find('[title="Save this search"]')
+      .trigger('click');
     cy.wait(2000);
-    cy.get('#docsearch-item-0').find('[data-cy=remove-fav]').trigger('click');
+    cy.get('#docsearch-item-0')
+      .find('[title="Remove this search from favorites"]')
+      .trigger('click');
     cy.contains('No recent searches').should('be.visible');
   });
 });

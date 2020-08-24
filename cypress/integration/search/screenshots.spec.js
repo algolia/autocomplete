@@ -107,7 +107,7 @@ describe('Screenshots', () => {
             cy.wait(1000);
             cy.openModal();
             cy.get('#docsearch-item-0')
-              .find('[data-cy=fav-recent]')
+              .find('[title="Save this search"]')
               .trigger('click');
             cy.wait(1000);
             cy.contains('Favorites').should('be.visible');
