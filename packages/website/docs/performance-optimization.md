@@ -3,7 +3,7 @@ id: performance-optimization
 title: Performance Optimization
 ---
 
-# Lazy loading
+## Lazy loading
 
 <!-- prettier-ignore -->
 :::caution
@@ -12,7 +12,7 @@ This section is incomplete.
 
 [See example](https://github.com/facebook/docusaurus/blob/878ce3132b94ecfc112793212fff3e16cb9e6318/packages/docusaurus-theme-search-algolia/src/theme/SearchBar/index.js).
 
-# Preconnect
+## Preconnect
 
 You can hint the browser that the website will load data from Algolia, and allows it to preconnect to the DocSearch cluster. It makes the first query faster, especially on mobile.
 

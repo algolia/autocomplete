@@ -4,7 +4,7 @@ id: getAlgoliaResults
 
 Retrieves Algolia results from one or multiple indices.
 
-# Example
+## Example
 
 ```js
 import { getAlgoliaResults } from '@francoischalifour/autocomplete-preset-algolia';
@@ -28,9 +28,7 @@ getAlgoliaResults({
 });
 ```
 
-# Reference
-
-## Params
+## Options
 
 ### `searchClient`
 

@@ -5,7 +5,7 @@ title: getAlgoliaHits
 
 Retrieves and merges Algolia hits from one or multiple indices.
 
-# Example
+## Example
 
 ```js
 import { getAlgoliaHits } from '@francoischalifour/autocomplete-js';
@@ -29,6 +29,6 @@ getAlgoliaHits({
 });
 ```
 
-# Reference
+## Options
 
-See [`autocomplete-preset-algolia#getAlgoliaHits`](getAlgoliaHits#reference).
+See [`autocomplete-preset-algolia#getAlgoliaHits`](getAlgoliaHits#options).

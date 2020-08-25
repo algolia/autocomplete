@@ -4,7 +4,7 @@ id: DocSearch
 
 This component displays the DocSearch button that opens the search modal.
 
-# Example
+## Example
 
 ```js
 import React from 'react';
@@ -21,11 +21,8 @@ function App({ apiKey, indexName }) {
 }
 ```
 
-# Reference
+## Props
 
-<!-- prettier-ignore -->
-:::caution
-This section is incomplete.
-:::
+import DocSearchProps from './partials/docsearch-props.md'
 
-See [`DocSearchModal` reference](/docs/DocSearchModal#reference).
+<DocSearchProps />

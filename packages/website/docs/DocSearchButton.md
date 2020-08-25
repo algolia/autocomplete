@@ -6,7 +6,7 @@ This component displays the DocSearch button that opens the modal.
 
 It can be useful to use this component instead of [`DocSearch`](DocSearch) to have better control over when to open the modal, or to lazy load the modal.
 
-# Example
+## Example
 
 ```js
 import React from 'react';
@@ -73,7 +73,7 @@ function Search({ apiKey, indexName }) {
 All objects or functions passed to `DocSearchModal` should be memoized so that DocSearch doesn't trigger other renders and loses its state.
 :::
 
-# Reference
+## Props
 
 ### `onClick`
 

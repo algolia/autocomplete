@@ -5,7 +5,7 @@ title: '@docsearch/js'
 
 This package creates a DocSearch button that opens the DocSearch search modal.
 
-# Example
+## Example
 
 ```html
 <html>
@@ -30,11 +30,14 @@ This package creates a DocSearch button that opens the DocSearch search modal.
 </html>
 ```
 
-# Reference
+## Options
 
-<!-- prettier-ignore -->
-:::caution
-This section is incomplete.
-:::
+### `container`
 
-See [`DocSearch` reference](/docs/DocSearch#reference).
+> `string | HTMLElement` | **required**
+
+The container for the DocSearch button. You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). The first element matching the provided selector will be used as container.
+
+import DocSearchProps from './partials/docsearch-props.md'
+
+<DocSearchProps />

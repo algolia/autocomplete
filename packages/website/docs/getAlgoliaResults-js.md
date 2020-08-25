@@ -5,7 +5,7 @@ title: getAlgoliaResults
 
 Retrieves Algolia results from one or multiple indices.
 
-# Example
+## Example
 
 ```js
 import { getAlgoliaResults } from '@francoischalifour/autocomplete-js';
@@ -29,6 +29,6 @@ getAlgoliaResults({
 });
 ```
 
-# Reference
+## Options
 
-See [`autocomplete-preset-algolia#getAlgoliaResults`](getAlgoliaResults#reference).
+See [`autocomplete-preset-algolia#getAlgoliaResults`](getAlgoliaResults#options).

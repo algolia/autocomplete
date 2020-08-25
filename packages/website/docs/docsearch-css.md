@@ -5,7 +5,7 @@ title: '@docsearch/css'
 
 This package contains the styles for DocSearch.
 
-# Example
+## Example
 
 ```html
 <html>
@@ -30,7 +30,7 @@ This package contains the styles for DocSearch.
 </html>
 ```
 
-# Files
+## Files
 
 ```sh
 @docsearch/css

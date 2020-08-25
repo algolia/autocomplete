@@ -6,7 +6,7 @@ This component displays the DocSearch modal.
 
 It can be useful to use this component instead of [`DocSearch`](DocSearch) to have better control over when to open the modal, or to lazy load the modal.
 
-# Example
+## Example
 
 ```js
 import React from 'react';
@@ -73,43 +73,11 @@ function Search({ apiKey, indexName }) {
 All objects or functions passed to `DocSearchModal` should be memoized so that DocSearch doesn't trigger other renders and loses its state.
 :::
 
-# Reference
+## Props
 
-### `appId`
+import DocSearchProps from './partials/docsearch-props.md'
 
-> `string` | defaults to `"BH4D9OD16A"`
-
-The Algolia application ID.
-
-### `apiKey`
-
-> `string`
-
-The Algolia search-only API key.
-
-### `indexName`
-
-> `string`
-
-The Algolia index name.
-
-### `placeholder`
-
-> `string` | defaults to `"Search docs"`
-
-The text that appears in the search box input when there is no query.
-
-### `searchParameters`
-
-> `SearchParameters`
-
-[Search parameters](https://www.algolia.com/doc/api-reference/search-api-parameters/) to forward to Algolia.
-
-### `initialQuery`
-
-> `string`
-
-The initial query when the modal opens.
+<DocSearchProps />
 
 ### `onClose`
 
@@ -117,40 +85,8 @@ The initial query when the modal opens.
 
 Function to call when the DocSearch modal closes.
 
-### `transformItems`
+### `initialScrollY`
 
-> `(items: DocSearchHit[]) => DocSearchHit[]`
+> number | defaults to `0`
 
-Function to customize the hits before rendering them.
-
-### `transformSearchClient`
-
-> `(searchClient: SearchClient) => SearchClient`
-
-Function to transform the [Algolia search client](https://github.com/algolia/algoliasearch-client-javascript). It can be useful to alter or proxy requests.
-
-### `hitComponent`
-
-> `(props: { hit: DocSearchHit; children: React.ReactNode; }): JSX.Element`
-
-The component to use for a hit. It's useful to use a custom link component, or to customize the hits to display.
-
-It defaults to:
-
-```js
-function Hit({ hit, children }) {
-  return <a href={hit.url}>{children}</a>;
-}
-```
-
-### `navigator`
-
-> `Navigator`
-
-[Navigator API](keyboard-navigation) to redirect the user when a link should be opened.
-
-### `disableUserPersonalization`
-
-> `boolean` | defaults to `false`
-
-Whether to disable all personalized features: recent searches, favorite searches.
+The vertical scroll value when the modal was opened to scroll back to that position when the modal is closed.
