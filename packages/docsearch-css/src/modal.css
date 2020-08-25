@@ -384,11 +384,11 @@ svg.DocSearch-Hit-Select-Icon {
 }
 
 @media screen and (prefers-reduced-motion: reduce) {
-.DocSearch-Hit-action-button:hover,
-.DocSearch-Hit-action-button:focus {
-  background: rgba(0, 0, 0, 0.2);
-  transition: none;
-}
+  .DocSearch-Hit-action-button:hover,
+  .DocSearch-Hit-action-button:focus {
+    background: rgba(0, 0, 0, 0.2);
+    transition: none;
+  }
 }
 
 .DocSearch-Hit-action-button:hover,
@@ -557,10 +557,6 @@ svg.DocSearch-Hit-Select-Icon {
   :root {
     --docsearch-spacing: 10px;
     --docsearch-footer-height: 40px;
-  }
-
-  .DocSearch--active #__docusaurus {
-    display: none;
   }
 
   .DocSearch-Dropdown {
