@@ -121,7 +121,7 @@ Useful if you're using autocomplete in a different context than `window`.
 
 Navigator API to redirect the user when a link should be opened.
 
-Learn more on the [Navigator API](navigator-api) documentation.
+Learn more on the [Navigator API](keyboard-navigation) documentation.
 
 ### `shouldDropdownShow`
 

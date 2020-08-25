@@ -23,8 +23,9 @@ You should be using Autocomplete if you want to:
 | [`autocomplete-core`](packages/autocomplete-core) | Core primitives to build an Autocomplete experience | [Documentation](https://autocomplete-experimental.netlify.app/docs/createAutocomplete) |
 | [`autocomplete-js`](packages/autocomplete-js) | JavaScript package for Autocomplete | [Documentation](https://autocomplete-experimental.netlify.app/docs/autocomplete-js) |
 | [`autocomplete-preset-algolia`](packages/autocomplete-preset-algolia) | Presets to use Algolia features with Autocomplete | [Documentation](https://autocomplete-experimental.netlify.app/docs/highlightAlgoliaHit) |
-| [`docsearch-js`](packages/docsearch-js) | JavaScript package for DocSearch | [Documentation](https://autocomplete-experimental.netlify.app/docs/DocSearch) |
-| [`docsearch-React`](packages/docsearch-React) | React package for DocSearch | [Documentation](https://autocomplete-experimental.netlify.app/docs/DocSearch) |
+| [`docsearch-js`](packages/docsearch-js) | JavaScript package for DocSearch | [Documentation](https://autocomplete-experimental.netlify.app/docs/docsearch-js) |
+| [`docsearch-react`](packages/docsearch-react) | React package for DocSearch | [Documentation](https://autocomplete-experimental.netlify.app/docs/DocSearch) |
+| [`docsearch-css`](packages/docsearch-css) | Styles for DocSearch | [Documentation](https://autocomplete-experimental.netlify.app/docs/docsearch-css) |
 
 ## License
 
