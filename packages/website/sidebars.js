@@ -17,8 +17,13 @@ module.exports = {
     API: [
       {
         type: 'category',
-        label: 'Autocomplete',
+        label: 'Core',
         items: ['createAutocomplete'],
+      },
+      {
+        type: 'category',
+        label: 'JavaScript',
+        items: ['autocomplete-js'],
       },
       {
         type: 'category',
