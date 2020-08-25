@@ -81,3 +81,21 @@ autocomplete({
   },
 });
 ```
+
+## Returns
+
+```js
+const {
+  setHighlightedIndex,
+  setQuery,
+  setSuggestions,
+  setIsOpen,
+  setStatus,
+  setContext,
+  refresh,
+} = autocomplete(options);
+```
+
+`autocomplete` returns all the [state setters](state#setters) and `refresh` method that updates the UI state.
+
+These setters are useful to control the autocomplete experience from external events.

@@ -147,7 +147,7 @@ This turns the experience in controlled mode, leaving you in charge of updating 
 
 ## Returned props
 
-```js {2-14}
+```js
 const {
   getEnvironmentProps,
   getRootProps,
@@ -162,7 +162,8 @@ const {
   setIsOpen,
   setStatus,
   setContext,
+  refresh,
 } = createAutocomplete(options);
 ```
 
-This function returns the [prop getters](prop-getters) and the [state setters](state#setters)
+This function returns the [prop getters](prop-getters), the [state setters](state#setters) and the `refresh` method that updates the UI state.
