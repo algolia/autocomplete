@@ -1,9 +1,10 @@
 import {
   createAutocomplete,
-  PublicAutocompleteOptions as PublicAutocompleteCoreOptions,
+  AutocompleteSetters,
   AutocompleteSource as AutocompleteCoreSource,
   AutocompleteState,
   GetSourcesParams,
+  PublicAutocompleteOptions as PublicAutocompleteCoreOptions,
 } from '@francoischalifour/autocomplete-core';
 
 import { getHTMLElement } from './getHTMLElement';
@@ -58,11 +59,18 @@ export interface AutocompleteOptions<TItem>
   getSources: GetSources<TItem>;
 }
 
+export interface AutocompleteApi<TItem> extends AutocompleteSetters<TItem> {
+  /**
+   * Triggers a search to refresh the state.
+   */
+  refresh(): Promise<void>;
+}
+
 export function autocomplete<TItem>({
   container,
   render: renderDropdown = defaultRender,
   ...props
-}: AutocompleteOptions<TItem>) {
+}: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
   const containerElement = getHTMLElement(container);
   const inputWrapper = document.createElement('div');
   const input = document.createElement('input');
@@ -207,5 +215,13 @@ export function autocomplete<TItem>({
   root.appendChild(dropdown);
   containerElement.appendChild(root);
 
-  return autocomplete;
+  return {
+    setHighlightedIndex: autocomplete.setHighlightedIndex,
+    setQuery: autocomplete.setQuery,
+    setSuggestions: autocomplete.setSuggestions,
+    setIsOpen: autocomplete.setIsOpen,
+    setStatus: autocomplete.setStatus,
+    setContext: autocomplete.setContext,
+    refresh: autocomplete.refresh,
+  };
 }
