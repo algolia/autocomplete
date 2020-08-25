@@ -173,7 +173,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     const { inputElement, maxLength = 512, ...rest } = providedProps || {};
 
     return {
-      'aria-autocomplete': props.showCompletion ? 'both' : 'list',
+      'aria-autocomplete': props.enableCompletion ? 'both' : 'list',
       'aria-activedescendant':
         store.getState().isOpen && store.getState().highlightedIndex !== null
           ? `${props.id}-item-${store.getState().highlightedIndex}`

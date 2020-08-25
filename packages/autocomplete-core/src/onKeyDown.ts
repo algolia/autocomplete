@@ -65,7 +65,7 @@ export function onKeyDown<TItem>({
       (event.key === 'ArrowRight' &&
         (event.target as HTMLInputElement).selectionStart ===
           store.getState().query.length)) &&
-    props.showCompletion &&
+    props.enableCompletion &&
     store.getState().highlightedIndex !== null
   ) {
     event.preventDefault();

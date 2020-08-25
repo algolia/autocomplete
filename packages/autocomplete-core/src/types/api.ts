@@ -186,7 +186,7 @@ export interface PublicAutocompleteOptions<TItem> {
    *
    * @default false
    */
-  showCompletion?: boolean;
+  enableCompletion?: boolean;
   /**
    * Whether to open the dropdown on focus when there's no query.
    *
@@ -248,7 +248,7 @@ export interface AutocompleteOptions<TItem> {
   placeholder: string;
   autoFocus: boolean;
   defaultHighlightedIndex: number | null;
-  showCompletion: boolean;
+  enableCompletion: boolean;
   openOnFocus: boolean;
   stallThreshold: number;
   initialState: AutocompleteState<TItem>;

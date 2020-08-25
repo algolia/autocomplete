@@ -203,13 +203,13 @@ The text that appears in the search box input when there is no query.
 
 It is fowarded to the [`input`'s placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefplaceholder).
 
-#### `showCompletion`
+#### `enableCompletion`
 
 > `boolean` | defaults to `false`
 
 Whether to show the highlighted suggestion as completion in the input.
 
-![`showCompletion` preview](https://user-images.githubusercontent.com/6137112/68124812-7e989800-ff10-11e9-88a5-f28c1466b665.png)
+![`enableCompletion` preview](https://user-images.githubusercontent.com/6137112/68124812-7e989800-ff10-11e9-88a5-f28c1466b665.png)
 
 #### `openOnFocus`
 

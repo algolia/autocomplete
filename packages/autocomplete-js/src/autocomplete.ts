@@ -125,7 +125,7 @@ export function autocomplete<TItem>({
   function render(state: AutocompleteState<TItem>) {
     input.value = state.query;
 
-    if (props.showCompletion) {
+    if (props.enableCompletion) {
       completion.textContent = state.completion;
     }
 
@@ -197,7 +197,7 @@ export function autocomplete<TItem>({
   }
 
   form.appendChild(label);
-  if (props.showCompletion) {
+  if (props.enableCompletion) {
     inputWrapper.appendChild(completion);
   }
   inputWrapper.appendChild(input);

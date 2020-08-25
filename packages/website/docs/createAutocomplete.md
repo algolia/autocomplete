@@ -83,7 +83,7 @@ The default item index to pre-select.
 
 We recommend using `0` when the query typed aims at opening suggestion links, without triggering an actual search.
 
-### `showCompletion`
+### `enableCompletion`
 
 > `boolean` | defaults to `false`
 

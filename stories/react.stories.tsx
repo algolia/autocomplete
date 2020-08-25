@@ -19,7 +19,7 @@ storiesOf('React', module)
       render(
         <Autocomplete
           placeholder="Search items…"
-          showCompletion={true}
+          enableCompletion={true}
           dropdownContainer={dropdownContainer}
           defaultHighlightedIndex={null}
           getSources={() => {
@@ -58,7 +58,7 @@ storiesOf('React', module)
       render(
         <Autocomplete
           placeholder="Search items…"
-          showCompletion={true}
+          enableCompletion={true}
           dropdownContainer={dropdownContainer}
           getSources={() => {
             return [
@@ -248,7 +248,7 @@ storiesOf('React', module)
       render(
         <Autocomplete
           placeholder="Search items…"
-          showCompletion={true}
+          enableCompletion={true}
           dropdownContainer={dropdownContainer}
           defaultHighlightedIndex={0}
           openOnFocus={true}
