@@ -10,12 +10,12 @@ This component displays the DocSearch button that opens the search modal.
 import React from 'react';
 import { DocSearch } from '@docsearch/react';
 
+import '@docsearch/react/style';
+
 function App({ apiKey, indexName }) {
   return (
     <div>
-      <header>
-        <DocSearch apiKey={apiKey} indexName={indexName} />
-      </header>
+      <DocSearch apiKey={apiKey} indexName={indexName} />
     </div>
   );
 }

@@ -17,30 +17,22 @@ module.exports = {
     API: [
       {
         type: 'category',
-        label: 'Core',
+        label: 'autocomplete-core',
         items: ['createAutocomplete'],
       },
       {
         type: 'category',
-        label: 'JavaScript',
-        items: [
-          'autocomplete-js',
-          { type: 'link', label: 'getAlgoliaHits', href: 'getAlgoliaHits' },
-          {
-            type: 'link',
-            label: 'getAlgoliaResults',
-            href: 'getAlgoliaResults',
-          },
-        ],
+        label: 'autocomplete-js',
+        items: ['autocomplete-js', 'getAlgoliaHits-js', 'getAlgoliaResults-js'],
       },
       {
         type: 'category',
-        label: 'React',
+        label: 'autocomplete-react',
         items: ['useAutocomplete'],
       },
       {
         type: 'category',
-        label: 'Algolia Preset',
+        label: 'autocomplete-preset-algolia',
         items: [
           'highlightAlgoliaHit',
           'reverseHighlightAlgoliaHit',
@@ -51,7 +43,7 @@ module.exports = {
       },
       {
         type: 'category',
-        label: 'DocSearch',
+        label: 'docsearch-react',
         items: ['DocSearch', 'DocSearchButton', 'DocSearchModal'],
       },
     ],

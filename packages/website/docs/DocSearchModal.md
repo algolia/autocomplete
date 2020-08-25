@@ -4,35 +4,74 @@ id: DocSearchModal
 
 This component displays the DocSearch modal.
 
+It can be useful to use this component instead of [`DocSearch`](DocSearch) to have better control over when to open the modal, or to lazy load the modal.
+
 # Example
 
 ```js
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { DocSearchButton, DocSearchModal } from '@docsearch/react';
+import {
+  DocSearchButton,
+  DocSearchModal,
+  useDocSearchEvent,
+} from '@docsearch/react';
 
-function App({ apiKey, indexName }) {
-  const [isShowing, setIsShowing] = React.useState(false);
+import '@docsearch/react/style';
+
+function Search({ apiKey, indexName }) {
+  const searchButtonRef = React.useRef(null);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [initialQuery, setInitialQuery] = React.useState(null);
+
+  const onOpen = React.useCallback(() => {
+    setIsOpen(true);
+  }, [setIsOpen]);
+
+  const onClose = React.useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
+
+  const onInput = React.useCallback(
+    (event) => {
+      setIsOpen(true);
+      setInitialQuery(event.key);
+    },
+    [setIsOpen, setInitialQuery]
+  );
+
+  useDocSearchKeyboardEvents({
+    isOpen,
+    onOpen,
+    onClose,
+    onInput,
+    searchButtonRef,
+  });
 
   return (
-    <div>
-      <header>
-        <DocSearchButton onClick={() => setIsShowing(true)} />
-      </header>
+    <React.Fragment>
+      <DocSearchButton ref={searchButtonRef} onClick={onOpen} />
 
-      {isShowing &&
+      {isOpen &&
         createPortal(
           <DocSearchModal
             apiKey={apiKey}
             indexName={indexName}
-            onClose={() => setIsShowing(false)}
+            onClose={onClose}
+            initialScrollY={window.scrollY}
+            initialQuery={initialQuery}
           />,
           document.body
         )}
-    </div>
+    </React.Fragment>
   );
 }
 ```
+
+<!-- prettier-ignore -->
+:::info
+All objects or functions passed to `DocSearchModal` should be memoized so that DocSearch doesn't trigger other renders and loses its state.
+:::
 
 # Reference
 
@@ -83,6 +122,12 @@ Function to call when the DocSearch modal closes.
 > `(items: DocSearchHit[]) => DocSearchHit[]`
 
 Function to customize the hits before rendering them.
+
+### `transformSearchClient`
+
+> `(searchClient: SearchClient) => SearchClient`
+
+Function to transform the [Algolia search client](https://github.com/algolia/algoliasearch-client-javascript). It can be useful to alter or proxy requests.
 
 ### `hitComponent`
 

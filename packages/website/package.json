@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@docsearch/react": "1.0.0-alpha.27",
-    "@docusaurus/core": "2.0.0-alpha.58",
-    "@docusaurus/preset-classic": "2.0.0-alpha.58",
+    "@docusaurus/core": "2.0.0-alpha.61",
+    "@docusaurus/preset-classic": "2.0.0-alpha.61",
     "classnames": "2.2.6",
     "react": "16.13.0",
     "react-dom": "16.13.0"

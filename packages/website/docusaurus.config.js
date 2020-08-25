@@ -9,14 +9,14 @@ module.exports = {
   organizationName: 'algolia',
   projectName: 'autocomplete',
   themeConfig: {
-    sidebarCollapsible: false,
+    sidebarCollapsible: true,
     navbar: {
       title: 'Autocomplete',
       logo: {
         alt: 'Autocomplete',
         src: 'img/logo.png',
       },
-      links: [
+      items: [
         {
           to: 'docs/getting-started',
           label: 'Docs',
