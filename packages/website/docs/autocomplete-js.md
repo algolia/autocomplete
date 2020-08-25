@@ -5,7 +5,7 @@ title: autocomplete
 
 This function creates a JavaScript autocomplete experience.
 
-## Example
+# Example
 
 ```js title="HTML"
 <div id="autocomplete"></div>
@@ -49,21 +49,21 @@ const autocomplete = autocomplete({
 });
 ```
 
-## Reference
+# Reference
 
 `autocomplete` accepts all the props that [`createAutocomplete`](/docs/createAutocomplete#reference) supports.
 
-### Required props
+## Required props
 
-#### `container`
+### `container`
 
 > `string | HTMLElement`
 
 The container for the autocomplete search box.
 
-### Optional props
+## Optional props
 
-#### `render`
+### `render`
 
 > `(params: { root: HTMLElement, sections: HTMLElement[], state: AutocompleteState<TItem> }) => void`
 
@@ -82,7 +82,7 @@ autocomplete({
 });
 ```
 
-## Returns
+## Returned props
 
 ```js
 const {
