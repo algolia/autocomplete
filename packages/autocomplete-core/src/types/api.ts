@@ -58,6 +58,9 @@ interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {
 }
 
 export interface PublicAutocompleteSource<TItem> {
+  // This allows flavors to pass other keys to their source.
+  // Example: `templates` in the JavaScript API
+  [key: string]: unknown;
   /**
    * Get the string value of the suggestion. The value is used to fill the search box.
    */
