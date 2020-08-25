@@ -23,7 +23,15 @@ module.exports = {
       {
         type: 'category',
         label: 'JavaScript',
-        items: ['autocomplete-js'],
+        items: [
+          'autocomplete-js',
+          { type: 'link', label: 'getAlgoliaHits', href: 'getAlgoliaHits' },
+          {
+            type: 'link',
+            label: 'getAlgoliaResults',
+            href: 'getAlgoliaResults',
+          },
+        ],
       },
       {
         type: 'category',
