@@ -3,7 +3,6 @@
   background: var(--docsearch-searchbox-background);
   border: 0;
   border-radius: 40px;
-  color: var(--docsearch-text-color);
   color: var(--docsearch-muted-color);
   cursor: pointer;
   display: flex;
