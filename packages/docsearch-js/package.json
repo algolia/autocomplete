@@ -1,9 +1,10 @@
 {
   "name": "@docsearch/js",
+  "description": "JavaScript package for DocSearch, the best search experience for docs.",
   "version": "1.0.0-alpha.27",
   "license": "MIT",
-  "homepage": "https://github.com/algolia/autocomplete.js",
-  "repository": "algolia/autocomplete.js",
+  "homepage": "https://github.com/francoischalifour/autocomplete.js",
+  "repository": "francoischalifour/autocomplete.js",
   "author": {
     "name": "Algolia, Inc.",
     "url": "https://www.algolia.com"

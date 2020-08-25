@@ -19,8 +19,8 @@
     "on:change": "concurrently \"yarn build:esm\" \"yarn build:types\"",
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
-  "homepage": "https://github.com/algolia/autocomplete.js",
-  "repository": "algolia/autocomplete.js",
+  "homepage": "https://github.com/francoischalifour/autocomplete.js",
+  "repository": "francoischalifour/autocomplete.js",
   "author": {
     "name": "Algolia, Inc.",
     "url": "https://www.algolia.com"
