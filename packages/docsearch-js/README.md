@@ -12,4 +12,4 @@ npm install @docsearch/js@alpha
 
 ## Documentation
 
-[Read documentation →](https://autocomplete-experimental.netlify.app/docs/DocSearch)
+[Read documentation →](https://autocomplete-experimental.netlify.app/docs/docsearch-js)

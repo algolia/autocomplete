@@ -59,7 +59,7 @@ const autocomplete = autocomplete({
 
 > `string | HTMLElement`
 
-The container for the autocomplete search box.
+The container for the autocomplete search box. You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement).
 
 ## Optional props
 

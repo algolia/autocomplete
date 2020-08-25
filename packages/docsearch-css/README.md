@@ -12,28 +12,6 @@ yarn add @docsearch/css@alpha
 npm install @docsearch/css@alpha
 ```
 
-## Usage
+## Documentation
 
-### Import all styles
-
-#### In CSS
-
-```html
-<link rel="stylesheet" href="https://unpkg.com/browse/@docsearch/css" />
-```
-
-#### In JavaScript
-
-```js
-import '@docsearch/css';
-```
-
-### Lazy-load styles
-
-```js
-import '@docsearch/css/dist/_variables.css';
-import '@docsearch/css/dist/button.css';
-
-// When needed
-import '@docsearch/css/dist/modal.css';
-```
+[Read documentation →](https://autocomplete-experimental.netlify.app/docs/docsearch-css)

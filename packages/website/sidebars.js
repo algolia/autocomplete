@@ -44,7 +44,22 @@ module.exports = {
       {
         type: 'category',
         label: 'docsearch-react',
-        items: ['DocSearch', 'DocSearchButton', 'DocSearchModal'],
+        items: [
+          'DocSearch',
+          'DocSearchButton',
+          'DocSearchModal',
+          'performance-optimization',
+        ],
+      },
+      {
+        type: 'category',
+        label: 'docsearch-js',
+        items: ['docsearch-js'],
+      },
+      {
+        type: 'category',
+        label: 'docsearch-css',
+        items: ['docsearch-css'],
       },
     ],
   },
