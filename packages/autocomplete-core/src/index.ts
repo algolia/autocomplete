@@ -1,3 +1,3 @@
-export { createAutocomplete } from './autocomplete';
-export { getDefaultProps } from './defaultProps';
+export * from './createAutocomplete';
+export * from './getDefaultProps';
 export * from './types';

@@ -1,9 +1,9 @@
-import { getDefaultProps } from './defaultProps';
+import { createStore } from './createStore';
+import { getAutocompleteSetters } from './getAutocompleteSetters';
+import { getDefaultProps } from './getDefaultProps';
+import { getPropGetters } from './getPropGetters';
 import { onInput } from './onInput';
-import { getPropGetters } from './propGetters';
-import { getAutocompleteSetters } from './setters';
 import { stateReducer } from './stateReducer';
-import { createStore } from './store';
 import { AutocompleteApi, PublicAutocompleteOptions } from './types';
 
 export function createAutocomplete<
