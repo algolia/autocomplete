@@ -1,4 +1,4 @@
-import { getCompletion } from './completion';
+import { getCompletion } from './getCompletion';
 import { onInput } from './onInput';
 import {
   AutocompleteOptions,
