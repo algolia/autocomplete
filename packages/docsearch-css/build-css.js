@@ -11,22 +11,13 @@ const pkg = require('./package.json');
 
 const readFile = util.promisify(fs.readFile);
 
-if (process.env.NODE_ENV === 'production' && !process.env.VERSION) {
-  throw new Error(
-    `You need to specify a valid semver environment variable 'VERSION' to run the build process (received: ${JSON.stringify(
-      process.env.VERSION
-    )}).`
-  );
-}
-
 function getBundleBanner(pkg) {
   const lastCommitHash = execSync('git rev-parse --short HEAD')
     .toString()
     .trim();
-  const version =
-    process.env.NODE_ENV === 'production'
-      ? process.env.VERSION
-      : `${pkg.version} (UNRELEASED ${lastCommitHash})`;
+  const version = process.env.VERSION
+    ? process.env.VERSION
+    : `${pkg.version} (UNRELEASED ${lastCommitHash})`;
   const authors = '© Algolia, Inc. and contributors';
 
   return `/*! ${pkg.name} ${version} | MIT License | ${authors} | ${pkg.homepage} */`;

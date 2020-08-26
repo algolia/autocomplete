@@ -110,7 +110,9 @@ export function autocomplete<TItem>({
 
   const labelProps = autocomplete.getLabelProps();
   setProperties(label, labelProps);
+  // @TODO have a magnifier glass
   label.textContent = 'Search items';
+  label.classList.add('aa-Label');
 
   inputWrapper.classList.add('aa-InputWrapper');
 
@@ -123,6 +125,7 @@ export function autocomplete<TItem>({
 
   resetButton.setAttribute('type', 'reset');
   resetButton.textContent = 'ｘ';
+  resetButton.classList.add('aa-Reset');
   resetButton.addEventListener('click', formProps.onReset);
 
   const dropdownProps = autocomplete.getDropdownProps({});
