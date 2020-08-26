@@ -15,8 +15,8 @@ function getBundleBanner(pkg) {
   const lastCommitHash = execSync('git rev-parse --short HEAD')
     .toString()
     .trim();
-  const version = process.env.VERSION
-    ? process.env.VERSION
+  const version = process.env.SHIPJS
+    ? pkg.version
     : `${pkg.version} (UNRELEASED ${lastCommitHash})`;
   const authors = '© Algolia, Inc. and contributors';
 
