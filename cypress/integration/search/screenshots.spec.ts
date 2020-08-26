@@ -1,4 +1,4 @@
-const baseUrl = Cypress.config().baseUrl;
+/// <reference path="../../support/commands.d.ts" />
 
 describe('Screenshots', () => {
   before(() => {
@@ -6,12 +6,12 @@ describe('Screenshots', () => {
   });
 
   beforeEach(() => {
-    cy.visit(baseUrl);
+    cy.visit(Cypress.config().baseUrl);
   });
 
-  const sizes = ['iphone-x', 'ipad-2', 'macbook-11'];
+  const sizes: Cypress.ViewportPreset[] = ['iphone-x', 'ipad-2', 'macbook-11'];
   const modes = ['light', 'dark'];
-  // cy.percySnapshot(name);
+
   modes.forEach((mode) => {
     context(mode, () => {
       sizes.forEach((size) => {
@@ -56,7 +56,7 @@ describe('Screenshots', () => {
             cy.typeQueryMatching();
             cy.get('.DocSearch-Input').type('{downArrow}{downArrow}{upArrow}');
             cy.get('.DocSearch-Input').type('{enter}');
-            cy.url().should('include', '/docs/getalgoliaresults/');
+            cy.url().should('include', '/docs/getalgoliahits/');
             cy.screenshot('result-page-anchor__' + size + '__' + mode, {
               capture: 'viewport',
             });

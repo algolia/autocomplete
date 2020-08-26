@@ -63,7 +63,9 @@ module.exports = {
         'cypress/globals': true,
       },
       rules: {
-        'jest/expect-expect': 0,
+        'jest/expect-expect': 'off',
+        'spaced-comment': 'off',
+        '@typescript-eslint/triple-slash-reference': 'off',
       },
     },
     {

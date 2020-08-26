@@ -1,8 +1,6 @@
-const baseUrl = Cypress.config().baseUrl;
-
 context('Start', () => {
   beforeEach(() => {
-    cy.visit(baseUrl);
+    cy.visit(Cypress.config().baseUrl);
   });
 
   it('Open Modal on Search Button click', () => {
@@ -33,7 +31,7 @@ context('Start', () => {
 
 context('End', () => {
   beforeEach(() => {
-    cy.visit(baseUrl);
+    cy.visit(Cypress.config().baseUrl);
     cy.get('.DocSearch-Button').click();
   });
 
@@ -61,7 +59,7 @@ context('End', () => {
 
 context('Search', () => {
   beforeEach(() => {
-    cy.visit(baseUrl);
+    cy.visit(Cypress.config().baseUrl);
     cy.get('.DocSearch-Button').click();
   });
 
@@ -82,14 +80,14 @@ context('Search', () => {
     cy.get('.DocSearch-Input').type('get');
     cy.get('.DocSearch-Input').type('{downArrow}{downArrow}{upArrow}');
     cy.get('.DocSearch-Input').type('{enter}');
-    cy.url().should('include', '/docs/getalgoliaresults/');
+    cy.url().should('include', '/docs/getalgoliahits/');
     cy.percySnapshot('result-page-anchor');
   });
 
   it('Pointer Navigation leads to result', () => {
     cy.get('.DocSearch-Input').type('get');
     cy.get('.DocSearch-Hits #docsearch-item-1 > a').click({ force: true });
-    cy.url().should('include', '/docs/getalgoliaresults/');
+    cy.url().should('include', '/docs/getalgoliahits/');
   });
 
   it("No Results are displayed if query doesn't match", () => {
@@ -101,7 +99,7 @@ context('Search', () => {
 
 context('Recent and Favorites', () => {
   beforeEach(() => {
-    cy.visit(baseUrl);
+    cy.visit(Cypress.config().baseUrl);
     cy.get('.DocSearch-Button').click();
     cy.get('.DocSearch-Input').type('get');
     cy.get('.DocSearch-Hits #docsearch-item-0 > a').click({ force: true });
