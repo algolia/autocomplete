@@ -1,3 +1,31 @@
+# [1.0.0-alpha.28](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.27...v1.0.0-alpha.28) (2020-08-26)
+
+### Bug Fixes
+
+- **core:** add type `search` to `getInputProps` ([92d95cc](https://github.com/francoischalifour/autocomplete.js/commit/92d95ccbd6683a1d8cd3ce53786f7fffc192cd00))
+- **core:** add type to `GetDropdownProps` ([6bd21fc](https://github.com/francoischalifour/autocomplete.js/commit/6bd21fc67451058f32460b1afaf65ae3a73ce71c)), closes [#70](https://github.com/francoischalifour/autocomplete.js/issues/70)
+- **core:** allow calling `getDropdownProps` without argument ([c44e494](https://github.com/francoischalifour/autocomplete.js/commit/c44e49439684e8577e3341a84381acf8dba463aa))
+- **core:** prevent `mousedown` event on dropdown to keep it open ([ec9733b](https://github.com/francoischalifour/autocomplete.js/commit/ec9733bfcce0be0e94a8f4d402d1bae9c3090549))
+- **core:** rename `showCompletion` to `enableCompletion` ([07b46af](https://github.com/francoischalifour/autocomplete.js/commit/07b46afb6c382a3f8be5bb711b477b4cbc0c1382))
+- **core:** type form props ([1c2551b](https://github.com/francoischalifour/autocomplete.js/commit/1c2551b838933c095543c7abd807c0de1ac5aeb1))
+- **docsearch:** add type to `GetDropdownProps` ([50b4879](https://github.com/francoischalifour/autocomplete.js/commit/50b487969c0a1b355499b7526315eb9e4967c47a))
+- **docsearch:** allow a single instance to open ([90bfaaa](https://github.com/francoischalifour/autocomplete.js/commit/90bfaaa81740be5dac4abac23c9180718527b55e))
+- **docsearch:** capture `mousedown` event to close modal ([b802621](https://github.com/francoischalifour/autocomplete.js/commit/b802621c1e999d11296f1d1b711e454f980fb314)), closes [/github.com/facebook/react-native-website/pull/2139#issuecomment-678330203](https://github.com//github.com/facebook/react-native-website/pull/2139/issues/issuecomment-678330203)
+- **docsearch:** remove `data-cy` attributes ([6bedbb7](https://github.com/francoischalifour/autocomplete.js/commit/6bedbb7d0fd4a086a5af974eb814e0ffaa355d1f))
+- **docsearch:** remove Docusaurus style ([a52cc44](https://github.com/francoischalifour/autocomplete.js/commit/a52cc448843cba0e4a04f8cb0e180c316870abb4))
+- **docsearch:** use `"false"` value for `spellCheck` in vanilla version ([d22bea7](https://github.com/francoischalifour/autocomplete.js/commit/d22bea77d7e098b6e849bd57302244c0fe15dc0a))
+- **js:** return setters and `refresh` only ([758565e](https://github.com/francoischalifour/autocomplete.js/commit/758565e71f73415e9b0d9f0f454e8c1d43a43f51))
+- **js:** revert highlighting conditions ([8fb33b1](https://github.com/francoischalifour/autocomplete.js/commit/8fb33b1e07eb5e18461c2290cbafaea61fc5c65f))
+- **js:** update types ([607ea45](https://github.com/francoischalifour/autocomplete.js/commit/607ea4547067ca994ed8e3b5e855cb3a6f85b81c))
+- **types:** allow arbitrary keys in sources ([6ed9e4a](https://github.com/francoischalifour/autocomplete.js/commit/6ed9e4ae14c6e8534f8904676b1c6d5c2755e759))
+
+### Features
+
+- **autocomplete:** introduce JavaScript API ([fd9d2b7](https://github.com/francoischalifour/autocomplete.js/commit/fd9d2b7d62ad5ad4ad8d641eb5bda12d02cc7931))
+- **core:** add default form props ([2264f2b](https://github.com/francoischalifour/autocomplete.js/commit/2264f2bbd6b470d758a98ae445fb7efa945d34fa))
+- **docsearch:** add `enterkeyhint` to `go` ([d652514](https://github.com/francoischalifour/autocomplete.js/commit/d652514bc35c16f4d406a7b89ac7b479ed316c54))
+- **js:** pass state to `render` ([7f7da3d](https://github.com/francoischalifour/autocomplete.js/commit/7f7da3db27ab34c841692d034c2135d3c4e0a7a8))
+
 # [1.0.0-alpha.27](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.26...vv1.0.0-alpha.27) (2020-08-07)
 
 ### Bug Fixes
