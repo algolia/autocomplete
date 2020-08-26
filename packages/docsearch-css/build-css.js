@@ -1,8 +1,8 @@
-/* eslint-disable import/no-commonjs */
+/* eslint-disable import/no-commonjs, import/no-extraneous-dependencies */
 
+const { execSync } = require('child_process');
 const fs = require('fs');
 const util = require('util');
-const { execSync } = require('child_process');
 
 const cssnano = require('cssnano');
 const postcss = require('postcss');
