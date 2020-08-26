@@ -66,5 +66,11 @@ module.exports = {
         'jest/expect-expect': 0,
       },
     },
+    {
+      files: ['scripts/**/*'],
+      rules: {
+        'import/no-commonjs': 'off',
+      },
+    },
   ],
 };

@@ -18,7 +18,7 @@
   "jsdelivr": "dist/style.css",
   "scripts": {
     "build": "yarn build:clean && mkdir dist && yarn build:css",
-    "build:css": "cp src/_variables.css dist/ && cp src/modal.css dist/ && cp src/button.css dist/ && cat src/*.css > dist/style.css",
+    "build:css": "node build-css.js",
     "build:clean": "rm -rf ./dist",
     "watch": "watch \"yarn build:css\" --ignoreDirectoryPattern \"/dist/\""
   }

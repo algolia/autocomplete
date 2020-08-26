@@ -1,6 +1,6 @@
 import { plugins } from '../../rollup.base.config';
-import { checkIsReleaseReady } from '../scripts/checkIsReleaseReady';
-import { getBundleBanner } from '../scripts/getBundleBanner';
+import { checkIsReleaseReady } from '../../scripts/checkIsReleaseReady';
+import { getBundleBanner } from '../../scripts/getBundleBanner';
 
 import pkg from './package.json';
 
