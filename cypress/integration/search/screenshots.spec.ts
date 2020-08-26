@@ -6,7 +6,7 @@ describe('Screenshots', () => {
   });
 
   beforeEach(() => {
-    cy.visit(Cypress.config().baseUrl);
+    cy.visit(Cypress.config().baseUrl!);
   });
 
   const sizes: Cypress.ViewportPreset[] = ['iphone-x', 'ipad-2', 'macbook-11'];
@@ -56,7 +56,7 @@ describe('Screenshots', () => {
             cy.typeQueryMatching();
             cy.get('.DocSearch-Input').type('{downArrow}{downArrow}{upArrow}');
             cy.get('.DocSearch-Input').type('{enter}');
-            cy.url().should('include', '/docs/getalgoliahits/');
+            cy.url().should('include', '/docs/getalgoliahits');
             cy.screenshot('result-page-anchor__' + size + '__' + mode, {
               capture: 'viewport',
             });
