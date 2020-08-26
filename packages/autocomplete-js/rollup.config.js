@@ -1,14 +1,10 @@
 import { plugins } from '../../rollup.base.config';
+import { checkIsReleaseReady } from '../scripts/checkIsReleaseReady';
+import { getBundleBanner } from '../scripts/getBundleBanner';
 
-import { name } from './package.json';
+import pkg from './package.json';
 
-if (process.env.NODE_ENV === 'production' && !process.env.VERSION) {
-  throw new Error(
-    `You need to specify a valid semver environment variable 'VERSION' to run the build process (received: ${JSON.stringify(
-      process.env.VERSION
-    )}).`
-  );
-}
+checkIsReleaseReady();
 
 export default {
   input: 'src/index.ts',
@@ -16,7 +12,8 @@ export default {
     file: 'dist/umd/index.js',
     format: 'umd',
     sourcemap: true,
-    name,
+    name: pkg.name,
+    banner: getBundleBanner(pkg),
   },
   plugins,
 };
