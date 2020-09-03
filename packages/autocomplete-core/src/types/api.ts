@@ -158,7 +158,7 @@ export interface PublicAutocompleteOptions<TItem> {
    * Whether to consider the experience in debug mode.
    *
    * The debug mode is useful when developing because it doesn't close
-   * the menu when the blur event occurs.
+   * the dropdown when the blur event occurs.
    *
    * @default false
    */
