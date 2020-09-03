@@ -9,10 +9,12 @@
     "build": "parcel build index.html",
     "start": "parcel index.html"
   },
-  "devDependencies": {
+  "dependencies": {
     "algoliasearch": "4.4.0",
-    "parcel-bundler": "1.12.3",
     "@algolia/autocomplete-js": "1.0.0-alpha.28"
+  },
+  "devDependencies": {
+    "parcel-bundler": "1.12.3"
   },
   "keywords": [
     "algolia",
