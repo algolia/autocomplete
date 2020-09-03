@@ -3,7 +3,7 @@
 module.exports = {
   title: 'Autocomplete',
   tagline: 'JavaScript library for building autocomplete search experiences.',
-  url: 'https://autocomplete-experimental.netlify.app',
+  url: 'https://algolia-autocomplete.netlify.app',
   baseUrl: '/',
   favicon: 'img/logo.png',
   organizationName: 'algolia',
@@ -20,11 +20,6 @@ module.exports = {
         {
           to: 'docs/getting-started',
           label: 'Docs',
-          position: 'right',
-        },
-        {
-          href: 'https://autocomplete-experimental.netlify.app/stories',
-          label: 'Stories',
           position: 'right',
         },
         {

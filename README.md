@@ -20,9 +20,9 @@ You should be using Autocomplete if you want to:
 
 | Package | Description | Documentation |
 | --- | --- | --- |
-| [`autocomplete-core`](packages/autocomplete-core) | Core primitives to build an Autocomplete experience | [Documentation](https://autocomplete-experimental.netlify.app/docs/createAutocomplete) |
-| [`autocomplete-js`](packages/autocomplete-js) | JavaScript package for Autocomplete | [Documentation](https://autocomplete-experimental.netlify.app/docs/autocomplete-js) |
-| [`autocomplete-preset-algolia`](packages/autocomplete-preset-algolia) | Presets to use Algolia features with Autocomplete | [Documentation](https://autocomplete-experimental.netlify.app/docs/highlightAlgoliaHit) |
+| [`autocomplete-core`](packages/autocomplete-core) | Core primitives to build an Autocomplete experience | [Documentation](https://algolia-autocomplete.netlify.app/docs/createAutocomplete) |
+| [`autocomplete-js`](packages/autocomplete-js) | JavaScript package for Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/autocomplete-js) |
+| [`autocomplete-preset-algolia`](packages/autocomplete-preset-algolia) | Presets to use Algolia features with Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/highlightAlgoliaHit) |
 
 ## License
 

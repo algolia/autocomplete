@@ -10,5 +10,3 @@ This pages lists all the resources for building great autocomplete search experi
 ## Guides
 
 ## Examples
-
-- [Storybook](https://autocomplete-experimental.netlify.com/stories/)

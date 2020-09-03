@@ -12,4 +12,4 @@ npm install @algolia/autocomplete-preset-algolia@alpha
 
 ## Documentation
 
-[Read documentation →](https://autocomplete-experimental.netlify.app/docs/highlightAlgoliaHit)
+[Read documentation →](https://algolia-autocomplete.netlify.app/docs/highlightAlgoliaHit)

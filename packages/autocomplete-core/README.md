@@ -12,4 +12,4 @@ npm install @algolia/autocomplete-core@alpha
 
 ## Documentation
 
-[Read documentation →](https://autocomplete-experimental.netlify.app/docs/createAutocomplete)
+[Read documentation →](https://algolia-autocomplete.netlify.app/docs/createAutocomplete)
