@@ -11,7 +11,8 @@
   },
   "devDependencies": {
     "algoliasearch": "4.4.0",
-    "parcel-bundler": "1.12.3"
+    "parcel-bundler": "1.12.3",
+    "@algolia/autocomplete-js": "1.0.0-alpha.28"
   },
   "keywords": [
     "algolia",

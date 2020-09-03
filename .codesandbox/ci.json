@@ -4,5 +4,5 @@
     "packages/autocomplete-js",
     "packages/autocomplete-preset-algolia"
   ],
-  "sandboxes": ["algolia-autocomplete-js-v1-sandbox-f316g"]
+  "sandboxes": ["github/algolia/autocomplete.js/tree/next/examples/js"]
 }
