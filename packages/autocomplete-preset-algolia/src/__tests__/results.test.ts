@@ -1,3 +1,5 @@
+import { version } from '@algolia/autocomplete-core';
+
 import { Client, getAlgoliaHits, getAlgoliaResults } from '../results';
 
 function createSearchClient() {
@@ -106,7 +108,7 @@ describe('getAlgoliaResults', () => {
     expect((searchClient as Client).addAlgoliaAgent).toHaveBeenCalledTimes(1);
     expect((searchClient as Client).addAlgoliaAgent).toHaveBeenCalledWith(
       'autocomplete-core',
-      'version-test'
+      version
     );
   });
 });
@@ -198,7 +200,7 @@ describe('getAlgoliaHits', () => {
     expect((searchClient as Client).addAlgoliaAgent).toHaveBeenCalledTimes(1);
     expect((searchClient as Client).addAlgoliaAgent).toHaveBeenCalledWith(
       'autocomplete-core',
-      'version-test'
+      version
     );
   });
 });

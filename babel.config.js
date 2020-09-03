@@ -45,12 +45,6 @@ module.exports = (api) => {
                 type: 'node',
                 replacement: "process.env.NODE_ENV === 'development'",
               },
-              __VERSION__: {
-                type: 'node',
-                replacement: JSON.stringify(
-                  require('./packages/autocomplete-core/package.json').version
-                ),
-              },
             },
           ],
         ]),
@@ -64,13 +58,6 @@ module.exports = (api) => {
               __DEV__: {
                 type: 'node',
                 replacement: "process.env.NODE_ENV === 'development'",
-              },
-              __VERSION__: {
-                type: 'node',
-                replacement: JSON.stringify(
-                  require('./packages/autocomplete-preset-algolia/package.json')
-                    .version
-                ),
               },
             },
           ],

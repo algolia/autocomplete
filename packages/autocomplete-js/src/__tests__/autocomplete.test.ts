@@ -40,6 +40,7 @@ describe('autocomplete-js', () => {
             role="search"
           >
             <label
+              class="aa-Label"
               for="autocomplete-input"
               id="autocomplete-label"
             >
@@ -64,6 +65,7 @@ describe('autocomplete-js', () => {
                 type="search"
               />
               <button
+                class="aa-Reset"
                 type="reset"
               >
                 ｘ

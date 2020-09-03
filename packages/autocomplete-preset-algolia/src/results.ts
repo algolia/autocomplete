@@ -1,3 +1,5 @@
+import { version } from '@algolia/autocomplete-core';
+
 import { flatten } from './utils';
 
 type SearchClient = any;
@@ -18,7 +20,7 @@ interface GetAlgoliaSourceParams {
 
 function getAlgoliaSource({ searchClient, queries }: GetAlgoliaSourceParams) {
   if (typeof (searchClient as Client).addAlgoliaAgent === 'function') {
-    (searchClient as Client).addAlgoliaAgent('autocomplete-core', __VERSION__);
+    (searchClient as Client).addAlgoliaAgent('autocomplete-core', version);
   }
 
   return searchClient.search(

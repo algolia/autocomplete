@@ -8,7 +8,6 @@ import { terser } from 'rollup-plugin-terser';
 export const plugins = [
   replace({
     __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
-    __VERSION__: JSON.stringify(process.env.VERSION),
   }),
   json(),
   resolve({

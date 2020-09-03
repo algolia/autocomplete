@@ -1,5 +1,8 @@
 /* eslint-disable import/no-commonjs */
 
+const fs = require('fs');
+const path = require('path');
+
 const packages = [
   'packages/autocomplete-core',
   'packages/autocomplete-preset-algolia',
@@ -15,7 +18,7 @@ module.exports = {
   publishCommand({ tag }) {
     return `yarn publish --access public --tag ${tag}`;
   },
-  versionUpdated({ exec, version }) {
+  versionUpdated({ exec, dir, version }) {
     const updatePackageDependencies = (...changes) => {
       for (const change of changes) {
         const { package, dependencies } = change;
@@ -39,6 +42,11 @@ module.exports = {
         `@algolia/autocomplete-preset-algolia@^${version}`,
       ],
     });
+
+    fs.writeFileSync(
+      path.resolve(dir, 'packages', 'autocomplete-core', 'src', 'version.ts'),
+      `export const version = '${version}';\n`
+    );
   },
   // Skip preparation if it contains only `chore` commits
   shouldPrepare: ({ releaseType, commitNumbersPerType }) => {

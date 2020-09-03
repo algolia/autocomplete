@@ -10,6 +10,5 @@ module.exports = {
   ],
   globals: {
     __DEV__: true,
-    __VERSION__: 'version-test',
   },
 };
