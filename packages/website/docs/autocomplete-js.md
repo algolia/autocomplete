@@ -13,10 +13,7 @@ This function creates a JavaScript autocomplete experience.
 
 ```js title="JavaScript"
 import algoliasearch from 'algoliasearch/lite';
-import {
-  autocomplete,
-  getAlgoliaHits,
-} from '@algolia/autocomplete-js';
+import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
 
 const searchClient = algoliasearch(
   'latency',
@@ -62,6 +59,12 @@ The container for the autocomplete search box. You can either pass a [CSS select
 import CreateAutocompleteProps from './partials/createAutocomplete-props.md'
 
 <CreateAutocompleteProps />
+
+### `dropdownPlacement`
+
+> `"start" | "end"` | defaults to `"start"`
+
+The dropdown horizontal position.
 
 ### `render`
 

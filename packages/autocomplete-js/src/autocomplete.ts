@@ -57,6 +57,7 @@ export interface AutocompleteOptions<TItem>
     state: AutocompleteState<TItem>;
   }): void;
   getSources: GetSources<TItem>;
+  dropdownPlacement: 'start' | 'end';
 }
 
 export interface AutocompleteApi<TItem> extends AutocompleteSetters<TItem> {
@@ -70,9 +71,31 @@ export interface AutocompleteApi<TItem> extends AutocompleteSetters<TItem> {
   destroy(): void;
 }
 
+export function getDropdownPositionStyle({
+  dropdownPlacement,
+  container,
+  environment = window,
+}: Partial<AutocompleteOptions<any>> & {
+  container: HTMLElement;
+}) {
+  const rect = container.getBoundingClientRect();
+  const menuPosition = {
+    top: rect.top + rect.height,
+    left: dropdownPlacement === 'start' ? rect.left : undefined,
+    right:
+      dropdownPlacement === 'end'
+        ? environment.document.documentElement.clientWidth -
+          (rect.left + rect.width)
+        : undefined,
+  };
+
+  return menuPosition;
+}
+
 export function autocomplete<TItem>({
   container,
   render: renderDropdown = defaultRender,
+  dropdownPlacement = 'start',
   ...props
 }: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
   const containerElement = getHTMLElement(container);
@@ -97,12 +120,25 @@ export function autocomplete<TItem>({
     ...props,
   });
 
+  function onResize() {
+    if (!dropdown.hasAttribute('hidden')) {
+      setProperties(dropdown, {
+        style: getDropdownPositionStyle({
+          dropdownPlacement,
+          container: root,
+          environment: props.environment,
+        }),
+      });
+    }
+  }
+
   setProperties(window as any, {
     ...autocomplete.getEnvironmentProps({
       searchBoxElement: form,
       dropdownElement: dropdown,
       inputElement: input,
     }),
+    onResize,
   });
   setProperties(root, {
     ...autocomplete.getRootProps(),
@@ -239,8 +275,19 @@ export function autocomplete<TItem>({
   root.appendChild(dropdown);
   containerElement.appendChild(root);
 
+  setProperties(dropdown, {
+    style: getDropdownPositionStyle({
+      dropdownPlacement,
+      container: root,
+      environment: props.environment,
+    }),
+  });
+
   function destroy() {
     containerElement.innerHTML = '';
+    setProperties(window as any, {
+      onResize: null,
+    });
   }
 
   return {
