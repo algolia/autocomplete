@@ -1,20 +1,65 @@
-// Taken from Preact
-// https://github.com/preactjs/preact/blob/6ab49d9020740127577bf4af66bf63f4af7f9fee/src/diff/props.js#L58-L151
-function setProperty(element: HTMLElement | Window, name: string, value: any) {
+/* eslint-disable */
+
+/*
+ * Taken from Preact
+ *
+ * See https://github.com/preactjs/preact/blob/6ab49d9020740127577bf4af66bf63f4af7f9fee/src/diff/props.js#L58-L151
+ */
+
+function setStyle(style: object, key: string, value: any) {
+  if (value === null) {
+    style[key] = '';
+  } else if (typeof value !== 'number') {
+    style[key] = value;
+  } else {
+    style[key] = value + 'px';
+  }
+}
+
+/**
+ * Proxy an event to hooked event handlers
+ */
+function eventProxy(this: any, event: Event) {
+  this._listeners[event.type](event);
+}
+
+/**
+ * Set a property value on a DOM node
+ */
+export function setProperty(dom: HTMLElement, name: string, value: any) {
   let useCapture: boolean;
   let nameLower: string;
+  let oldValue = dom[name];
 
+  if (name === 'style') {
+    if (typeof value == 'string') {
+      (dom as any).style = value;
+    } else {
+      if (value === null) {
+        (dom as any).style = '';
+      } else {
+        for (name in value) {
+          if (!oldValue || value[name] !== oldValue[name]) {
+            setStyle(dom.style, name, value[name]);
+          }
+        }
+      }
+    }
+  }
   // Benchmark for comparison: https://esbench.com/bench/574c954bdb965b9a00965ac6
-  if (name[0] === 'o' && name[1] === 'n') {
+  else if (name[0] === 'o' && name[1] === 'n') {
     useCapture = name !== (name = name.replace(/Capture$/, ''));
     nameLower = name.toLowerCase();
-    if (nameLower in element) name = nameLower;
+    if (nameLower in dom) name = nameLower;
     name = name.slice(2);
 
+    if (!(dom as any)._listeners) (dom as any)._listeners = {};
+    (dom as any)._listeners[name] = value;
+
     if (value) {
-      element.addEventListener(name, value, useCapture);
+      if (!oldValue) dom.addEventListener(name, eventProxy, useCapture);
     } else {
-      element.removeEventListener(name, value, useCapture);
+      dom.removeEventListener(name, eventProxy, useCapture);
     }
   } else if (
     name !== 'list' &&
@@ -26,15 +71,12 @@ function setProperty(element: HTMLElement | Window, name: string, value: any) {
     name !== 'size' &&
     name !== 'download' &&
     name !== 'href' &&
-    name in element
+    name in dom
   ) {
-    element[name] = value === null ? '' : value;
-  } else if (
-    typeof value !== 'function' &&
-    name !== 'dangerouslySetInnerHTML'
-  ) {
+    dom[name] = value == null ? '' : value;
+  } else if (typeof value != 'function' && name !== 'dangerouslySetInnerHTML') {
     if (
-      value === null ||
+      value == null ||
       (value === false &&
         // ARIA-attributes have a different notion of boolean values.
         // The value `false` is different from the attribute not
@@ -44,9 +86,9 @@ function setProperty(element: HTMLElement | Window, name: string, value: any) {
         // that other VDOM frameworks also always stringify `false`.
         !/^ar/.test(name))
     ) {
-      (element as HTMLElement).removeAttribute(name);
+      dom.removeAttribute(name);
     } else {
-      (element as HTMLElement).setAttribute(name, value);
+      dom.setAttribute(name, value);
     }
   }
 }
@@ -60,9 +102,19 @@ function getNormalizedName(name: string): string {
   }
 }
 
-export function setProperties(dom: HTMLElement | Window, props: object): void {
-  // eslint-disable-next-line guard-for-in
+export function setProperties(dom: HTMLElement, props: object): void {
   for (const name in props) {
     setProperty(dom, getNormalizedName(name), props[name]);
+  }
+}
+
+export function setPropertiesWithoutEvents(
+  dom: HTMLElement,
+  props: object
+): void {
+  for (const name in props) {
+    if (!(name[0] === 'o' && name[1] === 'n')) {
+      setProperty(dom, getNormalizedName(name), props[name]);
+    }
   }
 }

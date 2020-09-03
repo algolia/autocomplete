@@ -50,6 +50,12 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['packages/autocomplete-js/src/setProperties.ts'],
+      rules: {
+        'eslint-comments/no-unlimited-disable': 'off',
+      },
+    },
+    {
       files: ['**/rollup.config.js', 'stories/**/*', '**/__tests__/**'],
       rules: {
         'import/no-extraneous-dependencies': 'off',
