@@ -10,6 +10,9 @@
   "umd:main": "dist/umd/index.js",
   "unpkg": "dist/umd/index.js",
   "jsdelivr": "dist/umd/index.js",
+  "peerDependencies": {
+    "@algolia/autocomplete-js": "^1.0.0-alpha.28"
+  },
   "scripts": {
     "build:clean": "rm -rf ./dist",
     "build:esm": "babel src --root-mode upward --extensions '.ts,.tsx' --out-dir dist/esm",
@@ -29,8 +32,5 @@
   "sideEffects": false,
   "files": [
     "dist/"
-  ],
-  "dependencies": {
-    "recent-searches": "^1.0.5"
-  }
+  ]
 }
