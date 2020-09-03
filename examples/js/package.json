@@ -10,8 +10,13 @@
     "start": "parcel index.html"
   },
   "dependencies": {
+<<<<<<< HEAD
+    "algoliasearch": "4.4.0",
+    "@algolia/autocomplete-js": "1.0.0-alpha.28"
+=======
     "algoliasearch": "^4.4.0",
     "@algolia/autocomplete-js": "^1.0.0-alpha.28"
+>>>>>>> @{-1}
   },
   "devDependencies": {
     "parcel-bundler": "1.12.3"

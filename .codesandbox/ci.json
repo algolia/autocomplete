@@ -1,0 +1,8 @@
+{
+  "packages": [
+    "packages/autocomplete-core",
+    "packages/autocomplete-js",
+    "packages/autocomplete-preset-algolia"
+  ],
+  "sandboxes": ["github/algolia/autocomplete.js/tree/next/examples/js"]
+}
