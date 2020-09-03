@@ -1,5 +1,5 @@
 [build]
-  command="yarn run website:deploy"
+  command="yarn run website:build"
   publish="packages/website/build"
 
 [build.environment]
