@@ -12,9 +12,5 @@
       "path": "packages/autocomplete-js/dist/umd/index.js",
       "maxSize": "6.5 kB"
     },
-    {
-      "path": "packages/autocomplete-react/dist/umd/index.js",
-      "maxSize": "11 kB"
-    }
   ]
 }

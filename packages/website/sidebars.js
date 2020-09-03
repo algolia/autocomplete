@@ -27,11 +27,6 @@ module.exports = {
       },
       {
         type: 'category',
-        label: 'autocomplete-react',
-        items: ['useAutocomplete'],
-      },
-      {
-        type: 'category',
         label: 'autocomplete-preset-algolia',
         items: [
           'highlightAlgoliaHit',

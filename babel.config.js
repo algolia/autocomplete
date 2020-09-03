@@ -76,27 +76,6 @@ module.exports = (api) => {
           ],
         ]),
       },
-      {
-        test: 'packages/autocomplete-react',
-        plugins: clean([
-          '@babel/plugin-transform-react-jsx',
-          !isTest && [
-            'inline-replace-variables',
-            {
-              __DEV__: {
-                type: 'node',
-                replacement: "process.env.NODE_ENV === 'development'",
-              },
-              __VERSION__: {
-                type: 'node',
-                replacement: JSON.stringify(
-                  require('./packages/autocomplete-react/package.json').version
-                ),
-              },
-            },
-          ],
-        ]),
-      },
     ],
   };
 };
