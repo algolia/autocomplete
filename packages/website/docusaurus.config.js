@@ -28,7 +28,7 @@ module.exports = {
           position: 'right',
         },
         {
-          href: 'https://github.com/francoischalifour/autocomplete.js',
+          href: 'https://github.com/algolia/autocomplete.js',
           label: 'GitHub',
           position: 'right',
         },
@@ -55,7 +55,7 @@ module.exports = {
           items: [
             {
               label: 'Issues',
-              to: 'https://github.com/francoischalifour/autocomplete.js/issues',
+              to: 'https://github.com/algolia/autocomplete.js/issues',
             },
             {
               label: 'Forum',
@@ -76,7 +76,7 @@ module.exports = {
             },
             {
               label: 'GitHub',
-              href: 'https://github.com/francoischalifour/autocomplete.js',
+              href: 'https://github.com/algolia/autocomplete.js',
             },
             {
               label: 'Twitter',
@@ -99,7 +99,7 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
-            'https://github.com/francoischalifour/autocomplete.js/edit/next/packages/website/',
+            'https://github.com/algolia/autocomplete.js/edit/next/packages/website/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

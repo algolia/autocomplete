@@ -8,8 +8,8 @@ This function returns the methods to create an autocomplete experience.
 
 ```js
 import algoliasearch from 'algoliasearch/lite';
-import { createAutocomplete } from '@francoischalifour/autocomplete-core';
-import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
+import { createAutocomplete } from '@algolia/autocomplete-core';
+import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
 
 const searchClient = algoliasearch(
   'latency',

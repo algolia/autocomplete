@@ -9,7 +9,7 @@ This function can be used to display a hit with matches highlighted.
 # Example
 
 ```js
-import { highlightAlgoliaHit } from '@francoischalifour/autocomplete-preset-algolia';
+import { highlightAlgoliaHit } from '@algolia/autocomplete-preset-algolia';
 
 const hit = {}; // fetch an Algolia hit
 const highlightedAlgoliaHit = highlightAlgoliaHit({

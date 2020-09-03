@@ -2,7 +2,7 @@ import {
   parseHighlightedAttribute,
   parseReverseHighlightedAttribute,
   parseSnippetedAttribute,
-} from '@francoischalifour/autocomplete-preset-algolia';
+} from '@algolia/autocomplete-preset-algolia';
 import React from 'react';
 
 type HighlighterProps = {

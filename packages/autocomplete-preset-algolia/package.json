@@ -1,5 +1,5 @@
 {
-  "name": "@francoischalifour/autocomplete-preset-algolia",
+  "name": "@algolia/autocomplete-preset-algolia",
   "description": "Presets for building autocomplete experiences with Algolia.",
   "version": "1.0.0-alpha.28",
   "license": "MIT",
@@ -11,16 +11,17 @@
   "unpkg": "dist/umd/index.js",
   "jsdelivr": "dist/umd/index.js",
   "scripts": {
-    "build": "rm -rf ./dist && yarn build:umd && yarn build:esm && yarn build:types",
-    "build:esm": "babel src --root-mode upward --extensions '.ts,.tsx' --out-dir dist/esm",
-    "build:umd": "rollup --config",
-    "build:types": "tsc -p ./tsconfig.declaration.json --outDir ./dist/esm",
     "build:clean": "rm -rf ./dist",
+    "build:esm": "babel src --root-mode upward --extensions '.ts,.tsx' --out-dir dist/esm",
+    "build:types": "tsc -p ./tsconfig.declaration.json --outDir ./dist/esm",
+    "build:umd": "rollup --config",
+    "build": "rm -rf ./dist && yarn build:umd && yarn build:esm && yarn build:types",
     "on:change": "concurrently \"yarn build:esm\" \"yarn build:types\"",
+    "prepare": "yarn run build:esm",
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
-  "homepage": "https://github.com/francoischalifour/autocomplete.js",
-  "repository": "francoischalifour/autocomplete.js",
+  "homepage": "https://github.com/algolia/autocomplete.js",
+  "repository": "algolia/autocomplete.js",
   "author": {
     "name": "Algolia, Inc.",
     "url": "https://www.algolia.com"

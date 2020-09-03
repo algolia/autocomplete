@@ -1,13 +1,13 @@
-# @francoischalifour/autocomplete-react
+# @algolia/autocomplete-react
 
 React library to create fast and fully-featured auto-completion experiences.
 
 ## Installation
 
 ```sh
-yarn add @francoischalifour/autocomplete-react@alpha
+yarn add @algolia/autocomplete-react@alpha
 # or
-npm install @francoischalifour/autocomplete-react@alpha
+npm install @algolia/autocomplete-react@alpha
 ```
 
 ## Documentation

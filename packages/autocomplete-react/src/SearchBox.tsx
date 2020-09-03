@@ -1,7 +1,7 @@
 import {
   GetInputProps,
   GetLabelProps,
-} from '@francoischalifour/autocomplete-core';
+} from '@algolia/autocomplete-core';
 import React from 'react';
 
 export interface SearchBoxProps {

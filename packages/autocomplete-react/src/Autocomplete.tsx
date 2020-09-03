@@ -2,7 +2,7 @@ import {
   AutocompleteOptions,
   PublicAutocompleteOptions,
   getDefaultProps,
-} from '@francoischalifour/autocomplete-core';
+} from '@algolia/autocomplete-core';
 import React, { MutableRefObject, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 

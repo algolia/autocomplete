@@ -1,7 +1,7 @@
 import {
   parseHighlightedAttribute,
   parseReverseHighlightedAttribute,
-} from '@francoischalifour/autocomplete-preset-algolia';
+} from '@algolia/autocomplete-preset-algolia';
 
 type HighlightItemParams = {
   item: any;

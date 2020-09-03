@@ -5,7 +5,7 @@ import {
   AutocompleteState,
   GetSourcesParams,
   PublicAutocompleteOptions as PublicAutocompleteCoreOptions,
-} from '@francoischalifour/autocomplete-core';
+} from '@algolia/autocomplete-core';
 
 import { getHTMLElement } from './getHTMLElement';
 import { setProperties } from './setProperties';

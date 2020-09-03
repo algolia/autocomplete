@@ -1,73 +1,70 @@
-# Contributing to Autocomplete.js
+# Contributing to Autocomplete
 
-First of all, thanks for taking a look at contributing here 🎉 If you have any questions while contributing, feel free to open an issue or to send an email to <support@algolia.com> mentioning the PR or issue you're working on.
+Welcome to the contributing guide for Autocomplete!
 
-## Development
+If this guide does not contain what you are looking for and thus prevents you from contributing, don't hesitate to [open an issue](https://github.com/algolia/autocomplete/issues).
 
-To start developing, you can use the following commands:
+## Reporting an issue
 
-```sh
-yarn
-yarn dev
-open http://localhost:8888/test/playground.html
+Opening an issue is very effective way to contribute because many users might also be impacted. We'll make sure to fix it quickly if it's technically feasible and doesn't have important side effects for other users.
+
+Before reporting an issue, first check that there is not an already open issue for the same topic using the [issues page](https://github.com/algolia/autocomplete/issues). Don't hesitate to thumb up an issue that corresponds to the problem you have.
+
+Another element that will help us go faster at solving the issue is to provide a reproducible test case. We recommend to [use this CodeSandbox template](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js).
+
+## Code contribution
+
+For any code contribution, you need to:
+
+- Fork and clone the project
+- Create a new branch for what you want to solve (fix/_issue-number_, feat/_name-of-the-feature_)
+- Make your changes
+- Open a pull request
+
+Then:
+
+- A team member will review the pull request
+- Automatic checks will be run
+
+When every check is green and a team member approves, your contribution is merged! 🚀
+
+## Commit conventions
+
+This project follows the [conventional changelog](https://conventionalcommits.org/) approach. This means that all commit messages should be formatted using the following scheme:
+
+```
+type(scope): description
 ```
 
-Linting is done with [eslint](http://eslint.org/) and [Algolia's configuration](https://github.com/algolia/eslint-config-algolia) and can be run with:
+In most cases, we use the following types:
 
-```sh
-yarn lint
-```
+- `fix`: for any resolution of an issue (identified or not)
+- `feat`: for any new feature
+- `refactor`: for any code change that neither adds a feature nor fixes an issue
+- `docs`: for any documentation change or addition
+- `chore`: for anything that is not related to the library itself (doc, tooling)
 
-## Tests
+Even though the scope is optional, we try to fill it in as it helps us better understand the impact of a change.
 
-Unit tests are written using [Jasmine](http://jasmine.github.io/) and ran with [Karma](http://karma-runner.github.io/). Integration tests are using [Mocha](http://mochajs.org/) and [Saucelabs](https://saucelabs.com/).
+Finally, if your work is based on an issue on GitHub, please add in the body of the commit message "fix #1234" if it solves the issue #1234 (read "[Closing issues using keywords](https://help.github.com/en/articles/closing-issues-using-keywords)").
 
-To run the unit tests suite run:
+Some examples of valid commit messages (used as first lines):
 
-```sh
-yarn test
-```
+> - fix(searchbox): increase magnifying glass size
+> - chore(deps): update dependency rollup-plugin-babel to v3.0.7
+> - docs(contributing): reword release section
 
-To run the integration tests suite run:
+## Requirements
 
-```sh
-yarn build
-yarn server
-ngrok 8888
-TEST_HOST=http://YOUR_NGROK_ID.ngrok.com SAUCE_ACCESS_KEY=YOUR_KEY SAUCE_USERNAME=YOUR_USERNAME./node_modules/mocha/bin/mocha --harmony -R spec ./test/integration/test.js
-```
+To run this project, you will need:
 
-### Testing accessibility
-
-Autocomplete.js is accessible to screen readers, and here's how to test how most blind users will experience it:
-
-#### Steps
-
-1. Run `yarn dev` on your development machine
-1. Start the screen reader
-1. Open a browser to http://YOUR_IP:8888/test/playground.html
-1. Tab to the field
-1. Type a search query
-1. Use the arrow keys to navigate through the results
-
-✔ SUCCESS: results are read (not necessarily in sync with the visually selected cursor)  
-𐄂 FAIL: no text is read or the screen reader keeps reading the typed query
-
-#### Recommended testing platforms
-
-- VoiceOver (CMD+F5 in macOS): Safari, Chrome
-- [JAWS](http://www.freedomscientific.com/Products/Blindness/JAWS): IE11, Chrome (Windows 7 VM available at [modern.ie](https://modern.ie))
-- [NVDA](http://www.nvaccess.org/): IE11, Chrome (Windows 8.1 VM available at [modern.ie](https://modern.ie))
-
-#### Tips
-
-- All screen readers work slightly differently - which makes making accessible pages tricky.
-- Don't worry if the usability isn't 100% perfect, but make sure the functionality is there.
+- Node.js ≥ 12 – [nvm](https://github.com/creationix/nvm#install-script) is recommended
+- [Yarn](https://yarnpkg.com)
 
 ## Release
 
-Decide if this is a patch, minor or major release, have a look at [semver.org](http://semver.org/).
-
 ```sh
-npm run release [major|minor|patch|x.x.x]
+yarn run release
 ```
+
+It will create a pull request for the next release. When it's reviewed, approved and merged, then CircleCI will automatically publish it to npm.

@@ -5,7 +5,7 @@ title: Creating a Renderer
 
 In this guide, you'll learn how to build an autocomplete UI using React.
 
-The `@francoischalifour/autocomplete-core` package provides all the primitives to build an autocomplete experience, but you remain in charge of the UI output. This page will teach you how to leverage all the autocomplete capacities to build an accessible autocomplete, both for desktop and mobile.
+The `@algolia/autocomplete-core` package provides all the primitives to build an autocomplete experience, but you remain in charge of the UI output. This page will teach you how to leverage all the autocomplete capacities to build an accessible autocomplete, both for desktop and mobile.
 
 You can find the final result in [this sandbox](https://codesandbox.io/s/autocomplete-guide-nh6y6).
 
@@ -15,8 +15,8 @@ We'll import [`createAutocomplete`](createAutocomplete) from the core package an
 
 ```js
 import algoliasearch from 'algoliasearch/lite';
-import { createAutocomplete } from '@francoischalifour/autocomplete-core';
-import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
+import { createAutocomplete } from '@algolia/autocomplete-core';
+import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
 
 // ...
 ```
@@ -330,4 +330,4 @@ Users will now feel a little bit closer to what they're used to on mobile apps.
 
 ---
 
-You now have enough knowledge to build your own experience based on Autocomplete. If you feel like some topics weren't covered in this page, feel free to [open an issue](https://github.com/francoischalifour/autocomplete.js/issues/new).
+You now have enough knowledge to build your own experience based on Autocomplete. If you feel like some topics weren't covered in this page, feel free to [open an issue](https://github.com/algolia/autocomplete.js/issues/new).

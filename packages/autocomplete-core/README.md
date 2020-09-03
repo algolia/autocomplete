@@ -1,13 +1,13 @@
-# @francoischalifour/autocomplete-core
+# @algolia/autocomplete-core
 
 Core primitives for building autocomplete experiences.
 
 ## Installation
 
 ```sh
-yarn add @francoischalifour/autocomplete-core@alpha
+yarn add @algolia/autocomplete-core@alpha
 # or
-npm install @francoischalifour/autocomplete-core@alpha
+npm install @algolia/autocomplete-core@alpha
 ```
 
 ## Documentation

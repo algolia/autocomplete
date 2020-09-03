@@ -55,8 +55,8 @@ To bring more search capabilities, you can plug an Algolia index:
 
 ```ts {15-23}
 import algoliasearch from 'algoliasearch/lite';
-import { createAutocomplete } from '@francoischalifour/autocomplete-core';
-import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
+import { createAutocomplete } from '@algolia/autocomplete-core';
+import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
 
 const searchClient = algoliasearch(
   'latency',
@@ -93,8 +93,8 @@ A common pattern is to display a different source when the query is empty, and w
 
 ```ts {11-24}
 import algoliasearch from 'algoliasearch/lite';
-import { createAutocomplete } from '@francoischalifour/autocomplete-core';
-import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
+import { createAutocomplete } from '@algolia/autocomplete-core';
+import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
 
 const searchClient = algoliasearch(
   'latency',
@@ -147,8 +147,8 @@ This pattern can be extended to display recent searches on empty query, and sear
 
 ```ts {12-41}
 import algoliasearch from 'algoliasearch/lite';
-import { createAutocomplete } from '@francoischalifour/autocomplete-core';
-import { getAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
+import { createAutocomplete } from '@algolia/autocomplete-core';
+import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
 
 const searchClient = algoliasearch(
   'latency',

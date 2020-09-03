@@ -1,4 +1,4 @@
-import { Environment } from '@francoischalifour/autocomplete-core';
+import { Environment } from '@algolia/autocomplete-core';
 
 export function getHTMLElement(
   value: string | HTMLElement,

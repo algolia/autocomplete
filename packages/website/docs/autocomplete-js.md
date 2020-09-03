@@ -16,7 +16,7 @@ import algoliasearch from 'algoliasearch/lite';
 import {
   autocomplete,
   getAlgoliaHits,
-} from '@francoischalifour/autocomplete-js';
+} from '@algolia/autocomplete-js';
 
 const searchClient = algoliasearch(
   'latency',

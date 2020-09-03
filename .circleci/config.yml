@@ -2,7 +2,7 @@ aliases:
   - &install_yarn_version
     name: Install specific Yarn version
     command: |
-      curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.21.1
+      curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.5
       echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> $BASH_ENV
 
   - &restore_yarn_cache
@@ -21,17 +21,9 @@ aliases:
     command: yarn install
 
 defaults: &defaults
-  working_directory: ~/autocompletejs
+  working_directory: ~/autocomplete
   docker:
     - image: circleci/node:12.14.1
-
-cypress: &cypress
-  working_directory: ~/autocompletejs
-  docker:
-    - image: cypress/browsers:node13.8.0-chrome81-ff75
-      environment:
-        ## this enables colors in the output
-        TERM: xterm
 
 version: 2.1
 
@@ -63,7 +55,7 @@ jobs:
           command: yarn run lint
       - run:
           name: Type Checking
-          command: yarn run type-check
+          command: yarn test:types
 
   test_unit:
     <<: *defaults
@@ -89,24 +81,6 @@ jobs:
           name: Release if needed
           command: yarn run shipjs trigger
 
-  test_cypress:
-    <<: *cypress
-    steps:
-      - checkout
-      - run: *install_yarn_version
-      - restore_cache: *restore_yarn_cache
-      - run: *run_yarn_install
-      - save_cache: *save_yarn_cache
-      - run:
-          name: Cypress test Actions
-          command: yarn run cy:run
-      - store_test_results:
-          path: cypress-results
-      - store_artifacts:
-          path: cypress\screenshots
-      - store_artifacts:
-          path: cypress\videos
-
 workflows:
   version: 2.1
   ci:
@@ -123,7 +97,6 @@ workflows:
           filters:
             branches:
               only: next
-      - test_cypress
       - release:
           filters:
             branches:

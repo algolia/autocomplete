@@ -9,7 +9,7 @@ This function can be used to display the differences of a hit match.
 # Example
 
 ```js
-import { reverseHighlightAlgoliaHit } from '@francoischalifour/autocomplete-preset-algolia';
+import { reverseHighlightAlgoliaHit } from '@algolia/autocomplete-preset-algolia';
 
 const hit = {}; // fetch an Algolia hit
 const reverseHighlightedAlgoliaHit = reverseHighlightAlgoliaHit({

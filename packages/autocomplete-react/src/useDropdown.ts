@@ -1,4 +1,4 @@
-import { AutocompleteState } from '@francoischalifour/autocomplete-core';
+import { AutocompleteState } from '@algolia/autocomplete-core';
 import { createPopper } from '@popperjs/core/lib/popper-lite';
 import { MutableRefObject, useLayoutEffect, useRef } from 'react';
 

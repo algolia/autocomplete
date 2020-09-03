@@ -3,7 +3,7 @@ import {
   GetDropdownProps,
   GetItemProps,
   GetMenuProps,
-} from '@francoischalifour/autocomplete-core';
+} from '@algolia/autocomplete-core';
 import React from 'react';
 
 import { ReverseHighlight } from './Highlight';

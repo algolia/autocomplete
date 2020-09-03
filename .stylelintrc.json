@@ -11,19 +11,13 @@
     "stylelint-prettier/recommended"
   ],
   "rules": {
-    "selector-class-pattern": [
-      "^DocSearch-[A-Za-z0-9-]*$"
-    ],
+    "selector-class-pattern": ["^Autocomplete-[A-Za-z0-9-]*$"],
     "prettier/prettier": true,
     "max-nesting-depth": [
       2,
       {
-        "ignore": [
-          "pseudo-classes"
-        ],
-        "ignoreAtRules": [
-          "media"
-        ]
+        "ignore": ["pseudo-classes"],
+        "ignoreAtRules": ["media"]
       }
     ],
     "plugin/no-unsupported-browser-features": [

@@ -1,4 +1,4 @@
-import { getAlgoliaHits as originalGetAlgoliaHits } from '@francoischalifour/autocomplete-preset-algolia';
+import { getAlgoliaHits as originalGetAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
 
 type SearchClient = any;
 type SearchParameters = any;

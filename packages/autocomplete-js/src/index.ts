@@ -3,4 +3,4 @@ export * from './highlight';
 export {
   getAlgoliaResults,
   getAlgoliaHits,
-} from '@francoischalifour/autocomplete-preset-algolia';
+} from '@algolia/autocomplete-preset-algolia';

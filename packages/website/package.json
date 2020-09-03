@@ -1,5 +1,5 @@
 {
-  "name": "@francoischalifour/autocomplete-website",
+  "name": "@algolia/autocomplete-website",
   "version": "1.0.0",
   "private": true,
   "scripts": {

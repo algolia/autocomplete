@@ -9,7 +9,7 @@ This function can be used to display a part of a hit with matches highlighted.
 # Example
 
 ```js
-import { snippetAlgoliaHit } from '@francoischalifour/autocomplete-preset-algolia';
+import { snippetAlgoliaHit } from '@algolia/autocomplete-preset-algolia';
 
 const hit = {}; // fetch an Algolia hit
 const snippetedAlgoliaHit = snippetAlgoliaHit({

@@ -1,4 +1,4 @@
-# @francoischalifour/autocomplete-js
+# @algolia/autocomplete-js
 
 JavaScript library to create fast and fully-featured auto-completion experiences.
 
@@ -7,9 +7,9 @@ JavaScript library to create fast and fully-featured auto-completion experiences
 ## Installation
 
 ```sh
-yarn add @francoischalifour/autocomplete-js@alpha
+yarn add @algolia/autocomplete-js@alpha
 # or
-npm install @francoischalifour/autocomplete-js@alpha
+npm install @algolia/autocomplete-js@alpha
 ```
 
 ## Documentation

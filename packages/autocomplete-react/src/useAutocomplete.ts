@@ -1,7 +1,7 @@
 import {
   AutocompleteOptions,
   createAutocomplete,
-} from '@francoischalifour/autocomplete-core';
+} from '@algolia/autocomplete-core';
 import React, { useRef, useState } from 'react';
 
 export function useAutocomplete<

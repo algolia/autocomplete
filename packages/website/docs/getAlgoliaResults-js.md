@@ -8,7 +8,7 @@ Retrieves Algolia results from one or multiple indices.
 ## Example
 
 ```js
-import { getAlgoliaResults } from '@francoischalifour/autocomplete-js';
+import { getAlgoliaResults } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch/lite';
 
 const searchClient = algoliasearch(APP_ID, SEARCH_API_KEY);
