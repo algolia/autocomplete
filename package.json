@@ -10,10 +10,6 @@
     "build:types": "lerna run build:types",
     "build:umd": "lerna run build:umd",
     "build": "lerna run build",
-    "doc:build": "cd packages/website/ && yarn build",
-    "doc:deploy": "cd packages/website/ && yarn deploy",
-    "doc:start": "cd packages/website/ && yarn start",
-    "doc:test": "cd packages/website/ && yarn start --no-open",
     "lint": "eslint --ext .js,.ts,.tsx .",
     "prepare": "lerna run prepare",
     "release": "shipjs prepare",
@@ -23,8 +19,8 @@
     "test": "jest",
     "watch-and-storybook": "concurrently \"yarn run watch\" \"yarn run storybook\"",
     "watch": "lerna run watch --parallel",
-    "website:build": "yarn run doc:build && yarn run build && yarn run storybook:build",
-    "website:deploy": "yarn run doc:build && yarn run storybook:build"
+    "website:build": "cd packages/website/ && yarn build",
+    "website:start": "cd packages/website/ && yarn start --host 0.0.0.0"
   },
   "devDependencies": {
     "@babel/cli": "7.11.5",
