@@ -19,8 +19,9 @@
     "test:types": "tsc --noEmit",
     "test": "jest",
     "watch": "lerna run watch --parallel",
-    "website:build": "cd packages/website/ && yarn build",
-    "website:start": "cd packages/website/ && yarn start --host 0.0.0.0"
+    "playground:start": "yarn workspace @algolia/js-example start",
+    "website:build": "yarn workspace @algolia/autocomplete-website build",
+    "website:start": "yarn workspace @algolia/autocomplete-website start --host 0.0.0.0"
   },
   "devDependencies": {
     "@babel/cli": "7.11.5",
