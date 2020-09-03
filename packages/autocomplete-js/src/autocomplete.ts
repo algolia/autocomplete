@@ -64,6 +64,10 @@ export interface AutocompleteApi<TItem> extends AutocompleteSetters<TItem> {
    * Triggers a search to refresh the state.
    */
   refresh(): Promise<void>;
+  /**
+   * Cleans up the DOM mutations and event listeners.
+   */
+  destroy(): void;
 }
 
 export function autocomplete<TItem>({
@@ -235,6 +239,10 @@ export function autocomplete<TItem>({
   root.appendChild(dropdown);
   containerElement.appendChild(root);
 
+  function destroy() {
+    containerElement.innerHTML = '';
+  }
+
   return {
     setHighlightedIndex: autocomplete.setHighlightedIndex,
     setQuery: autocomplete.setQuery,
@@ -243,5 +251,6 @@ export function autocomplete<TItem>({
     setStatus: autocomplete.setStatus,
     setContext: autocomplete.setContext,
     refresh: autocomplete.refresh,
+    destroy,
   };
 }
