@@ -1,1 +1,1 @@
-export const nothing = 'so far';
+export { createPlugin as default } from './createPlugin';
