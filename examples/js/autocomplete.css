@@ -1,0 +1,128 @@
+.container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 860px;
+  padding: 1rem;
+}
+
+.aa-Form {
+  position: relative;
+}
+
+.aa-Label {
+  position: absolute;
+  color: #777;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.aa-InputWrapper {
+  position: relative;
+  min-height: 2.5rem;
+  width: 100%;
+  max-width: 100%;
+  background-color: #fff;
+}
+
+.aa-Input {
+  position: absolute;
+  appearance: none;
+  caret-color: #5a5e9a;
+  color: #23263b;
+  font: inherit;
+  z-index: 2;
+  border: 1px solid #d6d6e7;
+  border-radius: 3px;
+  box-shadow: rgba(119, 122, 175, 0.3) 0 1px 4px 0 inset;
+  background: none;
+  width: 100%;
+  height: 100%;
+}
+
+.aa-Input::-webkit-search-decoration,
+.aa-Input::-webkit-search-cancel-button,
+.aa-Input::-webkit-search-results-button,
+.aa-Input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}
+
+.aa-Completion {
+  position: absolute;
+  color: #999;
+  left: 1px;
+  transform: translateY(50%);
+  z-index: 1;
+}
+
+.aa-Input,
+.aa-Completion {
+  padding: 0 2.5rem;
+}
+
+.aa-Input::placeholder {
+  color: #5a5e9a;
+}
+
+.aa-Input:focus {
+  border-color: #3c4fe0;
+  box-shadow: rgba(35, 38, 59, 0.05) 0 1px 0 0;
+  outline: currentcolor none medium;
+}
+
+.aa-Reset {
+  position: absolute;
+  right: 0;
+  height: 2.5rem;
+  width: 2rem;
+  background: none;
+  border: 0;
+  z-index: 3;
+}
+
+.aa-Autocomplete {
+  width: 100%;
+}
+
+.aa-Dropdown {
+  background-color: #fff;
+  border: 1px solid rgba(150, 150, 150, 0.16);
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(35, 38, 59, 0.05),
+    0 8px 16px -4px rgba(35, 38, 59, 0.25);
+  margin-top: 5px;
+  width: 100%;
+}
+
+.aa-Dropdown--stalled {
+  opacity: 0.5;
+  filter: grayscale(1);
+  transition: opacity 200ms ease-in;
+}
+
+.aa-Dropdown ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aa-Dropdown li {
+  color: #23263b;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+}
+
+.aa-Dropdown li mark {
+  font-style: normal;
+  font-weight: bold;
+  background: none;
+}
+
+.aa-Dropdown li[aria-selected='true'] {
+  background-color: #f5f5fa;
+}
+
+.aa-Dropdown a {
+  text-decoration: none;
+  color: inherit;
+}
