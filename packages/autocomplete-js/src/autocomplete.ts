@@ -109,6 +109,8 @@ export function getDropdownPositionStyle({
         top,
         left: 0,
         right: 0,
+        // @TODO [IE support] IE doesn't support `"unset"`
+        // See https://caniuse.com/#feat=css-unset-value
         width: 'unset',
         maxWidth: 'unset',
       };
@@ -123,6 +125,8 @@ export function getDropdownPositionStyle({
         right:
           environment.document.documentElement.clientWidth -
           (inputWrapperRect.left + inputWrapperRect.width),
+        // @TODO [IE support] IE doesn't support `"unset"`
+        // See https://caniuse.com/#feat=css-unset-value
         width: 'unset',
         maxWidth: 'unset',
       };
