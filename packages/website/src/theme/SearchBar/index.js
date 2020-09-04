@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useState, useRef, useCallback, useMemo } from 'react';
-import { createPortal } from 'react-dom';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import { DocSearchButton, useDocSearchKeyboardEvents } from '@docsearch/react';
+import Head from '@docusaurus/Head';
+import Link from '@docusaurus/Link';
 import { useHistory } from '@docusaurus/router';
 import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
-import Link from '@docusaurus/Link';
-import Head from '@docusaurus/Head';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
-import { DocSearchButton, useDocSearchKeyboardEvents } from '@docsearch/react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 
 let DocSearchModal = null;
 

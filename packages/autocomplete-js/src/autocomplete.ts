@@ -8,7 +8,7 @@ import {
 } from '@algolia/autocomplete-core';
 
 import { getHTMLElement } from './getHTMLElement';
-import { setProperties } from './setProperties';
+import { setProperties, setPropertiesWithoutEvents } from './setProperties';
 
 /**
  * Renders the template in the root element.
@@ -64,6 +64,10 @@ export interface AutocompleteApi<TItem> extends AutocompleteSetters<TItem> {
    * Triggers a search to refresh the state.
    */
   refresh(): Promise<void>;
+  /**
+   * Cleans up the DOM mutations and event listeners.
+   */
+  destroy(): void;
 }
 
 export function autocomplete<TItem>({
@@ -73,6 +77,7 @@ export function autocomplete<TItem>({
 }: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
   const containerElement = getHTMLElement(container);
   const inputWrapper = document.createElement('div');
+  const completion = document.createElement('span');
   const input = document.createElement('input');
   const root = document.createElement('div');
   const form = document.createElement('form');
@@ -92,25 +97,26 @@ export function autocomplete<TItem>({
     ...props,
   });
 
-  const environmentProps = autocomplete.getEnvironmentProps({
-    searchBoxElement: form,
-    dropdownElement: dropdown,
-    inputElement: input,
+  setProperties(window as any, {
+    ...autocomplete.getEnvironmentProps({
+      searchBoxElement: form,
+      dropdownElement: dropdown,
+      inputElement: input,
+    }),
   });
-
-  setProperties(window, environmentProps);
-
-  const rootProps = autocomplete.getRootProps();
-  setProperties(root, rootProps);
-  root.classList.add('aa-Autocomplete');
-
+  setProperties(root, {
+    ...autocomplete.getRootProps(),
+    class: 'aa-Autocomplete',
+  });
   const formProps = autocomplete.getFormProps({ inputElement: input });
-  setProperties(form, formProps);
-  form.classList.add('aa-Form');
-
-  const labelProps = autocomplete.getLabelProps();
-  setProperties(label, labelProps);
-  label.innerHTML = `<svg
+  setProperties(form, {
+    ...formProps,
+    class: 'aa-Form',
+  });
+  setProperties(label, {
+    ...autocomplete.getLabelProps(),
+    class: 'aa-Label',
+    innerHTML: `<svg
   width="20"
   height="20"
   viewBox="0 0 20 20"
@@ -123,30 +129,32 @@ export function autocomplete<TItem>({
     strokeLinecap="round"
     strokeLinejoin="round"
   />
-</svg>`;
-  label.classList.add('aa-Label');
-
-  inputWrapper.classList.add('aa-InputWrapper');
-
-  const inputProps = autocomplete.getInputProps({ inputElement: input });
-  setProperties(input, inputProps);
-  input.classList.add('aa-Input');
-
-  const completion = document.createElement('span');
-  completion.classList.add('aa-Completion');
-
-  resetButton.setAttribute('type', 'reset');
-  resetButton.textContent = 'ｘ';
-  resetButton.classList.add('aa-Reset');
-  resetButton.addEventListener('click', formProps.onReset);
-
-  const dropdownProps = autocomplete.getDropdownProps({});
-  setProperties(dropdown, dropdownProps);
-  dropdown.classList.add('aa-Dropdown');
-  dropdown.setAttribute('hidden', '');
+</svg>`,
+  });
+  setProperties(inputWrapper, { class: 'aa-InputWrapper' });
+  setProperties(input, {
+    ...autocomplete.getInputProps({ inputElement: input }),
+    class: 'aa-Input',
+  });
+  setProperties(completion, { class: 'aa-Completion' });
+  setProperties(resetButton, {
+    type: 'reset',
+    textContent: 'ｘ',
+    onClick: formProps.onReset,
+    class: 'aa-Reset',
+  });
+  setProperties(dropdown, {
+    ...autocomplete.getDropdownProps(),
+    hidden: true,
+    class: 'aa-Dropdown',
+  });
 
   function render(state: AutocompleteState<TItem>) {
-    input.value = state.query;
+    setPropertiesWithoutEvents(root, autocomplete.getRootProps());
+    setPropertiesWithoutEvents(
+      input,
+      autocomplete.getInputProps({ inputElement: input })
+    );
 
     if (props.enableCompletion) {
       completion.textContent = state.completion;
@@ -155,9 +163,13 @@ export function autocomplete<TItem>({
     dropdown.innerHTML = '';
 
     if (state.isOpen) {
-      dropdown.removeAttribute('hidden');
+      setProperties(dropdown, {
+        hidden: false,
+      });
     } else {
-      dropdown.setAttribute('hidden', '');
+      setProperties(dropdown, {
+        hidden: true,
+      });
       return;
     }
 
@@ -184,14 +196,11 @@ export function autocomplete<TItem>({
 
       if (items.length > 0) {
         const menu = document.createElement('ul');
-        const menuProps = autocomplete.getMenuProps();
-        setProperties(menu, menuProps);
+        setProperties(menu, autocomplete.getMenuProps());
 
         const menuItems = items.map((item) => {
           const li = document.createElement('li');
-          const itemProps = autocomplete.getItemProps({ item, source });
-          setProperties(li, itemProps);
-
+          setProperties(li, autocomplete.getItemProps({ item, source }));
           renderTemplate(source.templates.item({ root: li, item, state }), li);
 
           return li;
@@ -230,6 +239,10 @@ export function autocomplete<TItem>({
   root.appendChild(dropdown);
   containerElement.appendChild(root);
 
+  function destroy() {
+    containerElement.innerHTML = '';
+  }
+
   return {
     setHighlightedIndex: autocomplete.setHighlightedIndex,
     setQuery: autocomplete.setQuery,
@@ -238,5 +251,6 @@ export function autocomplete<TItem>({
     setStatus: autocomplete.setStatus,
     setContext: autocomplete.setContext,
     refresh: autocomplete.refresh,
+    destroy,
   };
 }
