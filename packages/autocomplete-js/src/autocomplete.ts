@@ -7,6 +7,7 @@ import {
   PublicAutocompleteOptions as PublicAutocompleteCoreOptions,
 } from '@algolia/autocomplete-core';
 
+import { debounce } from './debounce';
 import { getHTMLElement } from './getHTMLElement';
 import { setProperties, setPropertiesWithoutEvents } from './setProperties';
 
@@ -57,6 +58,10 @@ export interface AutocompleteOptions<TItem>
     state: AutocompleteState<TItem>;
   }): void;
   getSources: GetSources<TItem>;
+  /**
+   * @default "input-wrapper-width"
+   */
+  dropdownPlacement: 'start' | 'end' | 'full-width' | 'input-wrapper-width';
 }
 
 export interface AutocompleteApi<TItem> extends AutocompleteSetters<TItem> {
@@ -70,9 +75,75 @@ export interface AutocompleteApi<TItem> extends AutocompleteSetters<TItem> {
   destroy(): void;
 }
 
+export function getDropdownPositionStyle({
+  dropdownPlacement,
+  container,
+  inputWrapper,
+  environment = window,
+}: Partial<AutocompleteOptions<any>> & {
+  container: HTMLElement;
+  inputWrapper: HTMLElement;
+}) {
+  const containerRect = container.getBoundingClientRect();
+  const top = containerRect.top + containerRect.height;
+
+  switch (dropdownPlacement) {
+    case 'start': {
+      return {
+        top,
+        left: containerRect.left,
+      };
+    }
+
+    case 'end': {
+      return {
+        top,
+        right:
+          environment.document.documentElement.clientWidth -
+          (containerRect.left + containerRect.width),
+      };
+    }
+
+    case 'full-width': {
+      return {
+        top,
+        left: 0,
+        right: 0,
+        // @TODO [IE support] IE doesn't support `"unset"`
+        // See https://caniuse.com/#feat=css-unset-value
+        width: 'unset',
+        maxWidth: 'unset',
+      };
+    }
+
+    case 'input-wrapper-width': {
+      const inputWrapperRect = inputWrapper.getBoundingClientRect();
+
+      return {
+        top,
+        left: inputWrapperRect.left,
+        right:
+          environment.document.documentElement.clientWidth -
+          (inputWrapperRect.left + inputWrapperRect.width),
+        // @TODO [IE support] IE doesn't support `"unset"`
+        // See https://caniuse.com/#feat=css-unset-value
+        width: 'unset',
+        maxWidth: 'unset',
+      };
+    }
+
+    default: {
+      throw new Error(
+        `The \`dropdownPlacement\` value "${dropdownPlacement}" is not valid.`
+      );
+    }
+  }
+}
+
 export function autocomplete<TItem>({
   container,
   render: renderDropdown = defaultRender,
+  dropdownPlacement = 'input-wrapper-width',
   ...props
 }: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
   const containerElement = getHTMLElement(container);
@@ -97,12 +168,32 @@ export function autocomplete<TItem>({
     ...props,
   });
 
+  function onResize() {
+    return debounce(() => {
+      if (!dropdown.hasAttribute('hidden')) {
+        setDropdownPosition();
+      }
+    }, 100);
+  }
+
+  function setDropdownPosition() {
+    setProperties(dropdown, {
+      style: getDropdownPositionStyle({
+        dropdownPlacement,
+        container: root,
+        inputWrapper,
+        environment: props.environment,
+      }),
+    });
+  }
+
   setProperties(window as any, {
     ...autocomplete.getEnvironmentProps({
       searchBoxElement: form,
       dropdownElement: dropdown,
       inputElement: input,
     }),
+    onResize,
   });
   setProperties(root, {
     ...autocomplete.getRootProps(),
@@ -239,8 +330,13 @@ export function autocomplete<TItem>({
   root.appendChild(dropdown);
   containerElement.appendChild(root);
 
+  setDropdownPosition();
+
   function destroy() {
     containerElement.innerHTML = '';
+    setProperties(window as any, {
+      onResize: null,
+    });
   }
 
   return {
