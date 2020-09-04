@@ -125,6 +125,10 @@ export const stateReducer: Reducer = (action, state, props) => {
     }
 
     case 'blur': {
+      if (props.debug) {
+        return state;
+      }
+
       return {
         ...state,
         isOpen: false,

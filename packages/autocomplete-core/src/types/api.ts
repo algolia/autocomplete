@@ -7,8 +7,7 @@ export interface AutocompleteApi<
   TEvent = Event,
   TMouseEvent = MouseEvent,
   TKeyboardEvent = KeyboardEvent
->
-  extends AutocompleteSetters<TItem>,
+> extends AutocompleteSetters<TItem>,
     AutocompleteAccessibilityGetters<
       TItem,
       TEvent,
@@ -156,6 +155,15 @@ interface Navigator<TItem> {
 
 export interface PublicAutocompleteOptions<TItem> {
   /**
+   * Whether to consider the experience in debug mode.
+   *
+   * The debug mode is useful when developing because it doesn't close
+   * the dropdown when the blur event occurs.
+   *
+   * @default false
+   */
+  debug?: boolean;
+  /**
    * The Autocomplete ID to create accessible attributes.
    *
    * @default "autocomplete-0"
@@ -243,6 +251,7 @@ export interface PublicAutocompleteOptions<TItem> {
 
 // Props manipulated internally with default values.
 export interface AutocompleteOptions<TItem> {
+  debug: boolean;
   id: string;
   onStateChange<TItem>(props: { state: AutocompleteState<TItem> }): void;
   placeholder: string;

@@ -97,3 +97,9 @@ The function called when the autocomplete form is submitted.
 The function called when the input changes.
 
 This turns the experience in controlled mode, leaving you in charge of updating the state.
+
+## `debug`
+
+> `boolean` | defaults to `false`
+
+Whether to consider the experience in debug mode. It is useful when developing because it doesn't close the dropdown when the blur event occurs.
