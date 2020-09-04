@@ -1,8 +1,11 @@
 export function debounce(fn: Function, time: number) {
-  let timerId: number | undefined = undefined;
+  let timerId: ReturnType<typeof setTimeout> | undefined = undefined;
 
   return function () {
-    clearTimeout(timerId);
-    timerId = (setTimeout(fn, time) as unknown) as number;
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
+    timerId = setTimeout(fn(), time);
   };
 }

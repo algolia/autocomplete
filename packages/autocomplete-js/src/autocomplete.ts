@@ -169,7 +169,7 @@ export function autocomplete<TItem>({
       if (!dropdown.hasAttribute('hidden')) {
         setDropdownPosition();
       }
-    }, 100)();
+    }, 100);
   }
 
   function setDropdownPosition() {
