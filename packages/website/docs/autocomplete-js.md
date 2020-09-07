@@ -13,7 +13,11 @@ This function creates a JavaScript autocomplete experience.
 
 ```js title="JavaScript"
 import algoliasearch from 'algoliasearch/lite';
-import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
+import {
+  autocomplete,
+  getAlgoliaHits,
+  reverseHighlightItem,
+} from '@algolia/autocomplete-js';
 
 const searchClient = algoliasearch(
   'latency',
@@ -39,6 +43,11 @@ const autocomplete = autocomplete({
               },
             ],
           });
+        },
+        templates: {
+          item({ item }) {
+            return reverseHighlightItem({ item, attribute: 'query' });
+          },
         },
       },
     ];
