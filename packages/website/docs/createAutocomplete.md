@@ -4,6 +4,8 @@ id: createAutocomplete
 
 This function returns the methods to create an autocomplete experience.
 
+You're in charge of [creating your own autocomplete renderer](creating-a-renderer) with the returned API.
+
 ## Example
 
 ```js
