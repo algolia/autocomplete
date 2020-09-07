@@ -99,12 +99,6 @@ Sets the highlighted item index. Pass `null` to unselect items.
 
 Sets the query.
 
-### `setSuggestions`
-
-> `(value: any) => void`
-
-Sets the suggestions.
-
 ### `setIsOpen`
 
 > `(value: boolean) => void`
