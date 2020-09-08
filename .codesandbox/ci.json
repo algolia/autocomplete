@@ -1,4 +1,5 @@
 {
   "packages": ["packages/autocomplete-*"],
+  "buildCommand": "build:esm",
   "sandboxes": ["github/algolia/autocomplete.js/tree/next/examples/js"]
 }
