@@ -91,13 +91,11 @@ export function autocomplete<TItem>({
     ...props,
   });
 
-  function onResize() {
-    return debounce(() => {
-      if (!dropdown.hasAttribute('hidden')) {
-        setDropdownPosition();
-      }
-    }, 100);
-  }
+  const onResize = debounce(() => {
+    if (!dropdown.hasAttribute('hidden')) {
+      setDropdownPosition();
+    }
+  }, 100);
 
   function setDropdownPosition() {
     setProperties(dropdown, {
