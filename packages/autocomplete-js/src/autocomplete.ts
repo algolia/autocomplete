@@ -39,12 +39,34 @@ type GetSources<TItem> = (
 
 export interface AutocompleteOptions<TItem>
   extends PublicAutocompleteCoreOptions<TItem> {
+  /**
+   * The container for the autocomplete search box.
+   *
+   * You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). The first element matching the provided selector will be used as container.
+   */
   container: string | HTMLElement;
   getSources: GetSources<TItem>;
   /**
+   * The dropdown horizontal position.
+   *
    * @default "input-wrapper-width"
    */
   dropdownPlacement?: 'start' | 'end' | 'full-width' | 'input-wrapper-width';
+  /**
+   * Function called to render the autocomplete results. It is useful for rendering sections in different row or column layouts.
+   * The default implementation appends all the sections to the root:
+   *
+   * ```js
+   * autocomplete({
+   *   // ...
+   *   render({ root, sections }) {
+   *     for (const section of sections) {
+   *       root.appendChild(section);
+   *     }
+   *   },
+   * });
+   * ```
+   */
   render?(params: {
     root: HTMLElement;
     sections: HTMLElement[];
