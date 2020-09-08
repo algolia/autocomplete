@@ -8,22 +8,10 @@ import {
 } from '@algolia/autocomplete-core';
 
 import { debounce } from './debounce';
+import { getDropdownPositionStyle } from './getDropdownPositionStyle';
 import { getHTMLElement } from './getHTMLElement';
+import { renderTemplate } from './renderTemplate';
 import { setProperties, setPropertiesWithoutEvents } from './setProperties';
-
-/**
- * Renders the template in the root element.
- *
- * If the template is a string, we update the HTML of the root to this string.
- * If the template is empty, it means that users manipulated the root element
- * DOM programatically (e.g., attached events, used a renderer like Preact), so
- * this needs to be a noop.
- */
-function renderTemplate(template: string | void, root: HTMLElement) {
-  if (typeof template === 'string') {
-    root.innerHTML = template;
-  }
-}
 
 function defaultRender({ root, sections }) {
   for (const section of sections) {
@@ -73,71 +61,6 @@ export interface AutocompleteApi<TItem> extends AutocompleteSetters<TItem> {
    * Cleans up the DOM mutations and event listeners.
    */
   destroy(): void;
-}
-
-export function getDropdownPositionStyle({
-  dropdownPlacement,
-  container,
-  inputWrapper,
-  environment = window,
-}: Partial<AutocompleteOptions<any>> & {
-  container: HTMLElement;
-  inputWrapper: HTMLElement;
-}) {
-  const containerRect = container.getBoundingClientRect();
-  const top = containerRect.top + containerRect.height;
-
-  switch (dropdownPlacement) {
-    case 'start': {
-      return {
-        top,
-        left: containerRect.left,
-      };
-    }
-
-    case 'end': {
-      return {
-        top,
-        right:
-          environment.document.documentElement.clientWidth -
-          (containerRect.left + containerRect.width),
-      };
-    }
-
-    case 'full-width': {
-      return {
-        top,
-        left: 0,
-        right: 0,
-        // @TODO [IE support] IE doesn't support `"unset"`
-        // See https://caniuse.com/#feat=css-unset-value
-        width: 'unset',
-        maxWidth: 'unset',
-      };
-    }
-
-    case 'input-wrapper-width': {
-      const inputWrapperRect = inputWrapper.getBoundingClientRect();
-
-      return {
-        top,
-        left: inputWrapperRect.left,
-        right:
-          environment.document.documentElement.clientWidth -
-          (inputWrapperRect.left + inputWrapperRect.width),
-        // @TODO [IE support] IE doesn't support `"unset"`
-        // See https://caniuse.com/#feat=css-unset-value
-        width: 'unset',
-        maxWidth: 'unset',
-      };
-    }
-
-    default: {
-      throw new Error(
-        `The \`dropdownPlacement\` value "${dropdownPlacement}" is not valid.`
-      );
-    }
-  }
 }
 
 export function autocomplete<TItem>({
