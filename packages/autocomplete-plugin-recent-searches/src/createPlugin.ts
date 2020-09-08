@@ -53,5 +53,8 @@ export const createPlugin: CreatePlugin = ({ limit = 5 } = {}) => {
     onSelect: ({ suggestion }) => {
       recentSearches.add(suggestion);
     },
+    getSuggestions: () => {
+      return recentSearches.getAll();
+    },
   };
 };
