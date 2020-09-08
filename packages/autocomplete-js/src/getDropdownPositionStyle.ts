@@ -1,4 +1,4 @@
-import { AutocompleteOptions } from './autocomplete';
+import { AutocompleteOptions } from './types';
 
 export function getDropdownPositionStyle({
   dropdownPlacement,

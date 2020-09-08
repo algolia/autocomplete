@@ -1,10 +1,6 @@
 import {
   createAutocomplete,
-  AutocompleteSetters,
-  AutocompleteSource as AutocompleteCoreSource,
-  AutocompleteState,
-  GetSourcesParams,
-  PublicAutocompleteOptions as PublicAutocompleteCoreOptions,
+  AutocompleteState as AutocompleteCoreState,
 } from '@algolia/autocomplete-core';
 
 import { debounce } from './debounce';
@@ -12,77 +8,16 @@ import { getDropdownPositionStyle } from './getDropdownPositionStyle';
 import { getHTMLElement } from './getHTMLElement';
 import { renderTemplate } from './renderTemplate';
 import { setProperties, setPropertiesWithoutEvents } from './setProperties';
+import {
+  AutocompleteOptions,
+  AutocompleteApi,
+  AutocompleteSource,
+} from './types';
 
 function defaultRender({ root, sections }) {
   for (const section of sections) {
     root.appendChild(section);
   }
-}
-
-type Template<TParams> = (params: TParams) => string | void;
-
-type AutocompleteSource<TItem> = AutocompleteCoreSource<TItem> & {
-  templates: {
-    item: Template<{
-      root: HTMLElement;
-      item: TItem;
-      state: AutocompleteState<TItem>;
-    }>;
-    header?: Template<{ root: HTMLElement; state: AutocompleteState<TItem> }>;
-    footer?: Template<{ root: HTMLElement; state: AutocompleteState<TItem> }>;
-  };
-};
-
-type GetSources<TItem> = (
-  params: GetSourcesParams<TItem>
-) => Promise<Array<AutocompleteSource<TItem>>>;
-
-export interface AutocompleteOptions<TItem>
-  extends PublicAutocompleteCoreOptions<TItem> {
-  /**
-   * The container for the autocomplete search box.
-   *
-   * You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). The first element matching the provided selector will be used as container.
-   */
-  container: string | HTMLElement;
-  getSources: GetSources<TItem>;
-  /**
-   * The dropdown horizontal position.
-   *
-   * @default "input-wrapper-width"
-   */
-  dropdownPlacement?: 'start' | 'end' | 'full-width' | 'input-wrapper-width';
-  /**
-   * Function called to render the autocomplete results. It is useful for rendering sections in different row or column layouts.
-   * The default implementation appends all the sections to the root:
-   *
-   * ```js
-   * autocomplete({
-   *   // ...
-   *   render({ root, sections }) {
-   *     for (const section of sections) {
-   *       root.appendChild(section);
-   *     }
-   *   },
-   * });
-   * ```
-   */
-  render?(params: {
-    root: HTMLElement;
-    sections: HTMLElement[];
-    state: AutocompleteState<TItem>;
-  }): void;
-}
-
-export interface AutocompleteApi<TItem> extends AutocompleteSetters<TItem> {
-  /**
-   * Triggers a search to refresh the state.
-   */
-  refresh(): Promise<void>;
-  /**
-   * Cleans up the DOM mutations and event listeners.
-   */
-  destroy(): void;
 }
 
 export function autocomplete<TItem>({
@@ -183,7 +118,7 @@ export function autocomplete<TItem>({
     class: 'aa-Dropdown',
   });
 
-  function render(state: AutocompleteState<TItem>) {
+  function render(state: AutocompleteCoreState<TItem>) {
     setPropertiesWithoutEvents(root, autocomplete.getRootProps());
     setPropertiesWithoutEvents(
       input,
