@@ -50,11 +50,11 @@ export const createPlugin: CreatePlugin = ({ limit = 5 } = {}) => {
         query: state.query,
       });
     },
-    add: (suggestion) => {
+    onSelect: ({ suggestion }) => {
       store.add(suggestion);
     },
-    getSuggestions: () => {
-      return store.getAll();
+    getFacetFilters: () => {
+      return store.getAll().map((item) => [`objectID:-${item.query}`]);
     },
   };
 };
