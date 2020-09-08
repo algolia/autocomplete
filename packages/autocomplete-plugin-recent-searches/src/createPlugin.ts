@@ -76,5 +76,8 @@ export const createPlugin: CreatePlugin = ({
     onSelect: ({ suggestion }) => {
       recentSearches.add(suggestion);
     },
+    getRecentSearches: () => {
+      return recentSearches.getAll();
+    },
   };
 };
