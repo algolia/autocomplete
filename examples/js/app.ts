@@ -10,7 +10,7 @@ const searchClient = algoliasearch(
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
-autocomplete({
+autocomplete<{ query: string }>({
   container: '#autocomplete',
   debug: true,
   // dropdownPlacement: 'start',
