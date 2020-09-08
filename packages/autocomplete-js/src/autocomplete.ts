@@ -40,16 +40,16 @@ type GetSources<TItem> = (
 export interface AutocompleteOptions<TItem>
   extends PublicAutocompleteCoreOptions<TItem> {
   container: string | HTMLElement;
-  render(params: {
-    root: HTMLElement;
-    sections: HTMLElement[];
-    state: AutocompleteState<TItem>;
-  }): void;
   getSources: GetSources<TItem>;
   /**
    * @default "input-wrapper-width"
    */
-  dropdownPlacement: 'start' | 'end' | 'full-width' | 'input-wrapper-width';
+  dropdownPlacement?: 'start' | 'end' | 'full-width' | 'input-wrapper-width';
+  render?(params: {
+    root: HTMLElement;
+    sections: HTMLElement[];
+    state: AutocompleteState<TItem>;
+  }): void;
 }
 
 export interface AutocompleteApi<TItem> extends AutocompleteSetters<TItem> {
