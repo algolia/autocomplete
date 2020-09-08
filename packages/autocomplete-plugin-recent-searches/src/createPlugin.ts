@@ -1,15 +1,15 @@
-import { createRecentSearches } from './createRecentSearches';
+import { createRecentSearchStore } from './createRecentSearchStore';
 
 type Plugin = {
   getSources: Function;
   onSubmit: Function;
-  onSelect: Function;
+  add: Function;
 };
 
 type CreatePlugin = (options?: any) => Plugin;
 
 export const createPlugin: CreatePlugin = ({ limit = 5 } = {}) => {
-  const recentSearches = createRecentSearches({
+  const store = createRecentSearchStore({
     key: 'RECENT_SEARCHES',
     limit,
   });
@@ -20,10 +20,10 @@ export const createPlugin: CreatePlugin = ({ limit = 5 } = {}) => {
         !query && {
           getInputValue: ({ suggestion }) => suggestion.query,
           getSuggestions() {
-            return recentSearches.getAll();
+            return store.getAll();
           },
           onSelect({ suggestion }) {
-            recentSearches.add(suggestion);
+            store.add(suggestion);
           },
           templates: {
             item({ item }) {
@@ -45,16 +45,16 @@ export const createPlugin: CreatePlugin = ({ limit = 5 } = {}) => {
       ];
     },
     onSubmit: ({ state }) => {
-      recentSearches.add({
+      store.add({
         objectID: state.query,
         query: state.query,
       });
     },
-    onSelect: ({ suggestion }) => {
-      recentSearches.add(suggestion);
+    add: (suggestion) => {
+      store.add(suggestion);
     },
     getSuggestions: () => {
-      return recentSearches.getAll();
+      return store.getAll();
     },
   };
 };

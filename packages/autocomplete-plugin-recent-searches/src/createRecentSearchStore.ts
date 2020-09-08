@@ -33,7 +33,7 @@ function createStorage(key) {
   };
 }
 
-export function createRecentSearches({ key, limit = 5 }) {
+export function createRecentSearchStore({ key, limit = 5 }) {
   const storage = createStorage(key);
   let items = storage.getItem().slice(0, limit);
 
