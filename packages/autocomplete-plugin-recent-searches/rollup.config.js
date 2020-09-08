@@ -12,6 +12,5 @@ export default {
     name: pkg.name,
     banner: getBundleBanner(pkg),
   },
-  external: ['@algolia/autocomplete-js'],
   plugins,
 };
