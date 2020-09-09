@@ -58,6 +58,15 @@ function getAttributeValueByPath(hit: object, path: string): string {
   return value;
 }
 
+function reverseHighlightedParts(parts: ParsedAttribute[]) {
+  // We don't want to highlight the whole word when no parts match.
+  if (!parts.some((part) => part.isHighlighted)) {
+    return parts.map((part) => ({ ...part, isHighlighted: false }));
+  }
+
+  return parts.map((part) => ({ ...part, isHighlighted: !part.isHighlighted }));
+}
+
 type SharedParseAttributeParams = {
   hit: any;
   attribute: string;
@@ -89,23 +98,14 @@ export function parseReverseHighlightedAttribute({
   highlightPreTag,
   highlightPostTag,
 }: SharedParseAttributeParams): ParsedAttribute[] {
-  const highlightedValue = getAttributeValueByPath(
-    hit,
-    `_highlightResult.${attribute}.value`
+  return reverseHighlightedParts(
+    parseHighlightedAttribute({
+      hit,
+      attribute,
+      highlightPreTag,
+      highlightPostTag,
+    })
   );
-
-  const parts = parseAttribute({
-    highlightPreTag,
-    highlightPostTag,
-    highlightedValue,
-  });
-
-  // We don't want to highlight the whole word when no parts match.
-  if (!parts.some((part) => part.isHighlighted)) {
-    return parts.map((part) => ({ ...part, isHighlighted: false }));
-  }
-
-  return parts.map((part) => ({ ...part, isHighlighted: !part.isHighlighted }));
 }
 
 export function parseSnippetedAttribute({
@@ -124,4 +124,20 @@ export function parseSnippetedAttribute({
     highlightPostTag,
     highlightedValue,
   });
+}
+
+export function parseReverseSnippetedAttribute({
+  hit,
+  attribute,
+  highlightPreTag,
+  highlightPostTag,
+}: SharedParseAttributeParams): ParsedAttribute[] {
+  return reverseHighlightedParts(
+    parseSnippetedAttribute({
+      hit,
+      attribute,
+      highlightPreTag,
+      highlightPostTag,
+    })
+  );
 }

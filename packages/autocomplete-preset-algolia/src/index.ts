@@ -3,4 +3,5 @@ export {
   parseHighlightedAttribute,
   parseReverseHighlightedAttribute,
   parseSnippetedAttribute,
+  parseReverseSnippetedAttribute,
 } from './formatting';
