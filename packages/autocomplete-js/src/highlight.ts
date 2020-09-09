@@ -26,13 +26,18 @@ type HighlightItemParams = {
   attribute: string;
   highlightPreTag?: string;
   highlightPostTag?: string;
+  ignoreEscape?: string[];
 };
 
+/**
+ * Highlights and escapes the matching parts of an Algolia hit.
+ */
 export function highlightItem({
   item,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
+  ignoreEscape,
 }: HighlightItemParams) {
   return concatParts(
     parseHighlightedAttribute({
@@ -40,16 +45,23 @@ export function highlightItem({
       attribute,
       highlightPreTag,
       highlightPostTag,
+      ignoreEscape,
     }),
     { highlightPreTag, highlightPostTag }
   );
 }
 
+/**
+ * Highlights and escapes the non-matching parts of an Algolia hit.
+ *
+ * This is a common pattern for Query Suggestions.
+ */
 export function reverseHighlightItem({
   item,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
+  ignoreEscape,
 }: HighlightItemParams) {
   return concatParts(
     parseReverseHighlightedAttribute({
@@ -57,16 +69,21 @@ export function reverseHighlightItem({
       attribute,
       highlightPreTag,
       highlightPostTag,
+      ignoreEscape,
     }),
     { highlightPreTag, highlightPostTag }
   );
 }
 
+/**
+ * Highlights and escapes the matching parts of an Algolia hit snippet.
+ */
 export function snippetItem({
   item,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
+  ignoreEscape,
 }: HighlightItemParams) {
   return concatParts(
     parseSnippetedAttribute({
@@ -74,16 +91,23 @@ export function snippetItem({
       attribute,
       highlightPreTag,
       highlightPostTag,
+      ignoreEscape,
     }),
     { highlightPreTag, highlightPostTag }
   );
 }
 
+/**
+ * Highlights and escapes the non-matching parts of an Algolia hit snippet.
+ *
+ * This is a common pattern for Query Suggestions.
+ */
 export function reverseSnippetItem({
   item,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
+  ignoreEscape,
 }: HighlightItemParams) {
   return concatParts(
     parseReverseSnippetedAttribute({
@@ -91,6 +115,7 @@ export function reverseSnippetItem({
       attribute,
       highlightPreTag,
       highlightPostTag,
+      ignoreEscape,
     }),
     { highlightPreTag, highlightPostTag }
   );
