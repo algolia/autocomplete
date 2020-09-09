@@ -287,6 +287,7 @@ export interface AutocompleteOptions<TItem> {
   getSources: GetSources<TItem>;
   environment: Environment;
   navigator: Navigator<TItem>;
+  plugins: Array<AutocompletePlugin<TItem>>;
   shouldDropdownShow(params: { state: AutocompleteState<TItem> }): boolean;
   onSubmit(params: OnSubmitParams<TItem>): void;
   onInput?(params: OnInputParams<TItem>): void | Promise<any>;

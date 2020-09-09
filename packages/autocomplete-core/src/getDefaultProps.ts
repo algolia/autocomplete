@@ -78,5 +78,6 @@ export function getDefaultProps<TItem>(
       },
       ...props.navigator,
     },
+    plugins: props.plugins || [],
   };
 }

@@ -103,7 +103,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
       onSubmit: (event) => {
         ((event as unknown) as Event).preventDefault();
 
-        props.onSubmit({
+        const onSubmitPayload = {
           state: store.getState(),
           setHighlightedIndex,
           setQuery,
@@ -112,6 +112,12 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
           setStatus,
           setContext,
           event,
+        };
+        props.onSubmit(onSubmitPayload);
+        props.plugins.forEach((plugin) => {
+          if (plugin.onSubmit) {
+            plugin.onSubmit(onSubmitPayload);
+          }
         });
 
         store.send('submit', null);
@@ -359,7 +365,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
             isOpen: false,
           },
         }).then(() => {
-          source.onSelect({
+          const onSelectPayload = {
             suggestion: item,
             suggestionValue: inputValue,
             suggestionUrl: source.getSuggestionUrl({
@@ -375,6 +381,12 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
             setStatus,
             setContext,
             event,
+          };
+          source.onSelect(onSelectPayload);
+          props.plugins.forEach((plugin) => {
+            if (plugin.onSelect) {
+              plugin.onSelect(onSelectPayload);
+            }
           });
         });
       },
