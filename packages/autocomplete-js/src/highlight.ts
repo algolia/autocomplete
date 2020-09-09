@@ -21,9 +21,9 @@ function concatParts(
   }, '');
 }
 
-type HighlightItemParams = {
-  item: any;
-  attribute: string;
+type HighlightItemParams<TItem> = {
+  item: TItem;
+  attribute: keyof TItem;
   highlightPreTag?: string;
   highlightPostTag?: string;
   ignoreEscape?: string[];
@@ -32,15 +32,15 @@ type HighlightItemParams = {
 /**
  * Highlights and escapes the matching parts of an Algolia hit.
  */
-export function highlightItem({
+export function highlightItem<TItem extends object>({
   item,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
   ignoreEscape,
-}: HighlightItemParams) {
+}: HighlightItemParams<TItem>) {
   return concatParts(
-    parseAlgoliaHitHighlight({
+    parseAlgoliaHitHighlight<TItem>({
       hit: item,
       attribute,
       ignoreEscape,
@@ -54,15 +54,15 @@ export function highlightItem({
  *
  * This is a common pattern for Query Suggestions.
  */
-export function reverseHighlightItem({
+export function reverseHighlightItem<TItem extends object>({
   item,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
   ignoreEscape,
-}: HighlightItemParams) {
+}: HighlightItemParams<TItem>) {
   return concatParts(
-    parseAlgoliaHitReverseHighlight({
+    parseAlgoliaHitReverseHighlight<TItem>({
       hit: item,
       attribute,
       ignoreEscape,
@@ -74,15 +74,15 @@ export function reverseHighlightItem({
 /**
  * Highlights and escapes the matching parts of an Algolia hit snippet.
  */
-export function snippetItem({
+export function snippetItem<TItem extends object>({
   item,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
   ignoreEscape,
-}: HighlightItemParams) {
+}: HighlightItemParams<TItem>) {
   return concatParts(
-    parseAlgoliaHitSnippet({
+    parseAlgoliaHitSnippet<TItem>({
       hit: item,
       attribute,
       ignoreEscape,
@@ -96,15 +96,15 @@ export function snippetItem({
  *
  * This is a common pattern for Query Suggestions.
  */
-export function reverseSnippetItem({
+export function reverseSnippetItem<TItem extends object>({
   item,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
   ignoreEscape,
-}: HighlightItemParams) {
+}: HighlightItemParams<TItem>) {
   return concatParts(
-    parseAlgoliaHitReverseSnippet({
+    parseAlgoliaHitReverseSnippet<TItem>({
       hit: item,
       attribute,
       ignoreEscape,
