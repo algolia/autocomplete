@@ -1,5 +1,6 @@
 {
   "packages": ["packages/autocomplete-*"],
-  "buildCommand": "build:esm",
+  "buildCommand": false,
+  "^": "buildCommand is false because `yarn prepare` is going to build packages anyway.",
   "sandboxes": ["github/algolia/autocomplete.js/tree/next/examples/js"]
 }
