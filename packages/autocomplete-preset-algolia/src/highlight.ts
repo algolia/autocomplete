@@ -1,3 +1,5 @@
+import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from './constants';
+
 const htmlEscapes = {
   '&': '&amp;',
   '<': '&lt;',
@@ -7,8 +9,6 @@ const htmlEscapes = {
 };
 
 type ParseAttributeParams = {
-  highlightPreTag?: string;
-  highlightPostTag?: string;
   highlightedValue: string;
   ignoreEscape?: string[];
 };
@@ -16,8 +16,6 @@ type ParseAttributeParams = {
 type ParsedAttribute = { value: string; isHighlighted: boolean };
 
 export function parseAttribute({
-  highlightPreTag = '<mark>',
-  highlightPostTag = '</mark>',
   highlightedValue,
   ignoreEscape = [],
 }: ParseAttributeParams): ParsedAttribute[] {
@@ -35,36 +33,27 @@ export function parseAttribute({
       : value;
   }
 
-  const splitByPreTag = highlightedValue.split(highlightPreTag);
+  const splitByPreTag = highlightedValue.split(HIGHLIGHT_PRE_TAG);
   const firstValue = splitByPreTag.shift();
   const elements = !firstValue
     ? []
-    : [{ value: firstValue, isHighlighted: false }];
+    : [{ value: escape(firstValue), isHighlighted: false }];
 
-  if (highlightPostTag === highlightPreTag) {
-    let isHighlighted = true;
+  splitByPreTag.forEach((split) => {
+    const splitByPostTag = split.split(HIGHLIGHT_POST_TAG);
 
-    splitByPreTag.forEach((split) => {
-      elements.push({ value: escape(split), isHighlighted });
-      isHighlighted = !isHighlighted;
+    elements.push({
+      value: escape(splitByPostTag[0]),
+      isHighlighted: true,
     });
-  } else {
-    splitByPreTag.forEach((split) => {
-      const splitByPostTag = split.split(highlightPostTag);
 
+    if (splitByPostTag[1] !== '') {
       elements.push({
-        value: escape(splitByPostTag[0]),
-        isHighlighted: true,
+        value: escape(splitByPostTag[1]),
+        isHighlighted: false,
       });
-
-      if (splitByPostTag[1] !== '') {
-        elements.push({
-          value: escape(splitByPostTag[1]),
-          isHighlighted: false,
-        });
-      }
-    });
-  }
+    }
+  });
 
   return elements;
 }
@@ -94,16 +83,12 @@ function reverseHighlightedParts(parts: ParsedAttribute[]) {
 type SharedParseAttributeParams = {
   hit: any;
   attribute: string;
-  highlightPreTag?: string;
-  highlightPostTag?: string;
   ignoreEscape?: string[];
 };
 
-export function parseHighlightedAttribute({
+export function parseAlgoliaHitHighlight({
   hit,
   attribute,
-  highlightPreTag,
-  highlightPostTag,
   ignoreEscape,
 }: SharedParseAttributeParams): ParsedAttribute[] {
   const highlightedValue = getAttributeValueByPath(
@@ -112,36 +97,20 @@ export function parseHighlightedAttribute({
   );
 
   return parseAttribute({
-    highlightPreTag,
-    highlightPostTag,
     highlightedValue,
     ignoreEscape,
   });
 }
 
-export function parseReverseHighlightedAttribute({
-  hit,
-  attribute,
-  highlightPreTag,
-  highlightPostTag,
-  ignoreEscape,
-}: SharedParseAttributeParams): ParsedAttribute[] {
-  return reverseHighlightedParts(
-    parseHighlightedAttribute({
-      hit,
-      attribute,
-      highlightPreTag,
-      highlightPostTag,
-      ignoreEscape,
-    })
-  );
+export function parseAlgoliaHitReverseHighlight(
+  props: SharedParseAttributeParams
+): ParsedAttribute[] {
+  return reverseHighlightedParts(parseAlgoliaHitHighlight(props));
 }
 
-export function parseSnippetedAttribute({
+export function parseAlgoliaHitSnippet({
   hit,
   attribute,
-  highlightPreTag,
-  highlightPostTag,
   ignoreEscape,
 }: SharedParseAttributeParams): ParsedAttribute[] {
   const highlightedValue = getAttributeValueByPath(
@@ -150,27 +119,13 @@ export function parseSnippetedAttribute({
   );
 
   return parseAttribute({
-    highlightPreTag,
-    highlightPostTag,
     highlightedValue,
     ignoreEscape,
   });
 }
 
-export function parseReverseSnippetedAttribute({
-  hit,
-  attribute,
-  highlightPreTag,
-  highlightPostTag,
-  ignoreEscape,
-}: SharedParseAttributeParams): ParsedAttribute[] {
-  return reverseHighlightedParts(
-    parseSnippetedAttribute({
-      hit,
-      attribute,
-      highlightPreTag,
-      highlightPostTag,
-      ignoreEscape,
-    })
-  );
+export function parseAlgoliaHitReverseSnippet(
+  props: SharedParseAttributeParams
+): ParsedAttribute[] {
+  return reverseHighlightedParts(parseAlgoliaHitSnippet(props));
 }

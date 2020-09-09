@@ -1,8 +1,8 @@
 import {
-  parseHighlightedAttribute,
-  parseReverseHighlightedAttribute,
-  parseSnippetedAttribute,
-  parseReverseSnippetedAttribute,
+  parseAlgoliaHitHighlight,
+  parseAlgoliaHitReverseHighlight,
+  parseAlgoliaHitSnippet,
+  parseAlgoliaHitReverseSnippet,
 } from '@algolia/autocomplete-preset-algolia';
 
 type ParsedAttribute = { value: string; isHighlighted: boolean };
@@ -40,11 +40,9 @@ export function highlightItem({
   ignoreEscape,
 }: HighlightItemParams) {
   return concatParts(
-    parseHighlightedAttribute({
+    parseAlgoliaHitHighlight({
       hit: item,
       attribute,
-      highlightPreTag,
-      highlightPostTag,
       ignoreEscape,
     }),
     { highlightPreTag, highlightPostTag }
@@ -64,11 +62,9 @@ export function reverseHighlightItem({
   ignoreEscape,
 }: HighlightItemParams) {
   return concatParts(
-    parseReverseHighlightedAttribute({
+    parseAlgoliaHitReverseHighlight({
       hit: item,
       attribute,
-      highlightPreTag,
-      highlightPostTag,
       ignoreEscape,
     }),
     { highlightPreTag, highlightPostTag }
@@ -86,11 +82,9 @@ export function snippetItem({
   ignoreEscape,
 }: HighlightItemParams) {
   return concatParts(
-    parseSnippetedAttribute({
+    parseAlgoliaHitSnippet({
       hit: item,
       attribute,
-      highlightPreTag,
-      highlightPostTag,
       ignoreEscape,
     }),
     { highlightPreTag, highlightPostTag }
@@ -110,11 +104,9 @@ export function reverseSnippetItem({
   ignoreEscape,
 }: HighlightItemParams) {
   return concatParts(
-    parseReverseSnippetedAttribute({
+    parseAlgoliaHitReverseSnippet({
       hit: item,
       attribute,
-      highlightPreTag,
-      highlightPostTag,
       ignoreEscape,
     }),
     { highlightPreTag, highlightPostTag }
