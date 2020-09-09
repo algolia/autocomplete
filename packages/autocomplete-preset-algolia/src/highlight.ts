@@ -80,17 +80,17 @@ function reverseHighlightedParts(parts: ParsedAttribute[]) {
   return parts.map((part) => ({ ...part, isHighlighted: !part.isHighlighted }));
 }
 
-type SharedParseAttributeParams = {
-  hit: any;
-  attribute: string;
+type SharedParseAttributeParams<TItem> = {
+  hit: TItem;
+  attribute: keyof TItem;
   ignoreEscape?: string[];
 };
 
-export function parseAlgoliaHitHighlight({
+export function parseAlgoliaHitHighlight<TItem extends object>({
   hit,
   attribute,
   ignoreEscape,
-}: SharedParseAttributeParams): ParsedAttribute[] {
+}: SharedParseAttributeParams<TItem>): ParsedAttribute[] {
   const highlightedValue = getAttributeValueByPath(
     hit,
     `_highlightResult.${attribute}.value`
@@ -102,17 +102,17 @@ export function parseAlgoliaHitHighlight({
   });
 }
 
-export function parseAlgoliaHitReverseHighlight(
-  props: SharedParseAttributeParams
+export function parseAlgoliaHitReverseHighlight<TItem extends object>(
+  props: SharedParseAttributeParams<TItem>
 ): ParsedAttribute[] {
-  return reverseHighlightedParts(parseAlgoliaHitHighlight(props));
+  return reverseHighlightedParts(parseAlgoliaHitHighlight<TItem>(props));
 }
 
-export function parseAlgoliaHitSnippet({
+export function parseAlgoliaHitSnippet<TItem extends object>({
   hit,
   attribute,
   ignoreEscape,
-}: SharedParseAttributeParams): ParsedAttribute[] {
+}: SharedParseAttributeParams<TItem>): ParsedAttribute[] {
   const highlightedValue = getAttributeValueByPath(
     hit,
     `_snippetResult.${attribute}.value`
@@ -124,8 +124,8 @@ export function parseAlgoliaHitSnippet({
   });
 }
 
-export function parseAlgoliaHitReverseSnippet(
-  props: SharedParseAttributeParams
+export function parseAlgoliaHitReverseSnippet<TItem extends object>(
+  props: SharedParseAttributeParams<TItem>
 ): ParsedAttribute[] {
-  return reverseHighlightedParts(parseAlgoliaHitSnippet(props));
+  return reverseHighlightedParts(parseAlgoliaHitSnippet<TItem>(props));
 }
