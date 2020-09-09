@@ -1,14 +1,18 @@
+import { AutocompletePlugin } from '@algolia/autocomplete-core';
+
 import { createRecentSearchStore } from './createRecentSearchStore';
 
-type Plugin = {
-  getSources: Function;
-  onSubmit: Function;
-  add: Function;
+type PluginOptions = {
+  limit?: number;
 };
 
-type CreatePlugin = (options?: any) => Plugin;
+type RecentSearchesPlugin<TItem> = AutocompletePlugin<TItem> & {
+  getFacetFilters: () => string[];
+};
 
-export const createPlugin: CreatePlugin = ({ limit = 5 } = {}) => {
+export function createPlugin<TItem>({
+  limit = 5,
+}: PluginOptions = {}): RecentSearchesPlugin<TItem> {
   const store = createRecentSearchStore({
     key: 'RECENT_SEARCHES',
     limit,
@@ -16,18 +20,20 @@ export const createPlugin: CreatePlugin = ({ limit = 5 } = {}) => {
 
   return {
     getSources: ({ query }) => {
-      return [
-        !query && {
-          getInputValue: ({ suggestion }) => suggestion.query,
-          getSuggestions() {
-            return store.getAll();
-          },
-          onSelect({ suggestion }) {
-            store.add(suggestion);
-          },
-          templates: {
-            item({ item }) {
-              return `
+      return query
+        ? []
+        : [
+            {
+              getInputValue: ({ suggestion }) => suggestion.query,
+              getSuggestions() {
+                return store.getAll();
+              },
+              onSelect({ suggestion }) {
+                store.add(suggestion);
+              },
+              templates: {
+                item({ item }) {
+                  return `
                 <div class="autocomplete-item">
                   <div>
                     <svg viewBox="0 0 22 22" width="16" height="16" fill="currentColor">
@@ -39,10 +45,10 @@ export const createPlugin: CreatePlugin = ({ limit = 5 } = {}) => {
                   </div>
                 </div>
               `;
+                },
+              },
             },
-          },
-        },
-      ];
+          ];
     },
     onSubmit: ({ state }) => {
       store.add({
@@ -57,4 +63,4 @@ export const createPlugin: CreatePlugin = ({ limit = 5 } = {}) => {
       return store.getAll().map((item) => [`objectID:-${item.query}`]);
     },
   };
-};
+}

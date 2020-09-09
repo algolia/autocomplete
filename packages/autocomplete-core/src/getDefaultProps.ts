@@ -3,7 +3,7 @@ import {
   generateAutocompleteId,
   getItemsCount,
   noop,
-  normalizeGetSources,
+  getNormalizedSources,
 } from './utils';
 
 export function getDefaultProps<TItem>(
@@ -41,7 +41,23 @@ export function getDefaultProps<TItem>(
       context: {},
       ...props.initialState,
     },
-    getSources: normalizeGetSources(props.getSources),
+    getSources: (options) => {
+      const getSourcesFromPlugins = (props.plugins || [])
+        .map((plugin) => plugin.getSources)
+        .filter((getSources) => getSources !== undefined);
+
+      return Promise.all(
+        [...getSourcesFromPlugins, props.getSources].map((getSources) =>
+          getNormalizedSources(getSources!, options)
+        )
+      ).then((nested) =>
+        // same as `nested.flat()`
+        nested.reduce((acc, array) => {
+          acc = acc.concat(array);
+          return acc;
+        }, [])
+      );
+    },
     navigator: {
       navigate({ suggestionUrl }) {
         environment.location.assign(suggestionUrl);
