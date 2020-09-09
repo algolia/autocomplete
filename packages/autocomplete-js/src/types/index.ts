@@ -1,14 +1,15 @@
 import {
-  AutocompleteSetters as AutocompleteCoreSetters,
-  PublicAutocompleteOptions as PublicAutocompleteCoreOptions,
-  AutocompleteState as AutocompleteCoreState,
-  PublicAutocompleteSource as PublicAutocompleteCoreSource,
   GetSourcesParams,
+  AutocompleteSetters as AutocompleteCoreSetters,
+  AutocompleteSource as AutocompleteCoreSource,
+  AutocompleteState as AutocompleteCoreState,
+  PublicAutocompleteOptions as PublicAutocompleteCoreOptions,
+  PublicAutocompleteSource as PublicAutocompleteCoreSource,
 } from '@algolia/autocomplete-core';
 
 type Template<TParams> = (params: TParams) => string | void;
 
-export type AutocompleteSource<TItem> = PublicAutocompleteCoreSource<TItem> & {
+export type AutocompleteSource<TItem> = AutocompleteCoreSource<TItem> & {
   /**
    * Templates to display in the autocomplete dropdown.
    *
@@ -43,8 +44,8 @@ export type AutocompleteSource<TItem> = PublicAutocompleteCoreSource<TItem> & {
 type GetSources<TItem> = (
   params: GetSourcesParams<TItem>
 ) =>
-  | Array<AutocompleteSource<TItem>>
-  | Promise<Array<AutocompleteSource<TItem>>>;
+  | Array<PublicAutocompleteCoreSource<TItem>>
+  | Promise<Array<PublicAutocompleteCoreSource<TItem>>>;
 
 export interface AutocompleteOptions<TItem>
   extends PublicAutocompleteCoreOptions<TItem> {
