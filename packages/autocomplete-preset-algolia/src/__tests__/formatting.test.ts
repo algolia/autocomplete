@@ -1,6 +1,7 @@
 import {
   parseHighlightedAttribute,
   parseReverseHighlightedAttribute,
+  parseReverseSnippetedAttribute,
   parseSnippetedAttribute,
 } from '../formatting';
 
@@ -130,6 +131,44 @@ describe('highlight', () => {
           },
           Object {
             "isHighlighted": false,
+            "value": "re",
+          },
+        ]
+      `);
+    });
+  });
+
+  describe('parseReverseSnippetedAttribute', () => {
+    test('returns the highlighted snippet parts of the hit', () => {
+      expect(
+        parseReverseSnippetedAttribute({
+          attribute: 'title',
+          hit: {
+            _snippetResult: {
+              title: {
+                value: '<mark>He</mark>llo t<mark>he</mark>re',
+              },
+            },
+          },
+          highlightPreTag: '<mark>',
+          highlightPostTag: '</mark>',
+        })
+      ).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "isHighlighted": false,
+            "value": "He",
+          },
+          Object {
+            "isHighlighted": true,
+            "value": "llo t",
+          },
+          Object {
+            "isHighlighted": false,
+            "value": "he",
+          },
+          Object {
+            "isHighlighted": true,
             "value": "re",
           },
         ]
