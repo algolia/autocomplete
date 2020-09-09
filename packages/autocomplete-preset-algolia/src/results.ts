@@ -1,4 +1,4 @@
-import { version } from '@algolia/autocomplete-core';
+import { version } from '../package.json';
 
 import { flatten } from './utils';
 
