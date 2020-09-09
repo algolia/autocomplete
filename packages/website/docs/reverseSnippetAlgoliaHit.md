@@ -1,18 +1,18 @@
 ---
-id: snippetAlgoliaHit
+id: reverseSnippetAlgoliaHit
 ---
 
-Highlights and escapes the matching parts of an Algolia hit snippet.
+Highlights and escapes the non-matching parts of an Algolia hit snippet.
 
-This function can be used to display a part of a hit with matches highlighted.
+This function can be used to display the differences of a hit match.
 
 # Example
 
 ```js
-import { snippetAlgoliaHit } from '@algolia/autocomplete-preset-algolia';
+import { reverseSnippetAlgoliaHit } from '@algolia/autocomplete-preset-algolia';
 
 const hit = {}; // fetch an Algolia hit
-const snippetedAlgoliaHit = snippetAlgoliaHit({
+const reverseSnippetedAlgoliaHit = reverseSnippetAlgoliaHit({
   hit,
   attribute: 'query',
 });
@@ -32,7 +32,7 @@ The Algolia hit to retrieve the attribute value from.
 
 > `string` | required
 
-The attribute to retrieve the snippet value from.
+The attribute to retrieve the reverse snippet value from.
 
 ### `highlightPreTag`
 

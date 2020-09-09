@@ -32,6 +32,7 @@ module.exports = {
           'highlightAlgoliaHit',
           'reverseHighlightAlgoliaHit',
           'snippetAlgoliaHit',
+          'reverseSnippetAlgoliaHit',
           'getAlgoliaHits',
           'getAlgoliaResults',
         ],
