@@ -1,7 +1,16 @@
+const htmlEscapes = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+};
+
 type ParseAttributeParams = {
   highlightPreTag?: string;
   highlightPostTag?: string;
   highlightedValue: string;
+  ignoreEscape?: string[];
 };
 
 type ParsedAttribute = { value: string; isHighlighted: boolean };
@@ -10,7 +19,22 @@ export function parseAttribute({
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
   highlightedValue,
+  ignoreEscape = [],
 }: ParseAttributeParams): ParsedAttribute[] {
+  const unescapedHtmlRegex = new RegExp(
+    `[${Object.keys(htmlEscapes)
+      .filter((character) => ignoreEscape.indexOf(character) === -1)
+      .join('')}]`,
+    'g'
+  );
+  const hasUnescapedHtmlRegex = RegExp(unescapedHtmlRegex.source);
+
+  function escape(value: string) {
+    return hasUnescapedHtmlRegex.test(value)
+      ? value.replace(unescapedHtmlRegex, (key) => htmlEscapes[key])
+      : value;
+  }
+
   const splitByPreTag = highlightedValue.split(highlightPreTag);
   const firstValue = splitByPreTag.shift();
   const elements = !firstValue
@@ -21,7 +45,7 @@ export function parseAttribute({
     let isHighlighted = true;
 
     splitByPreTag.forEach((split) => {
-      elements.push({ value: split, isHighlighted });
+      elements.push({ value: escape(split), isHighlighted });
       isHighlighted = !isHighlighted;
     });
   } else {
@@ -29,13 +53,13 @@ export function parseAttribute({
       const splitByPostTag = split.split(highlightPostTag);
 
       elements.push({
-        value: splitByPostTag[0],
+        value: escape(splitByPostTag[0]),
         isHighlighted: true,
       });
 
       if (splitByPostTag[1] !== '') {
         elements.push({
-          value: splitByPostTag[1],
+          value: escape(splitByPostTag[1]),
           isHighlighted: false,
         });
       }
@@ -72,6 +96,7 @@ type SharedParseAttributeParams = {
   attribute: string;
   highlightPreTag?: string;
   highlightPostTag?: string;
+  ignoreEscape?: string[];
 };
 
 export function parseHighlightedAttribute({
@@ -79,6 +104,7 @@ export function parseHighlightedAttribute({
   attribute,
   highlightPreTag,
   highlightPostTag,
+  ignoreEscape,
 }: SharedParseAttributeParams): ParsedAttribute[] {
   const highlightedValue = getAttributeValueByPath(
     hit,
@@ -89,6 +115,7 @@ export function parseHighlightedAttribute({
     highlightPreTag,
     highlightPostTag,
     highlightedValue,
+    ignoreEscape,
   });
 }
 
@@ -97,6 +124,7 @@ export function parseReverseHighlightedAttribute({
   attribute,
   highlightPreTag,
   highlightPostTag,
+  ignoreEscape,
 }: SharedParseAttributeParams): ParsedAttribute[] {
   return reverseHighlightedParts(
     parseHighlightedAttribute({
@@ -104,6 +132,7 @@ export function parseReverseHighlightedAttribute({
       attribute,
       highlightPreTag,
       highlightPostTag,
+      ignoreEscape,
     })
   );
 }
@@ -113,6 +142,7 @@ export function parseSnippetedAttribute({
   attribute,
   highlightPreTag,
   highlightPostTag,
+  ignoreEscape,
 }: SharedParseAttributeParams): ParsedAttribute[] {
   const highlightedValue = getAttributeValueByPath(
     hit,
@@ -123,6 +153,7 @@ export function parseSnippetedAttribute({
     highlightPreTag,
     highlightPostTag,
     highlightedValue,
+    ignoreEscape,
   });
 }
 
@@ -131,6 +162,7 @@ export function parseReverseSnippetedAttribute({
   attribute,
   highlightPreTag,
   highlightPostTag,
+  ignoreEscape,
 }: SharedParseAttributeParams): ParsedAttribute[] {
   return reverseHighlightedParts(
     parseSnippetedAttribute({
@@ -138,6 +170,7 @@ export function parseReverseSnippetedAttribute({
       attribute,
       highlightPreTag,
       highlightPostTag,
+      ignoreEscape,
     })
   );
 }
