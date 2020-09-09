@@ -1,6 +1,5 @@
-import { version } from '../package.json';
-
 import { flatten } from './utils';
+import { version } from './version';
 
 type SearchClient = any;
 export type Client = any;

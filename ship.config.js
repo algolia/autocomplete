@@ -1,5 +1,6 @@
 /* eslint-disable import/no-commonjs */
 
+const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -19,18 +20,6 @@ module.exports = {
     return `yarn publish --access public --tag ${tag}`;
   },
   versionUpdated({ exec, dir, version }) {
-    const updatePackageDependencies = (...changes) => {
-      for (const change of changes) {
-        const { package, dependencies } = change;
-
-        exec(
-          `yarn workspace ${package} add ${dependencies
-            .map((dep) => `"${dep}"`)
-            .join(' ')}`
-        );
-      }
-    };
-
     // Ship.js reads JSON and writes with `fs.writeFileSync(JSON.stringify(json, null, 2))`
     // which causes a lint error in the `lerna.json` file.
     exec('yarn eslint lerna.json --fix');
@@ -42,11 +31,19 @@ module.exports = {
         `@algolia/autocomplete-preset-algolia@^${version}`,
       ],
     });
-
-    fs.writeFileSync(
-      path.resolve(dir, 'packages', 'autocomplete-core', 'src', 'version.ts'),
-      `export const version = '${version}';\n`
-    );
+    updatePackagesVersion({
+      version,
+      files: [
+        path.resolve(dir, 'packages', 'autocomplete-core', 'src', 'version.ts'),
+        path.resolve(
+          dir,
+          'packages',
+          'autocomplete-preset-algolia',
+          'src',
+          'version.ts'
+        ),
+      ],
+    });
   },
   // Skip preparation if it contains only `chore` commits
   shouldPrepare: ({ releaseType, commitNumbersPerType }) => {
@@ -59,3 +56,21 @@ module.exports = {
     return true;
   },
 };
+
+function updatePackageDependencies(...changes) {
+  for (const change of changes) {
+    const { package, dependencies } = change;
+
+    execSync(
+      `yarn workspace ${package} add ${dependencies
+        .map((dep) => `"${dep}"`)
+        .join(' ')}`
+    );
+  }
+}
+
+function updatePackagesVersion({ version, files }) {
+  for (const file of files) {
+    fs.writeFileSync(file, `export const version = '${version}';\n`);
+  }
+}
