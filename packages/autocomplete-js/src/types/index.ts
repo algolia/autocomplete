@@ -62,6 +62,21 @@ export interface AutocompleteOptions<TItem>
    * @default "input-wrapper-width"
    */
   dropdownPlacement?: 'start' | 'end' | 'full-width' | 'input-wrapper-width';
+  classNames?: {
+    root?: string;
+    form?: string;
+    label?: string;
+    inputWrapper?: string;
+    input?: string;
+    completion?: string;
+    resetButton?: string;
+    dropdown?: string;
+    section?: string;
+    sectionHeader?: string;
+    menu?: string;
+    item?: string;
+    sectionFooter?: string;
+  };
   /**
    * Function called to render the autocomplete results. It is useful for rendering sections in different row or column layouts.
    * The default implementation appends all the sections to the root:

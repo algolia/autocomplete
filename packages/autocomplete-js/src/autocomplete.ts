@@ -3,6 +3,7 @@ import {
   AutocompleteState as AutocompleteCoreState,
 } from '@algolia/autocomplete-core';
 
+import { concatClassNames } from './concatClassNames';
 import { debounce } from './debounce';
 import { getDropdownPositionStyle } from './getDropdownPositionStyle';
 import { getHTMLElement } from './getHTMLElement';
@@ -24,6 +25,7 @@ export function autocomplete<TItem>({
   container,
   render: renderDropdown = defaultRender,
   dropdownPlacement = 'input-wrapper-width',
+  classNames = {},
   ...props
 }: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
   const containerElement = getHTMLElement(container);
@@ -75,16 +77,16 @@ export function autocomplete<TItem>({
   });
   setProperties(root, {
     ...autocomplete.getRootProps(),
-    class: 'aa-Autocomplete',
+    class: concatClassNames(['aa-Autocomplete', classNames.root]),
   });
   const formProps = autocomplete.getFormProps({ inputElement: input });
   setProperties(form, {
     ...formProps,
-    class: 'aa-Form',
+    class: concatClassNames(['aa-Form', classNames.form]),
   });
   setProperties(label, {
     ...autocomplete.getLabelProps(),
-    class: 'aa-Label',
+    class: concatClassNames(['aa-Label', classNames.label]),
     innerHTML: `<svg
   width="20"
   height="20"
@@ -100,22 +102,28 @@ export function autocomplete<TItem>({
   />
 </svg>`,
   });
-  setProperties(inputWrapper, { class: 'aa-InputWrapper' });
+  setProperties(inputWrapper, {
+    class: ['aa-InputWrapper', classNames.inputWrapper]
+      .filter(Boolean)
+      .join(' '),
+  });
   setProperties(input, {
     ...autocomplete.getInputProps({ inputElement: input }),
-    class: 'aa-Input',
+    class: concatClassNames(['aa-Input', classNames.input]),
   });
-  setProperties(completion, { class: 'aa-Completion' });
+  setProperties(completion, {
+    class: concatClassNames(['aa-Completion', classNames.completion]),
+  });
   setProperties(resetButton, {
     type: 'reset',
     textContent: 'ｘ',
     onClick: formProps.onReset,
-    class: 'aa-Reset',
+    class: concatClassNames(['aa-ResetButton', classNames.resetButton]),
   });
   setProperties(dropdown, {
     ...autocomplete.getDropdownProps(),
     hidden: true,
-    class: 'aa-Dropdown',
+    class: concatClassNames(['aa-Dropdown', classNames.dropdown]),
   });
 
   function render(state: AutocompleteCoreState<TItem>) {
@@ -153,9 +161,18 @@ export function autocomplete<TItem>({
       const source = suggestion.source as AutocompleteSource<TItem>;
 
       const section = document.createElement('section');
+      setProperties(section, {
+        class: concatClassNames(['aa-Section', classNames.section]),
+      });
 
       if (source.templates.header) {
         const header = document.createElement('header');
+        setProperties(header, {
+          class: concatClassNames([
+            'aa-SectionHeader',
+            classNames.sectionHeader,
+          ]),
+        });
         renderTemplate(
           source.templates.header({ root: header, state }),
           header
@@ -165,11 +182,17 @@ export function autocomplete<TItem>({
 
       if (items.length > 0) {
         const menu = document.createElement('ul');
-        setProperties(menu, autocomplete.getMenuProps());
+        setProperties(menu, {
+          ...autocomplete.getMenuProps(),
+          class: concatClassNames(['aa-Menu', classNames.menu]),
+        });
 
         const menuItems = items.map((item) => {
           const li = document.createElement('li');
-          setProperties(li, autocomplete.getItemProps({ item, source }));
+          setProperties(li, {
+            ...autocomplete.getItemProps({ item, source }),
+            class: concatClassNames(['aa-Item', classNames.item]),
+          });
           renderTemplate(source.templates.item({ root: li, item, state }), li);
 
           return li;
@@ -184,6 +207,12 @@ export function autocomplete<TItem>({
 
       if (source.templates.footer) {
         const footer = document.createElement('footer');
+        setProperties(footer, {
+          class: concatClassNames([
+            'aa-SectionFooter',
+            classNames.sectionFooter,
+          ]),
+        });
         renderTemplate(
           source.templates.footer({ root: footer, state }),
           footer
