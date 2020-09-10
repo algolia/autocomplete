@@ -16,33 +16,35 @@ autocomplete<QuerySuggestionHit>({
   container: '#autocomplete',
   debug: true,
   // dropdownPlacement: 'start',
-  getSources() {
-    return [
-      {
-        getInputValue: ({ suggestion }) => suggestion.query,
-        getSuggestions({ query }) {
-          return getAlgoliaHits({
-            searchClient,
-            queries: [
-              {
-                indexName: 'instant_search_demo_query_suggestions',
-                query,
-                params: {
-                  hitsPerPage: 4,
-                },
-              },
-            ],
-          });
-        },
-        templates: {
-          item({ item }) {
-            return reverseHighlightItem<QuerySuggestionHit>({
-              item,
-              attribute: 'query',
-            });
+  getSources({ query }) {
+    return getAlgoliaHits({
+      searchClient,
+      queries: [
+        {
+          indexName: 'instant_search_demo_query_suggestions',
+          query,
+          params: {
+            hitsPerPage: 4,
           },
         },
-      },
-    ];
+      ],
+    }).then((hits) => {
+      return [
+        {
+          getInputValue: ({ suggestion }) => suggestion.query,
+          getSuggestions() {
+            return hits;
+          },
+          templates: {
+            item({ item }) {
+              return reverseHighlightItem<QuerySuggestionHit>({
+                item,
+                attribute: 'query',
+              });
+            },
+          },
+        },
+      ];
+    });
   },
 });
