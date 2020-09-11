@@ -30,7 +30,7 @@ export function createRecentSearchesPlugin<TItem>({
   limit = 5,
 }: PluginOptions): RecentSearchesPlugin<TItem> {
   const store = createRecentSearchesStore({
-    key: ['AUTOCOMPLETE_RECENT_SEARCHES', key].filter(Boolean).join('__'),
+    key: ['AUTOCOMPLETE_RECENT_SEARCHES', key].join('__'),
     limit,
   });
 
