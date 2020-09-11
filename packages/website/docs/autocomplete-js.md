@@ -16,6 +16,7 @@ import algoliasearch from 'algoliasearch/lite';
 import {
   autocomplete,
   getAlgoliaHits,
+  reverseHighlightItem,
 } from '@algolia/autocomplete-js';
 
 const searchClient = algoliasearch(
@@ -43,6 +44,11 @@ const autocomplete = autocomplete({
             ],
           });
         },
+        templates: {
+          item({ item }) {
+            return reverseHighlightItem({ item, attribute: 'query' });
+          },
+        },
       },
     ];
   },
@@ -62,6 +68,36 @@ The container for the autocomplete search box. You can either pass a [CSS select
 import CreateAutocompleteProps from './partials/createAutocomplete-props.md'
 
 <CreateAutocompleteProps />
+
+### `dropdownPlacement`
+
+> `"start" | "end" | "full-width" | "input-wrapper-width" | defaults to `"input-wrapper-width"`
+
+The dropdown horizontal position.
+
+### `classNames`
+
+> `ClassNames`
+
+The class names to inject in each created DOM element. It it useful to design with external CSS frameworks.
+
+```ts
+type ClassNames = {
+  root?: string;
+  form?: string;
+  label?: string;
+  inputWrapper?: string;
+  input?: string;
+  completion?: string;
+  resetButton?: string;
+  dropdown?: string;
+  section?: string;
+  sectionHeader?: string;
+  menu?: string;
+  item?: string;
+  sectionFooter?: string;
+};
+```
 
 ### `render`
 

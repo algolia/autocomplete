@@ -84,11 +84,7 @@ export interface PublicAutocompleteSource<TItem> {
   /**
    * Function called when the input changes. You can use this function to filter/search the items based on the query.
    */
-  getSuggestions(
-    params: GetSourcesParams<TItem>
-  ):
-    | Array<AutocompleteSuggestion<TItem>>
-    | Promise<Array<AutocompleteSuggestion<TItem>>>;
+  getSuggestions(params: GetSourcesParams<TItem>): TItem[] | Promise<TItem[]>;
   /**
    * Function called when an item is selected.
    */

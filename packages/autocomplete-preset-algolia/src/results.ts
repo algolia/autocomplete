@@ -1,6 +1,6 @@
-import { version } from '@algolia/autocomplete-core';
-
+import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from './constants';
 import { flatten } from './utils';
+import { version } from './version';
 
 type SearchClient = any;
 export type Client = any;
@@ -32,8 +32,8 @@ function getAlgoliaSource({ searchClient, queries }: GetAlgoliaSourceParams) {
         query,
         params: {
           hitsPerPage: 5,
-          highlightPreTag: '<mark>',
-          highlightPostTag: '</mark>',
+          highlightPreTag: HIGHLIGHT_PRE_TAG,
+          highlightPostTag: HIGHLIGHT_POST_TAG,
           ...params,
         },
       };

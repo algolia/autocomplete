@@ -4,3 +4,4 @@ export {
   getAlgoliaResults,
   getAlgoliaHits,
 } from '@algolia/autocomplete-preset-algolia';
+export * from './types';

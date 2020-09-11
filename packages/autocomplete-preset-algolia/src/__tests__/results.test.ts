@@ -36,8 +36,8 @@ describe('getAlgoliaResults', () => {
         query: 'query',
         params: {
           hitsPerPage: 5,
-          highlightPreTag: '<mark>',
-          highlightPostTag: '</mark>',
+          highlightPreTag: '__aa-highlight__',
+          highlightPostTag: '__/aa-highlight__',
         },
       },
     ]);
@@ -134,8 +134,8 @@ describe('getAlgoliaHits', () => {
         query: 'query',
         params: {
           hitsPerPage: 5,
-          highlightPreTag: '<mark>',
-          highlightPostTag: '</mark>',
+          highlightPreTag: '__aa-highlight__',
+          highlightPostTag: '__/aa-highlight__',
         },
       },
     ]);

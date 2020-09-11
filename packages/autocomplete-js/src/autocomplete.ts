@@ -1,28 +1,20 @@
 import {
   createAutocomplete,
-  AutocompleteSetters,
-  AutocompleteSource as AutocompleteCoreSource,
-  AutocompleteState,
-  GetSourcesParams,
-  PublicAutocompleteOptions as PublicAutocompleteCoreOptions,
+  AutocompleteState as AutocompleteCoreState,
 } from '@algolia/autocomplete-core';
 
+import { concatClassNames } from './concatClassNames';
+import { debounce } from './debounce';
+import { getDropdownPositionStyle } from './getDropdownPositionStyle';
 import { getHTMLElement } from './getHTMLElement';
+import { resetIcon, searchIcon } from './icons';
+import { renderTemplate } from './renderTemplate';
 import { setProperties, setPropertiesWithoutEvents } from './setProperties';
-
-/**
- * Renders the template in the root element.
- *
- * If the template is a string, we update the HTML of the root to this string.
- * If the template is empty, it means that users manipulated the root element
- * DOM programatically (e.g., attached events, used a renderer like Preact), so
- * this needs to be a noop.
- */
-function renderTemplate(template: string | void, root: HTMLElement) {
-  if (typeof template === 'string') {
-    root.innerHTML = template;
-  }
-}
+import {
+  AutocompleteOptions,
+  AutocompleteApi,
+  AutocompleteSource,
+} from './types';
 
 function defaultRender({ root, sections }) {
   for (const section of sections) {
@@ -30,49 +22,11 @@ function defaultRender({ root, sections }) {
   }
 }
 
-type Template<TParams> = (params: TParams) => string | void;
-
-type AutocompleteSource<TItem> = AutocompleteCoreSource<TItem> & {
-  templates: {
-    item: Template<{
-      root: HTMLElement;
-      item: TItem;
-      state: AutocompleteState<TItem>;
-    }>;
-    header?: Template<{ root: HTMLElement; state: AutocompleteState<TItem> }>;
-    footer?: Template<{ root: HTMLElement; state: AutocompleteState<TItem> }>;
-  };
-};
-
-type GetSources<TItem> = (
-  params: GetSourcesParams<TItem>
-) => Promise<Array<AutocompleteSource<TItem>>>;
-
-export interface AutocompleteOptions<TItem>
-  extends PublicAutocompleteCoreOptions<TItem> {
-  container: string | HTMLElement;
-  render(params: {
-    root: HTMLElement;
-    sections: HTMLElement[];
-    state: AutocompleteState<TItem>;
-  }): void;
-  getSources: GetSources<TItem>;
-}
-
-export interface AutocompleteApi<TItem> extends AutocompleteSetters<TItem> {
-  /**
-   * Triggers a search to refresh the state.
-   */
-  refresh(): Promise<void>;
-  /**
-   * Cleans up the DOM mutations and event listeners.
-   */
-  destroy(): void;
-}
-
 export function autocomplete<TItem>({
   container,
   render: renderDropdown = defaultRender,
+  dropdownPlacement = 'input-wrapper-width',
+  classNames = {},
   ...props
 }: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
   const containerElement = getHTMLElement(container);
@@ -97,59 +51,70 @@ export function autocomplete<TItem>({
     ...props,
   });
 
+  const onResize = debounce(() => {
+    if (!dropdown.hasAttribute('hidden')) {
+      setDropdownPosition();
+    }
+  }, 100);
+
+  function setDropdownPosition() {
+    setProperties(dropdown, {
+      style: getDropdownPositionStyle({
+        dropdownPlacement,
+        container: root,
+        inputWrapper,
+        environment: props.environment,
+      }),
+    });
+  }
+
   setProperties(window as any, {
     ...autocomplete.getEnvironmentProps({
       searchBoxElement: form,
       dropdownElement: dropdown,
       inputElement: input,
     }),
+    onResize,
   });
   setProperties(root, {
     ...autocomplete.getRootProps(),
-    class: 'aa-Autocomplete',
+    class: concatClassNames(['aa-Autocomplete', classNames.root]),
   });
   const formProps = autocomplete.getFormProps({ inputElement: input });
   setProperties(form, {
     ...formProps,
-    class: 'aa-Form',
+    class: concatClassNames(['aa-Form', classNames.form]),
+  });
+  setProperties(inputWrapper, {
+    class: ['aa-InputWrapper', classNames.inputWrapper]
+      .filter(Boolean)
+      .join(' '),
+  });
+  setProperties(input, {
+    ...autocomplete.getInputProps({ inputElement: input }),
+    class: concatClassNames(['aa-Input', classNames.input]),
+  });
+  setProperties(completion, {
+    class: concatClassNames(['aa-Completion', classNames.completion]),
   });
   setProperties(label, {
     ...autocomplete.getLabelProps(),
-    class: 'aa-Label',
-    innerHTML: `<svg
-  width="20"
-  height="20"
-  viewBox="0 0 20 20"
->
-  <path
-    d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
-    stroke="currentColor"
-    fill="none"
-    fillRule="evenodd"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  />
-</svg>`,
+    class: concatClassNames(['aa-Label', classNames.label]),
+    innerHTML: searchIcon,
   });
-  setProperties(inputWrapper, { class: 'aa-InputWrapper' });
-  setProperties(input, {
-    ...autocomplete.getInputProps({ inputElement: input }),
-    class: 'aa-Input',
-  });
-  setProperties(completion, { class: 'aa-Completion' });
   setProperties(resetButton, {
     type: 'reset',
-    textContent: 'ｘ',
     onClick: formProps.onReset,
-    class: 'aa-Reset',
+    class: concatClassNames(['aa-ResetButton', classNames.resetButton]),
+    innerHTML: resetIcon,
   });
   setProperties(dropdown, {
     ...autocomplete.getDropdownProps(),
     hidden: true,
-    class: 'aa-Dropdown',
+    class: concatClassNames(['aa-Dropdown', classNames.dropdown]),
   });
 
-  function render(state: AutocompleteState<TItem>) {
+  function render(state: AutocompleteCoreState<TItem>) {
     setPropertiesWithoutEvents(root, autocomplete.getRootProps());
     setPropertiesWithoutEvents(
       input,
@@ -184,9 +149,18 @@ export function autocomplete<TItem>({
       const source = suggestion.source as AutocompleteSource<TItem>;
 
       const section = document.createElement('section');
+      setProperties(section, {
+        class: concatClassNames(['aa-Section', classNames.section]),
+      });
 
       if (source.templates.header) {
         const header = document.createElement('header');
+        setProperties(header, {
+          class: concatClassNames([
+            'aa-SectionHeader',
+            classNames.sectionHeader,
+          ]),
+        });
         renderTemplate(
           source.templates.header({ root: header, state }),
           header
@@ -196,11 +170,17 @@ export function autocomplete<TItem>({
 
       if (items.length > 0) {
         const menu = document.createElement('ul');
-        setProperties(menu, autocomplete.getMenuProps());
+        setProperties(menu, {
+          ...autocomplete.getMenuProps(),
+          class: concatClassNames(['aa-Menu', classNames.menu]),
+        });
 
         const menuItems = items.map((item) => {
           const li = document.createElement('li');
-          setProperties(li, autocomplete.getItemProps({ item, source }));
+          setProperties(li, {
+            ...autocomplete.getItemProps({ item, source }),
+            class: concatClassNames(['aa-Item', classNames.item]),
+          });
           renderTemplate(source.templates.item({ root: li, item, state }), li);
 
           return li;
@@ -215,6 +195,12 @@ export function autocomplete<TItem>({
 
       if (source.templates.footer) {
         const footer = document.createElement('footer');
+        setProperties(footer, {
+          class: concatClassNames([
+            'aa-SectionFooter',
+            classNames.sectionFooter,
+          ]),
+        });
         renderTemplate(
           source.templates.footer({ root: footer, state }),
           footer
@@ -228,19 +214,24 @@ export function autocomplete<TItem>({
     renderDropdown({ root: dropdown, sections, state });
   }
 
-  inputWrapper.appendChild(label);
   if (props.enableCompletion) {
     inputWrapper.appendChild(completion);
   }
   inputWrapper.appendChild(input);
+  inputWrapper.appendChild(label);
   inputWrapper.appendChild(resetButton);
   form.appendChild(inputWrapper);
   root.appendChild(form);
   root.appendChild(dropdown);
   containerElement.appendChild(root);
 
+  setDropdownPosition();
+
   function destroy() {
     containerElement.innerHTML = '';
+    setProperties(window as any, {
+      onResize: null,
+    });
   }
 
   return {

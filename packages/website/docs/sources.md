@@ -270,3 +270,73 @@ Called when an item is selected.
 Called when an item is selected.
 
 You can trigger different behaviors with a mouse highlight and a keyboard highlight based on the `event`.
+
+### `templates` (specific to `@algolia/autocomplete-js`)
+
+> `SourceTemplate`
+
+The `@algolia/autocomplete-js` supports source templates.
+
+A template can either return a string, or perform DOM mutations (manipulating DOM elements with JavaScript and attaching events) without returning a string.
+
+```ts title="SourceTemplate"
+type SourceTemplate = {
+  item: Template<{
+    root: HTMLElement;
+    item: TItem;
+    state: AutocompleteState<TItem>;
+  }>;
+  header?: Template<{ root: HTMLElement; state: AutocompleteState<TItem> }>;
+  footer?: Template<{ root: HTMLElement; state: AutocompleteState<TItem> }>;
+};
+```
+
+```ts title="Example"
+import algoliasearch from 'algoliasearch/lite';
+import {
+  autocomplete,
+  getAlgoliaHits,
+  reverseHighlightItem,
+} from '@algolia/autocomplete-js';
+
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
+
+const autocomplete = autocomplete({
+  container: '#autocomplete',
+  getSources() {
+    return [
+      {
+        getInputValue: ({ suggestion }) => suggestion.query,
+        getSuggestions({ query }) {
+          return getAlgoliaHits({
+            searchClient,
+            queries: [
+              {
+                indexName: 'instant_search_demo_query_suggestions',
+                query,
+                params: {
+                  hitsPerPage: 4,
+                },
+              },
+            ],
+          });
+        },
+        templates: {
+          header() {
+            return 'Suggestions';
+          },
+          item({ item }) {
+            return reverseHighlightItem({ item, attribute: 'query' });
+          },
+          footer() {
+            return 'Footer';
+          },
+        },
+      },
+    ];
+  },
+});
+```

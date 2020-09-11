@@ -1,27 +1,17 @@
 import {
-  parseHighlightedAttribute,
-  parseReverseHighlightedAttribute,
+  parseAlgoliaHitHighlight,
+  parseAlgoliaHitReverseHighlight,
+  parseAlgoliaHitSnippet,
+  parseAlgoliaHitReverseSnippet,
 } from '@algolia/autocomplete-preset-algolia';
 
-type HighlightItemParams = {
-  item: any;
-  attribute: string;
-  highlightPreTag?: string;
-  highlightPostTag?: string;
-};
+type ParsedAttribute = { value: string; isHighlighted: boolean };
 
-export function highlightItem({
-  item,
-  attribute,
-  highlightPreTag = '<mark>',
-  highlightPostTag = '</mark>',
-}: HighlightItemParams) {
-  return parseHighlightedAttribute({
-    hit: item,
-    attribute,
-    highlightPreTag,
-    highlightPostTag,
-  }).reduce((acc, current) => {
+function concatParts(
+  parts: ParsedAttribute[],
+  { highlightPreTag, highlightPostTag }
+) {
+  return parts.reduce<string>((acc, current) => {
     return (
       acc +
       (current.isHighlighted
@@ -31,23 +21,94 @@ export function highlightItem({
   }, '');
 }
 
-export function reverseHighlightItem({
+type HighlightItemParams<TItem> = {
+  item: TItem;
+  attribute: keyof TItem;
+  highlightPreTag?: string;
+  highlightPostTag?: string;
+  ignoreEscape?: string[];
+};
+
+/**
+ * Highlights and escapes the matching parts of an Algolia hit.
+ */
+export function highlightItem<TItem extends object>({
   item,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
-}: HighlightItemParams) {
-  return parseReverseHighlightedAttribute({
-    hit: item,
-    attribute,
-    highlightPreTag,
-    highlightPostTag,
-  }).reduce((acc, current) => {
-    return (
-      acc +
-      (current.isHighlighted
-        ? `${highlightPreTag}${current.value}${highlightPostTag}`
-        : current.value)
-    );
-  }, '');
+  ignoreEscape,
+}: HighlightItemParams<TItem>) {
+  return concatParts(
+    parseAlgoliaHitHighlight<TItem>({
+      hit: item,
+      attribute,
+      ignoreEscape,
+    }),
+    { highlightPreTag, highlightPostTag }
+  );
+}
+
+/**
+ * Highlights and escapes the non-matching parts of an Algolia hit.
+ *
+ * This is a common pattern for Query Suggestions.
+ */
+export function reverseHighlightItem<TItem extends object>({
+  item,
+  attribute,
+  highlightPreTag = '<mark>',
+  highlightPostTag = '</mark>',
+  ignoreEscape,
+}: HighlightItemParams<TItem>) {
+  return concatParts(
+    parseAlgoliaHitReverseHighlight<TItem>({
+      hit: item,
+      attribute,
+      ignoreEscape,
+    }),
+    { highlightPreTag, highlightPostTag }
+  );
+}
+
+/**
+ * Highlights and escapes the matching parts of an Algolia hit snippet.
+ */
+export function snippetItem<TItem extends object>({
+  item,
+  attribute,
+  highlightPreTag = '<mark>',
+  highlightPostTag = '</mark>',
+  ignoreEscape,
+}: HighlightItemParams<TItem>) {
+  return concatParts(
+    parseAlgoliaHitSnippet<TItem>({
+      hit: item,
+      attribute,
+      ignoreEscape,
+    }),
+    { highlightPreTag, highlightPostTag }
+  );
+}
+
+/**
+ * Highlights and escapes the non-matching parts of an Algolia hit snippet.
+ *
+ * This is a common pattern for Query Suggestions.
+ */
+export function reverseSnippetItem<TItem extends object>({
+  item,
+  attribute,
+  highlightPreTag = '<mark>',
+  highlightPostTag = '</mark>',
+  ignoreEscape,
+}: HighlightItemParams<TItem>) {
+  return concatParts(
+    parseAlgoliaHitReverseSnippet<TItem>({
+      hit: item,
+      attribute,
+      ignoreEscape,
+    }),
+    { highlightPreTag, highlightPostTag }
+  );
 }

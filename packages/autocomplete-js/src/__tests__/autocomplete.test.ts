@@ -18,6 +18,11 @@ describe('autocomplete-js', () => {
                 { label: 'Item 3' },
               ];
             },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
           },
         ];
       },
@@ -29,7 +34,6 @@ describe('autocomplete-js', () => {
           aria-expanded="false"
           aria-haspopup="listbox"
           aria-labelledby="autocomplete-label"
-          aria-owns="undefined"
           class="aa-Autocomplete"
           role="combobox"
         >
@@ -39,20 +43,35 @@ describe('autocomplete-js', () => {
             novalidate=""
             role="search"
           >
-            <label
-              class="aa-Label"
-              for="autocomplete-input"
-              id="autocomplete-label"
-            >
-              Search items
-            </label>
             <div
               class="aa-InputWrapper"
             >
+              <label
+                class="aa-Label"
+                for="autocomplete-input"
+                id="autocomplete-label"
+              >
+                <svg
+                  height="20"
+                  viewBox="0 0 20 20"
+                  width="20"
+                >
+                  
+        
+                  <path
+                    d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
+                    fill="none"
+                    fillrule="evenodd"
+                    stroke="currentColor"
+                    strokelinecap="round"
+                    strokelinejoin="round"
+                  />
+                  
+
+                </svg>
+              </label>
               <input
-                aria-activedescendant="undefined"
                 aria-autocomplete="list"
-                aria-controls="undefined"
                 aria-labelledby="autocomplete-label"
                 autocapitalize="off"
                 autocomplete="off"
@@ -75,6 +94,7 @@ describe('autocomplete-js', () => {
           <div
             class="aa-Dropdown"
             hidden=""
+            style="top: 0px; left: 0px; right: 0px; max-width: unset;"
           />
         </div>
       </div>
@@ -96,6 +116,11 @@ describe('autocomplete-js', () => {
                 { label: 'Item 2' },
                 { label: 'Item 3' },
               ];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
             },
           },
         ];

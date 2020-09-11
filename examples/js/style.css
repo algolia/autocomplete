@@ -1,9 +1,22 @@
-body {
-  margin: 0;
-  padding: 0;
+* {
+  box-sizing: border-box;
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 640px;
+  padding: 1rem;
+  width: 100%;
+}
+
+.item-icon {
+  color: #aaa;
+  padding-right: 0.5rem;
 }

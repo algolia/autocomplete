@@ -10,7 +10,7 @@
     },
     {
       "path": "packages/autocomplete-js/dist/umd/index.js",
-      "maxSize": "6.5 kB"
-    },
+      "maxSize": "7.25 kB"
+    }
   ]
 }

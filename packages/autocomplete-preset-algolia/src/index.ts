@@ -1,6 +1,7 @@
-export { getAlgoliaHits, getAlgoliaResults } from './results';
 export {
-  parseHighlightedAttribute,
-  parseReverseHighlightedAttribute,
-  parseSnippetedAttribute,
-} from './formatting';
+  parseAlgoliaHitHighlight,
+  parseAlgoliaHitReverseHighlight,
+  parseAlgoliaHitSnippet,
+  parseAlgoliaHitReverseSnippet,
+} from './highlight';
+export { getAlgoliaHits, getAlgoliaResults } from './results';
