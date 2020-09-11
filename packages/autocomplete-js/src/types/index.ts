@@ -62,6 +62,11 @@ export interface AutocompleteOptions<TItem>
    * @default "input-wrapper-width"
    */
   dropdownPlacement?: 'start' | 'end' | 'full-width' | 'input-wrapper-width';
+  /**
+   * The class names to inject in each created DOM element.
+   *
+   * It it useful to design with external CSS frameworks.
+   */
   classNames?: {
     root?: string;
     form?: string;

@@ -75,6 +75,30 @@ import CreateAutocompleteProps from './partials/createAutocomplete-props.md'
 
 The dropdown horizontal position.
 
+### `classNames`
+
+> `ClassNames`
+
+The class names to inject in each created DOM element. It it useful to design with external CSS frameworks.
+
+```ts
+type ClassNames = {
+  root?: string;
+  form?: string;
+  label?: string;
+  inputWrapper?: string;
+  input?: string;
+  completion?: string;
+  resetButton?: string;
+  dropdown?: string;
+  section?: string;
+  sectionHeader?: string;
+  menu?: string;
+  item?: string;
+  sectionFooter?: string;
+};
+```
+
 ### `render`
 
 > `(params: { root: HTMLElement, sections: HTMLElement[], state: AutocompleteState<TItem> }) => void`
