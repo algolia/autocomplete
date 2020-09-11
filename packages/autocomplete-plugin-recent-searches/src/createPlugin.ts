@@ -35,20 +35,22 @@ export function createPlugin<TItem>({
 
   return {
     getSources: ({ query }) => {
-      return query
-        ? []
-        : [
-            {
-              getInputValue: ({ suggestion }) => suggestion.query,
-              getSuggestions() {
-                return store.getAll();
-              },
-              onSelect({ suggestion }) {
-                store.add(suggestion);
-              },
-              templates: {
-                item({ item }) {
-                  return `
+      if (query) {
+        return [];
+      }
+
+      return [
+        {
+          getInputValue: ({ suggestion }) => suggestion.query,
+          getSuggestions() {
+            return store.getAll();
+          },
+          onSelect({ suggestion }) {
+            store.add(suggestion);
+          },
+          templates: {
+            item({ item }) {
+              return `
                 <div class="autocomplete-item">
                   <div>
                     <svg viewBox="0 0 22 22" width="16" height="16" fill="currentColor">
@@ -60,10 +62,10 @@ export function createPlugin<TItem>({
                   </div>
                 </div>
               `;
-                },
-              },
             },
-          ];
+          },
+        },
+      ];
     },
     onSubmit: ({ state }) => {
       store.add({
