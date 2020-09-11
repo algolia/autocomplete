@@ -103,7 +103,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
       onSubmit: (event) => {
         ((event as unknown) as Event).preventDefault();
 
-        const onSubmitParams = {
+        props.onSubmit({
           state: store.getState(),
           setHighlightedIndex,
           setQuery,
@@ -112,12 +112,6 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
           setStatus,
           setContext,
           event,
-        };
-        props.onSubmit(onSubmitParams);
-        props.plugins.forEach((plugin) => {
-          if (plugin.onSubmit) {
-            plugin.onSubmit(onSubmitParams);
-          }
         });
 
         store.send('submit', null);

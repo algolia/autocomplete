@@ -12,6 +12,7 @@ export function getDefaultProps<TItem>(
   const environment: typeof window = (typeof window !== 'undefined'
     ? window
     : {}) as typeof window;
+  const plugins = props.plugins || [];
 
   return {
     debug: false,
@@ -24,7 +25,6 @@ export function getDefaultProps<TItem>(
     environment,
     shouldDropdownShow: ({ state }) => getItemsCount(state) > 0,
     onStateChange: noop,
-    onSubmit: noop,
     ...props,
     // Since `generateAutocompleteId` triggers a side effect (it increments
     // and internal counter), we don't want to execute it if unnecessary.
@@ -41,8 +41,18 @@ export function getDefaultProps<TItem>(
       context: {},
       ...props.initialState,
     },
+    onSubmit: (params) => {
+      if (props.onSubmit) {
+        props.onSubmit(params);
+      }
+      plugins.forEach((plugin) => {
+        if (plugin.onSubmit) {
+          plugin.onSubmit(params);
+        }
+      });
+    },
     getSources: (options) => {
-      const getSourcesFromPlugins = (props.plugins || [])
+      const getSourcesFromPlugins = plugins
         .map((plugin) => plugin.getSources)
         .filter((getSources) => getSources !== undefined);
 
@@ -78,6 +88,6 @@ export function getDefaultProps<TItem>(
       },
       ...props.navigator,
     },
-    plugins: props.plugins || [],
+    plugins,
   };
 }
