@@ -20,7 +20,9 @@ type PluginOptions = {
 };
 
 type RecentSearchesPlugin<TItem> = AutocompletePlugin<TItem> & {
-  getFacetFilters: () => string[];
+  data: {
+    getFacetFilters: () => string[];
+  };
 };
 
 export function createRecentSearchesPlugin<TItem>({
@@ -75,8 +77,10 @@ export function createRecentSearchesPlugin<TItem>({
     onSelect: ({ suggestion }) => {
       store.add(suggestion);
     },
-    getFacetFilters: () => {
-      return store.getAll().map((item) => [`objectID:-${item.query}`]);
+    data: {
+      getFacetFilters: () => {
+        return store.getAll().map((item) => [`objectID:-${item.query}`]);
+      },
     },
   };
 }
