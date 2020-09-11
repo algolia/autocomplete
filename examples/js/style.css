@@ -8,3 +8,15 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.container {
+  margin: 0 auto;
+  max-width: 640px;
+  padding: 1rem;
+  width: 100%;
+}
+
+.item-icon {
+  color: #aaa;
+  padding-right: 0.5rem;
+}
