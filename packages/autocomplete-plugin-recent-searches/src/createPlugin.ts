@@ -9,6 +9,15 @@ type PluginOptions = {
    * @default 5
    */
   limit?: number;
+
+  /**
+   * The key to distinguish multiple stores of recent searches.
+   *
+   * @default ''
+   * @example
+   * // 'top_searchbar'
+   */
+  key?: string;
 };
 
 type RecentSearchesPlugin<TItem> = AutocompletePlugin<TItem> & {
@@ -17,9 +26,10 @@ type RecentSearchesPlugin<TItem> = AutocompletePlugin<TItem> & {
 
 export function createPlugin<TItem>({
   limit = 5,
+  key = '',
 }: PluginOptions = {}): RecentSearchesPlugin<TItem> {
   const store = createRecentSearchStore({
-    key: 'RECENT_SEARCHES',
+    key: ['RECENT_SEARCHES', key].filter(Boolean).join(_),
     limit,
   });
 
