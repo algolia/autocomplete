@@ -1,8 +1,8 @@
 .container {
   margin: 0 auto;
-  width: 100%;
-  max-width: 860px;
+  max-width: 640px;
   padding: 1rem;
+  width: 100%;
 }
 
 .aa-Form {
@@ -10,34 +10,37 @@
 }
 
 .aa-Label {
-  position: absolute;
+  align-items: center;
   color: #777;
-  left: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
+  cursor: initial;
+  display: flex;
+  height: 100%;
+  padding: 0 0.5rem;
+  position: absolute;
+  z-index: 2;
 }
 
 .aa-InputWrapper {
-  position: relative;
-  min-height: 2.5rem;
-  width: 100%;
-  max-width: 100%;
   background-color: #fff;
+  max-width: 100%;
+  min-height: 2.5rem;
+  position: relative;
+  width: 100%;
 }
 
 .aa-Input {
-  position: absolute;
   appearance: none;
-  caret-color: #5a5e9a;
-  color: #23263b;
-  font: inherit;
-  z-index: 2;
+  background: none;
   border: 1px solid #d6d6e7;
   border-radius: 3px;
   box-shadow: rgba(119, 122, 175, 0.3) 0 1px 4px 0 inset;
-  background: none;
-  width: 100%;
+  caret-color: #5a5e9a;
+  color: #23263b;
+  font: inherit;
   height: 100%;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
 }
 
 .aa-Input::-webkit-search-decoration,
@@ -48,16 +51,16 @@
 }
 
 .aa-Completion {
-  position: absolute;
   color: #999;
   left: 1px;
+  position: absolute;
   transform: translateY(50%);
   z-index: 1;
 }
 
 .aa-Input,
 .aa-Completion {
-  padding: 0 2.5rem;
+  padding: 0 2.25rem;
 }
 
 .aa-Input::placeholder {
@@ -71,13 +74,14 @@
 }
 
 .aa-ResetButton {
-  position: absolute;
-  right: 0;
-  height: 2.5rem;
-  width: 2rem;
   background: none;
   border: 0;
-  z-index: 3;
+  cursor: pointer;
+  height: 100%;
+  padding: 0 0.5rem;
+  position: absolute;
+  right: 0;
+  z-index: 2;
 }
 
 .aa-Dropdown {
@@ -93,15 +97,15 @@
 }
 
 .aa-Dropdown--stalled {
-  opacity: 0.5;
   filter: grayscale(1);
+  opacity: 0.5;
   transition: opacity 200ms ease-in;
 }
 
 .aa-Dropdown ul {
+  list-style: none;
   margin: 0;
   padding: 0;
-  list-style: none;
 }
 
 .aa-Dropdown li {
@@ -111,9 +115,9 @@
 }
 
 .aa-Dropdown li mark {
+  background: none;
   font-style: normal;
   font-weight: bold;
-  background: none;
 }
 
 .aa-Dropdown li[aria-selected='true'] {
@@ -121,6 +125,6 @@
 }
 
 .aa-Dropdown a {
-  text-decoration: none;
   color: inherit;
+  text-decoration: none;
 }
