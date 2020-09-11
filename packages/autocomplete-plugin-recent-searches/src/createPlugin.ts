@@ -3,6 +3,11 @@ import { AutocompletePlugin } from '@algolia/autocomplete-core';
 import { createRecentSearchStore } from './createRecentSearchStore';
 
 type PluginOptions = {
+  /**
+   * The number of searches to store.
+   *
+   * @default 5
+   */
   limit?: number;
 };
 

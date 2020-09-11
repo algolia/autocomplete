@@ -1,11 +1,11 @@
-# @algolia/autocomplete-plugin-recent-search
+# @algolia/autocomplete-plugin-recent-searches
 
-A plugin for recent search with Algolia Autocomplete.
+A plugin to add recent searches to Algolia Autocomplete.
 
 ## Installation
 
 ```sh
-yarn add @algolia/autocomplete-plugin-recent-search@alpha
+yarn add @algolia/autocomplete-plugin-recent-searches@alpha
 # or
-npm install @algolia/autocomplete-plugin-recent-search@alpha
+npm install @algolia/autocomplete-plugin-recent-searches@alpha
 ```
