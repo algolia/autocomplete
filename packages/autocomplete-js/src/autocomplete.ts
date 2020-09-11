@@ -7,6 +7,7 @@ import { concatClassNames } from './concatClassNames';
 import { debounce } from './debounce';
 import { getDropdownPositionStyle } from './getDropdownPositionStyle';
 import { getHTMLElement } from './getHTMLElement';
+import { resetIcon, searchIcon } from './icons';
 import { renderTemplate } from './renderTemplate';
 import { setProperties, setPropertiesWithoutEvents } from './setProperties';
 import {
@@ -84,24 +85,6 @@ export function autocomplete<TItem>({
     ...formProps,
     class: concatClassNames(['aa-Form', classNames.form]),
   });
-  setProperties(label, {
-    ...autocomplete.getLabelProps(),
-    class: concatClassNames(['aa-Label', classNames.label]),
-    innerHTML: `<svg
-  width="20"
-  height="20"
-  viewBox="0 0 20 20"
->
-  <path
-    d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
-    stroke="currentColor"
-    fill="none"
-    fillRule="evenodd"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  />
-</svg>`,
-  });
   setProperties(inputWrapper, {
     class: ['aa-InputWrapper', classNames.inputWrapper]
       .filter(Boolean)
@@ -114,11 +97,16 @@ export function autocomplete<TItem>({
   setProperties(completion, {
     class: concatClassNames(['aa-Completion', classNames.completion]),
   });
+  setProperties(label, {
+    ...autocomplete.getLabelProps(),
+    class: concatClassNames(['aa-Label', classNames.label]),
+    innerHTML: searchIcon,
+  });
   setProperties(resetButton, {
     type: 'reset',
-    textContent: 'ｘ',
     onClick: formProps.onReset,
     class: concatClassNames(['aa-ResetButton', classNames.resetButton]),
+    innerHTML: resetIcon,
   });
   setProperties(dropdown, {
     ...autocomplete.getDropdownProps(),
@@ -226,11 +214,11 @@ export function autocomplete<TItem>({
     renderDropdown({ root: dropdown, sections, state });
   }
 
-  inputWrapper.appendChild(label);
   if (props.enableCompletion) {
     inputWrapper.appendChild(completion);
   }
   inputWrapper.appendChild(input);
+  inputWrapper.appendChild(label);
   inputWrapper.appendChild(resetButton);
   form.appendChild(inputWrapper);
   root.appendChild(form);
