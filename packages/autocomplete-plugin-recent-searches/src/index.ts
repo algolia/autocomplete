@@ -1,1 +1,1 @@
-export { createPlugin as createRecentSearchesPlugin } from './createPlugin';
+export { createRecentSearchesPlugin } from './createRecentSearchesPlugin';

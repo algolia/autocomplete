@@ -1,6 +1,6 @@
 import { AutocompletePlugin } from '@algolia/autocomplete-core';
 
-import { createRecentSearchStore } from './createRecentSearchStore';
+import { createRecentSearchesStore } from './createRecentSearchesStore';
 
 type PluginOptions = {
   /**
@@ -13,23 +13,22 @@ type PluginOptions = {
   /**
    * The key to distinguish multiple stores of recent searches.
    *
-   * @default ''
    * @example
    * // 'top_searchbar'
    */
-  key?: string;
+  key: string;
 };
 
 type RecentSearchesPlugin<TItem> = AutocompletePlugin<TItem> & {
   getFacetFilters: () => string[];
 };
 
-export function createPlugin<TItem>({
+export function createRecentSearchesPlugin<TItem>({
+  key,
   limit = 5,
-  key = '',
-}: PluginOptions = {}): RecentSearchesPlugin<TItem> {
-  const store = createRecentSearchStore({
-    key: ['RECENT_SEARCHES', key].filter(Boolean).join(_),
+}: PluginOptions): RecentSearchesPlugin<TItem> {
+  const store = createRecentSearchesStore({
+    key: ['AUTOCOMPLETE_RECENT_SEARCHES', key].filter(Boolean).join('__'),
     limit,
   });
 
