@@ -154,7 +154,7 @@ export function autocomplete<TItem>({
       });
 
       if (source.templates.header) {
-        const header = document.createElement('header');
+        const header = document.createElement('div');
         setProperties(header, {
           class: concatClassNames([
             'aa-SectionHeader',
@@ -194,7 +194,7 @@ export function autocomplete<TItem>({
       }
 
       if (source.templates.footer) {
-        const footer = document.createElement('footer');
+        const footer = document.createElement('div');
         setProperties(footer, {
           class: concatClassNames([
             'aa-SectionFooter',
