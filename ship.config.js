@@ -34,7 +34,7 @@ module.exports = {
       },
       {
         package: '@algolia/js-example',
-        dependencies: [`@algolia/autocomplete-js@${version}`],
+        dependencies: [`@algolia/autocomplete-js@^${version}`],
       }
     );
     updatePackagesVersion({
