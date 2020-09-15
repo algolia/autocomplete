@@ -9,20 +9,19 @@ function createMultiQuerySource() {
   var lastResults = [];
   var lastSearch = window.Promise.resolve();
 
-  function requestSearch(queryIndex) {
+  function requestSearch(queryClient, queryIndex) {
     // Since all requests happen synchronously, this is executed once all the
     // sources have been requested.
     return window.Promise.resolve()
-      .then(function () {
+      .then(function() {
         if (queries.length) {
-          // TODO: retrieve the client
-          lastSearch = client.search(queries);
+          lastSearch = queryClient.search(queries);
           queries = [];
         }
 
         return lastSearch;
       })
-      .then(function (result) {
+      .then(function(result) {
         if (!result) {
           return undefined;
         }
@@ -34,20 +33,21 @@ function createMultiQuerySource() {
 
   return function multiQuerySource(searchIndex, params) {
     return function search(query, cb) {
+      var queryClient = searchIndex.as;
       var queryIndex =
         queries.push({
           indexName: searchIndex.indexName,
           query: query,
-          params: params,
+          params: params
         }) - 1;
 
-      requestSearch(queryIndex)
-        .then(function (result) {
+      requestSearch(queryClient, queryIndex)
+        .then(function(result) {
           if (result) {
             cb(result.hits, result);
           }
         })
-        .catch(function (error) {
+        .catch(function(error) {
           _.error(error.message);
         });
     };
