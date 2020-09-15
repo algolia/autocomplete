@@ -1,37 +1,3 @@
-# [](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.28...v) (2020-09-15)
-
-
-### Bug Fixes
-
-* **algolia:** import version from file ([d880d8a](https://github.com/algolia/autocomplete.js/commit/d880d8a304cb79f095fcbb1bf12d5f1e9e805a3f))
-* **algolia:** import version from package ([c314375](https://github.com/algolia/autocomplete.js/commit/c31437529724fe15a599a7356e0b9fbf78948305))
-* **algolia:** proxy highlighting tags ([baabc3a](https://github.com/algolia/autocomplete.js/commit/baabc3abc74cff260025b17f18e8b6900f7ebe9c))
-* **core:** fix type for `getSources` ([18e88ae](https://github.com/algolia/autocomplete.js/commit/18e88aee249f02769d55599dd209e2ca73c0600d))
-* **js:** call debounced function ([0662e1b](https://github.com/algolia/autocomplete.js/commit/0662e1be711a53c4d9ca4c82c771739a6eceffa7))
-* **js:** convert header and footer templates to `div`s ([1435aad](https://github.com/algolia/autocomplete.js/commit/1435aad459b814b435651cffe83cb5b759a914a2))
-* **js:** fix source types ([9913fe1](https://github.com/algolia/autocomplete.js/commit/9913fe1403830008eea7f61df59049d5dad34b72))
-* **js:** fix type for `getSources` ([4a29700](https://github.com/algolia/autocomplete.js/commit/4a29700f0f18fe35d60e3172932950a211cfecfe))
-* **js:** make options types optional ([569f738](https://github.com/algolia/autocomplete.js/commit/569f7381ff5bb84bd0d46fc4b2aa74ad1a7f0142))
-* **js:** update HTML elements properties at every render ([b00878c](https://github.com/algolia/autocomplete.js/commit/b00878cf2e32e50f7faee13a3521c6b6a30bb539))
-
-
-### Features
-
-* **algolia:** escape values in highlighting utils ([50a9a73](https://github.com/algolia/autocomplete.js/commit/50a9a73df440565c5a9cbff84e12f3ce5c455e17))
-* **algolia:** introduce `parseReverseSnippetedAttribute` ([0f7a912](https://github.com/algolia/autocomplete.js/commit/0f7a9126a72468ac63513391c7f460e4c86bcc05))
-* **algolia:** type highlighting utils ([fa4b959](https://github.com/algolia/autocomplete.js/commit/fa4b959c575aeb6f36720c6e67ce6bfef2dacb06))
-* **core:** introduce debug mode ([#315](https://github.com/algolia/autocomplete.js/issues/315)) ([7a7b612](https://github.com/algolia/autocomplete.js/commit/7a7b61211209ebffacd2ccc61725df426397f2f0))
-* **js:** add `destroy` API ([4e32138](https://github.com/algolia/autocomplete.js/commit/4e3213860958aaedce52c719bd5dc263671d4a02))
-* **js:** add magnifier glass as label ([0cc8a44](https://github.com/algolia/autocomplete.js/commit/0cc8a44c3d27933bb581a2c258b2c238e8009904))
-* **js:** add reset icon ([7d2dccc](https://github.com/algolia/autocomplete.js/commit/7d2dccccaf5fb8292808bf2291f82b205a99554a))
-* **js:** allow escaping in highlighting utils ([a70f80d](https://github.com/algolia/autocomplete.js/commit/a70f80df9e0281d547ec0fe1a0c4e5102bfbc1ed))
-* **js:** export snippeting utils ([e276c5e](https://github.com/algolia/autocomplete.js/commit/e276c5e91ee8028d8b7ac87a238375ec97caf730))
-* **js:** introduce `classNames` API ([#317](https://github.com/algolia/autocomplete.js/issues/317)) ([28bb422](https://github.com/algolia/autocomplete.js/commit/28bb4220067b690145738a894c95ba8bf32cb49d))
-* **js:** introduce `dropdownPlacement` API ([#314](https://github.com/algolia/autocomplete.js/issues/314)) ([4a52ce5](https://github.com/algolia/autocomplete.js/commit/4a52ce5a27efa8b9b230bce85fb953531b8e07b8))
-* **js:** type highlighting utils ([b178487](https://github.com/algolia/autocomplete.js/commit/b17848753a2794a76edf545d649be6107c712f31))
-
-
-
 # [1.0.0-alpha.28](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.27...v1.0.0-alpha.28) (2020-08-26)
 
 ### Bug Fixes
