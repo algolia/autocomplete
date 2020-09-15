@@ -23,13 +23,20 @@ module.exports = {
     // which causes a lint error in the `lerna.json` file.
     exec('yarn eslint lerna.json --fix');
 
-    updatePackageDependencies(exec, {
-      package: '@algolia/autocomplete-js',
-      dependencies: [
-        `@algolia/autocomplete-core@^${version}`,
-        `@algolia/autocomplete-preset-algolia@^${version}`,
-      ],
-    });
+    updatePackageDependencies(
+      exec,
+      {
+        package: '@algolia/autocomplete-js',
+        dependencies: [
+          `@algolia/autocomplete-core@^${version}`,
+          `@algolia/autocomplete-preset-algolia@^${version}`,
+        ],
+      },
+      {
+        package: '@algolia/js-example',
+        dependencies: [`@algolia/autocomplete-js@${version}`],
+      }
+    );
     updatePackagesVersion({
       version,
       files: [
