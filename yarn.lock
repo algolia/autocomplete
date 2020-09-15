@@ -4112,7 +4112,7 @@ algoliasearch@4.4.0:
     "@algolia/requester-node-http" "4.4.0"
     "@algolia/transporter" "4.4.0"
 
-algoliasearch@^4.0.0, algoliasearch@^4.4.0:
+algoliasearch@4.5.1, algoliasearch@^4.0.0:
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/algoliasearch/-/algoliasearch-4.5.1.tgz#fd20cd76f6ba3fbecdd4e11bdaefefb44abc0b38"
   integrity sha512-b6yT1vWMlBdVObQipKxvt0M6SEvGetVj+FFFlo0Fy06gkdj6WCJaS4t10Q/hC3I2VG9QmpCqlK3Esgg1y1E+uw==
