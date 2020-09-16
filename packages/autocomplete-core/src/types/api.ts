@@ -149,7 +149,7 @@ interface Navigator<TItem> {
   }): void;
 }
 
-export type AutocompletePlugin<TItem> = {
+export type AutocompletePlugin<TItem, TData> = {
   /**
    * The sources to get the suggestions from.
    */
@@ -166,6 +166,10 @@ export type AutocompletePlugin<TItem> = {
    * Function called when an item is selected.
    */
   onSelect?(params: OnSelectParams<TItem>): void;
+  /**
+   * An extra plugin specific object to store variables and functions
+   */
+  data?: TData;
 };
 
 export interface PublicAutocompleteOptions<TItem> {
@@ -265,7 +269,7 @@ export interface PublicAutocompleteOptions<TItem> {
   /**
    * The array of plugins.
    */
-  plugins?: Array<AutocompletePlugin<TItem>>;
+  plugins?: Array<AutocompletePlugin<TItem, unknown>>;
 }
 
 // Props manipulated internally with default values.
@@ -283,7 +287,7 @@ export interface AutocompleteOptions<TItem> {
   getSources: GetSources<TItem>;
   environment: Environment;
   navigator: Navigator<TItem>;
-  plugins: Array<AutocompletePlugin<TItem>>;
+  plugins: Array<AutocompletePlugin<TItem, unknown>>;
   shouldDropdownShow(params: { state: AutocompleteState<TItem> }): boolean;
   onSubmit(params: OnSubmitParams<TItem>): void;
   onInput?(params: OnInputParams<TItem>): void | Promise<any>;
