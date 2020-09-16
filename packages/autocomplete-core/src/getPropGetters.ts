@@ -359,7 +359,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
             isOpen: false,
           },
         }).then(() => {
-          const onSelectPayload = {
+          source.onSelect({
             suggestion: item,
             suggestionValue: inputValue,
             suggestionUrl: source.getSuggestionUrl({
@@ -375,12 +375,6 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
             setStatus,
             setContext,
             event,
-          };
-          source.onSelect(onSelectPayload);
-          props.plugins.forEach((plugin) => {
-            if (plugin.onSelect) {
-              plugin.onSelect(onSelectPayload);
-            }
           });
         });
       },

@@ -60,13 +60,27 @@ export function getDefaultProps<TItem>(
         [...getSourcesFromPlugins, props.getSources].map((getSources) =>
           getNormalizedSources(getSources!, options)
         )
-      ).then((nested) =>
-        // same as `nested.flat()`
-        nested.reduce((acc, array) => {
-          acc = acc.concat(array);
-          return acc;
-        }, [])
-      );
+      )
+        .then((nested) =>
+          // same as `nested.flat()`
+          nested.reduce((acc, array) => {
+            acc = acc.concat(array);
+            return acc;
+          }, [])
+        )
+        .then((sources) =>
+          sources.map((source) => ({
+            ...source,
+            onSelect: (payload) => {
+              source.onSelect(payload);
+              (props.plugins || []).forEach((plugin) => {
+                if (plugin.onSelect) {
+                  plugin.onSelect(payload);
+                }
+              });
+            },
+          }))
+        );
     },
     navigator: {
       navigate({ suggestionUrl }) {

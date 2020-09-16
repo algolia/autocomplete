@@ -145,7 +145,7 @@ export function onKeyDown<TItem>({
           isOpen: false,
         },
       }).then(() => {
-        const onSelectPayload = {
+        source.onSelect({
           suggestion: item,
           suggestionValue: itemValue,
           suggestionUrl: itemUrl,
@@ -158,12 +158,6 @@ export function onKeyDown<TItem>({
           setStatus,
           setContext,
           event,
-        };
-        source.onSelect(onSelectPayload);
-        props.plugins.forEach((plugin) => {
-          if (plugin.onSelect) {
-            plugin.onSelect(onSelectPayload);
-          }
         });
       });
 

@@ -44,9 +44,6 @@ export function createRecentSearchesPlugin<TItem>({
           getSuggestions() {
             return store.getAll();
           },
-          onSelect({ suggestion }) {
-            store.add(suggestion);
-          },
           templates: {
             item({ item }) {
               return `
