@@ -139,7 +139,7 @@ describe('getAlgoliaHits', () => {
         },
       },
     ]);
-    expect(hits).toEqual([{ label: 'Hit 1' }, { label: 'Hit 2' }]);
+    expect(hits).toEqual([[{ label: 'Hit 1' }], [{ label: 'Hit 2' }]]);
   });
 
   test('with custom search parameters', async () => {
@@ -174,7 +174,7 @@ describe('getAlgoliaHits', () => {
         },
       },
     ]);
-    expect(hits).toEqual([{ label: 'Hit 1' }, { label: 'Hit 2' }]);
+    expect(hits).toEqual([[{ label: 'Hit 1' }], [{ label: 'Hit 2' }]]);
   });
 
   test('attaches Algolia agent', async () => {

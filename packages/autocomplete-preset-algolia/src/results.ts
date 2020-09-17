@@ -1,5 +1,4 @@
 import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from './constants';
-import { flatten } from './utils';
 import { version } from './version';
 
 type SearchClient = any;
@@ -57,7 +56,6 @@ export function getAlgoliaHits({
   return getAlgoliaSource({ searchClient, queries }).then((response) => {
     const results = response.results;
 
-    // @TODO: should `getAlgoliaHits` flatten the hits?
-    return flatten(results.map((result) => result.hits));
+    return results.map((result) => result.hits);
   });
 }
