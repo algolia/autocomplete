@@ -1,3 +1,19 @@
+# [1.0.0-alpha.30](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.29...v1.0.0-alpha.30) (2020-09-17)
+
+### Bug Fixes
+
+- **algolia:** don't flatten `getAlgoliaHits` ([8da805f](https://github.com/algolia/autocomplete.js/commit/8da805f7b6061b73387ed937152980f6b76f42ac))
+- **algolia:** type Algolia presets ([7c34ada](https://github.com/algolia/autocomplete.js/commit/7c34adacc71fb8da3a75c66edacce6489170efba))
+- **core:** rename public types without prefix ([77487a6](https://github.com/algolia/autocomplete.js/commit/77487a6392e23c0c1a8ac674fbb8f80cc11e6c6d))
+- **js:** forward event to all `onInput` calls ([c5492aa](https://github.com/algolia/autocomplete.js/commit/c5492aa536f8189bc37f1c603ae7a8c26bcbb444))
+- **website:** ignore lint rule for Docusaurus packages ([042f4dc](https://github.com/algolia/autocomplete.js/commit/042f4dc4cf5e22518194b67c7e898c61f451282c))
+
+### Features
+
+- **algolia:** type highlight presets ([9f4b6bd](https://github.com/algolia/autocomplete.js/commit/9f4b6bdc58d7e1d9b4d22692f4aeaf0b0309e008))
+- **core:** support `onHighlight` on input ([e463933](https://github.com/algolia/autocomplete.js/commit/e4639332bff017925814f21857ade1c7c270222d))
+- **js:** type highlight utils ([23cff13](https://github.com/algolia/autocomplete.js/commit/23cff13800a223239b54074087bf8127f9b314fa))
+
 # [1.0.0-alpha.29](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.28...v1.0.0-alpha.29) (2020-09-15)
 
 ### Bug Fixes
