@@ -1,4 +1,4 @@
-import { AutocompleteSource } from './api';
+import { InternalAutocompleteSource } from './api';
 
 export interface AutocompleteAccessibilityGetters<
   TItem,
@@ -107,7 +107,7 @@ export type GetMenuProps = (props?: {
 export type GetItemProps<TItem, TMouseEvent = MouseEvent> = (props: {
   [key: string]: unknown;
   item: TItem;
-  source: AutocompleteSource<TItem>;
+  source: InternalAutocompleteSource<TItem>;
 }) => {
   id: string;
   role: string;

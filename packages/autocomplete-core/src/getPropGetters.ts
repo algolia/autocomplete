@@ -1,7 +1,7 @@
 import { onInput } from './onInput';
 import { onKeyDown } from './onKeyDown';
 import {
-  AutocompleteOptions,
+  InternalAutocompleteOptions,
   AutocompleteSetters,
   AutocompleteStore,
   GetDropdownProps,
@@ -17,7 +17,7 @@ import { getHighlightedItem, isOrContainsNode, isSpecialClick } from './utils';
 
 interface GetPropGettersOptions<TItem> extends AutocompleteSetters<TItem> {
   store: AutocompleteStore<TItem>;
-  props: AutocompleteOptions<TItem>;
+  props: InternalAutocompleteOptions<TItem>;
 }
 
 export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({

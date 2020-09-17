@@ -1,7 +1,7 @@
 import { getCompletion } from './getCompletion';
 import { onInput } from './onInput';
 import {
-  AutocompleteOptions,
+  InternalAutocompleteOptions,
   AutocompleteSetters,
   AutocompleteStore,
 } from './types';
@@ -10,7 +10,7 @@ import { getHighlightedItem } from './utils';
 interface OnKeyDownOptions<TItem> extends AutocompleteSetters<TItem> {
   event: KeyboardEvent;
   store: AutocompleteStore<TItem>;
-  props: AutocompleteOptions<TItem>;
+  props: InternalAutocompleteOptions<TItem>;
 }
 
 export function onKeyDown<TItem>({

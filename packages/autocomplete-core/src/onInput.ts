@@ -1,5 +1,5 @@
 import {
-  AutocompleteOptions,
+  InternalAutocompleteOptions,
   AutocompleteSetters,
   AutocompleteState,
   AutocompleteStore,
@@ -12,7 +12,7 @@ interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {
   query: string;
   event: any;
   store: AutocompleteStore<TItem>;
-  props: AutocompleteOptions<TItem>;
+  props: InternalAutocompleteOptions<TItem>;
   /**
    * The next partial state to apply after the function is called.
    *

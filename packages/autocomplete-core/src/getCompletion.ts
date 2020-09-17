@@ -1,9 +1,9 @@
-import { AutocompleteOptions, AutocompleteState } from './types';
+import { InternalAutocompleteOptions, AutocompleteState } from './types';
 import { getHighlightedItem } from './utils';
 
 interface GetCompletionProps<TItem> {
   state: AutocompleteState<TItem>;
-  props: AutocompleteOptions<TItem>;
+  props: InternalAutocompleteOptions<TItem>;
 }
 
 export function getCompletion<TItem>({

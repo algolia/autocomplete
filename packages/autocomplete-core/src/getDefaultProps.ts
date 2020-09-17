@@ -1,4 +1,4 @@
-import { AutocompleteOptions, PublicAutocompleteOptions } from './types';
+import { InternalAutocompleteOptions, AutocompleteOptions } from './types';
 import {
   generateAutocompleteId,
   getItemsCount,
@@ -7,8 +7,8 @@ import {
 } from './utils';
 
 export function getDefaultProps<TItem>(
-  props: PublicAutocompleteOptions<TItem>
-): AutocompleteOptions<TItem> {
+  props: AutocompleteOptions<TItem>
+): InternalAutocompleteOptions<TItem> {
   const environment: typeof window = (typeof window !== 'undefined'
     ? window
     : {}) as typeof window;
