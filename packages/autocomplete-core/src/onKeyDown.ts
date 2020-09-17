@@ -75,6 +75,7 @@ export function onKeyDown<TItem>({
     if (query) {
       onInput({
         query,
+        event,
         store,
         props,
         setHighlightedIndex,
@@ -133,6 +134,7 @@ export function onKeyDown<TItem>({
     } else {
       onInput({
         query: itemValue,
+        event,
         store,
         props,
         setHighlightedIndex,

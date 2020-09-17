@@ -48,6 +48,7 @@ export function createAutocomplete<
   function refresh() {
     return onInput({
       query: store.getState().query,
+      event: new Event('input'),
       store,
       props,
       setHighlightedIndex,
