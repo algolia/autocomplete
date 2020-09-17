@@ -46,6 +46,19 @@ describe('autocomplete-js', () => {
             <div
               class="aa-InputWrapper"
             >
+              <input
+                aria-autocomplete="list"
+                aria-labelledby="autocomplete-label"
+                autocapitalize="off"
+                autocomplete="off"
+                autocorrect="off"
+                class="aa-Input"
+                id="autocomplete-input"
+                maxlength="512"
+                placeholder=""
+                spellcheck="false"
+                type="search"
+              />
               <label
                 class="aa-Label"
                 for="autocomplete-input"
@@ -70,24 +83,28 @@ describe('autocomplete-js', () => {
 
                 </svg>
               </label>
-              <input
-                aria-autocomplete="list"
-                aria-labelledby="autocomplete-label"
-                autocapitalize="off"
-                autocomplete="off"
-                autocorrect="off"
-                class="aa-Input"
-                id="autocomplete-input"
-                maxlength="512"
-                placeholder=""
-                spellcheck="false"
-                type="search"
-              />
               <button
-                class="aa-Reset"
+                class="aa-ResetButton"
                 type="reset"
               >
-                ｘ
+                <svg
+                  height="20"
+                  viewBox="0 0 20 20"
+                  width="20"
+                >
+                  
+        
+                  <path
+                    d="M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z"
+                    fill="none"
+                    fill-rule="evenodd"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  
+
+                </svg>
               </button>
             </div>
           </form>

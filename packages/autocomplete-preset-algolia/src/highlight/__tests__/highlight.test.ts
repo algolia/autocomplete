@@ -1,9 +1,7 @@
-import {
-  parseAlgoliaHitHighlight,
-  parseAlgoliaHitReverseHighlight,
-  parseAlgoliaHitSnippet,
-  parseAlgoliaHitReverseSnippet,
-} from '../highlight';
+import { parseAlgoliaHitHighlight } from '../parseAlgoliaHitHighlight';
+import { parseAlgoliaHitReverseHighlight } from '../parseAlgoliaHitReverseHighlight';
+import { parseAlgoliaHitReverseSnippet } from '../parseAlgoliaHitReverseSnippet';
+import { parseAlgoliaHitSnippet } from '../parseAlgoliaHitSnippet';
 
 describe('highlight', () => {
   describe('parseAlgoliaHitHighlight', () => {
@@ -12,10 +10,15 @@ describe('highlight', () => {
         parseAlgoliaHitHighlight({
           attribute: 'title',
           hit: {
+            objectID: '1',
+            title: 'Hello there',
             _highlightResult: {
               title: {
                 value:
                   '__aa-highlight__He__/aa-highlight__llo t__aa-highlight__he__/aa-highlight__re',
+                matchLevel: 'partial',
+                matchedWords: [],
+                fullyHighlighted: false,
               },
             },
           },
@@ -47,6 +50,8 @@ describe('highlight', () => {
         parseAlgoliaHitHighlight({
           attribute: 'title',
           hit: {
+            objectID: '1',
+            title: 'Hello there',
             _highlightResult: {
               title: {
                 value: `__aa-highlight__Food__/aa-highlight__ & <Drinks> 'n' "Music"`,
@@ -73,6 +78,8 @@ describe('highlight', () => {
         parseAlgoliaHitHighlight({
           attribute: 'title',
           hit: {
+            objectID: '1',
+            title: 'Hello there',
             _highlightResult: {
               title: {
                 value: `__aa-highlight__Food__/aa-highlight__ & <Drinks> 'n' "Music"`,
@@ -102,6 +109,8 @@ describe('highlight', () => {
         parseAlgoliaHitReverseHighlight({
           attribute: 'title',
           hit: {
+            objectID: '1',
+            title: 'Hello there',
             _highlightResult: {
               title: {
                 value:
@@ -136,7 +145,11 @@ describe('highlight', () => {
       expect(
         parseAlgoliaHitReverseHighlight({
           attribute: 'title',
-          hit: { _highlightResult: { title: { value: 'Hello' } } },
+          hit: {
+            objectID: '1',
+            title: 'Hello there',
+            _highlightResult: { title: { value: 'Hello' } },
+          },
         })
       ).toMatchInlineSnapshot(`
         Array [
@@ -153,6 +166,8 @@ describe('highlight', () => {
         parseAlgoliaHitReverseHighlight({
           attribute: 'title',
           hit: {
+            objectID: '1',
+            title: 'Hello there',
             _highlightResult: {
               title: {
                 value: `__aa-highlight__Food__/aa-highlight__ & <Drinks> 'n' "Music"`,
@@ -179,6 +194,8 @@ describe('highlight', () => {
         parseAlgoliaHitReverseHighlight({
           attribute: 'title',
           hit: {
+            objectID: '1',
+            title: 'Hello there',
             _highlightResult: {
               title: {
                 value: `__aa-highlight__Food__/aa-highlight__ & <Drinks> 'n' "Music"`,
@@ -208,6 +225,8 @@ describe('highlight', () => {
         parseAlgoliaHitReverseSnippet({
           attribute: 'title',
           hit: {
+            objectID: '1',
+            title: 'Hello there',
             _snippetResult: {
               title: {
                 value:
@@ -243,6 +262,8 @@ describe('highlight', () => {
         parseAlgoliaHitReverseSnippet({
           attribute: 'title',
           hit: {
+            objectID: '1',
+            title: 'Hello there',
             _snippetResult: {
               title: {
                 value: `__aa-highlight__Food__/aa-highlight__ & <Drinks> 'n' "Music"`,
@@ -269,6 +290,8 @@ describe('highlight', () => {
         parseAlgoliaHitReverseSnippet({
           attribute: 'title',
           hit: {
+            objectID: '1',
+            title: 'Hello there',
             _snippetResult: {
               title: {
                 value: `__aa-highlight__Food__/aa-highlight__ & <Drinks> 'n' "Music"`,
@@ -298,6 +321,8 @@ describe('highlight', () => {
         parseAlgoliaHitSnippet({
           attribute: 'title',
           hit: {
+            objectID: '1',
+            title: 'Hello there',
             _snippetResult: {
               title: {
                 value:
@@ -334,6 +359,8 @@ describe('highlight', () => {
       parseAlgoliaHitSnippet({
         attribute: 'title',
         hit: {
+          objectID: '1',
+          title: 'Hello there',
           _snippetResult: {
             title: {
               value: `__aa-highlight__Food__/aa-highlight__ & <Drinks> 'n' "Music"`,
@@ -360,6 +387,8 @@ describe('highlight', () => {
       parseAlgoliaHitSnippet({
         attribute: 'title',
         hit: {
+          objectID: '1',
+          title: 'Hello there',
           _snippetResult: {
             title: {
               value: `__aa-highlight__Food__/aa-highlight__ & <Drinks> 'n' "Music"`,

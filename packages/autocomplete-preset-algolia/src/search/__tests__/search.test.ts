@@ -1,16 +1,61 @@
 import { version } from '@algolia/autocomplete-core';
+import {
+  MultipleQueriesResponse,
+  SearchResponse,
+} from '@algolia/client-search';
 
-import { Client, getAlgoliaHits, getAlgoliaResults } from '../results';
+import { getAlgoliaHits } from '../getAlgoliaHits';
+import { getAlgoliaResults } from '../getAlgoliaResults';
 
-function createSearchClient() {
+function createSingleSearchResponse<THit>(
+  partialResponse: Partial<SearchResponse<THit>> = {}
+): SearchResponse<THit> {
+  const {
+    query = '',
+    page = 0,
+    hitsPerPage = 20,
+    hits = [],
+    nbHits = hits.length,
+    nbPages = Math.ceil(nbHits / hitsPerPage),
+    params = '',
+    exhaustiveNbHits = true,
+    exhaustiveFacetsCount = true,
+    processingTimeMS = 0,
+    ...rest
+  } = partialResponse;
+
+  return {
+    page,
+    hitsPerPage,
+    nbHits,
+    nbPages,
+    processingTimeMS,
+    hits,
+    query,
+    params,
+    exhaustiveNbHits,
+    exhaustiveFacetsCount,
+    ...rest,
+  };
+}
+
+function createMultiSearchResponse<THit>(
+  ...partialReponses: Array<Partial<SearchResponse<THit>>>
+): MultipleQueriesResponse<THit> {
+  return {
+    results: partialReponses.map(createSingleSearchResponse),
+  };
+}
+
+function createSearchClient(): any {
   return {
     search: jest.fn(() =>
-      Promise.resolve({
-        results: [
-          { hits: [{ label: 'Hit 1' }] },
-          { hits: [{ label: 'Hit 2' }] },
-        ],
-      })
+      Promise.resolve(
+        createMultiSearchResponse<{ label: string }>(
+          { hits: [{ objectID: '1', label: 'Hit 1' }] },
+          { hits: [{ objectID: '2', label: 'Hit 2' }] }
+        )
+      )
     ),
   };
 }
@@ -42,8 +87,8 @@ describe('getAlgoliaResults', () => {
       },
     ]);
     expect(results).toEqual([
-      { hits: [{ label: 'Hit 1' }] },
-      { hits: [{ label: 'Hit 2' }] },
+      expect.objectContaining({ hits: [{ objectID: '1', label: 'Hit 1' }] }),
+      expect.objectContaining({ hits: [{ objectID: '2', label: 'Hit 2' }] }),
     ]);
   });
 
@@ -80,14 +125,14 @@ describe('getAlgoliaResults', () => {
       },
     ]);
     expect(results).toEqual([
-      { hits: [{ label: 'Hit 1' }] },
-      { hits: [{ label: 'Hit 2' }] },
+      expect.objectContaining({ hits: [{ objectID: '1', label: 'Hit 1' }] }),
+      expect.objectContaining({ hits: [{ objectID: '2', label: 'Hit 2' }] }),
     ]);
   });
 
   test('attaches Algolia agent', async () => {
     const searchClient = createSearchClient();
-    (searchClient as Client).addAlgoliaAgent = jest.fn();
+    searchClient.addAlgoliaAgent = jest.fn();
 
     await getAlgoliaResults({
       searchClient,
@@ -105,8 +150,8 @@ describe('getAlgoliaResults', () => {
       ],
     });
 
-    expect((searchClient as Client).addAlgoliaAgent).toHaveBeenCalledTimes(1);
-    expect((searchClient as Client).addAlgoliaAgent).toHaveBeenCalledWith(
+    expect(searchClient.addAlgoliaAgent).toHaveBeenCalledTimes(1);
+    expect(searchClient.addAlgoliaAgent).toHaveBeenCalledWith(
       'autocomplete-core',
       version
     );
@@ -139,7 +184,10 @@ describe('getAlgoliaHits', () => {
         },
       },
     ]);
-    expect(hits).toEqual([[{ label: 'Hit 1' }], [{ label: 'Hit 2' }]]);
+    expect(hits).toEqual([
+      [{ objectID: '1', label: 'Hit 1' }],
+      [{ objectID: '2', label: 'Hit 2' }],
+    ]);
   });
 
   test('with custom search parameters', async () => {
@@ -174,12 +222,15 @@ describe('getAlgoliaHits', () => {
         },
       },
     ]);
-    expect(hits).toEqual([[{ label: 'Hit 1' }], [{ label: 'Hit 2' }]]);
+    expect(hits).toEqual([
+      [{ objectID: '1', label: 'Hit 1' }],
+      [{ objectID: '2', label: 'Hit 2' }],
+    ]);
   });
 
   test('attaches Algolia agent', async () => {
     const searchClient = createSearchClient();
-    (searchClient as Client).addAlgoliaAgent = jest.fn();
+    searchClient.addAlgoliaAgent = jest.fn();
 
     await getAlgoliaHits({
       searchClient,
@@ -197,8 +248,8 @@ describe('getAlgoliaHits', () => {
       ],
     });
 
-    expect((searchClient as Client).addAlgoliaAgent).toHaveBeenCalledTimes(1);
-    expect((searchClient as Client).addAlgoliaAgent).toHaveBeenCalledWith(
+    expect(searchClient.addAlgoliaAgent).toHaveBeenCalledTimes(1);
+    expect(searchClient.addAlgoliaAgent).toHaveBeenCalledWith(
       'autocomplete-core',
       version
     );
