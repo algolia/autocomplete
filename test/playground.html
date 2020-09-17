@@ -9,7 +9,7 @@
       <form action="#">
         <div class="autocomplete-wrapper">
           <div class="form-group">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
               <h4>Simple auto-complete</h4>
               <div class="input-group">
                 <input id="contacts" name="contacts" class="form-control" type="text">
@@ -17,17 +17,24 @@
                 <span class="input-group-addon">Go</span>
               </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
               <h4>Multi-sections auto-complete</h4>
               <div class="input-group">
                 <input id="contacts2" name="contacts2" class="form-control" type="text" placeholder="Search actors in movie types">
                 <span class="input-group-addon">Go</span>
               </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
               <h4>Simple auto-complete with debounce</h4>
               <div class="input-group">
                 <input id="contacts3" name="contacts3" class="form-control" type="text" placeholder="Search actors">
+                <span class="input-group-addon">Go</span>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <h4>Multi-indexes auto-complete</h4>
+              <div class="input-group">
+                <input id="contacts4" name="contacts4" class="form-control" type="text" placeholder="Search actors in movie types">
                 <span class="input-group-addon">Go</span>
               </div>
             </div>
@@ -118,7 +125,7 @@
               return '<div class="aa-info-results">' + content.nbHits + ' results</div>';
             },
             suggestion: function(suggestion) {
-              return '<div>' + suggestion._highlightResult.name.value + '</div>';
+              return '<div>' + suggestion._highlightResult.firstname.value + '</div>';
             }
           }
         }
@@ -147,6 +154,50 @@
       }).on('autocomplete:cursorchanged', function(even, suggestion, dataset) {
         console.log('cursorchanged', suggestion, dataset);
       });
+
+
+      autocomplete('#contacts4', {
+        debug: true,
+        keyboardShortcuts: [191, 's'],
+        hint: false,
+        appendTo: 'h4',
+        templates: {
+          empty: function(data) {
+            return 'No results for "<strong>' + data.query.replace(/[^-_'a-zA-Z0-9 ]/, ' ') + '</strong>"';
+          }
+        }
+      }, [
+        {
+          source: autocomplete.sources.hits(actors, { hitsPerPage: 5 }),
+          templates: {
+            header: '<span class="aa-category-title">Actors</span>',
+            suggestion: function(suggestion) {
+              var v = suggestion._highlightResult.name.value;
+              if (suggestion.facet) {
+                v += ' in <b>' + suggestion.facet.value + '</b>';
+              }
+              return v;
+            }
+          }
+        },
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            header: '<span class="aa-category-title">Contacts</span>',
+            footer: function(o, content) {
+              return '<div class="aa-info-results">' + content.nbHits + ' results</div>';
+            },
+            suggestion: function(suggestion) {
+              return '<div>' + suggestion._highlightResult.firstname.value + '</div>';
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(even, suggestion, dataset) {
+        console.log('selected', suggestion, dataset);
+      }).on('autocomplete:shown', function() {
+        console.log('shown');
+      });
+
     </script>
   </body>
 </html>
