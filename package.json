@@ -80,7 +80,7 @@
     "release": "./scripts/release.sh",
     "docs:netlify": "./scripts/netlify-deploy.js"
   },
-  "version": "0.37.1",
+  "version": "0.38.0",
   "main": "index.js",
   "dependencies": {
     "immediate": "^3.2.3"
