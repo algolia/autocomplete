@@ -4,8 +4,12 @@ import {
   parseAlgoliaHitSnippet,
   parseAlgoliaHitReverseSnippet,
 } from '@algolia/autocomplete-preset-algolia';
+import { Hit } from '@algolia/client-search';
 
-type ParsedAttribute = { value: string; isHighlighted: boolean };
+type ParsedAttribute = {
+  value: string;
+  isHighlighted: boolean;
+};
 
 function concatParts(
   parts: ParsedAttribute[],
@@ -32,7 +36,7 @@ type HighlightItemParams<TItem> = {
 /**
  * Highlights and escapes the matching parts of an Algolia hit.
  */
-export function highlightItem<TItem extends object>({
+export function highlightItem<TItem extends Hit<{}>>({
   item,
   attribute,
   highlightPreTag = '<mark>',
@@ -54,7 +58,7 @@ export function highlightItem<TItem extends object>({
  *
  * This is a common pattern for Query Suggestions.
  */
-export function reverseHighlightItem<TItem extends object>({
+export function reverseHighlightItem<TItem extends Hit<{}>>({
   item,
   attribute,
   highlightPreTag = '<mark>',
@@ -74,7 +78,7 @@ export function reverseHighlightItem<TItem extends object>({
 /**
  * Highlights and escapes the matching parts of an Algolia hit snippet.
  */
-export function snippetItem<TItem extends object>({
+export function snippetItem<TItem extends Hit<{}>>({
   item,
   attribute,
   highlightPreTag = '<mark>',
@@ -96,7 +100,7 @@ export function snippetItem<TItem extends object>({
  *
  * This is a common pattern for Query Suggestions.
  */
-export function reverseSnippetItem<TItem extends object>({
+export function reverseSnippetItem<TItem extends Hit<{}>>({
   item,
   attribute,
   highlightPreTag = '<mark>',

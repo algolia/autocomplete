@@ -13,7 +13,7 @@ import { setProperties, setPropertiesWithoutEvents } from './setProperties';
 import {
   AutocompleteOptions,
   AutocompleteApi,
-  AutocompleteSource,
+  InternalAutocompleteSource,
 } from './types';
 
 function defaultRender({ root, sections }) {
@@ -146,7 +146,7 @@ export function autocomplete<TItem>({
 
     const sections = state.suggestions.map((suggestion) => {
       const items = suggestion.items;
-      const source = suggestion.source as AutocompleteSource<TItem>;
+      const source = suggestion.source as InternalAutocompleteSource<TItem>;
 
       const section = document.createElement('section');
       setProperties(section, {

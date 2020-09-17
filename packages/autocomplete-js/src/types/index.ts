@@ -9,9 +9,7 @@ import {
 
 type Template<TParams> = (params: TParams) => string | void;
 
-export type AutocompleteSource<TItem> = InternalAutocompleteCoreSource<
-  TItem
-> & {
+type SourceTemplates<TItem> = {
   /**
    * Templates to display in the autocomplete dropdown.
    *
@@ -42,6 +40,14 @@ export type AutocompleteSource<TItem> = InternalAutocompleteCoreSource<
     }>;
   };
 };
+
+export type AutocompleteSource<TItem> = AutocompleteCoreSource<TItem> &
+  SourceTemplates<TItem>;
+
+export type InternalAutocompleteSource<TItem> = InternalAutocompleteCoreSource<
+  TItem
+> &
+  SourceTemplates<TItem>;
 
 type GetSources<TItem> = (
   params: GetSourcesParams<TItem>
