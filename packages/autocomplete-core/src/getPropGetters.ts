@@ -126,6 +126,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         if (props.openOnFocus) {
           onInput({
             query: '',
+            event,
             store,
             props,
             setHighlightedIndex,
@@ -149,12 +150,13 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
   const getInputProps: GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (
     providedProps
   ) => {
-    function onFocus() {
+    function onFocus(event: TEvent) {
       // We want to trigger a query when `openOnFocus` is true
       // because the dropdown should open with the current query.
       if (props.openOnFocus || store.getState().query.length > 0) {
         onInput({
           query: store.getState().query,
+          event,
           store,
           props,
           setHighlightedIndex,
@@ -194,6 +196,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         onInput({
           query: (((event as unknown) as Event)
             .currentTarget as HTMLInputElement).value.slice(0, maxLength),
+          event,
           store,
           props,
           setHighlightedIndex,
@@ -225,7 +228,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
           store.send('blur', null);
         }
       },
-      onClick: () => {
+      onClick: (event) => {
         // When the dropdown is closed and you click on the input while
         // the input is focused, the `onFocus` event is not triggered
         // (default browser behavior).
@@ -238,7 +241,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
             props.environment.document.activeElement &&
           !store.getState().isOpen
         ) {
-          onFocus();
+          onFocus((event as unknown) as TEvent);
         }
       },
       ...rest,
@@ -347,6 +350,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
 
         onInput({
           query: inputValue,
+          event,
           store,
           props,
           setHighlightedIndex,

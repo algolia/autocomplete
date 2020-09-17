@@ -84,7 +84,7 @@ export type GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (props: {
   'aria-labelledby': string;
   onChange(event: TEvent): void;
   onKeyDown(event: TKeyboardEvent): void;
-  onFocus(): void;
+  onFocus(event: TEvent): void;
   onBlur(): void;
   onClick(event: TMouseEvent): void;
 };

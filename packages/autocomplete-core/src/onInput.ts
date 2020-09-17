@@ -4,11 +4,13 @@ import {
   AutocompleteState,
   AutocompleteStore,
 } from './types';
+import { getHighlightedItem } from './utils';
 
 let lastStalledId: number | null = null;
 
 interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {
   query: string;
+  event: any;
   store: AutocompleteStore<TItem>;
   props: AutocompleteOptions<TItem>;
   /**
@@ -23,6 +25,7 @@ interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {
 
 export function onInput<TItem>({
   query,
+  event,
   store,
   props,
   setHighlightedIndex,
@@ -120,6 +123,29 @@ export function onInput<TItem>({
               ((query.length === 0 && props.openOnFocus) ||
                 props.shouldDropdownShow({ state: store.getState() }))
           );
+
+          const highlightedItem = getHighlightedItem({
+            state: store.getState(),
+          });
+
+          if (store.getState().highlightedIndex !== null && highlightedItem) {
+            const { item, itemValue, itemUrl, source } = highlightedItem;
+
+            source.onHighlight({
+              suggestion: item,
+              suggestionValue: itemValue,
+              suggestionUrl: itemUrl,
+              source,
+              state: store.getState(),
+              setHighlightedIndex,
+              setQuery,
+              setSuggestions,
+              setIsOpen,
+              setStatus,
+              setContext,
+              event,
+            });
+          }
         })
         .catch((error) => {
           setStatus('error');
