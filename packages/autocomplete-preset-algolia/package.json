@@ -29,5 +29,9 @@
   "sideEffects": false,
   "files": [
     "dist/"
-  ]
+  ],
+  "dependencies": {
+    "@algolia/client-search": "4.5.1",
+    "algoliasearch": "4.5.1"
+  }
 }

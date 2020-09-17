@@ -17,7 +17,7 @@ autocomplete<QuerySuggestionHit>({
   debug: true,
   // dropdownPlacement: 'start',
   getSources({ query }) {
-    return getAlgoliaHits({
+    return getAlgoliaHits<QuerySuggestionHit>({
       searchClient,
       queries: [
         {
@@ -28,7 +28,7 @@ autocomplete<QuerySuggestionHit>({
           },
         },
       ],
-    }).then((hits) => {
+    }).then(([hits]) => {
       return [
         {
           getInputValue: ({ suggestion }) => suggestion.query,

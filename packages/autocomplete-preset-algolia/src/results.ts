@@ -1,28 +1,27 @@
+import {
+  Hit,
+  MultipleQueriesQuery,
+  MultipleQueriesResponse,
+} from '@algolia/client-search';
+import { SearchClient } from 'algoliasearch/lite';
+
 import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from './constants';
 import { version } from './version';
 
-type SearchClient = any;
-export type Client = any;
-type SearchResponse = any;
-type QueryParameters = any;
-
-interface SearchParameters {
-  indexName: string;
-  query: string;
-  params?: QueryParameters;
-}
-
 interface GetAlgoliaSourceParams {
   searchClient: SearchClient;
-  queries: SearchParameters[];
+  queries: MultipleQueriesQuery[];
 }
 
-function getAlgoliaSource({ searchClient, queries }: GetAlgoliaSourceParams) {
-  if (typeof (searchClient as Client).addAlgoliaAgent === 'function') {
-    (searchClient as Client).addAlgoliaAgent('autocomplete-core', version);
+function getAlgoliaSource<THit>({
+  searchClient,
+  queries,
+}: GetAlgoliaSourceParams) {
+  if (typeof searchClient.addAlgoliaAgent === 'function') {
+    searchClient.addAlgoliaAgent('autocomplete-core', version);
   }
 
-  return searchClient.search(
+  return searchClient.search<THit>(
     queries.map((searchParameters) => {
       const { indexName, query, params } = searchParameters;
 
@@ -40,20 +39,20 @@ function getAlgoliaSource({ searchClient, queries }: GetAlgoliaSourceParams) {
   );
 }
 
-export function getAlgoliaResults({
+export function getAlgoliaResults<THit>({
   searchClient,
   queries,
-}: GetAlgoliaSourceParams): Promise<SearchResponse['results']> {
-  return getAlgoliaSource({ searchClient, queries }).then((response) => {
+}: GetAlgoliaSourceParams): Promise<MultipleQueriesResponse<THit>['results']> {
+  return getAlgoliaSource<THit>({ searchClient, queries }).then((response) => {
     return response.results;
   });
 }
 
-export function getAlgoliaHits({
+export function getAlgoliaHits<THit>({
   searchClient,
   queries,
-}: GetAlgoliaSourceParams): Promise<SearchResponse['hits']> {
-  return getAlgoliaSource({ searchClient, queries }).then((response) => {
+}: GetAlgoliaSourceParams): Promise<Array<Array<Hit<THit>>>> {
+  return getAlgoliaSource<THit>({ searchClient, queries }).then((response) => {
     const results = response.results;
 
     return results.map((result) => result.hits);
