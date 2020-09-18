@@ -64,13 +64,22 @@ export function createRecentSearchesPlugin<TItem>({
       ];
     },
     onSubmit: ({ state }) => {
-      store.add({
-        objectID: state.query,
-        query: state.query,
-      });
+      const { query } = state;
+      if (query) {
+        store.add({
+          objectID: query,
+          query,
+        });
+      }
     },
     onSelect: ({ suggestion }) => {
-      store.add(suggestion);
+      const { query, objectID } = suggestion as any;
+      if (query && objectID) {
+        store.add({
+          objectID,
+          query,
+        });
+      }
     },
     data: {
       getFacetFilters: () => {
