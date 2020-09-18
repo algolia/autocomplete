@@ -73,7 +73,7 @@ export function getDefaultProps<TItem>(
             ...source,
             onSelect: (params) => {
               source.onSelect(params);
-              (props.plugins || []).forEach((plugin) => {
+              plugins.forEach((plugin) => {
                 if (plugin.onSelect) {
                   plugin.onSelect(params);
                 }
