@@ -74,9 +74,9 @@ export function createRecentSearchesPlugin<TItem>({
     },
     onSelect: ({ suggestion }) => {
       const { query, objectID } = suggestion as any;
-      if (query && objectID) {
+      if (query) {
         store.add({
-          objectID,
+          objectID: objectID || query,
           query,
         });
       }
