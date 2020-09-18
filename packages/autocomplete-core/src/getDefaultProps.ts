@@ -71,11 +71,11 @@ export function getDefaultProps<TItem>(
         .then((sources) =>
           sources.map((source) => ({
             ...source,
-            onSelect: (payload) => {
-              source.onSelect(payload);
+            onSelect: (params) => {
+              source.onSelect(params);
               (props.plugins || []).forEach((plugin) => {
                 if (plugin.onSelect) {
-                  plugin.onSelect(payload);
+                  plugin.onSelect(params);
                 }
               });
             },
