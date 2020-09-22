@@ -100,7 +100,7 @@ describe('parseAlgoliaHitSnippet', () => {
   `);
   });
 
-  test('returns empty if the attribute cannot be snippeted', () => {
+  test('returns the attribute value if the attribute cannot be snippeted', () => {
     expect(
       parseAlgoliaHitSnippet({
         attribute: 'description',
@@ -108,6 +108,30 @@ describe('parseAlgoliaHitSnippet', () => {
           objectID: '1',
           title: 'Hello there',
           description: 'Welcome all',
+          _snippetResult: {
+            title: {
+              value:
+                '__aa-highlight__He__/aa-highlight__llo t__aa-highlight__he__/aa-highlight__re',
+            },
+          },
+        },
+      })
+    ).toEqual([
+      {
+        value: 'Welcome all',
+        isHighlighted: false,
+      },
+    ]);
+  });
+
+  test('returns empty string if the attribute does not exist', () => {
+    expect(
+      parseAlgoliaHitSnippet({
+        // @ts-ignore
+        attribute: 'description',
+        hit: {
+          objectID: '1',
+          title: 'Hello there',
           _snippetResult: {
             title: {
               value:

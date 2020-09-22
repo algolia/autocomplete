@@ -23,7 +23,7 @@ export function parseAlgoliaHitHighlight<THit extends Hit<{}>>({
         '\nSee https://www.algolia.com/doc/api-reference/api-parameters/attributesToHighlight/'
     );
 
-    highlightedValue = '';
+    highlightedValue = getAttributeValueByPath(hit, attribute as string) || '';
   }
 
   return parseAttribute({
