@@ -1,15 +1,6 @@
-export function getAttributeValueByPath<THit>(hit: THit, path: string): string {
+export function getAttributeValueByPath<THit>(hit: THit, path: string): any {
   const parts = path.split('.');
-  const value = parts.reduce<string>(
-    (current, key) => current && current[key],
-    hit as any
-  );
-
-  if (typeof value !== 'string') {
-    throw new Error(
-      `The attribute ${JSON.stringify(path)} does not exist on the hit.`
-    );
-  }
+  const value = parts.reduce((current, key) => current && current[key], hit);
 
   return value;
 }

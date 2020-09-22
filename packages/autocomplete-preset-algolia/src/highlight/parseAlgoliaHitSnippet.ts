@@ -1,5 +1,7 @@
 import { Hit } from '@algolia/client-search';
 
+import { warn } from '../utils';
+
 import { getAttributeValueByPath } from './getAttributeValueByPath';
 import { ParseAlgoliaHitParams } from './ParseAlgoliaHitParams';
 import { parseAttribute } from './parseAttribute';
@@ -10,10 +12,19 @@ export function parseAlgoliaHitSnippet<THit extends Hit<{}>>({
   attribute,
   ignoreEscape,
 }: ParseAlgoliaHitParams<THit>): ParsedAttribute[] {
-  const highlightedValue = getAttributeValueByPath(
-    hit,
-    `_snippetResult.${attribute}.value`
-  );
+  const path = `_snippetResult.${attribute}.value`;
+  let highlightedValue = getAttributeValueByPath(hit, path);
+
+  if (typeof highlightedValue !== 'string') {
+    warn(
+      `The attribute ${JSON.stringify(
+        path
+      )} does not exist on the hit. Did you set it in \`attributesToSnippet\`?` +
+        '\nSee https://www.algolia.com/doc/api-reference/api-parameters/attributesToSnippet/'
+    );
+
+    highlightedValue = '';
+  }
 
   return parseAttribute({
     highlightedValue,
