@@ -19,14 +19,19 @@ type PluginOptions = {
   key: string;
 };
 
+type RecentSearchItem = {
+  objectID: string;
+  query: string;
+};
+
 type PluginData = {
   getFacetFilters: () => string[];
 };
 
-export function createRecentSearchesPlugin<TItem>({
+export function createRecentSearchesPlugin({
   key,
   limit = 5,
-}: PluginOptions): AutocompletePlugin<TItem, PluginData> {
+}: PluginOptions): AutocompletePlugin<RecentSearchItem, PluginData> {
   const store = createRecentSearchesStore({
     key: ['AUTOCOMPLETE_RECENT_SEARCHES', key].join('__'),
     limit,

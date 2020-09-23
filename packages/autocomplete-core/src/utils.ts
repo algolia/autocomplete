@@ -3,7 +3,6 @@ import {
   InternalAutocompleteSource,
   AutocompleteState,
   AutocompleteSuggestion,
-  GetSources,
   AutocompleteOptions,
   AutocompleteSource,
 } from './types';
@@ -60,7 +59,7 @@ function normalizeSource<TItem>(
 export function getNormalizedSources<TItem>(
   getSources: AutocompleteOptions<TItem>['getSources'],
   options
-): Promise<Array<AutocompleteSource<TItem>>> {
+): Promise<Array<InternalAutocompleteSource<TItem>>> {
   return Promise.resolve(getSources(options)).then((sources) =>
     Promise.all(
       sources.filter(Boolean).map((source) => {
