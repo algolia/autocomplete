@@ -72,12 +72,13 @@ export function createRecentSearchesPlugin<TItem>({
         });
       }
     },
-    onSelect: ({ suggestion }) => {
-      const { query, objectID } = suggestion as any;
-      if (query) {
+    onSelect: ({ suggestion, state, source }) => {
+      const inputValue = source.getInputValue({ suggestion, state });
+      const { objectID } = suggestion as any;
+      if (inputValue) {
         store.add({
-          objectID: objectID || query,
-          query,
+          objectID: objectID || inputValue,
+          query: inputValue,
         });
       }
     },
