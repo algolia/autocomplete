@@ -4,7 +4,7 @@ import { getDefaultProps } from './getDefaultProps';
 import { getPropGetters } from './getPropGetters';
 import { onInput } from './onInput';
 import { stateReducer } from './stateReducer';
-import { AutocompleteApi, PublicAutocompleteOptions } from './types';
+import { AutocompleteApi, AutocompleteOptions } from './types';
 
 export function createAutocomplete<
   TItem extends {},
@@ -12,7 +12,7 @@ export function createAutocomplete<
   TMouseEvent = MouseEvent,
   TKeyboardEvent = KeyboardEvent
 >(
-  options: PublicAutocompleteOptions<TItem>
+  options: AutocompleteOptions<TItem>
 ): AutocompleteApi<TItem, TEvent, TMouseEvent, TKeyboardEvent> {
   const props = getDefaultProps(options);
   const store = createStore(stateReducer, props);
@@ -48,6 +48,7 @@ export function createAutocomplete<
   function refresh() {
     return onInput({
       query: store.getState().query,
+      event: new Event('input'),
       store,
       props,
       setHighlightedIndex,

@@ -1,7 +1,7 @@
 {
   "name": "@algolia/js-example",
   "description": "Autocomplete JavaScript Sandbox",
-  "version": "1.0.0-alpha.28",
+  "version": "1.0.0",
   "private": true,
   "license": "MIT",
   "main": "index.html",
@@ -10,8 +10,9 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "algoliasearch": "^4.4.0",
-    "@algolia/autocomplete-js": "^1.0.0-alpha.28"
+    "@algolia/autocomplete-js": "^1.0.0-alpha.30",
+    "@algolia/client-search": "4.5.1",
+    "algoliasearch": "4.5.1"
   },
   "devDependencies": {
     "parcel-bundler": "1.12.3"

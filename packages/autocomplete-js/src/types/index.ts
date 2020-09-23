@@ -1,15 +1,15 @@
 import {
   GetSourcesParams,
   AutocompleteSetters as AutocompleteCoreSetters,
-  AutocompleteSource as AutocompleteCoreSource,
+  InternalAutocompleteSource as InternalAutocompleteCoreSource,
   AutocompleteState as AutocompleteCoreState,
-  PublicAutocompleteOptions as PublicAutocompleteCoreOptions,
-  PublicAutocompleteSource as PublicAutocompleteCoreSource,
+  AutocompleteOptions as AutocompleteCoreOptions,
+  AutocompleteSource as AutocompleteCoreSource,
 } from '@algolia/autocomplete-core';
 
 type Template<TParams> = (params: TParams) => string | void;
 
-export type AutocompleteSource<TItem> = AutocompleteCoreSource<TItem> & {
+type SourceTemplates<TItem> = {
   /**
    * Templates to display in the autocomplete dropdown.
    *
@@ -41,14 +41,22 @@ export type AutocompleteSource<TItem> = AutocompleteCoreSource<TItem> & {
   };
 };
 
+export type AutocompleteSource<TItem> = AutocompleteCoreSource<TItem> &
+  SourceTemplates<TItem>;
+
+export type InternalAutocompleteSource<TItem> = InternalAutocompleteCoreSource<
+  TItem
+> &
+  SourceTemplates<TItem>;
+
 type GetSources<TItem> = (
   params: GetSourcesParams<TItem>
 ) =>
-  | Array<PublicAutocompleteCoreSource<TItem>>
-  | Promise<Array<PublicAutocompleteCoreSource<TItem>>>;
+  | Array<AutocompleteCoreSource<TItem>>
+  | Promise<Array<AutocompleteCoreSource<TItem>>>;
 
 export interface AutocompleteOptions<TItem>
-  extends PublicAutocompleteCoreOptions<TItem> {
+  extends AutocompleteCoreOptions<TItem> {
   /**
    * The container for the autocomplete search box.
    *

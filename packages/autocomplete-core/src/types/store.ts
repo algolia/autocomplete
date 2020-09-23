@@ -1,4 +1,4 @@
-import { AutocompleteOptions } from './api';
+import { InternalAutocompleteOptions } from './api';
 import { AutocompleteState } from './state';
 
 export interface AutocompleteStore<TItem> {
@@ -10,7 +10,7 @@ export interface AutocompleteStore<TItem> {
 export type Reducer = <TItem>(
   action: Action,
   state: AutocompleteState<TItem>,
-  props: AutocompleteOptions<TItem>
+  props: InternalAutocompleteOptions<TItem>
 ) => AutocompleteState<TItem>;
 
 type Action = {

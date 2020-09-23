@@ -1,6 +1,5 @@
 /* eslint-disable import/no-commonjs */
 
-const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -24,13 +23,20 @@ module.exports = {
     // which causes a lint error in the `lerna.json` file.
     exec('yarn eslint lerna.json --fix');
 
-    updatePackageDependencies({
-      package: '@algolia/autocomplete-js',
-      dependencies: [
-        `@algolia/autocomplete-core@^${version}`,
-        `@algolia/autocomplete-preset-algolia@^${version}`,
-      ],
-    });
+    updatePackageDependencies(
+      exec,
+      {
+        package: '@algolia/autocomplete-js',
+        dependencies: [
+          `@algolia/autocomplete-core@^${version}`,
+          `@algolia/autocomplete-preset-algolia@^${version}`,
+        ],
+      },
+      {
+        package: '@algolia/js-example',
+        dependencies: [`@algolia/autocomplete-js@^${version}`],
+      }
+    );
     updatePackagesVersion({
       version,
       files: [
@@ -57,11 +63,11 @@ module.exports = {
   },
 };
 
-function updatePackageDependencies(...changes) {
+function updatePackageDependencies(exec, ...changes) {
   for (const change of changes) {
     const { package, dependencies } = change;
 
-    execSync(
+    exec(
       `yarn workspace ${package} add ${dependencies
         .map((dep) => `"${dep}"`)
         .join(' ')}`

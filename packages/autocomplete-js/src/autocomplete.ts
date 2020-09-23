@@ -13,7 +13,7 @@ import { setProperties, setPropertiesWithoutEvents } from './setProperties';
 import {
   AutocompleteOptions,
   AutocompleteApi,
-  AutocompleteSource,
+  InternalAutocompleteSource,
 } from './types';
 
 function defaultRender({ root, sections }) {
@@ -146,7 +146,7 @@ export function autocomplete<TItem>({
 
     const sections = state.suggestions.map((suggestion) => {
       const items = suggestion.items;
-      const source = suggestion.source as AutocompleteSource<TItem>;
+      const source = suggestion.source as InternalAutocompleteSource<TItem>;
 
       const section = document.createElement('section');
       setProperties(section, {
@@ -154,7 +154,7 @@ export function autocomplete<TItem>({
       });
 
       if (source.templates.header) {
-        const header = document.createElement('header');
+        const header = document.createElement('div');
         setProperties(header, {
           class: concatClassNames([
             'aa-SectionHeader',
@@ -194,7 +194,7 @@ export function autocomplete<TItem>({
       }
 
       if (source.templates.footer) {
-        const footer = document.createElement('footer');
+        const footer = document.createElement('div');
         setProperties(footer, {
           class: concatClassNames([
             'aa-SectionFooter',

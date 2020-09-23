@@ -21,7 +21,7 @@ export interface AutocompleteApi<
 }
 
 export interface AutocompleteSuggestion<TItem> {
-  source: AutocompleteSource<TItem>;
+  source: InternalAutocompleteSource<TItem>;
   items: TItem[];
 }
 
@@ -32,9 +32,13 @@ export interface GetSourcesParams<TItem> extends AutocompleteSetters<TItem> {
 
 interface ItemParams<TItem> {
   suggestion: TItem;
-  suggestionValue: ReturnType<AutocompleteSource<TItem>['getInputValue']>;
-  suggestionUrl: ReturnType<AutocompleteSource<TItem>['getSuggestionUrl']>;
-  source: AutocompleteSource<TItem>;
+  suggestionValue: ReturnType<
+    InternalAutocompleteSource<TItem>['getInputValue']
+  >;
+  suggestionUrl: ReturnType<
+    InternalAutocompleteSource<TItem>['getSuggestionUrl']
+  >;
+  source: InternalAutocompleteSource<TItem>;
 }
 
 interface OnSelectParams<TItem>
@@ -56,7 +60,7 @@ interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {
   state: AutocompleteState<TItem>;
 }
 
-export interface PublicAutocompleteSource<TItem> {
+export interface AutocompleteSource<TItem> {
   // This allows flavors to pass other keys to their source.
   // Example: `templates` in the JavaScript API
   [key: string]: unknown;
@@ -98,15 +102,15 @@ export interface PublicAutocompleteSource<TItem> {
   onHighlight?(params: OnHighlightParams<TItem>): void;
 }
 
-export type AutocompleteSource<TItem> = {
-  [KParam in keyof PublicAutocompleteSource<TItem>]-?: PublicAutocompleteSource<
+export type InternalAutocompleteSource<TItem> = {
+  [KParam in keyof AutocompleteSource<TItem>]-?: AutocompleteSource<
     TItem
   >[KParam];
 };
 
 export type GetSources<TItem> = (
   params: GetSourcesParams<TItem>
-) => Promise<Array<AutocompleteSource<TItem>>>;
+) => Promise<Array<InternalAutocompleteSource<TItem>>>;
 
 export type Environment =
   | Window
@@ -156,8 +160,8 @@ export type AutocompletePlugin<TItem, TData> = {
   getSources?(
     params: GetSourcesParams<TItem>
   ):
-    | Array<PublicAutocompleteSource<TItem>>
-    | Promise<Array<PublicAutocompleteSource<TItem>>>;
+    | Array<AutocompleteSource<TItem>>
+    | Promise<Array<AutocompleteSource<TItem>>>;
   /**
    * The function called when the autocomplete form is submitted.
    */
@@ -172,7 +176,7 @@ export type AutocompletePlugin<TItem, TData> = {
   data?: TData;
 };
 
-export interface PublicAutocompleteOptions<TItem> {
+export interface AutocompleteOptions<TItem> {
   /**
    * Whether to consider the experience in debug mode.
    *
@@ -237,8 +241,8 @@ export interface PublicAutocompleteOptions<TItem> {
   getSources(
     params: GetSourcesParams<TItem>
   ):
-    | Array<PublicAutocompleteSource<TItem>>
-    | Promise<Array<PublicAutocompleteSource<TItem>>>;
+    | Array<AutocompleteSource<TItem>>
+    | Promise<Array<AutocompleteSource<TItem>>>;
   /**
    * The environment from where your JavaScript is running.
    * Useful if you're using autocomplete in a different context than
@@ -273,7 +277,8 @@ export interface PublicAutocompleteOptions<TItem> {
 }
 
 // Props manipulated internally with default values.
-export interface AutocompleteOptions<TItem> {
+export interface InternalAutocompleteOptions<TItem>
+  extends AutocompleteOptions<TItem> {
   debug: boolean;
   id: string;
   onStateChange<TItem>(props: { state: AutocompleteState<TItem> }): void;

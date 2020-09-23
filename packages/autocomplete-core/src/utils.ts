@@ -1,10 +1,11 @@
 import {
-  AutocompleteOptions,
-  AutocompleteSource,
+  InternalAutocompleteOptions,
+  InternalAutocompleteSource,
   AutocompleteState,
   AutocompleteSuggestion,
-  PublicAutocompleteOptions,
-  PublicAutocompleteSource,
+  GetSources,
+  AutocompleteOptions,
+  AutocompleteSource,
 } from './types';
 
 export const noop = () => {};
@@ -39,8 +40,8 @@ export function isSpecialClick(event: MouseEvent): boolean {
 }
 
 function normalizeSource<TItem>(
-  source: PublicAutocompleteSource<TItem>
-): AutocompleteSource<TItem> {
+  source: AutocompleteSource<TItem>
+): InternalAutocompleteSource<TItem> {
   return {
     getInputValue({ state }) {
       return state.query;
@@ -57,7 +58,7 @@ function normalizeSource<TItem>(
 }
 
 export function getNormalizedSources<TItem>(
-  getSources: PublicAutocompleteOptions<TItem>['getSources'],
+  getSources: AutocompleteOptions<TItem>['getSources'],
   options
 ): Promise<Array<AutocompleteSource<TItem>>> {
   return Promise.resolve(getSources(options)).then((sources) =>
@@ -73,7 +74,9 @@ export function getNextHighlightedIndex<TItem>(
   moveAmount: number,
   baseIndex: number | null,
   itemCount: number,
-  defaultHighlightedIndex: AutocompleteOptions<TItem>['defaultHighlightedIndex']
+  defaultHighlightedIndex: InternalAutocompleteOptions<
+    TItem
+  >['defaultHighlightedIndex']
 ): number | null {
   // We allow circular keyboard navigation from the base index.
   // The base index can either be `null` (nothing is highlighted) or `0`

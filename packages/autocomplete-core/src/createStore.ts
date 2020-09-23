@@ -1,6 +1,6 @@
 import { getCompletion } from './getCompletion';
 import {
-  AutocompleteOptions,
+  InternalAutocompleteOptions,
   AutocompleteState,
   AutocompleteStore,
   Reducer,
@@ -8,7 +8,7 @@ import {
 
 export function createStore<TItem>(
   reducer: Reducer,
-  props: AutocompleteOptions<TItem>
+  props: InternalAutocompleteOptions<TItem>
 ): AutocompleteStore<TItem> {
   return {
     state: props.initialState,
@@ -28,7 +28,7 @@ export function createStore<TItem>(
 
 function withCompletion<TItem>(
   state: AutocompleteState<TItem>,
-  props: AutocompleteOptions<TItem>
+  props: InternalAutocompleteOptions<TItem>
 ) {
   return {
     ...state,

@@ -1,6 +1,8 @@
+import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch/lite';
 import {
   autocomplete,
+  AutocompleteSource,
   getAlgoliaHits,
   reverseHighlightItem,
 } from '@algolia/autocomplete-js';
@@ -12,12 +14,12 @@ const searchClient = algoliasearch(
 
 type QuerySuggestionHit = { query: string };
 
-autocomplete<QuerySuggestionHit>({
+autocomplete<Hit<QuerySuggestionHit>>({
   container: '#autocomplete',
   debug: true,
   // dropdownPlacement: 'start',
   getSources({ query }) {
-    return getAlgoliaHits({
+    return getAlgoliaHits<QuerySuggestionHit>({
       searchClient,
       queries: [
         {
@@ -28,7 +30,7 @@ autocomplete<QuerySuggestionHit>({
           },
         },
       ],
-    }).then((hits) => {
+    }).then(([hits]) => {
       return [
         {
           getInputValue: ({ suggestion }) => suggestion.query,
@@ -40,7 +42,7 @@ autocomplete<QuerySuggestionHit>({
               return `
                 <div class="item-icon">${searchIcon}</div>
                 <div>
-                  ${reverseHighlightItem<QuerySuggestionHit>({
+                  ${reverseHighlightItem({
                     item,
                     attribute: 'query',
                   })}
@@ -48,7 +50,7 @@ autocomplete<QuerySuggestionHit>({
               `;
             },
           },
-        },
+        } as AutocompleteSource<Hit<QuerySuggestionHit>>,
       ];
     });
   },

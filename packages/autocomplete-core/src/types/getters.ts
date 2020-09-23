@@ -1,4 +1,4 @@
-import { AutocompleteSource } from './api';
+import { InternalAutocompleteSource } from './api';
 
 export interface AutocompleteAccessibilityGetters<
   TItem,
@@ -84,7 +84,7 @@ export type GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (props: {
   'aria-labelledby': string;
   onChange(event: TEvent): void;
   onKeyDown(event: TKeyboardEvent): void;
-  onFocus(): void;
+  onFocus(event: TEvent): void;
   onBlur(): void;
   onClick(event: TMouseEvent): void;
 };
@@ -107,7 +107,7 @@ export type GetMenuProps = (props?: {
 export type GetItemProps<TItem, TMouseEvent = MouseEvent> = (props: {
   [key: string]: unknown;
   item: TItem;
-  source: AutocompleteSource<TItem>;
+  source: InternalAutocompleteSource<TItem>;
 }) => {
   id: string;
   role: string;
