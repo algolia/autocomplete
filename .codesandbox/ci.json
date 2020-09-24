@@ -1,9 +1,6 @@
 {
-  "packages": [
-    "packages/autocomplete-core",
-    "packages/autocomplete-preset-algolia",
-    "packages/autocomplete-js",
-    "packages/autocomplete-plugin-recent-searches"
-  ],
+  "packages": ["packages/autocomplete-*"],
+  "buildCommand": false,
+  "^": "buildCommand is false because `yarn prepare` is going to build packages anyway.",
   "sandboxes": ["github/algolia/autocomplete.js/tree/next/examples/js"]
 }

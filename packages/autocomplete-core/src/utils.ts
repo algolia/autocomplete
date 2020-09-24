@@ -3,7 +3,6 @@ import {
   InternalAutocompleteSource,
   AutocompleteState,
   AutocompleteSuggestion,
-  GetSources,
   AutocompleteOptions,
   AutocompleteSource,
 } from './types';
@@ -57,18 +56,17 @@ function normalizeSource<TItem>(
   };
 }
 
-export function normalizeGetSources<TItem>(
-  getSources: AutocompleteOptions<TItem>['getSources']
-): GetSources<TItem> {
-  return (options) => {
-    return Promise.resolve(getSources(options)).then((sources) =>
-      Promise.all(
-        sources.filter(Boolean).map((source) => {
-          return Promise.resolve(normalizeSource<TItem>(source));
-        })
-      )
-    );
-  };
+export function getNormalizedSources<TItem>(
+  getSources: AutocompleteOptions<TItem>['getSources'],
+  options
+): Promise<Array<InternalAutocompleteSource<TItem>>> {
+  return Promise.resolve(getSources(options)).then((sources) =>
+    Promise.all(
+      sources.filter(Boolean).map((source) => {
+        return Promise.resolve(normalizeSource<TItem>(source));
+      })
+    )
+  );
 }
 
 export function getNextHighlightedIndex<TItem>(

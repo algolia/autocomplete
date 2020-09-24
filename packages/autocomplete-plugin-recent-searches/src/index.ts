@@ -1,0 +1,1 @@
+export { createRecentSearchesPlugin } from './createRecentSearchesPlugin';

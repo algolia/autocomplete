@@ -153,6 +153,29 @@ interface Navigator<TItem> {
   }): void;
 }
 
+export type AutocompletePlugin<TItem, TData> = {
+  /**
+   * The sources to get the suggestions from.
+   */
+  getSources?(
+    params: GetSourcesParams<TItem>
+  ):
+    | Array<AutocompleteSource<TItem>>
+    | Promise<Array<AutocompleteSource<TItem>>>;
+  /**
+   * The function called when the autocomplete form is submitted.
+   */
+  onSubmit?(params: OnSubmitParams<TItem>): void;
+  /**
+   * Function called when an item is selected.
+   */
+  onSelect?(params: OnSelectParams<TItem>): void;
+  /**
+   * An extra plugin specific object to store variables and functions
+   */
+  data?: TData;
+};
+
 export interface AutocompleteOptions<TItem> {
   /**
    * Whether to consider the experience in debug mode.
@@ -247,6 +270,10 @@ export interface AutocompleteOptions<TItem> {
    * updating the state.
    */
   onInput?(params: OnInputParams<TItem>): void;
+  /**
+   * The array of plugins.
+   */
+  plugins?: Array<AutocompletePlugin<TItem, unknown>>;
 }
 
 // Props manipulated internally with default values.
@@ -265,6 +292,7 @@ export interface InternalAutocompleteOptions<TItem>
   getSources: GetSources<TItem>;
   environment: Environment;
   navigator: Navigator<TItem>;
+  plugins: Array<AutocompletePlugin<TItem, unknown>>;
   shouldDropdownShow(params: { state: AutocompleteState<TItem> }): boolean;
   onSubmit(params: OnSubmitParams<TItem>): void;
   onInput?(params: OnInputParams<TItem>): void | Promise<any>;
