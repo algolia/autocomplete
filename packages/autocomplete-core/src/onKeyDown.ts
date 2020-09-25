@@ -160,6 +160,30 @@ export function onKeyDown<TItem>({
     } else if (event.altKey) {
       // Keep native browser behavior
     } else {
+      if (itemUrl !== undefined) {
+        source.onSelect({
+          suggestion: item,
+          suggestionValue: itemValue,
+          suggestionUrl: itemUrl,
+          source,
+          state: store.getState(),
+          setHighlightedIndex,
+          setQuery,
+          setSuggestions,
+          setIsOpen,
+          setStatus,
+          setContext,
+          event,
+        });
+        props.navigator.navigate({
+          suggestionUrl: itemUrl,
+          suggestion: item,
+          state: store.getState(),
+        });
+
+        return;
+      }
+
       onInput({
         query: itemValue,
         event,
@@ -190,14 +214,6 @@ export function onKeyDown<TItem>({
           event,
         });
       });
-
-      if (itemUrl !== undefined) {
-        props.navigator.navigate({
-          suggestionUrl: itemUrl,
-          suggestion: item,
-          state: store.getState(),
-        });
-      }
     }
   }
 }
