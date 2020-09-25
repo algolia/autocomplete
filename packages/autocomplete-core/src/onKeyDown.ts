@@ -115,6 +115,20 @@ export function onKeyDown<TItem>({
 
     if (event.metaKey || event.ctrlKey) {
       if (itemUrl !== undefined) {
+        source.onSelect({
+          suggestion: item,
+          suggestionValue: itemValue,
+          suggestionUrl: itemUrl,
+          source,
+          state: store.getState(),
+          setHighlightedIndex,
+          setQuery,
+          setSuggestions,
+          setIsOpen,
+          setStatus,
+          setContext,
+          event,
+        });
         props.navigator.navigateNewTab({
           suggestionUrl: itemUrl,
           suggestion: item,
@@ -123,6 +137,20 @@ export function onKeyDown<TItem>({
       }
     } else if (event.shiftKey) {
       if (itemUrl !== undefined) {
+        source.onSelect({
+          suggestion: item,
+          suggestionValue: itemValue,
+          suggestionUrl: itemUrl,
+          source,
+          state: store.getState(),
+          setHighlightedIndex,
+          setQuery,
+          setSuggestions,
+          setIsOpen,
+          setStatus,
+          setContext,
+          event,
+        });
         props.navigator.navigateNewWindow({
           suggestionUrl: itemUrl,
           suggestion: item,
