@@ -34,7 +34,14 @@ export function onKeyDown<TItem>({
     const nodeItem = props.environment.document.getElementById(
       `${props.id}-item-${store.getState().highlightedIndex}`
     );
-    nodeItem?.scrollIntoView(false);
+
+    if (nodeItem) {
+      if ((nodeItem as any).scrollIntoViewIfNeeded) {
+        (nodeItem as any).scrollIntoViewIfNeeded(false);
+      } else {
+        nodeItem.scrollIntoView(false);
+      }
+    }
 
     const highlightedItem = getHighlightedItem({
       state: store.getState(),
