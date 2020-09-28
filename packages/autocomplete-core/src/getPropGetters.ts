@@ -13,7 +13,7 @@ import {
   GetMenuProps,
   GetRootProps,
 } from './types';
-import { getHighlightedItem, isOrContainsNode, isSpecialClick } from './utils';
+import { getHighlightedItem, isOrContainsNode } from './utils';
 
 interface GetPropGettersOptions<TItem> extends AutocompleteSetters<TItem> {
   store: AutocompleteStore<TItem>;
@@ -324,52 +324,43 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         ((event as unknown) as MouseEvent).preventDefault();
       },
       onClick(event) {
+        const inputValue = source.getInputValue({
+          suggestion: item,
+          state: store.getState(),
+        });
+        const suggestionUrl = source.getSuggestionUrl({
+          suggestion: item,
+          state: store.getState(),
+        });
+
         // If `getSuggestionUrl` is provided, it means that the suggestion
         // is a link, not plain text that aims at updating the query.
         // We can therefore skip the state change because it will update
         // the `highlightedIndex`, resulting in a UI flash, especially
         // noticeable on mobile.
-        if (
-          source.getSuggestionUrl({
-            suggestion: item,
-            state: store.getState(),
-          }) !== undefined
-        ) {
-          return;
-        }
+        const runPreCommand = suggestionUrl
+          ? Promise.resolve()
+          : onInput({
+              query: inputValue,
+              event,
+              store,
+              props,
+              setHighlightedIndex,
+              setQuery,
+              setSuggestions,
+              setIsOpen,
+              setStatus,
+              setContext,
+              nextState: {
+                isOpen: false,
+              },
+            });
 
-        // We ignore all modified clicks to support default browsers' behavior.
-        if (isSpecialClick((event as unknown) as MouseEvent)) {
-          return;
-        }
-
-        const inputValue = source.getInputValue({
-          suggestion: item,
-          state: store.getState(),
-        });
-
-        onInput({
-          query: inputValue,
-          event,
-          store,
-          props,
-          setHighlightedIndex,
-          setQuery,
-          setSuggestions,
-          setIsOpen,
-          setStatus,
-          setContext,
-          nextState: {
-            isOpen: false,
-          },
-        }).then(() => {
+        runPreCommand.then(() => {
           source.onSelect({
             suggestion: item,
             suggestionValue: inputValue,
-            suggestionUrl: source.getSuggestionUrl({
-              suggestion: item,
-              state: store.getState(),
-            }),
+            suggestionUrl,
             source,
             state: store.getState(),
             setHighlightedIndex,
