@@ -1,3 +1,12 @@
+# [](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.31...v) (2020-09-28)
+
+
+### Features
+
+* **core:** run `onSelect` on item click ([079a4c1](https://github.com/algolia/autocomplete.js/commit/079a4c15e78cf5e560aa34276cf2d2ac95812944))
+
+
+
 # [1.0.0-alpha.31](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.30...v1.0.0-alpha.31) (2020-09-28)
 
 ### Bug Fixes
