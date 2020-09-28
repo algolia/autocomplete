@@ -1,11 +1,8 @@
-# [](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.31...v) (2020-09-28)
-
+# [1.0.0-alpha.32](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.31...v1.0.0-alpha.32) (2020-09-28)
 
 ### Features
 
-* **core:** run `onSelect` on item click ([079a4c1](https://github.com/algolia/autocomplete.js/commit/079a4c15e78cf5e560aa34276cf2d2ac95812944))
-
-
+- **core:** run `onSelect` on item click ([079a4c1](https://github.com/algolia/autocomplete.js/commit/079a4c15e78cf5e560aa34276cf2d2ac95812944))
 
 # [1.0.0-alpha.31](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.30...v1.0.0-alpha.31) (2020-09-28)
 
@@ -19,7 +16,7 @@
 - **core:** skip `onInput` on keyboard select with URL ([399be2b](https://github.com/algolia/autocomplete.js/commit/399be2b3e4eb316c65d2a054cded6d23df71cd62))
 - **core:** trigger `onSelect` on meta keyboard select ([b10fbe1](https://github.com/algolia/autocomplete.js/commit/b10fbe102a6e28386b41bc4c2fbdd239bc5aa886))
 - **core:** use `scrollIntoViewIfNeeded` if exists ([c409f11](https://github.com/algolia/autocomplete.js/commit/c409f11dfd0511bcfcdd60d3ba0c28cf3a61bd26))
-- add recent-searches plugin ([#316](https://github.com/algolia/autocomplete.js/issues/316)) ([858637e](https://github.com/algolia/autocomplete.js/commit/858637e34ba5bfcdfa8bf66e8785296afd436971))
+- **recent-searches**: add recent-searches plugin ([#316](https://github.com/algolia/autocomplete.js/issues/316)) ([858637e](https://github.com/algolia/autocomplete.js/commit/858637e34ba5bfcdfa8bf66e8785296afd436971))
 
 # [1.0.0-alpha.30](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.29...v1.0.0-alpha.30) (2020-09-17)
 
