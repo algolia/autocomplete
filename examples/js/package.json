@@ -10,7 +10,7 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "^1.0.0-alpha.30",
+    "@algolia/autocomplete-js": "^1.0.0-alpha.31",
     "@algolia/client-search": "4.5.1",
     "algoliasearch": "4.5.1"
   },
