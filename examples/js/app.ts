@@ -6,6 +6,7 @@ import {
   getAlgoliaHits,
   reverseHighlightItem,
 } from '@algolia/autocomplete-js';
+import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 
 const searchClient = algoliasearch(
   'latency',
@@ -14,10 +15,14 @@ const searchClient = algoliasearch(
 
 type QuerySuggestionHit = { query: string };
 
+const recentSearches = createRecentSearchesPlugin({ key: 'recent' });
+
 autocomplete<Hit<QuerySuggestionHit>>({
   container: '#autocomplete',
   debug: true,
+  openOnFocus: true,
   // dropdownPlacement: 'start',
+  plugins: [recentSearches],
   getSources({ query }) {
     return getAlgoliaHits<QuerySuggestionHit>({
       searchClient,
@@ -27,6 +32,7 @@ autocomplete<Hit<QuerySuggestionHit>>({
           query,
           params: {
             hitsPerPage: 10,
+            facetFilters: [...recentSearches.data.getFacetFilters()],
           },
         },
       ],

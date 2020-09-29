@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@algolia/autocomplete-js": "^1.0.0-alpha.32",
+    "@algolia/autocomplete-plugin-recent-searches": "^1.0.0-alpha.28",
     "@algolia/client-search": "4.5.1",
     "algoliasearch": "4.5.1"
   },
