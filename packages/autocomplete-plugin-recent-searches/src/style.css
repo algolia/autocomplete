@@ -1,0 +1,15 @@
+.aa-RecentSearches--spacer {
+  flex-grow: 1;
+}
+
+.aa-RecentSearches--deleteButton {
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.aa-RecentSearches--deleteButton:hover {
+  opacity: 1;
+  color: #000;
+}
