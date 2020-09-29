@@ -43,6 +43,7 @@ export function createAutocomplete<
     setIsOpen,
     setStatus,
     setContext,
+    refresh,
   });
 
   function refresh() {
@@ -57,6 +58,7 @@ export function createAutocomplete<
       setIsOpen,
       setStatus,
       setContext,
+      refresh,
     });
   }
 

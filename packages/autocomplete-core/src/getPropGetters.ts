@@ -4,6 +4,7 @@ import {
   InternalAutocompleteOptions,
   AutocompleteSetters,
   AutocompleteStore,
+  AutocompleteRefresh,
   GetDropdownProps,
   GetEnvironmentProps,
   GetFormProps,
@@ -18,6 +19,7 @@ import { getHighlightedItem, isOrContainsNode } from './utils';
 interface GetPropGettersOptions<TItem> extends AutocompleteSetters<TItem> {
   store: AutocompleteStore<TItem>;
   props: InternalAutocompleteOptions<TItem>;
+  refresh: AutocompleteRefresh;
 }
 
 export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
@@ -29,6 +31,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
   setIsOpen,
   setStatus,
   setContext,
+  refresh,
 }: GetPropGettersOptions<TItem>) {
   const getEnvironmentProps: GetEnvironmentProps = (getterProps) => {
     return {
@@ -135,6 +138,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
             setIsOpen,
             setStatus,
             setContext,
+            refresh,
           });
         }
         store.send('reset', null);
@@ -165,6 +169,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
           setIsOpen,
           setStatus,
           setContext,
+          refresh,
         });
       }
 
@@ -205,6 +210,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
           setIsOpen,
           setStatus,
           setContext,
+          refresh,
         });
       },
       onKeyDown: (event) => {
@@ -218,6 +224,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
           setIsOpen,
           setStatus,
           setContext,
+          refresh,
         });
       },
       onFocus,
@@ -351,6 +358,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
               setIsOpen,
               setStatus,
               setContext,
+              refresh,
               nextState: {
                 isOpen: false,
               },

@@ -38,7 +38,7 @@ export function createRecentSearchesPlugin({
   });
 
   return {
-    getSources: ({ query }) => {
+    getSources: ({ query, refresh }) => {
       if (query) {
         return [];
       }
@@ -76,7 +76,7 @@ export function createRecentSearchesPlugin({
                 ) {
                   event.stopPropagation();
                   store.remove(item);
-                  // FIXME: how to refresh only this plugin without having to refresh all the other sources?
+                  refresh();
                 }
               });
               return null;
