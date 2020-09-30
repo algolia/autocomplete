@@ -65,17 +65,18 @@ export function createRecentSearchesPlugin({
               title.innerText = item.query;
               const spacer = document.createElement('div');
               spacer.className = 'aa-RecentSearches--spacer';
-              const deleteButton = document.createElement('button');
-              deleteButton.className =
-                'item-icon aa-RecentSearches--deleteButton';
-              deleteButton.type = 'button';
-              deleteButton.innerHTML = resetIcon;
+              const removeButton = document.createElement('button');
+              removeButton.className =
+                'item-icon aa-RecentSearches--removeButton';
+              removeButton.type = 'button';
+              removeButton.innerHTML = resetIcon;
+              removeButton.title = 'Remove';
               root.appendChild(icon);
               root.appendChild(title);
               root.appendChild(spacer);
-              root.appendChild(deleteButton);
+              root.appendChild(removeButton);
 
-              deleteButton.addEventListener('click', (event: MouseEvent) => {
+              removeButton.addEventListener('click', (event: MouseEvent) => {
                 event.stopPropagation();
                 store.remove(item);
                 refresh();
