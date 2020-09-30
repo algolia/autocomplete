@@ -81,7 +81,6 @@ export function createRecentSearchesPlugin({
                 store.remove(item);
                 refresh();
               });
-              return null;
             },
           },
         },
