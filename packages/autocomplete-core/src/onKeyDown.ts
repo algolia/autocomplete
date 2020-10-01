@@ -4,6 +4,7 @@ import {
   InternalAutocompleteOptions,
   AutocompleteSetters,
   AutocompleteStore,
+  AutocompleteRefresh,
 } from './types';
 import { getHighlightedItem } from './utils';
 
@@ -11,6 +12,7 @@ interface OnKeyDownOptions<TItem> extends AutocompleteSetters<TItem> {
   event: KeyboardEvent;
   store: AutocompleteStore<TItem>;
   props: InternalAutocompleteOptions<TItem>;
+  refresh: AutocompleteRefresh;
 }
 
 export function onKeyDown<TItem>({
@@ -23,6 +25,7 @@ export function onKeyDown<TItem>({
   setIsOpen,
   setStatus,
   setContext,
+  refresh,
 }: OnKeyDownOptions<TItem>): void {
   if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
     // Default browser behavior changes the caret placement on ArrowUp and
@@ -91,6 +94,7 @@ export function onKeyDown<TItem>({
         setIsOpen,
         setStatus,
         setContext,
+        refresh,
       });
     }
   } else if (event.key === 'Escape') {
@@ -205,6 +209,7 @@ export function onKeyDown<TItem>({
         nextState: {
           isOpen: false,
         },
+        refresh,
       }).then(() => {
         source.onSelect({
           suggestion: item,

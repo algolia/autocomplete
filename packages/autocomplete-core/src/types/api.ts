@@ -17,8 +17,10 @@ export interface AutocompleteApi<
   /**
    * Triggers a search to refresh the state.
    */
-  refresh(): Promise<void>;
+  refresh: AutocompleteRefresh;
 }
+
+export type AutocompleteRefresh = () => Promise<void>;
 
 export interface AutocompleteSuggestion<TItem> {
   source: InternalAutocompleteSource<TItem>;
@@ -28,6 +30,7 @@ export interface AutocompleteSuggestion<TItem> {
 export interface GetSourcesParams<TItem> extends AutocompleteSetters<TItem> {
   query: string;
   state: AutocompleteState<TItem>;
+  refresh: AutocompleteRefresh;
 }
 
 interface ItemParams<TItem> {
@@ -58,6 +61,7 @@ interface OnSubmitParams<TItem> extends AutocompleteSetters<TItem> {
 interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {
   query: string;
   state: AutocompleteState<TItem>;
+  refresh: AutocompleteRefresh;
 }
 
 export interface AutocompleteSource<TItem> {

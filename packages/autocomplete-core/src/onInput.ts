@@ -3,6 +3,7 @@ import {
   AutocompleteSetters,
   AutocompleteState,
   AutocompleteStore,
+  AutocompleteRefresh,
 } from './types';
 import { getHighlightedItem } from './utils';
 
@@ -21,6 +22,7 @@ interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {
    * but we want to close the dropdown in that case.
    */
   nextState?: Partial<AutocompleteState<TItem>>;
+  refresh: AutocompleteRefresh;
 }
 
 export function onInput<TItem>({
@@ -35,6 +37,7 @@ export function onInput<TItem>({
   setStatus,
   setContext,
   nextState = {},
+  refresh,
 }: OnInputParams<TItem>): Promise<void> {
   if (props.onInput) {
     return Promise.resolve(
@@ -47,6 +50,7 @@ export function onInput<TItem>({
         setIsOpen,
         setStatus,
         setContext,
+        refresh,
       })
     );
   }
@@ -89,6 +93,7 @@ export function onInput<TItem>({
       setIsOpen,
       setStatus,
       setContext,
+      refresh,
     })
     .then((sources) => {
       setStatus('loading');
@@ -106,6 +111,7 @@ export function onInput<TItem>({
               setIsOpen,
               setStatus,
               setContext,
+              refresh,
             })
           ).then((items) => {
             return {
