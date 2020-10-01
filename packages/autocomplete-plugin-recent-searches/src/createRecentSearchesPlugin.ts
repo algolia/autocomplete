@@ -77,7 +77,7 @@ export function createRecentSearchesPlugin({
               root.appendChild(leftItems);
               root.appendChild(removeButton);
 
-              removeButton.addEventListener('click', (event: MouseEvent) => {
+              removeButton.addEventListener('click', (event) => {
                 event.stopPropagation();
                 store.remove(item);
                 refresh();
