@@ -7,7 +7,7 @@ import {
   reverseHighlightItem,
 } from '@algolia/autocomplete-js';
 import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
-import '@algolia/autocomplete-plugin-recent-searches/dist/esm/style.css';
+import '@algolia/autocomplete-plugin-recent-searches/style';
 
 const searchClient = algoliasearch(
   'latency',

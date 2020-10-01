@@ -31,7 +31,8 @@
   },
   "sideEffects": false,
   "files": [
-    "dist/"
+    "dist/",
+    "style/"
   ],
   "dependencies": {
     "@algolia/autocomplete-core": "^1.0.0-alpha.31"
