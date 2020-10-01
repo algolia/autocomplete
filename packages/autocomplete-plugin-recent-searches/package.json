@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-plugin-recent-searches",
   "description": "A plugin to add recent searches to Algolia Autocomplete.",
-  "version": "1.0.0-alpha.30",
+  "version": "1.0.0-alpha.32",
   "license": "MIT",
   "source": "src/index.ts",
   "types": "dist/esm/index.d.ts",
