@@ -1,15 +1,19 @@
-.aa-RecentSearches--spacer {
-  flex-grow: 1;
+.aa-RecentSearchesItem {
+  justify-content: space-between;
 }
 
-.aa-RecentSearches--deleteButton {
+.aa-RecentSearchesItem .leftItems {
+  display: flex;
+}
+
+.aa-RecentSearchesItem .removeButton {
   border: 0;
   background-color: transparent;
   cursor: pointer;
   opacity: 0.8;
 }
 
-.aa-RecentSearches--deleteButton:hover {
+.aa-RecentSearchesItem .removeButton:hover {
   opacity: 1;
   color: #000;
 }
