@@ -53,9 +53,8 @@ export function createRecentSearchesPlugin({
           },
           templates: {
             item({ item, root }) {
-              if (!root.classList.contains('aa-RecentSearchesItem')) {
-                root.classList.add('aa-RecentSearchesItem');
-              }
+              const container = document.createElement('div');
+              container.className = 'aa-RecentSearchesItem';
 
               const leftItems = document.createElement('div');
               leftItems.className = 'leftItems';
@@ -74,8 +73,9 @@ export function createRecentSearchesPlugin({
               removeButton.innerHTML = resetIcon;
               removeButton.title = 'Remove';
 
-              root.appendChild(leftItems);
-              root.appendChild(removeButton);
+              container.appendChild(leftItems);
+              container.appendChild(removeButton);
+              root.appendChild(container);
 
               removeButton.addEventListener('click', (event) => {
                 event.stopPropagation();
