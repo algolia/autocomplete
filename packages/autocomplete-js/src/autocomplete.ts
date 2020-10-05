@@ -40,6 +40,7 @@ export function autocomplete<TItem>({
   const dropdown = document.createElement('div');
 
   const autocomplete = createAutocomplete<TItem>({
+    ...props,
     onStateChange(options) {
       const { state } = options;
       render(state as any);
@@ -48,7 +49,6 @@ export function autocomplete<TItem>({
         props.onStateChange(options);
       }
     },
-    ...props,
   });
 
   const onResize = debounce(() => {

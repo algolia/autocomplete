@@ -131,7 +131,6 @@ function getSuggestionFromHighlightedIndex<TItem>({
  *  [['a', 'b'], ['c', 'd', 'e'], ['f']]
  *                      ↑
  *         (absolute: 3, relative: 1)
- * @param param0
  */
 function getRelativeHighlightedIndex<TItem>({
   state,
