@@ -1,3 +1,17 @@
+# [](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.32...v) (2020-10-05)
+
+
+### Bug Fixes
+
+* **js:** support `onStateChange` ([e4c1488](https://github.com/algolia/autocomplete.js/commit/e4c14886361c7914ba29bf6da4b2db773ed84fc6))
+
+
+### Features
+
+* **recentSearches:** add remove button ([#326](https://github.com/algolia/autocomplete.js/issues/326)) ([648f1e8](https://github.com/algolia/autocomplete.js/commit/648f1e8de82ddfdf385da091e7402a2e4742f7d0))
+
+
+
 # [1.0.0-alpha.32](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.31...v1.0.0-alpha.32) (2020-09-28)
 
 ### Features
