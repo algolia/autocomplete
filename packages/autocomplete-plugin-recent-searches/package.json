@@ -11,7 +11,7 @@
   "unpkg": "dist/umd/index.js",
   "jsdelivr": "dist/umd/index.js",
   "peerDependencies": {
-    "@algolia/autocomplete-core": "^1.0.0-alpha.32"
+    "@algolia/autocomplete-core": "^1.0.0-alpha.33"
   },
   "scripts": {
     "build:clean": "rm -rf ./dist",
