@@ -1,4 +1,4 @@
-import { version } from '@algolia/autocomplete-core';
+import { version } from '../../version';
 import {
   MultipleQueriesResponse,
   SearchResponse,
