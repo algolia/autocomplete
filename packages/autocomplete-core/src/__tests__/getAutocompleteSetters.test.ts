@@ -57,22 +57,59 @@ describe('createAutocomplete', () => {
     );
   });
 
-  test('setSuggestions', () => {
-    const onStateChange = jest.fn();
-    const { setSuggestions } = createAutocomplete({
-      getSources: () => [],
-      onStateChange,
+  describe('setSuggestions', () => {
+    test('default', () => {
+      const onStateChange = jest.fn();
+      const { setSuggestions } = createAutocomplete({
+        getSources: () => [],
+        onStateChange,
+      });
+      const suggestions = [createSuggestion([{ item: 'hi' }])];
+
+      setSuggestions(suggestions);
+
+      expect(onStateChange).toHaveBeenCalledTimes(1);
+      expect(onStateChange).toHaveBeenCalledWith({
+        state: expect.objectContaining({
+          suggestions: expect.arrayContaining(
+            suggestions.map((suggestion) => ({
+              ...suggestion,
+              items: suggestion.items.map((item) => ({
+                ...item,
+                __autocomplete_id: expect.any(Number),
+              })),
+            }))
+          ),
+        }),
+      });
     });
-    const suggestions = [createSuggestion()];
 
-    setSuggestions(suggestions);
+    test('flattens suggestions', async () => {
+      const onStateChange = jest.fn();
+      const { refresh } = createAutocomplete({
+        openOnFocus: true,
+        getSources: () => [
+          {
+            getSuggestions() {
+              return [[{ suggestion: 1 }]];
+            },
+          },
+        ],
+        onStateChange,
+      });
 
-    expect(onStateChange).toHaveBeenCalledTimes(1);
-    expect(onStateChange).toHaveBeenCalledWith(
-      expect.objectContaining({
-        state: expect.objectContaining({ suggestions }),
-      })
-    );
+      await refresh();
+
+      expect(onStateChange).toHaveBeenCalledWith({
+        state: expect.objectContaining({
+          suggestions: [
+            expect.objectContaining({
+              items: [expect.objectContaining({ suggestion: 1 })],
+            }),
+          ],
+        }),
+      });
+    });
   });
 
   test('setIsOpen', () => {

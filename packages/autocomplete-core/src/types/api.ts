@@ -93,7 +93,9 @@ export interface AutocompleteSource<TItem> {
   /**
    * Function called when the input changes. You can use this function to filter/search the items based on the query.
    */
-  getSuggestions(params: GetSourcesParams<TItem>): MaybePromise<TItem[]>;
+  getSuggestions(
+    params: GetSourcesParams<TItem>
+  ): MaybePromise<TItem[] | TItem[][]>;
   /**
    * Function called when an item is selected.
    */

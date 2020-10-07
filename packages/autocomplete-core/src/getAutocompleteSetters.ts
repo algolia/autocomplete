@@ -1,4 +1,5 @@
 import { AutocompleteApi, AutocompleteStore } from './types';
+import { flatten } from './utils';
 
 interface GetAutocompleteSettersOptions<TItem> {
   store: AutocompleteStore<TItem>;
@@ -23,7 +24,7 @@ export function getAutocompleteSetters<TItem>({
     let baseItemId = 0;
     const value = rawValue.map((suggestion) => ({
       ...suggestion,
-      items: suggestion.items.map((item) => ({
+      items: flatten(suggestion.items).map((item) => ({
         ...item,
         __autocomplete_id: baseItemId++,
       })),

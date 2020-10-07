@@ -4,6 +4,7 @@ import {
   getItemsCount,
   noop,
   getNormalizedSources,
+  flatten,
 } from './utils';
 
 export function getDefaultProps<TItem>(
@@ -62,11 +63,7 @@ export function getDefaultProps<TItem>(
         )
       )
         .then((nested) =>
-          // same as `nested.flat()`
-          nested.reduce((acc, array) => {
-            acc = acc.concat(array);
-            return acc;
-          }, [])
+          flatten(nested)
         )
         .then((sources) =>
           sources.map((source) => ({

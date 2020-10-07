@@ -187,3 +187,9 @@ export function getHighlightedItem<TItem>({
 export function isOrContainsNode(parent: Node, child: Node) {
   return parent === child || (parent.contains && parent.contains(child));
 }
+
+export function flatten<TType>(values: Array<TType | TType[]>): TType[] {
+  return values.reduce<TType[]>((a, b) => {
+    return a.concat(b);
+  }, []);
+}
