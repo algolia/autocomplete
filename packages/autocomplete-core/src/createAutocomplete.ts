@@ -58,6 +58,9 @@ export function createAutocomplete<
       setIsOpen,
       setStatus,
       setContext,
+      nextState: {
+        isOpen: store.getState().isOpen,
+      },
       refresh,
     });
   }
