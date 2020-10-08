@@ -16,12 +16,13 @@ export function createStore<TItem>(
       return this.state;
     },
     send(action, payload) {
+      const prevState = { ...this.state };
       this.state = withCompletion(
         reducer({ type: action, value: payload }, this.state, props),
         props
       );
 
-      props.onStateChange({ state: this.state });
+      props.onStateChange({ state: this.state, prevState });
     },
   };
 }
