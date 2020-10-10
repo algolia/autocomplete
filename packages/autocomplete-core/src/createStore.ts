@@ -1,6 +1,7 @@
 import {
-  InternalAutocompleteOptions,
+  AutocompleteState,
   AutocompleteStore,
+  InternalAutocompleteOptions,
   Reducer,
   StateEnhancer,
 } from './types';
@@ -10,15 +11,21 @@ export function createStore<TItem>(
   props: InternalAutocompleteOptions<TItem>,
   stateEnhancers: Array<StateEnhancer<TItem>>
 ): AutocompleteStore<TItem> {
-  let state = props.initialState;
+  function enhanceState(state: AutocompleteState<TItem>) {
+    return stateEnhancers.reduce(
+      (nextState, stateEnhancer) => stateEnhancer(nextState, props),
+      state
+    );
+  }
+
+  let state = enhanceState(props.initialState);
 
   return {
     getState() {
       return state;
     },
     send(action, payload) {
-      state = stateEnhancers.reduce(
-        (nextState, stateEnhancer) => stateEnhancer(nextState, props),
+      state = enhanceState(
         reducer(state, {
           type: action,
           props,
