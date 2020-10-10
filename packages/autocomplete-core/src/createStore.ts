@@ -10,18 +10,23 @@ export function createStore<TItem>(
   reducer: Reducer,
   props: InternalAutocompleteOptions<TItem>
 ): AutocompleteStore<TItem> {
+  let state = props.initialState;
+
   return {
-    state: props.initialState,
     getState() {
-      return this.state;
+      return state;
     },
     send(action, payload) {
-      this.state = withCompletion(
-        reducer({ type: action, value: payload }, this.state, props),
+      state = withCompletion(
+        reducer(state, {
+          type: action,
+          props,
+          payload,
+        }),
         props
       );
 
-      props.onStateChange({ state: this.state });
+      props.onStateChange({ state });
     },
   };
 }

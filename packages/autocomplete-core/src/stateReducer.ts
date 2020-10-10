@@ -1,40 +1,40 @@
 import { Reducer } from './types';
 import { getItemsCount, getNextHighlightedIndex } from './utils';
 
-export const stateReducer: Reducer = (action, state, props) => {
+export const stateReducer: Reducer = (state, action) => {
   switch (action.type) {
     case 'setHighlightedIndex': {
       return {
         ...state,
-        highlightedIndex: action.value,
+        highlightedIndex: action.payload,
       };
     }
 
     case 'setQuery': {
       return {
         ...state,
-        query: action.value,
+        query: action.payload,
       };
     }
 
     case 'setSuggestions': {
       return {
         ...state,
-        suggestions: action.value,
+        suggestions: action.payload,
       };
     }
 
     case 'setIsOpen': {
       return {
         ...state,
-        isOpen: action.value,
+        isOpen: action.payload,
       };
     }
 
     case 'setStatus': {
       return {
         ...state,
-        status: action.value,
+        status: action.payload,
       };
     }
 
@@ -43,7 +43,7 @@ export const stateReducer: Reducer = (action, state, props) => {
         ...state,
         context: {
           ...state.context,
-          ...action.value,
+          ...action.payload,
         },
       };
     }
@@ -55,7 +55,7 @@ export const stateReducer: Reducer = (action, state, props) => {
           1,
           state.highlightedIndex,
           getItemsCount(state),
-          props.defaultHighlightedIndex
+          action.props.defaultHighlightedIndex
         ),
       };
     }
@@ -67,7 +67,7 @@ export const stateReducer: Reducer = (action, state, props) => {
           -1,
           state.highlightedIndex,
           getItemsCount(state),
-          props.defaultHighlightedIndex
+          action.props.defaultHighlightedIndex
         ),
       };
     }
@@ -108,8 +108,10 @@ export const stateReducer: Reducer = (action, state, props) => {
 
           // Since we close the menu when openOnFocus=false
           // we lose track of the highlighted index. (Query-suggestions use-case)
-          props.openOnFocus === true ? props.defaultHighlightedIndex : null,
-        isOpen: props.openOnFocus, // @TODO: Check with UX team if we want to close the menu on reset.
+          action.props.openOnFocus === true
+            ? action.props.defaultHighlightedIndex
+            : null,
+        isOpen: action.props.openOnFocus, // @TODO: Check with UX team if we want to close the menu on reset.
         status: 'idle',
         statusContext: {},
         query: '',
@@ -119,13 +121,13 @@ export const stateReducer: Reducer = (action, state, props) => {
     case 'focus': {
       return {
         ...state,
-        highlightedIndex: props.defaultHighlightedIndex,
-        isOpen: props.openOnFocus || state.query.length > 0,
+        highlightedIndex: action.props.defaultHighlightedIndex,
+        isOpen: action.props.openOnFocus || state.query.length > 0,
       };
     }
 
     case 'blur': {
-      if (props.debug) {
+      if (action.props.debug) {
         return state;
       }
 
@@ -139,14 +141,14 @@ export const stateReducer: Reducer = (action, state, props) => {
     case 'mousemove': {
       return {
         ...state,
-        highlightedIndex: action.value,
+        highlightedIndex: action.payload,
       };
     }
 
     case 'mouseleave': {
       return {
         ...state,
-        highlightedIndex: props.defaultHighlightedIndex,
+        highlightedIndex: action.props.defaultHighlightedIndex,
       };
     }
 
