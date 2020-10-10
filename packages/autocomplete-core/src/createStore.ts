@@ -1,14 +1,14 @@
-import { getCompletion } from './getCompletion';
 import {
   InternalAutocompleteOptions,
-  AutocompleteState,
   AutocompleteStore,
   Reducer,
+  StateEnhancer,
 } from './types';
 
 export function createStore<TItem>(
   reducer: Reducer,
-  props: InternalAutocompleteOptions<TItem>
+  props: InternalAutocompleteOptions<TItem>,
+  stateEnhancers: Array<StateEnhancer<TItem>>
 ): AutocompleteStore<TItem> {
   let state = props.initialState;
 
@@ -17,26 +17,16 @@ export function createStore<TItem>(
       return state;
     },
     send(action, payload) {
-      state = withCompletion(
+      state = stateEnhancers.reduce(
+        (nextState, stateEnhancer) => stateEnhancer(nextState, props),
         reducer(state, {
           type: action,
           props,
           payload,
-        }),
-        props
+        })
       );
 
       props.onStateChange({ state });
     },
-  };
-}
-
-function withCompletion<TItem>(
-  state: AutocompleteState<TItem>,
-  props: InternalAutocompleteOptions<TItem>
-) {
-  return {
-    ...state,
-    completion: getCompletion({ state, props }),
   };
 }
