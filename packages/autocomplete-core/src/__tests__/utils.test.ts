@@ -1,15 +1,15 @@
 import { flatten } from '../utils';
 
 describe('flatten', () => {
-  it('flattens only values', () => {
+  it('does not split strings', () => {
     expect(flatten(['value', 'value'])).toEqual(['value', 'value']);
   });
 
-  it('flattens arrays mixed with nested arrays', () => {
+  it('spreads arrays', () => {
     expect(flatten(['value', ['value']])).toEqual(['value', 'value']);
   });
 
-  it('ignores empty nested arrays', () => {
+  it('ignores empty arrays', () => {
     expect(flatten([[], 'value', 'value'])).toEqual(['value', 'value']);
   });
 });
