@@ -71,15 +71,17 @@ describe('createAutocomplete', () => {
       expect(onStateChange).toHaveBeenCalledTimes(1);
       expect(onStateChange).toHaveBeenCalledWith({
         state: expect.objectContaining({
-          suggestions: expect.arrayContaining(
-            suggestions.map((suggestion) => ({
-              ...suggestion,
-              items: suggestion.items.map((item) => ({
-                ...item,
-                __autocomplete_id: expect.any(Number),
-              })),
-            }))
-          ),
+          suggestions: [
+            {
+              items: [
+                {
+                  item: 'hi',
+                  __autocomplete_id: 0,
+                },
+              ],
+              source: expect.any(Object),
+            },
+          ],
         }),
       });
     });
