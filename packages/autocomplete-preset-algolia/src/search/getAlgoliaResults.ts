@@ -1,12 +1,12 @@
-import { MultipleQueriesResponse } from '@algolia/client-search';
+import { SearchResponse } from '@algolia/client-search';
 
 import { search, SearchParams } from './search';
 
-export function getAlgoliaResults<THit>({
+export function getAlgoliaResults<TRecord>({
   searchClient,
   queries,
-}: SearchParams): Promise<MultipleQueriesResponse<THit>['results']> {
-  return search<THit>({ searchClient, queries }).then((response) => {
+}: SearchParams): Promise<Array<SearchResponse<TRecord>>> {
+  return search<TRecord>({ searchClient, queries }).then((response) => {
     return response.results;
   });
 }

@@ -9,12 +9,12 @@ export interface SearchParams {
   queries: MultipleQueriesQuery[];
 }
 
-export function search<THit>({ searchClient, queries }: SearchParams) {
+export function search<TRecord>({ searchClient, queries }: SearchParams) {
   if (typeof searchClient.addAlgoliaAgent === 'function') {
     searchClient.addAlgoliaAgent('autocomplete-core', version);
   }
 
-  return searchClient.search<THit>(
+  return searchClient.search<TRecord>(
     queries.map((searchParameters) => {
       const { indexName, query, params } = searchParameters;
 
