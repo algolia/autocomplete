@@ -1,6 +1,9 @@
 import { createAutocomplete } from '..';
+import { AutocompleteSuggestion } from '../../dist/esm';
 
-function createSuggestion(items = []) {
+function createSuggestion<TItem extends { label: string }>(
+  items: TItem[] | TItem[][] = []
+): AutocompleteSuggestion<TItem> {
   return {
     source: {
       getInputValue: ({ suggestion }) => suggestion.label,
@@ -64,9 +67,8 @@ describe('createAutocomplete', () => {
         getSources: () => [],
         onStateChange,
       });
-      const suggestions = [createSuggestion([{ item: 'hi' }])];
 
-      setSuggestions(suggestions);
+      setSuggestions([createSuggestion([{ label: 'hi' }])]);
 
       expect(onStateChange).toHaveBeenCalledTimes(1);
       expect(onStateChange).toHaveBeenCalledWith({
@@ -75,7 +77,7 @@ describe('createAutocomplete', () => {
             {
               items: [
                 {
-                  item: 'hi',
+                  label: 'hi',
                   __autocomplete_id: 0,
                 },
               ],
@@ -86,27 +88,21 @@ describe('createAutocomplete', () => {
       });
     });
 
-    test('flattens suggestions', async () => {
+    test('flattens suggestions', () => {
       const onStateChange = jest.fn();
-      const { refresh } = createAutocomplete({
+      const { setSuggestions } = createAutocomplete({
         openOnFocus: true,
-        getSources: () => [
-          {
-            getSuggestions() {
-              return [[{ suggestion: 1 }]];
-            },
-          },
-        ],
+        getSources: () => [],
         onStateChange,
       });
 
-      await refresh();
+      setSuggestions([createSuggestion([[{ label: 'hi' }]])]);
 
       expect(onStateChange).toHaveBeenCalledWith({
         state: expect.objectContaining({
           suggestions: [
             expect.objectContaining({
-              items: [expect.objectContaining({ suggestion: 1 })],
+              items: [{ label: 'hi', __autocomplete_id: 0 }],
             }),
           ],
         }),

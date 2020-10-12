@@ -25,7 +25,7 @@ export type AutocompleteRefresh = () => Promise<void>;
 
 export interface AutocompleteSuggestion<TItem> {
   source: InternalAutocompleteSource<TItem>;
-  items: TItem[];
+  items: TItem[] | TItem[][];
 }
 
 export interface GetSourcesParams<TItem> extends AutocompleteSetters<TItem> {
