@@ -2,7 +2,7 @@ import { createAutocomplete } from '..';
 import { AutocompleteSuggestion } from '../../dist/esm';
 
 function createSuggestion<TItem extends { label: string }>(
-  items: TItem[] | TItem[][] = []
+  items: TItem[] = []
 ): AutocompleteSuggestion<TItem> {
   return {
     source: {
@@ -96,6 +96,9 @@ describe('createAutocomplete', () => {
         onStateChange,
       });
 
+      // @ts-expect-error AutocompleteSuggestion has an array of items
+      // while it also accepts a nested array.
+      // There's only one type for both input and output however, 
       setSuggestions([createSuggestion([[{ label: 'hi' }]])]);
 
       expect(onStateChange).toHaveBeenCalledWith({
