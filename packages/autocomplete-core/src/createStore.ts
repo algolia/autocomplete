@@ -1,38 +1,40 @@
-import { getCompletion } from './getCompletion';
 import {
-  InternalAutocompleteOptions,
   AutocompleteState,
   AutocompleteStore,
+  InternalAutocompleteOptions,
   Reducer,
+  StateEnhancer,
 } from './types';
 
 export function createStore<TItem>(
   reducer: Reducer,
-  props: InternalAutocompleteOptions<TItem>
+  props: InternalAutocompleteOptions<TItem>,
+  stateEnhancers: Array<StateEnhancer<TItem>>
 ): AutocompleteStore<TItem> {
+  function enhanceState(state: AutocompleteState<TItem>) {
+    return stateEnhancers.reduce(
+      (nextState, stateEnhancer) => stateEnhancer(nextState, props),
+      state
+    );
+  }
+
+  let state = enhanceState(props.initialState);
+
   return {
-    state: props.initialState,
     getState() {
-      return this.state;
+      return state;
     },
     send(action, payload) {
-      const prevState = { ...this.state };
-      this.state = withCompletion(
-        reducer({ type: action, value: payload }, this.state, props),
-        props
+      const prevState = { ...state };
+      state = enhanceState(
+        reducer(state, {
+          type: action,
+          props,
+          payload,
+        })
       );
 
-      props.onStateChange({ state: this.state, prevState });
+      props.onStateChange({ state, prevState });
     },
-  };
-}
-
-function withCompletion<TItem>(
-  state: AutocompleteState<TItem>,
-  props: InternalAutocompleteOptions<TItem>
-) {
-  return {
-    ...state,
-    completion: getCompletion({ state, props }),
   };
 }

@@ -2,20 +2,19 @@ import { InternalAutocompleteOptions } from './api';
 import { AutocompleteState } from './state';
 
 export interface AutocompleteStore<TItem> {
-  state: AutocompleteState<TItem>;
   getState(): AutocompleteState<TItem>;
   send(action: ActionType, payload: any): void;
 }
 
 export type Reducer = <TItem>(
-  action: Action,
   state: AutocompleteState<TItem>,
-  props: InternalAutocompleteOptions<TItem>
+  action: Action<TItem, any>
 ) => AutocompleteState<TItem>;
 
-type Action = {
+type Action<TItem, TPayload> = {
   type: ActionType;
-  value: any;
+  props: InternalAutocompleteOptions<TItem>;
+  payload: TPayload;
 };
 
 type ActionType =
@@ -36,3 +35,8 @@ type ActionType =
   | 'mousemove'
   | 'mouseleave'
   | 'click';
+
+export type StateEnhancer<TItem> = (
+  state: AutocompleteState<TItem>,
+  props: InternalAutocompleteOptions<TItem>
+) => AutocompleteState<TItem>;

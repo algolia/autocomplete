@@ -32,7 +32,7 @@ export function onKeyDown<TItem>({
     // Arrow down.
     event.preventDefault();
 
-    store.send(event.key, { shiftKey: event.shiftKey });
+    store.send(event.key, null);
 
     const nodeItem = props.environment.document.getElementById(
       `${props.id}-item-${store.getState().highlightedIndex}`
