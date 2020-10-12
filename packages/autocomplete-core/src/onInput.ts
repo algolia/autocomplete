@@ -59,8 +59,8 @@ export function onInput<TItem>({
     clearTimeout(lastStalledId);
   }
 
-  setHighlightedIndex(props.defaultHighlightedIndex);
   setQuery(query);
+  setHighlightedIndex(props.defaultHighlightedIndex);
 
   if (query.length === 0 && props.openOnFocus === false) {
     setStatus('idle');
