@@ -52,10 +52,7 @@ export type InternalAutocompleteSource<TItem> = InternalAutocompleteCoreSource<
 type GetSources<TItem> = (
   params: GetSourcesParams<TItem>
 ) =>
-  // TODO: decide whether:
-  // 1. find out whether GetSources in core is also Promise / nonPromise and reuse it
-  // 2. export MaybePromise from -core (but it's public API then)
-  // 3. rewrite MaybePromise here
+  // TODO: reuse MaybePromise from autocomplete-core when we find a way to share the type
   | Array<AutocompleteCoreSource<TItem>>
   | Promise<Array<AutocompleteCoreSource<TItem>>>;
 
