@@ -24,6 +24,8 @@ export function getAutocompleteSetters<TItem>({
     let baseItemId = 0;
     const value = rawValue.map((suggestion) => ({
       ...suggestion,
+      // We flatten the stored items to support calling `getAlgoliaHits`
+      // from the source itself.
       items: flatten(suggestion.items).map((item) => ({
         ...item,
         __autocomplete_id: baseItemId++,
