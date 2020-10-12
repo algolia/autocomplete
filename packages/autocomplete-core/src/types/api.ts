@@ -258,7 +258,7 @@ export interface AutocompleteOptions<TItem> {
   /**
    * Navigator API to redirect the user when a link should be opened.
    */
-  navigator?: Navigator<TItem>;
+  navigator?: Partial<Navigator<TItem>>;
   /**
    * The function called to determine whether the dropdown should open.
    */
