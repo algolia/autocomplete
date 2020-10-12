@@ -1,9 +1,9 @@
-import { version } from '@algolia/autocomplete-core';
 import {
   MultipleQueriesResponse,
   SearchResponse,
 } from '@algolia/client-search';
 
+import { version } from '../../version';
 import { getAlgoliaHits } from '../getAlgoliaHits';
 import { getAlgoliaResults } from '../getAlgoliaResults';
 
