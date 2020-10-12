@@ -1,6 +1,7 @@
 import { AutocompleteAccessibilityGetters } from './getters';
 import { AutocompleteSetters } from './setters';
 import { AutocompleteState } from './state';
+import { MaybePromise } from './wrappers';
 
 export interface AutocompleteApi<
   TItem,
@@ -92,7 +93,7 @@ export interface AutocompleteSource<TItem> {
   /**
    * Function called when the input changes. You can use this function to filter/search the items based on the query.
    */
-  getSuggestions(params: GetSourcesParams<TItem>): TItem[] | Promise<TItem[]>;
+  getSuggestions(params: GetSourcesParams<TItem>): MaybePromise<TItem[]>;
   /**
    * Function called when an item is selected.
    */
@@ -163,9 +164,7 @@ export type AutocompletePlugin<TItem, TData> = {
    */
   getSources?(
     params: GetSourcesParams<TItem>
-  ):
-    | Array<AutocompleteSource<TItem>>
-    | Promise<Array<AutocompleteSource<TItem>>>;
+  ): MaybePromise<Array<AutocompleteSource<TItem>>>;
   /**
    * The function called when the autocomplete form is submitted.
    */
@@ -244,9 +243,7 @@ export interface AutocompleteOptions<TItem> {
    */
   getSources(
     params: GetSourcesParams<TItem>
-  ):
-    | Array<AutocompleteSource<TItem>>
-    | Promise<Array<AutocompleteSource<TItem>>>;
+  ): MaybePromise<Array<AutocompleteSource<TItem>>>;
   /**
    * The environment from where your JavaScript is running.
    * Useful if you're using autocomplete in a different context than
