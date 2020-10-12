@@ -25,6 +25,7 @@ export function createStore<TItem>(
       return state;
     },
     send(action, payload) {
+      const prevState = { ...state };
       state = enhanceState(
         reducer(state, {
           type: action,
@@ -33,7 +34,7 @@ export function createStore<TItem>(
         })
       );
 
-      props.onStateChange({ state });
+      props.onStateChange({ state, prevState });
     },
   };
 }
