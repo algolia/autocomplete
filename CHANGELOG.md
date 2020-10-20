@@ -1,3 +1,20 @@
+# [](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.33...v) (2020-10-20)
+
+
+### Bug Fixes
+
+* cursor stays where it's supposed to be ([#343](https://github.com/algolia/autocomplete.js/issues/343)) ([bae4d62](https://github.com/algolia/autocomplete.js/commit/bae4d621e5e8577d3394292e357e767d26d26742))
+* **algolia:** fix `getAlgoliaResults` typings ([#336](https://github.com/algolia/autocomplete.js/issues/336)) ([0559624](https://github.com/algolia/autocomplete.js/commit/0559624affe43307d0f5b47ddeed6bdbc30a0961))
+* **core:** turn public `navigator` type to partial ([#339](https://github.com/algolia/autocomplete.js/issues/339)) ([056daeb](https://github.com/algolia/autocomplete.js/commit/056daeba21764c12e2933999d0ae243ce94c956d))
+* **refresh:** remain current value of isOpen ([#334](https://github.com/algolia/autocomplete.js/issues/334)) ([637d23e](https://github.com/algolia/autocomplete.js/commit/637d23ecb82f88b6de686b76657fe53a8acf119d))
+
+
+### Features
+
+* **onStateChange:** provide prevState ([#335](https://github.com/algolia/autocomplete.js/issues/335)) ([21739b4](https://github.com/algolia/autocomplete.js/commit/21739b446dd7d5105dabb67adfff0937cbe06162))
+
+
+
 # [1.0.0-alpha.33](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.32...v1.0.0-alpha.33) (2020-10-05)
 
 ### Bug Fixes

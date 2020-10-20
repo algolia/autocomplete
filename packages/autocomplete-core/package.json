@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-core",
   "description": "Core primitives for building autocomplete experiences.",
-  "version": "1.0.0-alpha.33",
+  "version": "1.0.0-alpha.34",
   "license": "MIT",
   "source": "src/index.ts",
   "types": "dist/esm/index.d.ts",

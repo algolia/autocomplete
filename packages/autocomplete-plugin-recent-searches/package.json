@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-plugin-recent-searches",
   "description": "A plugin to add recent searches to Algolia Autocomplete.",
-  "version": "1.0.0-alpha.32",
+  "version": "1.0.0-alpha.34",
   "license": "MIT",
   "source": "src/index.ts",
   "types": "dist/esm/index.d.ts",
@@ -11,7 +11,7 @@
   "unpkg": "dist/umd/index.js",
   "jsdelivr": "dist/umd/index.js",
   "peerDependencies": {
-    "@algolia/autocomplete-core": "^1.0.0-alpha.33"
+    "@algolia/autocomplete-core": "^1.0.0-alpha.34"
   },
   "scripts": {
     "build:clean": "rm -rf ./dist",
