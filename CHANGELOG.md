@@ -1,4 +1,4 @@
-# [](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.33...v) (2020-10-20)
+# [v1.0.0-alpha.34](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.33...v1.0.0-alpha.34) (2020-10-20)
 
 
 ### Bug Fixes
