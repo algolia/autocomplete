@@ -17,7 +17,7 @@ export const stateReducer: Reducer = (state, action) => {
       };
     }
 
-    case 'setSuggestions': {
+    case 'setCollections': {
       return {
         ...state,
         suggestions: action.payload,

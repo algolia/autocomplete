@@ -124,7 +124,7 @@ autocomplete({
 const {
   setSelectedItemId,
   setQuery,
-  setSuggestions,
+  setCollections,
   setIsOpen,
   setStatus,
   setContext,

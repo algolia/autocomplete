@@ -237,7 +237,7 @@ export function autocomplete<TItem>({
   return {
     setSelectedItemId: autocomplete.setSelectedItemId,
     setQuery: autocomplete.setQuery,
-    setSuggestions: autocomplete.setSuggestions,
+    setCollections: autocomplete.setCollections,
     setIsOpen: autocomplete.setIsOpen,
     setStatus: autocomplete.setStatus,
     setContext: autocomplete.setContext,

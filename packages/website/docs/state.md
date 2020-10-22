@@ -111,7 +111,7 @@ Sets the open state of the dropdown.
 
 Sets the status of the experience.
 
-### `setSuggestions`
+### `setCollections`
 
 > `(value: Suggestion[]) => void`
 

@@ -32,7 +32,7 @@ export function onInput<TItem>({
   props,
   setSelectedItemId,
   setQuery,
-  setSuggestions,
+  setCollections,
   setIsOpen,
   setStatus,
   setContext,
@@ -46,7 +46,7 @@ export function onInput<TItem>({
         state: store.getState(),
         setSelectedItemId,
         setQuery,
-        setSuggestions,
+        setCollections,
         setIsOpen,
         setStatus,
         setContext,
@@ -64,7 +64,7 @@ export function onInput<TItem>({
 
   if (query.length === 0 && props.openOnFocus === false) {
     setStatus('idle');
-    setSuggestions(
+    setCollections(
       store.getState().suggestions.map((suggestion) => ({
         ...suggestion,
         items: [],
@@ -89,7 +89,7 @@ export function onInput<TItem>({
       state: store.getState(),
       setSelectedItemId,
       setQuery,
-      setSuggestions,
+      setCollections,
       setIsOpen,
       setStatus,
       setContext,
@@ -107,7 +107,7 @@ export function onInput<TItem>({
               state: store.getState(),
               setSelectedItemId,
               setQuery,
-              setSuggestions,
+              setCollections,
               setIsOpen,
               setStatus,
               setContext,
@@ -123,7 +123,7 @@ export function onInput<TItem>({
       )
         .then((suggestions) => {
           setStatus('idle');
-          setSuggestions(suggestions as any);
+          setCollections(suggestions as any);
           setIsOpen(
             nextState.isOpen ??
               ((query.length === 0 && props.openOnFocus) ||
@@ -145,7 +145,7 @@ export function onInput<TItem>({
               state: store.getState(),
               setSelectedItemId,
               setQuery,
-              setSuggestions,
+              setCollections,
               setIsOpen,
               setStatus,
               setContext,

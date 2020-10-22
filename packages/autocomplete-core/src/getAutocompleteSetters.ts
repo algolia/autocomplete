@@ -17,7 +17,7 @@ export function getAutocompleteSetters<TItem>({
     store.send('setQuery', value);
   };
 
-  const setSuggestions: AutocompleteApi<TItem>['setSuggestions'] = (
+  const setCollections: AutocompleteApi<TItem>['setCollections'] = (
     rawValue
   ) => {
     let baseItemId = 0;
@@ -29,7 +29,7 @@ export function getAutocompleteSetters<TItem>({
       })),
     }));
 
-    store.send('setSuggestions', value);
+    store.send('setCollections', value);
   };
 
   const setIsOpen: AutocompleteApi<TItem>['setIsOpen'] = (value) => {
@@ -47,7 +47,7 @@ export function getAutocompleteSetters<TItem>({
   return {
     setSelectedItemId,
     setQuery,
-    setSuggestions,
+    setCollections,
     setIsOpen,
     setStatus,
     setContext,

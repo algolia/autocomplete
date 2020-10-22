@@ -57,15 +57,15 @@ describe('createAutocomplete', () => {
     );
   });
 
-  test('setSuggestions', () => {
+  test('setCollections', () => {
     const onStateChange = jest.fn();
-    const { setSuggestions } = createAutocomplete({
+    const { setCollections } = createAutocomplete({
       getSources: () => [],
       onStateChange,
     });
     const suggestions = [createSuggestion()];
 
-    setSuggestions(suggestions);
+    setCollections(suggestions);
 
     expect(onStateChange).toHaveBeenCalledTimes(1);
     expect(onStateChange).toHaveBeenCalledWith(

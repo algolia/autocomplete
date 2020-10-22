@@ -20,7 +20,7 @@ type Action<TItem, TPayload> = {
 type ActionType =
   | 'setSelectedItemId'
   | 'setQuery'
-  | 'setSuggestions'
+  | 'setCollections'
   | 'setIsOpen'
   | 'setStatus'
   | 'setContext'

@@ -62,7 +62,7 @@ const {
   getMenuProps,
   setSelectedItemId,
   setQuery,
-  setSuggestions,
+  setCollections,
   setIsOpen,
   setStatus,
   setContext,
