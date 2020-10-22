@@ -30,7 +30,7 @@ function normalizeSource<TItem>(
   source: AutocompleteSource<TItem>
 ): InternalAutocompleteSource<TItem> {
   return {
-    getInputValue({ state }) {
+    getItemInputValue({ state }) {
       return state.query;
     },
     getSuggestionUrl() {
@@ -173,7 +173,7 @@ export function getHighlightedItem<TItem>({
   const item =
     suggestion.items[getRelativeHighlightedIndex({ state, suggestion })];
   const source = suggestion.source;
-  const itemValue = source.getInputValue({ suggestion: item, state });
+  const itemValue = source.getItemInputValue({ suggestion: item, state });
   const itemUrl = source.getSuggestionUrl({ suggestion: item, state });
 
   return {

@@ -3,7 +3,7 @@ import { createAutocomplete } from '..';
 function createCollection(items = []) {
   return {
     source: {
-      getInputValue: ({ suggestion }) => suggestion.label,
+      getItemInputValue: ({ suggestion }) => suggestion.label,
       getSuggestionUrl: () => undefined,
       onHighlight: () => {},
       onSelect: () => {},

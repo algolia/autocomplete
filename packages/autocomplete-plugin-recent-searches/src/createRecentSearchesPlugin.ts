@@ -47,7 +47,7 @@ export function createRecentSearchesPlugin({
 
       return [
         {
-          getInputValue: ({ suggestion }) => suggestion.query,
+          getItemInputValue: ({ suggestion }) => suggestion.query,
           getSuggestions() {
             return store.getAll();
           },
@@ -97,7 +97,7 @@ export function createRecentSearchesPlugin({
       }
     },
     onSelect: ({ suggestion, state, source }) => {
-      const inputValue = source.getInputValue({ suggestion, state });
+      const inputValue = source.getItemInputValue({ suggestion, state });
       const { objectID } = suggestion as any;
       if (inputValue) {
         store.add({

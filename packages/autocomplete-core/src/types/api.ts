@@ -37,7 +37,7 @@ export interface GetSourcesParams<TItem> extends AutocompleteSetters<TItem> {
 interface ItemParams<TItem> {
   suggestion: TItem;
   suggestionValue: ReturnType<
-    InternalAutocompleteSource<TItem>['getInputValue']
+    InternalAutocompleteSource<TItem>['getItemInputValue']
   >;
   suggestionUrl: ReturnType<
     InternalAutocompleteSource<TItem>['getSuggestionUrl']
@@ -72,7 +72,7 @@ export interface AutocompleteSource<TItem> {
   /**
    * Get the string value of the suggestion. The value is used to fill the search box.
    */
-  getInputValue?({
+  getItemInputValue?({
     suggestion,
     state,
   }: {

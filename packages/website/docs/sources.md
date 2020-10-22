@@ -177,7 +177,7 @@ const autocomplete = createAutocomplete({
           getSuggestions() {
             return querySuggestions.hits;
           },
-          getInputValue: ({ suggestion }) => suggestion.query,
+          getItemInputValue: ({ suggestion }) => suggestion.query,
         },
         {
           getSuggestions() {
@@ -222,7 +222,7 @@ const source = {
 };
 ```
 
-### `getInputValue`
+### `getItemInputValue`
 
 > `(params: { suggestion, state: AutocompleteState }) => string` | defaults to `({ state }) => state.query`
 
@@ -234,7 +234,7 @@ If you do not wish to update the input value when an item is selected, you can r
 const items = [{ value: 'Apple' }, { value: 'Banana' }];
 
 const source = {
-  getInputValue: ({ suggestion }) => suggestion.value,
+  getItemInputValue: ({ suggestion }) => suggestion.value,
   // ...
 };
 ```
@@ -309,7 +309,7 @@ const autocompleteSearch = autocomplete({
   getSources() {
     return [
       {
-        getInputValue: ({ suggestion }) => suggestion.query,
+        getItemInputValue: ({ suggestion }) => suggestion.query,
         getSuggestions({ query }) {
           return getAlgoliaHits({
             searchClient,

@@ -331,7 +331,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         ((event as unknown) as MouseEvent).preventDefault();
       },
       onClick(event) {
-        const inputValue = source.getInputValue({
+        const inputValue = source.getItemInputValue({
           suggestion: item,
           state: store.getState(),
         });
