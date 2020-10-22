@@ -24,16 +24,20 @@ describe('createAutocomplete', () => {
     setHighlightedIndex(1);
 
     expect(onStateChange).toHaveBeenCalledTimes(1);
-    expect(onStateChange).toHaveBeenCalledWith({
-      state: expect.objectContaining({ highlightedIndex: 1 }),
-    });
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ highlightedIndex: 1 }),
+      })
+    );
 
     setHighlightedIndex(null);
 
     expect(onStateChange).toHaveBeenCalledTimes(2);
-    expect(onStateChange).toHaveBeenCalledWith({
-      state: expect.objectContaining({ highlightedIndex: null }),
-    });
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ highlightedIndex: null }),
+      })
+    );
   });
 
   test('setQuery', () => {
@@ -46,9 +50,11 @@ describe('createAutocomplete', () => {
     setQuery('query');
 
     expect(onStateChange).toHaveBeenCalledTimes(1);
-    expect(onStateChange).toHaveBeenCalledWith({
-      state: expect.objectContaining({ query: 'query' }),
-    });
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ query: 'query' }),
+      })
+    );
   });
 
   test('setSuggestions', () => {
@@ -62,9 +68,11 @@ describe('createAutocomplete', () => {
     setSuggestions(suggestions);
 
     expect(onStateChange).toHaveBeenCalledTimes(1);
-    expect(onStateChange).toHaveBeenCalledWith({
-      state: expect.objectContaining({ suggestions }),
-    });
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ suggestions }),
+      })
+    );
   });
 
   test('setIsOpen', () => {
@@ -77,9 +85,11 @@ describe('createAutocomplete', () => {
     setIsOpen(true);
 
     expect(onStateChange).toHaveBeenCalledTimes(1);
-    expect(onStateChange).toHaveBeenCalledWith({
-      state: expect.objectContaining({ isOpen: true }),
-    });
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ isOpen: true }),
+      })
+    );
   });
 
   test('setStatus', () => {
@@ -92,9 +102,11 @@ describe('createAutocomplete', () => {
     setStatus('stalled');
 
     expect(onStateChange).toHaveBeenCalledTimes(1);
-    expect(onStateChange).toHaveBeenCalledWith({
-      state: expect.objectContaining({ status: 'stalled' }),
-    });
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ status: 'stalled' }),
+      })
+    );
   });
 
   test('setContext', () => {
@@ -107,17 +119,21 @@ describe('createAutocomplete', () => {
     setContext({ nbArticles: 10 });
 
     expect(onStateChange).toHaveBeenCalledTimes(1);
-    expect(onStateChange).toHaveBeenCalledWith({
-      state: expect.objectContaining({ context: { nbArticles: 10 } }),
-    });
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ context: { nbArticles: 10 } }),
+      })
+    );
 
     setContext({ nbProducts: 30 });
 
     expect(onStateChange).toHaveBeenCalledTimes(2);
-    expect(onStateChange).toHaveBeenCalledWith({
-      state: expect.objectContaining({
-        context: { nbArticles: 10, nbProducts: 30 },
-      }),
-    });
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          context: { nbArticles: 10, nbProducts: 30 },
+        }),
+      })
+    );
   });
 });
