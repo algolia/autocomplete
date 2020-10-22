@@ -123,7 +123,7 @@ export function onInput<TItem>({
       )
         .then((collections) => {
           setStatus('idle');
-          setCollections(collections as any);
+          setCollections(collections);
           setIsOpen(
             nextState.isOpen ??
               ((query.length === 0 && props.openOnFocus) ||
