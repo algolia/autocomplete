@@ -7,10 +7,10 @@ interface GetAutocompleteSettersOptions<TItem> {
 export function getAutocompleteSetters<TItem>({
   store,
 }: GetAutocompleteSettersOptions<TItem>) {
-  const setHighlightedIndex: AutocompleteApi<TItem>['setHighlightedIndex'] = (
+  const setSelectedItemId: AutocompleteApi<TItem>['setSelectedItemId'] = (
     value
   ) => {
-    store.send('setHighlightedIndex', value);
+    store.send('setSelectedItemId', value);
   };
 
   const setQuery: AutocompleteApi<TItem>['setQuery'] = (value) => {
@@ -45,7 +45,7 @@ export function getAutocompleteSetters<TItem>({
   };
 
   return {
-    setHighlightedIndex,
+    setSelectedItemId,
     setQuery,
     setSuggestions,
     setIsOpen,

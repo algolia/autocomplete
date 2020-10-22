@@ -122,7 +122,7 @@ autocomplete({
 
 ```js
 const {
-  setHighlightedIndex,
+  setSelectedItemId,
   setQuery,
   setSuggestions,
   setIsOpen,

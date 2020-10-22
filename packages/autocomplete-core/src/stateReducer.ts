@@ -3,7 +3,7 @@ import { getItemsCount, getNextHighlightedIndex } from './utils';
 
 export const stateReducer: Reducer = (state, action) => {
   switch (action.type) {
-    case 'setHighlightedIndex': {
+    case 'setSelectedItemId': {
       return {
         ...state,
         highlightedIndex: action.payload,

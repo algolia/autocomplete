@@ -60,7 +60,7 @@ const {
   getItemProps,
   getLabelProps,
   getMenuProps,
-  setHighlightedIndex,
+  setSelectedItemId,
   setQuery,
   setSuggestions,
   setIsOpen,

@@ -19,7 +19,7 @@ export function createAutocomplete<
   const store = createStore(stateReducer, props, [completionStateEnhancer]);
 
   const {
-    setHighlightedIndex,
+    setSelectedItemId,
     setQuery,
     setSuggestions,
     setIsOpen,
@@ -38,7 +38,7 @@ export function createAutocomplete<
   } = getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     store,
     props,
-    setHighlightedIndex,
+    setSelectedItemId,
     setQuery,
     setSuggestions,
     setIsOpen,
@@ -53,7 +53,7 @@ export function createAutocomplete<
       event: new Event('input'),
       store,
       props,
-      setHighlightedIndex,
+      setSelectedItemId,
       setQuery,
       setSuggestions,
       setIsOpen,
@@ -67,7 +67,7 @@ export function createAutocomplete<
   }
 
   return {
-    setHighlightedIndex,
+    setSelectedItemId,
     setQuery,
     setSuggestions,
     setIsOpen,

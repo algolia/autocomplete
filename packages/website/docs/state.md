@@ -87,7 +87,7 @@ Learn more on the [context](context) page.
 
 ## Setters
 
-### `setHighlightedIndex`
+### `setSelectedItemId`
 
 > `(value: number | null) => void`
 

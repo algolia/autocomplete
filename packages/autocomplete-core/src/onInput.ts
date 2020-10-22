@@ -30,7 +30,7 @@ export function onInput<TItem>({
   event,
   store,
   props,
-  setHighlightedIndex,
+  setSelectedItemId,
   setQuery,
   setSuggestions,
   setIsOpen,
@@ -44,7 +44,7 @@ export function onInput<TItem>({
       props.onInput({
         query,
         state: store.getState(),
-        setHighlightedIndex,
+        setSelectedItemId,
         setQuery,
         setSuggestions,
         setIsOpen,
@@ -60,7 +60,7 @@ export function onInput<TItem>({
   }
 
   setQuery(query);
-  setHighlightedIndex(props.defaultHighlightedIndex);
+  setSelectedItemId(props.defaultHighlightedIndex);
 
   if (query.length === 0 && props.openOnFocus === false) {
     setStatus('idle');
@@ -87,7 +87,7 @@ export function onInput<TItem>({
     .getSources({
       query,
       state: store.getState(),
-      setHighlightedIndex,
+      setSelectedItemId,
       setQuery,
       setSuggestions,
       setIsOpen,
@@ -105,7 +105,7 @@ export function onInput<TItem>({
             source.getSuggestions({
               query,
               state: store.getState(),
-              setHighlightedIndex,
+              setSelectedItemId,
               setQuery,
               setSuggestions,
               setIsOpen,
@@ -143,7 +143,7 @@ export function onInput<TItem>({
               suggestionUrl: itemUrl,
               source,
               state: store.getState(),
-              setHighlightedIndex,
+              setSelectedItemId,
               setQuery,
               setSuggestions,
               setIsOpen,

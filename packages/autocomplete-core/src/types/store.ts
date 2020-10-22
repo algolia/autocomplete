@@ -18,7 +18,7 @@ type Action<TItem, TPayload> = {
 };
 
 type ActionType =
-  | 'setHighlightedIndex'
+  | 'setSelectedItemId'
   | 'setQuery'
   | 'setSuggestions'
   | 'setIsOpen'

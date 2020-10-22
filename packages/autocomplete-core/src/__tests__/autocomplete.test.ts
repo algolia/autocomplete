@@ -14,14 +14,14 @@ function createSuggestion(items = []) {
 }
 
 describe('createAutocomplete', () => {
-  test('setHighlightedIndex', () => {
+  test('setSelectedItemId', () => {
     const onStateChange = jest.fn();
-    const { setHighlightedIndex } = createAutocomplete({
+    const { setSelectedItemId } = createAutocomplete({
       getSources: () => [],
       onStateChange,
     });
 
-    setHighlightedIndex(1);
+    setSelectedItemId(1);
 
     expect(onStateChange).toHaveBeenCalledTimes(1);
     expect(onStateChange).toHaveBeenCalledWith(
@@ -30,7 +30,7 @@ describe('createAutocomplete', () => {
       })
     );
 
-    setHighlightedIndex(null);
+    setSelectedItemId(null);
 
     expect(onStateChange).toHaveBeenCalledTimes(2);
     expect(onStateChange).toHaveBeenCalledWith(
