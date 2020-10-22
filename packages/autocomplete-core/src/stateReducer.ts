@@ -1,12 +1,12 @@
 import { Reducer } from './types';
-import { getItemsCount, getNextHighlightedIndex } from './utils';
+import { getItemsCount, getNextSelectedItemId } from './utils';
 
 export const stateReducer: Reducer = (state, action) => {
   switch (action.type) {
     case 'setSelectedItemId': {
       return {
         ...state,
-        highlightedIndex: action.payload,
+        selectedItemId: action.payload,
       };
     }
 
@@ -51,11 +51,11 @@ export const stateReducer: Reducer = (state, action) => {
     case 'ArrowDown': {
       return {
         ...state,
-        highlightedIndex: getNextHighlightedIndex(
+        selectedItemId: getNextSelectedItemId(
           1,
-          state.highlightedIndex,
+          state.selectedItemId,
           getItemsCount(state),
-          action.props.defaultHighlightedIndex
+          action.props.defaultSelectedItemId
         ),
       };
     }
@@ -63,11 +63,11 @@ export const stateReducer: Reducer = (state, action) => {
     case 'ArrowUp': {
       return {
         ...state,
-        highlightedIndex: getNextHighlightedIndex(
+        selectedItemId: getNextSelectedItemId(
           -1,
-          state.highlightedIndex,
+          state.selectedItemId,
           getItemsCount(state),
-          action.props.defaultHighlightedIndex
+          action.props.defaultSelectedItemId
         ),
       };
     }
@@ -92,7 +92,7 @@ export const stateReducer: Reducer = (state, action) => {
     case 'submit': {
       return {
         ...state,
-        highlightedIndex: null,
+        selectedItemId: null,
         isOpen: false,
         status: 'idle',
         statusContext: {},
@@ -102,14 +102,14 @@ export const stateReducer: Reducer = (state, action) => {
     case 'reset': {
       return {
         ...state,
-        highlightedIndex:
+        selectedItemId:
           // Since we open the menu on reset when openOnFocus=true
-          // we need to restore the highlighted index to the defaultHighlightedIndex. (DocSearch use-case)
+          // we need to restore the highlighted index to the defaultSelectedItemId. (DocSearch use-case)
 
           // Since we close the menu when openOnFocus=false
           // we lose track of the highlighted index. (Query-suggestions use-case)
           action.props.openOnFocus === true
-            ? action.props.defaultHighlightedIndex
+            ? action.props.defaultSelectedItemId
             : null,
         isOpen: action.props.openOnFocus, // @TODO: Check with UX team if we want to close the menu on reset.
         status: 'idle',
@@ -121,7 +121,7 @@ export const stateReducer: Reducer = (state, action) => {
     case 'focus': {
       return {
         ...state,
-        highlightedIndex: action.props.defaultHighlightedIndex,
+        selectedItemId: action.props.defaultSelectedItemId,
         isOpen: action.props.openOnFocus || state.query.length > 0,
       };
     }
@@ -134,21 +134,21 @@ export const stateReducer: Reducer = (state, action) => {
       return {
         ...state,
         isOpen: false,
-        highlightedIndex: null,
+        selectedItemId: null,
       };
     }
 
     case 'mousemove': {
       return {
         ...state,
-        highlightedIndex: action.payload,
+        selectedItemId: action.payload,
       };
     }
 
     case 'mouseleave': {
       return {
         ...state,
-        highlightedIndex: action.props.defaultHighlightedIndex,
+        selectedItemId: action.props.defaultSelectedItemId,
       };
     }
 

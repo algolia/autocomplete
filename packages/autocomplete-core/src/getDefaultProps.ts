@@ -19,7 +19,7 @@ export function getDefaultProps<TItem>(
     openOnFocus: false,
     placeholder: '',
     autoFocus: false,
-    defaultHighlightedIndex: null,
+    defaultSelectedItemId: null,
     enableCompletion: false,
     stallThreshold: 300,
     environment,
@@ -31,7 +31,7 @@ export function getDefaultProps<TItem>(
     id: props.id ?? generateAutocompleteId(),
     // The following props need to be deeply defaulted.
     initialState: {
-      highlightedIndex: null,
+      selectedItemId: null,
       query: '',
       completion: null,
       collections: [],

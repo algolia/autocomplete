@@ -41,7 +41,7 @@ const autocomplete = createAutocomplete({
 
 ## State
 
-### `highlightedIndex`
+### `selectedItemId`
 
 > `number | null` | defaults to `null`
 

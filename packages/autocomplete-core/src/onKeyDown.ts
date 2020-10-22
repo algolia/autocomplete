@@ -35,7 +35,7 @@ export function onKeyDown<TItem>({
     store.send(event.key, null);
 
     const nodeItem = props.environment.document.getElementById(
-      `${props.id}-item-${store.getState().highlightedIndex}`
+      `${props.id}-item-${store.getState().selectedItemId}`
     );
 
     if (nodeItem) {
@@ -50,7 +50,7 @@ export function onKeyDown<TItem>({
       state: store.getState(),
     });
 
-    if (store.getState().highlightedIndex !== null && highlightedItem) {
+    if (store.getState().selectedItemId !== null && highlightedItem) {
       const { item, itemValue, itemUrl, source } = highlightedItem;
 
       source.onHighlight({
@@ -76,7 +76,7 @@ export function onKeyDown<TItem>({
         (event.target as HTMLInputElement).selectionStart ===
           store.getState().query.length)) &&
     props.enableCompletion &&
-    store.getState().highlightedIndex !== null
+    store.getState().selectedItemId !== null
   ) {
     event.preventDefault();
 
@@ -108,7 +108,7 @@ export function onKeyDown<TItem>({
     // No item is selected, so we let the browser handle the native `onSubmit`
     // form event.
     if (
-      store.getState().highlightedIndex === null ||
+      store.getState().selectedItemId === null ||
       store
         .getState()
         .collections.every((suggestion) => suggestion.items.length === 0)

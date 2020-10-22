@@ -26,7 +26,7 @@ describe('createAutocomplete', () => {
     expect(onStateChange).toHaveBeenCalledTimes(1);
     expect(onStateChange).toHaveBeenCalledWith(
       expect.objectContaining({
-        state: expect.objectContaining({ highlightedIndex: 1 }),
+        state: expect.objectContaining({ selectedItemId: 1 }),
       })
     );
 
@@ -35,7 +35,7 @@ describe('createAutocomplete', () => {
     expect(onStateChange).toHaveBeenCalledTimes(2);
     expect(onStateChange).toHaveBeenCalledWith(
       expect.objectContaining({
-        state: expect.objectContaining({ highlightedIndex: null }),
+        state: expect.objectContaining({ selectedItemId: null }),
       })
     );
   });

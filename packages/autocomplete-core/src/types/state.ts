@@ -1,7 +1,7 @@
 import { AutocompleteCollection } from './api';
 
 export interface AutocompleteState<TItem> {
-  highlightedIndex: number | null;
+  selectedItemId: number | null;
   query: string;
   completion: string | null;
   collections: Array<AutocompleteCollection<TItem>>;

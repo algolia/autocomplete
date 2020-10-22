@@ -217,7 +217,7 @@ export interface AutocompleteOptions<TItem> {
    *
    * @default null
    */
-  defaultHighlightedIndex?: number | null;
+  defaultSelectedItemId?: number | null;
   /**
    * Whether to show the highlighted suggestion as completion in the input.
    *
@@ -291,7 +291,7 @@ export interface InternalAutocompleteOptions<TItem>
   }): void;
   placeholder: string;
   autoFocus: boolean;
-  defaultHighlightedIndex: number | null;
+  defaultSelectedItemId: number | null;
   enableCompletion: boolean;
   openOnFocus: boolean;
   stallThreshold: number;

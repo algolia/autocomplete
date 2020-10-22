@@ -60,7 +60,7 @@ export function onInput<TItem>({
   }
 
   setQuery(query);
-  setSelectedItemId(props.defaultHighlightedIndex);
+  setSelectedItemId(props.defaultSelectedItemId);
 
   if (query.length === 0 && props.openOnFocus === false) {
     setStatus('idle');
@@ -134,7 +134,7 @@ export function onInput<TItem>({
             state: store.getState(),
           });
 
-          if (store.getState().highlightedIndex !== null && highlightedItem) {
+          if (store.getState().selectedItemId !== null && highlightedItem) {
             const { item, itemValue, itemUrl, source } = highlightedItem;
 
             source.onHighlight({

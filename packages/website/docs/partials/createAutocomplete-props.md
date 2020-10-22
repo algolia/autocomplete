@@ -28,7 +28,7 @@ The text that appears in the search box input when there is no query.
 
 Whether to focus the search box when the page is loaded.
 
-### `defaultHighlightedIndex`
+### `defaultSelectedItemId`
 
 > `number | null` | default to `null`
 
