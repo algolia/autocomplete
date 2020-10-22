@@ -5,7 +5,7 @@ import {
   AutocompleteStore,
   AutocompleteRefresh,
 } from './types';
-import { getHighlightedItem } from './utils';
+import { getSelectedItem } from './utils';
 
 let lastStalledId: number | null = null;
 
@@ -65,8 +65,8 @@ export function onInput<TItem>({
   if (query.length === 0 && props.openOnFocus === false) {
     setStatus('idle');
     setCollections(
-      store.getState().collections.map((suggestion) => ({
-        ...suggestion,
+      store.getState().collections.map((collection) => ({
+        ...collection,
         items: [],
       }))
     );
@@ -102,7 +102,7 @@ export function onInput<TItem>({
       return Promise.all(
         sources.map((source) => {
           return Promise.resolve(
-            source.getSuggestions({
+            source.getItems({
               query,
               state: store.getState(),
               setSelectedItemId,
@@ -121,26 +121,26 @@ export function onInput<TItem>({
           });
         })
       )
-        .then((suggestions) => {
+        .then((collections) => {
           setStatus('idle');
-          setCollections(suggestions as any);
+          setCollections(collections as any);
           setIsOpen(
             nextState.isOpen ??
               ((query.length === 0 && props.openOnFocus) ||
                 props.shouldDropdownShow({ state: store.getState() }))
           );
 
-          const highlightedItem = getHighlightedItem({
+          const highlightedItem = getSelectedItem({
             state: store.getState(),
           });
 
           if (store.getState().selectedItemId !== null && highlightedItem) {
-            const { item, itemValue, itemUrl, source } = highlightedItem;
+            const { item, itemInputValue, itemUrl, source } = highlightedItem;
 
             source.onHighlight({
-              suggestion: item,
-              suggestionValue: itemValue,
-              suggestionUrl: itemUrl,
+              item,
+              itemInputValue,
+              itemUrl,
               source,
               state: store.getState(),
               setSelectedItemId,

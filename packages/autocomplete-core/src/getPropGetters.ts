@@ -14,7 +14,7 @@ import {
   GetMenuProps,
   GetRootProps,
 } from './types';
-import { getHighlightedItem, isOrContainsNode } from './utils';
+import { getSelectedItem, isOrContainsNode } from './utils';
 
 interface GetPropGettersOptions<TItem> extends AutocompleteSetters<TItem> {
   store: AutocompleteStore<TItem>;
@@ -302,17 +302,17 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
 
         store.send('mousemove', item.__autocomplete_id);
 
-        const highlightedItem = getHighlightedItem({
+        const highlightedItem = getSelectedItem({
           state: store.getState(),
         });
 
         if (store.getState().selectedItemId !== null && highlightedItem) {
-          const { item, itemValue, itemUrl, source } = highlightedItem;
+          const { item, itemInputValue, itemUrl, source } = highlightedItem;
 
           source.onHighlight({
-            suggestion: item,
-            suggestionValue: itemValue,
-            suggestionUrl: itemUrl,
+            item,
+            itemInputValue,
+            itemUrl,
             source,
             state: store.getState(),
             setSelectedItemId,
@@ -331,11 +331,11 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         ((event as unknown) as MouseEvent).preventDefault();
       },
       onClick(event) {
-        const inputValue = source.getItemInputValue({
-          suggestion: item,
+        const itemInputValue = source.getItemInputValue({
+          item,
           state: store.getState(),
         });
-        const suggestionUrl = source.getItemUrl({
+        const itemUrl = source.getItemUrl({
           item,
           state: store.getState(),
         });
@@ -345,10 +345,10 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         // We can therefore skip the state change because it will update
         // the `selectedItemId`, resulting in a UI flash, especially
         // noticeable on mobile.
-        const runPreCommand = suggestionUrl
+        const runPreCommand = itemUrl
           ? Promise.resolve()
           : onInput({
-              query: inputValue,
+              query: itemInputValue,
               event,
               store,
               props,
@@ -366,9 +366,9 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
 
         runPreCommand.then(() => {
           source.onSelect({
-            suggestion: item,
-            suggestionValue: inputValue,
-            suggestionUrl,
+            item,
+            itemInputValue,
+            itemUrl,
             source,
             state: store.getState(),
             setSelectedItemId,

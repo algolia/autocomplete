@@ -83,22 +83,18 @@ export function getDefaultProps<TItem>(
         );
     },
     navigator: {
-      navigate({ suggestionUrl }) {
-        environment.location.assign(suggestionUrl);
+      navigate({ itemUrl }) {
+        environment.location.assign(itemUrl);
       },
-      navigateNewTab({ suggestionUrl }) {
-        const windowReference = environment.open(
-          suggestionUrl,
-          '_blank',
-          'noopener'
-        );
+      navigateNewTab({ itemUrl }) {
+        const windowReference = environment.open(itemUrl, '_blank', 'noopener');
 
         if (windowReference) {
           windowReference.focus();
         }
       },
-      navigateNewWindow({ suggestionUrl }) {
-        environment.open(suggestionUrl, '_blank', 'noopener');
+      navigateNewWindow({ itemUrl }) {
+        environment.open(itemUrl, '_blank', 'noopener');
       },
       ...props.navigator,
     },

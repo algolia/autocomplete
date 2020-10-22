@@ -2,7 +2,7 @@
 
 > **required**
 
-The [sources](/docs/sources) to get the suggestions from.
+The [sources](/docs/sources) to get the collections from.
 
 ### `id`
 
@@ -82,7 +82,7 @@ Learn more on the [Navigator API](/docs/keyboard-navigation) documentation.
 
 The function called to determine whether the dropdown should open.
 
-By default, it opens when there are suggestions in the state.
+By default, it opens when there are items in the state.
 
 ### `onSubmit`
 

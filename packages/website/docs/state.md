@@ -65,11 +65,11 @@ The completion of the input.
 
 Whether the dropdown is opened.
 
-### `suggestions`
+### `collections`
 
-> `Suggestion[]` | defaults to `[]`
+> `Collection[]` | defaults to `[]`
 
-The suggestions of the experience.
+The collections of the experience.
 
 ### `status`
 
@@ -113,9 +113,9 @@ Sets the status of the experience.
 
 ### `setCollections`
 
-> `(value: Suggestion[]) => void`
+> `(value: Collection[]) => void`
 
-Sets the suggestions of the experience.
+Sets the collections of the experience.
 
 ### `setContext`
 

@@ -40,10 +40,10 @@ autocomplete<Hit<QuerySuggestionHit>>({
     }).then(([hits]) => {
       return [
         {
-          getItemInputValue({ suggestion }) {
-            return suggestion.query;
+          getItemInputValue({ item }) {
+            return item.query;
           },
-          getSuggestions() {
+          getItems() {
             return hits;
           },
           templates: {

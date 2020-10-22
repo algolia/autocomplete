@@ -27,7 +27,7 @@ const autocomplete = createAutocomplete({
         getItemUrl({ item }) {
           return item.url;
         },
-        getSuggestions() {
+        getItems() {
           return [];
         },
       },
@@ -35,18 +35,18 @@ const autocomplete = createAutocomplete({
   },
   // Default navigator values
   navigator: {
-    navigate({ suggestionUrl }) {
-      window.location.assign(suggestionUrl);
+    navigate({ itemUrl }) {
+      window.location.assign(itemUrl);
     },
-    navigateNewTab({ suggestionUrl }) {
-      const windowReference = window.open(suggestionUrl, '_blank', 'noopener');
+    navigateNewTab({ itemUrl }) {
+      const windowReference = window.open(itemUrl, '_blank', 'noopener');
 
       if (windowReference) {
         windowReference.focus();
       }
     },
-    navigateNewWindow({ suggestionUrl }) {
-      window.open(suggestionUrl, '_blank', 'noopener');
+    navigateNewWindow({ itemUrl }) {
+      window.open(itemUrl, '_blank', 'noopener');
     },
   },
 });
@@ -59,8 +59,8 @@ import { navigate } from 'gatsby';
 
 const autocomplete = createAutocomplete({
   navigator: {
-    navigate({ suggestionUrl }) {
-      navigate(suggestionUrl);
+    navigate({ itemUrl }) {
+      navigate(itemUrl);
     },
   },
 });
@@ -74,7 +74,7 @@ The provided params get merged with the default configuration so that you don't 
 
 ### `navigate`
 
-> `(params: { suggestionUrl: string, suggestion: TItem, state: AutocompleteState<TItem> }) => void`
+> `(params: { itemUrl: string, item: TItem, state: AutocompleteState<TItem> }) => void`
 
 Function called when a URL should be open in the current page.
 
@@ -82,7 +82,7 @@ This is triggered on <kbd>Enter</kbd>
 
 ### `navigateNewTab`
 
-> `(params: { suggestionUrl: string, suggestion: TItem, state: AutocompleteState<TItem> }) => void`
+> `(params: { itemUrl: string, item: TItem, state: AutocompleteState<TItem> }) => void`
 
 Function called when a URL should be open in a new tab.
 
@@ -90,7 +90,7 @@ This is triggered on <kbd>Cmd Enter</kbd> or <kbd>Ctrl Enter</kbd>
 
 ### `navigateNewWindow`
 
-> `(params: { suggestionUrl: string, suggestion: TItem, state: AutocompleteState<TItem> }) => void`
+> `(params: { itemUrl: string, item: TItem, state: AutocompleteState<TItem> }) => void`
 
 Function called when a URL should be open in a new window.
 

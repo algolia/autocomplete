@@ -3,11 +3,11 @@ import { createAutocomplete } from '..';
 function createCollection(items = []) {
   return {
     source: {
-      getItemInputValue: ({ suggestion }) => suggestion.label,
+      getItemInputValue: ({ item }) => item.label,
       getItemUrl: () => undefined,
       onHighlight: () => {},
       onSelect: () => {},
-      getSuggestions: () => items,
+      getItems: () => items,
     },
     items,
   };

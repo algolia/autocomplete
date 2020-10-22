@@ -21,7 +21,7 @@ export function getItemsCount(state: AutocompleteState<any>) {
   }
 
   return state.collections.reduce<number>(
-    (sum, suggestion) => sum + suggestion.items.length,
+    (sum, collection) => sum + collection.items.length,
     0
   );
 }
@@ -92,7 +92,7 @@ export function getNextSelectedItemId<TItem>(
 // We don't have access to the autocomplete source when we call `onKeyDown`
 // or `onClick` because those are native browser events.
 // However, we can get the source from the suggestion index.
-function getSuggestionFromSelectedItemId<TItem>({
+function getCollectionFromSelectedItemId<TItem>({
   state,
 }: {
   state: AutocompleteState<TItem>;
@@ -100,11 +100,11 @@ function getSuggestionFromSelectedItemId<TItem>({
   // Given 3 sources with respectively 1, 2 and 3 suggestions: [1, 2, 3]
   // We want to get the accumulated counts:
   // [1, 1 + 2, 1 + 2 + 3] = [1, 3, 3 + 3] = [1, 3, 6]
-  const accumulatedSuggestionsCount = state.collections
-    .map((suggestion) => suggestion.items.length)
-    .reduce<number[]>((acc, suggestionCount, index) => {
+  const accumulatedCollectionssCount = state.collections
+    .map((collections) => collections.items.length)
+    .reduce<number[]>((acc, collectionsCount, index) => {
       const previousValue = acc[index - 1] || 0;
-      const nextValue = previousValue + suggestionCount;
+      const nextValue = previousValue + collectionsCount;
 
       acc.push(nextValue);
 
@@ -112,15 +112,18 @@ function getSuggestionFromSelectedItemId<TItem>({
     }, []);
 
   // Based on the accumulated counts, we can infer the index of the suggestion.
-  const suggestionIndex = accumulatedSuggestionsCount.reduce((acc, current) => {
-    if (current <= state.selectedItemId!) {
-      return acc + 1;
-    }
+  const collectionIndex = accumulatedCollectionssCount.reduce(
+    (acc, current) => {
+      if (current <= state.selectedItemId!) {
+        return acc + 1;
+      }
 
-    return acc;
-  }, 0);
+      return acc;
+    },
+    0
+  );
 
-  return state.collections[suggestionIndex];
+  return state.collections[collectionIndex];
 }
 
 /**
@@ -134,24 +137,24 @@ function getSuggestionFromSelectedItemId<TItem>({
  */
 function getRelativeSelectedItemId<TItem>({
   state,
-  suggestion,
+  collection,
 }: {
   state: AutocompleteState<TItem>;
-  suggestion: AutocompleteCollection<TItem>;
+  collection: AutocompleteCollection<TItem>;
 }): number {
   let isOffsetFound = false;
   let counter = 0;
   let previousItemsOffset = 0;
 
   while (isOffsetFound === false) {
-    const currentSuggestion = state.collections[counter];
+    const currentCollection = state.collections[counter];
 
-    if (currentSuggestion === suggestion) {
+    if (currentCollection === collection) {
       isOffsetFound = true;
       break;
     }
 
-    previousItemsOffset += currentSuggestion.items.length;
+    previousItemsOffset += currentCollection.items.length;
 
     counter++;
   }
@@ -159,26 +162,26 @@ function getRelativeSelectedItemId<TItem>({
   return state.selectedItemId! - previousItemsOffset;
 }
 
-export function getHighlightedItem<TItem>({
+export function getSelectedItem<TItem>({
   state,
 }: {
   state: AutocompleteState<TItem>;
 }) {
-  const suggestion = getSuggestionFromSelectedItemId({ state });
+  const collection = getCollectionFromSelectedItemId({ state });
 
-  if (!suggestion) {
+  if (!collection) {
     return null;
   }
 
   const item =
-    suggestion.items[getRelativeSelectedItemId({ state, suggestion })];
-  const source = suggestion.source;
-  const itemValue = source.getItemInputValue({ suggestion: item, state });
+    collection.items[getRelativeSelectedItemId({ state, collection })];
+  const source = collection.source;
+  const itemInputValue = source.getItemInputValue({ item, state });
   const itemUrl = source.getItemUrl({ item, state });
 
   return {
     item,
-    itemValue,
+    itemInputValue,
     itemUrl,
     source,
   };

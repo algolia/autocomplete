@@ -16,7 +16,7 @@ const autocomplete = createAutocomplete({
   getSources() {
     return [
       {
-        getSuggestions() {
+        getItems() {
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
             { label: 'GitHub', url: 'https://github.com' },
@@ -38,7 +38,7 @@ const autocomplete = createAutocomplete({
   getSources() {
     return [
       {
-        getSuggestions({ query }) {
+        getItems({ query }) {
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
             { label: 'GitHub', url: 'https://github.com' },
@@ -67,7 +67,7 @@ const autocomplete = createAutocomplete({
   getSources() {
     return [
       {
-        getSuggestions({ query }) {
+        getItems({ query }) {
           return getAlgoliaHits({
             searchClient,
             queries: [
@@ -85,7 +85,7 @@ const autocomplete = createAutocomplete({
 });
 ```
 
-You can notice that `getSuggestions` supports [promises](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+You can notice that `getItems` supports [promises](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
 ## Using dynamic sources based on query
 
@@ -106,7 +106,7 @@ const autocomplete = createAutocomplete({
     if (!query) {
       [
         {
-          getSuggestions() {
+          getItems() {
             return [
               { label: 'Twitter', url: 'https://twitter.com' },
               { label: 'GitHub', url: 'https://github.com' },
@@ -119,7 +119,7 @@ const autocomplete = createAutocomplete({
 
     return [
       {
-        getSuggestions() {
+        getItems() {
           return getAlgoliaHits({
             searchClient,
             queries: [
@@ -174,13 +174,13 @@ const autocomplete = createAutocomplete({
 
       return [
         {
-          getSuggestions() {
+          getItems() {
             return querySuggestions.hits;
           },
-          getItemInputValue: ({ suggestion }) => suggestion.query,
+          getItemInputValue: ({ item }) => item.query,
         },
         {
-          getSuggestions() {
+          getItems() {
             return products.hits;
           },
           getItemUrl: ({ item }) => item.url,
@@ -205,7 +205,7 @@ The function to fetch the sources and their behaviors.
 
 This is the type that describes a source.
 
-### `getSuggestions`
+### `getItems`
 
 > `(params: { query: string, state: AutocompleteState, ...setters }) => Suggestion[] | Promise<Suggestion[]>` | **required**
 
@@ -215,7 +215,7 @@ Called when the input changes. You can use this function to filter/search the it
 const items = [{ value: 'Apple' }, { value: 'Banana' }];
 
 const source = {
-  getSuggestions({ query }) {
+  getItems({ query }) {
     return items.filter((item) => item.value.includes(query));
   },
   // ...
@@ -224,9 +224,9 @@ const source = {
 
 ### `getItemInputValue`
 
-> `(params: { suggestion, state: AutocompleteState }) => string` | defaults to `({ state }) => state.query`
+> `(params: { item, state: AutocompleteState }) => string` | defaults to `({ state }) => state.query`
 
-Called to get the value of the suggestion. The value is used to fill the search box.
+Called to get the value of the item. The value is used to fill the search box.
 
 If you do not wish to update the input value when an item is selected, you can return `state.query`.
 
@@ -234,16 +234,16 @@ If you do not wish to update the input value when an item is selected, you can r
 const items = [{ value: 'Apple' }, { value: 'Banana' }];
 
 const source = {
-  getItemInputValue: ({ suggestion }) => suggestion.value,
+  getItemInputValue: ({ item }) => item.value,
   // ...
 };
 ```
 
 ### `getItemUrl`
 
-> `(params: { suggestion: Suggestion, state: AutocompleteState }) => string | undefined`
+> `(params: { item: Item, state: AutocompleteState }) => string | undefined`
 
-Called to get the URL of the suggestion. The value is used to add [keyboard accessibility](keyboard-navigation) features to allow to open suggestions in the current tab, in a new tab or in a new window.
+Called to get the URL of the item. The value is used to add [keyboard accessibility](keyboard-navigation) features to allow to open items in the current tab, in a new tab or in a new window.
 
 ```ts
 const items = [
@@ -309,8 +309,8 @@ const autocompleteSearch = autocomplete({
   getSources() {
     return [
       {
-        getItemInputValue: ({ suggestion }) => suggestion.query,
-        getSuggestions({ query }) {
+        getItemInputValue: ({ item }) => item.query,
+        getItems({ query }) {
           return getAlgoliaHits({
             searchClient,
             queries: [

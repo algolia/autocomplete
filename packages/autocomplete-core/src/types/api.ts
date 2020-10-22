@@ -35,11 +35,11 @@ export interface GetSourcesParams<TItem> extends AutocompleteSetters<TItem> {
 }
 
 interface ItemParams<TItem> {
-  suggestion: TItem;
-  suggestionValue: ReturnType<
+  item: TItem;
+  itemInputValue: ReturnType<
     InternalAutocompleteSource<TItem>['getItemInputValue']
   >;
-  suggestionUrl: ReturnType<InternalAutocompleteSource<TItem>['getItemUrl']>;
+  itemUrl: ReturnType<InternalAutocompleteSource<TItem>['getItemUrl']>;
   source: InternalAutocompleteSource<TItem>;
 }
 
@@ -71,10 +71,10 @@ export interface AutocompleteSource<TItem> {
    * Get the string value of the item. The value is used to fill the search box.
    */
   getItemInputValue?({
-    suggestion,
+    item,
     state,
   }: {
-    suggestion: TItem;
+    item: TItem;
     state: AutocompleteState<TItem>;
   }): string;
   /**
@@ -91,7 +91,7 @@ export interface AutocompleteSource<TItem> {
   /**
    * Function called when the input changes. You can use this function to filter/search the items based on the query.
    */
-  getSuggestions(params: GetSourcesParams<TItem>): MaybePromise<TItem[]>;
+  getItems(params: GetSourcesParams<TItem>): MaybePromise<TItem[]>;
   /**
    * Function called when an item is selected.
    */
@@ -134,24 +134,24 @@ interface Navigator<TItem> {
    * Called when a URL should be open in the current page.
    */
   navigate(params: {
-    suggestionUrl: string;
-    suggestion: TItem;
+    itemUrl: string;
+    item: TItem;
     state: AutocompleteState<TItem>;
   }): void;
   /**
    * Called when a URL should be open in a new tab.
    */
   navigateNewTab(params: {
-    suggestionUrl: string;
-    suggestion: TItem;
+    itemUrl: string;
+    item: TItem;
     state: AutocompleteState<TItem>;
   }): void;
   /**
    * Called when a URL should be open in a new window.
    */
   navigateNewWindow(params: {
-    suggestionUrl: string;
-    suggestion: TItem;
+    itemUrl: string;
+    item: TItem;
     state: AutocompleteState<TItem>;
   }): void;
 }

@@ -75,8 +75,8 @@ function DocSearch(props) {
   );
 
   const navigator = useRef({
-    navigate({ suggestionUrl }) {
-      history.push(suggestionUrl);
+    navigate({ itemUrl }) {
+      history.push(itemUrl);
     },
   }).current;
 
