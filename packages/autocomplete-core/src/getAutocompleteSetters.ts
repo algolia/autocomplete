@@ -21,9 +21,9 @@ export function getAutocompleteSetters<TItem>({
     rawValue
   ) => {
     let baseItemId = 0;
-    const value = rawValue.map((suggestion) => ({
-      ...suggestion,
-      items: suggestion.items.map((item) => ({
+    const value = rawValue.map((collection) => ({
+      ...collection,
+      items: collection.items.map((item) => ({
         ...item,
         __autocomplete_id: baseItemId++,
       })),

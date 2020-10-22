@@ -40,7 +40,9 @@ autocomplete<Hit<QuerySuggestionHit>>({
     }).then(([hits]) => {
       return [
         {
-          getInputValue: ({ suggestion }) => suggestion.query,
+          getInputValue({ suggestion }) {
+            return suggestion.query;
+          },
           getSuggestions() {
             return hits;
           },
