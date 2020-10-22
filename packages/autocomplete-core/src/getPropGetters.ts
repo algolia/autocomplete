@@ -335,12 +335,12 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
           suggestion: item,
           state: store.getState(),
         });
-        const suggestionUrl = source.getSuggestionUrl({
-          suggestion: item,
+        const suggestionUrl = source.getItemUrl({
+          item,
           state: store.getState(),
         });
 
-        // If `getSuggestionUrl` is provided, it means that the suggestion
+        // If `getItemUrl` is provided, it means that the suggestion
         // is a link, not plain text that aims at updating the query.
         // We can therefore skip the state change because it will update
         // the `selectedItemId`, resulting in a UI flash, especially

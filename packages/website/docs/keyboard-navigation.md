@@ -13,7 +13,7 @@ This API defines how a URL should be opened with different key modifiers:
 
 <!-- prettier-ignore -->
 :::important
-To activate keyboard navigation, use [`getSuggestionUrl`](createAutocomplete#getsuggestionurl) in your source to provide the value to process as a URL. This indicates the navigator API which links to open on <kbd>Enter</kbd>.
+To activate keyboard navigation, use [`getItemUrl`](createAutocomplete#getitemurl) in your source to provide the value to process as a URL. This indicates the navigator API which links to open on <kbd>Enter</kbd>.
 :::
 
 # Example
@@ -24,8 +24,8 @@ const autocomplete = createAutocomplete({
   getSources() {
     return [
       {
-        getSuggestionUrl({ suggestion }) {
-          return suggestion.url;
+        getItemUrl({ item }) {
+          return item.url;
         },
         getSuggestions() {
           return [];

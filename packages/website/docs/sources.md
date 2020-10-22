@@ -22,7 +22,7 @@ const autocomplete = createAutocomplete({
             { label: 'GitHub', url: 'https://github.com' },
           ];
         },
-        getSuggestionUrl: ({ suggestion }) => suggestion.url,
+        getItemUrl: ({ item }) => item.url,
       },
     ];
   },
@@ -44,7 +44,7 @@ const autocomplete = createAutocomplete({
             { label: 'GitHub', url: 'https://github.com' },
           ].filter((item) => item.toLowerCase().includes(query.toLowerCase()));
         },
-        getSuggestionUrl: ({ suggestion }) => suggestion.url,
+        getItemUrl: ({ item }) => item.url,
       },
     ];
   },
@@ -78,7 +78,7 @@ const autocomplete = createAutocomplete({
             ],
           });
         },
-        getSuggestionUrl: ({ suggestion }) => suggestion.url,
+        getItemUrl: ({ item }) => item.url,
       },
     ];
   },
@@ -112,7 +112,7 @@ const autocomplete = createAutocomplete({
               { label: 'GitHub', url: 'https://github.com' },
             ];
           },
-          getSuggestionUrl: ({ suggestion }) => suggestion.url,
+          getItemUrl: ({ item }) => item.url,
         },
       ];
     }
@@ -130,7 +130,7 @@ const autocomplete = createAutocomplete({
             ],
           });
         },
-        getSuggestionUrl: ({ suggestion }) => suggestion.url,
+        getItemUrl: ({ item }) => item.url,
       },
     ];
   },
@@ -183,7 +183,7 @@ const autocomplete = createAutocomplete({
           getSuggestions() {
             return products.hits;
           },
-          getSuggestionUrl: ({ suggestion }) => suggestion.url,
+          getItemUrl: ({ item }) => item.url,
         },
       ];
     });
@@ -239,7 +239,7 @@ const source = {
 };
 ```
 
-### `getSuggestionUrl`
+### `getItemUrl`
 
 > `(params: { suggestion: Suggestion, state: AutocompleteState }) => string | undefined`
 
@@ -252,7 +252,7 @@ const items = [
 ];
 
 const source = {
-  getSuggestionUrl: ({ suggestion }) => suggestion.url,
+  getItemUrl: ({ item }) => item.url,
   // ...
 };
 ```

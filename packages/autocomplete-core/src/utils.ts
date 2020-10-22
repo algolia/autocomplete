@@ -33,7 +33,7 @@ function normalizeSource<TItem>(
     getItemInputValue({ state }) {
       return state.query;
     },
-    getSuggestionUrl() {
+    getItemUrl() {
       return undefined;
     },
     onSelect({ setIsOpen }) {
@@ -174,7 +174,7 @@ export function getHighlightedItem<TItem>({
     suggestion.items[getRelativeSelectedItemId({ state, suggestion })];
   const source = suggestion.source;
   const itemValue = source.getItemInputValue({ suggestion: item, state });
-  const itemUrl = source.getSuggestionUrl({ suggestion: item, state });
+  const itemUrl = source.getItemUrl({ item, state });
 
   return {
     item,

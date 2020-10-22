@@ -4,7 +4,7 @@ function createCollection(items = []) {
   return {
     source: {
       getItemInputValue: ({ suggestion }) => suggestion.label,
-      getSuggestionUrl: () => undefined,
+      getItemUrl: () => undefined,
       onHighlight: () => {},
       onSelect: () => {},
       getSuggestions: () => items,

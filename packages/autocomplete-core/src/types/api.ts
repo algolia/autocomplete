@@ -39,9 +39,7 @@ interface ItemParams<TItem> {
   suggestionValue: ReturnType<
     InternalAutocompleteSource<TItem>['getItemInputValue']
   >;
-  suggestionUrl: ReturnType<
-    InternalAutocompleteSource<TItem>['getSuggestionUrl']
-  >;
+  suggestionUrl: ReturnType<InternalAutocompleteSource<TItem>['getItemUrl']>;
   source: InternalAutocompleteSource<TItem>;
 }
 
@@ -70,7 +68,7 @@ export interface AutocompleteSource<TItem> {
   // Example: `templates` in the JavaScript API
   [key: string]: unknown;
   /**
-   * Get the string value of the suggestion. The value is used to fill the search box.
+   * Get the string value of the item. The value is used to fill the search box.
    */
   getItemInputValue?({
     suggestion,
@@ -80,14 +78,14 @@ export interface AutocompleteSource<TItem> {
     state: AutocompleteState<TItem>;
   }): string;
   /**
-   * Get the URL of a suggestion. The value is used to create default navigation features for
+   * Get the URL of a item. The value is used to create default navigation features for
    * `onClick` and `onKeyDown`.
    */
-  getSuggestionUrl?({
-    suggestion,
+  getItemUrl?({
+    item,
     state,
   }: {
-    suggestion: TItem;
+    item: TItem;
     state: AutocompleteState<TItem>;
   }): string | undefined;
   /**
