@@ -2,7 +2,7 @@ import {
   InternalAutocompleteOptions,
   InternalAutocompleteSource,
   AutocompleteState,
-  AutocompleteSuggestion,
+  AutocompleteCollection,
   AutocompleteOptions,
   AutocompleteSource,
 } from './types';
@@ -96,7 +96,7 @@ function getSuggestionFromHighlightedIndex<TItem>({
   state,
 }: {
   state: AutocompleteState<TItem>;
-}): AutocompleteSuggestion<TItem> | undefined {
+}): AutocompleteCollection<TItem> | undefined {
   // Given 3 sources with respectively 1, 2 and 3 suggestions: [1, 2, 3]
   // We want to get the accumulated counts:
   // [1, 1 + 2, 1 + 2 + 3] = [1, 3, 3 + 3] = [1, 3, 6]
@@ -137,7 +137,7 @@ function getRelativeHighlightedIndex<TItem>({
   suggestion,
 }: {
   state: AutocompleteState<TItem>;
-  suggestion: AutocompleteSuggestion<TItem>;
+  suggestion: AutocompleteCollection<TItem>;
 }): number {
   let isOffsetFound = false;
   let counter = 0;

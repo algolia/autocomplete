@@ -23,7 +23,7 @@ export interface AutocompleteApi<
 
 export type AutocompleteRefresh = () => Promise<void>;
 
-export interface AutocompleteSuggestion<TItem> {
+export interface AutocompleteCollection<TItem> {
   source: InternalAutocompleteSource<TItem>;
   items: TItem[];
 }
