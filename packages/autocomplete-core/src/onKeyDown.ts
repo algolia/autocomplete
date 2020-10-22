@@ -111,7 +111,7 @@ export function onKeyDown<TItem>({
       store.getState().highlightedIndex === null ||
       store
         .getState()
-        .suggestions.every((suggestion) => suggestion.items.length === 0)
+        .collections.every((suggestion) => suggestion.items.length === 0)
     ) {
       return;
     }

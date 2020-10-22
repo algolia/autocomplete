@@ -65,7 +65,7 @@ export function onInput<TItem>({
   if (query.length === 0 && props.openOnFocus === false) {
     setStatus('idle');
     setCollections(
-      store.getState().suggestions.map((suggestion) => ({
+      store.getState().collections.map((suggestion) => ({
         ...suggestion,
         items: [],
       }))

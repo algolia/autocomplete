@@ -1,6 +1,6 @@
 import { createAutocomplete } from '..';
 
-function createSuggestion(items = []) {
+function createCollection(items = []) {
   return {
     source: {
       getInputValue: ({ suggestion }) => suggestion.label,
@@ -63,14 +63,14 @@ describe('createAutocomplete', () => {
       getSources: () => [],
       onStateChange,
     });
-    const suggestions = [createSuggestion()];
+    const collections = [createCollection()];
 
-    setCollections(suggestions);
+    setCollections(collections);
 
     expect(onStateChange).toHaveBeenCalledTimes(1);
     expect(onStateChange).toHaveBeenCalledWith(
       expect.objectContaining({
-        state: expect.objectContaining({ suggestions }),
+        state: expect.objectContaining({ collections }),
       })
     );
   });

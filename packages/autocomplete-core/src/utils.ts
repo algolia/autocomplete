@@ -16,11 +16,11 @@ export function generateAutocompleteId() {
 }
 
 export function getItemsCount(state: AutocompleteState<any>) {
-  if (state.suggestions.length === 0) {
+  if (state.collections.length === 0) {
     return 0;
   }
 
-  return state.suggestions.reduce<number>(
+  return state.collections.reduce<number>(
     (sum, suggestion) => sum + suggestion.items.length,
     0
   );
@@ -100,7 +100,7 @@ function getSuggestionFromHighlightedIndex<TItem>({
   // Given 3 sources with respectively 1, 2 and 3 suggestions: [1, 2, 3]
   // We want to get the accumulated counts:
   // [1, 1 + 2, 1 + 2 + 3] = [1, 3, 3 + 3] = [1, 3, 6]
-  const accumulatedSuggestionsCount = state.suggestions
+  const accumulatedSuggestionsCount = state.collections
     .map((suggestion) => suggestion.items.length)
     .reduce<number[]>((acc, suggestionCount, index) => {
       const previousValue = acc[index - 1] || 0;
@@ -120,7 +120,7 @@ function getSuggestionFromHighlightedIndex<TItem>({
     return acc;
   }, 0);
 
-  return state.suggestions[suggestionIndex];
+  return state.collections[suggestionIndex];
 }
 
 /**
@@ -144,7 +144,7 @@ function getRelativeHighlightedIndex<TItem>({
   let previousItemsOffset = 0;
 
   while (isOffsetFound === false) {
-    const currentSuggestion = state.suggestions[counter];
+    const currentSuggestion = state.collections[counter];
 
     if (currentSuggestion === suggestion) {
       isOffsetFound = true;

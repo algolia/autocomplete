@@ -20,7 +20,7 @@ export const stateReducer: Reducer = (state, action) => {
     case 'setCollections': {
       return {
         ...state,
-        suggestions: action.payload,
+        collections: action.payload,
       };
     }
 
@@ -85,7 +85,7 @@ export const stateReducer: Reducer = (state, action) => {
         query: '',
         status: 'idle',
         statusContext: {},
-        suggestions: [],
+        collections: [],
       };
     }
 

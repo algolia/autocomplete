@@ -4,7 +4,7 @@ export interface AutocompleteState<TItem> {
   highlightedIndex: number | null;
   query: string;
   completion: string | null;
-  suggestions: Array<AutocompleteSuggestion<TItem>>;
+  collections: Array<AutocompleteSuggestion<TItem>>;
   isOpen: boolean;
   status: 'idle' | 'loading' | 'stalled' | 'error';
   statusContext: {

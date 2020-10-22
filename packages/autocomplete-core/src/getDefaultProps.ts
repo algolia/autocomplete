@@ -34,7 +34,7 @@ export function getDefaultProps<TItem>(
       highlightedIndex: null,
       query: '',
       completion: null,
-      suggestions: [],
+      collections: [],
       isOpen: false,
       status: 'idle',
       statusContext: {},
