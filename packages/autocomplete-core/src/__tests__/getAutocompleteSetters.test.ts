@@ -1,8 +1,29 @@
 import { createAutocomplete, AutocompleteSuggestion } from '..';
+import { InternalAutocompleteSource } from '../types';
 
 function createSuggestion<TItem extends { label: string }>(
   items: TItem[] = []
 ): AutocompleteSuggestion<TItem> {
+  return {
+    source: {
+      getInputValue: ({ suggestion }) => suggestion.label,
+      getSuggestionUrl: () => undefined,
+      onHighlight: () => {},
+      onSelect: () => {},
+      getSuggestions: () => items,
+    },
+    items,
+  };
+}
+
+interface AutocompleteMultiSuggestion<TItem> {
+  source: InternalAutocompleteSource<TItem>;
+  items: TItem[][];
+}
+
+function createMultiSuggestion<TItem extends { label: string }>(
+  items: TItem[][] = []
+): AutocompleteMultiSuggestion<TItem> {
   return {
     source: {
       getInputValue: ({ suggestion }) => suggestion.label,
@@ -95,10 +116,9 @@ describe('createAutocomplete', () => {
         onStateChange,
       });
 
-      // @ts-expect-error AutocompleteSuggestion has an array of items
       // while it also accepts a nested array.
       // There's only one type for both input and output however,
-      setSuggestions([createSuggestion([[{ label: 'hi' }]])]);
+      setSuggestions([createMultiSuggestion([[{ label: 'hi' }]])]);
 
       expect(onStateChange).toHaveBeenCalledWith({
         state: expect.objectContaining({
