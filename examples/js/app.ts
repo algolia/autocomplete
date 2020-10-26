@@ -4,7 +4,7 @@ import {
   autocomplete,
   AutocompleteSource,
   getAlgoliaHits,
-  reverseHighlightItem,
+  reverseHighlightHit,
 } from '@algolia/autocomplete-js';
 import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import '@algolia/autocomplete-plugin-recent-searches/style';
@@ -51,8 +51,8 @@ autocomplete<Hit<QuerySuggestionHit>>({
               return `
                 <div class="item-icon">${searchIcon}</div>
                 <div>
-                  ${reverseHighlightItem({
-                    item,
+                  ${reverseHighlightHit({
+                    hit: item,
                     attribute: 'query',
                   })}
                 </div>
