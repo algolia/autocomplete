@@ -116,8 +116,6 @@ describe('createAutocomplete', () => {
         onStateChange,
       });
 
-      // while it also accepts a nested array.
-      // There's only one type for both input and output however,
       setSuggestions([createMultiSuggestion([[{ label: 'hi' }]])]);
 
       expect(onStateChange).toHaveBeenCalledWith({
