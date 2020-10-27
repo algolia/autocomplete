@@ -92,6 +92,7 @@ describe('createAutocomplete', () => {
 
       expect(onStateChange).toHaveBeenCalledTimes(1);
       expect(onStateChange).toHaveBeenCalledWith({
+        prevState: expect.any(Object),
         state: expect.objectContaining({
           suggestions: [
             {
@@ -119,6 +120,7 @@ describe('createAutocomplete', () => {
       setSuggestions([createMultiSuggestion([[{ label: 'hi' }]])]);
 
       expect(onStateChange).toHaveBeenCalledWith({
+        prevState: expect.any(Object),
         state: expect.objectContaining({
           suggestions: [
             expect.objectContaining({
