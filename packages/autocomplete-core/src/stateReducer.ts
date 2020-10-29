@@ -84,7 +84,6 @@ export const stateReducer: Reducer = (state, action) => {
         ...state,
         query: '',
         status: 'idle',
-        statusContext: {},
         collections: [],
       };
     }
@@ -95,7 +94,6 @@ export const stateReducer: Reducer = (state, action) => {
         selectedItemId: null,
         isOpen: false,
         status: 'idle',
-        statusContext: {},
       };
     }
 
@@ -113,7 +111,6 @@ export const stateReducer: Reducer = (state, action) => {
             : null,
         isOpen: action.props.openOnFocus, // @TODO: Check with UX team if we want to close the menu on reset.
         status: 'idle',
-        statusContext: {},
         query: '',
       };
     }

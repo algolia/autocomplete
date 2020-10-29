@@ -38,7 +38,6 @@ export function getDefaultProps<TItem>(
       collections: [],
       isOpen: false,
       status: 'idle',
-      statusContext: {},
       context: {},
       ...props.initialState,
     },

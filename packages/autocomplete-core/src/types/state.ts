@@ -7,8 +7,5 @@ export interface AutocompleteState<TItem> {
   collections: Array<AutocompleteCollection<TItem>>;
   isOpen: boolean;
   status: 'idle' | 'loading' | 'stalled' | 'error';
-  statusContext: {
-    error?: Error;
-  };
   context: { [key: string]: unknown };
 }
