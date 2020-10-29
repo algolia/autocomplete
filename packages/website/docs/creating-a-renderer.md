@@ -44,8 +44,8 @@ function Autocomplete() {
         return [
           // (3) Use an Algolia index source.
           {
-            getInputValue: ({ suggestion }) => suggestion.query,
-            getSuggestions({ query }) {
+            getItemInputValue: ({ item }) => item.query,
+            getItems({ query }) {
               return getAlgoliaHits({
                 searchClient,
                 queries: [
@@ -90,8 +90,8 @@ function Autocomplete() {
       <input {...autocomplete.getInputProps({})} />
       <div {...autocomplete.getDropdownProps({})}>
         {autocompleteState.isOpen &&
-          autocompleteState.suggestions.map((suggestion, index) => {
-            const { source, items } = suggestion;
+          autocompleteState.collections.map((collection, index) => {
+            const { source, items } = collection;
 
             return (
               <section

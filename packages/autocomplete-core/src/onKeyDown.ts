@@ -6,7 +6,7 @@ import {
   AutocompleteStore,
   AutocompleteRefresh,
 } from './types';
-import { getHighlightedItem } from './utils';
+import { getSelectedItem } from './utils';
 
 interface OnKeyDownOptions<TItem> extends AutocompleteSetters<TItem> {
   event: KeyboardEvent;
@@ -19,9 +19,9 @@ export function onKeyDown<TItem>({
   event,
   store,
   props,
-  setHighlightedIndex,
+  setSelectedItemId,
   setQuery,
-  setSuggestions,
+  setCollections,
   setIsOpen,
   setStatus,
   setContext,
@@ -35,7 +35,7 @@ export function onKeyDown<TItem>({
     store.send(event.key, null);
 
     const nodeItem = props.environment.document.getElementById(
-      `${props.id}-item-${store.getState().highlightedIndex}`
+      `${props.id}-item-${store.getState().selectedItemId}`
     );
 
     if (nodeItem) {
@@ -46,22 +46,22 @@ export function onKeyDown<TItem>({
       }
     }
 
-    const highlightedItem = getHighlightedItem({
+    const highlightedItem = getSelectedItem({
       state: store.getState(),
     });
 
-    if (store.getState().highlightedIndex !== null && highlightedItem) {
-      const { item, itemValue, itemUrl, source } = highlightedItem;
+    if (store.getState().selectedItemId !== null && highlightedItem) {
+      const { item, itemInputValue, itemUrl, source } = highlightedItem;
 
       source.onHighlight({
-        suggestion: item,
-        suggestionValue: itemValue,
-        suggestionUrl: itemUrl,
+        item,
+        itemInputValue,
+        itemUrl,
         source,
         state: store.getState(),
-        setHighlightedIndex,
+        setSelectedItemId,
         setQuery,
-        setSuggestions,
+        setCollections,
         setIsOpen,
         setStatus,
         setContext,
@@ -76,7 +76,7 @@ export function onKeyDown<TItem>({
         (event.target as HTMLInputElement).selectionStart ===
           store.getState().query.length)) &&
     props.enableCompletion &&
-    store.getState().highlightedIndex !== null
+    store.getState().selectedItemId !== null
   ) {
     event.preventDefault();
 
@@ -88,9 +88,9 @@ export function onKeyDown<TItem>({
         event,
         store,
         props,
-        setHighlightedIndex,
+        setSelectedItemId,
         setQuery,
-        setSuggestions,
+        setCollections,
         setIsOpen,
         setStatus,
         setContext,
@@ -108,10 +108,10 @@ export function onKeyDown<TItem>({
     // No item is selected, so we let the browser handle the native `onSubmit`
     // form event.
     if (
-      store.getState().highlightedIndex === null ||
+      store.getState().selectedItemId === null ||
       store
         .getState()
-        .suggestions.every((suggestion) => suggestion.items.length === 0)
+        .collections.every((collection) => collection.items.length === 0)
     ) {
       return;
     }
@@ -120,51 +120,51 @@ export function onKeyDown<TItem>({
     // highlighted.
     event.preventDefault();
 
-    const { item, itemValue, itemUrl, source } = getHighlightedItem({
+    const { item, itemInputValue, itemUrl, source } = getSelectedItem({
       state: store.getState(),
     })!;
 
     if (event.metaKey || event.ctrlKey) {
       if (itemUrl !== undefined) {
         source.onSelect({
-          suggestion: item,
-          suggestionValue: itemValue,
-          suggestionUrl: itemUrl,
+          item,
+          itemInputValue,
+          itemUrl,
           source,
           state: store.getState(),
-          setHighlightedIndex,
+          setSelectedItemId,
           setQuery,
-          setSuggestions,
+          setCollections,
           setIsOpen,
           setStatus,
           setContext,
           event,
         });
         props.navigator.navigateNewTab({
-          suggestionUrl: itemUrl,
-          suggestion: item,
+          itemUrl,
+          item,
           state: store.getState(),
         });
       }
     } else if (event.shiftKey) {
       if (itemUrl !== undefined) {
         source.onSelect({
-          suggestion: item,
-          suggestionValue: itemValue,
-          suggestionUrl: itemUrl,
+          item,
+          itemInputValue,
+          itemUrl,
           source,
           state: store.getState(),
-          setHighlightedIndex,
+          setSelectedItemId,
           setQuery,
-          setSuggestions,
+          setCollections,
           setIsOpen,
           setStatus,
           setContext,
           event,
         });
         props.navigator.navigateNewWindow({
-          suggestionUrl: itemUrl,
-          suggestion: item,
+          itemUrl,
+          item,
           state: store.getState(),
         });
       }
@@ -173,22 +173,22 @@ export function onKeyDown<TItem>({
     } else {
       if (itemUrl !== undefined) {
         source.onSelect({
-          suggestion: item,
-          suggestionValue: itemValue,
-          suggestionUrl: itemUrl,
+          item,
+          itemInputValue,
+          itemUrl,
           source,
           state: store.getState(),
-          setHighlightedIndex,
+          setSelectedItemId,
           setQuery,
-          setSuggestions,
+          setCollections,
           setIsOpen,
           setStatus,
           setContext,
           event,
         });
         props.navigator.navigate({
-          suggestionUrl: itemUrl,
-          suggestion: item,
+          itemUrl,
+          item,
           state: store.getState(),
         });
 
@@ -196,13 +196,13 @@ export function onKeyDown<TItem>({
       }
 
       onInput({
-        query: itemValue,
+        query: itemInputValue,
         event,
         store,
         props,
-        setHighlightedIndex,
+        setSelectedItemId,
         setQuery,
-        setSuggestions,
+        setCollections,
         setIsOpen,
         setStatus,
         setContext,
@@ -212,14 +212,14 @@ export function onKeyDown<TItem>({
         refresh,
       }).then(() => {
         source.onSelect({
-          suggestion: item,
-          suggestionValue: itemValue,
-          suggestionUrl: itemUrl,
+          item,
+          itemInputValue,
+          itemUrl,
           source,
           state: store.getState(),
-          setHighlightedIndex,
+          setSelectedItemId,
           setQuery,
-          setSuggestions,
+          setCollections,
           setIsOpen,
           setStatus,
           setContext,

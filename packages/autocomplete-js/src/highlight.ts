@@ -26,7 +26,7 @@ function concatParts(
 }
 
 type HighlightItemParams<TItem> = {
-  item: TItem;
+  hit: TItem;
   attribute: keyof TItem;
   highlightPreTag?: string;
   highlightPostTag?: string;
@@ -36,8 +36,8 @@ type HighlightItemParams<TItem> = {
 /**
  * Highlights and escapes the matching parts of an Algolia hit.
  */
-export function highlightItem<TItem extends Hit<{}>>({
-  item,
+export function highlightHit<TItem extends Hit<{}>>({
+  hit,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
@@ -45,7 +45,7 @@ export function highlightItem<TItem extends Hit<{}>>({
 }: HighlightItemParams<TItem>) {
   return concatParts(
     parseAlgoliaHitHighlight<TItem>({
-      hit: item,
+      hit,
       attribute,
       ignoreEscape,
     }),
@@ -58,8 +58,8 @@ export function highlightItem<TItem extends Hit<{}>>({
  *
  * This is a common pattern for Query Suggestions.
  */
-export function reverseHighlightItem<TItem extends Hit<{}>>({
-  item,
+export function reverseHighlightHit<TItem extends Hit<{}>>({
+  hit,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
@@ -67,7 +67,7 @@ export function reverseHighlightItem<TItem extends Hit<{}>>({
 }: HighlightItemParams<TItem>) {
   return concatParts(
     parseAlgoliaHitReverseHighlight<TItem>({
-      hit: item,
+      hit,
       attribute,
       ignoreEscape,
     }),
@@ -78,8 +78,8 @@ export function reverseHighlightItem<TItem extends Hit<{}>>({
 /**
  * Highlights and escapes the matching parts of an Algolia hit snippet.
  */
-export function snippetItem<TItem extends Hit<{}>>({
-  item,
+export function snippetHit<TItem extends Hit<{}>>({
+  hit,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
@@ -87,7 +87,7 @@ export function snippetItem<TItem extends Hit<{}>>({
 }: HighlightItemParams<TItem>) {
   return concatParts(
     parseAlgoliaHitSnippet<TItem>({
-      hit: item,
+      hit,
       attribute,
       ignoreEscape,
     }),
@@ -100,8 +100,8 @@ export function snippetItem<TItem extends Hit<{}>>({
  *
  * This is a common pattern for Query Suggestions.
  */
-export function reverseSnippetItem<TItem extends Hit<{}>>({
-  item,
+export function reverseSnippetHit<TItem extends Hit<{}>>({
+  hit,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
@@ -109,7 +109,7 @@ export function reverseSnippetItem<TItem extends Hit<{}>>({
 }: HighlightItemParams<TItem>) {
   return concatParts(
     parseAlgoliaHitReverseSnippet<TItem>({
-      hit: item,
+      hit,
       attribute,
       ignoreEscape,
     }),

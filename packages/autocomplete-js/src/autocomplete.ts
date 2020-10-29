@@ -144,9 +144,9 @@ export function autocomplete<TItem>({
       dropdown.classList.remove('aa-Dropdown--stalled');
     }
 
-    const sections = state.suggestions.map((suggestion) => {
-      const items = suggestion.items;
-      const source = suggestion.source as InternalAutocompleteSource<TItem>;
+    const sections = state.collections.map((collection) => {
+      const items = collection.items;
+      const source = collection.source as InternalAutocompleteSource<TItem>;
 
       const section = document.createElement('section');
       setProperties(section, {
@@ -235,9 +235,9 @@ export function autocomplete<TItem>({
   }
 
   return {
-    setHighlightedIndex: autocomplete.setHighlightedIndex,
+    setSelectedItemId: autocomplete.setSelectedItemId,
     setQuery: autocomplete.setQuery,
-    setSuggestions: autocomplete.setSuggestions,
+    setCollections: autocomplete.setCollections,
     setIsOpen: autocomplete.setIsOpen,
     setStatus: autocomplete.setStatus,
     setContext: autocomplete.setContext,

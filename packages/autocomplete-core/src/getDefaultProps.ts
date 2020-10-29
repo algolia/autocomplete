@@ -4,6 +4,7 @@ import {
   getItemsCount,
   noop,
   getNormalizedSources,
+  flatten,
 } from './utils';
 
 export function getDefaultProps<TItem>(
@@ -19,7 +20,7 @@ export function getDefaultProps<TItem>(
     openOnFocus: false,
     placeholder: '',
     autoFocus: false,
-    defaultHighlightedIndex: null,
+    defaultSelectedItemId: null,
     enableCompletion: false,
     stallThreshold: 300,
     environment,
@@ -31,10 +32,10 @@ export function getDefaultProps<TItem>(
     id: props.id ?? generateAutocompleteId(),
     // The following props need to be deeply defaulted.
     initialState: {
-      highlightedIndex: null,
+      selectedItemId: null,
       query: '',
       completion: null,
-      suggestions: [],
+      collections: [],
       isOpen: false,
       status: 'idle',
       statusContext: {},
@@ -61,13 +62,7 @@ export function getDefaultProps<TItem>(
           getNormalizedSources(getSources!, options)
         )
       )
-        .then((nested) =>
-          // same as `nested.flat()`
-          nested.reduce((acc, array) => {
-            acc = acc.concat(array);
-            return acc;
-          }, [])
-        )
+        .then((nested) => flatten(nested))
         .then((sources) =>
           sources.map((source) => ({
             ...source,
@@ -83,22 +78,18 @@ export function getDefaultProps<TItem>(
         );
     },
     navigator: {
-      navigate({ suggestionUrl }) {
-        environment.location.assign(suggestionUrl);
+      navigate({ itemUrl }) {
+        environment.location.assign(itemUrl);
       },
-      navigateNewTab({ suggestionUrl }) {
-        const windowReference = environment.open(
-          suggestionUrl,
-          '_blank',
-          'noopener'
-        );
+      navigateNewTab({ itemUrl }) {
+        const windowReference = environment.open(itemUrl, '_blank', 'noopener');
 
         if (windowReference) {
           windowReference.focus();
         }
       },
-      navigateNewWindow({ suggestionUrl }) {
-        environment.open(suggestionUrl, '_blank', 'noopener');
+      navigateNewWindow({ itemUrl }) {
+        environment.open(itemUrl, '_blank', 'noopener');
       },
       ...props.navigator,
     },

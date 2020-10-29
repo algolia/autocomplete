@@ -5,7 +5,7 @@ import {
   AutocompleteStore,
   AutocompleteRefresh,
 } from './types';
-import { getHighlightedItem } from './utils';
+import { getSelectedItem } from './utils';
 
 let lastStalledId: number | null = null;
 
@@ -30,9 +30,9 @@ export function onInput<TItem>({
   event,
   store,
   props,
-  setHighlightedIndex,
+  setSelectedItemId,
   setQuery,
-  setSuggestions,
+  setCollections,
   setIsOpen,
   setStatus,
   setContext,
@@ -44,9 +44,9 @@ export function onInput<TItem>({
       props.onInput({
         query,
         state: store.getState(),
-        setHighlightedIndex,
+        setSelectedItemId,
         setQuery,
-        setSuggestions,
+        setCollections,
         setIsOpen,
         setStatus,
         setContext,
@@ -60,13 +60,13 @@ export function onInput<TItem>({
   }
 
   setQuery(query);
-  setHighlightedIndex(props.defaultHighlightedIndex);
+  setSelectedItemId(props.defaultSelectedItemId);
 
   if (query.length === 0 && props.openOnFocus === false) {
     setStatus('idle');
-    setSuggestions(
-      store.getState().suggestions.map((suggestion) => ({
-        ...suggestion,
+    setCollections(
+      store.getState().collections.map((collection) => ({
+        ...collection,
         items: [],
       }))
     );
@@ -87,9 +87,9 @@ export function onInput<TItem>({
     .getSources({
       query,
       state: store.getState(),
-      setHighlightedIndex,
+      setSelectedItemId,
       setQuery,
-      setSuggestions,
+      setCollections,
       setIsOpen,
       setStatus,
       setContext,
@@ -102,12 +102,12 @@ export function onInput<TItem>({
       return Promise.all(
         sources.map((source) => {
           return Promise.resolve(
-            source.getSuggestions({
+            source.getItems({
               query,
               state: store.getState(),
-              setHighlightedIndex,
+              setSelectedItemId,
               setQuery,
-              setSuggestions,
+              setCollections,
               setIsOpen,
               setStatus,
               setContext,
@@ -121,31 +121,31 @@ export function onInput<TItem>({
           });
         })
       )
-        .then((suggestions) => {
+        .then((collections) => {
           setStatus('idle');
-          setSuggestions(suggestions as any);
+          setCollections(collections);
           setIsOpen(
             nextState.isOpen ??
               ((query.length === 0 && props.openOnFocus) ||
                 props.shouldDropdownShow({ state: store.getState() }))
           );
 
-          const highlightedItem = getHighlightedItem({
+          const highlightedItem = getSelectedItem({
             state: store.getState(),
           });
 
-          if (store.getState().highlightedIndex !== null && highlightedItem) {
-            const { item, itemValue, itemUrl, source } = highlightedItem;
+          if (store.getState().selectedItemId !== null && highlightedItem) {
+            const { item, itemInputValue, itemUrl, source } = highlightedItem;
 
             source.onHighlight({
-              suggestion: item,
-              suggestionValue: itemValue,
-              suggestionUrl: itemUrl,
+              item,
+              itemInputValue,
+              itemUrl,
               source,
               state: store.getState(),
-              setHighlightedIndex,
+              setSelectedItemId,
               setQuery,
-              setSuggestions,
+              setCollections,
               setIsOpen,
               setStatus,
               setContext,

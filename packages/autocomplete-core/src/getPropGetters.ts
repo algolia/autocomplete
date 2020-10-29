@@ -14,7 +14,7 @@ import {
   GetMenuProps,
   GetRootProps,
 } from './types';
-import { getHighlightedItem, isOrContainsNode } from './utils';
+import { getSelectedItem, isOrContainsNode } from './utils';
 
 interface GetPropGettersOptions<TItem> extends AutocompleteSetters<TItem> {
   store: AutocompleteStore<TItem>;
@@ -25,9 +25,9 @@ interface GetPropGettersOptions<TItem> extends AutocompleteSetters<TItem> {
 export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
   store,
   props,
-  setHighlightedIndex,
+  setSelectedItemId,
   setQuery,
-  setSuggestions,
+  setCollections,
   setIsOpen,
   setStatus,
   setContext,
@@ -108,9 +108,9 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
 
         props.onSubmit({
           state: store.getState(),
-          setHighlightedIndex,
+          setSelectedItemId,
           setQuery,
-          setSuggestions,
+          setCollections,
           setIsOpen,
           setStatus,
           setContext,
@@ -132,9 +132,9 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
             event,
             store,
             props,
-            setHighlightedIndex,
+            setSelectedItemId,
             setQuery,
-            setSuggestions,
+            setCollections,
             setIsOpen,
             setStatus,
             setContext,
@@ -163,9 +163,9 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
           event,
           store,
           props,
-          setHighlightedIndex,
+          setSelectedItemId,
           setQuery,
-          setSuggestions,
+          setCollections,
           setIsOpen,
           setStatus,
           setContext,
@@ -182,8 +182,8 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     return {
       'aria-autocomplete': props.enableCompletion ? 'both' : 'list',
       'aria-activedescendant':
-        store.getState().isOpen && store.getState().highlightedIndex !== null
-          ? `${props.id}-item-${store.getState().highlightedIndex}`
+        store.getState().isOpen && store.getState().selectedItemId !== null
+          ? `${props.id}-item-${store.getState().selectedItemId}`
           : undefined,
       'aria-controls': store.getState().isOpen ? `${props.id}-menu` : undefined,
       'aria-labelledby': `${props.id}-label`,
@@ -204,9 +204,9 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
           event,
           store,
           props,
-          setHighlightedIndex,
+          setSelectedItemId,
           setQuery,
-          setSuggestions,
+          setCollections,
           setIsOpen,
           setStatus,
           setContext,
@@ -218,9 +218,9 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
           event: (event as unknown) as KeyboardEvent,
           store,
           props,
-          setHighlightedIndex,
+          setSelectedItemId,
           setQuery,
-          setSuggestions,
+          setCollections,
           setIsOpen,
           setStatus,
           setContext,
@@ -294,30 +294,30 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
       id: `${props.id}-item-${item.__autocomplete_id}`,
       role: 'option',
       'aria-selected':
-        store.getState().highlightedIndex === item.__autocomplete_id,
+        store.getState().selectedItemId === item.__autocomplete_id,
       onMouseMove(event) {
-        if (item.__autocomplete_id === store.getState().highlightedIndex) {
+        if (item.__autocomplete_id === store.getState().selectedItemId) {
           return;
         }
 
         store.send('mousemove', item.__autocomplete_id);
 
-        const highlightedItem = getHighlightedItem({
+        const highlightedItem = getSelectedItem({
           state: store.getState(),
         });
 
-        if (store.getState().highlightedIndex !== null && highlightedItem) {
-          const { item, itemValue, itemUrl, source } = highlightedItem;
+        if (store.getState().selectedItemId !== null && highlightedItem) {
+          const { item, itemInputValue, itemUrl, source } = highlightedItem;
 
           source.onHighlight({
-            suggestion: item,
-            suggestionValue: itemValue,
-            suggestionUrl: itemUrl,
+            item,
+            itemInputValue,
+            itemUrl,
             source,
             state: store.getState(),
-            setHighlightedIndex,
+            setSelectedItemId,
             setQuery,
-            setSuggestions,
+            setCollections,
             setIsOpen,
             setStatus,
             setContext,
@@ -331,30 +331,30 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         ((event as unknown) as MouseEvent).preventDefault();
       },
       onClick(event) {
-        const inputValue = source.getInputValue({
-          suggestion: item,
+        const itemInputValue = source.getItemInputValue({
+          item,
           state: store.getState(),
         });
-        const suggestionUrl = source.getSuggestionUrl({
-          suggestion: item,
+        const itemUrl = source.getItemUrl({
+          item,
           state: store.getState(),
         });
 
-        // If `getSuggestionUrl` is provided, it means that the suggestion
+        // If `getItemUrl` is provided, it means that the suggestion
         // is a link, not plain text that aims at updating the query.
         // We can therefore skip the state change because it will update
-        // the `highlightedIndex`, resulting in a UI flash, especially
+        // the `selectedItemId`, resulting in a UI flash, especially
         // noticeable on mobile.
-        const runPreCommand = suggestionUrl
+        const runPreCommand = itemUrl
           ? Promise.resolve()
           : onInput({
-              query: inputValue,
+              query: itemInputValue,
               event,
               store,
               props,
-              setHighlightedIndex,
+              setSelectedItemId,
               setQuery,
-              setSuggestions,
+              setCollections,
               setIsOpen,
               setStatus,
               setContext,
@@ -366,14 +366,14 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
 
         runPreCommand.then(() => {
           source.onSelect({
-            suggestion: item,
-            suggestionValue: inputValue,
-            suggestionUrl,
+            item,
+            itemInputValue,
+            itemUrl,
             source,
             state: store.getState(),
-            setHighlightedIndex,
+            setSelectedItemId,
             setQuery,
-            setSuggestions,
+            setCollections,
             setIsOpen,
             setStatus,
             setContext,

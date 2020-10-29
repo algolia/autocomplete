@@ -3,7 +3,7 @@ import {
   InternalAutocompleteOptions,
   InternalAutocompleteSource,
   AutocompleteState,
-  AutocompleteSuggestion,
+  AutocompleteCollection,
   AutocompleteOptions,
   AutocompleteSource,
 } from './types';
@@ -17,12 +17,12 @@ export function generateAutocompleteId() {
 }
 
 export function getItemsCount(state: AutocompleteState<any>) {
-  if (state.suggestions.length === 0) {
+  if (state.collections.length === 0) {
     return 0;
   }
 
-  return state.suggestions.reduce<number>(
-    (sum, suggestion) => sum + suggestion.items.length,
+  return state.collections.reduce<number>(
+    (sum, collection) => sum + collection.items.length,
     0
   );
 }
@@ -31,10 +31,10 @@ function normalizeSource<TItem>(
   source: AutocompleteSource<TItem>
 ): InternalAutocompleteSource<TItem> {
   return {
-    getInputValue({ state }) {
+    getItemInputValue({ state }) {
       return state.query;
     },
-    getSuggestionUrl() {
+    getItemUrl() {
       return undefined;
     },
     onSelect({ setIsOpen }) {
@@ -69,33 +69,33 @@ export function getNormalizedSources<TItem>(
   );
 }
 
-export function getNextHighlightedIndex<TItem>(
+export function getNextSelectedItemId<TItem>(
   moveAmount: number,
   baseIndex: number | null,
   itemCount: number,
-  defaultHighlightedIndex: InternalAutocompleteOptions<
+  defaultSelectedItemId: InternalAutocompleteOptions<
     TItem
-  >['defaultHighlightedIndex']
+  >['defaultSelectedItemId']
 ): number | null {
   // We allow circular keyboard navigation from the base index.
   // The base index can either be `null` (nothing is highlighted) or `0`
   // (the first item is highlighted).
   // The base index is allowed to get assigned `null` only if
-  // `props.defaultHighlightedIndex` is `null`. This pattern allows to "stop"
+  // `props.defaultSelectedItemId` is `null`. This pattern allows to "stop"
   // by the actual query before navigating to other suggestions as seen on
   // Google or Amazon.
   if (baseIndex === null && moveAmount < 0) {
     return itemCount - 1;
   }
 
-  if (defaultHighlightedIndex !== null && baseIndex === 0 && moveAmount < 0) {
+  if (defaultSelectedItemId !== null && baseIndex === 0 && moveAmount < 0) {
     return itemCount - 1;
   }
 
   const numericIndex = (baseIndex === null ? -1 : baseIndex) + moveAmount;
 
   if (numericIndex <= -1 || numericIndex >= itemCount) {
-    return defaultHighlightedIndex === null ? null : 0;
+    return defaultSelectedItemId === null ? null : 0;
   }
 
   return numericIndex;
@@ -104,19 +104,19 @@ export function getNextHighlightedIndex<TItem>(
 // We don't have access to the autocomplete source when we call `onKeyDown`
 // or `onClick` because those are native browser events.
 // However, we can get the source from the suggestion index.
-function getSuggestionFromHighlightedIndex<TItem>({
+function getCollectionFromSelectedItemId<TItem>({
   state,
 }: {
   state: AutocompleteState<TItem>;
-}): AutocompleteSuggestion<TItem> | undefined {
+}): AutocompleteCollection<TItem> | undefined {
   // Given 3 sources with respectively 1, 2 and 3 suggestions: [1, 2, 3]
   // We want to get the accumulated counts:
   // [1, 1 + 2, 1 + 2 + 3] = [1, 3, 3 + 3] = [1, 3, 6]
-  const accumulatedSuggestionsCount = state.suggestions
-    .map((suggestion) => suggestion.items.length)
-    .reduce<number[]>((acc, suggestionCount, index) => {
+  const accumulatedCollectionsCount = state.collections
+    .map((collections) => collections.items.length)
+    .reduce<number[]>((acc, collectionsCount, index) => {
       const previousValue = acc[index - 1] || 0;
-      const nextValue = previousValue + suggestionCount;
+      const nextValue = previousValue + collectionsCount;
 
       acc.push(nextValue);
 
@@ -124,15 +124,15 @@ function getSuggestionFromHighlightedIndex<TItem>({
     }, []);
 
   // Based on the accumulated counts, we can infer the index of the suggestion.
-  const suggestionIndex = accumulatedSuggestionsCount.reduce((acc, current) => {
-    if (current <= state.highlightedIndex!) {
+  const collectionIndex = accumulatedCollectionsCount.reduce((acc, current) => {
+    if (current <= state.selectedItemId!) {
       return acc + 1;
     }
 
     return acc;
   }, 0);
 
-  return state.suggestions[suggestionIndex];
+  return state.collections[collectionIndex];
 }
 
 /**
@@ -144,53 +144,53 @@ function getSuggestionFromHighlightedIndex<TItem>({
  *                      ↑
  *         (absolute: 3, relative: 1)
  */
-function getRelativeHighlightedIndex<TItem>({
+function getRelativeSelectedItemId<TItem>({
   state,
-  suggestion,
+  collection,
 }: {
   state: AutocompleteState<TItem>;
-  suggestion: AutocompleteSuggestion<TItem>;
+  collection: AutocompleteCollection<TItem>;
 }): number {
   let isOffsetFound = false;
   let counter = 0;
   let previousItemsOffset = 0;
 
   while (isOffsetFound === false) {
-    const currentSuggestion = state.suggestions[counter];
+    const currentCollection = state.collections[counter];
 
-    if (currentSuggestion === suggestion) {
+    if (currentCollection === collection) {
       isOffsetFound = true;
       break;
     }
 
-    previousItemsOffset += currentSuggestion.items.length;
+    previousItemsOffset += currentCollection.items.length;
 
     counter++;
   }
 
-  return state.highlightedIndex! - previousItemsOffset;
+  return state.selectedItemId! - previousItemsOffset;
 }
 
-export function getHighlightedItem<TItem>({
+export function getSelectedItem<TItem>({
   state,
 }: {
   state: AutocompleteState<TItem>;
 }) {
-  const suggestion = getSuggestionFromHighlightedIndex({ state });
+  const collection = getCollectionFromSelectedItemId({ state });
 
-  if (!suggestion) {
+  if (!collection) {
     return null;
   }
 
   const item =
-    suggestion.items[getRelativeHighlightedIndex({ state, suggestion })];
-  const source = suggestion.source;
-  const itemValue = source.getInputValue({ suggestion: item, state });
-  const itemUrl = source.getSuggestionUrl({ suggestion: item, state });
+    collection.items[getRelativeSelectedItemId({ state, collection })];
+  const source = collection.source;
+  const itemInputValue = source.getItemInputValue({ item, state });
+  const itemUrl = source.getItemUrl({ item, state });
 
   return {
     item,
-    itemValue,
+    itemInputValue,
     itemUrl,
     source,
   };
@@ -198,4 +198,10 @@ export function getHighlightedItem<TItem>({
 
 export function isOrContainsNode(parent: Node, child: Node) {
   return parent === child || (parent.contains && parent.contains(child));
+}
+
+export function flatten<TType>(values: Array<TType | TType[]>): TType[] {
+  return values.reduce<TType[]>((a, b) => {
+    return a.concat(b);
+  }, []);
 }

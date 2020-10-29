@@ -29,8 +29,8 @@ const autocompleteSearch = autocomplete({
   getSources() {
     return [
       {
-        getInputValue: ({ suggestion }) => suggestion.query,
-        getSuggestions({ query }) {
+        getItemInputValue: ({ item }) => item.query,
+        getItems({ query }) {
           return getAlgoliaHits({
             searchClient,
             queries: [
@@ -122,9 +122,9 @@ autocomplete({
 
 ```js
 const {
-  setHighlightedIndex,
+  setSelectedItemId,
   setQuery,
-  setSuggestions,
+  setCollections,
   setIsOpen,
   setStatus,
   setContext,

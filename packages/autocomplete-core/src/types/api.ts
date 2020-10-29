@@ -23,7 +23,7 @@ export interface AutocompleteApi<
 
 export type AutocompleteRefresh = () => Promise<void>;
 
-export interface AutocompleteSuggestion<TItem> {
+export interface AutocompleteCollection<TItem> {
   source: InternalAutocompleteSource<TItem>;
   items: TItem[];
 }
@@ -35,13 +35,11 @@ export interface GetSourcesParams<TItem> extends AutocompleteSetters<TItem> {
 }
 
 interface ItemParams<TItem> {
-  suggestion: TItem;
-  suggestionValue: ReturnType<
-    InternalAutocompleteSource<TItem>['getInputValue']
+  item: TItem;
+  itemInputValue: ReturnType<
+    InternalAutocompleteSource<TItem>['getItemInputValue']
   >;
-  suggestionUrl: ReturnType<
-    InternalAutocompleteSource<TItem>['getSuggestionUrl']
-  >;
+  itemUrl: ReturnType<InternalAutocompleteSource<TItem>['getItemUrl']>;
   source: InternalAutocompleteSource<TItem>;
 }
 
@@ -70,30 +68,30 @@ export interface AutocompleteSource<TItem> {
   // Example: `templates` in the JavaScript API
   [key: string]: unknown;
   /**
-   * Get the string value of the suggestion. The value is used to fill the search box.
+   * Get the string value of the item. The value is used to fill the search box.
    */
-  getInputValue?({
-    suggestion,
+  getItemInputValue?({
+    item,
     state,
   }: {
-    suggestion: TItem;
+    item: TItem;
     state: AutocompleteState<TItem>;
   }): string;
   /**
-   * Get the URL of a suggestion. The value is used to create default navigation features for
+   * Get the URL of a item. The value is used to create default navigation features for
    * `onClick` and `onKeyDown`.
    */
-  getSuggestionUrl?({
-    suggestion,
+  getItemUrl?({
+    item,
     state,
   }: {
-    suggestion: TItem;
+    item: TItem;
     state: AutocompleteState<TItem>;
   }): string | undefined;
   /**
    * Function called when the input changes. You can use this function to filter/search the items based on the query.
    */
-  getSuggestions(params: GetSourcesParams<TItem>): MaybePromise<TItem[]>;
+  getItems(params: GetSourcesParams<TItem>): MaybePromise<TItem[] | TItem[][]>;
   /**
    * Function called when an item is selected.
    */
@@ -136,24 +134,24 @@ interface Navigator<TItem> {
    * Called when a URL should be open in the current page.
    */
   navigate(params: {
-    suggestionUrl: string;
-    suggestion: TItem;
+    itemUrl: string;
+    item: TItem;
     state: AutocompleteState<TItem>;
   }): void;
   /**
    * Called when a URL should be open in a new tab.
    */
   navigateNewTab(params: {
-    suggestionUrl: string;
-    suggestion: TItem;
+    itemUrl: string;
+    item: TItem;
     state: AutocompleteState<TItem>;
   }): void;
   /**
    * Called when a URL should be open in a new window.
    */
   navigateNewWindow(params: {
-    suggestionUrl: string;
-    suggestion: TItem;
+    itemUrl: string;
+    item: TItem;
     state: AutocompleteState<TItem>;
   }): void;
 }
@@ -217,7 +215,7 @@ export interface AutocompleteOptions<TItem> {
    *
    * @default null
    */
-  defaultHighlightedIndex?: number | null;
+  defaultSelectedItemId?: number | null;
   /**
    * Whether to show the highlighted suggestion as completion in the input.
    *
@@ -291,7 +289,7 @@ export interface InternalAutocompleteOptions<TItem>
   }): void;
   placeholder: string;
   autoFocus: boolean;
-  defaultHighlightedIndex: number | null;
+  defaultSelectedItemId: number | null;
   enableCompletion: boolean;
   openOnFocus: boolean;
   stallThreshold: number;
