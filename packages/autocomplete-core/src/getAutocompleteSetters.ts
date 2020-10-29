@@ -18,7 +18,7 @@ export function getAutocompleteSetters<TItem>({
     store.send('setQuery', value);
   };
 
-  const setCollections: AutocompleteApi<TItem | TItem[]>['setCollections'] = (
+  const setCollections: AutocompleteApi<TItem>['setCollections'] = (
     rawValue
   ) => {
     let baseItemId = 0;
