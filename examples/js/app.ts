@@ -51,7 +51,7 @@ autocomplete<Hit<QuerySuggestionHit>>({
               return `
                 <div class="item-icon">${searchIcon}</div>
                 <div>
-                  ${reverseHighlightHit({
+                  ${reverseHighlightHit<Hit<QuerySuggestionHit>>({
                     hit: item,
                     attribute: 'query',
                   })}

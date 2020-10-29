@@ -26,7 +26,7 @@ function concatParts(
 }
 
 type HighlightItemParams<TItem> = {
-  item: TItem;
+  hit: TItem;
   attribute: keyof TItem;
   highlightPreTag?: string;
   highlightPostTag?: string;
@@ -37,7 +37,7 @@ type HighlightItemParams<TItem> = {
  * Highlights and escapes the matching parts of an Algolia hit.
  */
 export function highlightHit<TItem extends Hit<{}>>({
-  item: hit,
+  hit,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
@@ -59,7 +59,7 @@ export function highlightHit<TItem extends Hit<{}>>({
  * This is a common pattern for Query Suggestions.
  */
 export function reverseHighlightHit<TItem extends Hit<{}>>({
-  item: hit,
+  hit,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
@@ -79,7 +79,7 @@ export function reverseHighlightHit<TItem extends Hit<{}>>({
  * Highlights and escapes the matching parts of an Algolia hit snippet.
  */
 export function snippetHit<TItem extends Hit<{}>>({
-  item: hit,
+  hit,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
@@ -101,7 +101,7 @@ export function snippetHit<TItem extends Hit<{}>>({
  * This is a common pattern for Query Suggestions.
  */
 export function reverseSnippetHit<TItem extends Hit<{}>>({
-  item: hit,
+  hit,
   attribute,
   highlightPreTag = '<mark>',
   highlightPostTag = '</mark>',
