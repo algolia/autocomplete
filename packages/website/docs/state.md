@@ -41,7 +41,7 @@ const autocomplete = createAutocomplete({
 
 ## State
 
-### `highlightedIndex`
+### `selectedItemId`
 
 > `number | null` | defaults to `null`
 
@@ -65,11 +65,11 @@ The completion of the input.
 
 Whether the dropdown is opened.
 
-### `suggestions`
+### `collections`
 
-> `Suggestion[]` | defaults to `[]`
+> `Collection[]` | defaults to `[]`
 
-The suggestions of the experience.
+The collections of the experience.
 
 ### `status`
 
@@ -87,7 +87,7 @@ Learn more on the [context](context) page.
 
 ## Setters
 
-### `setHighlightedIndex`
+### `setSelectedItemId`
 
 > `(value: number | null) => void`
 
@@ -111,11 +111,11 @@ Sets the open state of the dropdown.
 
 Sets the status of the experience.
 
-### `setSuggestions`
+### `setCollections`
 
-> `(value: Suggestion[]) => void`
+> `(value: Collection[]) => void`
 
-Sets the suggestions of the experience.
+Sets the collections of the experience.
 
 ### `setContext`
 

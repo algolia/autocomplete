@@ -8,31 +8,31 @@ interface GetAutocompleteSettersOptions<TItem> {
 export function getAutocompleteSetters<TItem>({
   store,
 }: GetAutocompleteSettersOptions<TItem>) {
-  const setHighlightedIndex: AutocompleteApi<TItem>['setHighlightedIndex'] = (
+  const setSelectedItemId: AutocompleteApi<TItem>['setSelectedItemId'] = (
     value
   ) => {
-    store.send('setHighlightedIndex', value);
+    store.send('setSelectedItemId', value);
   };
 
   const setQuery: AutocompleteApi<TItem>['setQuery'] = (value) => {
     store.send('setQuery', value);
   };
 
-  const setSuggestions: AutocompleteApi<TItem>['setSuggestions'] = (
+  const setCollections: AutocompleteApi<TItem | TItem[]>['setCollections'] = (
     rawValue
   ) => {
     let baseItemId = 0;
-    const value = rawValue.map((suggestion) => ({
-      ...suggestion,
+    const value = rawValue.map((collection) => ({
+      ...collection,
       // We flatten the stored items to support calling `getAlgoliaHits`
       // from the source itself.
-      items: flatten(suggestion.items).map((item) => ({
+      items: flatten(collection.items).map((item) => ({
         ...item,
         __autocomplete_id: baseItemId++,
       })),
     }));
 
-    store.send('setSuggestions', value);
+    store.send('setCollections', value);
   };
 
   const setIsOpen: AutocompleteApi<TItem>['setIsOpen'] = (value) => {
@@ -48,9 +48,9 @@ export function getAutocompleteSetters<TItem>({
   };
 
   return {
-    setHighlightedIndex,
+    setSelectedItemId,
     setQuery,
-    setSuggestions,
+    setCollections,
     setIsOpen,
     setStatus,
     setContext,

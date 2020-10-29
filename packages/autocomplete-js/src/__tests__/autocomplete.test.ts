@@ -11,7 +11,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
-            getSuggestions() {
+            getItems() {
               return [
                 { label: 'Item 1' },
                 { label: 'Item 2' },
@@ -127,7 +127,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
-            getSuggestions() {
+            getItems() {
               return [
                 { label: 'Item 1' },
                 { label: 'Item 2' },
@@ -158,7 +158,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
-            getSuggestions() {
+            getItems() {
               return [
                 { label: 'Item 1' },
                 { label: 'Item 2' },
@@ -191,7 +191,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
-            getSuggestions() {
+            getItems() {
               return [
                 { label: 'Item 1' },
                 { label: 'Item 2' },
@@ -221,7 +221,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
-            getSuggestions() {
+            getItems() {
               return [
                 { label: 'Item 1' },
                 { label: 'Item 2' },

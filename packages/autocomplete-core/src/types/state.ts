@@ -1,10 +1,10 @@
-import { AutocompleteSuggestion } from './api';
+import { AutocompleteCollection } from './api';
 
 export interface AutocompleteState<TItem> {
-  highlightedIndex: number | null;
+  selectedItemId: number | null;
   query: string;
   completion: string | null;
-  suggestions: Array<AutocompleteSuggestion<TItem>>;
+  collections: Array<AutocompleteCollection<TItem>>;
   isOpen: boolean;
   status: 'idle' | 'loading' | 'stalled' | 'error';
   statusContext: {

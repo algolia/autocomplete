@@ -1,5 +1,5 @@
 import { InternalAutocompleteOptions, AutocompleteState } from './types';
-import { getHighlightedItem } from './utils';
+import { getSelectedItem } from './utils';
 
 interface GetCompletionProps<TItem> {
   state: AutocompleteState<TItem>;
@@ -13,28 +13,30 @@ export function getCompletion<TItem>({
   if (
     props.enableCompletion === false ||
     state.isOpen === false ||
-    state.highlightedIndex === null ||
+    state.selectedItemId === null ||
     state.status === 'stalled'
   ) {
     return null;
   }
 
-  const { itemValue } = getHighlightedItem({ state })!;
+  const { itemInputValue } = getSelectedItem({ state })!;
 
   // The completion should appear only if the _first_ characters of the query
-  // match with the suggestion.
+  // match with the item.
   if (
     state.query.length > 0 &&
-    itemValue.toLocaleLowerCase().indexOf(state.query.toLocaleLowerCase()) === 0
+    itemInputValue
+      .toLocaleLowerCase()
+      .indexOf(state.query.toLocaleLowerCase()) === 0
   ) {
-    // If the query typed has a different case than the suggestion, we want
+    // If the query typed has a different case than the item, we want
     // to show the completion matching the case of the query. This makes both
     // strings overlap correctly.
     // Example:
     //  - query: 'Gui'
-    //  - suggestion: 'guitar'
+    //  - item: 'guitar'
     //  => completion: 'Guitar'
-    const completion = state.query + itemValue.slice(state.query.length);
+    const completion = state.query + itemInputValue.slice(state.query.length);
 
     if (completion === state.query) {
       return null;

@@ -1,43 +1,43 @@
-import { createAutocomplete, AutocompleteSuggestion } from '..';
+import { createAutocomplete, AutocompleteCollection } from '..';
 
-function createSuggestion<TItem extends { label: string }>(
+function createCollection<TItem extends { label: string }>(
   items: TItem[] | TItem[][] = []
-): AutocompleteSuggestion<TItem | TItem[]> | AutocompleteSuggestion<TItem[]> {
+): AutocompleteCollection<TItem | TItem[]> | AutocompleteCollection<TItem[]> {
   return {
     source: {
-      getInputValue: ({ suggestion }) => suggestion.label,
-      getSuggestionUrl: () => undefined,
+      getItemInputValue: ({ item }) => item.label,
+      getItemUrl: () => undefined,
       onHighlight: () => {},
       onSelect: () => {},
-      getSuggestions: () => items,
+      getItems: () => items,
     },
     items,
   };
 }
 
 describe('createAutocomplete', () => {
-  test('setHighlightedIndex', () => {
+  test('setSelectedItemId', () => {
     const onStateChange = jest.fn();
-    const { setHighlightedIndex } = createAutocomplete({
+    const { setSelectedItemId } = createAutocomplete({
       getSources: () => [],
       onStateChange,
     });
 
-    setHighlightedIndex(1);
+    setSelectedItemId(1);
 
     expect(onStateChange).toHaveBeenCalledTimes(1);
     expect(onStateChange).toHaveBeenCalledWith(
       expect.objectContaining({
-        state: expect.objectContaining({ highlightedIndex: 1 }),
+        state: expect.objectContaining({ selectedItemId: 1 }),
       })
     );
 
-    setHighlightedIndex(null);
+    setSelectedItemId(null);
 
     expect(onStateChange).toHaveBeenCalledTimes(2);
     expect(onStateChange).toHaveBeenCalledWith(
       expect.objectContaining({
-        state: expect.objectContaining({ highlightedIndex: null }),
+        state: expect.objectContaining({ selectedItemId: null }),
       })
     );
   });
@@ -59,21 +59,21 @@ describe('createAutocomplete', () => {
     );
   });
 
-  describe('setSuggestions', () => {
+  describe('setCollections', () => {
     test('default', () => {
       const onStateChange = jest.fn();
-      const { setSuggestions } = createAutocomplete({
+      const { setCollections } = createAutocomplete({
         getSources: () => [],
         onStateChange,
       });
 
-      setSuggestions([createSuggestion([{ label: 'hi' }])]);
+      setCollections([createCollection([{ label: 'hi' }])]);
 
       expect(onStateChange).toHaveBeenCalledTimes(1);
       expect(onStateChange).toHaveBeenCalledWith({
         prevState: expect.any(Object),
         state: expect.objectContaining({
-          suggestions: [
+          collections: [
             {
               items: [
                 {
@@ -90,18 +90,18 @@ describe('createAutocomplete', () => {
 
     test('flattens suggestions', () => {
       const onStateChange = jest.fn();
-      const { setSuggestions } = createAutocomplete({
+      const { setCollections } = createAutocomplete({
         openOnFocus: true,
         getSources: () => [],
         onStateChange,
       });
 
-      setSuggestions([createSuggestion([[{ label: 'hi' }]])]);
+      setCollections([createCollection([[{ label: 'hi' }]])]);
 
       expect(onStateChange).toHaveBeenCalledWith({
         prevState: expect.any(Object),
         state: expect.objectContaining({
-          suggestions: [
+          collections: [
             expect.objectContaining({
               items: [{ label: 'hi', __autocomplete_id: 0 }],
             }),
