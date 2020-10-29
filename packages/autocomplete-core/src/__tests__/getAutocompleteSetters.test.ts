@@ -1,6 +1,8 @@
-import { createAutocomplete } from '..';
+import { createAutocomplete, AutocompleteCollection } from '..';
 
-function createCollection(items = []) {
+function createCollection<TItem extends { label: string }>(
+  items: TItem[] | TItem[][] = []
+): AutocompleteCollection<TItem | TItem[]> | AutocompleteCollection<TItem[]> {
   return {
     source: {
       getItemInputValue: ({ item }) => item.label,
@@ -57,22 +59,56 @@ describe('createAutocomplete', () => {
     );
   });
 
-  test('setCollections', () => {
-    const onStateChange = jest.fn();
-    const { setCollections } = createAutocomplete({
-      getSources: () => [],
-      onStateChange,
+  describe('setCollections', () => {
+    test('default', () => {
+      const onStateChange = jest.fn();
+      const { setCollections } = createAutocomplete({
+        getSources: () => [],
+        onStateChange,
+      });
+
+      setCollections([createCollection([{ label: 'hi' }])]);
+
+      expect(onStateChange).toHaveBeenCalledTimes(1);
+      expect(onStateChange).toHaveBeenCalledWith({
+        prevState: expect.any(Object),
+        state: expect.objectContaining({
+          collections: [
+            {
+              items: [
+                {
+                  label: 'hi',
+                  __autocomplete_id: 0,
+                },
+              ],
+              source: expect.any(Object),
+            },
+          ],
+        }),
+      });
     });
-    const collections = [createCollection()];
 
-    setCollections(collections);
+    test('flattens suggestions', () => {
+      const onStateChange = jest.fn();
+      const { setCollections } = createAutocomplete({
+        openOnFocus: true,
+        getSources: () => [],
+        onStateChange,
+      });
 
-    expect(onStateChange).toHaveBeenCalledTimes(1);
-    expect(onStateChange).toHaveBeenCalledWith(
-      expect.objectContaining({
-        state: expect.objectContaining({ collections }),
-      })
-    );
+      setCollections([createCollection([[{ label: 'hi' }]])]);
+
+      expect(onStateChange).toHaveBeenCalledWith({
+        prevState: expect.any(Object),
+        state: expect.objectContaining({
+          collections: [
+            expect.objectContaining({
+              items: [{ label: 'hi', __autocomplete_id: 0 }],
+            }),
+          ],
+        }),
+      });
+    });
   });
 
   test('setIsOpen', () => {
