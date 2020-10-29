@@ -2,8 +2,8 @@ import { createAutocomplete, AutocompleteSuggestion } from '..';
 import { InternalAutocompleteSource } from '../types';
 
 function createSuggestion<TItem extends { label: string }>(
-  items: TItem[] = []
-): AutocompleteSuggestion<TItem> {
+  items: TItem[] | TItem[][] = []
+): AutocompleteSuggestion<TItem | TItem[]> | AutocompleteSuggestion<TItem[]> {
   return {
     source: {
       getInputValue: ({ suggestion }) => suggestion.label,
@@ -117,7 +117,7 @@ describe('createAutocomplete', () => {
         onStateChange,
       });
 
-      setSuggestions([createMultiSuggestion([[{ label: 'hi' }]])]);
+      setSuggestions([createSuggestion([[{ label: 'hi' }]])]);
 
       expect(onStateChange).toHaveBeenCalledWith({
         prevState: expect.any(Object),
