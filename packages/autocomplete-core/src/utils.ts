@@ -100,7 +100,7 @@ function getCollectionFromSelectedItemId<TItem>({
   // Given 3 sources with respectively 1, 2 and 3 suggestions: [1, 2, 3]
   // We want to get the accumulated counts:
   // [1, 1 + 2, 1 + 2 + 3] = [1, 3, 3 + 3] = [1, 3, 6]
-  const accumulatedCollectionssCount = state.collections
+  const accumulatedCollectionsCount = state.collections
     .map((collections) => collections.items.length)
     .reduce<number[]>((acc, collectionsCount, index) => {
       const previousValue = acc[index - 1] || 0;
@@ -112,16 +112,13 @@ function getCollectionFromSelectedItemId<TItem>({
     }, []);
 
   // Based on the accumulated counts, we can infer the index of the suggestion.
-  const collectionIndex = accumulatedCollectionssCount.reduce(
-    (acc, current) => {
-      if (current <= state.selectedItemId!) {
-        return acc + 1;
-      }
+  const collectionIndex = accumulatedCollectionsCount.reduce((acc, current) => {
+    if (current <= state.selectedItemId!) {
+      return acc + 1;
+    }
 
-      return acc;
-    },
-    0
-  );
+    return acc;
+  }, 0);
 
   return state.collections[collectionIndex];
 }
