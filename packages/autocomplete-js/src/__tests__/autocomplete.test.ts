@@ -109,7 +109,7 @@ describe('autocomplete-js', () => {
             </div>
           </form>
           <div
-            class="aa-Dropdown"
+            class="aa-ListContainer"
             hidden=""
             style="top: 0px; left: 0px; right: 0px; max-width: unset;"
           />

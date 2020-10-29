@@ -111,7 +111,7 @@ export function autocomplete<TItem>({
   setProperties(dropdown, {
     ...autocomplete.getDropdownProps(),
     hidden: true,
-    class: concatClassNames(['aa-Dropdown', classNames.dropdown]),
+    class: concatClassNames(['aa-ListContainer', classNames.listContainer]),
   });
 
   function render(state: AutocompleteCoreState<TItem>) {
@@ -139,9 +139,9 @@ export function autocomplete<TItem>({
     }
 
     if (state.status === 'stalled') {
-      dropdown.classList.add('aa-Dropdown--stalled');
+      dropdown.classList.add('aa-ListContainer--stalled');
     } else {
-      dropdown.classList.remove('aa-Dropdown--stalled');
+      dropdown.classList.remove('aa-ListContainer--stalled');
     }
 
     const sections = state.collections.map((collection) => {
@@ -150,16 +150,13 @@ export function autocomplete<TItem>({
 
       const section = document.createElement('section');
       setProperties(section, {
-        class: concatClassNames(['aa-Section', classNames.section]),
+        class: concatClassNames(['aa-Source', classNames.source]),
       });
 
       if (source.templates.header) {
         const header = document.createElement('div');
         setProperties(header, {
-          class: concatClassNames([
-            'aa-SectionHeader',
-            classNames.sectionHeader,
-          ]),
+          class: concatClassNames(['aa-SourceHeader', classNames.sourceHeader]),
         });
         renderTemplate(
           source.templates.header({ root: header, state }),
@@ -172,14 +169,14 @@ export function autocomplete<TItem>({
         const menu = document.createElement('ul');
         setProperties(menu, {
           ...autocomplete.getMenuProps(),
-          class: concatClassNames(['aa-Menu', classNames.menu]),
+          class: concatClassNames(['aa-List', classNames.list]),
         });
 
         const menuItems = items.map((item) => {
           const li = document.createElement('li');
           setProperties(li, {
             ...autocomplete.getItemProps({ item, source }),
-            class: concatClassNames(['aa-Item', classNames.item]),
+            class: concatClassNames(['aa-ListItem', classNames.listItem]),
           });
           renderTemplate(source.templates.item({ root: li, item, state }), li);
 
@@ -196,10 +193,7 @@ export function autocomplete<TItem>({
       if (source.templates.footer) {
         const footer = document.createElement('div');
         setProperties(footer, {
-          class: concatClassNames([
-            'aa-SectionFooter',
-            classNames.sectionFooter,
-          ]),
+          class: concatClassNames(['aa-SourceFooter', classNames.sourceFooter]),
         });
         renderTemplate(
           source.templates.footer({ root: footer, state }),

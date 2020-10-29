@@ -90,12 +90,12 @@ type ClassNames = {
   input?: string;
   completion?: string;
   resetButton?: string;
-  dropdown?: string;
-  section?: string;
-  sectionHeader?: string;
-  menu?: string;
-  item?: string;
-  sectionFooter?: string;
+  listContainer?: string;
+  source?: string;
+  sourceHeader?: string;
+  list?: string;
+  listItem?: string;
+  sourceFooter?: string;
 };
 ```
 
