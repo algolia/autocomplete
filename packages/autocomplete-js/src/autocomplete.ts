@@ -37,7 +37,7 @@ export function autocomplete<TItem>({
   const form = document.createElement('form');
   const label = document.createElement('label');
   const resetButton = document.createElement('button');
-  const dropdown = document.createElement('div');
+  const listContainer = document.createElement('div');
 
   const autocomplete = createAutocomplete<TItem>({
     ...props,
@@ -52,13 +52,13 @@ export function autocomplete<TItem>({
   });
 
   const onResize = debounce(() => {
-    if (!dropdown.hasAttribute('hidden')) {
+    if (!listContainer.hasAttribute('hidden')) {
       setDropdownPosition();
     }
   }, 100);
 
   function setDropdownPosition() {
-    setProperties(dropdown, {
+    setProperties(listContainer, {
       style: getDropdownPositionStyle({
         dropdownPlacement,
         container: root,
@@ -71,7 +71,7 @@ export function autocomplete<TItem>({
   setProperties(window as any, {
     ...autocomplete.getEnvironmentProps({
       searchBoxElement: form,
-      dropdownElement: dropdown,
+      dropdownElement: listContainer,
       inputElement: input,
     }),
     onResize,
@@ -108,7 +108,7 @@ export function autocomplete<TItem>({
     class: concatClassNames(['aa-ResetButton', classNames.resetButton]),
     innerHTML: resetIcon,
   });
-  setProperties(dropdown, {
+  setProperties(listContainer, {
     ...autocomplete.getDropdownProps(),
     hidden: true,
     class: concatClassNames(['aa-ListContainer', classNames.listContainer]),
@@ -125,23 +125,23 @@ export function autocomplete<TItem>({
       completion.textContent = state.completion;
     }
 
-    dropdown.innerHTML = '';
+    listContainer.innerHTML = '';
 
     if (state.isOpen) {
-      setProperties(dropdown, {
+      setProperties(listContainer, {
         hidden: false,
       });
     } else {
-      setProperties(dropdown, {
+      setProperties(listContainer, {
         hidden: true,
       });
       return;
     }
 
     if (state.status === 'stalled') {
-      dropdown.classList.add('aa-ListContainer--stalled');
+      listContainer.classList.add('aa-ListContainer--stalled');
     } else {
-      dropdown.classList.remove('aa-ListContainer--stalled');
+      listContainer.classList.remove('aa-ListContainer--stalled');
     }
 
     const sections = state.collections.map((collection) => {
@@ -205,7 +205,7 @@ export function autocomplete<TItem>({
       return section;
     });
 
-    renderDropdown({ root: dropdown, sections, state });
+    renderDropdown({ root: listContainer, sections, state });
   }
 
   if (props.enableCompletion) {
@@ -216,7 +216,7 @@ export function autocomplete<TItem>({
   inputWrapper.appendChild(resetButton);
   form.appendChild(inputWrapper);
   root.appendChild(form);
-  root.appendChild(dropdown);
+  root.appendChild(listContainer);
   containerElement.appendChild(root);
 
   setDropdownPosition();
