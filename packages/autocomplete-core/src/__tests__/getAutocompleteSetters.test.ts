@@ -1,6 +1,8 @@
-import { createAutocomplete } from '..';
+import { createAutocomplete, AutocompleteSuggestion } from '..';
 
-function createSuggestion(items = []) {
+function createSuggestion<TItem extends { label: string }>(
+  items: TItem[] | TItem[][] = []
+): AutocompleteSuggestion<TItem | TItem[]> | AutocompleteSuggestion<TItem[]> {
   return {
     source: {
       getInputValue: ({ suggestion }) => suggestion.label,
@@ -57,22 +59,56 @@ describe('createAutocomplete', () => {
     );
   });
 
-  test('setSuggestions', () => {
-    const onStateChange = jest.fn();
-    const { setSuggestions } = createAutocomplete({
-      getSources: () => [],
-      onStateChange,
+  describe('setSuggestions', () => {
+    test('default', () => {
+      const onStateChange = jest.fn();
+      const { setSuggestions } = createAutocomplete({
+        getSources: () => [],
+        onStateChange,
+      });
+
+      setSuggestions([createSuggestion([{ label: 'hi' }])]);
+
+      expect(onStateChange).toHaveBeenCalledTimes(1);
+      expect(onStateChange).toHaveBeenCalledWith({
+        prevState: expect.any(Object),
+        state: expect.objectContaining({
+          suggestions: [
+            {
+              items: [
+                {
+                  label: 'hi',
+                  __autocomplete_id: 0,
+                },
+              ],
+              source: expect.any(Object),
+            },
+          ],
+        }),
+      });
     });
-    const suggestions = [createSuggestion()];
 
-    setSuggestions(suggestions);
+    test('flattens suggestions', () => {
+      const onStateChange = jest.fn();
+      const { setSuggestions } = createAutocomplete({
+        openOnFocus: true,
+        getSources: () => [],
+        onStateChange,
+      });
 
-    expect(onStateChange).toHaveBeenCalledTimes(1);
-    expect(onStateChange).toHaveBeenCalledWith(
-      expect.objectContaining({
-        state: expect.objectContaining({ suggestions }),
-      })
-    );
+      setSuggestions([createSuggestion([[{ label: 'hi' }]])]);
+
+      expect(onStateChange).toHaveBeenCalledWith({
+        prevState: expect.any(Object),
+        state: expect.objectContaining({
+          suggestions: [
+            expect.objectContaining({
+              items: [{ label: 'hi', __autocomplete_id: 0 }],
+            }),
+          ],
+        }),
+      });
+    });
   });
 
   test('setIsOpen', () => {

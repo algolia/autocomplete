@@ -1,4 +1,5 @@
 import { AutocompleteApi, AutocompleteStore } from './types';
+import { flatten } from './utils';
 
 interface GetAutocompleteSettersOptions<TItem> {
   store: AutocompleteStore<TItem>;
@@ -23,7 +24,9 @@ export function getAutocompleteSetters<TItem>({
     let baseItemId = 0;
     const value = rawValue.map((suggestion) => ({
       ...suggestion,
-      items: suggestion.items.map((item) => ({
+      // We flatten the stored items to support calling `getAlgoliaHits`
+      // from the source itself.
+      items: flatten(suggestion.items).map((item) => ({
         ...item,
         __autocomplete_id: baseItemId++,
       })),
