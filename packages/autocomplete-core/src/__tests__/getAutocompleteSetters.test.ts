@@ -16,26 +16,6 @@ function createSuggestion<TItem extends { label: string }>(
   };
 }
 
-interface AutocompleteMultiSuggestion<TItem> {
-  source: InternalAutocompleteSource<TItem>;
-  items: TItem[][];
-}
-
-function createMultiSuggestion<TItem extends { label: string }>(
-  items: TItem[][] = []
-): AutocompleteMultiSuggestion<TItem> {
-  return {
-    source: {
-      getInputValue: ({ suggestion }) => suggestion.label,
-      getSuggestionUrl: () => undefined,
-      onHighlight: () => {},
-      onSelect: () => {},
-      getSuggestions: () => items,
-    },
-    items,
-  };
-}
-
 describe('createAutocomplete', () => {
   test('setHighlightedIndex', () => {
     const onStateChange = jest.fn();
