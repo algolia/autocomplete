@@ -1,5 +1,4 @@
 import { createAutocomplete, AutocompleteSuggestion } from '..';
-import { InternalAutocompleteSource } from '../types';
 
 function createSuggestion<TItem extends { label: string }>(
   items: TItem[] | TItem[][] = []
