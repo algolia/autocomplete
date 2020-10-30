@@ -1,4 +1,3 @@
-import { createConcurrentSafePromise } from './createConcurrentSafePromise';
 import {
   InternalAutocompleteOptions,
   InternalAutocompleteSource,
@@ -45,25 +44,14 @@ function normalizeSource<TItem>(
   };
 }
 
-const runConcurrentSafePromiseForGetSources = createConcurrentSafePromise<
-  Array<AutocompleteSource<any>>
->();
-const runConcurrentSafePromiseForSource = createConcurrentSafePromise<
-  InternalAutocompleteSource<any>
->();
-
 export function getNormalizedSources<TItem>(
   getSources: AutocompleteOptions<TItem>['getSources'],
   options
 ): Promise<Array<InternalAutocompleteSource<TItem>>> {
-  return runConcurrentSafePromiseForGetSources(
-    Promise.resolve(getSources(options))
-  ).then((sources) =>
+  return Promise.resolve(getSources(options)).then((sources) =>
     Promise.all(
       sources.filter(Boolean).map((source) => {
-        return runConcurrentSafePromiseForSource(
-          Promise.resolve(normalizeSource<TItem>(source))
-        );
+        return normalizeSource<TItem>(source);
       })
     )
   );

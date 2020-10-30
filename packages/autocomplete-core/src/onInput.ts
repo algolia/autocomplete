@@ -1,11 +1,22 @@
+import { createConcurrentSafePromise } from './createConcurrentSafePromise';
 import {
   InternalAutocompleteOptions,
   AutocompleteSetters,
   AutocompleteState,
   AutocompleteStore,
   AutocompleteRefresh,
+  InternalAutocompleteSource,
 } from './types';
 import { getSelectedItem } from './utils';
+
+const runConcurrentSafePromiseForGetSources = (x) => x;
+//  createConcurrentSafePromise<
+//   Array<InternalAutocompleteSource<any>>
+// >();
+const runConcurrentSafePromiseForGetItems = (x) => x;
+//  createConcurrentSafePromise<
+//   ReturnType<InternalAutocompleteSource<any>['getItems']>
+// >();
 
 let lastStalledId: number | null = null;
 
@@ -83,8 +94,8 @@ export function onInput<TItem>({
     setStatus('stalled');
   }, props.stallThreshold);
 
-  return props
-    .getSources({
+  return runConcurrentSafePromiseForGetSources(
+    props.getSources({
       query,
       state: store.getState(),
       setSelectedItemId,
@@ -95,13 +106,14 @@ export function onInput<TItem>({
       setContext,
       refresh,
     })
-    .then((sources) => {
-      setStatus('loading');
+  ).then((sources) => {
+    setStatus('loading');
 
-      // @TODO: convert `Promise.all` to fetching strategy.
-      return Promise.all(
-        sources.map((source) => {
-          return Promise.resolve(
+    // @TODO: convert `Promise.all` to fetching strategy.
+    return Promise.all(
+      sources.map((source) => {
+        return runConcurrentSafePromiseForGetItems(
+          Promise.resolve(
             source.getItems({
               query,
               state: store.getState(),
@@ -113,55 +125,56 @@ export function onInput<TItem>({
               setContext,
               refresh,
             })
-          ).then((items) => {
-            return {
-              source,
-              items,
-            };
-          });
-        })
-      )
-        .then((collections) => {
-          setStatus('idle');
-          setCollections(collections);
-          setIsOpen(
-            nextState.isOpen ??
-              ((query.length === 0 && props.openOnFocus) ||
-                props.shouldDropdownShow({ state: store.getState() }))
-          );
-
-          const highlightedItem = getSelectedItem({
-            state: store.getState(),
-          });
-
-          if (store.getState().selectedItemId !== null && highlightedItem) {
-            const { item, itemInputValue, itemUrl, source } = highlightedItem;
-
-            source.onHighlight({
-              item,
-              itemInputValue,
-              itemUrl,
-              source,
-              state: store.getState(),
-              setSelectedItemId,
-              setQuery,
-              setCollections,
-              setIsOpen,
-              setStatus,
-              setContext,
-              event,
-            });
-          }
-        })
-        .catch((error) => {
-          setStatus('error');
-
-          throw error;
-        })
-        .finally(() => {
-          if (lastStalledId) {
-            clearTimeout(lastStalledId);
-          }
+          )
+        ).then((items) => {
+          return {
+            source,
+            items,
+          };
         });
-    });
+      })
+    )
+      .then((collections) => {
+        setStatus('idle');
+        setCollections(collections);
+        setIsOpen(
+          nextState.isOpen ??
+            ((query.length === 0 && props.openOnFocus) ||
+              props.shouldDropdownShow({ state: store.getState() }))
+        );
+
+        const highlightedItem = getSelectedItem({
+          state: store.getState(),
+        });
+
+        if (store.getState().selectedItemId !== null && highlightedItem) {
+          const { item, itemInputValue, itemUrl, source } = highlightedItem;
+
+          source.onHighlight({
+            item,
+            itemInputValue,
+            itemUrl,
+            source,
+            state: store.getState(),
+            setSelectedItemId,
+            setQuery,
+            setCollections,
+            setIsOpen,
+            setStatus,
+            setContext,
+            event,
+          });
+        }
+      })
+      .catch((error) => {
+        setStatus('error');
+
+        throw error;
+      })
+      .finally(() => {
+        if (lastStalledId) {
+          clearTimeout(lastStalledId);
+        }
+      });
+  });
 }

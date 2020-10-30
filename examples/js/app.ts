@@ -25,6 +25,23 @@ autocomplete<Hit<QuerySuggestionHit>>({
   // dropdownPlacement: 'start',
   plugins: [recentSearches],
   getSources({ query }) {
+    return [
+      {
+        getItems() {
+          return [
+            { query: 'Query 1' },
+            { query: 'Query 2' },
+            { query: 'Query 3' },
+          ];
+        },
+        templates: {
+          item({ item }) {
+            return item.query;
+          },
+        },
+      },
+    ];
+
     return getAlgoliaHits<QuerySuggestionHit>({
       searchClient,
       queries: [
