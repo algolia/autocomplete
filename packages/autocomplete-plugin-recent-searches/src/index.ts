@@ -1,1 +1,3 @@
-export { createRecentSearchesPlugin } from './createRecentSearchesPlugin';
+export * from './createLocalStorageRecentSearchesPlugin';
+export * from './createSearchableLocalStorageRecentSearchesPlugin';
+export * from './getTemplates';

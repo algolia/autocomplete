@@ -9,7 +9,7 @@ import {
 
 type Template<TParams> = (params: TParams) => string | void;
 
-type SourceTemplates<TItem> = {
+export type SourceTemplates<TItem> = {
   /**
    * Templates to display in the autocomplete dropdown.
    *

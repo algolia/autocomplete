@@ -107,11 +107,12 @@
 }
 
 .aa-Item {
+  align-items: center;
   color: #23263b;
   cursor: pointer;
-  padding: 0.5rem;
   display: flex;
-  align-items: center;
+  grid-gap: 0.5rem;
+  justify-content: space-between;
 }
 
 .aa-Item mark {
@@ -122,4 +123,29 @@
 
 .aa-Item[aria-selected='true'] {
   background-color: #f5f5fa;
+}
+
+.aa-ItemContent {
+  display: flex;
+  flex-grow: 1;
+  grid-gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.aa-ItemSourceIcon,
+.aa-ItemActionButton {
+  color: rgba(80, 80, 80, 0.32);
+}
+
+.aa-ItemActionButton {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  opacity: 0.8;
+  padding: 0.5rem;
+  transition: color 100ms;
+}
+
+.aa-ItemActionButton:hover {
+  color: rgba(80, 80, 80, 1);
 }

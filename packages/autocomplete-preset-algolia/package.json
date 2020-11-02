@@ -3,6 +3,16 @@
   "description": "Presets for building autocomplete experiences with Algolia.",
   "version": "1.0.0-alpha.34",
   "license": "MIT",
+  "homepage": "https://github.com/algolia/autocomplete.js",
+  "repository": "algolia/autocomplete.js",
+  "author": {
+    "name": "Algolia, Inc.",
+    "url": "https://www.algolia.com"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist/"
+  ],
   "source": "src/index.ts",
   "types": "dist/esm/index.d.ts",
   "module": "dist/esm/index.js",
@@ -20,16 +30,6 @@
     "prepare": "yarn build:esm && yarn build:types",
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
-  "homepage": "https://github.com/algolia/autocomplete.js",
-  "repository": "algolia/autocomplete.js",
-  "author": {
-    "name": "Algolia, Inc.",
-    "url": "https://www.algolia.com"
-  },
-  "sideEffects": false,
-  "files": [
-    "dist/"
-  ],
   "dependencies": {
     "@algolia/client-search": "4.5.1",
     "algoliasearch": "4.5.1"
