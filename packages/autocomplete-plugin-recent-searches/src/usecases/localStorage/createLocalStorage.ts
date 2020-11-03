@@ -1,27 +1,29 @@
-import { isLocalStorageSupported } from './isLocalStorageSupported';
+import { CreateRecentSearchesLocalStorageOptions } from '../../createLocalStorageRecentSearchesPlugin';
+import { RecentSearchesStorage } from '../../createStore';
+import { RecentSearchesItem } from '../../types/RecentSearchesItem';
 
-type LocalStorageProps = {
-  key: string;
-};
+import { getLocalStorage } from './getLocalStorage';
 
-export function createLocalStorage<TItem>({ key }: LocalStorageProps) {
-  if (!isLocalStorageSupported()) {
-    return {
-      setItem() {},
-      getItem() {
-        return [];
-      },
-    };
-  }
+export type CreateLocalStorageProps<
+  TItem extends RecentSearchesItem
+> = Required<CreateRecentSearchesLocalStorageOptions<TItem>>;
+
+export function createLocalStorage<TItem extends RecentSearchesItem>({
+  key,
+  limit,
+  search,
+}: CreateLocalStorageProps<TItem>): RecentSearchesStorage<TItem> {
+  const storage = getLocalStorage<TItem>({ key });
 
   return {
-    setItem(items: TItem[]) {
-      return window.localStorage.setItem(key, JSON.stringify(items));
+    getAll(query = '') {
+      return search({ query, items: storage.getItem(), limit }).slice(0, limit);
     },
-    getItem(): TItem[] {
-      const items = window.localStorage.getItem(key);
-
-      return items ? (JSON.parse(items) as TItem[]) : [];
+    onAdd(item) {
+      storage.setItem([item, ...storage.getItem()]);
+    },
+    onRemove(id) {
+      storage.setItem(storage.getItem().filter((x) => x.id !== id));
     },
   };
 }

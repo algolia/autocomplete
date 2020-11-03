@@ -1,7 +1,5 @@
+import { MaybePromise } from './types';
 import { RecentSearchesItem } from './types/RecentSearchesItem';
-
-// @TODO: reuse MaybePromise from autocomplete-core when we find a way to share the type
-export type MaybePromise<TResolution> = Promise<TResolution> | TResolution;
 
 export type RecentSearchesStore<TItem extends RecentSearchesItem> = {
   add(item: TItem): void;
@@ -9,14 +7,14 @@ export type RecentSearchesStore<TItem extends RecentSearchesItem> = {
   getAll(query?: string): MaybePromise<TItem[]>;
 };
 
-type CreateRecentSearchesStoreParams<TItem extends RecentSearchesItem> = {
+export type RecentSearchesStorage<TItem extends RecentSearchesItem> = {
   onAdd(item: TItem): void;
   onRemove(id: string): void;
   getAll(query?: string): MaybePromise<TItem[]>;
 };
 
 export function createStore<TItem extends RecentSearchesItem>(
-  storage: CreateRecentSearchesStoreParams<TItem>
+  storage: RecentSearchesStorage<TItem>
 ): RecentSearchesStore<TItem> {
   return {
     add(item) {

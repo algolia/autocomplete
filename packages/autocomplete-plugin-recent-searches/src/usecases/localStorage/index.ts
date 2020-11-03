@@ -1,3 +1,4 @@
+export * from './constants';
+export * from './getLocalStorage';
 export * from './createLocalStorage';
-export * from './createLocalStorageStore';
-export * from './createSearchableLocalStorageStore';
+export * from './search';

@@ -1,17 +1,21 @@
 import { AutocompletePlugin } from '@algolia/autocomplete-core';
-import { SourceTemplates } from '@algolia/autocomplete-js';
 
-import { getRecentSearchesPlugin } from './getRecentSearchesPlugin';
 import {
-  getTemplates as defaultGetTemplates,
-  GetTemplatesParams,
-} from './getTemplates';
-import { RecentSearchesPluginData } from './RecentSearchesPluginData';
+  createRecentSearchesPlugin,
+  CreateRecentSearchesPluginParams,
+  RecentSearchesPluginData,
+} from './createRecentSearchesPlugin';
 import { RecentSearchesItem } from './types';
-import { createLocalStorageStore } from './usecases/localStorage';
-import { LOCAL_STORAGE_KEY } from './usecases/localStorage/constants';
+import {
+  LOCAL_STORAGE_KEY,
+  createLocalStorage,
+  search as defaultSearch,
+  SearchParams,
+} from './usecases/localStorage';
 
-export type LocalStorageRecentSearchesPluginOptions = {
+export type CreateRecentSearchesLocalStorageOptions<
+  TItem extends RecentSearchesItem
+> = {
   /**
    * The unique key to name the store of recent searches.
    *
@@ -26,26 +30,36 @@ export type LocalStorageRecentSearchesPluginOptions = {
    */
   limit?: number;
 
-  getTemplates?(
-    params: GetTemplatesParams
-  ): SourceTemplates<RecentSearchesItem>;
+  /**
+   * Function to search in the recent items.
+   */
+  search?(params: SearchParams<TItem>): TItem[];
 };
 
-export function createLocalStorageRecentSearchesPlugin({
+type LocalStorageRecentSearchesPluginOptions<
+  TItem extends RecentSearchesItem
+> = CreateRecentSearchesPluginParams<TItem> &
+  CreateRecentSearchesLocalStorageOptions<TItem>;
+
+export function createLocalStorageRecentSearchesPlugin<
+  TItem extends RecentSearchesItem
+>({
   key,
   limit = 5,
-  getTemplates = defaultGetTemplates,
-}: LocalStorageRecentSearchesPluginOptions): AutocompletePlugin<
-  RecentSearchesItem,
+  getTemplates,
+  search = defaultSearch,
+}: LocalStorageRecentSearchesPluginOptions<TItem>): AutocompletePlugin<
+  TItem,
   RecentSearchesPluginData
 > {
-  const store = createLocalStorageStore({
+  const storage = createLocalStorage({
     key: [LOCAL_STORAGE_KEY, key].join(':'),
     limit,
+    search,
   });
 
-  return getRecentSearchesPlugin({
+  return createRecentSearchesPlugin({
     getTemplates,
-    store,
+    storage,
   });
 }

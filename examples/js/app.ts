@@ -6,7 +6,7 @@ import {
   getAlgoliaHits,
   reverseHighlightHit,
 } from '@algolia/autocomplete-js';
-import { createSearchableLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 
 const searchClient = algoliasearch(
   'latency',
@@ -15,7 +15,7 @@ const searchClient = algoliasearch(
 
 type QuerySuggestionHit = { query: string };
 
-const recentSearches = createSearchableLocalStorageRecentSearchesPlugin({
+const recentSearches = createLocalStorageRecentSearchesPlugin({
   key: 'recent',
   limit: 3,
 });
