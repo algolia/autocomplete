@@ -21,7 +21,6 @@ export function getDefaultProps<TItem>(
     placeholder: '',
     autoFocus: false,
     defaultSelectedItemId: null,
-    enableCompletion: false,
     stallThreshold: 300,
     environment,
     shouldDropdownShow: ({ state }) => getItemsCount(state) > 0,
