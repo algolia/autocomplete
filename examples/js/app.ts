@@ -34,9 +34,11 @@ autocomplete<Hit<QuerySuggestionHit>>({
           indexName: 'instant_search_demo_query_suggestions',
           query,
           params: {
-            hitsPerPage: recentSearches.data.getQuerySuggestionsHitsPerPage(10),
+            hitsPerPage: recentSearches.data.getAlgoliaQuerySuggestionsHitsPerPage(
+              10
+            ),
             facetFilters: [
-              ...recentSearches.data.getQuerySuggestionsFacetFilters(),
+              ...recentSearches.data.getAlgoliaQuerySuggestionsFacetFilters(),
             ],
           },
         },
