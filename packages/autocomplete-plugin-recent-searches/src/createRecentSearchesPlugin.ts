@@ -87,20 +87,28 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
     },
     data: {
       getQuerySuggestionsFacetFilters() {
-        // If the the items returned by `store.getAll` are contained in a Promise,
+        // If the items returned by `store.getAll` are contained in a Promise,
         // we cannot provide the facet filters in time when this function is called
         // because we need to resolve the promise before getting the value.
         if (!Array.isArray(lastItemsRef.current)) {
+          // @TODO: use the `warn` function from `autocomplete-core`
+          console.warn(
+            'The `getQuerySuggestionsFacetFilters` function is not supported with storages that return promises in `getAll`.'
+          );
           return [];
         }
 
         return lastItemsRef.current.map((item) => [`objectID:-${item.query}`]);
       },
       getQuerySuggestionsHitsPerPage(hitsPerPage: number) {
-        // If the the items returned by `store.getAll` are contained in a Promise,
+        // If the items returned by `store.getAll` are contained in a Promise,
         // we cannot provide the number of hits per page in time when this function
         // is called because we need to resolve the promise before getting the value.
         if (!Array.isArray(lastItemsRef.current)) {
+          // @TODO: use the `warn` function from `autocomplete-core`
+          console.warn(
+            'The `getQuerySuggestionsHitsPerPage` function is not supported with storages that return promises in `getAll`.'
+          );
           return hitsPerPage;
         }
 
