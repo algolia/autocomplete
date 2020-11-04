@@ -1,21 +1,20 @@
+version: 2.1
+
 aliases:
   - &install_yarn_version
     name: Install specific Yarn version
     command: |
       curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.5
       echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> $BASH_ENV
-
   - &restore_yarn_cache
     name: Restore Yarn cache
     keys:
       - yarn-{{ .Branch }}-packages-{{ checksum "yarn.lock" }}
-
   - &save_yarn_cache
     name: Save Yarn cache
     key: yarn-{{ .Branch }}-packages-{{ checksum "yarn.lock" }}
     paths:
       - ~/.cache/yarn
-
   - &run_yarn_install
     name: Install dependencies
     command: yarn install
@@ -25,10 +24,8 @@ defaults: &defaults
   docker:
     - image: circleci/node:14.15.0
 
-version: 2.1
-
 jobs:
-  test_build:
+  build:
     <<: *defaults
     steps:
       - checkout
@@ -37,11 +34,8 @@ jobs:
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
       - run:
-          name: Build & Test packages size
-          command: |
-            yarn run build
-            yarn run test:size
-
+          name: Build
+          command: yarn run build
   test_lint:
     <<: *defaults
     steps:
@@ -51,12 +45,19 @@ jobs:
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
       - run:
-          name: Lint & Code styles
+          name: Linting
           command: yarn run lint
+  test_types:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: *install_yarn_version
+      - restore_cache: *restore_yarn_cache
+      - run: *run_yarn_install
+      - save_cache: *save_yarn_cache
       - run:
-          name: Type Checking
-          command: yarn test:types
-
+          name: Type checking
+          command: yarn run test:types
   test_unit:
     <<: *defaults
     steps:
@@ -68,7 +69,17 @@ jobs:
       - run:
           name: Unit tests
           command: yarn run test --maxWorkers=4
-
+  test_size:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: *install_yarn_version
+      - restore_cache: *restore_yarn_cache
+      - run: *run_yarn_install
+      - save_cache: *save_yarn_cache
+      - run:
+          name: Test packages size
+          command: yarn run test:size
   release:
     <<: *defaults
     steps:
@@ -85,19 +96,41 @@ workflows:
   version: 2.1
   ci:
     jobs:
-      - test_build:
-          filters:
-            branches:
-              only: next
-      - test_unit:
+      - build:
           filters:
             branches:
               only: next
       - test_lint:
+          requires:
+            - build
+          filters:
+            branches:
+              only: next
+      - test_types:
+          requires:
+            - build
+          filters:
+            branches:
+              only: next
+      - test_unit:
+          requires:
+            - build
+          filters:
+            branches:
+              only: next
+      - test_size:
+          requires:
+            - build
           filters:
             branches:
               only: next
       - release:
+          requires:
+            - test_unit
+            - test_lint
+            - test_types
+            - test_size
+            - build
           filters:
             branches:
               only: next
