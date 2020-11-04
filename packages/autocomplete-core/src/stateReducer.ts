@@ -89,6 +89,7 @@ export const stateReducer: Reducer = (state, action) => {
         return {
           ...state,
           isOpen: false,
+          completion: null,
         };
       }
 
