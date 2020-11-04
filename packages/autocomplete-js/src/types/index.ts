@@ -82,14 +82,13 @@ export interface AutocompleteOptions<TItem>
     label?: string;
     inputWrapper?: string;
     input?: string;
-    completion?: string;
     resetButton?: string;
-    dropdown?: string;
-    section?: string;
-    sectionHeader?: string;
-    menu?: string;
+    panel?: string;
+    source?: string;
+    sourceHeader?: string;
+    list?: string;
     item?: string;
-    sectionFooter?: string;
+    sourceFooter?: string;
   };
   /**
    * Function called to render the autocomplete results. It is useful for rendering sections in different row or column layouts.

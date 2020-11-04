@@ -88,14 +88,13 @@ type ClassNames = {
   label?: string;
   inputWrapper?: string;
   input?: string;
-  completion?: string;
   resetButton?: string;
-  dropdown?: string;
-  section?: string;
-  sectionHeader?: string;
-  menu?: string;
+  panel?: string;
+  source?: string;
+  sourceHeader?: string;
+  list?: string;
   item?: string;
-  sectionFooter?: string;
+  sourceFooter?: string;
 };
 ```
 

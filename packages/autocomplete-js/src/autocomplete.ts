@@ -36,7 +36,7 @@ export function autocomplete<TItem>({
   const form = document.createElement('form');
   const label = document.createElement('label');
   const resetButton = document.createElement('button');
-  const dropdown = document.createElement('div');
+  const panel = document.createElement('div');
 
   const autocomplete = createAutocomplete<TItem>({
     ...props,
@@ -51,13 +51,13 @@ export function autocomplete<TItem>({
   });
 
   const onResize = debounce(() => {
-    if (!dropdown.hasAttribute('hidden')) {
+    if (!panel.hasAttribute('hidden')) {
       setDropdownPosition();
     }
   }, 100);
 
   function setDropdownPosition() {
-    setProperties(dropdown, {
+    setProperties(panel, {
       style: getDropdownPositionStyle({
         dropdownPlacement,
         container: root,
@@ -70,7 +70,7 @@ export function autocomplete<TItem>({
   setProperties(window as any, {
     ...autocomplete.getEnvironmentProps({
       searchBoxElement: form,
-      dropdownElement: dropdown,
+      dropdownElement: panel,
       inputElement: input,
     }),
     onResize,
@@ -85,9 +85,7 @@ export function autocomplete<TItem>({
     class: concatClassNames(['aa-Form', classNames.form]),
   });
   setProperties(inputWrapper, {
-    class: ['aa-InputWrapper', classNames.inputWrapper]
-      .filter(Boolean)
-      .join(' '),
+    class: concatClassNames(['aa-InputWrapper', classNames.inputWrapper]),
   });
   setProperties(input, {
     ...autocomplete.getInputProps({ inputElement: input }),
@@ -104,10 +102,10 @@ export function autocomplete<TItem>({
     class: concatClassNames(['aa-ResetButton', classNames.resetButton]),
     innerHTML: resetIcon,
   });
-  setProperties(dropdown, {
+  setProperties(panel, {
     ...autocomplete.getDropdownProps(),
     hidden: true,
-    class: concatClassNames(['aa-Dropdown', classNames.dropdown]),
+    class: concatClassNames(['aa-Panel', classNames.panel]),
   });
 
   function render(state: AutocompleteCoreState<TItem>) {
@@ -117,23 +115,23 @@ export function autocomplete<TItem>({
       autocomplete.getInputProps({ inputElement: input })
     );
 
-    dropdown.innerHTML = '';
+    panel.innerHTML = '';
 
     if (state.isOpen) {
-      setProperties(dropdown, {
+      setProperties(panel, {
         hidden: false,
       });
     } else {
-      setProperties(dropdown, {
+      setProperties(panel, {
         hidden: true,
       });
       return;
     }
 
     if (state.status === 'stalled') {
-      dropdown.classList.add('aa-Dropdown--stalled');
+      panel.classList.add('aa-panel--stalled');
     } else {
-      dropdown.classList.remove('aa-Dropdown--stalled');
+      panel.classList.remove('aa-panel--stalled');
     }
 
     const sections = state.collections.map((collection) => {
@@ -142,16 +140,13 @@ export function autocomplete<TItem>({
 
       const section = document.createElement('section');
       setProperties(section, {
-        class: concatClassNames(['aa-Section', classNames.section]),
+        class: concatClassNames(['aa-Source', classNames.source]),
       });
 
       if (source.templates.header) {
         const header = document.createElement('div');
         setProperties(header, {
-          class: concatClassNames([
-            'aa-SectionHeader',
-            classNames.sectionHeader,
-          ]),
+          class: concatClassNames(['aa-SourceHeader', classNames.sourceHeader]),
         });
         renderTemplate(
           source.templates.header({ root: header, state }),
@@ -164,14 +159,14 @@ export function autocomplete<TItem>({
         const menu = document.createElement('ul');
         setProperties(menu, {
           ...autocomplete.getMenuProps(),
-          class: concatClassNames(['aa-Menu', classNames.menu]),
+          class: concatClassNames(['aa-List', classNames.list]),
         });
 
         const menuItems = items.map((item) => {
           const li = document.createElement('li');
           setProperties(li, {
             ...autocomplete.getItemProps({ item, source }),
-            class: concatClassNames(['aa-Item', classNames.item]),
+            class: concatClassNames(['aa-Item', classNames.Item]),
           });
           renderTemplate(source.templates.item({ root: li, item, state }), li);
 
@@ -188,10 +183,7 @@ export function autocomplete<TItem>({
       if (source.templates.footer) {
         const footer = document.createElement('div');
         setProperties(footer, {
-          class: concatClassNames([
-            'aa-SectionFooter',
-            classNames.sectionFooter,
-          ]),
+          class: concatClassNames(['aa-SourceFooter', classNames.sourceFooter]),
         });
         renderTemplate(
           source.templates.footer({ root: footer, state }),
@@ -203,7 +195,7 @@ export function autocomplete<TItem>({
       return section;
     });
 
-    renderDropdown({ root: dropdown, sections, state });
+    renderDropdown({ root: panel, sections, state });
   }
 
   inputWrapper.appendChild(input);
@@ -211,7 +203,7 @@ export function autocomplete<TItem>({
   inputWrapper.appendChild(resetButton);
   form.appendChild(inputWrapper);
   root.appendChild(form);
-  root.appendChild(dropdown);
+  root.appendChild(panel);
   containerElement.appendChild(root);
 
   setDropdownPosition();
