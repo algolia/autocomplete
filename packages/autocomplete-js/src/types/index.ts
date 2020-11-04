@@ -82,7 +82,6 @@ export interface AutocompleteOptions<TItem>
     label?: string;
     inputWrapper?: string;
     input?: string;
-    completion?: string;
     resetButton?: string;
     panel?: string;
     source?: string;

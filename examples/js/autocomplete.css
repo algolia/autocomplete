@@ -43,16 +43,7 @@
   -webkit-appearance: none;
 }
 
-.aa-Completion {
-  color: #999;
-  left: 1px;
-  position: absolute;
-  transform: translateY(50%);
-  z-index: 1;
-}
-
-.aa-Input,
-.aa-Completion {
+.aa-Input {
   padding: 0 2.25rem;
 }
 
