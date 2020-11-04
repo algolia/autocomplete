@@ -97,33 +97,18 @@ workflows:
   ci:
     jobs:
       - build:
-          filters:
-            branches:
-              only: next
       - test_lint:
           requires:
             - build
-          filters:
-            branches:
-              only: next
       - test_types:
           requires:
             - build
-          filters:
-            branches:
-              only: next
       - test_unit:
           requires:
             - build
-          filters:
-            branches:
-              only: next
       - test_size:
           requires:
             - build
-          filters:
-            branches:
-              only: next
       - release:
           requires:
             - test_unit
