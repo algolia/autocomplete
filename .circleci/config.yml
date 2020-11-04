@@ -59,6 +59,7 @@ jobs:
             cp -R packages/autocomplete-js/dist /tmp/workspace/packages/autocomplete-js
             cp -R packages/autocomplete-plugin-recent-searches/dist /tmp/workspace/packages/autocomplete-plugin-recent-searches
             cp -R packages/autocomplete-preset-algolia/dist /tmp/workspace/packages/autocomplete-preset-algolia
+            ls -R /tmp/workspace
       - persist_to_workspace:
           root: *workspace_root
           paths:
@@ -70,11 +71,14 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - *attach_workspace
+      - run: *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
+      - run:
+          name: List workspace content
+          command: ls -R /tmp/workspace
       - run: *restore_dist_folders
       - run:
           name: Linting
@@ -83,7 +87,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - *attach_workspace
+      - run: *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
@@ -96,7 +100,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - *attach_workspace
+      - run: *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
@@ -109,7 +113,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - *attach_workspace
+      - run: *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
@@ -122,7 +126,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - *attach_workspace
+      - run: *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
