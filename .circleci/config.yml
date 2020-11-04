@@ -18,11 +18,24 @@ aliases:
   - &run_yarn_install
     name: Install dependencies
     command: yarn install
+  - &restore_dist_folders
+    name: Restore dist folders
+    command: |
+      set -exu
+      cp -R /tmp/workspace/packages/autocomplete-core/dist packages/autocomplete-core
+      cp -R /tmp/workspace/packages/autocomplete-js/dist packages/autocomplete-js
+      cp -R /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist packages/autocomplete-plugin-recent-searches
+      cp -R /tmp/workspace/packages/autocomplete-preset-algolia/dist packages/autocomplete-preset-algolia
 
-defaults: &defaults
-  working_directory: ~/autocomplete
-  docker:
-    - image: circleci/node:14.15.0
+references:
+  defaults: &defaults
+    working_directory: ~/autocomplete
+    docker:
+      - image: circleci/node:14.15.0
+  workspace_root: &workspace_root /tmp/workspace
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
 
 jobs:
   build:
@@ -36,58 +49,81 @@ jobs:
       - run:
           name: Build
           command: yarn run build
+      - run:
+          name: Move dist folders to workspace
+          command: |
+            set -exu
+            mkdir -p /tmp/workspace/packages
+            cp -R packages/autocomplete-core/dist /tmp/workspace/packages/autocomplete-core
+            cp -R packages/autocomplete-js/dist /tmp/workspace/packages/autocomplete-js
+            cp -R packages/autocomplete-plugin-recent-searches/dist /tmp/workspace/packages/autocomplete-plugin-recent-searches
+            cp -R packages/autocomplete-preset-algolia/dist /tmp/workspace/packages/autocomplete-preset-algolia
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - packages
   test_lint:
     <<: *defaults
+    <<: *attach_workspace
     steps:
       - checkout
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
+      - run: *restore_dist_folders
       - run:
           name: Linting
           command: yarn run lint
   test_types:
     <<: *defaults
+    <<: *attach_workspace
     steps:
       - checkout
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
+      - run: *restore_dist_folders
       - run:
           name: Type checking
           command: yarn run test:types
   test_unit:
     <<: *defaults
+    <<: *attach_workspace
     steps:
       - checkout
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
+      - run: *restore_dist_folders
       - run:
           name: Unit tests
           command: yarn run test --maxWorkers=4
   test_size:
     <<: *defaults
+    <<: *attach_workspace
     steps:
       - checkout
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
+      - run: *restore_dist_folders
       - run:
           name: Test packages size
           command: yarn run test:size
   release:
     <<: *defaults
+    <<: *attach_workspace
     steps:
       - checkout
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
+      - run: *restore_dist_folders
       - run:
           name: Release if needed
           command: yarn run shipjs trigger
