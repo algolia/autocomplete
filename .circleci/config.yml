@@ -96,7 +96,7 @@ workflows:
   version: 2.1
   ci:
     jobs:
-      - build:
+      - build
       - test_lint:
           requires:
             - build
