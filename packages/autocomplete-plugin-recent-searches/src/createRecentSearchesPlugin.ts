@@ -92,6 +92,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
         // because we need to resolve the promise before getting the value.
         if (!Array.isArray(lastItemsRef.current)) {
           // @TODO: use the `warn` function from `autocomplete-core`
+          // eslint-disable-next-line no-console
           console.warn(
             'The `getAlgoliaQuerySuggestionsFacetFilters` function is not supported with storages that return promises in `getAll`.'
           );
@@ -106,6 +107,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
         // is called because we need to resolve the promise before getting the value.
         if (!Array.isArray(lastItemsRef.current)) {
           // @TODO: use the `warn` function from `autocomplete-core`
+          // eslint-disable-next-line no-console
           console.warn(
             'The `getAlgoliaQuerySuggestionsHitsPerPage` function is not supported with storages that return promises in `getAll`.'
           );
