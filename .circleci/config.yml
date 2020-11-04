@@ -69,8 +69,8 @@ jobs:
   test_lint:
     <<: *defaults
     steps:
-      - *attach_workspace
       - checkout
+      - *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
@@ -82,8 +82,8 @@ jobs:
   test_types:
     <<: *defaults
     steps:
-      - *attach_workspace
       - checkout
+      - *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
@@ -95,8 +95,8 @@ jobs:
   test_unit:
     <<: *defaults
     steps:
-      - *attach_workspace
       - checkout
+      - *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
@@ -108,8 +108,8 @@ jobs:
   test_size:
     <<: *defaults
     steps:
-      - *attach_workspace
       - checkout
+      - *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
@@ -121,8 +121,8 @@ jobs:
   release:
     <<: *defaults
     steps:
-      - *attach_workspace
       - checkout
+      - *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
