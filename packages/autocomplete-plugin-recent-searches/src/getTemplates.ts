@@ -1,10 +1,15 @@
+import { SourceTemplates } from '@algolia/autocomplete-js';
+
 import { recentIcon, resetIcon } from './icons';
+import { RecentSearchesItem } from './types';
 
 export type GetTemplatesParams = {
   onRemove(id: string): void;
 };
 
-export function getTemplates({ onRemove }: GetTemplatesParams) {
+export function getTemplates<TItem extends RecentSearchesItem>({
+  onRemove,
+}: GetTemplatesParams): SourceTemplates<TItem>['templates'] {
   return {
     item({ item, root }) {
       const content = document.createElement('div');
