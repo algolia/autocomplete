@@ -1,3 +1,4 @@
+import { getCompletion } from './getCompletion';
 import { Reducer } from './types';
 import { getItemsCount, getNextSelectedItemId } from './utils';
 
@@ -14,6 +15,7 @@ export const stateReducer: Reducer = (state, action) => {
       return {
         ...state,
         query: action.payload,
+        completion: null,
       };
     }
 
@@ -49,7 +51,7 @@ export const stateReducer: Reducer = (state, action) => {
     }
 
     case 'ArrowDown': {
-      return {
+      const nextState = {
         ...state,
         selectedItemId: getNextSelectedItemId(
           1,
@@ -58,10 +60,15 @@ export const stateReducer: Reducer = (state, action) => {
           action.props.defaultSelectedItemId
         ),
       };
+
+      return {
+        ...nextState,
+        completion: getCompletion({ state: nextState }),
+      };
     }
 
     case 'ArrowUp': {
-      return {
+      const nextState = {
         ...state,
         selectedItemId: getNextSelectedItemId(
           -1,
@@ -70,6 +77,11 @@ export const stateReducer: Reducer = (state, action) => {
           action.props.defaultSelectedItemId
         ),
       };
+
+      return {
+        ...nextState,
+        completion: getCompletion({ state: nextState }),
+      };
     }
 
     case 'Escape': {
@@ -77,6 +89,7 @@ export const stateReducer: Reducer = (state, action) => {
         return {
           ...state,
           isOpen: false,
+          completion: null,
         };
       }
 

@@ -197,12 +197,6 @@ export interface AutocompleteOptions<TItem> {
    */
   defaultSelectedItemId?: number | null;
   /**
-   * Whether to show the highlighted suggestion as completion in the input.
-   *
-   * @default false
-   */
-  enableCompletion?: boolean;
-  /**
    * Whether to open the dropdown on focus when there's no query.
    *
    * @default false
@@ -270,7 +264,6 @@ export interface InternalAutocompleteOptions<TItem>
   placeholder: string;
   autoFocus: boolean;
   defaultSelectedItemId: number | null;
-  enableCompletion: boolean;
   openOnFocus: boolean;
   stallThreshold: number;
   initialState: AutocompleteState<TItem>;

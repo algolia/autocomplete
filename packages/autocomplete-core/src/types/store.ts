@@ -35,8 +35,3 @@ type ActionType =
   | 'mousemove'
   | 'mouseleave'
   | 'click';
-
-export type StateEnhancer<TItem> = (
-  state: AutocompleteState<TItem>,
-  props: InternalAutocompleteOptions<TItem>
-) => AutocompleteState<TItem>;

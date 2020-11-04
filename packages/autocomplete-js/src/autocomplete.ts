@@ -31,7 +31,6 @@ export function autocomplete<TItem>({
 }: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
   const containerElement = getHTMLElement(container);
   const inputWrapper = document.createElement('div');
-  const completion = document.createElement('span');
   const input = document.createElement('input');
   const root = document.createElement('div');
   const form = document.createElement('form');
@@ -94,9 +93,6 @@ export function autocomplete<TItem>({
     ...autocomplete.getInputProps({ inputElement: input }),
     class: concatClassNames(['aa-Input', classNames.input]),
   });
-  setProperties(completion, {
-    class: concatClassNames(['aa-Completion', classNames.completion]),
-  });
   setProperties(label, {
     ...autocomplete.getLabelProps(),
     class: concatClassNames(['aa-Label', classNames.label]),
@@ -120,10 +116,6 @@ export function autocomplete<TItem>({
       input,
       autocomplete.getInputProps({ inputElement: input })
     );
-
-    if (props.enableCompletion) {
-      completion.textContent = state.completion;
-    }
 
     dropdown.innerHTML = '';
 
@@ -214,9 +206,6 @@ export function autocomplete<TItem>({
     renderDropdown({ root: dropdown, sections, state });
   }
 
-  if (props.enableCompletion) {
-    inputWrapper.appendChild(completion);
-  }
   inputWrapper.appendChild(input);
   inputWrapper.appendChild(label);
   inputWrapper.appendChild(resetButton);

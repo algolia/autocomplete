@@ -36,12 +36,6 @@ The default item index to pre-select.
 
 We recommend using `0` when the query typed aims at opening suggestion links, without triggering an actual search.
 
-### `enableCompletion`
-
-> `boolean` | defaults to `false`
-
-Whether to show the highlighted suggestion as completion in the input.
-
 ### `openOnFocus`
 
 > `boolean` | defaults to `false`
