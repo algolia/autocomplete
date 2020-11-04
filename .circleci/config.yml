@@ -27,11 +27,12 @@ aliases:
       cp -R /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist packages/autocomplete-plugin-recent-searches
       cp -R /tmp/workspace/packages/autocomplete-preset-algolia/dist packages/autocomplete-preset-algolia
 
+defaults: &defaults
+  working_directory: ~/autocomplete
+  docker:
+    - image: circleci/node:14.15.0
+
 references:
-  defaults: &defaults
-    working_directory: ~/autocomplete
-    docker:
-      - image: circleci/node:14.15.0
   workspace_root: &workspace_root /tmp/workspace
   attach_workspace: &attach_workspace
     attach_workspace:
@@ -64,8 +65,8 @@ jobs:
             - packages
   test_lint:
     <<: *defaults
-    <<: *attach_workspace
     steps:
+      - *attach_workspace
       - checkout
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
@@ -77,8 +78,8 @@ jobs:
           command: yarn run lint
   test_types:
     <<: *defaults
-    <<: *attach_workspace
     steps:
+      - *attach_workspace
       - checkout
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
@@ -90,8 +91,8 @@ jobs:
           command: yarn run test:types
   test_unit:
     <<: *defaults
-    <<: *attach_workspace
     steps:
+      - *attach_workspace
       - checkout
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
@@ -103,8 +104,8 @@ jobs:
           command: yarn run test --maxWorkers=4
   test_size:
     <<: *defaults
-    <<: *attach_workspace
     steps:
+      - *attach_workspace
       - checkout
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
@@ -116,8 +117,8 @@ jobs:
           command: yarn run test:size
   release:
     <<: *defaults
-    <<: *attach_workspace
     steps:
+      - *attach_workspace
       - checkout
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
