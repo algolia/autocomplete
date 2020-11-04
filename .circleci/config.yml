@@ -22,10 +22,10 @@ aliases:
     name: Restore dist folders
     command: |
       set -exu
-      cp -R /tmp/workspace/packages/autocomplete-core/dist packages/autocomplete-core/dist
-      cp -R /tmp/workspace/packages/autocomplete-js/dist packages/autocomplete-js/dist
-      cp -R /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist packages/autocomplete-plugin-recent-searches/dist
-      cp -R /tmp/workspace/packages/autocomplete-preset-algolia/dist packages/autocomplete-preset-algolia/dist
+      rsync -a /tmp/workspace/packages/autocomplete-core/dist packages/autocomplete-core/dist
+      rsync -a /tmp/workspace/packages/autocomplete-js/dist packages/autocomplete-js/dist
+      rsync -a /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist packages/autocomplete-plugin-recent-searches/dist
+      rsync -a /tmp/workspace/packages/autocomplete-preset-algolia/dist packages/autocomplete-preset-algolia/dist
 
 defaults: &defaults
   working_directory: ~/autocomplete
@@ -55,11 +55,10 @@ jobs:
           command: |
             set -exu
             mkdir -p /tmp/workspace/packages
-            cp -R packages/autocomplete-core/dist /tmp/workspace/packages/autocomplete-core/dist
-            cp -R packages/autocomplete-js/dist /tmp/workspace/packages/autocomplete-js/dist
-            cp -R packages/autocomplete-plugin-recent-searches/dist /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist
-            cp -R packages/autocomplete-preset-algolia/dist /tmp/workspace/packages/autocomplete-preset-algolia/dist
-            ls -R /tmp/workspace
+            rsync -a packages/autocomplete-core/dist /tmp/workspace/packages/autocomplete-core/dist
+            rsync -a packages/autocomplete-js/dist /tmp/workspace/packages/autocomplete-js/dist
+            rsync -a packages/autocomplete-plugin-recent-searches/dist /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist
+            rsync -a packages/autocomplete-preset-algolia/dist /tmp/workspace/packages/autocomplete-preset-algolia/dist
       - persist_to_workspace:
           root: *workspace_root
           paths:
@@ -73,9 +72,6 @@ jobs:
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
-      - run:
-          name: List workspace content
-          command: ls -R /tmp/workspace
       - run: *restore_dist_folders
       - run:
           name: Linting
