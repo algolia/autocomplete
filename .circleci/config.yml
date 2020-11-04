@@ -62,7 +62,10 @@ jobs:
       - persist_to_workspace:
           root: *workspace_root
           paths:
-            - packages
+            - packages/autocomplete-core
+            - packages/autocomplete-js
+            - packages/autocomplete-plugin-recent-searches
+            - packages/autocomplete-preset-algolia
   test_lint:
     <<: *defaults
     steps:
