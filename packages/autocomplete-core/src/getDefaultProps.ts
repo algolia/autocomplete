@@ -2,7 +2,6 @@ import { InternalAutocompleteOptions, AutocompleteOptions } from './types';
 import {
   generateAutocompleteId,
   getItemsCount,
-  noop,
   getNormalizedSources,
   flatten,
 } from './utils';
@@ -21,11 +20,9 @@ export function getDefaultProps<TItem>(
     placeholder: '',
     autoFocus: false,
     defaultSelectedItemId: null,
-    enableCompletion: false,
     stallThreshold: 300,
     environment,
     shouldDropdownShow: ({ state }) => getItemsCount(state) > 0,
-    onStateChange: noop,
     ...props,
     // Since `generateAutocompleteId` triggers a side effect (it increments
     // and internal counter), we don't want to execute it if unnecessary.
@@ -38,21 +35,22 @@ export function getDefaultProps<TItem>(
       collections: [],
       isOpen: false,
       status: 'idle',
-      statusContext: {},
       context: {},
       ...props.initialState,
     },
-    onSubmit: (params) => {
-      if (props.onSubmit) {
-        props.onSubmit(params);
-      }
+    onStateChange(params) {
+      props.onStateChange?.(params);
       plugins.forEach((plugin) => {
-        if (plugin.onSubmit) {
-          plugin.onSubmit(params);
-        }
+        plugin.onStateChange?.(params);
       });
     },
-    getSources: (options) => {
+    onSubmit(params) {
+      props.onSubmit?.(params);
+      plugins.forEach((plugin) => {
+        plugin.onSubmit?.(params);
+      });
+    },
+    getSources(options) {
       const getSourcesFromPlugins = plugins
         .map((plugin) => plugin.getSources)
         .filter((getSources) => getSources !== undefined);
@@ -66,12 +64,10 @@ export function getDefaultProps<TItem>(
         .then((sources) =>
           sources.map((source) => ({
             ...source,
-            onSelect: (params) => {
+            onSelect(params) {
               source.onSelect(params);
               plugins.forEach((plugin) => {
-                if (plugin.onSelect) {
-                  plugin.onSelect(params);
-                }
+                plugin.subscribed?.onSelect?.(params);
               });
             },
           }))

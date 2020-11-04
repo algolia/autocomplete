@@ -94,7 +94,7 @@ type ClassNames = {
   source?: string;
   sourceHeader?: string;
   list?: string;
-  listItem?: string;
+  item?: string;
   sourceFooter?: string;
 };
 ```

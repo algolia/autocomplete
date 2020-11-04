@@ -3,6 +3,12 @@
   "description": "Fast and fully-featured autocomplete JavaScript library.",
   "version": "1.0.0-alpha.34",
   "license": "MIT",
+  "homepage": "https://github.com/algolia/autocomplete.js",
+  "repository": "algolia/autocomplete.js",
+  "author": {
+    "name": "Algolia, Inc.",
+    "url": "https://www.algolia.com"
+  },
   "source": "src/index.ts",
   "types": "dist/esm/index.d.ts",
   "module": "dist/esm/index.js",
@@ -10,8 +16,10 @@
   "umd:main": "dist/umd/index.js",
   "unpkg": "dist/umd/index.js",
   "jsdelivr": "dist/umd/index.js",
-  "homepage": "https://github.com/algolia/autocomplete.js",
-  "repository": "algolia/autocomplete.js",
+  "sideEffects": false,
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "build:clean": "rm -rf ./dist",
     "build:esm": "babel src --root-mode upward --extensions '.ts,.tsx' --out-dir dist/esm --ignore '**/*/__tests__/'",
@@ -22,14 +30,6 @@
     "prepare": "yarn build:esm && yarn build:types",
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
-  "author": {
-    "name": "Algolia, Inc.",
-    "url": "https://www.algolia.com"
-  },
-  "sideEffects": false,
-  "files": [
-    "dist/"
-  ],
   "dependencies": {
     "@algolia/autocomplete-core": "^1.0.0-alpha.34",
     "@algolia/autocomplete-preset-algolia": "^1.0.0-alpha.34",

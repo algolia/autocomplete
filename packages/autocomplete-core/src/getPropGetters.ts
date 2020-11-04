@@ -159,7 +159,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
       // because the dropdown should open with the current query.
       if (props.openOnFocus || store.getState().query.length > 0) {
         onInput({
-          query: store.getState().query,
+          query: store.getState().completion || store.getState().query,
           event,
           store,
           props,
@@ -180,14 +180,14 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     const { inputElement, maxLength = 512, ...rest } = providedProps || {};
 
     return {
-      'aria-autocomplete': props.enableCompletion ? 'both' : 'list',
+      'aria-autocomplete': 'both',
       'aria-activedescendant':
         store.getState().isOpen && store.getState().selectedItemId !== null
           ? `${props.id}-item-${store.getState().selectedItemId}`
           : undefined,
       'aria-controls': store.getState().isOpen ? `${props.id}-menu` : undefined,
       'aria-labelledby': `${props.id}-label`,
-      value: store.getState().query,
+      value: store.getState().completion || store.getState().query,
       id: `${props.id}-input`,
       autoComplete: 'off',
       autoCorrect: 'off',
