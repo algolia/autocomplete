@@ -71,7 +71,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: *attach_workspace
+      - *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
@@ -87,7 +87,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: *attach_workspace
+      - *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
@@ -100,7 +100,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: *attach_workspace
+      - *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
@@ -113,7 +113,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: *attach_workspace
+      - *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
@@ -126,7 +126,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: *attach_workspace
+      - *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
