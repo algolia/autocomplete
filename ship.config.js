@@ -4,9 +4,10 @@ const fs = require('fs');
 const path = require('path');
 
 const packages = [
+  'packages/autocomplete-shared',
   'packages/autocomplete-core',
-  'packages/autocomplete-preset-algolia',
   'packages/autocomplete-js',
+  'packages/autocomplete-preset-algolia',
   'packages/autocomplete-plugin-recent-searches',
 ];
 
@@ -26,13 +27,31 @@ module.exports = {
 
     // Update package dependencies
     exec(
+      `yarn workspace @algolia/autocomplete-core add --dev "@algolia/autocomplete-shared@${version}"`
+    );
+    exec(
+      `yarn workspace @algolia/autocomplete-core add --peer "@algolia/autocomplete-shared@^${version}"`
+    );
+    exec(
       `yarn workspace @algolia/autocomplete-js add "@algolia/autocomplete-core@^${version}" "@algolia/autocomplete-preset-algolia@^${version}"`
+    );
+    exec(
+      `yarn workspace @algolia/autocomplete-js add --dev "@algolia/autocomplete-shared@${version}"`
+    );
+    exec(
+      `yarn workspace @algolia/autocomplete-js add --peer "@algolia/autocomplete-shared@^${version}"`
+    );
+    exec(
+      `yarn workspace @algolia/autocomplete-preset-algolia add "@algolia/autocomplete-shared@^${version}"`
+    );
+    exec(
+      `yarn workspace @algolia/autocomplete-plugin-recent-searches add "@algolia/autocomplete-shared@^${version}"`
     );
     exec(
       `yarn workspace @algolia/autocomplete-plugin-recent-searches add --peer "@algolia/autocomplete-core@^${version}" "@algolia/autocomplete-js@^${version}"`
     );
     exec(
-      `yarn workspace @algolia/autocomplete-plugin-recent-searches add --dev "@algolia/autocomplete-core@^${version}" "@algolia/autocomplete-js@^${version}"`
+      `yarn workspace @algolia/autocomplete-plugin-recent-searches add --dev "@algolia/autocomplete-core@${version}" "@algolia/autocomplete-js@${version}"`
     );
     exec(
       `yarn workspace @algolia/js-example add "@algolia/autocomplete-js@${version}" "@algolia/autocomplete-plugin-recent-searches@${version}"`

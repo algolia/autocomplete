@@ -23,7 +23,6 @@ module.exports = (api) => {
       ],
     ],
     plugins: clean([
-      '@babel/plugin-transform-react-jsx',
       !isTest && [
         'inline-replace-variables',
         {
@@ -34,36 +33,6 @@ module.exports = (api) => {
         },
       ],
     ]),
-    overrides: [
-      {
-        test: 'packages/autocomplete-core',
-        plugins: clean([
-          !isTest && [
-            'inline-replace-variables',
-            {
-              __DEV__: {
-                type: 'node',
-                replacement: "process.env.NODE_ENV === 'development'",
-              },
-            },
-          ],
-        ]),
-      },
-      {
-        test: 'packages/autocomplete-preset-algolia',
-        plugins: clean([
-          !isTest && [
-            'inline-replace-variables',
-            {
-              __DEV__: {
-                type: 'node',
-                replacement: "process.env.NODE_ENV === 'development'",
-              },
-            },
-          ],
-        ]),
-      },
-    ],
   };
 };
 
