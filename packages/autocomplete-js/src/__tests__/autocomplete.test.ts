@@ -47,7 +47,7 @@ describe('autocomplete-js', () => {
               class="aa-InputWrapper"
             >
               <input
-                aria-autocomplete="list"
+                aria-autocomplete="both"
                 aria-labelledby="autocomplete-label"
                 autocapitalize="off"
                 autocomplete="off"
@@ -109,7 +109,7 @@ describe('autocomplete-js', () => {
             </div>
           </form>
           <div
-            class="aa-ListContainer"
+            class="aa-Panel"
             hidden=""
             style="top: 0px; left: 0px; right: 0px; max-width: unset;"
           />

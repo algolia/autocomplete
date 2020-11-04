@@ -36,7 +36,7 @@ export function autocomplete<TItem>({
   const form = document.createElement('form');
   const label = document.createElement('label');
   const resetButton = document.createElement('button');
-  const listContainer = document.createElement('div');
+  const panel = document.createElement('div');
 
   const autocomplete = createAutocomplete<TItem>({
     ...props,
@@ -51,13 +51,13 @@ export function autocomplete<TItem>({
   });
 
   const onResize = debounce(() => {
-    if (!listContainer.hasAttribute('hidden')) {
+    if (!panel.hasAttribute('hidden')) {
       setDropdownPosition();
     }
   }, 100);
 
   function setDropdownPosition() {
-    setProperties(listContainer, {
+    setProperties(panel, {
       style: getDropdownPositionStyle({
         dropdownPlacement,
         container: root,
@@ -70,7 +70,7 @@ export function autocomplete<TItem>({
   setProperties(window as any, {
     ...autocomplete.getEnvironmentProps({
       searchBoxElement: form,
-      dropdownElement: listContainer,
+      dropdownElement: panel,
       inputElement: input,
     }),
     onResize,
@@ -85,9 +85,7 @@ export function autocomplete<TItem>({
     class: concatClassNames(['aa-Form', classNames.form]),
   });
   setProperties(inputWrapper, {
-    class: ['aa-InputWrapper', classNames.inputWrapper]
-      .filter(Boolean)
-      .join(' '),
+    class: concatClassNames(['aa-InputWrapper', classNames.inputWrapper]),
   });
   setProperties(input, {
     ...autocomplete.getInputProps({ inputElement: input }),
@@ -104,10 +102,10 @@ export function autocomplete<TItem>({
     class: concatClassNames(['aa-ResetButton', classNames.resetButton]),
     innerHTML: resetIcon,
   });
-  setProperties(listContainer, {
+  setProperties(panel, {
     ...autocomplete.getDropdownProps(),
     hidden: true,
-    class: concatClassNames(['aa-ListContainer', classNames.listContainer]),
+    class: concatClassNames(['aa-Panel', classNames.panel]),
   });
 
   function render(state: AutocompleteCoreState<TItem>) {
@@ -117,23 +115,23 @@ export function autocomplete<TItem>({
       autocomplete.getInputProps({ inputElement: input })
     );
 
-    listContainer.innerHTML = '';
+    panel.innerHTML = '';
 
     if (state.isOpen) {
-      setProperties(listContainer, {
+      setProperties(panel, {
         hidden: false,
       });
     } else {
-      setProperties(listContainer, {
+      setProperties(panel, {
         hidden: true,
       });
       return;
     }
 
     if (state.status === 'stalled') {
-      listContainer.classList.add('aa-ListContainer--stalled');
+      panel.classList.add('aa-panel--stalled');
     } else {
-      listContainer.classList.remove('aa-ListContainer--stalled');
+      panel.classList.remove('aa-panel--stalled');
     }
 
     const sections = state.collections.map((collection) => {
@@ -197,7 +195,7 @@ export function autocomplete<TItem>({
       return section;
     });
 
-    renderDropdown({ root: listContainer, sections, state });
+    renderDropdown({ root: panel, sections, state });
   }
 
   inputWrapper.appendChild(input);
@@ -205,7 +203,7 @@ export function autocomplete<TItem>({
   inputWrapper.appendChild(resetButton);
   form.appendChild(inputWrapper);
   root.appendChild(form);
-  root.appendChild(listContainer);
+  root.appendChild(panel);
   containerElement.appendChild(root);
 
   setDropdownPosition();

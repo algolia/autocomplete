@@ -90,7 +90,7 @@ type ClassNames = {
   input?: string;
   completion?: string;
   resetButton?: string;
-  listContainer?: string;
+  panel?: string;
   source?: string;
   sourceHeader?: string;
   list?: string;
