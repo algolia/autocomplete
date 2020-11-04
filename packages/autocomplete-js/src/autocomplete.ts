@@ -166,7 +166,7 @@ export function autocomplete<TItem>({
           const li = document.createElement('li');
           setProperties(li, {
             ...autocomplete.getItemProps({ item, source }),
-            class: concatClassNames(['aa-Item', classNames.Item]),
+            class: concatClassNames(['aa-Item', classNames.item]),
           });
           renderTemplate(source.templates.item({ root: li, item, state }), li);
 
