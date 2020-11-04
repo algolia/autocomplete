@@ -6,8 +6,7 @@ import {
   getAlgoliaHits,
   reverseHighlightHit,
 } from '@algolia/autocomplete-js';
-import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
-import '@algolia/autocomplete-plugin-recent-searches/style';
+import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 
 const searchClient = algoliasearch(
   'latency',
@@ -16,7 +15,10 @@ const searchClient = algoliasearch(
 
 type QuerySuggestionHit = { query: string };
 
-const recentSearches = createRecentSearchesPlugin({ key: 'recent' });
+const recentSearches = createLocalStorageRecentSearchesPlugin({
+  key: 'recent',
+  limit: 3,
+});
 
 autocomplete<Hit<QuerySuggestionHit>>({
   container: '#autocomplete',
@@ -32,8 +34,12 @@ autocomplete<Hit<QuerySuggestionHit>>({
           indexName: 'instant_search_demo_query_suggestions',
           query,
           params: {
-            hitsPerPage: 10,
-            facetFilters: [...recentSearches.data.getFacetFilters()],
+            hitsPerPage: recentSearches.data.getAlgoliaQuerySuggestionsHitsPerPage(
+              10
+            ),
+            facetFilters: [
+              ...recentSearches.data.getAlgoliaQuerySuggestionsFacetFilters(),
+            ],
           },
         },
       ],
@@ -49,12 +55,14 @@ autocomplete<Hit<QuerySuggestionHit>>({
           templates: {
             item({ item }) {
               return `
-                <div class="item-icon">${searchIcon}</div>
-                <div>
-                  ${reverseHighlightHit<Hit<QuerySuggestionHit>>({
-                    hit: item,
-                    attribute: 'query',
-                  })}
+                <div class="aa-ItemContent">
+                  <div class="aa-ItemSourceIcon">${searchIcon}</div>
+                  <div class="aa-ItemTitle">
+                    ${reverseHighlightHit<Hit<QuerySuggestionHit>>({
+                      hit: item,
+                      attribute: 'query',
+                    })}
+                  </div>
                 </div>
               `;
             },
@@ -65,7 +73,8 @@ autocomplete<Hit<QuerySuggestionHit>>({
   },
 });
 
-const searchIcon = `<svg width="20" height="20" viewBox="0 0 20 20">
+const searchIcon = `
+<svg width="20" height="20" viewBox="0 0 20 20">
   <path
     d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
     stroke="currentColor"
@@ -74,4 +83,5 @@ const searchIcon = `<svg width="20" height="20" viewBox="0 0 20 20">
     strokeLinecap="round"
     strokeLinejoin="round"
   />
-</svg>`;
+</svg>
+`;

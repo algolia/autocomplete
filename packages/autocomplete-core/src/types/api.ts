@@ -1,4 +1,5 @@
 import { AutocompleteAccessibilityGetters } from './getters';
+import { AutocompletePlugin } from './plugins';
 import { AutocompleteSetters } from './setters';
 import { AutocompleteState } from './state';
 import { MaybePromise } from './wrappers';
@@ -155,27 +156,6 @@ interface Navigator<TItem> {
     state: AutocompleteState<TItem>;
   }): void;
 }
-
-export type AutocompletePlugin<TItem, TData> = {
-  /**
-   * The sources to get the suggestions from.
-   */
-  getSources?(
-    params: GetSourcesParams<TItem>
-  ): MaybePromise<Array<AutocompleteSource<TItem>>>;
-  /**
-   * The function called when the autocomplete form is submitted.
-   */
-  onSubmit?(params: OnSubmitParams<TItem>): void;
-  /**
-   * Function called when an item is selected.
-   */
-  onSelect?(params: OnSelectParams<TItem>): void;
-  /**
-   * An extra plugin specific object to store variables and functions
-   */
-  data?: TData;
-};
 
 export interface AutocompleteOptions<TItem> {
   /**
