@@ -8,7 +8,7 @@ interface GetCompletionProps<TItem> {
 export function getCompletion<TItem>({
   state,
 }: GetCompletionProps<TItem>): string | null {
-  if (state.selectedItemId === null) {
+  if (state.isOpen === false || state.selectedItemId === null) {
     return null;
   }
 
