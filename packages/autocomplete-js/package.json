@@ -31,15 +31,14 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@algolia/autocomplete-core": "^1.0.0-alpha.34",
-    "@algolia/autocomplete-preset-algolia": "^1.0.0-alpha.34"
+    "@algolia/autocomplete-core": "1.0.0-alpha.34",
+    "@algolia/autocomplete-preset-algolia": "1.0.0-alpha.34",
+    "@algolia/autocomplete-shared": "1.0.0-alpha.34"
   },
   "devDependencies": {
-    "@algolia/autocomplete-shared": "1.0.0-alpha.34",
     "@algolia/client-search": "4.5.1"
   },
   "peerDependencies": {
-    "@algolia/autocomplete-shared": "^1.0.0-alpha.34",
     "@algolia/client-search": "^4.5.1"
   }
 }
