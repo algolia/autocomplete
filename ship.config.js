@@ -28,7 +28,7 @@ module.exports = {
 
     // Update package dependencies
     exec(
-      `yarn lerna version ${version} --no-git-tag-version --no-push --exact --yes`
+      `yarn lerna version ${version} --exact --no-git-tag-version --no-push --yes`
     );
 
     // Update version files
@@ -47,7 +47,7 @@ module.exports = {
     });
   },
   // Skip preparation if it contains only `chore` commits
-  shouldPrepare: ({ releaseType, commitNumbersPerType }) => {
+  shouldPrepare({ releaseType, commitNumbersPerType }) {
     const { fix = 0 } = commitNumbersPerType;
 
     if (releaseType === 'patch' && fix === 0) {
