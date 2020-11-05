@@ -14,7 +14,8 @@ const packages = [
 module.exports = {
   monorepo: {
     mainVersionFile: 'lerna.json',
-    packagesToBump: packages,
+    // We rely on Lerna to bump our dependencies.
+    packagesToBump: [],
     packagesToPublish: packages,
   },
   publishCommand({ tag }) {
@@ -27,37 +28,11 @@ module.exports = {
 
     // Update package dependencies
     exec(
-      `yarn workspace @algolia/autocomplete-core add --dev "@algolia/autocomplete-shared@${version}"`
-    );
-    exec(
-      `yarn workspace @algolia/autocomplete-core add --peer "@algolia/autocomplete-shared@^${version}"`
-    );
-    exec(
-      `yarn workspace @algolia/autocomplete-js add "@algolia/autocomplete-core@^${version}" "@algolia/autocomplete-preset-algolia@^${version}"`
-    );
-    exec(
-      `yarn workspace @algolia/autocomplete-js add --dev "@algolia/autocomplete-shared@${version}"`
-    );
-    exec(
-      `yarn workspace @algolia/autocomplete-js add --peer "@algolia/autocomplete-shared@^${version}"`
-    );
-    exec(
-      `yarn workspace @algolia/autocomplete-preset-algolia add "@algolia/autocomplete-shared@^${version}"`
-    );
-    exec(
-      `yarn workspace @algolia/autocomplete-plugin-recent-searches add "@algolia/autocomplete-shared@^${version}"`
-    );
-    exec(
-      `yarn workspace @algolia/autocomplete-plugin-recent-searches add --peer "@algolia/autocomplete-core@^${version}" "@algolia/autocomplete-js@^${version}"`
-    );
-    exec(
-      `yarn workspace @algolia/autocomplete-plugin-recent-searches add --dev "@algolia/autocomplete-core@${version}" "@algolia/autocomplete-js@${version}"`
-    );
-    exec(
-      `yarn workspace @algolia/js-example add "@algolia/autocomplete-js@${version}" "@algolia/autocomplete-plugin-recent-searches@${version}"`
+      `yarn lerna version ${version} --no-git-tag-version --no-push --exact --yes`
     );
 
-    updatePackagesVersion({
+    // Update version files
+    updatePackagesVersionFile({
       version,
       files: [
         path.resolve(dir, 'packages', 'autocomplete-core', 'src', 'version.ts'),
@@ -83,7 +58,7 @@ module.exports = {
   },
 };
 
-function updatePackagesVersion({ version, files }) {
+function updatePackagesVersionFile({ version, files }) {
   for (const file of files) {
     fs.writeFileSync(file, `export const version = '${version}';\n`);
   }
