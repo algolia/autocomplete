@@ -85,11 +85,11 @@ jobs:
       - save_cache: *save_yarn_cache
       - run: *restore_dist_folders
       - run:
-        name: List workspace content
-        command: ls -R /tmp/workspace
+          name: List workspace content
+          command: ls -R /tmp/workspace
       - run:
-        name: List working directory content
-        command: ls -R .
+          name: List working directory content
+          command: ls -R .
       - run:
           name: Linting
           command: yarn run lint
