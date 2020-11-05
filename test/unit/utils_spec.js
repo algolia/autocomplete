@@ -82,3 +82,21 @@ describe('every', function() {
       })).toEqual(true);
   });
 });
+
+describe('className', function() {
+  it('should add dots for css selectors', function() {
+    expect(_.className("aa-", "my_dropdown-menu")).toBe(".aa-my_dropdown-menu");
+  });
+
+  it('should escape "@" for css selectors', function() {
+    expect(_.className("aa-", "@abc-my_dropdown-menu")).toBe(".aa-\\@abc-my_dropdown-menu");
+  });
+
+  it('should not escape for class names', function() {
+    expect(_.className("aa-", "my_dropdown-menu", true)).toBe("aa-my_dropdown-menu");
+  });
+
+  it('should not escape for class names when it contains "@"', function() {
+    expect(_.className("aa-", "@abc-my_dropdown-menu", true)).toBe("aa-@abc-my_dropdown-menu");
+  });
+});

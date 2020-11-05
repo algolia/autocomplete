@@ -1,5 +1,6 @@
 'use strict';
 
+var cssesc = require('cssesc');
 var DOM = require('./dom.js');
 
 function escapeRegExp(str) {
@@ -110,7 +111,9 @@ module.exports = {
   },
 
   className: function(prefix, clazz, skipDot) {
-    return (skipDot ? '' : '.') + prefix + clazz;
+    // When `skipDot` is false or omitted,
+    // it should return a css selector which should do `CSS.escape()`.
+    return (skipDot ? prefix + clazz : '.' + cssesc(prefix + clazz, {isIdentifier: true}));
   },
 
   escapeHighlightedString: function(str, highlightPreTag, highlightPostTag) {

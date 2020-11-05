@@ -83,6 +83,7 @@
   "version": "0.38.0",
   "main": "index.js",
   "dependencies": {
+    "cssesc": "^3.0.0",
     "immediate": "^3.2.3"
   }
 }
