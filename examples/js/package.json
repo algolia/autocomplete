@@ -10,8 +10,8 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "^1.0.0-alpha.34",
-    "@algolia/autocomplete-plugin-recent-searches": "^1.0.0-alpha.32",
+    "@algolia/autocomplete-js": "1.0.0-alpha.34",
+    "@algolia/autocomplete-plugin-recent-searches": "1.0.0-alpha.34",
     "@algolia/client-search": "4.5.1",
     "algoliasearch": "4.5.1"
   },

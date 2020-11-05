@@ -29,10 +29,13 @@ module.exports = {
       `yarn workspace @algolia/autocomplete-js add "@algolia/autocomplete-core@^${version}" "@algolia/autocomplete-preset-algolia@^${version}"`
     );
     exec(
-      `yarn workspace @algolia/autocomplete-plugin-recent-searches add --peer "@algolia/autocomplete-core@^${version}"`
+      `yarn workspace @algolia/autocomplete-plugin-recent-searches add --peer "@algolia/autocomplete-core@^${version}" "@algolia/autocomplete-js@^${version}"`
     );
     exec(
-      `yarn workspace @algolia/js-example add "@algolia/autocomplete-js@^${version}"`
+      `yarn workspace @algolia/autocomplete-plugin-recent-searches add --dev "@algolia/autocomplete-core@^${version}" "@algolia/autocomplete-js@^${version}"`
+    );
+    exec(
+      `yarn workspace @algolia/js-example add "@algolia/autocomplete-js@${version}" "@algolia/autocomplete-plugin-recent-searches@${version}"`
     );
 
     updatePackagesVersion({
