@@ -1,6 +1,5 @@
+import { warn } from '@algolia/autocomplete-shared';
 import { Hit } from '@algolia/client-search';
-
-import { warn } from '../utils';
 
 import { getAttributeValueByPath } from './getAttributeValueByPath';
 import { ParseAlgoliaHitParams } from './ParseAlgoliaHitParams';

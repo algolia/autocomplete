@@ -1,12 +1,13 @@
 import { AutocompletePlugin } from '@algolia/autocomplete-core';
 import { SourceTemplates } from '@algolia/autocomplete-js';
+import { MaybePromise, warn } from '@algolia/autocomplete-shared';
 
 import { createStore, RecentSearchesStorage } from './createStore';
 import {
   getTemplates as defaultGetTemplates,
   GetTemplatesParams,
 } from './getTemplates';
-import { MaybePromise, RecentSearchesItem } from './types';
+import { RecentSearchesItem } from './types';
 
 type Ref<TType> = {
   current: TType;
@@ -91,9 +92,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
         // we cannot provide the facet filters in time when this function is called
         // because we need to resolve the promise before getting the value.
         if (!Array.isArray(lastItemsRef.current)) {
-          // @TODO: use the `warn` function from `autocomplete-core`
-          // eslint-disable-next-line no-console
-          console.warn(
+          warn(
             'The `getAlgoliaQuerySuggestionsFacetFilters` function is not supported with storages that return promises in `getAll`.'
           );
           return [];
@@ -106,9 +105,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
         // we cannot provide the number of hits per page in time when this function
         // is called because we need to resolve the promise before getting the value.
         if (!Array.isArray(lastItemsRef.current)) {
-          // @TODO: use the `warn` function from `autocomplete-core`
-          // eslint-disable-next-line no-console
-          console.warn(
+          warn(
             'The `getAlgoliaQuerySuggestionsHitsPerPage` function is not supported with storages that return promises in `getAll`.'
           );
           return hitsPerPage;

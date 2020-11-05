@@ -1,8 +1,9 @@
+import { MaybePromise } from '@algolia/autocomplete-shared';
+
 import { AutocompleteAccessibilityGetters } from './getters';
 import { AutocompletePlugin } from './plugins';
 import { AutocompleteSetters } from './setters';
 import { AutocompleteState } from './state';
-import { MaybePromise } from './wrappers';
 
 export interface AutocompleteApi<
   TItem,

@@ -6,6 +6,7 @@ import {
   AutocompleteOptions as AutocompleteCoreOptions,
   AutocompleteSource as AutocompleteCoreSource,
 } from '@algolia/autocomplete-core';
+import { MaybePromise } from '@algolia/autocomplete-shared';
 
 type Template<TParams> = (params: TParams) => string | void;
 
@@ -49,12 +50,9 @@ export type InternalAutocompleteSource<TItem> = InternalAutocompleteCoreSource<
 > &
   SourceTemplates<TItem>;
 
-// @TODO: reuse MaybePromise from autocomplete-core when we find a way to share the type
 type GetSources<TItem> = (
   params: GetSourcesParams<TItem>
-) =>
-  | Array<AutocompleteCoreSource<TItem>>
-  | Promise<Array<AutocompleteCoreSource<TItem>>>;
+) => MaybePromise<Array<AutocompleteCoreSource<TItem>>>;
 
 export interface AutocompleteOptions<TItem>
   extends AutocompleteCoreOptions<TItem> {

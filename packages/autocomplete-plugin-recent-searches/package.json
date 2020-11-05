@@ -30,12 +30,9 @@
     "prepare": "yarn run build:esm",
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
-  "devDependencies": {
-    "@algolia/autocomplete-core": "^1.0.0-alpha.34",
-    "@algolia/autocomplete-js": "^1.0.0-alpha.34"
-  },
-  "peerDependencies": {
-    "@algolia/autocomplete-core": "^1.0.0-alpha.34",
-    "@algolia/autocomplete-js": "^1.0.0-alpha.34"
+  "dependencies": {
+    "@algolia/autocomplete-core": "1.0.0-alpha.34",
+    "@algolia/autocomplete-js": "1.0.0-alpha.34",
+    "@algolia/autocomplete-shared": "1.0.0-alpha.34"
   }
 }

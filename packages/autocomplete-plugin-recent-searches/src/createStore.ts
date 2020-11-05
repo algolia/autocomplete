@@ -1,4 +1,5 @@
-import { MaybePromise } from './types';
+import { MaybePromise } from '@algolia/autocomplete-shared';
+
 import { RecentSearchesItem } from './types/RecentSearchesItem';
 
 export type RecentSearchesStore<TItem extends RecentSearchesItem> = {
