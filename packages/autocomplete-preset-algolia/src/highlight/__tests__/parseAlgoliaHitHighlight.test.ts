@@ -1,4 +1,5 @@
-import { warnCache } from '../../utils';
+import { warnCache } from '@algolia/autocomplete-shared';
+
 import { parseAlgoliaHitHighlight } from '../parseAlgoliaHitHighlight';
 
 describe('parseAlgoliaHitHighlight', () => {

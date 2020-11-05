@@ -12,6 +12,7 @@
   "source": "src/index.ts",
   "types": "dist/esm/index.d.ts",
   "module": "dist/esm/index.js",
+  "main": "dist/esm/index.js",
   "sideEffects": false,
   "files": [
     "dist/"
