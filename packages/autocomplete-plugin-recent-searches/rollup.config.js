@@ -1,5 +1,5 @@
 import { plugins } from '../../rollup.base.config';
-import { getBundleBanner } from '../../scripts/getBundleBanner';
+import { getBundleBanner } from '../../scripts/getBundleBanner.mjs';
 
 import pkg from './package.json';
 

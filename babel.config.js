@@ -1,5 +1,3 @@
-/* eslint-disable import/no-commonjs */
-
 module.exports = (api) => {
   const isTest = api.env('test');
   const modules = isTest ? 'commonjs' : false;
