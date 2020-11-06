@@ -12468,6 +12468,11 @@ node-addon-api@^1.7.1:
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-1.7.2.tgz#3df30b95720b53c24e59948b49532b662444f54d"
   integrity sha512-ibPK3iA+vaY1eEjESkQkM0BbCqFOaZMiXRTtdB0u7b4djtY6JnsjvPdUHVMg6xQt3B8fpTTWHI9A+ADjM9frzg==
 
+node-bin-setup@^1.0.0:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/node-bin-setup/-/node-bin-setup-1.0.6.tgz#4b5c9bb937ece702d7069b36ca78af4684677528"
+  integrity sha512-uPIxXNis1CRbv1DwqAxkgBk5NFV3s7cMN/Gf556jSw6jBvV7ca4F9lRL/8cALcZecRibeqU+5dFYqFFmzv5a0Q==
+
 node-emoji@^1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/node-emoji/-/node-emoji-1.10.0.tgz#8886abd25d9c7bb61802a658523d1f8d2a89b2da"
@@ -12620,6 +12625,13 @@ node-sass@^4.10.0:
     sass-graph "2.2.5"
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
+
+node@14.15.0:
+  version "14.15.0"
+  resolved "https://registry.yarnpkg.com/node/-/node-14.15.0.tgz#40b8395d5247a077769ab3e69268fba690406253"
+  integrity sha512-FrsP5wcA72CXNgQUk7zIdZm4vciBa/ahzaGC5iv3T0coNvz7hGsiI4pMdqqr0OXlVqyvSxDHzUUrhxlY3Hb2Kg==
+  dependencies:
+    node-bin-setup "^1.0.0"
 
 noop-logger@^0.1.1:
   version "0.1.1"
