@@ -68,8 +68,9 @@ jobs:
             mkdir -p /tmp/workspace/packages/autocomplete-shared/dist
             mkdir -p /tmp/workspace/packages/autocomplete-core/dist
             mkdir -p /tmp/workspace/packages/autocomplete-js/dist
-            mkdir -p /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist
             mkdir -p /tmp/workspace/packages/autocomplete-preset-algolia/dist
+            mkdir -p /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist
+            mkdir -p /tmp/workspace/packages/autocomplete-plugin-query-suggestions/dist
 
             cp -R packages/autocomplete-shared/dist /tmp/workspace/packages/autocomplete-shared
             cp -R packages/autocomplete-core/dist /tmp/workspace/packages/autocomplete-core
