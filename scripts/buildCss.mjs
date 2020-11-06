@@ -1,16 +1,18 @@
-const fs = require('fs');
-const path = require('path');
-const util = require('util');
+import fs from 'fs';
+import path from 'path';
+import util from 'util';
 
-const postcss = require('postcss');
+import postcss from 'postcss';
 
-const { plugins, ...postcssConfig } = require('../postcss.config');
+import postCssConfig from '../postcss.config.mjs';
 
-const { getBundleBanner } = require('./getBundleBanner');
+import { getBundleBanner } from './getBundleBanner.mjs';
 
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 const mkdir = util.promisify(fs.mkdir);
+
+const { plugins, ...cssConfig } = postCssConfig;
 
 async function ensureDir(file) {
   const directory = path.dirname(file);
@@ -27,12 +29,12 @@ async function buildCss() {
 
   const css = await readFile(input);
   const result = await postcss(plugins).process(css, {
-    ...postcssConfig,
+    ...cssConfig,
     from: input,
     to: output,
   });
   const banner = getBundleBanner(
-    require(path.join(process.cwd(), 'package.json'))
+    JSON.parse(await readFile(path.join(process.cwd(), 'package.json')))
   );
 
   await writeFile(output, [banner, result.css].join('\n'), () => true);
