@@ -74,7 +74,7 @@ module.exports = {
       },
     },
     {
-      files: ['scripts/**/*'],
+      files: ['scripts/**/*', '*.config.js'],
       rules: {
         'import/no-commonjs': 'off',
       },

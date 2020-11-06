@@ -1,6 +1,6 @@
-import { execSync } from 'child_process';
+const { execSync } = require('child_process');
 
-export function getBundleBanner(pkg) {
+function getBundleBanner(pkg) {
   const lastCommitHash = execSync('git rev-parse --short HEAD')
     .toString()
     .trim();
@@ -11,3 +11,7 @@ export function getBundleBanner(pkg) {
 
   return `/*! ${pkg.name} ${version} | MIT License | ${authors} | ${pkg.homepage} */`;
 }
+
+module.exports = {
+  getBundleBanner,
+};

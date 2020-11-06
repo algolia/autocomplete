@@ -91,6 +91,17 @@ jobs:
       - run:
           name: Linting
           command: yarn run lint
+  test_lint_css:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: *install_yarn_version
+      - restore_cache: *restore_yarn_cache
+      - run: *run_yarn_install
+      - save_cache: *save_yarn_cache
+      - run:
+          name: Linting CSS
+          command: yarn run lint:css
   test_types:
     <<: *defaults
     steps:
@@ -150,6 +161,7 @@ workflows:
       - test_lint:
           requires:
             - build
+      - test_lint_css
       - test_types
       - test_unit:
           requires:
