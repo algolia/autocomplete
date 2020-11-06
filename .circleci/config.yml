@@ -26,14 +26,16 @@ aliases:
       mkdir -p packages/autocomplete-shared/dist
       mkdir -p packages/autocomplete-core/dist
       mkdir -p packages/autocomplete-js/dist
-      mkdir -p packages/autocomplete-plugin-recent-searches/dist
       mkdir -p packages/autocomplete-preset-algolia/dist
+      mkdir -p packages/autocomplete-plugin-recent-searches/dist
+      mkdir -p packages/autocomplete-plugin-query-suggestions/dist
 
       cp -R /tmp/workspace/packages/autocomplete-shared/dist packages/autocomplete-shared
       cp -R /tmp/workspace/packages/autocomplete-core/dist packages/autocomplete-core
       cp -R /tmp/workspace/packages/autocomplete-js/dist packages/autocomplete-js
-      cp -R /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist packages/autocomplete-plugin-recent-searches
       cp -R /tmp/workspace/packages/autocomplete-preset-algolia/dist packages/autocomplete-preset-algolia
+      cp -R /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist packages/autocomplete-plugin-recent-searches
+      cp -R /tmp/workspace/packages/autocomplete-plugin-query-suggestions/dist packages/autocomplete-plugin-query-suggestions
 
 defaults: &defaults
   working_directory: ~/autocomplete
@@ -72,8 +74,9 @@ jobs:
             cp -R packages/autocomplete-shared/dist /tmp/workspace/packages/autocomplete-shared
             cp -R packages/autocomplete-core/dist /tmp/workspace/packages/autocomplete-core
             cp -R packages/autocomplete-js/dist /tmp/workspace/packages/autocomplete-js
-            cp -R packages/autocomplete-plugin-recent-searches/dist /tmp/workspace/packages/autocomplete-plugin-recent-searches
             cp -R packages/autocomplete-preset-algolia/dist /tmp/workspace/packages/autocomplete-preset-algolia
+            cp -R packages/autocomplete-plugin-recent-searches/dist /tmp/workspace/packages/autocomplete-plugin-recent-searches
+            cp -R packages/autocomplete-plugin-query-suggestions/dist /tmp/workspace/packages/autocomplete-plugin-query-suggestions
       - persist_to_workspace:
           root: *workspace_root
           paths:
