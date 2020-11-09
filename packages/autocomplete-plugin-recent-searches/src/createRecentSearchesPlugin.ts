@@ -1,6 +1,7 @@
 import { AutocompletePlugin } from '@algolia/autocomplete-core';
 import { SourceTemplates } from '@algolia/autocomplete-js';
 import { MaybePromise, warn } from '@algolia/autocomplete-shared';
+import { SearchOptions } from '@algolia/client-search';
 
 import { createStore, RecentSearchesStorage } from './createStore';
 import {
@@ -14,8 +15,7 @@ type Ref<TType> = {
 };
 
 export type RecentSearchesPluginData = {
-  getAlgoliaQuerySuggestionsFacetFilters(): string[][];
-  getAlgoliaQuerySuggestionsHitsPerPage(hitsPerPage: number): number;
+  getAlgoliaSearchParams(params?: SearchOptions): SearchOptions;
 };
 
 export type CreateRecentSearchesPluginParams<
@@ -87,31 +87,29 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
       });
     },
     data: {
-      getAlgoliaQuerySuggestionsFacetFilters() {
+      // @ts-ignore SearchOptions `facetFilters` is ReadonlyArray
+      getAlgoliaSearchParams(params = {}) {
         // If the items returned by `store.getAll` are contained in a Promise,
-        // we cannot provide the facet filters in time when this function is called
+        // we cannot provide the search params in time when this function is called
         // because we need to resolve the promise before getting the value.
         if (!Array.isArray(lastItemsRef.current)) {
           warn(
             'The `getAlgoliaQuerySuggestionsFacetFilters` function is not supported with storages that return promises in `getAll`.'
           );
-          return [];
+          return params;
         }
 
-        return lastItemsRef.current.map((item) => [`objectID:-${item.query}`]);
-      },
-      getAlgoliaQuerySuggestionsHitsPerPage(hitsPerPage: number) {
-        // If the items returned by `store.getAll` are contained in a Promise,
-        // we cannot provide the number of hits per page in time when this function
-        // is called because we need to resolve the promise before getting the value.
-        if (!Array.isArray(lastItemsRef.current)) {
-          warn(
-            'The `getAlgoliaQuerySuggestionsHitsPerPage` function is not supported with storages that return promises in `getAll`.'
-          );
-          return hitsPerPage;
-        }
-
-        return Math.max(1, hitsPerPage - lastItemsRef.current.length);
+        return {
+          ...params,
+          facetFilters: [
+            ...(params.facetFilters ?? []),
+            ...lastItemsRef.current.map((item) => [`objectID:-${item.query}`]),
+          ],
+          hitsPerPage: Math.max(
+            1,
+            (params.hitsPerPage ?? 10) - lastItemsRef.current.length
+          ),
+        };
       },
     },
   };

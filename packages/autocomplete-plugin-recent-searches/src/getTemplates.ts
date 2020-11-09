@@ -28,14 +28,13 @@ export function getTemplates<TItem extends RecentSearchesItem>({
       removeButton.type = 'button';
       removeButton.innerHTML = resetIcon;
       removeButton.title = 'Remove';
-
-      root.appendChild(content);
-      root.appendChild(removeButton);
-
       removeButton.addEventListener('click', (event) => {
         event.stopPropagation();
         onRemove(item.id);
       });
+
+      root.appendChild(content);
+      root.appendChild(removeButton);
     },
   };
 }

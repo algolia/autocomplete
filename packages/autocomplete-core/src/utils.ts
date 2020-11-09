@@ -1,10 +1,12 @@
+import { MaybePromise } from '@algolia/autocomplete-shared';
+
 import {
+  AutocompleteCollection,
+  AutocompleteSource,
+  AutocompleteState,
+  GetSourcesParams,
   InternalAutocompleteOptions,
   InternalAutocompleteSource,
-  AutocompleteState,
-  AutocompleteCollection,
-  AutocompleteOptions,
-  AutocompleteSource,
 } from './types';
 
 export const noop = () => {};
@@ -45,8 +47,10 @@ function normalizeSource<TItem>(
 }
 
 export function getNormalizedSources<TItem>(
-  getSources: AutocompleteOptions<TItem>['getSources'],
-  options
+  getSources: (
+    params: GetSourcesParams<TItem>
+  ) => MaybePromise<Array<AutocompleteSource<TItem>>>,
+  options: GetSourcesParams<TItem>
 ): Promise<Array<InternalAutocompleteSource<TItem>>> {
   return Promise.resolve(getSources(options)).then((sources) =>
     Promise.all(
