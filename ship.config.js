@@ -7,6 +7,7 @@ const packages = [
   'packages/autocomplete-js',
   'packages/autocomplete-preset-algolia',
   'packages/autocomplete-plugin-recent-searches',
+  'packages/autocomplete-theme-classic',
 ];
 
 module.exports = {
