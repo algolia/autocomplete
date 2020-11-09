@@ -122,12 +122,12 @@ type GetLabelProps = (props?: {
 };
 ```
 
-## `getMenuProps`
+## `getListProps`
 
-Returns the props to attach to the menu.
+Returns the props to attach to the list.
 
 ```ts
-type GetMenuProps = (props?: {
+type GetListProps = (props?: {
   [key: string]: unknown;
 }) => {
   role: string;

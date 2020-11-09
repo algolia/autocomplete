@@ -11,7 +11,7 @@ import {
   GetInputProps,
   GetItemProps,
   GetLabelProps,
-  GetMenuProps,
+  GetListProps,
   GetRootProps,
 } from './types';
 import { getSelectedItem, isOrContainsNode } from './utils';
@@ -90,7 +90,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
       role: 'combobox',
       'aria-expanded': store.getState().isOpen,
       'aria-haspopup': 'listbox',
-      'aria-owns': store.getState().isOpen ? `${props.id}-menu` : undefined,
+      'aria-owns': store.getState().isOpen ? `${props.id}-list` : undefined,
       'aria-labelledby': `${props.id}-label`,
       ...rest,
     };
@@ -185,7 +185,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         store.getState().isOpen && store.getState().selectedItemId !== null
           ? `${props.id}-item-${store.getState().selectedItemId}`
           : undefined,
-      'aria-controls': store.getState().isOpen ? `${props.id}-menu` : undefined,
+      'aria-controls': store.getState().isOpen ? `${props.id}-list` : undefined,
       'aria-labelledby': `${props.id}-label`,
       value: store.getState().completion || store.getState().query,
       id: `${props.id}-input`,
@@ -239,7 +239,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         // When the panel is closed and you click on the input while
         // the input is focused, the `onFocus` event is not triggered
         // (default browser behavior).
-        // In an autocomplete context, it makes sense to open the menu in this
+        // In an autocomplete context, it makes sense to open the panel in this
         // case.
         // We mimic this event by catching the `onClick` event which
         // triggers the `onFocus` for the panel to open.
@@ -263,11 +263,11 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     };
   };
 
-  const getMenuProps: GetMenuProps = (rest) => {
+  const getListProps: GetListProps = (rest) => {
     return {
       role: 'listbox',
       'aria-labelledby': `${props.id}-label`,
-      id: `${props.id}-menu`,
+      id: `${props.id}-list`,
       ...rest,
     };
   };
@@ -392,7 +392,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     getLabelProps,
     getInputProps,
     getPanelProps,
-    getMenuProps,
+    getListProps,
     getItemProps,
   };
 }

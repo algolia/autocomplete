@@ -156,13 +156,13 @@ export function autocomplete<TItem>({
       }
 
       if (items.length > 0) {
-        const menu = document.createElement('ul');
-        setProperties(menu, {
-          ...autocomplete.getMenuProps(),
+        const list = document.createElement('ul');
+        setProperties(list, {
+          ...autocomplete.getListProps(),
           class: concatClassNames(['aa-List', classNames.list]),
         });
 
-        const menuItems = items.map((item) => {
+        const listItems = items.map((item) => {
           const li = document.createElement('li');
           setProperties(li, {
             ...autocomplete.getItemProps({ item, source }),
@@ -173,11 +173,11 @@ export function autocomplete<TItem>({
           return li;
         });
 
-        for (const menuItem of menuItems) {
-          menu.appendChild(menuItem);
+        for (const listItem of listItems) {
+          list.appendChild(listItem);
         }
 
-        section.appendChild(menu);
+        section.appendChild(list);
       }
 
       if (source.templates.footer) {

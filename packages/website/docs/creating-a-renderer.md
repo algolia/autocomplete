@@ -99,7 +99,7 @@ function Autocomplete() {
                 className="algolia-autocomplete-suggestions"
               >
                 {items.length > 0 && (
-                  <ul {...autocomplete.getMenuProps()}>
+                  <ul {...autocomplete.getListProps()}>
                     {items.map((item, index) => {
                       return (
                         <li

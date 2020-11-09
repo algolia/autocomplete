@@ -12,7 +12,7 @@ export interface AutocompleteAccessibilityGetters<
   getLabelProps: GetLabelProps;
   getInputProps: GetInputProps<TEvent, TMouseEvent, TKeyboardEvent>;
   getPanelProps: GetPanelProps<TMouseEvent>;
-  getMenuProps: GetMenuProps;
+  getListProps: GetListProps;
   getItemProps: GetItemProps<TItem, TMouseEvent>;
 }
 
@@ -96,7 +96,7 @@ export type GetPanelProps<TMouseEvent> = (props?: {
   onMouseLeave(): void;
 };
 
-export type GetMenuProps = (props?: {
+export type GetListProps = (props?: {
   [key: string]: unknown;
 }) => {
   role: string;
