@@ -217,7 +217,7 @@ export interface AutocompleteOptions<TItem> {
   /**
    * The sources to get the suggestions from.
    */
-  getSources(
+  getSources?(
     params: GetSourcesParams<TItem>
   ): MaybePromise<Array<AutocompleteSource<TItem>>>;
   /**

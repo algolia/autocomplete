@@ -51,14 +51,10 @@ export function getDefaultProps<TItem>(
       });
     },
     getSources(options) {
-      const getSourcesFromPlugins = plugins
-        .map((plugin) => plugin.getSources)
-        .filter((getSources) => getSources !== undefined);
-
       return Promise.all(
-        [...getSourcesFromPlugins, props.getSources].map((getSources) =>
-          getNormalizedSources(getSources!, options)
-        )
+        [...plugins.map((plugin) => plugin.getSources), props.getSources]
+          .filter(Boolean)
+          .map((getSources) => getNormalizedSources(getSources!, options))
       )
         .then((nested) => flatten(nested))
         .then((sources) =>

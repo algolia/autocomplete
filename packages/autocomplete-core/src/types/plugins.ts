@@ -7,11 +7,11 @@ export type AutocompletePlugin<TItem, TData = unknown> = Partial<
    * The subscribed properties are properties that are called when other sources
    * are interacted with.
    */
-  subscribed: {
+  subscribed?: {
     onSelect: AutocompleteSource<TItem>['onSelect'];
   };
   /**
    * An extra plugin specific object to store variables and functions
    */
-  data: TData;
+  data?: TData;
 };
