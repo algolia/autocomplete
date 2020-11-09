@@ -25,7 +25,7 @@ export function getDefaultProps<TItem>(
     defaultSelectedItemId: null,
     stallThreshold: 300,
     environment,
-    shouldDropdownShow: ({ state }) => getItemsCount(state) > 0,
+    shouldPanelShow: ({ state }) => getItemsCount(state) > 0,
     ...props,
     // Since `generateAutocompleteId` triggers a side effect (it increments
     // and internal counter), we don't want to execute it if unnecessary.

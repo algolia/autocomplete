@@ -1,7 +1,7 @@
 import { AutocompleteOptions } from './types';
 
-export function getDropdownPositionStyle({
-  dropdownPlacement,
+export function getPanelPositionStyle({
+  panelPlacement,
   container,
   inputWrapper,
   environment = window,
@@ -12,7 +12,7 @@ export function getDropdownPositionStyle({
   const containerRect = container.getBoundingClientRect();
   const top = containerRect.top + containerRect.height;
 
-  switch (dropdownPlacement) {
+  switch (panelPlacement) {
     case 'start': {
       return {
         top,
@@ -59,7 +59,7 @@ export function getDropdownPositionStyle({
 
     default: {
       throw new Error(
-        `The \`dropdownPlacement\` value "${dropdownPlacement}" is not valid.`
+        `The \`panelPlacement\` value "${panelPlacement}" is not valid.`
       );
     }
   }

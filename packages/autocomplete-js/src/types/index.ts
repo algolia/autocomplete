@@ -12,7 +12,7 @@ type Template<TParams> = (params: TParams) => string | void;
 
 export type SourceTemplates<TItem> = {
   /**
-   * Templates to display in the autocomplete dropdown.
+   * Templates to display in the autocomplete panel.
    *
    * A template can either return a string, or perform DOM mutations (manipulating DOM elements with JavaScript and attaching events) without returning a string.
    */
@@ -64,11 +64,11 @@ export interface AutocompleteOptions<TItem>
   container: string | HTMLElement;
   getSources: GetSources<TItem>;
   /**
-   * The dropdown horizontal position.
+   * The panel horizontal position.
    *
    * @default "input-wrapper-width"
    */
-  dropdownPlacement?: 'start' | 'end' | 'full-width' | 'input-wrapper-width';
+  panelPlacement?: 'start' | 'end' | 'full-width' | 'input-wrapper-width';
   /**
    * The class names to inject in each created DOM element.
    *

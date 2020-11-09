@@ -63,7 +63,7 @@ The completion of the input.
 
 > `boolean` | defaults to `false`
 
-Whether the dropdown is opened.
+Whether the panel is opened.
 
 ### `collections`
 
@@ -103,7 +103,7 @@ Sets the query.
 
 > `(value: boolean) => void`
 
-Sets the open state of the dropdown.
+Sets the open state of the panel.
 
 ### `setStatus`
 

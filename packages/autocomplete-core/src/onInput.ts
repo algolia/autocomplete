@@ -19,7 +19,7 @@ interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {
    *
    * This is useful when we call `onInput` in a different scenario than an
    * actual input. For example, we use `onInput` when we click on an item,
-   * but we want to close the dropdown in that case.
+   * but we want to close the panel in that case.
    */
   nextState?: Partial<AutocompleteState<TItem>>;
   refresh: AutocompleteRefresh;
@@ -71,7 +71,7 @@ export function onInput<TItem>({
       }))
     );
     setIsOpen(
-      nextState.isOpen ?? props.shouldDropdownShow({ state: store.getState() })
+      nextState.isOpen ?? props.shouldPanelShow({ state: store.getState() })
     );
 
     return Promise.resolve();
@@ -127,7 +127,7 @@ export function onInput<TItem>({
           setIsOpen(
             nextState.isOpen ??
               ((query.length === 0 && props.openOnFocus) ||
-                props.shouldDropdownShow({ state: store.getState() }))
+                props.shouldPanelShow({ state: store.getState() }))
           );
 
           const highlightedItem = getSelectedItem({

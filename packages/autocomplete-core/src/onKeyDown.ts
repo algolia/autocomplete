@@ -70,7 +70,7 @@ export function onKeyDown<TItem>({
   } else if (event.key === 'Escape') {
     // This prevents the default browser behavior on `input[type="search"]`
     // to remove the query right away because we first want to close the
-    // dropdown.
+    // panel.
     event.preventDefault();
 
     store.send(event.key, null);

@@ -31,8 +31,8 @@ export function createAutocomplete<
     getFormProps,
     getLabelProps,
     getInputProps,
-    getDropdownProps,
-    getMenuProps,
+    getPanelProps,
+    getListProps,
     getItemProps,
   } = getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     store,
@@ -77,8 +77,8 @@ export function createAutocomplete<
     getFormProps,
     getInputProps,
     getLabelProps,
-    getDropdownProps,
-    getMenuProps,
+    getPanelProps,
+    getListProps,
     getItemProps,
     refresh,
   };
