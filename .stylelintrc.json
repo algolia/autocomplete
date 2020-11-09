@@ -14,7 +14,7 @@
     "selector-class-pattern": ["^aa-[A-Za-z0-9-]*$"],
     "prettier/prettier": true,
     "max-nesting-depth": [
-      2,
+      1,
       {
         "ignore": ["pseudo-classes"],
         "ignoreAtRules": ["media"]
