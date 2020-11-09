@@ -5,9 +5,10 @@ import babel from 'rollup-plugin-babel';
 import filesize from 'rollup-plugin-filesize';
 import { terser } from 'rollup-plugin-terser';
 
-import { getBundleBanner } from './scripts/getBundleBanner';
+import { getBundleBanner } from '../getBundleBanner';
 
 const BUILD_MODES = ['development', 'production'];
+const extensions = ['.js', '.jsx', '.ts', '.tsx', '.json'];
 
 function createRollupConfig({ mode, pkg, config }) {
   if (!BUILD_MODES.includes(mode)) {
@@ -33,11 +34,11 @@ function createRollupConfig({ mode, pkg, config }) {
       }),
       json(),
       resolve({
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+        extensions,
       }),
       babel({
         exclude: 'node_modules/**',
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+        extensions,
         rootMode: 'upward',
       }),
       mode === 'production' && terser(),
