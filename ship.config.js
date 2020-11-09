@@ -9,6 +9,7 @@ const packages = [
   'packages/autocomplete-js',
   'packages/autocomplete-preset-algolia',
   'packages/autocomplete-plugin-recent-searches',
+  'packages/autocomplete-plugin-query-suggestions',
 ];
 
 module.exports = {
