@@ -5,8 +5,8 @@ import {
 
 import { concatClassNames } from './concatClassNames';
 import { debounce } from './debounce';
-import { getPanelPositionStyle } from './getPanelPositionStyle';
 import { getHTMLElement } from './getHTMLElement';
+import { getPanelPositionStyle } from './getPanelPositionStyle';
 import { resetIcon, searchIcon } from './icons';
 import { renderTemplate } from './renderTemplate';
 import { setProperties, setPropertiesWithoutEvents } from './setProperties';
