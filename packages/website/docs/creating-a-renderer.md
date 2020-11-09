@@ -88,7 +88,7 @@ function Autocomplete() {
   return (
     <div {...autocomplete.getRootProps({})}>
       <input {...autocomplete.getInputProps({})} />
-      <div {...autocomplete.getDropdownProps({})}>
+      <div {...autocomplete.getPanelProps({})}>
         {autocompleteState.isOpen &&
           autocompleteState.collections.map((collection, index) => {
             const { source, items } = collection;
@@ -231,13 +231,13 @@ function Autocomplete() {
       {autocompleteState.isOpen && (
         <div
           className={[
-            'autocomplete-dropdown',
+            'autocomplete-panel',
             autocompleteState.status === 'stalled' &&
-              'autocomplete-dropdown--stalled',
+              'autocomplete-panel--stalled',
           ]
             .filter(Boolean)
             .join(' ')}
-          {...autocomplete.getDropdownProps({})}
+          {...autocomplete.getPanelProps({})}
         >
           {/* ... */}
         </div>
@@ -248,7 +248,7 @@ function Autocomplete() {
 }
 ```
 
-You could for example create a `.autocomplete-dropdown--stalled` CSS class that lowers the opacity to hint users that the search is currently stuck.
+You could for example create a `.autocomplete-panel--stalled` CSS class that lowers the opacity to hint users that the search is currently stuck.
 
 ![Image](https://user-images.githubusercontent.com/6137112/83759558-034cbf80-a674-11ea-86ca-6728b4c2d6f7.png)
 
@@ -268,18 +268,18 @@ function Autocomplete() {
 
   const inputRef = React.useRef(null);
   const searchBoxRef = React.useRef(null);
-  const dropdownRef = React.useRef(null);
+  const panelRef = React.useRef(null);
 
   const { getEnvironmentProps } = autocomplete;
 
   React.useEffect(() => {
-    if (!(searchBoxRef.current && dropdownRef.current && inputRef.current)) {
+    if (!(searchBoxRef.current && panelRef.current && inputRef.current)) {
       return;
     }
 
     const { onTouchStart, onTouchMove } = getEnvironmentProps({
       searchBoxElement: searchBoxRef.current,
-      dropdownElement: dropdownRef.current,
+      panelElement: panelRef.current,
       inputElement: inputRef.current,
     });
 
@@ -290,7 +290,7 @@ function Autocomplete() {
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove', onTouchMove);
     };
-  }, [getEnvironmentProps, searchBoxRef, dropdownRef, inputRef]);
+  }, [getEnvironmentProps, searchBoxRef, panelRef, inputRef]);
 
   return (
     <div {...autocomplete.getRootProps({})}>
@@ -308,15 +308,15 @@ function Autocomplete() {
 
       {autocompleteState.isOpen && (
         <div
-          ref={dropdownRef}
+          ref={panelRef}
           className={[
-            'autocomplete-dropdown',
+            'autocomplete-panel',
             autocompleteState.status === 'stalled' &&
-              'autocomplete-dropdown--stalled',
+              'autocomplete-panel--stalled',
           ]
             .filter(Boolean)
             .join(' ')}
-          {...autocomplete.getDropdownProps({})}
+          {...autocomplete.getPanelProps({})}
         >
           {/* ... */}
         </div>

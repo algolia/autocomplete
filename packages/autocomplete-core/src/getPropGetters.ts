@@ -5,7 +5,7 @@ import {
   AutocompleteSetters,
   AutocompleteStore,
   AutocompleteRefresh,
-  GetDropdownProps,
+  GetPanelProps,
   GetEnvironmentProps,
   GetFormProps,
   GetInputProps,
@@ -36,7 +36,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
   const getEnvironmentProps: GetEnvironmentProps = (getterProps) => {
     return {
       // On touch devices, we do not rely on the native `blur` event of the
-      // input to close the dropdown, but rather on a custom `touchstart` event
+      // input to close the panel, but rather on a custom `touchstart` event
       // outside of the autocomplete elements.
       // This ensures a working experience on mobile because we blur the input
       // on touch devices when the user starts scrolling (`touchmove`).
@@ -50,7 +50,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
 
         const isTargetWithinAutocomplete = [
           getterProps.searchBoxElement,
-          getterProps.dropdownElement,
+          getterProps.panelElement,
         ].some((contextNode) => {
           return (
             contextNode &&
@@ -69,7 +69,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
       // When scrolling on touch devices (mobiles, tablets, etc.), we want to
       // mimic the native platform behavior where the input is blurred to
       // hide the virtual keyboard. This gives more vertical space to
-      // discover all the suggestions showing up in the dropdown.
+      // discover all the suggestions showing up in the panel.
       onTouchMove(event: TouchEvent) {
         if (
           store.getState().isOpen === false ||
@@ -156,7 +156,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
   ) => {
     function onFocus(event: TEvent) {
       // We want to trigger a query when `openOnFocus` is true
-      // because the dropdown should open with the current query.
+      // because the panel should open with the current query.
       if (props.openOnFocus || store.getState().query.length > 0) {
         onInput({
           query: store.getState().completion || store.getState().query,
@@ -236,13 +236,13 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         }
       },
       onClick: (event) => {
-        // When the dropdown is closed and you click on the input while
+        // When the panel is closed and you click on the input while
         // the input is focused, the `onFocus` event is not triggered
         // (default browser behavior).
         // In an autocomplete context, it makes sense to open the menu in this
         // case.
         // We mimic this event by catching the `onClick` event which
-        // triggers the `onFocus` for the dropdown to open.
+        // triggers the `onFocus` for the panel to open.
         if (
           providedProps.inputElement ===
             props.environment.document.activeElement &&
@@ -272,12 +272,12 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     };
   };
 
-  const getDropdownProps: GetDropdownProps<TMouseEvent> = (rest) => {
+  const getPanelProps: GetPanelProps<TMouseEvent> = (rest) => {
     return {
       onMouseDown(event) {
-        // Prevents the `activeElement` from being changed to the dropdown so
+        // Prevents the `activeElement` from being changed to the panel so
         // that the blur event is not triggered, otherwise it closes the
-        // dropdown.
+        // panel.
         ((event as unknown) as MouseEvent).preventDefault();
       },
       onMouseLeave() {
@@ -391,7 +391,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     getFormProps,
     getLabelProps,
     getInputProps,
-    getDropdownProps,
+    getPanelProps,
     getMenuProps,
     getItemProps,
   };

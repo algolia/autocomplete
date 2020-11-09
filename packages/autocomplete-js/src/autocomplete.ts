@@ -5,7 +5,7 @@ import {
 
 import { concatClassNames } from './concatClassNames';
 import { debounce } from './debounce';
-import { getDropdownPositionStyle } from './getDropdownPositionStyle';
+import { getPanelPositionStyle } from './getPanelPositionStyle';
 import { getHTMLElement } from './getHTMLElement';
 import { resetIcon, searchIcon } from './icons';
 import { renderTemplate } from './renderTemplate';
@@ -24,8 +24,8 @@ function defaultRender({ root, sections }) {
 
 export function autocomplete<TItem>({
   container,
-  render: renderDropdown = defaultRender,
-  dropdownPlacement = 'input-wrapper-width',
+  render: renderPanel = defaultRender,
+  panelPlacement = 'input-wrapper-width',
   classNames = {},
   ...props
 }: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
@@ -52,14 +52,14 @@ export function autocomplete<TItem>({
 
   const onResize = debounce(() => {
     if (!panel.hasAttribute('hidden')) {
-      setDropdownPosition();
+      setPanelPosition();
     }
   }, 100);
 
-  function setDropdownPosition() {
+  function setPanelPosition() {
     setProperties(panel, {
-      style: getDropdownPositionStyle({
-        dropdownPlacement,
+      style: getPanelPositionStyle({
+        panelPlacement,
         container: root,
         inputWrapper,
         environment: props.environment,
@@ -70,7 +70,7 @@ export function autocomplete<TItem>({
   setProperties(window as any, {
     ...autocomplete.getEnvironmentProps({
       searchBoxElement: form,
-      dropdownElement: panel,
+      panelElement: panel,
       inputElement: input,
     }),
     onResize,
@@ -103,7 +103,7 @@ export function autocomplete<TItem>({
     innerHTML: resetIcon,
   });
   setProperties(panel, {
-    ...autocomplete.getDropdownProps(),
+    ...autocomplete.getPanelProps(),
     hidden: true,
     class: concatClassNames(['aa-Panel', classNames.panel]),
   });
@@ -195,7 +195,7 @@ export function autocomplete<TItem>({
       return section;
     });
 
-    renderDropdown({ root: panel, sections, state });
+    renderPanel({ root: panel, sections, state });
   }
 
   inputWrapper.appendChild(input);
@@ -206,7 +206,7 @@ export function autocomplete<TItem>({
   root.appendChild(panel);
   containerElement.appendChild(root);
 
-  setDropdownPosition();
+  setPanelPosition();
 
   function destroy() {
     containerElement.innerHTML = '';
