@@ -5,22 +5,62 @@ import babel from 'rollup-plugin-babel';
 import filesize from 'rollup-plugin-filesize';
 import { terser } from 'rollup-plugin-terser';
 
-export const plugins = [
-  replace({
-    __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
-  }),
-  json(),
-  resolve({
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-  }),
-  babel({
-    exclude: 'node_modules/**',
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-    rootMode: 'upward',
-  }),
-  terser(),
-  filesize({
-    showMinifiedSize: false,
-    showGzippedSize: true,
-  }),
-];
+import { getBundleBanner } from './scripts/getBundleBanner';
+
+const BUILD_MODES = ['development', 'production'];
+
+function createRollupConfig({ mode, pkg, config }) {
+  if (!BUILD_MODES.includes(mode)) {
+    throw new Error(
+      `The Rollup configuration ${JSON.stringify(mode)} mode is not supported.`
+    );
+  }
+
+  return {
+    ...config,
+    input: 'src/index.ts',
+    output: {
+      file: `dist/umd/index.${mode}.js`,
+      format: 'umd',
+      sourcemap: true,
+      name: pkg.name,
+      banner: getBundleBanner(pkg),
+      ...config.output,
+    },
+    plugins: [
+      replace({
+        'process.env.NODE_ENV': JSON.stringify(mode),
+      }),
+      json(),
+      resolve({
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+      }),
+      babel({
+        exclude: 'node_modules/**',
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+        rootMode: 'upward',
+      }),
+      mode === 'production' && terser(),
+      filesize({
+        showMinifiedSize: false,
+        showGzippedSize: true,
+      }),
+      ...(config.plugins || []),
+    ].filter(Boolean),
+  };
+}
+
+export function createRollupConfigs({ pkg, config = {} }) {
+  return [
+    createRollupConfig({
+      mode: 'development',
+      pkg,
+      config,
+    }),
+    createRollupConfig({
+      mode: 'production',
+      pkg,
+      config,
+    }),
+  ];
+}

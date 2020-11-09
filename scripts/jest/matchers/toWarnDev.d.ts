@@ -5,6 +5,6 @@ declare namespace jest {
     /**
      * Ensures that a warning is triggered when the callback is called.
      */
-    toWarn(expectedMessage?: string): CustomMatcherResult;
+    toWarnDev(expectedMessage?: string): CustomMatcherResult;
   }
 }

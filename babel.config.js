@@ -1,4 +1,4 @@
-/* eslint-disable import/no-commonjs */
+const wrapWarningWithDevCheck = require('./scripts/babel/wrap-warning-with-dev-check');
 
 module.exports = (api) => {
   const isTest = api.env('test');
@@ -23,12 +23,13 @@ module.exports = (api) => {
       ],
     ],
     plugins: clean([
-      !isTest && [
+      wrapWarningWithDevCheck,
+      [
         'inline-replace-variables',
         {
           __DEV__: {
             type: 'node',
-            replacement: "process.env.NODE_ENV === 'development'",
+            replacement: "process.env.NODE_ENV !== 'production'",
           },
         },
       ],

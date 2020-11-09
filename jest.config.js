@@ -1,5 +1,3 @@
-/* eslint-disable import/no-commonjs */
-
 module.exports = {
   rootDir: process.cwd(),
   setupFilesAfterEnv: [

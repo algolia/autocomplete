@@ -186,7 +186,7 @@ describe('parseAlgoliaHitReverseHighlight', () => {
           },
         },
       });
-    }).toWarn(
+    }).toWarnDev(
       '[Autocomplete] The attribute "_highlightResult.description.value" does not exist on the hit. Did you set it in `attributesToHighlight`?' +
         '\nSee https://www.algolia.com/doc/api-reference/api-parameters/attributesToHighlight/'
     );

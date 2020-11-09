@@ -12,10 +12,10 @@
   "source": "src/index.ts",
   "types": "dist/esm/index.d.ts",
   "module": "dist/esm/index.js",
-  "main": "dist/umd/index.js",
-  "umd:main": "dist/umd/index.js",
-  "unpkg": "dist/umd/index.js",
-  "jsdelivr": "dist/umd/index.js",
+  "main": "dist/umd/index.production.js",
+  "umd:main": "dist/umd/index.production.js",
+  "unpkg": "dist/umd/index.production.js",
+  "jsdelivr": "dist/umd/index.production.js",
   "sideEffects": false,
   "files": [
     "dist/"

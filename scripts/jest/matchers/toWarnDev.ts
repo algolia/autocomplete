@@ -2,14 +2,20 @@
 
 import jestDiff from 'jest-diff';
 
-export const toWarn: jest.CustomMatcher = (
+export const toWarnDev: jest.CustomMatcher = (
   callback: () => void,
   expectedMessage: string
 ) => {
   if (expectedMessage !== undefined && typeof expectedMessage !== 'string') {
     throw new Error(
-      `toWarn() requires a parameter of type string but was given ${typeof expectedMessage}.`
+      `toWarnDev() requires a parameter of type string but was given ${typeof expectedMessage}.`
     );
+  }
+
+  if (!__DEV__) {
+    callback();
+
+    return { pass: true, message: () => '' };
   }
 
   const originalWarnMethod = console.warn;
