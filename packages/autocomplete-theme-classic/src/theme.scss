@@ -35,15 +35,18 @@
   position: absolute;
   width: 100%;
   z-index: 2;
+
   &::-webkit-search-decoration,
   &::-webkit-search-cancel-button,
   &::-webkit-search-results-button,
   &::-webkit-search-results-decoration {
     appearance: none;
   }
+
   &::placeholder {
     color: #5a5e9a;
   }
+
   &:focus {
     border-color: #3c4fe0;
     box-shadow: rgba(35, 38, 59, 0.05) 0 1px 0 0;
@@ -72,6 +75,7 @@
   max-width: 480px;
   position: absolute;
   width: 100%;
+
   &--stalled {
     filter: grayscale(1);
     opacity: 0.5;
@@ -94,11 +98,13 @@
   display: flex;
   grid-gap: 0.5rem;
   justify-content: space-between;
+
   mark {
     background: none;
     font-style: normal;
     font-weight: bold;
   }
+
   &[aria-selected='true'] {
     background-color: #f5f5fa;
   }
@@ -131,6 +137,7 @@
   @media screen and (prefers-reduced-motion: reduce) {
     transition: none;
   }
+
   &:hover,
   &:focus {
     color: rgba(80, 80, 80, 1);

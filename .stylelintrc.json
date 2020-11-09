@@ -20,6 +20,7 @@
         "ignoreAtRules": ["media"]
       }
     ],
+    "rule-empty-line-before": "always",
     "plugin/no-unsupported-browser-features": [
       null,
       {
