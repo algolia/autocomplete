@@ -129,9 +129,9 @@ export function autocomplete<TItem>({
     }
 
     if (state.status === 'stalled') {
-      panel.classList.add('aa-panel--stalled');
+      panel.classList.add('aa-Panel--stalled');
     } else {
-      panel.classList.remove('aa-panel--stalled');
+      panel.classList.remove('aa-Panel--stalled');
     }
 
     const sections = state.collections.map((collection) => {
