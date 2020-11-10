@@ -51,9 +51,7 @@ export function autocomplete<TItem>({
   });
 
   const onResize = debounce(() => {
-    if (!panel.hasAttribute('hidden')) {
-      setPanelPosition();
-    }
+    setPanelPosition();
   }, 100);
 
   function setPanelPosition() {
