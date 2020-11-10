@@ -2,7 +2,19 @@ export const warnCache = {
   current: {},
 };
 
-export function warn(message: string) {
+/**
+ * Logs a warning if the condition is not met.
+ * This is used to log issues in development environment only.
+ */
+export function warn(condition: boolean, message: string) {
+  if (!__DEV__) {
+    return;
+  }
+
+  if (condition) {
+    return;
+  }
+
   const sanitizedMessage = message.trim();
   const hasAlreadyPrinted = warnCache.current[sanitizedMessage];
 

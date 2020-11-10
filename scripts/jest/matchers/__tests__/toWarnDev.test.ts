@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
 
-describe('toWarn', () => {
+describe('toWarnDev', () => {
   describe('usage', () => {
     test('fails with incorrect type of message', () => {
       expect(() => {
         // @ts-ignore:next-line
-        expect(() => {}).toWarn(false);
+        expect(() => {}).toWarnDev(false);
       }).toThrowErrorMatchingInlineSnapshot(
-        `"toWarn() requires a parameter of type string but was given boolean."`
+        `"toWarnDev() requires a parameter of type string but was given boolean."`
       );
     });
   });
@@ -17,13 +17,13 @@ describe('toWarn', () => {
       expect(() => {
         expect(() => {
           console.warn('warning');
-        }).toWarn();
+        }).toWarnDev();
       }).not.toThrow();
     });
 
     test('fails if not called', () => {
       expect(() => {
-        expect(() => {}).toWarn();
+        expect(() => {}).toWarnDev();
       }).toThrowErrorMatchingInlineSnapshot(`"No warning recorded."`);
     });
   });
@@ -33,7 +33,7 @@ describe('toWarn', () => {
       expect(() => {
         expect(() => {
           console.warn('warning');
-        }).toWarn('warning');
+        }).toWarnDev('warning');
       }).not.toThrow();
     });
 
@@ -41,7 +41,7 @@ describe('toWarn', () => {
       expect(() => {
         expect(() => {
           console.warn('warning');
-        }).toWarn('another warning');
+        }).toWarnDev('another warning');
       }).toThrow(/Unexpected warning recorded./);
     });
   });
