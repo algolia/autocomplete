@@ -1,3 +1,4 @@
+import { checkOptions } from './checkOptions';
 import { createStore } from './createStore';
 import { getAutocompleteSetters } from './getAutocompleteSetters';
 import { getDefaultProps } from './getDefaultProps';
@@ -14,6 +15,8 @@ export function createAutocomplete<
 >(
   options: AutocompleteOptions<TItem>
 ): AutocompleteApi<TItem, TEvent, TMouseEvent, TKeyboardEvent> {
+  checkOptions(options);
+
   const props = getDefaultProps(options);
   const store = createStore(stateReducer, props);
 
