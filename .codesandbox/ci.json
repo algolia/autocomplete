@@ -1,5 +1,5 @@
 {
-  "installCommand": "codesandbox:install && node -v",
+  "installCommand": "codesandbox:install",
   "buildCommand": false,
   "packages": ["packages/autocomplete-*"],
   "sandboxes": ["/examples/js"]
