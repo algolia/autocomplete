@@ -26,6 +26,9 @@
     "website:build": "yarn workspace @algolia/autocomplete-website build",
     "website:start": "yarn workspace @algolia/autocomplete-website start --host 0.0.0.0"
   },
+  "engines": {
+    "node": "14.15.0"
+  },
   "devDependencies": {
     "@babel/cli": "7.11.5",
     "@babel/preset-env": "7.11.5",
