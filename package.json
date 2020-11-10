@@ -12,7 +12,7 @@
     "build:types": "lerna run build:types --no-private",
     "build:umd": "lerna run build:umd --no-private",
     "build": "lerna run build --no-private",
-    "codesandbox:install": "NODE_VERSION=$(cat .nvmrc) && scripts/codesandbox/install.sh && nvm use && node -v && yarn",
+    "codesandbox:install": "NODE_VERSION=$(cat .nvmrc) && scripts/codesandbox/install.sh",
     "lint:css": "stylelint packages/*/src/**/*.scss",
     "lint": "eslint --ext .js,.ts,.tsx .",
     "playground:start": "yarn workspace @algolia/js-example start",
