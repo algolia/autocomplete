@@ -12,6 +12,7 @@
     "build:types": "lerna run build:types --no-private",
     "build:umd": "lerna run build:umd --no-private",
     "build": "lerna run build --no-private",
+    "codesandbox:install": "NODE_VERSION=14.15.0 && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | bash && yarn",
     "lint:css": "stylelint packages/*/src/**/*.scss",
     "lint": "eslint --ext .js,.ts,.tsx .",
     "playground:start": "yarn workspace @algolia/js-example start",

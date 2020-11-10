@@ -1,6 +1,6 @@
 {
-  "packages": ["packages/autocomplete-*"],
+  "installCommand": "codesandbox:install",
   "buildCommand": false,
-  "^": "buildCommand is false because `yarn prepare` is going to build packages anyway.",
+  "packages": ["packages/autocomplete-*"],
   "sandboxes": ["/examples/js"]
 }
