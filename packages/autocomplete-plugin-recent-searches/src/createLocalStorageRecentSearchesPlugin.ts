@@ -38,7 +38,7 @@ export type CreateRecentSearchesLocalStorageOptions<
 
 type LocalStorageRecentSearchesPluginOptions<
   TItem extends RecentSearchesItem
-> = CreateRecentSearchesPluginParams<TItem> &
+> = Pick<CreateRecentSearchesPluginParams<TItem>, 'getTemplates'> &
   CreateRecentSearchesLocalStorageOptions<TItem>;
 
 export function createLocalStorageRecentSearchesPlugin<
