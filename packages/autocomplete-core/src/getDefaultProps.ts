@@ -1,3 +1,4 @@
+import { getNavigator } from './getNavigator';
 import { InternalAutocompleteOptions, AutocompleteOptions } from './types';
 import {
   generateAutocompleteId,
@@ -9,7 +10,9 @@ import {
 export function getDefaultProps<TItem>(
   props: AutocompleteOptions<TItem>
 ): InternalAutocompleteOptions<TItem> {
-  const environment: typeof window = (typeof window !== 'undefined'
+  const environment: InternalAutocompleteOptions<
+    unknown
+  >['environment'] = (typeof window !== 'undefined'
     ? window
     : {}) as typeof window;
   const plugins = props.plugins || [];
@@ -22,7 +25,7 @@ export function getDefaultProps<TItem>(
     defaultSelectedItemId: null,
     stallThreshold: 300,
     environment,
-    shouldDropdownShow: ({ state }) => getItemsCount(state) > 0,
+    shouldPanelShow: ({ state }) => getItemsCount(state) > 0,
     ...props,
     // Since `generateAutocompleteId` triggers a side effect (it increments
     // and internal counter), we don't want to execute it if unnecessary.
@@ -38,6 +41,7 @@ export function getDefaultProps<TItem>(
       context: {},
       ...props.initialState,
     },
+    plugins,
     onStateChange(params) {
       props.onStateChange?.(params);
       plugins.forEach((plugin) => {
@@ -70,21 +74,8 @@ export function getDefaultProps<TItem>(
         );
     },
     navigator: {
-      navigate({ itemUrl }) {
-        environment.location.assign(itemUrl);
-      },
-      navigateNewTab({ itemUrl }) {
-        const windowReference = environment.open(itemUrl, '_blank', 'noopener');
-
-        if (windowReference) {
-          windowReference.focus();
-        }
-      },
-      navigateNewWindow({ itemUrl }) {
-        environment.open(itemUrl, '_blank', 'noopener');
-      },
+      ...getNavigator({ environment }),
       ...props.navigator,
     },
-    plugins,
   };
 }

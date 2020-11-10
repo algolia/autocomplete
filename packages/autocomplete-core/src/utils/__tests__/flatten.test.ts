@@ -1,4 +1,4 @@
-import { flatten } from '../utils';
+import { flatten } from '../flatten';
 
 describe('flatten', () => {
   it('does not split strings', () => {

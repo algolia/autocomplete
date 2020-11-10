@@ -10,6 +10,6 @@ export function warn(message: string) {
     warnCache.current[sanitizedMessage] = true;
 
     // eslint-disable-next-line no-console
-    console.warn(sanitizedMessage);
+    console.warn(`[Autocomplete] ${sanitizedMessage}`);
   }
 }
