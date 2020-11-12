@@ -1,4 +1,4 @@
-import { SourceTemplates } from '@algolia/autocomplete-js';
+import { SourceTemplates, reverseHighlightHit } from '@algolia/autocomplete-js';
 
 import { recentIcon, resetIcon } from './icons';
 import { RecentSearchesItem } from './types';
@@ -19,7 +19,10 @@ export function getTemplates<TItem extends RecentSearchesItem>({
       icon.innerHTML = recentIcon;
       const title = document.createElement('div');
       title.className = 'aa-ItemTitle';
-      title.innerText = item.query;
+      title.innerHTML = reverseHighlightHit({
+        hit: item as any,
+        attribute: 'query',
+      });
       content.appendChild(icon);
       content.appendChild(title);
 

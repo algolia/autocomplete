@@ -14,7 +14,7 @@
     },
     {
       "path": "packages/autocomplete-plugin-recent-searches/dist/umd/index.production.js",
-      "maxSize": "2.5 kB"
+      "maxSize": "3 kB"
     },
     {
       "path": "packages/autocomplete-plugin-query-suggestions/dist/umd/index.production.js",
