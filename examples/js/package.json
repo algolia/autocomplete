@@ -1,7 +1,7 @@
 {
   "name": "@algolia/js-example",
   "description": "Autocomplete JavaScript Sandbox",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.35",
   "private": true,
   "license": "MIT",
   "main": "index.html",
@@ -10,9 +10,9 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.0.0-alpha.34",
-    "@algolia/autocomplete-plugin-recent-searches": "1.0.0-alpha.34",
-    "@algolia/autocomplete-plugin-query-suggestions": "1.0.0-alpha.34",
+    "@algolia/autocomplete-js": "1.0.0-alpha.35",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.0.0-alpha.35",
+    "@algolia/autocomplete-plugin-recent-searches": "1.0.0-alpha.35",
     "algoliasearch": "4.5.1"
   },
   "devDependencies": {
