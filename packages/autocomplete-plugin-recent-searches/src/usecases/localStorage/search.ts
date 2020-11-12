@@ -36,11 +36,11 @@ export function search<TItem extends RecentSearchesItem>({
   limit,
 }: SearchParams<TItem>): Array<Highlighted<TItem>> {
   if (!query) {
-    return items.map((item) => highlight({ item, query })).slice(0, limit);
+    return items.slice(0, limit).map((item) => highlight({ item, query }));
   }
 
   return items
     .filter((item) => item.query.toLowerCase().includes(query.toLowerCase()))
-    .map((item) => highlight({ item, query }))
-    .slice(0, limit);
+    .slice(0, limit)
+    .map((item) => highlight({ item, query }));
 }
