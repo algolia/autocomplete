@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-plugin-recent-searches",
   "description": "A plugin to add recent searches to Algolia Autocomplete.",
-  "version": "1.0.0-alpha.34",
+  "version": "1.0.0-alpha.35",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete.js",
   "repository": "algolia/autocomplete.js",
@@ -31,9 +31,9 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@algolia/autocomplete-core": "1.0.0-alpha.34",
-    "@algolia/autocomplete-js": "1.0.0-alpha.34",
-    "@algolia/autocomplete-shared": "1.0.0-alpha.34"
+    "@algolia/autocomplete-core": "1.0.0-alpha.35",
+    "@algolia/autocomplete-js": "1.0.0-alpha.35",
+    "@algolia/autocomplete-shared": "1.0.0-alpha.35"
   },
   "devDependencies": {
     "@algolia/client-search": "4.5.1"

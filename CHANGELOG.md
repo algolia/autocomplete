@@ -1,3 +1,37 @@
+# [](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.34...v) (2020-11-12)
+
+
+### Bug Fixes
+
+* **core:** don't complete query when closed ([86adc65](https://github.com/algolia/autocomplete.js/commit/86adc659b65b2808f0eafe2ca0419c126bf1336c))
+* **getSuggestions:** allow nested arrays to be returned ([#331](https://github.com/algolia/autocomplete.js/issues/331)) ([753c8ca](https://github.com/algolia/autocomplete.js/commit/753c8ca1358d1bd26c818ddb704caa0265d5aeae))
+* **js:** correct `item` class name ([475e88f](https://github.com/algolia/autocomplete.js/commit/475e88f6184d2b01a9ab9639c0e23601e157fb88))
+* **js:** correct `panel` class name ([a2be862](https://github.com/algolia/autocomplete.js/commit/a2be8626bc22f47f265ee5713754fc422a21af42))
+* **js:** fix highlight `hit` param ([6c03d8d](https://github.com/algolia/autocomplete.js/commit/6c03d8d148877c914e43ad75952156ac1f014803))
+* **js:** make `getSources` optional ([b12cc26](https://github.com/algolia/autocomplete.js/commit/b12cc268f900de9b47b9150156434c2ca5b8b3e9))
+* **js:** resize panel also when hidden ([9007fe0](https://github.com/algolia/autocomplete.js/commit/9007fe0e3378e4e56c6039614dcf700d46dbb6fc))
+* **qs:** ignore `storage` param ([5279dba](https://github.com/algolia/autocomplete.js/commit/5279dba5360286eba5125a24bfc2ed8b1d0aa690))
+* **recent-searches:** type `getTemplates` internal function ([1ff6a0d](https://github.com/algolia/autocomplete.js/commit/1ff6a0d0dea7a1f0fa70b15945f4b3ded097558f))
+* fix `setCollections` type ([cb967a4](https://github.com/algolia/autocomplete.js/commit/cb967a49fa07a6d67b792f24b015289ab4c44afb))
+
+
+### Features
+
+* **core:** warn when using `debug` option ([#364](https://github.com/algolia/autocomplete.js/issues/364)) ([2a2e3dd](https://github.com/algolia/autocomplete.js/commit/2a2e3dd72b2ba4e1856a7772f7e95a3ddad82812))
+* **recent-searches:** add search highlighting ([#370](https://github.com/algolia/autocomplete.js/issues/370)) ([3cb1d39](https://github.com/algolia/autocomplete.js/commit/3cb1d39fde6c5e0199bd9912c5fb448f5d002959))
+* introduce development and production modes ([#363](https://github.com/algolia/autocomplete.js/issues/363)) ([eed934f](https://github.com/algolia/autocomplete.js/commit/eed934f1d7d632c934c37593f555d8258c0084e3))
+* rename getters ([#362](https://github.com/algolia/autocomplete.js/issues/362)) ([b7e86d5](https://github.com/algolia/autocomplete.js/commit/b7e86d551aa29f8c372b2f560f3a9dc3c44548ca))
+* **core:** introduce new completion system ([#354](https://github.com/algolia/autocomplete.js/issues/354)) ([25099e8](https://github.com/algolia/autocomplete.js/commit/25099e8ad37004b1522364716275eb4f90f01c51))
+* **core:** remove `statusContext` API ([#350](https://github.com/algolia/autocomplete.js/issues/350)) ([a916aea](https://github.com/algolia/autocomplete.js/commit/a916aea48743eaa3e97e1e421aa1ac6986fa0e83))
+* **core:** rename private and public methods and properties ([#349](https://github.com/algolia/autocomplete.js/issues/349)) ([aeebe6d](https://github.com/algolia/autocomplete.js/commit/aeebe6de5b71c72fa4ac52b0cc5bd2b71965b973))
+* **js:** rename class names ([#351](https://github.com/algolia/autocomplete.js/issues/351)) ([8c53d2d](https://github.com/algolia/autocomplete.js/commit/8c53d2da3cf2c1669300549aadba93d486b7bf5e))
+* **plugins:** introduce Query Suggestions plugin ([#360](https://github.com/algolia/autocomplete.js/issues/360)) ([7d19396](https://github.com/algolia/autocomplete.js/commit/7d19396efbbe9c03225bb7b51540438a5ecd9ba0))
+* **recent-searches:** support search and templating ([#353](https://github.com/algolia/autocomplete.js/issues/353)) ([b8ff178](https://github.com/algolia/autocomplete.js/commit/b8ff178f48438d5e5feaf2d10d7cfe6d54d4b7de))
+* **shared:** introduce autocomplete-shared package ([#359](https://github.com/algolia/autocomplete.js/issues/359)) ([af04ae1](https://github.com/algolia/autocomplete.js/commit/af04ae1a53a89fe853c73ffc450998ef3898c38d))
+* **shared:** prefix warnings ([586f0f1](https://github.com/algolia/autocomplete.js/commit/586f0f14af9647433c8d1afa4e9dc2ecc75226c8))
+
+
+
 # [v1.0.0-alpha.34](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.33...v1.0.0-alpha.34) (2020-10-20)
 
 
