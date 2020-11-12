@@ -1,2 +1,2 @@
-export * from './RecentSearchesHit';
+export * from './Highlighted';
 export * from './RecentSearchesItem';

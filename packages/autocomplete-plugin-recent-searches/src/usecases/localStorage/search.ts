@@ -1,4 +1,4 @@
-import { RecentSearchesHit, RecentSearchesItem } from '../../types';
+import { Highlighted, RecentSearchesItem } from '../../types';
 
 type HighlightParams<TItem> = {
   item: TItem;
@@ -8,7 +8,7 @@ type HighlightParams<TItem> = {
 function highlight<TItem extends RecentSearchesItem>({
   item,
   query,
-}: HighlightParams<TItem>) {
+}: HighlightParams<TItem>): Highlighted<TItem> {
   return {
     ...item,
     _highlightResult: {
@@ -34,7 +34,7 @@ export function search<TItem extends RecentSearchesItem>({
   query,
   items,
   limit,
-}: SearchParams<TItem>): RecentSearchesHit[] {
+}: SearchParams<TItem>): Array<Highlighted<TItem>> {
   if (!query) {
     return items.map((item) => highlight({ item, query })).slice(0, limit);
   }
