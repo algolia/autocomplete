@@ -1,4 +1,5 @@
-import { warnCache } from '../../utils';
+import { warnCache } from '@algolia/autocomplete-shared';
+
 import { parseAlgoliaHitReverseHighlight } from '../parseAlgoliaHitReverseHighlight';
 
 describe('parseAlgoliaHitReverseHighlight', () => {
@@ -185,8 +186,8 @@ describe('parseAlgoliaHitReverseHighlight', () => {
           },
         },
       });
-    }).toWarn(
-      'The attribute "_highlightResult.description.value" does not exist on the hit. Did you set it in `attributesToHighlight`?' +
+    }).toWarnDev(
+      '[Autocomplete] The attribute "_highlightResult.description.value" does not exist on the hit. Did you set it in `attributesToHighlight`?' +
         '\nSee https://www.algolia.com/doc/api-reference/api-parameters/attributesToHighlight/'
     );
   });

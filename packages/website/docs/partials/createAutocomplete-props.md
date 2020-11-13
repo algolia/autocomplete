@@ -36,17 +36,11 @@ The default item index to pre-select.
 
 We recommend using `0` when the query typed aims at opening suggestion links, without triggering an actual search.
 
-### `enableCompletion`
-
-> `boolean` | defaults to `false`
-
-Whether to show the highlighted suggestion as completion in the input.
-
 ### `openOnFocus`
 
 > `boolean` | defaults to `false`
 
-Whether to open the dropdown on focus when there's no query.
+Whether to open the panel on focus when there's no query.
 
 ### `stallThreshold`
 
@@ -76,11 +70,11 @@ Navigator API to redirect the user when a link should be opened.
 
 Learn more on the [Navigator API](/docs/keyboard-navigation) documentation.
 
-### `shouldDropdownShow`
+### `shouldPanelShow`
 
 > `(params: { state: AutocompleteState }) => boolean`
 
-The function called to determine whether the dropdown should open.
+The function called to determine whether the panel should open.
 
 By default, it opens when there are items in the state.
 
@@ -102,4 +96,4 @@ This turns the experience in controlled mode, leaving you in charge of updating 
 
 > `boolean` | defaults to `false`
 
-Whether to consider the experience in debug mode. It is useful when developing because it doesn't close the dropdown when the blur event occurs.
+Whether to consider the experience in debug mode. It is useful when developing because it doesn't close the panel when the blur event occurs.

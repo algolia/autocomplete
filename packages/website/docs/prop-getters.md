@@ -11,13 +11,13 @@ The prop getters are functions that returns the data to create accessible and in
 
 Returns the props to attach to the [environment](#environment).
 
-You need to pass `searchBoxElement`, `dropdownElement` and `inputElement` so that the library creates the correct touch events for touch devices.
+You need to pass `searchBoxElement`, `panelElement` and `inputElement` so that the library creates the correct touch events for touch devices.
 
 ```ts
 type GetEnvironmentProps = (props: {
   [key: string]: unknown;
   searchBoxElement: HTMLElement;
-  dropdownElement: HTMLElement;
+  panelElement: HTMLElement;
   inputElement: HTMLInputElement;
 }) => {
   onTouchStart(event: TouchEvent): void;
@@ -122,12 +122,12 @@ type GetLabelProps = (props?: {
 };
 ```
 
-## `getMenuProps`
+## `getListProps`
 
-Returns the props to attach to the menu.
+Returns the props to attach to the list.
 
 ```ts
-type GetMenuProps = (props?: {
+type GetListProps = (props?: {
   [key: string]: unknown;
 }) => {
   role: string;

@@ -12,6 +12,7 @@
     "build:umd": "lerna run build:umd --no-private",
     "build": "lerna run build --no-private",
     "lint": "eslint --ext .js,.ts,.tsx .",
+    "playground:start": "yarn workspace @algolia/js-example start",
     "prepare": "lerna run prepare --no-private",
     "release": "shipjs prepare",
     "start": "yarn run watch",
@@ -19,13 +20,11 @@
     "test:types": "tsc --noEmit",
     "test": "jest",
     "watch": "lerna run watch --parallel --no-private",
-    "playground:start": "yarn workspace @algolia/js-example start",
     "website:build": "yarn workspace @algolia/autocomplete-website build",
     "website:start": "yarn workspace @algolia/autocomplete-website start --host 0.0.0.0"
   },
   "devDependencies": {
     "@babel/cli": "7.11.5",
-    "@babel/plugin-transform-react-jsx": "7.10.4",
     "@babel/preset-env": "7.11.5",
     "@babel/preset-typescript": "7.10.4",
     "@rollup/plugin-json": "4.1.0",

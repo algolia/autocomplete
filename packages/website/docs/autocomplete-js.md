@@ -69,11 +69,11 @@ import CreateAutocompleteProps from './partials/createAutocomplete-props.md'
 
 <CreateAutocompleteProps />
 
-### `dropdownPlacement`
+### `panelPlacement`
 
 > `"start" | "end" | "full-width" | "input-wrapper-width" | defaults to `"input-wrapper-width"`
 
-The dropdown horizontal position.
+The panel horizontal position.
 
 ### `classNames`
 
@@ -88,14 +88,13 @@ type ClassNames = {
   label?: string;
   inputWrapper?: string;
   input?: string;
-  completion?: string;
   resetButton?: string;
-  dropdown?: string;
-  section?: string;
-  sectionHeader?: string;
-  menu?: string;
+  panel?: string;
+  source?: string;
+  sourceHeader?: string;
+  list?: string;
   item?: string;
-  sectionFooter?: string;
+  sourceFooter?: string;
 };
 ```
 

@@ -1,5 +1,3 @@
-/* eslint-disable import/no-commonjs */
-
 module.exports = {
   title: 'Autocomplete',
   tagline: 'JavaScript library for building autocomplete search experiences.',

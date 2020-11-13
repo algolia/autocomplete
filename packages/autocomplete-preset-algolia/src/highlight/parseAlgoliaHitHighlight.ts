@@ -1,6 +1,5 @@
+import { warn } from '@algolia/autocomplete-shared';
 import { Hit } from '@algolia/client-search';
-
-import { warn } from '../utils';
 
 import { getAttributeValueByPath } from './getAttributeValueByPath';
 import { ParseAlgoliaHitParams } from './ParseAlgoliaHitParams';
@@ -17,6 +16,7 @@ export function parseAlgoliaHitHighlight<THit extends Hit<{}>>({
 
   if (typeof highlightedValue !== 'string') {
     warn(
+      false,
       `The attribute ${JSON.stringify(
         path
       )} does not exist on the hit. Did you set it in \`attributesToHighlight\`?` +

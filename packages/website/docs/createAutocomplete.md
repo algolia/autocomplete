@@ -59,7 +59,7 @@ const {
   getInputProps,
   getItemProps,
   getLabelProps,
-  getMenuProps,
+  getListProps,
   setSelectedItemId,
   setQuery,
   setCollections,

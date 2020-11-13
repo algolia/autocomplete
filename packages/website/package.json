@@ -1,6 +1,6 @@
 {
   "name": "@algolia/autocomplete-website",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.35",
   "private": true,
   "scripts": {
     "start": "docusaurus start",
@@ -10,11 +10,11 @@
   },
   "dependencies": {
     "@docsearch/react": "1.0.0-alpha.28",
-    "@docusaurus/core": "2.0.0-alpha.61",
-    "@docusaurus/preset-classic": "2.0.0-alpha.61",
+    "@docusaurus/core": "2.0.0-alpha.66",
+    "@docusaurus/preset-classic": "2.0.0-alpha.66",
     "classnames": "2.2.6",
-    "react": "16.13.0",
-    "react-dom": "16.13.0"
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
   },
   "browserslist": {
     "production": [

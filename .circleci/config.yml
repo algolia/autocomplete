@@ -1,34 +1,55 @@
+version: 2.1
+
 aliases:
   - &install_yarn_version
     name: Install specific Yarn version
     command: |
       curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.5
       echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> $BASH_ENV
-
   - &restore_yarn_cache
     name: Restore Yarn cache
     keys:
       - yarn-{{ .Branch }}-packages-{{ checksum "yarn.lock" }}
-
   - &save_yarn_cache
     name: Save Yarn cache
     key: yarn-{{ .Branch }}-packages-{{ checksum "yarn.lock" }}
     paths:
       - ~/.cache/yarn
-
   - &run_yarn_install
     name: Install dependencies
     command: yarn install
+  - &restore_dist_folders
+    name: Restore dist folders
+    command: |
+      set -exu
+
+      mkdir -p packages/autocomplete-shared/dist
+      mkdir -p packages/autocomplete-core/dist
+      mkdir -p packages/autocomplete-js/dist
+      mkdir -p packages/autocomplete-preset-algolia/dist
+      mkdir -p packages/autocomplete-plugin-recent-searches/dist
+      mkdir -p packages/autocomplete-plugin-query-suggestions/dist
+
+      cp -R /tmp/workspace/packages/autocomplete-shared/dist packages/autocomplete-shared
+      cp -R /tmp/workspace/packages/autocomplete-core/dist packages/autocomplete-core
+      cp -R /tmp/workspace/packages/autocomplete-js/dist packages/autocomplete-js
+      cp -R /tmp/workspace/packages/autocomplete-preset-algolia/dist packages/autocomplete-preset-algolia
+      cp -R /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist packages/autocomplete-plugin-recent-searches
+      cp -R /tmp/workspace/packages/autocomplete-plugin-query-suggestions/dist packages/autocomplete-plugin-query-suggestions
 
 defaults: &defaults
   working_directory: ~/autocomplete
   docker:
-    - image: circleci/node:12.14.1
+    - image: circleci/node:14.15.0
 
-version: 2.1
+references:
+  workspace_root: &workspace_root /tmp/workspace
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
 
 jobs:
-  test_build:
+  build:
     <<: *defaults
     steps:
       - checkout
@@ -37,46 +58,90 @@ jobs:
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
       - run:
-          name: Build & Test packages size
+          name: Build
+          command: yarn run build
+      - run:
+          name: Move dist folders to workspace
           command: |
-            yarn run build
-            yarn run test:size
+            set -exu
 
+            mkdir -p /tmp/workspace/packages/autocomplete-shared/dist
+            mkdir -p /tmp/workspace/packages/autocomplete-core/dist
+            mkdir -p /tmp/workspace/packages/autocomplete-js/dist
+            mkdir -p /tmp/workspace/packages/autocomplete-preset-algolia/dist
+            mkdir -p /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist
+            mkdir -p /tmp/workspace/packages/autocomplete-plugin-query-suggestions/dist
+
+            cp -R packages/autocomplete-shared/dist /tmp/workspace/packages/autocomplete-shared
+            cp -R packages/autocomplete-core/dist /tmp/workspace/packages/autocomplete-core
+            cp -R packages/autocomplete-js/dist /tmp/workspace/packages/autocomplete-js
+            cp -R packages/autocomplete-preset-algolia/dist /tmp/workspace/packages/autocomplete-preset-algolia
+            cp -R packages/autocomplete-plugin-recent-searches/dist /tmp/workspace/packages/autocomplete-plugin-recent-searches
+            cp -R packages/autocomplete-plugin-query-suggestions/dist /tmp/workspace/packages/autocomplete-plugin-query-suggestions
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - packages
   test_lint:
     <<: *defaults
     steps:
       - checkout
+      - *attach_workspace
+      - run: *install_yarn_version
+      - restore_cache: *restore_yarn_cache
+      - run: *run_yarn_install
+      - save_cache: *save_yarn_cache
+      - run: *restore_dist_folders
+      - run:
+          name: Linting
+          command: yarn run lint
+  test_types:
+    <<: *defaults
+    steps:
+      - checkout
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
       - run:
-          name: Lint & Code styles
-          command: yarn run lint
-      - run:
-          name: Type Checking
-          command: yarn test:types
-
+          name: Type checking
+          command: yarn run test:types
   test_unit:
     <<: *defaults
     steps:
       - checkout
+      - *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
+      - run: *restore_dist_folders
       - run:
           name: Unit tests
           command: yarn run test --maxWorkers=4
-
+  test_size:
+    <<: *defaults
+    steps:
+      - checkout
+      - *attach_workspace
+      - run: *install_yarn_version
+      - restore_cache: *restore_yarn_cache
+      - run: *run_yarn_install
+      - save_cache: *save_yarn_cache
+      - run: *restore_dist_folders
+      - run:
+          name: Test packages size
+          command: yarn run test:size
   release:
     <<: *defaults
     steps:
       - checkout
+      - *attach_workspace
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
+      - run: *restore_dist_folders
       - run:
           name: Release if needed
           command: yarn run shipjs trigger
@@ -85,19 +150,24 @@ workflows:
   version: 2.1
   ci:
     jobs:
-      - test_build:
-          filters:
-            branches:
-              only: next
-      - test_unit:
-          filters:
-            branches:
-              only: next
+      - build
       - test_lint:
-          filters:
-            branches:
-              only: next
+          requires:
+            - build
+      - test_types
+      - test_unit:
+          requires:
+            - build
+      - test_size:
+          requires:
+            - build
       - release:
+          requires:
+            - test_unit
+            - test_lint
+            - test_types
+            - test_size
+            - build
           filters:
             branches:
               only: next

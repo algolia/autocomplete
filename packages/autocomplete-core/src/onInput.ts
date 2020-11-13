@@ -1,22 +1,11 @@
-import { createConcurrentSafePromise } from './createConcurrentSafePromise';
 import {
   InternalAutocompleteOptions,
   AutocompleteSetters,
   AutocompleteState,
   AutocompleteStore,
   AutocompleteRefresh,
-  InternalAutocompleteSource,
 } from './types';
 import { getSelectedItem } from './utils';
-
-const runConcurrentSafePromiseForGetSources = (x) => x;
-//  createConcurrentSafePromise<
-//   Array<InternalAutocompleteSource<any>>
-// >();
-const runConcurrentSafePromiseForGetItems = (x) => x;
-//  createConcurrentSafePromise<
-//   ReturnType<InternalAutocompleteSource<any>['getItems']>
-// >();
 
 let lastStalledId: number | null = null;
 
@@ -30,7 +19,7 @@ interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {
    *
    * This is useful when we call `onInput` in a different scenario than an
    * actual input. For example, we use `onInput` when we click on an item,
-   * but we want to close the dropdown in that case.
+   * but we want to close the panel in that case.
    */
   nextState?: Partial<AutocompleteState<TItem>>;
   refresh: AutocompleteRefresh;
@@ -82,7 +71,7 @@ export function onInput<TItem>({
       }))
     );
     setIsOpen(
-      nextState.isOpen ?? props.shouldDropdownShow({ state: store.getState() })
+      nextState.isOpen ?? props.shouldPanelShow({ state: store.getState() })
     );
 
     return Promise.resolve();
@@ -94,8 +83,8 @@ export function onInput<TItem>({
     setStatus('stalled');
   }, props.stallThreshold);
 
-  return runConcurrentSafePromiseForGetSources(
-    props.getSources({
+  return props
+    .getSources({
       query,
       state: store.getState(),
       setSelectedItemId,
@@ -106,14 +95,13 @@ export function onInput<TItem>({
       setContext,
       refresh,
     })
-  ).then((sources) => {
-    setStatus('loading');
+    .then((sources) => {
+      setStatus('loading');
 
-    // @TODO: convert `Promise.all` to fetching strategy.
-    return Promise.all(
-      sources.map((source) => {
-        return runConcurrentSafePromiseForGetItems(
-          Promise.resolve(
+      // @TODO: convert `Promise.all` to fetching strategy.
+      return Promise.all(
+        sources.map((source) => {
+          return Promise.resolve(
             source.getItems({
               query,
               state: store.getState(),
@@ -125,56 +113,55 @@ export function onInput<TItem>({
               setContext,
               refresh,
             })
-          )
-        ).then((items) => {
-          return {
-            source,
-            items,
-          };
-        });
-      })
-    )
-      .then((collections) => {
-        setStatus('idle');
-        setCollections(collections);
-        setIsOpen(
-          nextState.isOpen ??
-            ((query.length === 0 && props.openOnFocus) ||
-              props.shouldDropdownShow({ state: store.getState() }))
-        );
-
-        const highlightedItem = getSelectedItem({
-          state: store.getState(),
-        });
-
-        if (store.getState().selectedItemId !== null && highlightedItem) {
-          const { item, itemInputValue, itemUrl, source } = highlightedItem;
-
-          source.onHighlight({
-            item,
-            itemInputValue,
-            itemUrl,
-            source,
-            state: store.getState(),
-            setSelectedItemId,
-            setQuery,
-            setCollections,
-            setIsOpen,
-            setStatus,
-            setContext,
-            event,
+          ).then((items) => {
+            return {
+              source,
+              items,
+            };
           });
-        }
-      })
-      .catch((error) => {
-        setStatus('error');
+        })
+      )
+        .then((collections) => {
+          setStatus('idle');
+          setCollections(collections);
+          setIsOpen(
+            nextState.isOpen ??
+              ((query.length === 0 && props.openOnFocus) ||
+                props.shouldPanelShow({ state: store.getState() }))
+          );
 
-        throw error;
-      })
-      .finally(() => {
-        if (lastStalledId) {
-          clearTimeout(lastStalledId);
-        }
-      });
-  });
+          const highlightedItem = getSelectedItem({
+            state: store.getState(),
+          });
+
+          if (store.getState().selectedItemId !== null && highlightedItem) {
+            const { item, itemInputValue, itemUrl, source } = highlightedItem;
+
+            source.onHighlight({
+              item,
+              itemInputValue,
+              itemUrl,
+              source,
+              state: store.getState(),
+              setSelectedItemId,
+              setQuery,
+              setCollections,
+              setIsOpen,
+              setStatus,
+              setContext,
+              event,
+            });
+          }
+        })
+        .catch((error) => {
+          setStatus('error');
+
+          throw error;
+        })
+        .finally(() => {
+          if (lastStalledId) {
+            clearTimeout(lastStalledId);
+          }
+        });
+    });
 }

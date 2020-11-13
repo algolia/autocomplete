@@ -1,7 +1,9 @@
+import { MaybePromise } from '@algolia/autocomplete-shared';
+
 import { AutocompleteAccessibilityGetters } from './getters';
+import { AutocompletePlugin } from './plugins';
 import { AutocompleteSetters } from './setters';
 import { AutocompleteState } from './state';
-import { MaybePromise } from './wrappers';
 
 export interface AutocompleteApi<
   TItem,
@@ -156,33 +158,12 @@ interface Navigator<TItem> {
   }): void;
 }
 
-export type AutocompletePlugin<TItem, TData> = {
-  /**
-   * The sources to get the suggestions from.
-   */
-  getSources?(
-    params: GetSourcesParams<TItem>
-  ): MaybePromise<Array<AutocompleteSource<TItem>>>;
-  /**
-   * The function called when the autocomplete form is submitted.
-   */
-  onSubmit?(params: OnSubmitParams<TItem>): void;
-  /**
-   * Function called when an item is selected.
-   */
-  onSelect?(params: OnSelectParams<TItem>): void;
-  /**
-   * An extra plugin specific object to store variables and functions
-   */
-  data?: TData;
-};
-
 export interface AutocompleteOptions<TItem> {
   /**
    * Whether to consider the experience in debug mode.
    *
    * The debug mode is useful when developing because it doesn't close
-   * the dropdown when the blur event occurs.
+   * the panel when the blur event occurs.
    *
    * @default false
    */
@@ -217,13 +198,7 @@ export interface AutocompleteOptions<TItem> {
    */
   defaultSelectedItemId?: number | null;
   /**
-   * Whether to show the highlighted suggestion as completion in the input.
-   *
-   * @default false
-   */
-  enableCompletion?: boolean;
-  /**
-   * Whether to open the dropdown on focus when there's no query.
+   * Whether to open the panel on focus when there's no query.
    *
    * @default false
    */
@@ -242,7 +217,7 @@ export interface AutocompleteOptions<TItem> {
   /**
    * The sources to get the suggestions from.
    */
-  getSources(
+  getSources?(
     params: GetSourcesParams<TItem>
   ): MaybePromise<Array<AutocompleteSource<TItem>>>;
   /**
@@ -258,9 +233,9 @@ export interface AutocompleteOptions<TItem> {
    */
   navigator?: Partial<Navigator<TItem>>;
   /**
-   * The function called to determine whether the dropdown should open.
+   * The function called to determine whether the panel should open.
    */
-  shouldDropdownShow?(params: { state: AutocompleteState<TItem> }): boolean;
+  shouldPanelShow?(params: { state: AutocompleteState<TItem> }): boolean;
   /**
    * The function called when the autocomplete form is submitted.
    */
@@ -290,7 +265,6 @@ export interface InternalAutocompleteOptions<TItem>
   placeholder: string;
   autoFocus: boolean;
   defaultSelectedItemId: number | null;
-  enableCompletion: boolean;
   openOnFocus: boolean;
   stallThreshold: number;
   initialState: AutocompleteState<TItem>;
@@ -298,7 +272,7 @@ export interface InternalAutocompleteOptions<TItem>
   environment: Environment;
   navigator: Navigator<TItem>;
   plugins: Array<AutocompletePlugin<TItem, unknown>>;
-  shouldDropdownShow(params: { state: AutocompleteState<TItem> }): boolean;
+  shouldPanelShow(params: { state: AutocompleteState<TItem> }): boolean;
   onSubmit(params: OnSubmitParams<TItem>): void;
   onInput?(params: OnInputParams<TItem>): void | Promise<any>;
 }

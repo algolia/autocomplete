@@ -1,8 +1,8 @@
+import { getNavigator } from './getNavigator';
 import { InternalAutocompleteOptions, AutocompleteOptions } from './types';
 import {
   generateAutocompleteId,
   getItemsCount,
-  noop,
   getNormalizedSources,
   flatten,
 } from './utils';
@@ -10,7 +10,9 @@ import {
 export function getDefaultProps<TItem>(
   props: AutocompleteOptions<TItem>
 ): InternalAutocompleteOptions<TItem> {
-  const environment: typeof window = (typeof window !== 'undefined'
+  const environment: InternalAutocompleteOptions<
+    unknown
+  >['environment'] = (typeof window !== 'undefined'
     ? window
     : {}) as typeof window;
   const plugins = props.plugins || [];
@@ -21,11 +23,9 @@ export function getDefaultProps<TItem>(
     placeholder: '',
     autoFocus: false,
     defaultSelectedItemId: null,
-    enableCompletion: false,
     stallThreshold: 300,
     environment,
-    shouldDropdownShow: ({ state }) => getItemsCount(state) > 0,
-    onStateChange: noop,
+    shouldPanelShow: ({ state }) => getItemsCount(state) > 0,
     ...props,
     // Since `generateAutocompleteId` triggers a side effect (it increments
     // and internal counter), we don't want to execute it if unnecessary.
@@ -38,61 +38,44 @@ export function getDefaultProps<TItem>(
       collections: [],
       isOpen: false,
       status: 'idle',
-      statusContext: {},
       context: {},
       ...props.initialState,
     },
-    onSubmit: (params) => {
-      if (props.onSubmit) {
-        props.onSubmit(params);
-      }
+    plugins,
+    onStateChange(params) {
+      props.onStateChange?.(params);
       plugins.forEach((plugin) => {
-        if (plugin.onSubmit) {
-          plugin.onSubmit(params);
-        }
+        plugin.onStateChange?.(params);
       });
     },
-    getSources: (options) => {
-      const getSourcesFromPlugins = plugins
-        .map((plugin) => plugin.getSources)
-        .filter((getSources) => getSources !== undefined);
-
+    onSubmit(params) {
+      props.onSubmit?.(params);
+      plugins.forEach((plugin) => {
+        plugin.onSubmit?.(params);
+      });
+    },
+    getSources(options) {
       return Promise.all(
-        [...getSourcesFromPlugins, props.getSources].map((getSources) =>
-          getNormalizedSources(getSources!, options)
-        )
+        [...plugins.map((plugin) => plugin.getSources), props.getSources]
+          .filter(Boolean)
+          .map((getSources) => getNormalizedSources(getSources!, options))
       )
         .then((nested) => flatten(nested))
         .then((sources) =>
           sources.map((source) => ({
             ...source,
-            onSelect: (params) => {
+            onSelect(params) {
               source.onSelect(params);
               plugins.forEach((plugin) => {
-                if (plugin.onSelect) {
-                  plugin.onSelect(params);
-                }
+                plugin.subscribed?.onSelect?.(params);
               });
             },
           }))
         );
     },
     navigator: {
-      navigate({ itemUrl }) {
-        environment.location.assign(itemUrl);
-      },
-      navigateNewTab({ itemUrl }) {
-        const windowReference = environment.open(itemUrl, '_blank', 'noopener');
-
-        if (windowReference) {
-          windowReference.focus();
-        }
-      },
-      navigateNewWindow({ itemUrl }) {
-        environment.open(itemUrl, '_blank', 'noopener');
-      },
+      ...getNavigator({ environment }),
       ...props.navigator,
     },
-    plugins,
   };
 }

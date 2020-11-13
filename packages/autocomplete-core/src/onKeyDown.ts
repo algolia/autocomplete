@@ -1,4 +1,3 @@
-import { getCompletion } from './getCompletion';
 import { onInput } from './onInput';
 import {
   InternalAutocompleteOptions,
@@ -68,39 +67,10 @@ export function onKeyDown<TItem>({
         event,
       });
     }
-  } else if (
-    (event.key === 'Tab' ||
-      // When the user hits the right arrow and is at the end of the input
-      // query, we validate the completion.
-      (event.key === 'ArrowRight' &&
-        (event.target as HTMLInputElement).selectionStart ===
-          store.getState().query.length)) &&
-    props.enableCompletion &&
-    store.getState().selectedItemId !== null
-  ) {
-    event.preventDefault();
-
-    const query = getCompletion({ state: store.getState(), props });
-
-    if (query) {
-      onInput({
-        query,
-        event,
-        store,
-        props,
-        setSelectedItemId,
-        setQuery,
-        setCollections,
-        setIsOpen,
-        setStatus,
-        setContext,
-        refresh,
-      });
-    }
   } else if (event.key === 'Escape') {
     // This prevents the default browser behavior on `input[type="search"]`
     // to remove the query right away because we first want to close the
-    // dropdown.
+    // panel.
     event.preventDefault();
 
     store.send(event.key, null);

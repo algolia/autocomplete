@@ -1,3 +1,4 @@
+import { getCompletion } from './getCompletion';
 import { Reducer } from './types';
 import { getItemsCount, getNextSelectedItemId } from './utils';
 
@@ -14,6 +15,7 @@ export const stateReducer: Reducer = (state, action) => {
       return {
         ...state,
         query: action.payload,
+        completion: null,
       };
     }
 
@@ -49,7 +51,7 @@ export const stateReducer: Reducer = (state, action) => {
     }
 
     case 'ArrowDown': {
-      return {
+      const nextState = {
         ...state,
         selectedItemId: getNextSelectedItemId(
           1,
@@ -58,10 +60,15 @@ export const stateReducer: Reducer = (state, action) => {
           action.props.defaultSelectedItemId
         ),
       };
+
+      return {
+        ...nextState,
+        completion: getCompletion({ state: nextState }),
+      };
     }
 
     case 'ArrowUp': {
-      return {
+      const nextState = {
         ...state,
         selectedItemId: getNextSelectedItemId(
           -1,
@@ -70,6 +77,11 @@ export const stateReducer: Reducer = (state, action) => {
           action.props.defaultSelectedItemId
         ),
       };
+
+      return {
+        ...nextState,
+        completion: getCompletion({ state: nextState }),
+      };
     }
 
     case 'Escape': {
@@ -77,6 +89,7 @@ export const stateReducer: Reducer = (state, action) => {
         return {
           ...state,
           isOpen: false,
+          completion: null,
         };
       }
 
@@ -84,7 +97,6 @@ export const stateReducer: Reducer = (state, action) => {
         ...state,
         query: '',
         status: 'idle',
-        statusContext: {},
         collections: [],
       };
     }
@@ -95,7 +107,6 @@ export const stateReducer: Reducer = (state, action) => {
         selectedItemId: null,
         isOpen: false,
         status: 'idle',
-        statusContext: {},
       };
     }
 
@@ -103,17 +114,16 @@ export const stateReducer: Reducer = (state, action) => {
       return {
         ...state,
         selectedItemId:
-          // Since we open the menu on reset when openOnFocus=true
+          // Since we open the panel on reset when openOnFocus=true
           // we need to restore the highlighted index to the defaultSelectedItemId. (DocSearch use-case)
 
-          // Since we close the menu when openOnFocus=false
+          // Since we close the panel when openOnFocus=false
           // we lose track of the highlighted index. (Query-suggestions use-case)
           action.props.openOnFocus === true
             ? action.props.defaultSelectedItemId
             : null,
-        isOpen: action.props.openOnFocus, // @TODO: Check with UX team if we want to close the menu on reset.
+        isOpen: action.props.openOnFocus, // @TODO: Check with UX team if we want to close the panel on reset.
         status: 'idle',
-        statusContext: {},
         query: '',
       };
     }

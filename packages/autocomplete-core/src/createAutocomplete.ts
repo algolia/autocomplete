@@ -1,4 +1,4 @@
-import { completionStateEnhancer } from './completionStateEnhancer';
+import { checkOptions } from './checkOptions';
 import { createStore } from './createStore';
 import { getAutocompleteSetters } from './getAutocompleteSetters';
 import { getDefaultProps } from './getDefaultProps';
@@ -15,8 +15,10 @@ export function createAutocomplete<
 >(
   options: AutocompleteOptions<TItem>
 ): AutocompleteApi<TItem, TEvent, TMouseEvent, TKeyboardEvent> {
+  checkOptions(options);
+
   const props = getDefaultProps(options);
-  const store = createStore(stateReducer, props, [completionStateEnhancer]);
+  const store = createStore(stateReducer, props);
 
   const {
     setSelectedItemId,
@@ -32,8 +34,8 @@ export function createAutocomplete<
     getFormProps,
     getLabelProps,
     getInputProps,
-    getDropdownProps,
-    getMenuProps,
+    getPanelProps,
+    getListProps,
     getItemProps,
   } = getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
     store,
@@ -78,8 +80,8 @@ export function createAutocomplete<
     getFormProps,
     getInputProps,
     getLabelProps,
-    getDropdownProps,
-    getMenuProps,
+    getPanelProps,
+    getListProps,
     getItemProps,
     refresh,
   };

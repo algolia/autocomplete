@@ -74,7 +74,6 @@ describe('concurrency', () => {
         "query": "ab",
         "selectedItemId": null,
         "status": "idle",
-        "statusContext": Object {},
       }
     `);
 

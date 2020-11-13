@@ -1,4 +1,4 @@
-/* eslint-disable import/no-commonjs */
+const wrapWarningWithDevCheck = require('./scripts/babel/wrap-warning-with-dev-check');
 
 module.exports = (api) => {
   const isTest = api.env('test');
@@ -23,47 +23,17 @@ module.exports = (api) => {
       ],
     ],
     plugins: clean([
-      '@babel/plugin-transform-react-jsx',
-      !isTest && [
+      wrapWarningWithDevCheck,
+      [
         'inline-replace-variables',
         {
           __DEV__: {
             type: 'node',
-            replacement: "process.env.NODE_ENV === 'development'",
+            replacement: "process.env.NODE_ENV !== 'production'",
           },
         },
       ],
     ]),
-    overrides: [
-      {
-        test: 'packages/autocomplete-core',
-        plugins: clean([
-          !isTest && [
-            'inline-replace-variables',
-            {
-              __DEV__: {
-                type: 'node',
-                replacement: "process.env.NODE_ENV === 'development'",
-              },
-            },
-          ],
-        ]),
-      },
-      {
-        test: 'packages/autocomplete-preset-algolia',
-        plugins: clean([
-          !isTest && [
-            'inline-replace-variables',
-            {
-              __DEV__: {
-                type: 'node',
-                replacement: "process.env.NODE_ENV === 'development'",
-              },
-            },
-          ],
-        ]),
-      },
-    ],
   };
 };
 

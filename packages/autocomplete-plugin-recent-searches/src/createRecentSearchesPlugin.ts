@@ -1,114 +1,116 @@
 import { AutocompletePlugin } from '@algolia/autocomplete-core';
+import { SourceTemplates } from '@algolia/autocomplete-js';
+import { MaybePromise, warn } from '@algolia/autocomplete-shared';
+import { SearchOptions } from '@algolia/client-search';
 
-import { createRecentSearchesStore } from './createRecentSearchesStore';
-import { recentIcon } from './recentIcon';
-import { resetIcon } from './resetIcon';
+import { createStore, RecentSearchesStorage } from './createStore';
+import {
+  getTemplates as defaultGetTemplates,
+  GetTemplatesParams,
+} from './getTemplates';
+import { RecentSearchesItem } from './types';
 
-type PluginOptions = {
-  /**
-   * The number of searches to store.
-   *
-   * @default 5
-   */
-  limit?: number;
-
-  /**
-   * The key to distinguish multiple stores of recent searches.
-   *
-   * @example
-   * // 'top_searchbar'
-   */
-  key: string;
+type Ref<TType> = {
+  current: TType;
 };
 
-type RecentSearchItem = {
-  objectID: string;
-  query: string;
+export type RecentSearchesPluginData = {
+  getAlgoliaSearchParams(params?: SearchOptions): SearchOptions;
 };
 
-type PluginData = {
-  getFacetFilters: () => string[];
+export type CreateRecentSearchesPluginParams<
+  TItem extends RecentSearchesItem
+> = {
+  storage: RecentSearchesStorage<TItem>;
+  getTemplates?(
+    params: GetTemplatesParams
+  ): SourceTemplates<TItem>['templates'];
 };
 
-export function createRecentSearchesPlugin({
-  key,
-  limit = 5,
-}: PluginOptions): AutocompletePlugin<RecentSearchItem, PluginData> {
-  const store = createRecentSearchesStore({
-    key: ['AUTOCOMPLETE_RECENT_SEARCHES', key].join('__'),
-    limit,
-  });
+export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
+  storage,
+  getTemplates = defaultGetTemplates,
+}: CreateRecentSearchesPluginParams<TItem>): AutocompletePlugin<
+  TItem,
+  RecentSearchesPluginData
+> {
+  const store = createStore<TItem>(storage);
+  const lastItemsRef: Ref<MaybePromise<TItem[]>> = { current: [] };
 
   return {
-    getSources: ({ query, refresh }) => {
-      if (query) {
-        return [];
-      }
+    subscribed: {
+      onSelect({ item, state, source }) {
+        const inputValue = source.getItemInputValue({ item, state });
 
-      return [
-        {
-          getItemInputValue: ({ item }) => item.query,
-          getItems() {
-            return store.getAll();
-          },
-          templates: {
-            item({ item, root }) {
-              const container = document.createElement('div');
-              container.className = 'aa-RecentSearchesItem';
-
-              const leftItems = document.createElement('div');
-              leftItems.className = 'leftItems';
-              const icon = document.createElement('div');
-              icon.className = 'item-icon icon';
-              icon.innerHTML = recentIcon;
-              const title = document.createElement('div');
-              title.className = 'title';
-              title.innerText = item.query;
-              leftItems.appendChild(icon);
-              leftItems.appendChild(title);
-
-              const removeButton = document.createElement('button');
-              removeButton.className = 'item-icon removeButton';
-              removeButton.type = 'button';
-              removeButton.innerHTML = resetIcon;
-              removeButton.title = 'Remove';
-
-              container.appendChild(leftItems);
-              container.appendChild(removeButton);
-              root.appendChild(container);
-
-              removeButton.addEventListener('click', (event) => {
-                event.stopPropagation();
-                store.remove(item);
-                refresh();
-              });
-            },
-          },
-        },
-      ];
+        if (inputValue) {
+          store.add({
+            id: inputValue,
+            query: inputValue,
+          } as TItem);
+        }
+      },
     },
-    onSubmit: ({ state }) => {
+    onSubmit({ state }) {
       const { query } = state;
+
       if (query) {
         store.add({
-          objectID: query,
+          id: query,
           query,
-        });
+        } as TItem);
       }
     },
-    onSelect: ({ item, state, source }) => {
-      const inputValue = source.getItemInputValue({ item, state });
-      const { objectID } = item as any;
-      if (inputValue) {
-        store.add({
-          objectID: objectID || inputValue,
-          query: inputValue,
-        });
-      }
+    getSources({ query, refresh }) {
+      lastItemsRef.current = store.getAll(query);
+
+      return Promise.resolve(lastItemsRef.current).then((items) => {
+        if (items.length === 0) {
+          return [];
+        }
+
+        return [
+          {
+            getItemInputValue({ item }) {
+              return item.query;
+            },
+            getItems() {
+              return items;
+            },
+            templates: getTemplates({
+              onRemove(id) {
+                store.remove(id);
+                refresh();
+              },
+            }),
+          },
+        ];
+      });
     },
     data: {
-      getFacetFilters: () => {
-        return store.getAll().map((item) => [`objectID:-${item.query}`]);
+      // @ts-ignore SearchOptions `facetFilters` is ReadonlyArray
+      getAlgoliaSearchParams(params = {}) {
+        // If the items returned by `store.getAll` are contained in a Promise,
+        // we cannot provide the search params in time when this function is called
+        // because we need to resolve the promise before getting the value.
+        if (!Array.isArray(lastItemsRef.current)) {
+          warn(
+            false,
+            'The `getAlgoliaQuerySuggestionsFacetFilters` function is not supported with storages that return promises in `getAll`.'
+          );
+          return params;
+        }
+
+        return {
+          ...params,
+          facetFilters: [
+            ...(params.facetFilters ?? []),
+            ...lastItemsRef.current.map((item) => [`objectID:-${item.query}`]),
+          ],
+          hitsPerPage: Math.max(
+            1,
+            (params.hitsPerPage ?? 10) - lastItemsRef.current.length
+          ),
+        };
       },
     },
   };

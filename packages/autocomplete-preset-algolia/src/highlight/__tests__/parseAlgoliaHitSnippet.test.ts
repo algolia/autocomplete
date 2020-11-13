@@ -1,4 +1,5 @@
-import { warnCache } from '../../utils';
+import { warnCache } from '@algolia/autocomplete-shared';
+
 import { parseAlgoliaHitSnippet } from '../parseAlgoliaHitSnippet';
 
 describe('parseAlgoliaHitSnippet', () => {
@@ -159,8 +160,8 @@ describe('parseAlgoliaHitSnippet', () => {
           },
         },
       });
-    }).toWarn(
-      'The attribute "_snippetResult.description.value" does not exist on the hit. Did you set it in `attributesToSnippet`?' +
+    }).toWarnDev(
+      '[Autocomplete] The attribute "_snippetResult.description.value" does not exist on the hit. Did you set it in `attributesToSnippet`?' +
         '\nSee https://www.algolia.com/doc/api-reference/api-parameters/attributesToSnippet/'
     );
   });

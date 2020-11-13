@@ -1,16 +1,24 @@
 {
   "files": [
     {
-      "path": "packages/autocomplete-core/dist/umd/index.js",
-      "maxSize": "4.25 kB"
+      "path": "packages/autocomplete-core/dist/umd/index.production.js",
+      "maxSize": "4.5 kB"
     },
     {
-      "path": "packages/autocomplete-preset-algolia/dist/umd/index.js",
+      "path": "packages/autocomplete-js/dist/umd/index.production.js",
+      "maxSize": "8 kB"
+    },
+    {
+      "path": "packages/autocomplete-preset-algolia/dist/umd/index.production.js",
       "maxSize": "1.5 kB"
     },
     {
-      "path": "packages/autocomplete-js/dist/umd/index.js",
-      "maxSize": "8 kB"
+      "path": "packages/autocomplete-plugin-recent-searches/dist/umd/index.production.js",
+      "maxSize": "3 kB"
+    },
+    {
+      "path": "packages/autocomplete-plugin-query-suggestions/dist/umd/index.production.js",
+      "maxSize": "2.25 kB"
     }
   ]
 }

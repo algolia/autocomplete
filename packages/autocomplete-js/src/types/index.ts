@@ -6,12 +6,13 @@ import {
   AutocompleteOptions as AutocompleteCoreOptions,
   AutocompleteSource as AutocompleteCoreSource,
 } from '@algolia/autocomplete-core';
+import { MaybePromise } from '@algolia/autocomplete-shared';
 
 type Template<TParams> = (params: TParams) => string | void;
 
-type SourceTemplates<TItem> = {
+export type SourceTemplates<TItem> = {
   /**
-   * Templates to display in the autocomplete dropdown.
+   * Templates to display in the autocomplete panel.
    *
    * A template can either return a string, or perform DOM mutations (manipulating DOM elements with JavaScript and attaching events) without returning a string.
    */
@@ -49,12 +50,9 @@ export type InternalAutocompleteSource<TItem> = InternalAutocompleteCoreSource<
 > &
   SourceTemplates<TItem>;
 
-// @TODO: reuse MaybePromise from autocomplete-core when we find a way to share the type
 type GetSources<TItem> = (
   params: GetSourcesParams<TItem>
-) =>
-  | Array<AutocompleteCoreSource<TItem>>
-  | Promise<Array<AutocompleteCoreSource<TItem>>>;
+) => MaybePromise<Array<AutocompleteCoreSource<TItem>>>;
 
 export interface AutocompleteOptions<TItem>
   extends AutocompleteCoreOptions<TItem> {
@@ -64,13 +62,13 @@ export interface AutocompleteOptions<TItem>
    * You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). The first element matching the provided selector will be used as container.
    */
   container: string | HTMLElement;
-  getSources: GetSources<TItem>;
+  getSources?: GetSources<TItem>;
   /**
-   * The dropdown horizontal position.
+   * The panel horizontal position.
    *
    * @default "input-wrapper-width"
    */
-  dropdownPlacement?: 'start' | 'end' | 'full-width' | 'input-wrapper-width';
+  panelPlacement?: 'start' | 'end' | 'full-width' | 'input-wrapper-width';
   /**
    * The class names to inject in each created DOM element.
    *
@@ -82,14 +80,13 @@ export interface AutocompleteOptions<TItem>
     label?: string;
     inputWrapper?: string;
     input?: string;
-    completion?: string;
     resetButton?: string;
-    dropdown?: string;
-    section?: string;
-    sectionHeader?: string;
-    menu?: string;
+    panel?: string;
+    source?: string;
+    sourceHeader?: string;
+    list?: string;
     item?: string;
-    sectionFooter?: string;
+    sourceFooter?: string;
   };
   /**
    * Function called to render the autocomplete results. It is useful for rendering sections in different row or column layouts.

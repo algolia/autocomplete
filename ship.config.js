@@ -1,19 +1,20 @@
-/* eslint-disable import/no-commonjs */
-
 const fs = require('fs');
 const path = require('path');
 
 const packages = [
+  'packages/autocomplete-shared',
   'packages/autocomplete-core',
-  'packages/autocomplete-preset-algolia',
   'packages/autocomplete-js',
+  'packages/autocomplete-preset-algolia',
   'packages/autocomplete-plugin-recent-searches',
+  'packages/autocomplete-plugin-query-suggestions',
 ];
 
 module.exports = {
   monorepo: {
     mainVersionFile: 'lerna.json',
-    packagesToBump: packages,
+    // We rely on Lerna to bump our dependencies.
+    packagesToBump: [],
     packagesToPublish: packages,
   },
   publishCommand({ tag }) {
@@ -26,16 +27,11 @@ module.exports = {
 
     // Update package dependencies
     exec(
-      `yarn workspace @algolia/autocomplete-js add "@algolia/autocomplete-core@^${version}" "@algolia/autocomplete-preset-algolia@^${version}"`
-    );
-    exec(
-      `yarn workspace @algolia/autocomplete-plugin-recent-searches add --peer "@algolia/autocomplete-core@^${version}"`
-    );
-    exec(
-      `yarn workspace @algolia/js-example add "@algolia/autocomplete-js@^${version}"`
+      `yarn lerna version ${version} --exact --no-git-tag-version --no-push --yes`
     );
 
-    updatePackagesVersion({
+    // Update version files
+    updatePackagesVersionFile({
       version,
       files: [
         path.resolve(dir, 'packages', 'autocomplete-core', 'src', 'version.ts'),
@@ -50,7 +46,7 @@ module.exports = {
     });
   },
   // Skip preparation if it contains only `chore` commits
-  shouldPrepare: ({ releaseType, commitNumbersPerType }) => {
+  shouldPrepare({ releaseType, commitNumbersPerType }) {
     const { fix = 0 } = commitNumbersPerType;
 
     if (releaseType === 'patch' && fix === 0) {
@@ -61,7 +57,7 @@ module.exports = {
   },
 };
 
-function updatePackagesVersion({ version, files }) {
+function updatePackagesVersionFile({ version, files }) {
   for (const file of files) {
     fs.writeFileSync(file, `export const version = '${version}';\n`);
   }
