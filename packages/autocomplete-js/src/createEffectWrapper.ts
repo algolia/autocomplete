@@ -1,13 +1,13 @@
 type Effect = () => void;
 type EffectWrapper = {
-  effects: Effect[];
-  triggerEffect(fn: () => Effect): void;
+  runEffect(fn: () => Effect): void;
+  cleanEffects(): void;
 };
 
 export function createEffectWrapper(): EffectWrapper {
   let effects: Effect[] = [];
 
-  const triggerEffect: EffectWrapper['triggerEffect'] = (fn: () => Effect) => {
+  const runEffect: EffectWrapper['runEffect'] = (fn: () => Effect) => {
     const unsubscribe = fn();
 
     function cleanUp() {
@@ -18,8 +18,12 @@ export function createEffectWrapper(): EffectWrapper {
     effects.push(cleanUp);
   };
 
+  function cleanEffects() {
+    effects.forEach((cleanUp) => cleanUp());
+  }
+
   return {
-    effects,
-    triggerEffect,
+    runEffect,
+    cleanEffects,
   };
 }

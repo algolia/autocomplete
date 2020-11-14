@@ -9,7 +9,6 @@ type CreateDomProps<TItem> = AutocompleteCoreApi<TItem> & {
 };
 
 export function createAutocompleteDom<TItem>({
-  getEnvironmentProps,
   getRootProps,
   getFormProps,
   getLabelProps,
@@ -25,14 +24,6 @@ export function createAutocompleteDom<TItem>({
   const resetButton = document.createElement('button');
   const panel = document.createElement('div');
 
-  setProperties(
-    window as any,
-    getEnvironmentProps({
-      searchBoxElement: form,
-      panelElement: panel,
-      inputElement: input,
-    })
-  );
   setProperties(root, {
     ...getRootProps(),
     class: concatClassNames(['aa-Autocomplete', classNames.root]),

@@ -23,7 +23,7 @@ export function autocomplete<TItem>({
   classNames = {},
   ...props
 }: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
-  const { effects, triggerEffect } = createEffectWrapper();
+  const { runEffect, cleanEffects } = createEffectWrapper();
   const autocomplete = createAutocomplete<TItem>({
     ...props,
     onStateChange(options) {
@@ -74,15 +74,33 @@ export function autocomplete<TItem>({
     });
   }
 
-  function destroy() {
-    effects.forEach((cleanUp) => cleanUp());
-  }
-
   requestAnimationFrame(() => {
     setPanelPosition();
   });
 
-  triggerEffect(() => {
+  runEffect(() => {
+    const environmentProps = autocomplete.getEnvironmentProps({
+      searchBoxElement: form,
+      panelElement: panel,
+      inputElement: input,
+    });
+
+    setProperties(window as any, environmentProps);
+
+    return () => {
+      setProperties(
+        window as any,
+        Object.keys(environmentProps).reduce((acc, key) => {
+          return {
+            ...acc,
+            [key]: undefined,
+          };
+        }, {})
+      );
+    };
+  });
+
+  runEffect(() => {
     const containerElement = getHTMLElement(container);
     containerElement.appendChild(root);
 
@@ -91,7 +109,7 @@ export function autocomplete<TItem>({
     };
   });
 
-  triggerEffect(() => {
+  runEffect(() => {
     const onResize = debounce(() => {
       setPanelPosition();
     }, 100);
@@ -111,6 +129,6 @@ export function autocomplete<TItem>({
     setStatus: autocomplete.setStatus,
     setContext: autocomplete.setContext,
     refresh: autocomplete.refresh,
-    destroy,
+    destroy: cleanEffects,
   };
 }
