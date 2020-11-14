@@ -111,7 +111,6 @@ describe('autocomplete-js', () => {
           <div
             class="aa-Panel"
             hidden=""
-            style="top: 0px; left: 0px; right: 0px; max-width: unset;"
           />
         </div>
       </div>

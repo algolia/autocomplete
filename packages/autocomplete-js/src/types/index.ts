@@ -54,6 +54,37 @@ type GetSources<TItem> = (
   params: GetSourcesParams<TItem>
 ) => MaybePromise<Array<AutocompleteCoreSource<TItem>>>;
 
+export type AutocompleteClassNames = Partial<{
+  root: string;
+  form: string;
+  label: string;
+  inputWrapper: string;
+  input: string;
+  resetButton: string;
+  panel: string;
+  source: string;
+  sourceHeader: string;
+  list: string;
+  item: string;
+  sourceFooter: string;
+}>;
+
+export type AutocompleteDom = {
+  inputWrapper: HTMLDivElement;
+  input: HTMLInputElement;
+  root: HTMLDivElement;
+  form: HTMLFormElement;
+  label: HTMLLabelElement;
+  resetButton: HTMLButtonElement;
+  panel: HTMLDivElement;
+};
+
+export type AutocompleteRenderer<TItem> = (params: {
+  root: HTMLElement;
+  sections: HTMLElement[];
+  state: AutocompleteCoreState<TItem>;
+}) => void;
+
 export interface AutocompleteOptions<TItem>
   extends AutocompleteCoreOptions<TItem> {
   /**
@@ -74,20 +105,7 @@ export interface AutocompleteOptions<TItem>
    *
    * It it useful to design with external CSS frameworks.
    */
-  classNames?: {
-    root?: string;
-    form?: string;
-    label?: string;
-    inputWrapper?: string;
-    input?: string;
-    resetButton?: string;
-    panel?: string;
-    source?: string;
-    sourceHeader?: string;
-    list?: string;
-    item?: string;
-    sourceFooter?: string;
-  };
+  classNames?: AutocompleteClassNames;
   /**
    * Function called to render the autocomplete results. It is useful for rendering sections in different row or column layouts.
    * The default implementation appends all the sections to the root:
@@ -103,11 +121,7 @@ export interface AutocompleteOptions<TItem>
    * });
    * ```
    */
-  render?(params: {
-    root: HTMLElement;
-    sections: HTMLElement[];
-    state: AutocompleteCoreState<TItem>;
-  }): void;
+  render?: AutocompleteRenderer<TItem>;
 }
 
 export interface AutocompleteApi<TItem> extends AutocompleteCoreSetters<TItem> {

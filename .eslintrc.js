@@ -50,7 +50,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['packages/autocomplete-js/src/setProperties.ts'],
+      files: ['packages/autocomplete-js/**/*/setProperties.ts'],
       rules: {
         'eslint-comments/no-unlimited-disable': 'off',
       },
