@@ -7,23 +7,21 @@ type EffectWrapper = {
 export function createEffectWrapper(): EffectWrapper {
   let effects: Effect[] = [];
 
-  const runEffect: EffectWrapper['runEffect'] = (fn: () => Effect) => {
-    const unsubscribe = fn();
-
-    function cleanUp() {
-      unsubscribe();
-      effects = effects.filter((x) => x !== unsubscribe);
-    }
-
-    effects.push(cleanUp);
-  };
-
-  function cleanEffects() {
-    effects.forEach((cleanUp) => cleanUp());
-  }
-
   return {
-    runEffect,
-    cleanEffects,
+    runEffect(fn) {
+      const cleanupEffect = fn();
+
+      function cleanup() {
+        cleanupEffect();
+        effects = effects.filter((x) => x !== cleanupEffect);
+      }
+
+      effects.push(cleanup);
+    },
+    cleanEffects() {
+      effects.forEach((cleanup) => {
+        cleanup();
+      });
+    },
   };
 }
