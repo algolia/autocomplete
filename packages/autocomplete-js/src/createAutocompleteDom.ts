@@ -1,8 +1,15 @@
 import { AutocompleteApi as AutocompleteCoreApi } from '@algolia/autocomplete-core';
 
-import { resetIcon, searchIcon } from './icons';
+import {
+  Form,
+  Input,
+  InputWrapper,
+  Label,
+  Panel,
+  ResetButton,
+  Root,
+} from './components';
 import { AutocompleteClassNames, AutocompleteDom } from './types';
-import { concatClassNames, setProperties } from './utils';
 
 type CreateDomProps<TItem> = AutocompleteCoreApi<TItem> & {
   classNames: AutocompleteClassNames;
@@ -16,46 +23,13 @@ export function createAutocompleteDom<TItem>({
   getPanelProps,
   classNames,
 }: CreateDomProps<TItem>): AutocompleteDom {
-  const inputWrapper = document.createElement('div');
-  const input = document.createElement('input');
-  const root = document.createElement('div');
-  const form = document.createElement('form');
-  const label = document.createElement('label');
-  const resetButton = document.createElement('button');
-  const panel = document.createElement('div');
-
-  setProperties(root, {
-    ...getRootProps(),
-    class: concatClassNames(['aa-Autocomplete', classNames.root]),
-  });
-  const formProps = getFormProps({ inputElement: input });
-  setProperties(form, {
-    ...formProps,
-    class: concatClassNames(['aa-Form', classNames.form]),
-  });
-  setProperties(inputWrapper, {
-    class: concatClassNames(['aa-InputWrapper', classNames.inputWrapper]),
-  });
-  setProperties(label, {
-    ...getLabelProps(),
-    class: concatClassNames(['aa-Label', classNames.label]),
-    innerHTML: searchIcon,
-  });
-  setProperties(input, {
-    ...getInputProps({ inputElement: input }),
-    class: concatClassNames(['aa-Input', classNames.input]),
-  });
-  setProperties(resetButton, {
-    type: 'reset',
-    onClick: formProps.onReset,
-    class: concatClassNames(['aa-ResetButton', classNames.resetButton]),
-    innerHTML: resetIcon,
-  });
-  setProperties(panel, {
-    ...getPanelProps(),
-    hidden: true,
-    class: concatClassNames(['aa-Panel', classNames.panel]),
-  });
+  const root = Root({ classNames, ...getRootProps({}) });
+  const inputWrapper = InputWrapper({ classNames });
+  const label = Label({ classNames, ...getLabelProps({}) });
+  const input = Input({ classNames, getInputProps });
+  const resetButton = ResetButton({ classNames });
+  const form = Form({ classNames, ...getFormProps({ inputElement: input }) });
+  const panel = Panel({ classNames, ...getPanelProps({}) });
 
   inputWrapper.appendChild(input);
   inputWrapper.appendChild(label);

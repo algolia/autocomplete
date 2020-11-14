@@ -129,6 +129,8 @@ export function autocomplete<TItem>({
     setStatus: autocomplete.setStatus,
     setContext: autocomplete.setContext,
     refresh: autocomplete.refresh,
-    destroy: cleanEffects,
+    destroy() {
+      cleanEffects();
+    },
   };
 }

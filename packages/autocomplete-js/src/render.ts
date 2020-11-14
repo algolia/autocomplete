@@ -3,6 +3,13 @@ import {
   AutocompleteApi as AutocompleteCoreApi,
 } from '@algolia/autocomplete-core';
 
+import {
+  SourceContainer,
+  SourceFooter,
+  SourceHeader,
+  SourceItem,
+  SourceList,
+} from './components';
 import { renderTemplate } from './renderTemplate';
 import {
   AutocompleteClassNames,
@@ -10,11 +17,7 @@ import {
   AutocompleteRenderer,
   InternalAutocompleteSource,
 } from './types';
-import {
-  concatClassNames,
-  setProperties,
-  setPropertiesWithoutEvents,
-} from './utils';
+import { setProperties, setPropertiesWithoutEvents } from './utils';
 
 type RenderProps<TItem> = {
   state: AutocompleteCoreState<TItem>;
@@ -41,16 +44,12 @@ export function render<TItem>(
 
   panel.innerHTML = '';
 
-  if (state.isOpen) {
-    setProperties(panel, {
-      hidden: false,
-    });
-  } else {
-    setProperties(panel, {
-      hidden: true,
-    });
+  if (!state.isOpen) {
+    setProperties(panel, { hidden: true });
     return;
   }
+
+  setProperties(panel, { hidden: false });
 
   if (state.status === 'stalled') {
     panel.classList.add('aa-Panel--stalled');
@@ -62,55 +61,55 @@ export function render<TItem>(
     const items = collection.items;
     const source = collection.source as InternalAutocompleteSource<TItem>;
 
-    const section = document.createElement('section');
-    setProperties(section, {
-      class: concatClassNames(['aa-Source', classNames.source]),
-    });
+    const sectionElement = SourceContainer({ classNames });
 
     if (source.templates.header) {
-      const header = document.createElement('div');
-      setProperties(header, {
-        class: concatClassNames(['aa-SourceHeader', classNames.sourceHeader]),
+      const headerElement = SourceHeader({ classNames });
+
+      renderTemplate({
+        template: source.templates.header({ root: headerElement, state }),
+        parent: sectionElement,
+        element: headerElement,
       });
-      renderTemplate(source.templates.header({ root: header, state }), header);
-      section.appendChild(header);
     }
 
     if (items.length > 0) {
-      const list = document.createElement('ul');
-      setProperties(list, {
+      const listElement = SourceList({
+        classNames,
         ...getListProps(),
-        class: concatClassNames(['aa-List', classNames.list]),
       });
+      const listFragment = document.createDocumentFragment();
 
-      const listItems = items.map((item) => {
-        const li = document.createElement('li');
-        setProperties(li, {
+      items.forEach((item) => {
+        const itemElement = SourceItem({
+          classNames,
           ...getItemProps({ item, source }),
-          class: concatClassNames(['aa-Item', classNames.item]),
         });
-        renderTemplate(source.templates.item({ root: li, item, state }), li);
 
-        return li;
+        renderTemplate({
+          template: source.templates.item({ root: itemElement, item, state }),
+          parent: listFragment,
+          element: itemElement,
+        });
       });
 
-      for (const listItem of listItems) {
-        list.appendChild(listItem);
-      }
-
-      section.appendChild(list);
+      listElement.appendChild(listFragment);
+      sectionElement.appendChild(listElement);
     }
 
     if (source.templates.footer) {
-      const footer = document.createElement('div');
-      setProperties(footer, {
-        class: concatClassNames(['aa-SourceFooter', classNames.sourceFooter]),
+      const footerElement = SourceFooter({
+        classNames,
       });
-      renderTemplate(source.templates.footer({ root: footer, state }), footer);
-      section.appendChild(footer);
+
+      renderTemplate({
+        template: source.templates.footer({ root: footerElement, state }),
+        parent: sectionElement,
+        element: footerElement,
+      });
     }
 
-    return section;
+    return sectionElement;
   });
 
   renderer({ root: panel, sections, state });

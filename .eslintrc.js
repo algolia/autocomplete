@@ -22,6 +22,7 @@ module.exports = {
     'jest/no-disabled-tests': 0,
     'react/prop-types': 0,
     'react/no-unescaped-entities': 0,
+    'new-cap': 0,
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'import/extensions': 0,
     '@typescript-eslint/camelcase': ['error', { allow: ['__autocomplete_id'] }],
