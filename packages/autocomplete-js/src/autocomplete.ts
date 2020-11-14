@@ -23,7 +23,7 @@ export function autocomplete<TItem>({
   classNames = {},
   ...props
 }: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
-  const { runEffect, cleanEffects } = createEffectWrapper();
+  const { runEffect, cleanupEffects } = createEffectWrapper();
   const autocomplete = createAutocomplete<TItem>({
     ...props,
     onStateChange(options) {
@@ -130,7 +130,7 @@ export function autocomplete<TItem>({
     setContext: autocomplete.setContext,
     refresh: autocomplete.refresh,
     destroy() {
-      cleanEffects();
+      cleanupEffects();
     },
   };
 }

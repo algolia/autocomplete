@@ -1,7 +1,7 @@
 type Effect = () => void;
 type EffectWrapper = {
   runEffect(fn: () => Effect): void;
-  cleanEffects(): void;
+  cleanupEffects(): void;
 };
 
 export function createEffectWrapper(): EffectWrapper {
@@ -18,7 +18,7 @@ export function createEffectWrapper(): EffectWrapper {
 
       effects.push(cleanup);
     },
-    cleanEffects() {
+    cleanupEffects() {
       effects.forEach((cleanup) => {
         cleanup();
       });
