@@ -22,7 +22,9 @@ You should be using Autocomplete if you want to:
 | --- | --- | --- |
 | [`autocomplete-core`](packages/autocomplete-core) | Core primitives to build an Autocomplete experience | [Documentation](https://algolia-autocomplete.netlify.app/docs/createAutocomplete) |
 | [`autocomplete-js`](packages/autocomplete-js) | JavaScript package for Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/autocomplete-js) |
-| [`autocomplete-preset-algolia`](packages/autocomplete-preset-algolia) | Presets to use Algolia features with Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/highlightAlgoliaHit) |
+| [`autocomplete-preset-algolia`](packages/autocomplete-preset-algolia) | Presets to use Algolia features with Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/getAlgoliaHits) |
+| [`autocomplete-plugin-recent-searches`](packages/autocomplete-plugin-recent-searches) | A plugin to add recent searches to Algolia Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/createLocalStorageRecentSearchesPlugin) |
+| [`autocomplete-plugin-query-suggestions`](packages/autocomplete-plugin-query-suggestions) | A plugin to add query suggestions to Algolia Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/createQuerySuggestionsPlugin) |
 
 ## License
 
