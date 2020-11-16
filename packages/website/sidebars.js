@@ -12,6 +12,7 @@ module.exports = {
       'layout',
       'prop-getters',
       'controlled-mode',
+      'plugins',
       'more-resources',
     ],
     Workflow: ['debugging', 'upgrading'],
