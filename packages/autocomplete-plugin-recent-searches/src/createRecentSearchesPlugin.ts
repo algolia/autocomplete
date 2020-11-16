@@ -22,9 +22,7 @@ export type CreateRecentSearchesPluginParams<
   TItem extends RecentSearchesItem
 > = {
   storage: RecentSearchesStorage<TItem>;
-  getTemplates?(
-    params: GetTemplatesParams
-  ): SourceTemplates<TItem>['templates'];
+  getTemplates?(params: GetTemplatesParams): SourceTemplates<TItem>;
 };
 
 export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({

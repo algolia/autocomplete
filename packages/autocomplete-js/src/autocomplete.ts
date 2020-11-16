@@ -1,13 +1,14 @@
-import {
-  createAutocomplete,
-  AutocompleteState,
-} from '@algolia/autocomplete-core';
+import { createAutocomplete } from '@algolia/autocomplete-core';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
 import { createEffectWrapper } from './createEffectWrapper';
 import { getPanelPositionStyle } from './getPanelPositionStyle';
 import { render } from './render';
-import { AutocompleteApi, AutocompleteOptions } from './types';
+import {
+  AutocompleteApi,
+  AutocompleteOptions,
+  AutocompleteState,
+} from './types';
 import { debounce, getHTMLElement, setProperties } from './utils';
 
 function defaultRenderer({ root, sections }) {
@@ -27,7 +28,7 @@ export function autocomplete<TItem>({
   const autocomplete = createAutocomplete<TItem>({
     ...props,
     onStateChange(options) {
-      onStateChange(options.state as any);
+      onStateChange(options.state);
 
       if (props.onStateChange) {
         props.onStateChange(options);

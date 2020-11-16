@@ -1,7 +1,4 @@
-import {
-  AutocompleteState as AutocompleteCoreState,
-  AutocompleteApi as AutocompleteCoreApi,
-} from '@algolia/autocomplete-core';
+import { AutocompleteApi as AutocompleteCoreApi } from '@algolia/autocomplete-core';
 
 import {
   SourceContainer,
@@ -15,12 +12,12 @@ import {
   AutocompleteClassNames,
   AutocompleteDom,
   AutocompleteRenderer,
-  InternalAutocompleteSource,
+  AutocompleteState,
 } from './types';
 import { setProperties, setPropertiesWithoutEvents } from './utils';
 
 type RenderProps<TItem> = {
-  state: AutocompleteCoreState<TItem>;
+  state: AutocompleteState<TItem>;
   classNames: AutocompleteClassNames;
 } & AutocompleteCoreApi<TItem> &
   AutocompleteDom;
@@ -57,10 +54,7 @@ export function render<TItem>(
     panel.classList.remove('aa-Panel--stalled');
   }
 
-  const sections = state.collections.map((collection) => {
-    const items = collection.items;
-    const source = collection.source as InternalAutocompleteSource<TItem>;
-
+  const sections = state.collections.map(({ source, items }) => {
     const sectionElement = SourceContainer({ classNames });
 
     if (source.templates.header) {

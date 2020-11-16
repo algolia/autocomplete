@@ -1,54 +1,69 @@
 import {
-  GetSourcesParams,
-  AutocompleteSetters as AutocompleteCoreSetters,
-  InternalAutocompleteSource as InternalAutocompleteCoreSource,
-  AutocompleteState as AutocompleteCoreState,
   AutocompleteOptions as AutocompleteCoreOptions,
+  AutocompleteSetters as AutocompleteCoreSetters,
   AutocompleteSource as AutocompleteCoreSource,
+  AutocompleteState as AutocompleteCoreState,
+  GetSourcesParams,
+  InternalAutocompleteSource as InternalAutocompleteCoreSource,
 } from '@algolia/autocomplete-core';
 import { MaybePromise } from '@algolia/autocomplete-shared';
 
 type Template<TParams> = (params: TParams) => string | void;
 
+/**
+ * Templates to display in the autocomplete panel.
+ *
+ * A template can either return a string, or perform DOM mutations (manipulating DOM elements with JavaScript and attaching events) without returning a string.
+ */
 export type SourceTemplates<TItem> = {
   /**
-   * Templates to display in the autocomplete panel.
-   *
-   * A template can either return a string, or perform DOM mutations (manipulating DOM elements with JavaScript and attaching events) without returning a string.
+   * The template for the suggestion item.
    */
-  templates: {
-    /**
-     * The template for the suggestion item.
-     */
-    item: Template<{
-      root: HTMLElement;
-      item: TItem;
-      state: AutocompleteCoreState<TItem>;
-    }>;
-    /**
-     * The template for the section header.
-     */
-    header?: Template<{
-      root: HTMLElement;
-      state: AutocompleteCoreState<TItem>;
-    }>;
-    /**
-     * The template for the section footer.
-     */
-    footer?: Template<{
-      root: HTMLElement;
-      state: AutocompleteCoreState<TItem>;
-    }>;
-  };
+  item: Template<{
+    root: HTMLElement;
+    item: TItem;
+    state: AutocompleteState<TItem>;
+  }>;
+  /**
+   * The template for the section header.
+   */
+  header?: Template<{
+    root: HTMLElement;
+    state: AutocompleteState<TItem>;
+  }>;
+  /**
+   * The template for the section footer.
+   */
+  footer?: Template<{
+    root: HTMLElement;
+    state: AutocompleteState<TItem>;
+  }>;
 };
 
-export type AutocompleteSource<TItem> = AutocompleteCoreSource<TItem> &
-  SourceTemplates<TItem>;
+type WithTemplates<TType, TItem> = TType & {
+  templates: SourceTemplates<TItem>;
+};
 
-export type InternalAutocompleteSource<TItem> = InternalAutocompleteCoreSource<
+export type AutocompleteSource<TItem> = WithTemplates<
+  AutocompleteCoreSource<TItem>,
   TItem
-> &
-  SourceTemplates<TItem>;
+>;
+export type InternalAutocompleteSource<TItem> = WithTemplates<
+  InternalAutocompleteCoreSource<TItem>,
+  TItem
+>;
+
+interface AutocompleteCollection<TItem> {
+  source: InternalAutocompleteSource<TItem>;
+  items: TItem[];
+}
+
+export type AutocompleteState<TItem> = Omit<
+  AutocompleteCoreState<TItem>,
+  'collections'
+> & {
+  collections: Array<AutocompleteCollection<TItem>>;
+};
 
 export type AutocompleteClassNames = Partial<{
   root: string;
@@ -78,7 +93,7 @@ export type AutocompleteDom = {
 export type AutocompleteRenderer<TItem> = (params: {
   root: HTMLElement;
   sections: HTMLElement[];
-  state: AutocompleteCoreState<TItem>;
+  state: AutocompleteState<TItem>;
 }) => void;
 
 export interface AutocompleteOptions<TItem>

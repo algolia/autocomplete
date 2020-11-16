@@ -9,7 +9,7 @@ export type GetTemplatesParams<TItem extends QuerySuggestionsHit> = {
 
 export function getTemplates<TItem extends QuerySuggestionsHit>({
   onTapAhead,
-}: GetTemplatesParams<TItem>): SourceTemplates<TItem>['templates'] {
+}: GetTemplatesParams<TItem>): SourceTemplates<TItem> {
   return {
     item({ item, root }) {
       const content = document.createElement('div');

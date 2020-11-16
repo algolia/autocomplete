@@ -9,7 +9,7 @@ export type GetTemplatesParams = {
 
 export function getTemplates<TItem extends RecentSearchesItem>({
   onRemove,
-}: GetTemplatesParams): SourceTemplates<TItem>['templates'] {
+}: GetTemplatesParams): SourceTemplates<TItem> {
   return {
     item({ item, root }) {
       const content = document.createElement('div');
