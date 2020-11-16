@@ -26,6 +26,7 @@ module.exports = {
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'import/extensions': 0,
     '@typescript-eslint/camelcase': ['error', { allow: ['__autocomplete_id'] }],
+    '@typescript-eslint/no-use-before-define': 0,
     // Useful to call functions like `nodeItem?.scrollIntoView()`.
     'no-unused-expressions': 0,
     complexity: 0,

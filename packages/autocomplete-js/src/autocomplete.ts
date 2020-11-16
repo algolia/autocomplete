@@ -48,7 +48,14 @@ export function autocomplete<TItem>({
     classNames,
   });
 
-  function onStateChange(state: AutocompleteState<TItem>) {
+  // This batches state changes to limit DOM mutations.
+  // Every time we call a setter in `autocomplete-core` (e.g., in `onInput`),
+  // the core `onStateChange` function is called.
+  // We don't need to be notified of all these state changes to render.
+  // As an example:
+  //  - without debouncing: "iphone case" query → 85 renders
+  //  - with debouncing: "iphone case" query → 12 renders
+  const onStateChange = debounce((state: AutocompleteState<TItem>) => {
     render(renderer, {
       state,
       ...autocomplete,
@@ -61,7 +68,7 @@ export function autocomplete<TItem>({
       panel,
       resetButton,
     });
-  }
+  }, 0);
 
   function setPanelPosition() {
     setProperties(panel, {
