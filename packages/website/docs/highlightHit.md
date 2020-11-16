@@ -4,7 +4,7 @@ id: highlightHit
 
 Returns a string with highlighted and escaped matching parts of an Algolia hit.
 
-# Example
+## Example
 
 ```js
 import { highlightHit } from '@algolia/autocomplete-js';
@@ -15,8 +15,6 @@ const highlightedValue = highlightHit({
   attribute: 'query',
 });
 ```
-
-# Reference
 
 ## Params
 

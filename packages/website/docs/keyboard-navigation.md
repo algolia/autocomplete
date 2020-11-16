@@ -16,7 +16,7 @@ This API defines how a URL should be opened with different key modifiers:
 To activate keyboard navigation, use [`getItemUrl`](createAutocomplete#getitemurl) in your source to provide the value to process as a URL. This indicates the navigator API which links to open on <kbd>Enter</kbd>.
 :::
 
-# Example
+## Example
 
 ```js {6-8}
 const autocomplete = createAutocomplete({
@@ -65,8 +65,6 @@ const autocomplete = createAutocomplete({
   },
 });
 ```
-
-# Reference
 
 ## Params
 

@@ -4,7 +4,7 @@ id: reverseHighlightHit
 
 Returns a string with highlighted and escaped non-matching parts of an Algolia hit.
 
-# Example
+## Example
 
 ```js
 import { reverseHighlightHit } from '@algolia/autocomplete-js';
@@ -15,8 +15,6 @@ const highlightedValue = reverseHighlightHit({
   attribute: 'query',
 });
 ```
-
-# Reference
 
 ## Params
 

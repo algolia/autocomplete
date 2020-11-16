@@ -28,7 +28,7 @@ getAlgoliaHits({
 });
 ```
 
-## Options
+## Params
 
 ### `searchClient`
 

@@ -4,7 +4,7 @@ id: reverseSnippetHit
 
 Returns a string with highlighted and escaped non-matching parts of an Algolia hit snippet.
 
-# Example
+## Example
 
 ```js
 import { reverseSnippetHit } from '@algolia/autocomplete-js';
@@ -15,8 +15,6 @@ const reverseSnippetedValue = reverseSnippetHit({
   attribute: 'query',
 });
 ```
-
-# Reference
 
 ## Params
 

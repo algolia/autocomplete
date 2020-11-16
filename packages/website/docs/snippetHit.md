@@ -4,7 +4,7 @@ id: snippetHit
 
 Returns a string with highlighted and escaped matching parts of an Algolia hit snippet.
 
-# Example
+## Example
 
 ```js
 import { snippetHit } from '@algolia/autocomplete-js';
@@ -15,8 +15,6 @@ const snippetedValue = snippetHit({
   attribute: 'query',
 });
 ```
-
-# Reference
 
 ## Params
 
