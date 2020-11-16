@@ -16,22 +16,4 @@ Autocomplete is a JavaScript library for **building autocomplete search experien
 - Triggers custom hooks to plug your logic
 - Plugs easily to Algolia's realtime search engine
 
-## Installation
-
-Autocomplete is available on the [npm](https://www.npmjs.com/) registry.
-
-```sh
-yarn add @algolia/autocomplete-core@alpha
-# or
-npm install @algolia/autocomplete-core@alpha
-```
-
-If you do not wish to use a package manager, you can use standalone endpoints:
-
-```html
-<!-- jsDelivr -->
-<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-core@alpha"></script>
-
-<!-- unpkg -->
-<script src="https://unpkg.com/@algolia/autocomplete-core@alpha"></script>
-```
+## What is Autocomplete

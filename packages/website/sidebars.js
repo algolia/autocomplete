@@ -4,6 +4,7 @@ module.exports = {
   docs: {
     'The Basics': [
       'getting-started',
+      'installation',
       'state',
       'context',
       'sources',
@@ -13,6 +14,7 @@ module.exports = {
       'controlled-mode',
       'more-resources',
     ],
+    Workflow: ['debugging', 'upgrading'],
     Guides: ['creating-a-renderer'],
     API: [
       {
