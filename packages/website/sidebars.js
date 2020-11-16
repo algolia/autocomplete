@@ -36,5 +36,10 @@ module.exports = {
       'parseAlgoliaHitSnippet',
       'parseAlgoliaHitReverseSnippet',
     ],
+    'autocomplete-plugin-recent-searches': [
+      'createLocalStorageRecentSearchesPlugin',
+      'createRecentSearchesPlugin',
+    ],
+    'autocomplete-plugin-query-suggestions': ['createQuerySuggestionsPlugin'],
   },
 };

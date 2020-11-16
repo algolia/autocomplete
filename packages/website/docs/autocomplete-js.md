@@ -55,7 +55,13 @@ const autocompleteSearch = autocomplete({
 });
 ```
 
-## Reference
+## Import
+
+```ts
+import { autocomplete } from '@algolia/autocomplete-js';
+```
+
+## Params
 
 `autocomplete` accepts all the props that [`createAutocomplete`](/docs/createAutocomplete#reference) supports.
 

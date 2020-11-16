@@ -43,6 +43,12 @@ const autocomplete = createAutocomplete({
 });
 ```
 
+## Import
+
+```ts
+import { createAutocomplete } from '@algolia/autocomplete-core';
+```
+
 ## Options
 
 import CreateAutocompleteProps from './partials/createAutocomplete-props.md'

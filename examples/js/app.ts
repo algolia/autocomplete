@@ -8,21 +8,21 @@ const searchClient = algoliasearch(
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
-const recentSearches = createLocalStorageRecentSearchesPlugin({
+const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'recent',
   limit: 3,
 });
 
-const querySuggestions = createQuerySuggestionsPlugin({
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'instant_search_demo_query_suggestions',
   getSearchParams() {
-    return recentSearches.data.getAlgoliaSearchParams();
+    return recentSearchesPlugin.data.getAlgoliaSearchParams();
   },
 });
 
 autocomplete({
   container: '#autocomplete',
   openOnFocus: true,
-  plugins: [recentSearches, querySuggestions],
+  plugins: [recentSearchesPlugin, querySuggestionsPlugin],
 });
