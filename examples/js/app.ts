@@ -9,7 +9,7 @@ const searchClient = algoliasearch(
 );
 
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
-  key: 'recent',
+  key: 'search',
   limit: 3,
 });
 

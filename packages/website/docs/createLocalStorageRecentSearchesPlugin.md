@@ -9,7 +9,7 @@ import { autocomplete } from '@algolia/autocomplete-js';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
-  key: 'recent-searches',
+  key: 'navbar',
 });
 
 autocomplete({
@@ -32,7 +32,7 @@ const searchClient = algoliasearch(
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
-  key: 'recent-searches',
+  key: 'navbar',
 });
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
@@ -62,6 +62,12 @@ import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-pl
 > `string` | required
 
 The Local Storage key (prefixed by the plugin) to identify where to store and retrieve the recent searches.
+
+Examples:
+
+- `"navbar"`
+- `"search"`
+- `"main"`
 
 ### `limit`
 

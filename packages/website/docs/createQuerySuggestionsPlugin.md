@@ -37,7 +37,7 @@ const searchClient = algoliasearch(
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
-  key: 'recent-searches',
+  key: 'navbar',
 });
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
