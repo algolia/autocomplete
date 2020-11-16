@@ -1,17 +1,17 @@
 ---
-id: reverseHighlightItem
+id: snippetHit
 ---
 
-Returns a string with highlighted and escaped non-matching parts of an Algolia hit.
+Returns a string with highlighted and escaped matching parts of an Algolia hit snippet.
 
 # Example
 
 ```js
-import { reverseHighlightItem } from '@algolia/autocomplete-js';
+import { snippetHit } from '@algolia/autocomplete-js';
 
-const item = {}; // fetch an Algolia hit
-const highlightedValue = reverseHighlightItem({
-  item,
+const hit = {}; // fetch an Algolia hit
+const snippetedValue = snippetHit({
+  hit,
   attribute: 'query',
 });
 ```
@@ -20,7 +20,7 @@ const highlightedValue = reverseHighlightItem({
 
 ## Params
 
-### `item`
+### `hit`
 
 > `AlgoliaHit` | required
 
@@ -30,7 +30,7 @@ The Algolia hit to retrieve the attribute value from.
 
 > `string` | required
 
-The attribute to retrieve the highlight value from.
+The attribute to retrieve the snippet value from.
 
 ### `highlightPreTag`
 
