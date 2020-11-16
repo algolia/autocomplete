@@ -271,13 +271,13 @@ const source = {
 
 ### `onSelect`
 
-> `(params: { state: AutocompleteState, ...setters, event }) => void` | defaults to `({ setIsOpen }) => setIsOpen(false)`
+> `(params: { state: AutocompleteState, ...setters, event: Event, item: TItem, itemInputValue: string, itemUrl: string, source: AutocompleteSource }) => void` | defaults to `({ setIsOpen }) => setIsOpen(false)`
 
 Called when an item is selected.
 
 ### `onHighlight`
 
-> `(params: { state: AutocompleteState, ...setters, event }) => void`
+> `(params: { state: AutocompleteState, ...setters, event: Event, item: TItem, itemInputValue: string, itemUrl: string, source: AutocompleteSource }) => void`
 
 Called when an item is selected.
 
