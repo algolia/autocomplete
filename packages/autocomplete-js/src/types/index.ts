@@ -50,10 +50,6 @@ export type InternalAutocompleteSource<TItem> = InternalAutocompleteCoreSource<
 > &
   SourceTemplates<TItem>;
 
-type GetSources<TItem> = (
-  params: GetSourcesParams<TItem>
-) => MaybePromise<Array<AutocompleteCoreSource<TItem>>>;
-
 export type AutocompleteClassNames = Partial<{
   root: string;
   form: string;
@@ -93,7 +89,9 @@ export interface AutocompleteOptions<TItem>
    * You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). The first element matching the provided selector will be used as container.
    */
   container: string | HTMLElement;
-  getSources?: GetSources<TItem>;
+  getSources?: (
+    params: GetSourcesParams<TItem>
+  ) => MaybePromise<Array<AutocompleteSource<TItem>>>;
   /**
    * The panel horizontal position.
    *
