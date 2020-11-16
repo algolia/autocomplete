@@ -8,8 +8,8 @@ The Navigator API is used to redirect users when a suggestion link is opened pro
 This API defines how a URL should be opened with different key modifiers:
 
 - **In the current tab** triggered on <kbd>Enter</kbd>
-- **In a new tab** triggered on <kbd>⌘ Enter</kbd> or <kbd>Ctrl Enter</kbd>
-- **In a new window** triggered on <kbd>⇧ Enter</kbd>
+- **In a new tab** triggered on <kbd>⌘ Cmd</kbd>+<kbd>Enter</kbd> or <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
+- **In a new window** triggered on <kbd>⇧ Shift</kbd>+<kbd>Enter</kbd>
 
 <!-- prettier-ignore -->
 :::important
@@ -76,7 +76,7 @@ The provided params get merged with the default configuration so that you don't 
 
 Function called when a URL should be open in the current page.
 
-This is triggered on <kbd>Enter</kbd>
+This is triggered on <kbd>Enter</kbd>.
 
 ### `navigateNewTab`
 
@@ -84,7 +84,7 @@ This is triggered on <kbd>Enter</kbd>
 
 Function called when a URL should be open in a new tab.
 
-This is triggered on <kbd>Cmd Enter</kbd> or <kbd>Ctrl Enter</kbd>
+This is triggered on <kbd>⌘ Cmd</kbd>+<kbd>Enter</kbd> or <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
 
 ### `navigateNewWindow`
 
@@ -92,4 +92,4 @@ This is triggered on <kbd>Cmd Enter</kbd> or <kbd>Ctrl Enter</kbd>
 
 Function called when a URL should be open in a new window.
 
-This is triggered on <kbd>Shift Enter</kbd>
+This is triggered on <kbd>⇧ Shift</kbd>+<kbd>Enter</kbd>.
