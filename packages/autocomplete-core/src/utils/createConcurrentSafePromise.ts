@@ -1,3 +1,5 @@
+import { MaybePromise } from '@algolia/autocomplete-shared';
+
 /**
  * Creates a runner that executes promises in a concurrent-safe way.
  *
@@ -9,11 +11,11 @@ export function createConcurrentSafePromise<TValue>() {
   let latestResolvedId = -1;
   let latestResolvedValue: TValue | undefined = undefined;
 
-  return function runConcurrentSafePromise(promise: Promise<TValue>) {
+  return function runConcurrentSafePromise(promise: MaybePromise<TValue>) {
     basePromiseId++;
     const currentPromiseId = basePromiseId;
 
-    return promise.then((x) => {
+    return Promise.resolve(promise).then((x) => {
       // The promise might take too long to resolve and get outdated. This would
       // result in resolving stale values.
       // When this happens, we ignore the promise value and return the one
