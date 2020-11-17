@@ -1,26 +1,24 @@
 ---
-id: highlightItem
+id: reverseHighlightHit
 ---
 
-Returns a string with highlighted and escaped matching parts of an Algolia hit.
+Returns a string with highlighted and escaped non-matching parts of an Algolia hit.
 
-# Example
+## Example
 
 ```js
-import { highlightItem } from '@algolia/autocomplete-js';
+import { reverseHighlightHit } from '@algolia/autocomplete-js';
 
-const item = {}; // fetch an Algolia hit
-const highlightedValue = highlightItem({
-  item,
+const hit = {}; // fetch an Algolia hit
+const highlightedValue = reverseHighlightHit({
+  hit,
   attribute: 'query',
 });
 ```
 
-# Reference
-
 ## Params
 
-### `item`
+### `hit`
 
 > `AlgoliaHit` | required
 

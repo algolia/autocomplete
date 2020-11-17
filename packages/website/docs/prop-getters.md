@@ -3,9 +3,7 @@ id: prop-getters
 title: Prop Getters
 ---
 
-The prop getters are functions that returns the data to create accessible and interactive autocomplete experiences.
-
-# Reference
+The prop getters are functions that returns attributes and event handlers to create accessible and interactive autocomplete experiences.
 
 ## `getEnvironmentProps`
 

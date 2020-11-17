@@ -15,9 +15,7 @@ export type CreateQuerySuggestionsPluginParams<
   searchClient: SearchClient;
   indexName: string;
   getSearchParams?(): SearchOptions;
-  getTemplates?(
-    params: GetTemplatesParams<TItem>
-  ): SourceTemplates<TItem>['templates'];
+  getTemplates?(params: GetTemplatesParams<TItem>): SourceTemplates<TItem>;
 };
 
 export function createQuerySuggestionsPlugin<

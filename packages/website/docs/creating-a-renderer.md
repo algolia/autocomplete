@@ -44,7 +44,9 @@ function Autocomplete() {
         return [
           // (3) Use an Algolia index source.
           {
-            getItemInputValue: ({ item }) => item.query,
+            getItemInputValue({ item }) {
+              return item.query;
+            },
             getItems({ query }) {
               return getAlgoliaHits({
                 searchClient,
@@ -86,25 +88,22 @@ function Autocomplete() {
   // ...
 
   return (
-    <div {...autocomplete.getRootProps({})}>
-      <input {...autocomplete.getInputProps({})} />
-      <div {...autocomplete.getPanelProps({})}>
+    <div className="aa-Autocomplete" {...autocomplete.getRootProps({})}>
+      <input className="aa-Input" {...autocomplete.getInputProps({})} />
+      <div className="aa-Panel" {...autocomplete.getPanelProps({})}>
         {autocompleteState.isOpen &&
           autocompleteState.collections.map((collection, index) => {
             const { source, items } = collection;
 
             return (
-              <section
-                key={`result-${index}`}
-                className="algolia-autocomplete-suggestions"
-              >
+              <section key={`source-${index}`} className="aa-Source">
                 {items.length > 0 && (
-                  <ul {...autocomplete.getListProps()}>
+                  <ul className="aa-List" {...autocomplete.getListProps()}>
                     {items.map((item, index) => {
                       return (
                         <li
-                          key={`item-${index}`}
-                          className="algolia-autocomplete-suggestions-item"
+                          key={item.objectID}
+                          className="aa-Item"
                           {...autocomplete.getItemProps({
                             item,
                             source,
@@ -141,12 +140,9 @@ function Autocomplete() {
   const inputRef = React.useRef(null);
 
   return (
-    <div {...autocomplete.getRootProps({})}>
+    <div className="aa-Autocomplete" {...autocomplete.getRootProps({})}>
       <form
-        action=""
-        role="search"
-        noValidate
-        className="algolia-autocomplete-form"
+        className="aa-Form"
         {...autocomplete.getFormProps({ inputElement: inputRef.current })}
       >
         <input ref={inputRef} {...autocomplete.getInputProps({})} />
@@ -167,16 +163,21 @@ function Autocomplete() {
   const inputRef = React.useRef(null);
 
   return (
-    <div {...autocomplete.getRootProps({})}>
+    <div className="aa-Autocomplete" {...autocomplete.getRootProps({})}>
       <form
-        action=""
-        role="search"
-        noValidate
-        className="algolia-autocomplete-form"
+        className="aa-Form"
         {...autocomplete.getFormProps({ inputElement: inputRef.current })}
       >
-        <label {...autocomplete.getLabelProps({})}>Search items</label>
-        <input ref={inputRef} {...autocomplete.getInputProps({})} />
+        <div className="aa-InputWrapper">
+          <label className="aa-Label" {...autocomplete.getLabelProps({})}>
+            Search
+          </label>
+          <input
+            class="aa-Input"
+            ref={inputRef}
+            {...autocomplete.getInputProps({})}
+          />
+        </div>
       </form>
       {/* ... */}
     </div>
@@ -184,31 +185,31 @@ function Autocomplete() {
 }
 ```
 
-A good practice for search inputs is to display a reset button. You can conditionally display it based on if there's a query, and trigger the `onReset` event from `getFormProps` on it.
+A good practice for search inputs is to display a reset button. You can conditionally display it based on if there's a query.
 
 ```js
 function Autocomplete() {
   // ...
 
-  const { onSubmit, onReset } = autocomplete.getFormProps({
-    inputElement: inputRef.current,
-  });
-
   return (
-    <div {...autocomplete.getRootProps({})}>
+    <div className="aa-Autocomplete" {...autocomplete.getRootProps({})}>
       <form
-        action=""
-        role="search"
-        noValidate
-        className="algolia-autocomplete-form"
-        onSubmit={onSubmit}
-        onReset={onReset}
+        className="aa-Form"
+        {...autocomplete.getFormProps({ inputElement: inputRef.current })}
       >
-        <label {...autocomplete.getLabelProps({})}>Search items</label>
-        <input ref={inputRef} {...autocomplete.getInputProps({})} />
-        <button type="reset" onClick={onReset}>
-          ｘ
-        </button>
+        <div className="aa-InputWrapper">
+          <label className="aa-Label" {...autocomplete.getLabelProps({})}>
+            Search
+          </label>
+          <input
+            class="aa-Input"
+            ref={inputRef}
+            {...autocomplete.getInputProps({})}
+          />
+          <button class="aa-ResetButton" type="reset">
+            ｘ
+          </button>
+        </div>
       </form>
       {/* ... */}
     </div>
@@ -225,15 +226,14 @@ function Autocomplete() {
   // ...
 
   return (
-    <div {...autocomplete.getRootProps({})}>
+    <div className="aa-Autocomplete" {...autocomplete.getRootProps({})}>
       {/* ... */}
 
       {autocompleteState.isOpen && (
         <div
           className={[
-            'autocomplete-panel',
-            autocompleteState.status === 'stalled' &&
-              'autocomplete-panel--stalled',
+            'aa-Panel',
+            autocompleteState.status === 'stalled' && 'aa-Panel--stalled',
           ]
             .filter(Boolean)
             .join(' ')}
@@ -248,7 +248,7 @@ function Autocomplete() {
 }
 ```
 
-You could for example create a `.autocomplete-panel--stalled` CSS class that lowers the opacity to hint users that the search is currently stuck.
+You could for example create a `.aa-Panel--stalled` CSS class that lowers the opacity to hint users that the search is currently stuck.
 
 ![Image](https://user-images.githubusercontent.com/6137112/83759558-034cbf80-a674-11ea-86ca-6728b4c2d6f7.png)
 
@@ -293,15 +293,11 @@ function Autocomplete() {
   }, [getEnvironmentProps, searchBoxRef, panelRef, inputRef]);
 
   return (
-    <div {...autocomplete.getRootProps({})}>
+    <div className="aa-Autocomplete" {...autocomplete.getRootProps({})}>
       <form
         ref={searchBoxRef}
-        action=""
-        role="search"
-        noValidate
-        className="algolia-autocomplete-form"
-        onSubmit={onSubmit}
-        onReset={onReset}
+        className="aa-Form"
+        {...autocomplete.getFormProps({ inputElement: inputRef.current })}
       >
         {/* ... */}
       </form>
@@ -310,9 +306,8 @@ function Autocomplete() {
         <div
           ref={panelRef}
           className={[
-            'autocomplete-panel',
-            autocompleteState.status === 'stalled' &&
-              'autocomplete-panel--stalled',
+            'aa-Panel',
+            autocompleteState.status === 'stalled' && 'aa-Panel--stalled',
           ]
             .filter(Boolean)
             .join(' ')}

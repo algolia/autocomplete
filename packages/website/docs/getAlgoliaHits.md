@@ -28,7 +28,7 @@ getAlgoliaHits({
 });
 ```
 
-## Options
+## Params
 
 ### `searchClient`
 
@@ -53,8 +53,8 @@ Default search parameters:
 ```json
 {
   "hitsPerPage": 5,
-  "highlightPreTag": "<mark>",
-  "highlightPostTag": "</mark>"
+  "highlightPreTag": "__aa-highlight__",
+  "highlightPostTag": "__/aa-highlight__"
 }
 ```
 
@@ -63,5 +63,21 @@ Default search parameters:
 It returns a promise of the following schema:
 
 ```json
-[{}, {}, {}]
+[
+  {
+    "objectID": "433",
+    "firstname": "Jimmie",
+    "lastname": "Barninger",
+    "_highlightResult": {
+      "firstname": {
+        "value": "&lt;em&gt;Jimmie&lt;/em&gt;",
+        "matchLevel": "partial"
+      },
+      "lastname": {
+        "value": "Barninger",
+        "matchLevel": "none"
+      }
+    }
+  }
+]
 ```

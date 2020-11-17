@@ -16,7 +16,7 @@ import algoliasearch from 'algoliasearch/lite';
 import {
   autocomplete,
   getAlgoliaHits,
-  reverseHighlightItem,
+  reverseHighlightHit,
 } from '@algolia/autocomplete-js';
 
 const searchClient = algoliasearch(
@@ -46,7 +46,7 @@ const autocompleteSearch = autocomplete({
         },
         templates: {
           item({ item }) {
-            return reverseHighlightItem({ item, attribute: 'query' });
+            return reverseHighlightHit({ hit: item, attribute: 'query' });
           },
         },
       },
@@ -55,7 +55,13 @@ const autocompleteSearch = autocomplete({
 });
 ```
 
-## Reference
+## Import
+
+```ts
+import { autocomplete } from '@algolia/autocomplete-js';
+```
+
+## Params
 
 `autocomplete` accepts all the props that [`createAutocomplete`](/docs/createAutocomplete#reference) supports.
 
