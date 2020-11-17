@@ -36,8 +36,8 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
   const lastItemsRef: Ref<MaybePromise<TItem[]>> = { current: [] };
 
   return {
-    subscribed: {
-      onSelect({ item, state, source }) {
+    subscribe({ onSelect }) {
+      onSelect(({ item, state, source }) => {
         const inputValue = source.getItemInputValue({ item, state });
 
         if (inputValue) {
@@ -46,7 +46,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
             query: inputValue,
           } as TItem);
         }
-      },
+      });
     },
     onSubmit({ state }) {
       const { query } = state;

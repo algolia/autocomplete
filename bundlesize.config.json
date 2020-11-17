@@ -2,15 +2,19 @@
   "files": [
     {
       "path": "packages/autocomplete-core/dist/umd/index.production.js",
-      "maxSize": "4.5 kB"
+      "maxSize": "4.75 kB"
     },
     {
       "path": "packages/autocomplete-js/dist/umd/index.production.js",
-      "maxSize": "8 kB"
+      "maxSize": "8.25 kB"
     },
     {
       "path": "packages/autocomplete-preset-algolia/dist/umd/index.production.js",
       "maxSize": "1.5 kB"
+    },
+    {
+      "path": "packages/autocomplete-plugin-algolia-insights/dist/umd/index.production.js",
+      "maxSize": "2 kB"
     },
     {
       "path": "packages/autocomplete-plugin-recent-searches/dist/umd/index.production.js",

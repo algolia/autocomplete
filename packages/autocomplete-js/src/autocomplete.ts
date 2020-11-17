@@ -28,11 +28,8 @@ export function autocomplete<TItem>({
   const autocomplete = createAutocomplete<TItem>({
     ...props,
     onStateChange(options) {
-      onStateChange(options.state);
-
-      if (props.onStateChange) {
-        props.onStateChange(options);
-      }
+      debouncedOnStateChange?.(options.state);
+      props.onStateChange?.(options);
     },
   });
 
@@ -56,7 +53,7 @@ export function autocomplete<TItem>({
   // As an example:
   //  - without debouncing: "iphone case" query → 85 renders
   //  - with debouncing: "iphone case" query → 12 renders
-  const onStateChange = debounce((state: AutocompleteState<TItem>) => {
+  const debouncedOnStateChange = debounce((state: AutocompleteState<TItem>) => {
     render(renderer, {
       state,
       ...autocomplete,

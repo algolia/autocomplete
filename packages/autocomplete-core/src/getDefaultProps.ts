@@ -1,5 +1,9 @@
 import { getNavigator } from './getNavigator';
-import { InternalAutocompleteOptions, AutocompleteOptions } from './types';
+import {
+  InternalAutocompleteOptions,
+  AutocompleteOptions,
+  Subscribers,
+} from './types';
 import {
   generateAutocompleteId,
   getItemsCount,
@@ -8,7 +12,8 @@ import {
 } from './utils';
 
 export function getDefaultProps<TItem>(
-  props: AutocompleteOptions<TItem>
+  props: AutocompleteOptions<TItem>,
+  subscribers: Subscribers<TItem>
 ): InternalAutocompleteOptions<TItem> {
   const environment: InternalAutocompleteOptions<
     unknown
@@ -66,8 +71,14 @@ export function getDefaultProps<TItem>(
             ...source,
             onSelect(params) {
               source.onSelect(params);
-              plugins.forEach((plugin) => {
-                plugin.subscribed?.onSelect?.(params);
+              subscribers.forEach((subscriber) => {
+                subscriber.onSelect?.(params);
+              });
+            },
+            onHighlight(params) {
+              source.onHighlight(params);
+              subscribers.forEach((subscriber) => {
+                subscriber.onHighlight?.(params);
               });
             },
           }))

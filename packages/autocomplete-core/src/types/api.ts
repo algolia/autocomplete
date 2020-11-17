@@ -45,14 +45,14 @@ interface ItemParams<TItem> {
   source: InternalAutocompleteSource<TItem>;
 }
 
-interface OnSelectParams<TItem>
+export interface OnSelectParams<TItem>
   extends ItemParams<TItem>,
     AutocompleteSetters<TItem> {
   state: AutocompleteState<TItem>;
   event: any;
 }
 
-type OnHighlightParams<TItem> = OnSelectParams<TItem>;
+export type OnHighlightParams<TItem> = OnSelectParams<TItem>;
 
 interface OnSubmitParams<TItem> extends AutocompleteSetters<TItem> {
   state: AutocompleteState<TItem>;

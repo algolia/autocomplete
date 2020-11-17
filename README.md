@@ -25,6 +25,7 @@ You should be using Autocomplete if you want to:
 | [`autocomplete-preset-algolia`](packages/autocomplete-preset-algolia) | Presets to use Algolia features with Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/getAlgoliaHits) |
 | [`autocomplete-plugin-recent-searches`](packages/autocomplete-plugin-recent-searches) | A plugin to add recent searches to Algolia Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/createLocalStorageRecentSearchesPlugin) |
 | [`autocomplete-plugin-query-suggestions`](packages/autocomplete-plugin-query-suggestions) | A plugin to add query suggestions to Algolia Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/createQuerySuggestionsPlugin) |
+| [`autocomplete-plugin-algolia-insights`](packages/autocomplete-plugin-algolia-insights) | A plugin to add Algolia Insights to Algolia Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/createAlgoliaInsightsPlugin) |
 
 ## License
 

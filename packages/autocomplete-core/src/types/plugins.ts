@@ -1,17 +1,25 @@
-import { AutocompleteOptions, AutocompleteSource } from './api';
+import { AutocompleteOptions, OnHighlightParams, OnSelectParams } from './api';
+import { AutocompleteSetters } from './setters';
+
+type PluginSubscriber<TParams> = (params: TParams) => void;
+
+interface PluginSubscribeParams<TItem> extends AutocompleteSetters<TItem> {
+  onSelect(fn: PluginSubscriber<OnSelectParams<TItem>>): void;
+  onHighlight(fn: PluginSubscriber<OnHighlightParams<TItem>>): void;
+}
 
 export type AutocompletePlugin<TItem, TData = unknown> = Partial<
   Pick<AutocompleteOptions<TItem>, 'onStateChange' | 'onSubmit' | 'getSources'>
 > & {
   /**
-   * The subscribed properties are properties that are called when other sources
-   * are interacted with.
+   * Function called when Autocomplete starts.
+   *
+   * It can be used to subscribe to lifecycle hooks or to interact with the
+   * Autocomplete state and context.
    */
-  subscribed?: {
-    onSelect: AutocompleteSource<TItem>['onSelect'];
-  };
+  subscribe?(params: PluginSubscribeParams<TItem>): void;
   /**
-   * An extra plugin specific object to store variables and functions
+   * Extra plugin object to expose properties and functions as APIs.
    */
   data?: TData;
 };
