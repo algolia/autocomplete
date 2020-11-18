@@ -18,7 +18,7 @@ export function getNormalizedSources<TItem>(
     params: GetSourcesParams<TItem>
   ) => MaybePromise<Array<AutocompleteSource<TItem>>>,
   options: GetSourcesParams<TItem>
-): Promise<Array<InternalAutocompleteSource<TItem>> | void> {
+): Promise<Array<InternalAutocompleteSource<TItem>>> {
   return runConcurrentSafePromiseForGetSources(getSources(options)).then(
     (sources) => {
       return Promise.all(
