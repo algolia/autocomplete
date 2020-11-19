@@ -11,11 +11,11 @@ export function getAutocompleteSetters<TItem>({
   const setSelectedItemId: AutocompleteApi<TItem>['setSelectedItemId'] = (
     value
   ) => {
-    store.send('setSelectedItemId', value);
+    store.dispatch('setSelectedItemId', value);
   };
 
   const setQuery: AutocompleteApi<TItem>['setQuery'] = (value) => {
-    store.send('setQuery', value);
+    store.dispatch('setQuery', value);
   };
 
   const setCollections: AutocompleteApi<TItem>['setCollections'] = (
@@ -32,19 +32,19 @@ export function getAutocompleteSetters<TItem>({
       })),
     }));
 
-    store.send('setCollections', value);
+    store.dispatch('setCollections', value);
   };
 
   const setIsOpen: AutocompleteApi<TItem>['setIsOpen'] = (value) => {
-    store.send('setIsOpen', value);
+    store.dispatch('setIsOpen', value);
   };
 
   const setStatus: AutocompleteApi<TItem>['setStatus'] = (value) => {
-    store.send('setStatus', value);
+    store.dispatch('setStatus', value);
   };
 
   const setContext: AutocompleteApi<TItem>['setContext'] = (value) => {
-    store.send('setContext', value);
+    store.dispatch('setContext', value);
   };
 
   return {

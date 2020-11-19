@@ -14,7 +14,7 @@ export function createStore<TItem>(
     getState() {
       return state;
     },
-    send(action, payload) {
+    dispatch(action, payload) {
       const prevState = { ...state };
       state = reducer(state, {
         type: action,

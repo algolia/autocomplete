@@ -31,7 +31,7 @@ export function onKeyDown<TItem>({
     // Arrow down.
     event.preventDefault();
 
-    store.send(event.key, null);
+    store.dispatch(event.key, null);
 
     const nodeItem = props.environment.document.getElementById(
       `${props.id}-item-${store.getState().selectedItemId}`
@@ -73,7 +73,7 @@ export function onKeyDown<TItem>({
     // panel.
     event.preventDefault();
 
-    store.send(event.key, null);
+    store.dispatch(event.key, null);
   } else if (event.key === 'Enter') {
     // No item is selected, so we let the browser handle the native `onSubmit`
     // form event.

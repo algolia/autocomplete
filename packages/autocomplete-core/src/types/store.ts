@@ -3,7 +3,7 @@ import { AutocompleteState } from './state';
 
 export interface AutocompleteStore<TItem> {
   getState(): AutocompleteState<TItem>;
-  send(action: ActionType, payload: any): void;
+  dispatch(action: ActionType, payload: any): void;
 }
 
 export type Reducer = <TItem>(
