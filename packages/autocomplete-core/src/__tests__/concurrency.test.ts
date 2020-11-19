@@ -45,6 +45,8 @@ describe('concurrency', () => {
       x[0].state.collections.flatMap((x) => x.items)
     );
 
+    // The first query should have brought results.
+    expect(itemsHistory.find((x) => x.label === 'a')).toBeDefined();
     // The second query should never have brought results.
     expect(itemsHistory.find((x) => x.label === 'ab')).toBeUndefined();
 
