@@ -14,6 +14,7 @@ export const ResetIcon: Component<{}, SVGSVGElement> = () => {
   path.setAttribute('stroke', 'currentColor');
   path.setAttribute('fill', 'none');
   path.setAttribute('fill-rule', 'evenodd');
+  path.setAttribute('stroke-width', '1.4');
   path.setAttribute('stroke-linecap', 'round');
   path.setAttribute('stroke-linejoin', 'round');
 
