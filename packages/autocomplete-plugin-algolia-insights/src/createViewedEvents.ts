@@ -9,13 +9,11 @@ export function createViewedEvents({
 }: CreateViewedEventsParams): Array<Omit<ViewedObjectIDsParams, 'eventName'>> {
   const objectIDsByIndexName = items.reduce<Record<string, string[]>>(
     (acc, current) => {
-      return {
-        ...acc,
-        [current.__autocomplete_indexName]: [
-          ...(acc[current.__autocomplete_indexName] ?? []),
-          current.objectID,
-        ],
-      };
+      acc[current.__autocomplete_indexName] = (
+        acc[current.__autocomplete_indexName] ?? []
+      ).concat(current.objectID);
+
+      return acc;
     },
     {}
   );
