@@ -76,6 +76,7 @@ describe('autocomplete-js', () => {
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
+                    stroke-width="1.4"
                   />
                 </svg>
               </label>
@@ -95,6 +96,7 @@ describe('autocomplete-js', () => {
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
+                    stroke-width="1.4"
                   />
                 </svg>
               </button>
