@@ -14,4 +14,4 @@ npm install @algolia/autocomplete-js@alpha
 
 ## Documentation
 
-[Read documentation →](https://algolia-autocomplete.netlify.app/docs/autocomplete-js)
+[Read documentation →](https://autocomplete.algolia.com/docs/autocomplete-js)
