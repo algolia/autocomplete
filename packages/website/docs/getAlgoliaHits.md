@@ -2,7 +2,7 @@
 id: getAlgoliaHits
 ---
 
-Retrieves and merges Algolia hits from one or multiple indices.
+Retrieves Algolia hits from multiple indices into arrays of records.
 
 ## Example
 

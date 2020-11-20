@@ -2,7 +2,7 @@
 id: getAlgoliaResults
 ---
 
-Retrieves Algolia results from one or multiple indices.
+Retrieves the full Algolia results from multiple indices
 
 ## Example
 
