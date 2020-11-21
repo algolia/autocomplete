@@ -88,20 +88,21 @@ The panel horizontal position.
 The class names to inject in each created DOM element. It it useful to design with external CSS frameworks.
 
 ```ts
-type ClassNames = {
-  root?: string;
-  form?: string;
-  label?: string;
-  inputWrapper?: string;
-  input?: string;
-  resetButton?: string;
-  panel?: string;
-  source?: string;
-  sourceHeader?: string;
-  list?: string;
-  item?: string;
-  sourceFooter?: string;
-};
+type ClassNames = Partial<{
+  root: string;
+  form: string;
+  label: string;
+  inputWrapper: string;
+  input: string;
+  resetButton: string;
+  panel: string;
+  panelLayout: string;
+  source: string;
+  sourceHeader: string;
+  list: string;
+  item: string;
+  sourceFooter: string;
+}>;
 ```
 
 ### `render`

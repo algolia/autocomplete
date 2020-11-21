@@ -73,6 +73,7 @@ export type AutocompleteClassNames = Partial<{
   input: string;
   resetButton: string;
   panel: string;
+  panelLayout: string;
   source: string;
   sourceHeader: string;
   list: string;

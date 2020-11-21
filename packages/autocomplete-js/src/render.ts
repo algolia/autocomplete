@@ -1,6 +1,7 @@
 import { AutocompleteApi as AutocompleteCoreApi } from '@algolia/autocomplete-core';
 
 import {
+  PanelLayout,
   SourceContainer,
   SourceFooter,
   SourceHeader,
@@ -14,7 +15,7 @@ import {
   AutocompleteRenderer,
   AutocompleteState,
 } from './types';
-import { setProperties, setPropertiesWithoutEvents } from './utils';
+import { setPropertiesWithoutEvents } from './utils';
 
 type RenderProps<TItem> = {
   state: AutocompleteState<TItem>;
@@ -42,11 +43,16 @@ export function render<TItem>(
   panel.innerHTML = '';
 
   if (!state.isOpen) {
-    setProperties(panel, { hidden: true });
+    if (root.contains(panel)) {
+      root.removeChild(panel);
+    }
+
     return;
   }
 
-  setProperties(panel, { hidden: false });
+  if (!root.contains(panel)) {
+    root.appendChild(panel);
+  }
 
   if (state.status === 'stalled') {
     panel.classList.add('aa-Panel--stalled');
@@ -106,5 +112,8 @@ export function render<TItem>(
     return sectionElement;
   });
 
-  renderer({ root: panel, sections, state });
+  const panelLayoutElement = PanelLayout({ classNames });
+  panel.appendChild(panelLayoutElement);
+
+  renderer({ root: panelLayoutElement, sections, state });
 }

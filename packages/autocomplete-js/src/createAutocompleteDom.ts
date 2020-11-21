@@ -36,7 +36,6 @@ export function createAutocompleteDom<TItem>({
   inputWrapper.appendChild(resetButton);
   form.appendChild(inputWrapper);
   root.appendChild(form);
-  root.appendChild(panel);
 
   return {
     inputWrapper,

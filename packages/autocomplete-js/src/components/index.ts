@@ -3,6 +3,7 @@ export * from './Input';
 export * from './InputWrapper';
 export * from './Label';
 export * from './Panel';
+export * from './PanelLayout';
 export * from './ResetButton';
 export * from './ResetIcon';
 export * from './Root';

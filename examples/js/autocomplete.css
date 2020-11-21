@@ -69,12 +69,6 @@
 }
 
 .aa-Panel {
-  background-color: #fff;
-  border: 1px solid rgba(150, 150, 150, 0.16);
-  border-radius: 3px;
-  box-shadow: 0 0 0 1px rgba(35, 38, 59, 0.05),
-    0 8px 16px -4px rgba(35, 38, 59, 0.25);
-  margin-top: 5px;
   max-width: 480px;
   position: absolute;
   width: 100%;
@@ -86,12 +80,21 @@
   transition: opacity 200ms ease-in;
 }
 
-.aa-Panel a {
+.aa-PanelLayout {
+  background-color: #fff;
+  border: 1px solid rgba(150, 150, 150, 0.16);
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(35, 38, 59, 0.05),
+    0 8px 16px -4px rgba(35, 38, 59, 0.25);
+  margin-top: 5px;
+}
+
+.aa-PanelLayout a {
   color: inherit;
   text-decoration: none;
 }
 
-.aa-Panel ul {
+.aa-PanelLayout ul {
   list-style: none;
   margin: 0;
   padding: 0;
