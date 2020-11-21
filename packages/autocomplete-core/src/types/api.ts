@@ -169,7 +169,9 @@ export interface AutocompleteOptions<TItem> {
    */
   debug?: boolean;
   /**
-   * The Autocomplete ID to create accessible attributes.
+   * The unique Autocomplete ID to create accessible attributes.
+   *
+   * It is incremented by default when creating a new Autocomplete instance.
    *
    * @default "autocomplete-0"
    */
