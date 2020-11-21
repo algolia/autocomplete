@@ -1,4 +1,5 @@
 import { createAutocomplete } from '@algolia/autocomplete-core';
+import { createRef } from '@algolia/autocomplete-shared';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
 import { createEffectWrapper } from './createEffectWrapper';
@@ -19,20 +20,25 @@ function defaultRenderer({ root, sections }) {
 
 export function autocomplete<TItem>({
   container,
+  panelContainer = document.body,
   render: renderer = defaultRenderer,
   panelPlacement = 'input-wrapper-width',
   classNames = {},
   ...props
 }: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
   const { runEffect, cleanupEffects } = createEffectWrapper();
+  const onStateChangeRef = createRef<
+    | ((params: {
+        state: AutocompleteState<TItem>;
+        prevState: AutocompleteState<TItem>;
+      }) => void)
+    | undefined
+  >(undefined);
   const autocomplete = createAutocomplete<TItem>({
     ...props,
     onStateChange(options) {
-      onStateChange(options.state);
-
-      if (props.onStateChange) {
-        props.onStateChange(options);
-      }
+      onStateChangeRef.current?.(options as any);
+      props.onStateChange?.(options);
     },
   });
 
@@ -49,28 +55,6 @@ export function autocomplete<TItem>({
     classNames,
   });
 
-  // This batches state changes to limit DOM mutations.
-  // Every time we call a setter in `autocomplete-core` (e.g., in `onInput`),
-  // the core `onStateChange` function is called.
-  // We don't need to be notified of all these state changes to render.
-  // As an example:
-  //  - without debouncing: "iphone case" query → 85 renders
-  //  - with debouncing: "iphone case" query → 12 renders
-  const onStateChange = debounce((state: AutocompleteState<TItem>) => {
-    render(renderer, {
-      state,
-      ...autocomplete,
-      classNames,
-      root,
-      form,
-      input,
-      inputWrapper,
-      label,
-      panel,
-      resetButton,
-    });
-  }, 0);
-
   function setPanelPosition() {
     setProperties(panel, {
       style: getPanelPositionStyle({
@@ -81,10 +65,6 @@ export function autocomplete<TItem>({
       }),
     });
   }
-
-  requestAnimationFrame(() => {
-    setPanelPosition();
-  });
 
   runEffect(() => {
     const environmentProps = autocomplete.getEnvironmentProps({
@@ -109,6 +89,38 @@ export function autocomplete<TItem>({
   });
 
   runEffect(() => {
+    const panelRoot = getHTMLElement(panelContainer);
+    const unmountRef = createRef<(() => void) | undefined>(undefined);
+    // This batches state changes to limit DOM mutations.
+    // Every time we call a setter in `autocomplete-core` (e.g., in `onInput`),
+    // the core `onStateChange` function is called.
+    // We don't need to be notified of all these state changes to render.
+    // As an example:
+    //  - without debouncing: "iphone case" query → 85 renders
+    //  - with debouncing: "iphone case" query → 12 renders
+    onStateChangeRef.current = debounce(({ state }) => {
+      unmountRef.current = render(renderer, {
+        state,
+        ...autocomplete,
+        classNames,
+        panelRoot,
+        root,
+        form,
+        input,
+        inputWrapper,
+        label,
+        panel,
+        resetButton,
+      });
+    }, 0);
+
+    return () => {
+      unmountRef.current?.();
+      onStateChangeRef.current = undefined;
+    };
+  });
+
+  runEffect(() => {
     const containerElement = getHTMLElement(container);
     containerElement.appendChild(root);
 
@@ -118,7 +130,7 @@ export function autocomplete<TItem>({
   });
 
   runEffect(() => {
-    const onResize = debounce(() => {
+    const onResize = debounce<Event>(() => {
       setPanelPosition();
     }, 100);
 
@@ -127,6 +139,10 @@ export function autocomplete<TItem>({
     return () => {
       window.removeEventListener('resize', onResize);
     };
+  });
+
+  requestAnimationFrame(() => {
+    setPanelPosition();
   });
 
   return {

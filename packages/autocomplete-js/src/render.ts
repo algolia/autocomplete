@@ -20,6 +20,7 @@ import { setPropertiesWithoutEvents } from './utils';
 type RenderProps<TItem> = {
   state: AutocompleteState<TItem>;
   classNames: AutocompleteClassNames;
+  panelRoot: HTMLElement;
 } & AutocompleteCoreApi<TItem> &
   AutocompleteDom;
 
@@ -32,26 +33,27 @@ export function render<TItem>(
     getListProps,
     getItemProps,
     classNames,
+    panelRoot,
     root,
     input,
     panel,
   }: RenderProps<TItem>
-): void {
+): () => void {
   setPropertiesWithoutEvents(root, getRootProps());
   setPropertiesWithoutEvents(input, getInputProps({ inputElement: input }));
 
   panel.innerHTML = '';
 
   if (!state.isOpen) {
-    if (root.contains(panel)) {
-      root.removeChild(panel);
+    if (panelRoot.contains(panel)) {
+      panelRoot.removeChild(panel);
     }
 
-    return;
+    return () => {};
   }
 
-  if (!root.contains(panel)) {
-    root.appendChild(panel);
+  if (!panelRoot.contains(panel)) {
+    panelRoot.appendChild(panel);
   }
 
   if (state.status === 'stalled') {
@@ -116,4 +118,8 @@ export function render<TItem>(
   panel.appendChild(panelLayoutElement);
 
   renderer({ root: panelLayoutElement, sections, state });
+
+  return () => {
+    panelRoot.removeChild(panel);
+  };
 }

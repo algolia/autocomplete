@@ -102,10 +102,6 @@ describe('autocomplete-js', () => {
               </button>
             </div>
           </form>
-          <div
-            class="aa-Panel"
-            hidden=""
-          />
         </div>
       </div>
     `);

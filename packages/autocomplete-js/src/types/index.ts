@@ -100,11 +100,19 @@ export type AutocompleteRenderer<TItem> = (params: {
 export interface AutocompleteOptions<TItem>
   extends AutocompleteCoreOptions<TItem> {
   /**
-   * The container for the autocomplete search box.
+   * The container for the Autocomplete search box.
    *
    * You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). The first element matching the provided selector will be used as container.
    */
   container: string | HTMLElement;
+  /**
+   * The container for the Autocomplete panel.
+   *
+   * You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). The first element matching the provided selector will be used as container.
+   *
+   * @default document.body
+   */
+  panelContainer: string | HTMLElement;
   getSources?: (
     params: GetSourcesParams<TItem>
   ) => MaybePromise<Array<AutocompleteSource<TItem>>>;
