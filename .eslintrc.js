@@ -80,5 +80,11 @@ module.exports = {
         'import/no-commonjs': 'off',
       },
     },
+    {
+      files: ['examples/**/*'],
+      rules: {
+        'spaced-comment': 'off',
+      },
+    },
   ],
 };
