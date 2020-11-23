@@ -18,9 +18,9 @@ export interface AutocompleteAccessibilityGetters<
 
 export type GetEnvironmentProps = (props: {
   [key: string]: unknown;
-  searchBoxElement: HTMLElement;
-  panelElement: HTMLElement;
+  formElement: HTMLElement;
   inputElement: HTMLInputElement;
+  panelElement: HTMLElement;
 }) => {
   onTouchStart(event: TouchEvent): void;
   onTouchMove(event: TouchEvent): void;

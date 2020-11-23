@@ -49,7 +49,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         }
 
         const isTargetWithinAutocomplete = [
-          getterProps.searchBoxElement,
+          getterProps.formElement,
           getterProps.panelElement,
         ].some((contextNode) => {
           return (

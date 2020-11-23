@@ -267,18 +267,18 @@ function Autocomplete() {
   // ...
 
   const inputRef = React.useRef(null);
-  const searchBoxRef = React.useRef(null);
+  const formRef = React.useRef(null);
   const panelRef = React.useRef(null);
 
   const { getEnvironmentProps } = autocomplete;
 
   React.useEffect(() => {
-    if (!(searchBoxRef.current && panelRef.current && inputRef.current)) {
+    if (!(formRef.current && panelRef.current && inputRef.current)) {
       return;
     }
 
     const { onTouchStart, onTouchMove } = getEnvironmentProps({
-      searchBoxElement: searchBoxRef.current,
+      formElement: formRef.current,
       panelElement: panelRef.current,
       inputElement: inputRef.current,
     });
@@ -290,12 +290,12 @@ function Autocomplete() {
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove', onTouchMove);
     };
-  }, [getEnvironmentProps, searchBoxRef, panelRef, inputRef]);
+  }, [getEnvironmentProps, formRef, panelRef, inputRef]);
 
   return (
     <div className="aa-Autocomplete" {...autocomplete.getRootProps({})}>
       <form
-        ref={searchBoxRef}
+        ref={formRef}
         className="aa-Form"
         {...autocomplete.getFormProps({ inputElement: inputRef.current })}
       >
