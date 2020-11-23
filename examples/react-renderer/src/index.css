@@ -9,10 +9,3 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.container {
-  margin: 0 auto;
-  max-width: 640px;
-  padding: 1rem;
-  width: 100%;
-}

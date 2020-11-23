@@ -1,0 +1,36 @@
+{
+  "name": "@algolia/react-renderer-example",
+  "description": "Autocomplete React Renderer example",
+  "version": "1.0.0-alpha.35",
+  "private": true,
+  "dependencies": {
+    "@algolia/autocomplete-core": "1.0.0-alpha.35",
+    "@algolia/autocomplete-preset-algolia": "1.0.0-alpha.35",
+    "algoliasearch": "4.8.0",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-scripts": "4.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "16.9.53",
+    "@types/react-dom": "16.9.8"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
