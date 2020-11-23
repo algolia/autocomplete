@@ -68,7 +68,7 @@ export function autocomplete<TItem>({
 
   runEffect(() => {
     const environmentProps = autocomplete.getEnvironmentProps({
-      searchBoxElement: form,
+      formElement: form,
       panelElement: panel,
       inputElement: input,
     });

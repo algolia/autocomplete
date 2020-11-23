@@ -9,14 +9,14 @@ The prop getters are functions that returns attributes and event handlers to cre
 
 Returns the props to attach to the [environment](#environment).
 
-You need to pass `searchBoxElement`, `panelElement` and `inputElement` so that the library creates the correct touch events for touch devices.
+You need to pass `formElement`, `panelElement` and `inputElement` so that the library creates the correct touch events for touch devices.
 
 ```ts
 type GetEnvironmentProps = (props: {
   [key: string]: unknown;
-  searchBoxElement: HTMLElement;
-  panelElement: HTMLElement;
+  formElement: HTMLElement;
   inputElement: HTMLInputElement;
+  panelElement: HTMLElement;
 }) => {
   onTouchStart(event: TouchEvent): void;
   onTouchMove(event: TouchEvent): void;
