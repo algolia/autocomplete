@@ -112,7 +112,7 @@ export interface AutocompleteOptions<TItem>
    *
    * @default document.body
    */
-  panelContainer: string | HTMLElement;
+  panelContainer?: string | HTMLElement;
   getSources?: (
     params: GetSourcesParams<TItem>
   ) => MaybePromise<Array<AutocompleteSource<TItem>>>;
