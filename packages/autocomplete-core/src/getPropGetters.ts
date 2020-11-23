@@ -13,16 +13,23 @@ import {
   GetLabelProps,
   GetListProps,
   GetRootProps,
+  BaseItem,
 } from './types';
 import { getSelectedItem, isOrContainsNode } from './utils';
 
-interface GetPropGettersOptions<TItem> extends AutocompleteSetters<TItem> {
+interface GetPropGettersOptions<TItem extends BaseItem>
+  extends AutocompleteSetters<TItem> {
   store: AutocompleteStore<TItem>;
   props: InternalAutocompleteOptions<TItem>;
   refresh: AutocompleteRefresh;
 }
 
-export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
+export function getPropGetters<
+  TItem extends BaseItem,
+  TEvent,
+  TMouseEvent,
+  TKeyboardEvent
+>({
   store,
   props,
   setSelectedItemId,

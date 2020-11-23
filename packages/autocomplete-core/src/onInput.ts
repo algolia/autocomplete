@@ -1,15 +1,17 @@
 import {
-  InternalAutocompleteOptions,
   AutocompleteSetters,
   AutocompleteState,
   AutocompleteStore,
   AutocompleteRefresh,
+  BaseItem,
+  InternalAutocompleteOptions,
 } from './types';
 import { getSelectedItem } from './utils';
 
 let lastStalledId: number | null = null;
 
-interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {
+interface OnInputParams<TItem extends BaseItem>
+  extends AutocompleteSetters<TItem> {
   query: string;
   event: any;
   store: AutocompleteStore<TItem>;
@@ -25,7 +27,7 @@ interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {
   refresh: AutocompleteRefresh;
 }
 
-export function onInput<TItem>({
+export function onInput<TItem extends BaseItem>({
   query,
   event,
   store,
@@ -123,7 +125,7 @@ export function onInput<TItem>({
       )
         .then((collections) => {
           setStatus('idle');
-          setCollections(collections);
+          setCollections(collections as any);
           setIsOpen(
             nextState.isOpen ??
               ((query.length === 0 && props.openOnFocus) ||

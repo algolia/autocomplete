@@ -1,4 +1,5 @@
 import { AutocompleteApi as AutocompleteCoreApi } from '@algolia/autocomplete-core';
+import { BaseItem } from '@algolia/autocomplete-core/src';
 
 import {
   PanelLayout,
@@ -17,14 +18,14 @@ import {
 } from './types';
 import { setPropertiesWithoutEvents } from './utils';
 
-type RenderProps<TItem> = {
+type RenderProps<TItem extends BaseItem> = {
   state: AutocompleteState<TItem>;
   classNames: AutocompleteClassNames;
   panelRoot: HTMLElement;
 } & AutocompleteCoreApi<TItem> &
   AutocompleteDom;
 
-export function render<TItem>(
+export function render<TItem extends BaseItem>(
   renderer: AutocompleteRenderer<TItem>,
   {
     state,

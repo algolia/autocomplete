@@ -4,7 +4,7 @@ import { Component, WithClassNames } from '../types/Component';
 import { concatClassNames, setProperties } from '../utils';
 
 type InputProps = WithClassNames<{
-  getInputProps: AutocompleteCoreApi<unknown>['getInputProps'];
+  getInputProps: AutocompleteCoreApi<any>['getInputProps'];
 }>;
 
 export const Input: Component<InputProps, HTMLInputElement> = ({

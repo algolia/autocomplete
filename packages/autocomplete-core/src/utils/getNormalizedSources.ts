@@ -2,13 +2,14 @@ import { MaybePromise } from '@algolia/autocomplete-shared';
 
 import {
   AutocompleteSource,
+  BaseItem,
   GetSourcesParams,
   InternalAutocompleteSource,
 } from '../types';
 
 import { noop } from './noop';
 
-export function getNormalizedSources<TItem>(
+export function getNormalizedSources<TItem extends BaseItem>(
   getSources: (
     params: GetSourcesParams<TItem>
   ) => MaybePromise<Array<AutocompleteSource<TItem>>>,

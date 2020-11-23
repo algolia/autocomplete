@@ -1,20 +1,22 @@
 import { onInput } from './onInput';
 import {
-  InternalAutocompleteOptions,
   AutocompleteSetters,
   AutocompleteStore,
   AutocompleteRefresh,
+  BaseItem,
+  InternalAutocompleteOptions,
 } from './types';
 import { getSelectedItem } from './utils';
 
-interface OnKeyDownOptions<TItem> extends AutocompleteSetters<TItem> {
+interface OnKeyDownOptions<TItem extends BaseItem>
+  extends AutocompleteSetters<TItem> {
   event: KeyboardEvent;
   store: AutocompleteStore<TItem>;
   props: InternalAutocompleteOptions<TItem>;
   refresh: AutocompleteRefresh;
 }
 
-export function onKeyDown<TItem>({
+export function onKeyDown<TItem extends BaseItem>({
   event,
   store,
   props,

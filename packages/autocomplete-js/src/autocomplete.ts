@@ -1,4 +1,4 @@
-import { createAutocomplete } from '@algolia/autocomplete-core';
+import { BaseItem, createAutocomplete } from '@algolia/autocomplete-core';
 import { createRef } from '@algolia/autocomplete-shared';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
@@ -18,7 +18,7 @@ function defaultRenderer({ root, sections }) {
   }
 }
 
-export function autocomplete<TItem>({
+export function autocomplete<TItem extends BaseItem>({
   container,
   panelContainer = document.body,
   render: renderer = defaultRenderer,

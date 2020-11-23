@@ -3,6 +3,7 @@ import {
   AutocompleteSetters as AutocompleteCoreSetters,
   AutocompleteSource as AutocompleteCoreSource,
   AutocompleteState as AutocompleteCoreState,
+  BaseItem,
   GetSourcesParams,
   InternalAutocompleteSource as InternalAutocompleteCoreSource,
 } from '@algolia/autocomplete-core';
@@ -15,7 +16,7 @@ type Template<TParams> = (params: TParams) => string | void;
  *
  * A template can either return a string, or perform DOM mutations (manipulating DOM elements with JavaScript and attaching events) without returning a string.
  */
-export type SourceTemplates<TItem> = {
+export type SourceTemplates<TItem extends BaseItem> = {
   /**
    * The template for the suggestion item.
    */
@@ -40,25 +41,25 @@ export type SourceTemplates<TItem> = {
   }>;
 };
 
-type WithTemplates<TType, TItem> = TType & {
+type WithTemplates<TType, TItem extends BaseItem> = TType & {
   templates: SourceTemplates<TItem>;
 };
 
-export type AutocompleteSource<TItem> = WithTemplates<
+export type AutocompleteSource<TItem extends BaseItem> = WithTemplates<
   AutocompleteCoreSource<TItem>,
   TItem
 >;
-export type InternalAutocompleteSource<TItem> = WithTemplates<
+export type InternalAutocompleteSource<TItem extends BaseItem> = WithTemplates<
   InternalAutocompleteCoreSource<TItem>,
   TItem
 >;
 
-interface AutocompleteCollection<TItem> {
+interface AutocompleteCollection<TItem extends BaseItem> {
   source: InternalAutocompleteSource<TItem>;
   items: TItem[];
 }
 
-export type AutocompleteState<TItem> = Omit<
+export type AutocompleteState<TItem extends BaseItem> = Omit<
   AutocompleteCoreState<TItem>,
   'collections'
 > & {
@@ -91,13 +92,13 @@ export type AutocompleteDom = {
   panel: HTMLDivElement;
 };
 
-export type AutocompleteRenderer<TItem> = (params: {
+export type AutocompleteRenderer<TItem extends BaseItem> = (params: {
   root: HTMLElement;
   sections: HTMLElement[];
   state: AutocompleteState<TItem>;
 }) => void;
 
-export interface AutocompleteOptions<TItem>
+export interface AutocompleteOptions<TItem extends BaseItem>
   extends AutocompleteCoreOptions<TItem> {
   /**
    * The container for the Autocomplete search box.
@@ -146,7 +147,8 @@ export interface AutocompleteOptions<TItem>
   render?: AutocompleteRenderer<TItem>;
 }
 
-export interface AutocompleteApi<TItem> extends AutocompleteCoreSetters<TItem> {
+export interface AutocompleteApi<TItem extends BaseItem>
+  extends AutocompleteCoreSetters<TItem> {
   /**
    * Triggers a search to refresh the state.
    */

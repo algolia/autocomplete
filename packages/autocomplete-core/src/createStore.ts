@@ -1,10 +1,11 @@
 import {
   AutocompleteStore,
+  BaseItem,
   InternalAutocompleteOptions,
   Reducer,
 } from './types';
 
-export function createStore<TItem>(
+export function createStore<TItem extends BaseItem>(
   reducer: Reducer,
   props: InternalAutocompleteOptions<TItem>
 ): AutocompleteStore<TItem> {

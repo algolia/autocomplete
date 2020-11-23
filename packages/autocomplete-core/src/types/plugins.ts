@@ -1,6 +1,9 @@
-import { AutocompleteOptions, AutocompleteSource } from './api';
+import { AutocompleteOptions, AutocompleteSource, BaseItem } from './api';
 
-export type AutocompletePlugin<TItem, TData = unknown> = Partial<
+export type AutocompletePlugin<
+  TItem extends BaseItem,
+  TData = unknown
+> = Partial<
   Pick<AutocompleteOptions<TItem>, 'onStateChange' | 'onSubmit' | 'getSources'>
 > & {
   /**

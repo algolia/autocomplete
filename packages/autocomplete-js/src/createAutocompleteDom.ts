@@ -1,4 +1,7 @@
-import { AutocompleteApi as AutocompleteCoreApi } from '@algolia/autocomplete-core';
+import {
+  AutocompleteApi as AutocompleteCoreApi,
+  BaseItem,
+} from '@algolia/autocomplete-core';
 
 import {
   Form,
@@ -11,11 +14,11 @@ import {
 } from './components';
 import { AutocompleteClassNames, AutocompleteDom } from './types';
 
-type CreateDomProps<TItem> = AutocompleteCoreApi<TItem> & {
+type CreateDomProps<TItem extends BaseItem> = AutocompleteCoreApi<TItem> & {
   classNames: AutocompleteClassNames;
 };
 
-export function createAutocompleteDom<TItem>({
+export function createAutocompleteDom<TItem extends BaseItem>({
   getRootProps,
   getFormProps,
   getLabelProps,

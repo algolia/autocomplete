@@ -4,7 +4,7 @@ import { Component, WithClassNames } from '../types/Component';
 import { concatClassNames, setProperties } from '../utils';
 
 type FormProps = WithClassNames<
-  ReturnType<AutocompleteCoreApi<unknown>['getFormProps']>
+  ReturnType<AutocompleteCoreApi<any>['getFormProps']>
 >;
 
 export const Form: Component<FormProps, HTMLFormElement> = ({
