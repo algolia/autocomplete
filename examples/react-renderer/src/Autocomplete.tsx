@@ -48,7 +48,7 @@ export function Autocomplete(
         React.KeyboardEvent
       >({
         onStateChange({ state }) {
-          setAutocompleteState(state as any);
+          setAutocompleteState(state);
         },
         getSources() {
           return [
@@ -79,20 +79,20 @@ export function Autocomplete(
       }),
     [props]
   );
-  const inputRef = React.useRef(null);
-  const formRef = React.useRef(null);
-  const panelRef = React.useRef(null);
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const formRef = React.useRef<HTMLFormElement | null>(null);
+  const panelRef = React.useRef<HTMLDivElement | null>(null);
   const { getEnvironmentProps } = autocomplete;
 
   React.useEffect(() => {
-    if (!(formRef.current && panelRef.current && inputRef.current)) {
+    if (!formRef.current || !panelRef.current || !inputRef.current) {
       return undefined;
     }
 
     const { onTouchStart, onTouchMove } = getEnvironmentProps({
-      formElement: formRef.current!,
-      panelElement: panelRef.current!,
-      inputElement: inputRef.current!,
+      formElement: formRef.current,
+      inputElement: inputRef.current,
+      panelElement: panelRef.current,
     });
 
     window.addEventListener('touchstart', onTouchStart);
@@ -102,7 +102,7 @@ export function Autocomplete(
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove', onTouchMove);
     };
-  }, [getEnvironmentProps, formRef, panelRef, inputRef]);
+  }, [getEnvironmentProps, formRef, inputRef, panelRef]);
 
   return (
     <div className="aa-Autocomplete" {...autocomplete.getRootProps({})}>
