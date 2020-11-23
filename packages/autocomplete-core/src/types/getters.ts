@@ -65,7 +65,7 @@ export type GetLabelProps = (props?: {
 
 export type GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (props: {
   [key: string]: unknown;
-  inputElement: HTMLInputElement;
+  inputElement: HTMLInputElement | null;
   maxLength?: number;
 }) => {
   id: string;
