@@ -1,0 +1,387 @@
+[
+  {
+    "instant_search": {
+      "exact_nb_hits": 260,
+      "facets": {
+        "exact_matches": {
+          "categories": [
+            {
+              "value": "Appliances",
+              "count": 252
+            },
+            {
+              "value": "Ranges, Cooktops & Ovens",
+              "count": 229
+            }
+          ],
+          "hierarchicalCategories.lvl0": [
+            {
+              "value": "Appliances",
+              "count": 252
+            }
+          ],
+          "hierarchicalCategories.lvl1": [
+            {
+              "value": "Appliances > Ranges, Cooktops & Ovens",
+              "count": 229
+            }
+          ],
+          "hierarchicalCategories.lvl2": [
+            {
+              "value": "Appliances > Ranges, Cooktops & Ovens > Cooktops",
+              "count": 137
+            }
+          ]
+        },
+        "analytics": {
+          "categories": [],
+          "hierarchicalCategories.lvl0": [],
+          "hierarchicalCategories.lvl1": [
+            {
+              "attribute": "hierarchicalCategories.lvl1",
+              "operator": ":",
+              "value": "Appliances > Ranges, Cooktops & Ovens",
+              "count": 1756
+            }
+          ],
+          "hierarchicalCategories.lvl2": []
+        }
+      }
+    },
+    "nb_words": 1,
+    "popularity": 1230,
+    "query": "cooktop",
+    "objectID": "cooktop",
+    "_highlightResult": {
+      "query": {
+        "value": "cooktop",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "instant_search": {
+      "exact_nb_hits": 151,
+      "facets": {
+        "exact_matches": {
+          "categories": [
+            {
+              "value": "Computers & Tablets",
+              "count": 142
+            },
+            {
+              "value": "Laptop Accessories",
+              "count": 106
+            }
+          ],
+          "hierarchicalCategories.lvl0": [
+            {
+              "value": "Computers & Tablets",
+              "count": 142
+            }
+          ],
+          "hierarchicalCategories.lvl1": [
+            {
+              "value": "Computers & Tablets > Laptop Accessories",
+              "count": 106
+            }
+          ],
+          "hierarchicalCategories.lvl2": [
+            {
+              "value": "Computers & Tablets > Laptop Accessories > Laptop Bags & Cases",
+              "count": 88
+            }
+          ]
+        },
+        "analytics": {
+          "categories": [],
+          "hierarchicalCategories.lvl0": [],
+          "hierarchicalCategories.lvl1": [],
+          "hierarchicalCategories.lvl2": []
+        }
+      }
+    },
+    "nb_words": 1,
+    "popularity": 700,
+    "query": "macbook",
+    "objectID": "macbook",
+    "_highlightResult": {
+      "query": {
+        "value": "macbook",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "instant_search": {
+      "exact_nb_hits": 1179,
+      "facets": {
+        "exact_matches": {
+          "categories": [
+            {
+              "value": "Cell Phones",
+              "count": 385
+            },
+            {
+              "value": "Cell Phone Accessories",
+              "count": 237
+            }
+          ],
+          "hierarchicalCategories.lvl0": [
+            {
+              "value": "Cell Phones",
+              "count": 385
+            }
+          ],
+          "hierarchicalCategories.lvl1": [
+            {
+              "value": "Cell Phones > Cell Phone Accessories",
+              "count": 237
+            }
+          ],
+          "hierarchicalCategories.lvl2": [
+            {
+              "value": "Cameras & Camcorders > Digital Camera Accessories > Camera Batteries & Power",
+              "count": 111
+            }
+          ]
+        },
+        "analytics": {
+          "categories": [],
+          "hierarchicalCategories.lvl0": [],
+          "hierarchicalCategories.lvl1": [],
+          "hierarchicalCategories.lvl2": []
+        }
+      }
+    },
+    "nb_words": 1,
+    "popularity": 536,
+    "query": "battery",
+    "objectID": "battery",
+    "_highlightResult": {
+      "query": {
+        "value": "battery",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "instant_search": {
+      "exact_nb_hits": 79,
+      "facets": {
+        "exact_matches": {
+          "categories": [
+            {
+              "value": "Computers & Tablets",
+              "count": 52
+            },
+            {
+              "value": "Tablets",
+              "count": 23
+            }
+          ],
+          "hierarchicalCategories.lvl0": [
+            {
+              "value": "Computers & Tablets",
+              "count": 52
+            }
+          ],
+          "hierarchicalCategories.lvl1": [
+            {
+              "value": "Computers & Tablets > Tablets",
+              "count": 23
+            }
+          ],
+          "hierarchicalCategories.lvl2": [
+            {
+              "value": "Computers & Tablets > Tablets > All Tablets",
+              "count": 22
+            }
+          ]
+        },
+        "analytics": {
+          "categories": [],
+          "hierarchicalCategories.lvl0": [],
+          "hierarchicalCategories.lvl1": [],
+          "hierarchicalCategories.lvl2": []
+        }
+      }
+    },
+    "nb_words": 1,
+    "popularity": 407,
+    "query": "amazon",
+    "objectID": "amazon",
+    "_highlightResult": {
+      "query": {
+        "value": "amazon",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "instant_search": {
+      "exact_nb_hits": 116,
+      "facets": {
+        "exact_matches": {
+          "categories": [
+            {
+              "value": "Cell Phones",
+              "count": 54
+            },
+            {
+              "value": "Cell Phone Accessories",
+              "count": 41
+            }
+          ],
+          "hierarchicalCategories.lvl0": [
+            {
+              "value": "Cell Phones",
+              "count": 54
+            }
+          ],
+          "hierarchicalCategories.lvl1": [
+            {
+              "value": "Cell Phones > Cell Phone Accessories",
+              "count": 41
+            }
+          ],
+          "hierarchicalCategories.lvl2": [
+            {
+              "value": "Cell Phones > Cell Phone Accessories > Cell Phone Cases & Clips",
+              "count": 29
+            }
+          ]
+        },
+        "analytics": {
+          "categories": [],
+          "hierarchicalCategories.lvl0": [],
+          "hierarchicalCategories.lvl1": [],
+          "hierarchicalCategories.lvl2": []
+        }
+      }
+    },
+    "nb_words": 1,
+    "popularity": 149,
+    "query": "google",
+    "objectID": "google",
+    "_highlightResult": {
+      "query": {
+        "value": "google",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "instant_search": {
+      "exact_nb_hits": 1205,
+      "facets": {
+        "exact_matches": {
+          "categories": [
+            {
+              "value": "Cell Phones",
+              "count": 639
+            },
+            {
+              "value": "Cell Phone Accessories",
+              "count": 554
+            }
+          ],
+          "hierarchicalCategories.lvl0": [
+            {
+              "value": "Cell Phones",
+              "count": 639
+            }
+          ],
+          "hierarchicalCategories.lvl1": [
+            {
+              "value": "Cell Phones > Cell Phone Accessories",
+              "count": 554
+            }
+          ],
+          "hierarchicalCategories.lvl2": [
+            {
+              "value": "Cell Phones > Cell Phone Accessories > Cell Phone Cases & Clips",
+              "count": 450
+            }
+          ]
+        },
+        "analytics": {
+          "categories": [],
+          "hierarchicalCategories.lvl0": [],
+          "hierarchicalCategories.lvl1": [],
+          "hierarchicalCategories.lvl2": []
+        }
+      }
+    },
+    "nb_words": 1,
+    "popularity": 125,
+    "query": "samsung",
+    "objectID": "samsung",
+    "_highlightResult": {
+      "query": {
+        "value": "samsung",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "instant_search": {
+      "exact_nb_hits": 1659,
+      "facets": {
+        "exact_matches": {
+          "categories": [
+            {
+              "value": "Cell Phones",
+              "count": 1509
+            },
+            {
+              "value": "Cell Phone Accessories",
+              "count": 1370
+            }
+          ],
+          "hierarchicalCategories.lvl0": [
+            {
+              "value": "Cell Phones",
+              "count": 1509
+            }
+          ],
+          "hierarchicalCategories.lvl1": [
+            {
+              "value": "Cell Phones > Cell Phone Accessories",
+              "count": 1370
+            }
+          ],
+          "hierarchicalCategories.lvl2": [
+            {
+              "value": "Cell Phones > Cell Phone Accessories > Cell Phone Cases & Clips",
+              "count": 607
+            }
+          ]
+        },
+        "analytics": {
+          "categories": [],
+          "hierarchicalCategories.lvl0": [],
+          "hierarchicalCategories.lvl1": [],
+          "hierarchicalCategories.lvl2": []
+        }
+      }
+    },
+    "nb_words": 1,
+    "popularity": 124,
+    "query": "iphone",
+    "objectID": "iphone",
+    "_highlightResult": {
+      "query": {
+        "value": "iphone",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  }
+]

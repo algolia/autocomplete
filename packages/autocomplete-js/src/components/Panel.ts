@@ -17,5 +17,11 @@ export const Panel: Component<PanelProps, HTMLDivElement> = ({
     class: concatClassNames(['aa-Panel', classNames.panel]),
   });
 
+  if (__TEST__) {
+    setProperties(element, {
+      'data-testid': 'panel',
+    });
+  }
+
   return element;
 };

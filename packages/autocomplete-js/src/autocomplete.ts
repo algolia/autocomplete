@@ -60,7 +60,7 @@ export function autocomplete<TItem extends BaseItem>({
       style: getPanelPositionStyle({
         panelPlacement,
         container: root,
-        inputWrapper,
+        form,
         environment: props.environment,
       }),
     });
@@ -98,7 +98,9 @@ export function autocomplete<TItem extends BaseItem>({
     // As an example:
     //  - without debouncing: "iphone case" query → 85 renders
     //  - with debouncing: "iphone case" query → 12 renders
-    onStateChangeRef.current = debounce(({ state }) => {
+    const debouncedOnStateChange = debounce<{
+      state: AutocompleteState<TItem>;
+    }>(({ state }) => {
       unmountRef.current = render(renderer, {
         state,
         ...autocomplete,
@@ -113,6 +115,18 @@ export function autocomplete<TItem extends BaseItem>({
         resetButton,
       });
     }, 0);
+
+    onStateChangeRef.current = ({ prevState, state }) => {
+      // The outer DOM might have changed since the last time the panel was
+      // positioned. The layout might have shifted vertically for instance.
+      // It's therefore safer to re-calculate the panel position before opening
+      // it again.
+      if (state.isOpen && !prevState.isOpen) {
+        setPanelPosition();
+      }
+
+      return debouncedOnStateChange({ state });
+    };
 
     return () => {
       unmountRef.current?.();

@@ -1,14 +1,19 @@
 import { AutocompleteOptions } from './types';
 
+type GetPanelPositionStyleParams = Pick<
+  AutocompleteOptions<any>,
+  'panelPlacement' | 'environment'
+> & {
+  container: HTMLElement;
+  form: HTMLElement;
+};
+
 export function getPanelPositionStyle({
   panelPlacement,
   container,
-  inputWrapper,
+  form,
   environment = window,
-}: Partial<AutocompleteOptions<any>> & {
-  container: HTMLElement;
-  inputWrapper: HTMLElement;
-}) {
+}: GetPanelPositionStyleParams) {
   const containerRect = container.getBoundingClientRect();
   const top = containerRect.top + containerRect.height;
 
@@ -42,14 +47,14 @@ export function getPanelPositionStyle({
     }
 
     case 'input-wrapper-width': {
-      const inputWrapperRect = inputWrapper.getBoundingClientRect();
+      const formRect = form.getBoundingClientRect();
 
       return {
         top,
-        left: inputWrapperRect.left,
+        left: formRect.left,
         right:
           environment.document.documentElement.clientWidth -
-          (inputWrapperRect.left + inputWrapperRect.width),
+          (formRect.left + formRect.width),
         // @TODO [IE support] IE doesn't support `"unset"`
         // See https://caniuse.com/#feat=css-unset-value
         width: 'unset',
