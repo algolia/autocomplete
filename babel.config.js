@@ -31,6 +31,10 @@ module.exports = (api) => {
             type: 'node',
             replacement: "process.env.NODE_ENV !== 'production'",
           },
+          __TEST__: {
+            type: 'node',
+            replacement: "process.env.NODE_ENV === 'test'",
+          },
         },
       ],
     ]),

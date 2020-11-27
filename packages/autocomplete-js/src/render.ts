@@ -1,6 +1,8 @@
 import { AutocompleteApi as AutocompleteCoreApi } from '@algolia/autocomplete-core';
+import { BaseItem } from '@algolia/autocomplete-core/src';
 
 import {
+  PanelLayout,
   SourceContainer,
   SourceFooter,
   SourceHeader,
@@ -14,15 +16,16 @@ import {
   AutocompleteRenderer,
   AutocompleteState,
 } from './types';
-import { setProperties, setPropertiesWithoutEvents } from './utils';
+import { setPropertiesWithoutEvents } from './utils';
 
-type RenderProps<TItem> = {
+type RenderProps<TItem extends BaseItem> = {
   state: AutocompleteState<TItem>;
   classNames: AutocompleteClassNames;
+  panelRoot: HTMLElement;
 } & AutocompleteCoreApi<TItem> &
   AutocompleteDom;
 
-export function render<TItem>(
+export function render<TItem extends BaseItem>(
   renderer: AutocompleteRenderer<TItem>,
   {
     state,
@@ -31,22 +34,28 @@ export function render<TItem>(
     getListProps,
     getItemProps,
     classNames,
+    panelRoot,
     root,
     input,
     panel,
   }: RenderProps<TItem>
-): void {
+): () => void {
   setPropertiesWithoutEvents(root, getRootProps());
   setPropertiesWithoutEvents(input, getInputProps({ inputElement: input }));
 
   panel.innerHTML = '';
 
   if (!state.isOpen) {
-    setProperties(panel, { hidden: true });
-    return;
+    if (panelRoot.contains(panel)) {
+      panelRoot.removeChild(panel);
+    }
+
+    return () => {};
   }
 
-  setProperties(panel, { hidden: false });
+  if (!panelRoot.contains(panel)) {
+    panelRoot.appendChild(panel);
+  }
 
   if (state.status === 'stalled') {
     panel.classList.add('aa-Panel--stalled');
@@ -106,5 +115,12 @@ export function render<TItem>(
     return sectionElement;
   });
 
-  renderer({ root: panel, sections, state });
+  const panelLayoutElement = PanelLayout({ classNames });
+  panel.appendChild(panelLayoutElement);
+
+  renderer({ root: panelLayoutElement, sections, state });
+
+  return () => {
+    panelRoot.removeChild(panel);
+  };
 }

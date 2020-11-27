@@ -7,7 +7,7 @@ In this guide, you'll learn how to build an autocomplete UI using React.
 
 The `@algolia/autocomplete-core` package provides all the primitives to build an autocomplete experience, but you remain in charge of the UI output. This page will teach you how to leverage all the autocomplete capacities to build an accessible autocomplete, both for desktop and mobile.
 
-You can find the final result in [this sandbox](https://codesandbox.io/s/autocomplete-guide-nh6y6).
+You can find the final result in [this sandbox](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/react-renderer?file=/src/Autocomplete.tsx).
 
 ## Importing the package
 
@@ -267,18 +267,18 @@ function Autocomplete() {
   // ...
 
   const inputRef = React.useRef(null);
-  const searchBoxRef = React.useRef(null);
+  const formRef = React.useRef(null);
   const panelRef = React.useRef(null);
 
   const { getEnvironmentProps } = autocomplete;
 
   React.useEffect(() => {
-    if (!(searchBoxRef.current && panelRef.current && inputRef.current)) {
+    if (!(formRef.current && panelRef.current && inputRef.current)) {
       return;
     }
 
     const { onTouchStart, onTouchMove } = getEnvironmentProps({
-      searchBoxElement: searchBoxRef.current,
+      formElement: formRef.current,
       panelElement: panelRef.current,
       inputElement: inputRef.current,
     });
@@ -290,12 +290,12 @@ function Autocomplete() {
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove', onTouchMove);
     };
-  }, [getEnvironmentProps, searchBoxRef, panelRef, inputRef]);
+  }, [getEnvironmentProps, formRef, panelRef, inputRef]);
 
   return (
     <div className="aa-Autocomplete" {...autocomplete.getRootProps({})}>
       <form
-        ref={searchBoxRef}
+        ref={formRef}
         className="aa-Form"
         {...autocomplete.getFormProps({ inputElement: inputRef.current })}
       >

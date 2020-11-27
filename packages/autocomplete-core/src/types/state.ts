@@ -1,6 +1,6 @@
-import { AutocompleteCollection } from './api';
+import { AutocompleteCollection, BaseItem } from './api';
 
-export interface AutocompleteState<TItem> {
+export interface AutocompleteState<TItem extends BaseItem> {
   selectedItemId: number | null;
   query: string;
   completion: string | null;

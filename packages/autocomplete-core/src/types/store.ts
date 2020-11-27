@@ -1,17 +1,17 @@
-import { InternalAutocompleteOptions } from './api';
+import { BaseItem, InternalAutocompleteOptions } from './api';
 import { AutocompleteState } from './state';
 
-export interface AutocompleteStore<TItem> {
+export interface AutocompleteStore<TItem extends BaseItem> {
   getState(): AutocompleteState<TItem>;
-  send(action: ActionType, payload: any): void;
+  dispatch(action: ActionType, payload: any): void;
 }
 
-export type Reducer = <TItem>(
+export type Reducer = <TItem extends BaseItem>(
   state: AutocompleteState<TItem>,
   action: Action<TItem, any>
 ) => AutocompleteState<TItem>;
 
-type Action<TItem, TPayload> = {
+type Action<TItem extends BaseItem, TPayload> = {
   type: ActionType;
   props: InternalAutocompleteOptions<TItem>;
   payload: TPayload;

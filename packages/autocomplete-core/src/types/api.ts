@@ -5,8 +5,10 @@ import { AutocompletePlugin } from './plugins';
 import { AutocompleteSetters } from './setters';
 import { AutocompleteState } from './state';
 
+export type BaseItem = Record<string, unknown>;
+
 export interface AutocompleteApi<
-  TItem,
+  TItem extends BaseItem,
   TEvent = Event,
   TMouseEvent = MouseEvent,
   TKeyboardEvent = KeyboardEvent
@@ -25,18 +27,23 @@ export interface AutocompleteApi<
 
 export type AutocompleteRefresh = () => Promise<void>;
 
-export interface AutocompleteCollection<TItem> {
+export interface AutocompleteCollection<TItem extends BaseItem> {
   source: InternalAutocompleteSource<TItem>;
   items: TItem[];
 }
+export interface AutocompleteCollectionItemsArray<TItem extends BaseItem> {
+  source: InternalAutocompleteSource<TItem>;
+  items: TItem[][];
+}
 
-export interface GetSourcesParams<TItem> extends AutocompleteSetters<TItem> {
+export interface GetSourcesParams<TItem extends BaseItem>
+  extends AutocompleteSetters<TItem> {
   query: string;
   state: AutocompleteState<TItem>;
   refresh: AutocompleteRefresh;
 }
 
-interface ItemParams<TItem> {
+interface ItemParams<TItem extends BaseItem> {
   item: TItem;
   itemInputValue: ReturnType<
     InternalAutocompleteSource<TItem>['getItemInputValue']
@@ -45,30 +52,32 @@ interface ItemParams<TItem> {
   source: InternalAutocompleteSource<TItem>;
 }
 
-export interface OnSelectParams<TItem>
+export interface OnSelectParams<TItem extends BaseItem>
   extends ItemParams<TItem>,
     AutocompleteSetters<TItem> {
   state: AutocompleteState<TItem>;
   event: any;
 }
 
-export type OnHighlightParams<TItem> = OnSelectParams<TItem>;
+export type OnHighlightParams<TItem extends BaseItem> = OnSelectParams<TItem>;
 
-interface OnSubmitParams<TItem> extends AutocompleteSetters<TItem> {
+interface OnSubmitParams<TItem extends BaseItem>
+  extends AutocompleteSetters<TItem> {
   state: AutocompleteState<TItem>;
   event: any;
 }
 
-interface OnInputParams<TItem> extends AutocompleteSetters<TItem> {
+interface OnInputParams<TItem extends BaseItem>
+  extends AutocompleteSetters<TItem> {
   query: string;
   state: AutocompleteState<TItem>;
   refresh: AutocompleteRefresh;
 }
 
-export interface AutocompleteSource<TItem> {
+export interface AutocompleteSource<TItem extends BaseItem> {
   // This allows flavors to pass other keys to their source.
   // Example: `templates` in the JavaScript API
-  [key: string]: unknown;
+  // [key: string]: unknown;
   /**
    * Get the string value of the item. The value is used to fill the search box.
    */
@@ -107,13 +116,13 @@ export interface AutocompleteSource<TItem> {
   onHighlight?(params: OnHighlightParams<TItem>): void;
 }
 
-export type InternalAutocompleteSource<TItem> = {
+export type InternalAutocompleteSource<TItem extends BaseItem> = {
   [KParam in keyof AutocompleteSource<TItem>]-?: AutocompleteSource<
     TItem
   >[KParam];
 };
 
-export type GetSources<TItem> = (
+export type GetSources<TItem extends BaseItem> = (
   params: GetSourcesParams<TItem>
 ) => Promise<Array<InternalAutocompleteSource<TItem>>>;
 
@@ -131,7 +140,7 @@ export type Environment =
       open: Window['open'];
     };
 
-interface Navigator<TItem> {
+interface Navigator<TItem extends BaseItem> {
   /**
    * Called when a URL should be open in the current page.
    */
@@ -158,7 +167,7 @@ interface Navigator<TItem> {
   }): void;
 }
 
-export interface AutocompleteOptions<TItem> {
+export interface AutocompleteOptions<TItem extends BaseItem> {
   /**
    * Whether to consider the experience in debug mode.
    *
@@ -169,7 +178,9 @@ export interface AutocompleteOptions<TItem> {
    */
   debug?: boolean;
   /**
-   * The Autocomplete ID to create accessible attributes.
+   * The unique Autocomplete ID to create accessible attributes.
+   *
+   * It is incremented by default when creating a new Autocomplete instance.
    *
    * @default "autocomplete-0"
    */
@@ -177,7 +188,7 @@ export interface AutocompleteOptions<TItem> {
   /**
    * Function called when the internal state changes.
    */
-  onStateChange?<TItem>(props: {
+  onStateChange?(props: {
     state: AutocompleteState<TItem>;
     prevState: AutocompleteState<TItem>;
   }): void;
@@ -254,11 +265,11 @@ export interface AutocompleteOptions<TItem> {
 }
 
 // Props manipulated internally with default values.
-export interface InternalAutocompleteOptions<TItem>
+export interface InternalAutocompleteOptions<TItem extends BaseItem>
   extends AutocompleteOptions<TItem> {
   debug: boolean;
   id: string;
-  onStateChange<TItem>(props: {
+  onStateChange(props: {
     state: AutocompleteState<TItem>;
     prevState: AutocompleteState<TItem>;
   }): void;

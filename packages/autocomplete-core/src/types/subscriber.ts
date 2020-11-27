@@ -1,8 +1,10 @@
-import { OnHighlightParams, OnSelectParams } from './api';
+import { BaseItem, OnHighlightParams, OnSelectParams } from './api';
 
-export type Subscriber<TItem> = {
+export type Subscriber<TItem extends BaseItem> = {
   onSelect(params: OnSelectParams<TItem>): void;
   onHighlight(params: OnHighlightParams<TItem>): void;
 };
 
-export type Subscribers<TItem> = Array<Partial<Subscriber<TItem>>>;
+export type Subscribers<TItem extends BaseItem> = Array<
+  Partial<Subscriber<TItem>>
+>;

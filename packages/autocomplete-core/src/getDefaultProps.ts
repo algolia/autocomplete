@@ -1,7 +1,8 @@
 import { getNavigator } from './getNavigator';
 import {
-  InternalAutocompleteOptions,
   AutocompleteOptions,
+  BaseItem,
+  InternalAutocompleteOptions,
   Subscribers,
 } from './types';
 import {
@@ -11,12 +12,12 @@ import {
   flatten,
 } from './utils';
 
-export function getDefaultProps<TItem>(
+export function getDefaultProps<TItem extends BaseItem>(
   props: AutocompleteOptions<TItem>,
   subscribers: Subscribers<TItem>
 ): InternalAutocompleteOptions<TItem> {
   const environment: InternalAutocompleteOptions<
-    unknown
+    TItem
   >['environment'] = (typeof window !== 'undefined'
     ? window
     : {}) as typeof window;

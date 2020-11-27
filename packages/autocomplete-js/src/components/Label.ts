@@ -6,7 +6,7 @@ import { concatClassNames, setProperties } from '../utils';
 import { SearchIcon } from './SearchIcon';
 
 type LabelProps = WithClassNames<
-  ReturnType<AutocompleteCoreApi<unknown>['getLabelProps']>
+  ReturnType<AutocompleteCoreApi<any>['getLabelProps']>
 >;
 
 export const Label: Component<LabelProps, HTMLLabelElement> = ({

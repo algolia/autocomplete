@@ -14,9 +14,14 @@ export const Panel: Component<PanelProps, HTMLDivElement> = ({
   const element = document.createElement('div');
   setProperties(element, {
     ...props,
-    hidden: true,
     class: concatClassNames(['aa-Panel', classNames.panel]),
   });
+
+  if (__TEST__) {
+    setProperties(element, {
+      'data-testid': 'panel',
+    });
+  }
 
   return element;
 };

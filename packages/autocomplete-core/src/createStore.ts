@@ -1,10 +1,11 @@
 import {
   AutocompleteStore,
+  BaseItem,
   InternalAutocompleteOptions,
   Reducer,
 } from './types';
 
-export function createStore<TItem>(
+export function createStore<TItem extends BaseItem>(
   reducer: Reducer,
   props: InternalAutocompleteOptions<TItem>
 ): AutocompleteStore<TItem> {
@@ -14,7 +15,7 @@ export function createStore<TItem>(
     getState() {
       return state;
     },
-    send(action, payload) {
+    dispatch(action, payload) {
       const prevState = { ...state };
       state = reducer(state, {
         type: action,

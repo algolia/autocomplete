@@ -5,6 +5,7 @@ export const resetIcon = `
     stroke="currentColor"
     fill="none"
     fill-rule="evenodd"
+    stroke-width="1.4"
     stroke-linecap="round"
     stroke-linejoin="round"
   ></path>

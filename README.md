@@ -16,16 +16,20 @@ You should be using Autocomplete if you want to:
 - Create custom interactions and behaviors based on your sources
 - Plug the Algolia realtime search engine
 
+## Documentation
+
+You can find the Autocomplete documentation on [autocomplete.algolia.com](https://autocomplete.algolia.com).
+
 ## Packages
 
 | Package | Description | Documentation |
 | --- | --- | --- |
-| [`autocomplete-core`](packages/autocomplete-core) | Core primitives to build an Autocomplete experience | [Documentation](https://algolia-autocomplete.netlify.app/docs/createAutocomplete) |
-| [`autocomplete-js`](packages/autocomplete-js) | JavaScript package for Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/autocomplete-js) |
-| [`autocomplete-preset-algolia`](packages/autocomplete-preset-algolia) | Presets to use Algolia features with Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/getAlgoliaHits) |
-| [`autocomplete-plugin-recent-searches`](packages/autocomplete-plugin-recent-searches) | A plugin to add recent searches to Algolia Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/createLocalStorageRecentSearchesPlugin) |
-| [`autocomplete-plugin-query-suggestions`](packages/autocomplete-plugin-query-suggestions) | A plugin to add query suggestions to Algolia Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/createQuerySuggestionsPlugin) |
-| [`autocomplete-plugin-algolia-insights`](packages/autocomplete-plugin-algolia-insights) | A plugin to add Algolia Insights to Algolia Autocomplete | [Documentation](https://algolia-autocomplete.netlify.app/docs/createAlgoliaInsightsPlugin) |
+| [`autocomplete-core`](packages/autocomplete-core) | Core primitives to build an Autocomplete experience | [Documentation](https://autocomplete.algolia.com/docs/createAutocomplete) |
+| [`autocomplete-js`](packages/autocomplete-js) | JavaScript package for Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/autocomplete-js) |
+| [`autocomplete-preset-algolia`](packages/autocomplete-preset-algolia) | Presets to use Algolia features with Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/getAlgoliaHits) |
+| [`autocomplete-plugin-recent-searches`](packages/autocomplete-plugin-recent-searches) | A plugin to add recent searches to Algolia Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/createLocalStorageRecentSearchesPlugin) |
+| [`autocomplete-plugin-query-suggestions`](packages/autocomplete-plugin-query-suggestions) | A plugin to add query suggestions to Algolia Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/createQuerySuggestionsPlugin) |
+| [`autocomplete-plugin-algolia-insights`](packages/autocomplete-plugin-algolia-insights) | A plugin to add Algolia Insights to Algolia Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/createAlgoliaInsightsPlugin) |
 
 ## License
 

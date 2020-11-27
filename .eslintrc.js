@@ -2,6 +2,7 @@ module.exports = {
   extends: ['algolia', 'algolia/jest', 'algolia/react', 'algolia/typescript'],
   globals: {
     __DEV__: false,
+    __TEST__: false,
   },
   settings: {
     react: {
@@ -31,7 +32,6 @@ module.exports = {
         allow: ['__autocomplete_'],
       },
     ],
-    '@typescript-eslint/no-use-before-define': 0,
     // Useful to call functions like `nodeItem?.scrollIntoView()`.
     'no-unused-expressions': 0,
     complexity: 0,
@@ -84,6 +84,12 @@ module.exports = {
       files: ['scripts/**/*', '*.config.js'],
       rules: {
         'import/no-commonjs': 'off',
+      },
+    },
+    {
+      files: ['examples/**/*'],
+      rules: {
+        'spaced-comment': 'off',
       },
     },
   ],

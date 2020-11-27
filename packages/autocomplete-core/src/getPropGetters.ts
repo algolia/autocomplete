@@ -13,16 +13,23 @@ import {
   GetLabelProps,
   GetListProps,
   GetRootProps,
+  BaseItem,
 } from './types';
 import { getSelectedItem, isOrContainsNode } from './utils';
 
-interface GetPropGettersOptions<TItem> extends AutocompleteSetters<TItem> {
+interface GetPropGettersOptions<TItem extends BaseItem>
+  extends AutocompleteSetters<TItem> {
   store: AutocompleteStore<TItem>;
   props: InternalAutocompleteOptions<TItem>;
   refresh: AutocompleteRefresh;
 }
 
-export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
+export function getPropGetters<
+  TItem extends BaseItem,
+  TEvent,
+  TMouseEvent,
+  TKeyboardEvent
+>({
   store,
   props,
   setSelectedItemId,
@@ -49,7 +56,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         }
 
         const isTargetWithinAutocomplete = [
-          getterProps.searchBoxElement,
+          getterProps.formElement,
           getterProps.panelElement,
         ].some((contextNode) => {
           return (
@@ -63,7 +70,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         });
 
         if (isTargetWithinAutocomplete === false) {
-          store.send('blur', null);
+          store.dispatch('blur', null);
         }
       },
       // When scrolling on touch devices (mobiles, tablets, etc.), we want to
@@ -117,7 +124,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
           event,
         });
 
-        store.send('submit', null);
+        store.dispatch('submit', null);
 
         if (providedProps.inputElement) {
           providedProps.inputElement.blur();
@@ -141,7 +148,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
             refresh,
           });
         }
-        store.send('reset', null);
+        store.dispatch('reset', null);
 
         if (providedProps.inputElement) {
           providedProps.inputElement.focus();
@@ -173,7 +180,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         });
       }
 
-      store.send('focus', null);
+      store.dispatch('focus', null);
     }
 
     const isTouchDevice = 'ontouchstart' in props.environment;
@@ -232,7 +239,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         // We do rely on the `blur` event on touch devices.
         // See explanation in `onTouchStart`.
         if (!isTouchDevice) {
-          store.send('blur', null);
+          store.dispatch('blur', null);
         }
       },
       onClick: (event) => {
@@ -281,7 +288,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
         ((event as unknown) as MouseEvent).preventDefault();
       },
       onMouseLeave() {
-        store.send('mouseleave', null);
+        store.dispatch('mouseleave', null);
       },
       ...rest,
     };
@@ -300,7 +307,7 @@ export function getPropGetters<TItem, TEvent, TMouseEvent, TKeyboardEvent>({
           return;
         }
 
-        store.send('mousemove', item.__autocomplete_id);
+        store.dispatch('mousemove', item.__autocomplete_id);
 
         const highlightedItem = getSelectedItem({
           state: store.getState(),

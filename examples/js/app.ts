@@ -1,9 +1,8 @@
-import algoliasearch from 'algoliasearch/lite';
 import { autocomplete } from '@algolia/autocomplete-js';
-import { getAlgoliaInsightsHits } from '@algolia/autocomplete-preset-algolia';
-import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
-import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
+import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
+import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+import { getAlgoliaInsightsHits } from '@algolia/autocomplete-preset-algolia';
 import insightsClient from 'search-insights';
 
 const appId = 'latency';

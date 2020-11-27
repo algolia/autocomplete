@@ -1,11 +1,11 @@
-import { InternalAutocompleteOptions } from './types';
+import { BaseItem, InternalAutocompleteOptions } from './types';
 
-export function getNavigator({
+export function getNavigator<TItem extends BaseItem>({
   environment,
 }: Pick<
-  InternalAutocompleteOptions<unknown>,
+  InternalAutocompleteOptions<TItem>,
   'environment'
->): InternalAutocompleteOptions<unknown>['navigator'] {
+>): InternalAutocompleteOptions<TItem>['navigator'] {
   return {
     navigate({ itemUrl }) {
       environment.location.assign(itemUrl);
