@@ -23,7 +23,7 @@ type SendViewedObjectIDsParams = {
   onItemsChange(params: OnItemsChangeParams): void;
   items: AlgoliaInsightsHit[];
   insights: InsightsApi;
-  state: AutocompleteState<unknown>;
+  state: AutocompleteState<any>;
 };
 
 const sendViewedObjectIDs = debounce<SendViewedObjectIDsParams>(
@@ -71,12 +71,12 @@ export function createAlgoliaInsightsPlugin({
     insights.clickedObjectIDsAfterSearch(...insightsEvents);
   },
   onHighlight: onHighlightEvent = () => {},
-}: CreateAlgoliaInsightsPluginParams): AutocompletePlugin<unknown, undefined> {
+}: CreateAlgoliaInsightsPluginParams): AutocompletePlugin<any, undefined> {
   const insights = createSearchInsightsApi(insightsClient);
   const previousItems = createRef<AlgoliaInsightsHit[]>([]);
 
   const debouncedOnStateChange = debounce<{
-    state: AutocompleteState<unknown>;
+    state: AutocompleteState<any>;
   }>(({ state }) => {
     if (!state.isOpen) {
       return;
