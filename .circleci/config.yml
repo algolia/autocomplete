@@ -27,6 +27,7 @@ aliases:
       mkdir -p packages/autocomplete-core/dist
       mkdir -p packages/autocomplete-js/dist
       mkdir -p packages/autocomplete-preset-algolia/dist
+      mkdir -p packages/autocomplete-plugin-algolia-insights/dist
       mkdir -p packages/autocomplete-plugin-recent-searches/dist
       mkdir -p packages/autocomplete-plugin-query-suggestions/dist
 
@@ -34,6 +35,7 @@ aliases:
       cp -R /tmp/workspace/packages/autocomplete-core/dist packages/autocomplete-core
       cp -R /tmp/workspace/packages/autocomplete-js/dist packages/autocomplete-js
       cp -R /tmp/workspace/packages/autocomplete-preset-algolia/dist packages/autocomplete-preset-algolia
+      cp -R /tmp/workspace/packages/autocomplete-plugin-algolia-insights/dist packages/autocomplete-plugin-algolia-insights
       cp -R /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist packages/autocomplete-plugin-recent-searches
       cp -R /tmp/workspace/packages/autocomplete-plugin-query-suggestions/dist packages/autocomplete-plugin-query-suggestions
 
@@ -69,6 +71,7 @@ jobs:
             mkdir -p /tmp/workspace/packages/autocomplete-core/dist
             mkdir -p /tmp/workspace/packages/autocomplete-js/dist
             mkdir -p /tmp/workspace/packages/autocomplete-preset-algolia/dist
+            mkdir -p /tmp/workspace/packages/autocomplete-plugin-algolia-insights/dist
             mkdir -p /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist
             mkdir -p /tmp/workspace/packages/autocomplete-plugin-query-suggestions/dist
 
@@ -76,6 +79,7 @@ jobs:
             cp -R packages/autocomplete-core/dist /tmp/workspace/packages/autocomplete-core
             cp -R packages/autocomplete-js/dist /tmp/workspace/packages/autocomplete-js
             cp -R packages/autocomplete-preset-algolia/dist /tmp/workspace/packages/autocomplete-preset-algolia
+            cp -R packages/autocomplete-plugin-algolia-insights/dist /tmp/workspace/packages/autocomplete-plugin-algolia-insights
             cp -R packages/autocomplete-plugin-recent-searches/dist /tmp/workspace/packages/autocomplete-plugin-recent-searches
             cp -R packages/autocomplete-plugin-query-suggestions/dist /tmp/workspace/packages/autocomplete-plugin-query-suggestions
       - persist_to_workspace:

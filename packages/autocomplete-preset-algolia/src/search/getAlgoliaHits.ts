@@ -9,6 +9,14 @@ export function getAlgoliaHits<TRecord>({
   return search<TRecord>({ searchClient, queries }).then((response) => {
     const results = response.results;
 
-    return results.map((result) => result.hits);
+    return results.map((result) =>
+      result.hits.map((hit) => {
+        return {
+          ...hit,
+          __autocomplete_indexName: result.index,
+          __autocomplete_queryID: result.queryID,
+        };
+      })
+    );
   });
 }

@@ -3,6 +3,7 @@ import {
   AutocompleteOptions,
   BaseItem,
   InternalAutocompleteOptions,
+  Subscribers,
 } from './types';
 import {
   generateAutocompleteId,
@@ -12,7 +13,8 @@ import {
 } from './utils';
 
 export function getDefaultProps<TItem extends BaseItem>(
-  props: AutocompleteOptions<TItem>
+  props: AutocompleteOptions<TItem>,
+  subscribers: Subscribers<TItem>
 ): InternalAutocompleteOptions<TItem> {
   const environment: InternalAutocompleteOptions<
     TItem
@@ -70,8 +72,14 @@ export function getDefaultProps<TItem extends BaseItem>(
             ...source,
             onSelect(params) {
               source.onSelect(params);
-              plugins.forEach((plugin) => {
-                plugin.subscribed?.onSelect?.(params);
+              subscribers.forEach((subscriber) => {
+                subscriber.onSelect?.(params);
+              });
+            },
+            onHighlight(params) {
+              source.onHighlight(params);
+              subscribers.forEach((subscriber) => {
+                subscriber.onHighlight?.(params);
               });
             },
           }))
