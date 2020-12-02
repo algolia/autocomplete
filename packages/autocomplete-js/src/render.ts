@@ -37,10 +37,12 @@ export function render<TItem extends BaseItem>(
     panelRoot,
     root,
     input,
+    resetButton,
     panel,
   }: RenderProps<TItem>
 ): () => void {
-  setPropertiesWithoutEvents(root, getRootProps());
+  setPropertiesWithoutEvents(root, getRootProps({}));
+  setPropertiesWithoutEvents(resetButton, { hidden: !state.query });
   setPropertiesWithoutEvents(input, getInputProps({ inputElement: input }));
 
   panel.innerHTML = '';

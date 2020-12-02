@@ -82,6 +82,7 @@ describe('autocomplete-js', () => {
               </label>
               <button
                 class="aa-ResetButton"
+                hidden=""
                 type="reset"
               >
                 <svg

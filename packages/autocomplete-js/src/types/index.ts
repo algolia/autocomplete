@@ -145,6 +145,7 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * ```
    */
   render?: AutocompleteRenderer<TItem>;
+  initialState?: Partial<AutocompleteState<TItem>>;
 }
 
 export interface AutocompleteApi<TItem extends BaseItem>

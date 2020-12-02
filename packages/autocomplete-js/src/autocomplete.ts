@@ -90,6 +90,35 @@ export function autocomplete<TItem extends BaseItem>({
 
   runEffect(() => {
     const panelRoot = getHTMLElement(panelContainer);
+    const state: AutocompleteState<TItem> = {
+      collections: [],
+      completion: null,
+      context: {},
+      isOpen: false,
+      query: '',
+      selectedItemId: null,
+      status: 'idle',
+      ...props.initialState,
+    };
+    render(renderer, {
+      state,
+      ...autocomplete,
+      classNames,
+      panelRoot,
+      root,
+      form,
+      input,
+      inputWrapper,
+      label,
+      panel,
+      resetButton,
+    });
+
+    return () => {};
+  });
+
+  runEffect(() => {
+    const panelRoot = getHTMLElement(panelContainer);
     const unmountRef = createRef<(() => void) | undefined>(undefined);
     // This batches state changes to limit DOM mutations.
     // Every time we call a setter in `autocomplete-core` (e.g., in `onInput`),
