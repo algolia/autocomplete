@@ -24,6 +24,7 @@ export function autocomplete<TItem extends BaseItem>({
   render: renderer = defaultRenderer,
   panelPlacement = 'input-wrapper-width',
   classNames = {},
+  touchMediaQuery = '(max-width: 900px)',
   ...props
 }: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
   const { runEffect, cleanupEffects } = createEffectWrapper();
@@ -42,7 +43,10 @@ export function autocomplete<TItem extends BaseItem>({
     },
   });
 
+  const mediaQueryList = window.matchMedia(touchMediaQuery);
+
   const {
+    touchOverlay,
     inputWrapper,
     form,
     label,
@@ -51,18 +55,26 @@ export function autocomplete<TItem extends BaseItem>({
     root,
     panel,
   } = createAutocompleteDom({
+    isTouch: mediaQueryList.matches,
+    placeholder: props.placeholder,
+    onTouchOverlayClose() {
+      autocomplete.setQuery('');
+      autocomplete.refresh();
+    },
     ...autocomplete,
     classNames,
   });
 
   function setPanelPosition() {
     setProperties(panel, {
-      style: getPanelPositionStyle({
-        panelPlacement,
-        container: root,
-        form,
-        environment: props.environment,
-      }),
+      style: mediaQueryList.matches
+        ? {}
+        : getPanelPositionStyle({
+            panelPlacement,
+            container: root,
+            form,
+            environment: props.environment,
+          }),
     });
   }
 
@@ -89,7 +101,9 @@ export function autocomplete<TItem extends BaseItem>({
   });
 
   runEffect(() => {
-    const panelRoot = getHTMLElement(panelContainer);
+    const panelRoot = mediaQueryList.matches
+      ? touchOverlay
+      : getHTMLElement(panelContainer);
     const unmountRef = createRef<(() => void) | undefined>(undefined);
     // This batches state changes to limit DOM mutations.
     // Every time we call a setter in `autocomplete-core` (e.g., in `onInput`),

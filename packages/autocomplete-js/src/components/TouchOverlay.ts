@@ -3,14 +3,14 @@ import { concatClassNames } from '../utils';
 
 import { Element } from './Element';
 
-type PanelLayoutProps = WithClassNames<{}>;
+type TouchOverlayProps = WithClassNames<{}>;
 
-export const PanelLayout: Component<PanelLayoutProps, HTMLDivElement> = ({
+export const TouchOverlay: Component<TouchOverlayProps, HTMLDivElement> = ({
   classNames,
   ...props
 }) => {
   return Element<'div'>('div', {
     ...props,
-    class: concatClassNames(['aa-PanelLayout', classNames.panelLayout]),
+    class: concatClassNames(['aa-TouchOverlay', classNames.touchOverlay]),
   });
 };

@@ -23,7 +23,7 @@ type RenderProps<TItem extends BaseItem> = {
   classNames: AutocompleteClassNames;
   panelRoot: HTMLElement;
 } & AutocompleteCoreApi<TItem> &
-  AutocompleteDom;
+  Omit<AutocompleteDom, 'touchOverlay'>;
 
 export function render<TItem extends BaseItem>(
   renderer: AutocompleteRenderer<TItem>,

@@ -1,4 +1,5 @@
 export * from './Form';
+export * from './Element';
 export * from './Input';
 export * from './InputWrapper';
 export * from './Label';
@@ -13,3 +14,5 @@ export * from './SourceFooter';
 export * from './SourceHeader';
 export * from './SourceItem';
 export * from './SourceList';
+export * from './TouchOverlay';
+export * from './TouchSearchButton';

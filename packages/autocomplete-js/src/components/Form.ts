@@ -1,7 +1,9 @@
 import { AutocompleteApi as AutocompleteCoreApi } from '@algolia/autocomplete-core';
 
 import { Component, WithClassNames } from '../types/Component';
-import { concatClassNames, setProperties } from '../utils';
+import { concatClassNames } from '../utils';
+
+import { Element } from './Element';
 
 type FormProps = WithClassNames<
   ReturnType<AutocompleteCoreApi<any>['getFormProps']>
@@ -11,11 +13,8 @@ export const Form: Component<FormProps, HTMLFormElement> = ({
   classNames,
   ...props
 }) => {
-  const element = document.createElement('form');
-  setProperties(element, {
+  return Element<'form'>('form', {
     ...props,
     class: concatClassNames(['aa-Form', classNames.form]),
   });
-
-  return element;
 };

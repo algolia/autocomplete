@@ -1,15 +1,14 @@
 import { Component, WithClassNames } from '../types/Component';
-import { concatClassNames, setProperties } from '../utils';
+import { concatClassNames } from '../utils';
+
+import { Element } from './Element';
 
 type SourceContainerProps = WithClassNames<{}>;
 
 export const SourceContainer: Component<SourceContainerProps, HTMLElement> = ({
   classNames,
 }) => {
-  const element = document.createElement('section');
-  setProperties(element, {
+  return Element<'section'>('section', {
     class: concatClassNames(['aa-Source', classNames.source]),
   });
-
-  return element;
 };

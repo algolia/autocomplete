@@ -1,15 +1,14 @@
 import { Component, WithClassNames } from '../types/Component';
-import { concatClassNames, setProperties } from '../utils';
+import { concatClassNames } from '../utils';
+
+import { Element } from './Element';
 
 type InputWrapperProps = WithClassNames<{}>;
 
 export const InputWrapper: Component<InputWrapperProps, HTMLDivElement> = ({
   classNames,
 }) => {
-  const element = document.createElement('div');
-  setProperties(element, {
+  return Element<'div'>('div', {
     class: concatClassNames(['aa-InputWrapper', classNames.inputWrapper]),
   });
-
-  return element;
 };

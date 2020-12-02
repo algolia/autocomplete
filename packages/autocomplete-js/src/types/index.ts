@@ -67,11 +67,13 @@ export type AutocompleteState<TItem extends BaseItem> = Omit<
 };
 
 export type AutocompleteClassNames = Partial<{
+  touchOverlay: string;
   root: string;
   form: string;
   label: string;
   inputWrapper: string;
   input: string;
+  touchSearchButton: string;
   resetButton: string;
   panel: string;
   panelLayout: string;
@@ -90,6 +92,7 @@ export type AutocompleteDom = {
   label: HTMLLabelElement;
   resetButton: HTMLButtonElement;
   panel: HTMLDivElement;
+  touchOverlay: HTMLDivElement;
 };
 
 export type AutocompleteRenderer<TItem extends BaseItem> = (params: {
@@ -114,6 +117,10 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * @default document.body
    */
   panelContainer?: string | HTMLElement;
+  /**
+   *
+   */
+  touchMediaQuery?: string;
   getSources?: (
     params: GetSourcesParams<TItem>
   ) => MaybePromise<Array<AutocompleteSource<TItem>>>;

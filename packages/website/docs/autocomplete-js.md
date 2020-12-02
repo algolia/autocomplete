@@ -95,11 +95,13 @@ The class names to inject in each created DOM element. It it useful to design wi
 
 ```ts
 type ClassNames = Partial<{
+  touchOverlay: string;
   root: string;
   form: string;
   label: string;
   inputWrapper: string;
   input: string;
+  touchSearchButton: string;
   resetButton: string;
   panel: string;
   panelLayout: string;

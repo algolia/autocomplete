@@ -1,5 +1,35 @@
+.aa-TouchOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background: rgb(255 255 255 / 85%);
+  backdrop-filter: blur(3px); */
+  padding: 0.5rem;
+  background: rgb(255 255 255 / 0.92);
+  backdrop-filter: blur(16px);
+}
+
+.aa-TouchFormContainer {
+  display: flex;
+  justify-content: space-between;
+  grid-gap: 0.5rem;
+}
+
+.aa-TouchCancelButton {
+  background: none;
+  border: none;
+  font-size: inherit;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
 .aa-Form {
   position: relative;
+  flex-grow: 1;
+  margin: 0;
 }
 
 .aa-Label {
@@ -10,7 +40,6 @@
   height: 100%;
   padding: 0 0.5rem;
   position: absolute;
-  z-index: 2;
 }
 
 .aa-InputWrapper {
@@ -19,6 +48,10 @@
   min-height: 2.5rem;
   position: relative;
   width: 100%;
+}
+
+.aa-TouchOverlay .aa-InputWrapper {
+  background-color: transparent;
 }
 
 .aa-Input {
@@ -33,7 +66,6 @@
   height: 100%;
   position: absolute;
   width: 100%;
-  z-index: 2;
 }
 
 .aa-Input::-webkit-search-decoration,
@@ -43,7 +75,8 @@
   -webkit-appearance: none;
 }
 
-.aa-Input {
+.aa-Input,
+.aa-TouchSearchButtonPlaceholder {
   padding: 0 2.25rem;
 }
 
@@ -65,13 +98,31 @@
   padding: 0 0.5rem;
   position: absolute;
   right: 0;
-  z-index: 2;
+}
+
+.aa-TouchSearchButton {
+  background-color: #fff;
+  max-width: 100%;
+  min-height: 2.5rem;
+  position: relative;
+  width: 100%;
+  border: 2px solid #ddd;
+  border-radius: 3px;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  display: flex;
+  align-items: center;
 }
 
 .aa-Panel {
   max-width: 480px;
   position: absolute;
   width: 100%;
+}
+
+.aa-TouchOverlay .aa-Panel {
+  position: relative;
 }
 
 .aa-Panel--stalled {
@@ -87,6 +138,13 @@
   box-shadow: 0 0 0 1px rgba(35, 38, 59, 0.05),
     0 8px 16px -4px rgba(35, 38, 59, 0.25);
   margin-top: 5px;
+}
+
+.aa-TouchOverlay .aa-PanelLayout {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .aa-PanelLayout a {
@@ -108,6 +166,10 @@
   justify-content: space-between;
 }
 
+.aa-TouchOverlay .aa-Item {
+  border-radius: 5px;
+}
+
 .aa-Item mark {
   background: none;
   font-style: normal;
@@ -118,6 +180,10 @@
   background-color: #f5f5fa;
 }
 
+/* .aa-TouchOverlay .aa-Item[aria-selected='true'] {
+  background-color: rgba(255, 255, 255, 1);
+} */
+
 .aa-ItemContent {
   display: flex;
   flex-grow: 1;
@@ -127,7 +193,7 @@
 
 .aa-ItemSourceIcon,
 .aa-ItemActionButton {
-  color: rgba(80, 80, 80, 0.32);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .aa-ItemActionButton {

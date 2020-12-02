@@ -1,6 +1,7 @@
 import { Component, WithClassNames } from '../types/Component';
-import { concatClassNames, setProperties } from '../utils';
+import { concatClassNames } from '../utils';
 
+import { Element } from './Element';
 import { ResetIcon } from './ResetIcon';
 
 type ResetButtonProps = WithClassNames<{}>;
@@ -8,8 +9,7 @@ type ResetButtonProps = WithClassNames<{}>;
 export const ResetButton: Component<ResetButtonProps, HTMLButtonElement> = ({
   classNames,
 }) => {
-  const element = document.createElement('button');
-  setProperties(element, {
+  const element = Element<'button'>('button', {
     type: 'reset',
     class: concatClassNames(['aa-ResetButton', classNames.resetButton]),
   });
