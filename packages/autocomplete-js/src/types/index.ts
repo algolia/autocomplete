@@ -31,6 +31,8 @@ export type SourceTemplates<TItem extends BaseItem> = {
   header?: Template<{
     root: HTMLElement;
     state: AutocompleteState<TItem>;
+    source: AutocompleteSource<TItem>;
+    items: TItem[];
   }>;
   /**
    * The template for the section footer.
@@ -38,6 +40,8 @@ export type SourceTemplates<TItem extends BaseItem> = {
   footer?: Template<{
     root: HTMLElement;
     state: AutocompleteState<TItem>;
+    source: AutocompleteSource<TItem>;
+    items: TItem[];
   }>;
 };
 

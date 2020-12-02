@@ -72,7 +72,12 @@ export function render<TItem extends BaseItem>(
       const headerElement = SourceHeader({ classNames });
 
       renderTemplate({
-        template: source.templates.header({ root: headerElement, state }),
+        template: source.templates.header({
+          root: headerElement,
+          state,
+          source,
+          items,
+        }),
         parent: sectionElement,
         element: headerElement,
       });
@@ -108,7 +113,12 @@ export function render<TItem extends BaseItem>(
       });
 
       renderTemplate({
-        template: source.templates.footer({ root: footerElement, state }),
+        template: source.templates.footer({
+          root: footerElement,
+          state,
+          source,
+          items,
+        }),
         parent: sectionElement,
         element: footerElement,
       });
