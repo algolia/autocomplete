@@ -1,23 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
-const packages = [
-  'packages/autocomplete-shared',
-  'packages/autocomplete-core',
-  'packages/autocomplete-js',
-  'packages/autocomplete-preset-algolia',
-  'packages/autocomplete-plugin-algolia-insights',
-  'packages/autocomplete-plugin-recent-searches',
-  'packages/autocomplete-plugin-query-suggestions',
-  'packages/autocomplete-theme-classic',
-];
-
 module.exports = {
   monorepo: {
     mainVersionFile: 'lerna.json',
     // We rely on Lerna to bump our dependencies.
     packagesToBump: [],
-    packagesToPublish: packages,
+    packagesToPublish: ['packages/autocomplete-*'],
   },
   publishCommand({ tag }) {
     return `yarn publish --access public --tag ${tag}`;
