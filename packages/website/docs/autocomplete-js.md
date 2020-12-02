@@ -101,6 +101,8 @@ type ClassNames = Partial<{
   inputWrapper: string;
   input: string;
   resetButton: string;
+  submitButton: string;
+  loadingIndicator: string;
   panel: string;
   panelLayout: string;
   source: string;

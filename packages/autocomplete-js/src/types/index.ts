@@ -78,6 +78,7 @@ export type AutocompleteClassNames = Partial<{
   input: string;
   submitButton: string;
   resetButton: string;
+  loadingIndicator: string;
   panel: string;
   panelLayout: string;
   source: string;
@@ -95,6 +96,7 @@ export type AutocompleteDom = {
   label: HTMLLabelElement;
   submitButton: HTMLButtonElement;
   resetButton: HTMLButtonElement;
+  loadingIndicator: HTMLDivElement;
   panel: HTMLDivElement;
 };
 

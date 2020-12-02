@@ -49,6 +49,7 @@ export function autocomplete<TItem extends BaseItem>({
     input,
     submitButton,
     resetButton,
+    loadingIndicator,
     root,
     panel,
   } = createAutocompleteDom({
@@ -114,6 +115,7 @@ export function autocomplete<TItem extends BaseItem>({
       panel,
       submitButton,
       resetButton,
+      loadingIndicator,
     });
 
     return () => {};
@@ -145,6 +147,7 @@ export function autocomplete<TItem extends BaseItem>({
         panel,
         submitButton,
         resetButton,
+        loadingIndicator,
       });
     }, 0);
 

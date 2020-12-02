@@ -54,18 +54,32 @@
 }
 
 .aa-SubmitButton,
+.aa-ResetButton,
+.aa-LoadingIndicator {
+  height: 100%;
+  padding: 0 0.5rem;
+}
+
+.aa-SubmitButton,
 .aa-ResetButton {
   background: none;
   border: 0;
   cursor: pointer;
-  height: 100%;
-  padding: 0 0.5rem;
 }
 
 .aa-ResetButton {
   position: absolute;
   right: 0;
   z-index: 2;
+}
+
+.aa-LoadingIndicator {
+  position: absolute;
+  z-index: 2;
+}
+
+.aa-LoadingIcon {
+  height: 100%;
 }
 
 .aa-Panel {

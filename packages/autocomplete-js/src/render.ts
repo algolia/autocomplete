@@ -16,7 +16,7 @@ import {
   AutocompleteRenderer,
   AutocompleteState,
 } from './types';
-import { setPropertiesWithoutEvents } from './utils';
+import { setProperties, setPropertiesWithoutEvents } from './utils';
 
 type RenderProps<TItem extends BaseItem> = {
   state: AutocompleteState<TItem>;
@@ -38,12 +38,16 @@ export function render<TItem extends BaseItem>(
     root,
     input,
     resetButton,
+    submitButton,
+    loadingIndicator,
     panel,
   }: RenderProps<TItem>
 ): () => void {
   setPropertiesWithoutEvents(root, getRootProps({}));
-  setPropertiesWithoutEvents(resetButton, { hidden: !state.query });
   setPropertiesWithoutEvents(input, getInputProps({ inputElement: input }));
+  setPropertiesWithoutEvents(resetButton, { hidden: !state.query });
+  setProperties(submitButton, { hidden: state.status === 'stalled' });
+  setProperties(loadingIndicator, { hidden: state.status !== 'stalled' });
 
   panel.innerHTML = '';
 
@@ -59,11 +63,7 @@ export function render<TItem extends BaseItem>(
     panelRoot.appendChild(panel);
   }
 
-  if (state.status === 'stalled') {
-    panel.classList.add('aa-Panel--stalled');
-  } else {
-    panel.classList.remove('aa-Panel--stalled');
-  }
+  panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');
 
   const sections = state.collections.map(({ source, items }) => {
     const sectionElement = SourceContainer({ classNames });

@@ -14,7 +14,7 @@ export const LoadingIcon: Component<{}, SVGSVGElement> = () => {
   r="35"
   stroke="currentColor"
   stroke-dasharray="164.93361431346415 56.97787143782138"
-  stroke-width="4"
+  stroke-width="6"
 >
   <animateTransform
     attributeName="transform"

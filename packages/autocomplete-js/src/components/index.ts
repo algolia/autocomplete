@@ -2,6 +2,8 @@ export * from './Form';
 export * from './Input';
 export * from './InputWrapper';
 export * from './Label';
+export * from './LoadingIcon';
+export * from './LoadingIndicator';
 export * from './Panel';
 export * from './PanelLayout';
 export * from './ResetButton';

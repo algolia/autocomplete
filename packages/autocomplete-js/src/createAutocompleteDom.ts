@@ -8,6 +8,7 @@ import {
   Input,
   InputWrapper,
   Label,
+  LoadingIndicator,
   Panel,
   ResetButton,
   Root,
@@ -33,6 +34,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   const input = Input({ classNames, getInputProps });
   const submitButton = SubmitButton({ classNames });
   const resetButton = ResetButton({ classNames });
+  const loadingIndicator = LoadingIndicator({ classNames });
   const form = Form({ classNames, ...getFormProps({ inputElement: input }) });
   const panel = Panel({ classNames, ...getPanelProps({}) });
 
@@ -40,6 +42,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   inputWrapper.appendChild(input);
   inputWrapper.appendChild(label);
   inputWrapper.appendChild(resetButton);
+  inputWrapper.appendChild(loadingIndicator);
   form.appendChild(inputWrapper);
   root.appendChild(form);
 
@@ -51,6 +54,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     label,
     submitButton,
     resetButton,
+    loadingIndicator,
     panel,
   };
 }
