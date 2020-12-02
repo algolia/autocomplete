@@ -59,7 +59,9 @@ export function render<TItem extends BaseItem>(
     return () => {};
   }
 
-  if (!panelRoot.contains(panel)) {
+  // We add the panel element to the DOM when it's not yet appended and that the
+  // items are fetched.
+  if (!panelRoot.contains(panel) && state.status !== 'loading') {
     panelRoot.appendChild(panel);
   }
 
