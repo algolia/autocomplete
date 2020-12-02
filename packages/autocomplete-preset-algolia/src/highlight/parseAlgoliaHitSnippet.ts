@@ -16,6 +16,7 @@ export function parseAlgoliaHitSnippet<THit extends Hit<{}>>({
 
   if (typeof highlightedValue !== 'string') {
     warn(
+      false,
       `The attribute ${JSON.stringify(
         path
       )} does not exist on the hit. Did you set it in \`attributesToSnippet\`?` +

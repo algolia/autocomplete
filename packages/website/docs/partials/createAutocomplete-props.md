@@ -96,4 +96,8 @@ This turns the experience in controlled mode, leaving you in charge of updating 
 
 > `boolean` | defaults to `false`
 
-Whether to consider the experience in debug mode. It is useful when developing because it doesn't close the panel when the blur event occurs.
+Whether to consider the experience in debug mode.
+
+It is useful when developing because it doesn't close the panel when the blur event occurs. This option should only be used during development.
+
+See "[Debugging](/docs/debugging)" for more information.

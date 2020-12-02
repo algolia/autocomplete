@@ -11,7 +11,7 @@ This is a common pattern for Query Suggestions.
 This function escapes characters.
 :::
 
-# Example
+## Example
 
 ```js
 import { parseAlgoliaHitReverseSnippet } from '@algolia/autocomplete-preset-algolia';
@@ -32,8 +32,6 @@ const snippetParts = parseAlgoliaHitReverseSnippet({
 
 // => [{ value: 'Lap', isHighlighted: false }, { value: 'top', isHighlighted: true }]
 ```
-
-# Reference
 
 ## Params
 

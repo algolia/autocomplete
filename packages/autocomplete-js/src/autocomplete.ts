@@ -1,219 +1,195 @@
-import {
-  createAutocomplete,
-  AutocompleteState as AutocompleteCoreState,
-} from '@algolia/autocomplete-core';
+import { BaseItem, createAutocomplete } from '@algolia/autocomplete-core';
+import { createRef } from '@algolia/autocomplete-shared';
 
-import { concatClassNames } from './concatClassNames';
-import { debounce } from './debounce';
-import { getHTMLElement } from './getHTMLElement';
+import { createAutocompleteDom } from './createAutocompleteDom';
+import { createEffectWrapper } from './createEffectWrapper';
 import { getPanelPositionStyle } from './getPanelPositionStyle';
-import { resetIcon, searchIcon } from './icons';
-import { renderTemplate } from './renderTemplate';
-import { setProperties, setPropertiesWithoutEvents } from './setProperties';
+import { render } from './render';
 import {
-  AutocompleteOptions,
   AutocompleteApi,
-  InternalAutocompleteSource,
+  AutocompleteOptions,
+  AutocompleteState,
 } from './types';
+import { debounce, getHTMLElement, setProperties } from './utils';
 
-function defaultRender({ root, sections }) {
+function defaultRenderer({ root, sections }) {
   for (const section of sections) {
     root.appendChild(section);
   }
 }
 
-export function autocomplete<TItem>({
+export function autocomplete<TItem extends BaseItem>({
   container,
-  render: renderPanel = defaultRender,
+  panelContainer = document.body,
+  render: renderer = defaultRenderer,
   panelPlacement = 'input-wrapper-width',
   classNames = {},
   ...props
 }: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
-  const containerElement = getHTMLElement(container);
-  const inputWrapper = document.createElement('div');
-  const input = document.createElement('input');
-  const root = document.createElement('div');
-  const form = document.createElement('form');
-  const label = document.createElement('label');
-  const resetButton = document.createElement('button');
-  const panel = document.createElement('div');
-
+  const { runEffect, cleanupEffects } = createEffectWrapper();
+  const onStateChangeRef = createRef<
+    | ((params: {
+        state: AutocompleteState<TItem>;
+        prevState: AutocompleteState<TItem>;
+      }) => void)
+    | undefined
+  >(undefined);
   const autocomplete = createAutocomplete<TItem>({
     ...props,
     onStateChange(options) {
-      const { state } = options;
-      render(state as any);
-
-      if (props.onStateChange) {
-        props.onStateChange(options);
-      }
+      onStateChangeRef.current?.(options as any);
+      props.onStateChange?.(options);
     },
   });
 
-  const onResize = debounce(() => {
-    if (!panel.hasAttribute('hidden')) {
-      setPanelPosition();
-    }
-  }, 100);
+  const {
+    inputWrapper,
+    form,
+    label,
+    input,
+    submitButton,
+    resetButton,
+    root,
+    panel,
+  } = createAutocompleteDom({
+    ...autocomplete,
+    classNames,
+  });
 
   function setPanelPosition() {
     setProperties(panel, {
       style: getPanelPositionStyle({
         panelPlacement,
         container: root,
-        inputWrapper,
+        form,
         environment: props.environment,
       }),
     });
   }
 
-  setProperties(window as any, {
-    ...autocomplete.getEnvironmentProps({
-      searchBoxElement: form,
+  runEffect(() => {
+    const environmentProps = autocomplete.getEnvironmentProps({
+      formElement: form,
       panelElement: panel,
       inputElement: input,
-    }),
-    onResize,
-  });
-  setProperties(root, {
-    ...autocomplete.getRootProps(),
-    class: concatClassNames(['aa-Autocomplete', classNames.root]),
-  });
-  const formProps = autocomplete.getFormProps({ inputElement: input });
-  setProperties(form, {
-    ...formProps,
-    class: concatClassNames(['aa-Form', classNames.form]),
-  });
-  setProperties(inputWrapper, {
-    class: concatClassNames(['aa-InputWrapper', classNames.inputWrapper]),
-  });
-  setProperties(input, {
-    ...autocomplete.getInputProps({ inputElement: input }),
-    class: concatClassNames(['aa-Input', classNames.input]),
-  });
-  setProperties(label, {
-    ...autocomplete.getLabelProps(),
-    class: concatClassNames(['aa-Label', classNames.label]),
-    innerHTML: searchIcon,
-  });
-  setProperties(resetButton, {
-    type: 'reset',
-    onClick: formProps.onReset,
-    class: concatClassNames(['aa-ResetButton', classNames.resetButton]),
-    innerHTML: resetIcon,
-  });
-  setProperties(panel, {
-    ...autocomplete.getPanelProps(),
-    hidden: true,
-    class: concatClassNames(['aa-Panel', classNames.panel]),
+    });
+
+    setProperties(window as any, environmentProps);
+
+    return () => {
+      setProperties(
+        window as any,
+        Object.keys(environmentProps).reduce((acc, key) => {
+          return {
+            ...acc,
+            [key]: undefined,
+          };
+        }, {})
+      );
+    };
   });
 
-  function render(state: AutocompleteCoreState<TItem>) {
-    setPropertiesWithoutEvents(root, autocomplete.getRootProps());
-    setPropertiesWithoutEvents(
+  runEffect(() => {
+    const panelRoot = getHTMLElement(panelContainer);
+    const state: AutocompleteState<TItem> = {
+      collections: [],
+      completion: null,
+      context: {},
+      isOpen: false,
+      query: '',
+      selectedItemId: null,
+      status: 'idle',
+      ...props.initialState,
+    };
+    render(renderer, {
+      state,
+      ...autocomplete,
+      classNames,
+      panelRoot,
+      root,
+      form,
       input,
-      autocomplete.getInputProps({ inputElement: input })
-    );
-
-    panel.innerHTML = '';
-
-    if (state.isOpen) {
-      setProperties(panel, {
-        hidden: false,
-      });
-    } else {
-      setProperties(panel, {
-        hidden: true,
-      });
-      return;
-    }
-
-    if (state.status === 'stalled') {
-      panel.classList.add('aa-Panel--stalled');
-    } else {
-      panel.classList.remove('aa-Panel--stalled');
-    }
-
-    const sections = state.collections.map((collection) => {
-      const items = collection.items;
-      const source = collection.source as InternalAutocompleteSource<TItem>;
-
-      const section = document.createElement('section');
-      setProperties(section, {
-        class: concatClassNames(['aa-Source', classNames.source]),
-      });
-
-      if (source.templates.header) {
-        const header = document.createElement('div');
-        setProperties(header, {
-          class: concatClassNames(['aa-SourceHeader', classNames.sourceHeader]),
-        });
-        renderTemplate(
-          source.templates.header({ root: header, state }),
-          header
-        );
-        section.appendChild(header);
-      }
-
-      if (items.length > 0) {
-        const list = document.createElement('ul');
-        setProperties(list, {
-          ...autocomplete.getListProps(),
-          class: concatClassNames(['aa-List', classNames.list]),
-        });
-
-        const listItems = items.map((item) => {
-          const li = document.createElement('li');
-          setProperties(li, {
-            ...autocomplete.getItemProps({ item, source }),
-            class: concatClassNames(['aa-Item', classNames.item]),
-          });
-          renderTemplate(source.templates.item({ root: li, item, state }), li);
-
-          return li;
-        });
-
-        for (const listItem of listItems) {
-          list.appendChild(listItem);
-        }
-
-        section.appendChild(list);
-      }
-
-      if (source.templates.footer) {
-        const footer = document.createElement('div');
-        setProperties(footer, {
-          class: concatClassNames(['aa-SourceFooter', classNames.sourceFooter]),
-        });
-        renderTemplate(
-          source.templates.footer({ root: footer, state }),
-          footer
-        );
-        section.appendChild(footer);
-      }
-
-      return section;
+      inputWrapper,
+      label,
+      panel,
+      submitButton,
+      resetButton,
     });
 
-    renderPanel({ root: panel, sections, state });
-  }
+    return () => {};
+  });
 
-  inputWrapper.appendChild(input);
-  inputWrapper.appendChild(label);
-  inputWrapper.appendChild(resetButton);
-  form.appendChild(inputWrapper);
-  root.appendChild(form);
-  root.appendChild(panel);
-  containerElement.appendChild(root);
+  runEffect(() => {
+    const panelRoot = getHTMLElement(panelContainer);
+    const unmountRef = createRef<(() => void) | undefined>(undefined);
+    // This batches state changes to limit DOM mutations.
+    // Every time we call a setter in `autocomplete-core` (e.g., in `onInput`),
+    // the core `onStateChange` function is called.
+    // We don't need to be notified of all these state changes to render.
+    // As an example:
+    //  - without debouncing: "iphone case" query → 85 renders
+    //  - with debouncing: "iphone case" query → 12 renders
+    const debouncedOnStateChange = debounce<{
+      state: AutocompleteState<TItem>;
+    }>(({ state }) => {
+      unmountRef.current = render(renderer, {
+        state,
+        ...autocomplete,
+        classNames,
+        panelRoot,
+        root,
+        form,
+        input,
+        inputWrapper,
+        label,
+        panel,
+        submitButton,
+        resetButton,
+      });
+    }, 0);
 
-  setPanelPosition();
+    onStateChangeRef.current = ({ prevState, state }) => {
+      // The outer DOM might have changed since the last time the panel was
+      // positioned. The layout might have shifted vertically for instance.
+      // It's therefore safer to re-calculate the panel position before opening
+      // it again.
+      if (state.isOpen && !prevState.isOpen) {
+        setPanelPosition();
+      }
 
-  function destroy() {
-    containerElement.innerHTML = '';
-    setProperties(window as any, {
-      onResize: null,
-    });
-  }
+      return debouncedOnStateChange({ state });
+    };
+
+    return () => {
+      unmountRef.current?.();
+      onStateChangeRef.current = undefined;
+    };
+  });
+
+  runEffect(() => {
+    const containerElement = getHTMLElement(container);
+    containerElement.appendChild(root);
+
+    return () => {
+      containerElement.removeChild(root);
+    };
+  });
+
+  runEffect(() => {
+    const onResize = debounce<Event>(() => {
+      setPanelPosition();
+    }, 100);
+
+    window.addEventListener('resize', onResize);
+
+    return () => {
+      window.removeEventListener('resize', onResize);
+    };
+  });
+
+  requestAnimationFrame(() => {
+    setPanelPosition();
+  });
 
   return {
     setSelectedItemId: autocomplete.setSelectedItemId,
@@ -223,6 +199,8 @@ export function autocomplete<TItem>({
     setStatus: autocomplete.setStatus,
     setContext: autocomplete.setContext,
     refresh: autocomplete.refresh,
-    destroy,
+    destroy() {
+      cleanupEffects();
+    },
   };
 }

@@ -5,7 +5,7 @@ import {
   CreateRecentSearchesPluginParams,
   RecentSearchesPluginData,
 } from './createRecentSearchesPlugin';
-import { RecentSearchesItem } from './types';
+import { Highlighted, RecentSearchesItem } from './types';
 import {
   LOCAL_STORAGE_KEY,
   createLocalStorage,
@@ -33,12 +33,12 @@ export type CreateRecentSearchesLocalStorageOptions<
   /**
    * Function to search in the recent items.
    */
-  search?(params: SearchParams<TItem>): TItem[];
+  search?(params: SearchParams<TItem>): Array<Highlighted<TItem>>;
 };
 
 type LocalStorageRecentSearchesPluginOptions<
   TItem extends RecentSearchesItem
-> = CreateRecentSearchesPluginParams<TItem> &
+> = Pick<CreateRecentSearchesPluginParams<TItem>, 'getTemplates'> &
   CreateRecentSearchesLocalStorageOptions<TItem>;
 
 export function createLocalStorageRecentSearchesPlugin<

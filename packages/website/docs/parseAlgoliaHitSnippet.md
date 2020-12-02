@@ -9,7 +9,7 @@ Returns the snippeted parts of an Algolia hit.
 This function escapes characters.
 :::
 
-# Example
+## Example
 
 ```js
 import { parseAlgoliaHitSnippet } from '@algolia/autocomplete-preset-algolia';
@@ -30,8 +30,6 @@ const snippetParts = parseAlgoliaHitSnippet({
 
 // => [{ value: 'Lap', isHighlighted: true }, { value: 'top', isHighlighted: false }]
 ```
-
-# Reference
 
 ## Params
 

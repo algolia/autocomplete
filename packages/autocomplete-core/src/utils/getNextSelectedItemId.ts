@@ -1,6 +1,6 @@
-import { InternalAutocompleteOptions } from '../types';
+import { BaseItem, InternalAutocompleteOptions } from '../types';
 
-export function getNextSelectedItemId<TItem>(
+export function getNextSelectedItemId<TItem extends BaseItem>(
   moveAmount: number,
   baseIndex: number | null,
   itemCount: number,

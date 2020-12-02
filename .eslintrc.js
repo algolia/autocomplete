@@ -2,6 +2,7 @@ module.exports = {
   extends: ['algolia', 'algolia/jest', 'algolia/react', 'algolia/typescript'],
   globals: {
     __DEV__: false,
+    __TEST__: false,
   },
   settings: {
     react: {
@@ -22,9 +23,15 @@ module.exports = {
     'jest/no-disabled-tests': 0,
     'react/prop-types': 0,
     'react/no-unescaped-entities': 0,
+    'new-cap': 0,
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'import/extensions': 0,
-    '@typescript-eslint/camelcase': ['error', { allow: ['__autocomplete_id'] }],
+    '@typescript-eslint/camelcase': [
+      'error',
+      {
+        allow: ['__autocomplete_'],
+      },
+    ],
     // Useful to call functions like `nodeItem?.scrollIntoView()`.
     'no-unused-expressions': 0,
     complexity: 0,
@@ -50,7 +57,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['packages/autocomplete-js/src/setProperties.ts'],
+      files: ['packages/autocomplete-js/**/*/setProperties.ts'],
       rules: {
         'eslint-comments/no-unlimited-disable': 'off',
       },
@@ -77,6 +84,12 @@ module.exports = {
       files: ['scripts/**/*', '*.config.js'],
       rules: {
         'import/no-commonjs': 'off',
+      },
+    },
+    {
+      files: ['examples/**/*'],
+      rules: {
+        'spaced-comment': 'off',
       },
     },
   ],

@@ -29,6 +29,6 @@ getAlgoliaHits({
 });
 ```
 
-## Options
+## Params
 
-See [`autocomplete-preset-algolia#getAlgoliaHits`](getAlgoliaHits#options).
+See [`autocomplete-preset-algolia#getAlgoliaHits`](getAlgoliaHits#params).

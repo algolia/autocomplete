@@ -16,7 +16,7 @@ import algoliasearch from 'algoliasearch/lite';
 import {
   autocomplete,
   getAlgoliaHits,
-  reverseHighlightItem,
+  reverseHighlightHit,
 } from '@algolia/autocomplete-js';
 
 const searchClient = algoliasearch(
@@ -46,7 +46,7 @@ const autocompleteSearch = autocomplete({
         },
         templates: {
           item({ item }) {
-            return reverseHighlightItem({ item, attribute: 'query' });
+            return reverseHighlightHit({ hit: item, attribute: 'query' });
           },
         },
       },
@@ -55,7 +55,13 @@ const autocompleteSearch = autocomplete({
 });
 ```
 
-## Reference
+## Import
+
+```ts
+import { autocomplete } from '@algolia/autocomplete-js';
+```
+
+## Params
 
 `autocomplete` accepts all the props that [`createAutocomplete`](/docs/createAutocomplete#reference) supports.
 
@@ -63,11 +69,17 @@ const autocompleteSearch = autocomplete({
 
 > `string | HTMLElement` | **required**
 
-The container for the autocomplete search box. You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). The first element matching the provided selector will be used as container.
+The container for the Autocomplete search box. You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). The first element matching the provided selector will be used as container.
 
 import CreateAutocompleteProps from './partials/createAutocomplete-props.md'
 
 <CreateAutocompleteProps />
+
+### `panelContainer`
+
+> `string | HTMLElement`
+
+The container for the Autocomplete panel. You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). The first element matching the provided selector will be used as container.
 
 ### `panelPlacement`
 
@@ -82,20 +94,21 @@ The panel horizontal position.
 The class names to inject in each created DOM element. It it useful to design with external CSS frameworks.
 
 ```ts
-type ClassNames = {
-  root?: string;
-  form?: string;
-  label?: string;
-  inputWrapper?: string;
-  input?: string;
-  resetButton?: string;
-  panel?: string;
-  source?: string;
-  sourceHeader?: string;
-  list?: string;
-  item?: string;
-  sourceFooter?: string;
-};
+type ClassNames = Partial<{
+  root: string;
+  form: string;
+  label: string;
+  inputWrapper: string;
+  input: string;
+  resetButton: string;
+  panel: string;
+  panelLayout: string;
+  source: string;
+  sourceHeader: string;
+  list: string;
+  item: string;
+  sourceFooter: string;
+}>;
 ```
 
 ### `render`

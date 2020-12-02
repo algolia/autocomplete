@@ -5,20 +5,20 @@ about: Help us improve Autocomplete.
 
 ## Description
 
-<!-- A clear and concise description of what the bug is. -->
+<!-- Describe the bug. -->
 
-## Steps to reproduce
+## Reproduction
+
+<!-- Fork the sandbox, reproduce the bug and paste the URL. -->
+
+[**Preview →**](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js)
+
+**Steps**
 
 1. Go to `...`
 2. Click on `...`
 3. Scroll down to `...`
 4. See error
-
-<!-- A live example helps a lot! Fork the sandbox, reproduce the bug and paste the URL here: -->
-
-**Live reproduction:**
-
-https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js
 
 ## Expected behavior
 

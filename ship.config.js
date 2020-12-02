@@ -6,6 +6,7 @@ const packages = [
   'packages/autocomplete-core',
   'packages/autocomplete-js',
   'packages/autocomplete-preset-algolia',
+  'packages/autocomplete-plugin-algolia-insights',
   'packages/autocomplete-plugin-recent-searches',
   'packages/autocomplete-plugin-query-suggestions',
   'packages/autocomplete-theme-classic',
@@ -22,14 +23,14 @@ module.exports = {
     return `yarn publish --access public --tag ${tag}`;
   },
   versionUpdated({ exec, dir, version }) {
-    // Ship.js reads JSON and writes with `fs.writeFileSync(JSON.stringify(json, null, 2))`
-    // which causes a lint error in the `lerna.json` file.
-    exec('yarn eslint lerna.json --fix');
-
     // Update package dependencies
     exec(
       `yarn lerna version ${version} --exact --no-git-tag-version --no-push --yes`
     );
+
+    // Ship.js reads JSON and writes with `fs.writeFileSync(JSON.stringify(json, null, 2))`
+    // which causes a lint error in the `lerna.json` file.
+    exec('yarn eslint lerna.json --fix');
 
     // Update version files
     updatePackagesVersionFile({

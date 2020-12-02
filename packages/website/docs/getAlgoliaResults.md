@@ -2,7 +2,7 @@
 id: getAlgoliaResults
 ---
 
-Retrieves Algolia results from one or multiple indices.
+Retrieves the full Algolia results from multiple indices
 
 ## Example
 
@@ -28,7 +28,7 @@ getAlgoliaResults({
 });
 ```
 
-## Options
+## Params
 
 ### `searchClient`
 
@@ -53,8 +53,8 @@ Default search parameters:
 ```json
 {
   "hitsPerPage": 5,
-  "highlightPreTag": "<mark>",
-  "highlightPostTag": "</mark>"
+  "highlightPreTag": "__aa-highlight__",
+  "highlightPostTag": "__/aa-highlight__"
 }
 ```
 
@@ -66,9 +66,9 @@ It returns a promise of the following schema:
 {
   "hits": [
     {
+      "objectID": "433",
       "firstname": "Jimmie",
       "lastname": "Barninger",
-      "objectID": "433",
       "_highlightResult": {
         "firstname": {
           "value": "&lt;em&gt;Jimmie&lt;/em&gt;",
@@ -77,10 +77,6 @@ It returns a promise of the following schema:
         "lastname": {
           "value": "Barninger",
           "matchLevel": "none"
-        },
-        "company": {
-          "value": "California &lt;em&gt;Paint&lt;/em&gt; & Wlpaper Str",
-          "matchLevel": "partial"
         }
       }
     }
@@ -91,6 +87,6 @@ It returns a promise of the following schema:
   "hitsPerPage": 20,
   "processingTimeMS": 1,
   "query": "jimmie paint",
-  "params": "query=jimmie+paint&attributesToRetrieve=firstname,lastname&hitsPerPage=50"
+  "params": "query=jimmie+paint&attributesToRetrieve=firstname,lastname&hitsPerPage=20"
 }
 ```

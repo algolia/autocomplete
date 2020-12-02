@@ -9,7 +9,7 @@ Returns the highlighted parts of an Algolia hit.
 This function escapes characters.
 :::
 
-# Example
+## Example
 
 ```js
 import { parseAlgoliaHitHighlight } from '@algolia/autocomplete-preset-algolia';
@@ -30,8 +30,6 @@ const highlightParts = parseAlgoliaHitHighlight({
 
 // => [{ value: 'Lap', isHighlighted: true }, { value: 'top', isHighlighted: false }]
 ```
-
-# Reference
 
 ## Params
 

@@ -1,9 +1,5 @@
-import { toWarn } from './matchers';
+import { toWarnDev } from './matchers';
 
-expect.extend({ toWarn });
+expect.extend({ toWarnDev });
 
 global.console.warn = jest.fn();
-global.console.log = jest.fn();
-global.console.error = jest.fn();
-global.console.info = jest.fn();
-global.console.debug = jest.fn();

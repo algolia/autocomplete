@@ -1,7 +1,7 @@
-import { InternalAutocompleteSource } from './api';
+import { BaseItem, InternalAutocompleteSource } from './api';
 
 export interface AutocompleteAccessibilityGetters<
-  TItem,
+  TItem extends BaseItem,
   TEvent = Event,
   TMouseEvent = MouseEvent,
   TKeyboardEvent = KeyboardEvent
@@ -18,9 +18,9 @@ export interface AutocompleteAccessibilityGetters<
 
 export type GetEnvironmentProps = (props: {
   [key: string]: unknown;
-  searchBoxElement: HTMLElement;
-  panelElement: HTMLElement;
+  formElement: HTMLElement;
   inputElement: HTMLInputElement;
+  panelElement: HTMLElement;
 }) => {
   onTouchStart(event: TouchEvent): void;
   onTouchMove(event: TouchEvent): void;
@@ -65,7 +65,7 @@ export type GetLabelProps = (props?: {
 
 export type GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (props: {
   [key: string]: unknown;
-  inputElement: HTMLInputElement;
+  inputElement: HTMLInputElement | null;
   maxLength?: number;
 }) => {
   id: string;
@@ -104,7 +104,10 @@ export type GetListProps = (props?: {
   id: string;
 };
 
-export type GetItemProps<TItem, TMouseEvent = MouseEvent> = (props: {
+export type GetItemProps<
+  TItem extends BaseItem,
+  TMouseEvent = MouseEvent
+> = (props: {
   [key: string]: unknown;
   item: TItem;
   source: InternalAutocompleteSource<TItem>;

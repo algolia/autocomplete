@@ -1,7 +1,7 @@
 module.exports = {
   title: 'Autocomplete',
   tagline: 'JavaScript library for building autocomplete search experiences.',
-  url: 'https://algolia-autocomplete.netlify.app',
+  url: 'https://autocomplete.algolia.com',
   baseUrl: '/',
   favicon: 'img/logo.png',
   organizationName: 'algolia',
@@ -21,9 +21,16 @@ module.exports = {
           position: 'right',
         },
         {
-          href: 'https://github.com/algolia/autocomplete.js',
-          label: 'GitHub',
+          label: 'API',
+          type: 'doc',
+          docId: 'createAutocomplete',
           position: 'right',
+        },
+        {
+          href: 'https://github.com/algolia/autocomplete.js/tree/next',
+          'aria-label': 'GitHub repository',
+          position: 'right',
+          className: 'navbar-github-link',
         },
       ],
     },
@@ -69,11 +76,11 @@ module.exports = {
             },
             {
               label: 'GitHub',
-              href: 'https://github.com/algolia/autocomplete.js',
+              href: 'https://github.com/algolia/autocomplete.js/tree/next',
             },
             {
               label: 'Twitter',
-              href: 'https://twitter.com/docsearch_',
+              href: 'https://twitter.com/algolia',
             },
           ],
         },

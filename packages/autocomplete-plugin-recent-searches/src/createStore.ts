@@ -1,6 +1,6 @@
 import { MaybePromise } from '@algolia/autocomplete-shared';
 
-import { RecentSearchesItem } from './types/RecentSearchesItem';
+import { Highlighted, RecentSearchesItem } from './types';
 
 export type RecentSearchesStore<TItem extends RecentSearchesItem> = {
   add(item: TItem): void;
@@ -11,7 +11,7 @@ export type RecentSearchesStore<TItem extends RecentSearchesItem> = {
 export type RecentSearchesStorage<TItem extends RecentSearchesItem> = {
   onAdd(item: TItem): void;
   onRemove(id: string): void;
-  getAll(query?: string): MaybePromise<TItem[]>;
+  getAll(query?: string): MaybePromise<Array<Highlighted<TItem>>>;
 };
 
 export function createStore<TItem extends RecentSearchesItem>(

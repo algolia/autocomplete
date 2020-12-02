@@ -22,9 +22,7 @@ export type CreateRecentSearchesPluginParams<
   TItem extends RecentSearchesItem
 > = {
   storage: RecentSearchesStorage<TItem>;
-  getTemplates?(
-    params: GetTemplatesParams
-  ): SourceTemplates<TItem>['templates'];
+  getTemplates?(params: GetTemplatesParams): SourceTemplates<TItem>;
 };
 
 export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
@@ -38,8 +36,8 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
   const lastItemsRef: Ref<MaybePromise<TItem[]>> = { current: [] };
 
   return {
-    subscribed: {
-      onSelect({ item, state, source }) {
+    subscribe({ onSelect }) {
+      onSelect(({ item, state, source }) => {
         const inputValue = source.getItemInputValue({ item, state });
 
         if (inputValue) {
@@ -48,7 +46,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
             query: inputValue,
           } as TItem);
         }
-      },
+      });
     },
     onSubmit({ state }) {
       const { query } = state;
@@ -94,6 +92,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
         // because we need to resolve the promise before getting the value.
         if (!Array.isArray(lastItemsRef.current)) {
           warn(
+            false,
             'The `getAlgoliaQuerySuggestionsFacetFilters` function is not supported with storages that return promises in `getAll`.'
           );
           return params;

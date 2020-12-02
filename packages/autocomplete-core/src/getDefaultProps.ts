@@ -1,5 +1,10 @@
 import { getNavigator } from './getNavigator';
-import { InternalAutocompleteOptions, AutocompleteOptions } from './types';
+import {
+  AutocompleteOptions,
+  BaseItem,
+  InternalAutocompleteOptions,
+  Subscribers,
+} from './types';
 import {
   generateAutocompleteId,
   getItemsCount,
@@ -7,11 +12,12 @@ import {
   flatten,
 } from './utils';
 
-export function getDefaultProps<TItem>(
-  props: AutocompleteOptions<TItem>
+export function getDefaultProps<TItem extends BaseItem>(
+  props: AutocompleteOptions<TItem>,
+  subscribers: Subscribers<TItem>
 ): InternalAutocompleteOptions<TItem> {
   const environment: InternalAutocompleteOptions<
-    unknown
+    TItem
   >['environment'] = (typeof window !== 'undefined'
     ? window
     : {}) as typeof window;
@@ -66,8 +72,14 @@ export function getDefaultProps<TItem>(
             ...source,
             onSelect(params) {
               source.onSelect(params);
-              plugins.forEach((plugin) => {
-                plugin.subscribed?.onSelect?.(params);
+              subscribers.forEach((subscriber) => {
+                subscriber.onSelect?.(params);
+              });
+            },
+            onHighlight(params) {
+              source.onHighlight(params);
+              subscribers.forEach((subscriber) => {
+                subscriber.onHighlight?.(params);
               });
             },
           }))

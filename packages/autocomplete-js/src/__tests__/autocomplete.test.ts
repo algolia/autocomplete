@@ -64,27 +64,30 @@ describe('autocomplete-js', () => {
                 for="autocomplete-input"
                 id="autocomplete-label"
               >
-                <svg
-                  height="20"
-                  viewBox="0 0 20 20"
-                  width="20"
+                <button
+                  class="aa-SubmitButton"
+                  type="submit"
                 >
-                  
-        
-                  <path
-                    d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
-                    fill="none"
-                    fillrule="evenodd"
-                    stroke="currentColor"
-                    strokelinecap="round"
-                    strokelinejoin="round"
-                  />
-                  
-
-                </svg>
+                  <svg
+                    height="20"
+                    viewBox="0 0 20 20"
+                    width="20"
+                  >
+                    <path
+                      d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
+                      fill="none"
+                      fill-rule="evenodd"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.4"
+                    />
+                  </svg>
+                </button>
               </label>
               <button
                 class="aa-ResetButton"
+                hidden=""
                 type="reset"
               >
                 <svg
@@ -92,8 +95,6 @@ describe('autocomplete-js', () => {
                   viewBox="0 0 20 20"
                   width="20"
                 >
-                  
-        
                   <path
                     d="M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z"
                     fill="none"
@@ -101,18 +102,12 @@ describe('autocomplete-js', () => {
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
+                    stroke-width="1.4"
                   />
-                  
-
                 </svg>
               </button>
             </div>
           </form>
-          <div
-            class="aa-Panel"
-            hidden=""
-            style="top: 0px; left: 0px; right: 0px; max-width: unset;"
-          />
         </div>
       </div>
     `);

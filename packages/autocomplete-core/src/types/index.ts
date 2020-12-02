@@ -4,3 +4,4 @@ export * from './plugins';
 export * from './setters';
 export * from './state';
 export * from './store';
+export * from './subscriber';

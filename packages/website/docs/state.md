@@ -7,9 +7,9 @@ The autocomplete state drives the behavior of the experience.
 
 The state is passed to all lifecycle hooks so that you can customize the behavior.
 
-# Guides
+## Examples
 
-## Setting an initial state
+### Setting an initial state
 
 You can instantiate autocomplete with an initial state with the `initialState` prop.
 
@@ -24,7 +24,7 @@ const autocomplete = createAutocomplete({
 });
 ```
 
-## Listening state changes
+### Listening state changes
 
 You can create your own API based on the autocomplete state with the [`onStateChange`](createAutocomplete#onstatechange) prop.
 
@@ -36,8 +36,6 @@ const autocomplete = createAutocomplete({
   },
 });
 ```
-
-# Reference
 
 ## State
 

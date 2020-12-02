@@ -1,20 +1,22 @@
 import { onInput } from './onInput';
 import {
-  InternalAutocompleteOptions,
   AutocompleteSetters,
   AutocompleteStore,
   AutocompleteRefresh,
+  BaseItem,
+  InternalAutocompleteOptions,
 } from './types';
 import { getSelectedItem } from './utils';
 
-interface OnKeyDownOptions<TItem> extends AutocompleteSetters<TItem> {
+interface OnKeyDownOptions<TItem extends BaseItem>
+  extends AutocompleteSetters<TItem> {
   event: KeyboardEvent;
   store: AutocompleteStore<TItem>;
   props: InternalAutocompleteOptions<TItem>;
   refresh: AutocompleteRefresh;
 }
 
-export function onKeyDown<TItem>({
+export function onKeyDown<TItem extends BaseItem>({
   event,
   store,
   props,
@@ -31,7 +33,7 @@ export function onKeyDown<TItem>({
     // Arrow down.
     event.preventDefault();
 
-    store.send(event.key, null);
+    store.dispatch(event.key, null);
 
     const nodeItem = props.environment.document.getElementById(
       `${props.id}-item-${store.getState().selectedItemId}`
@@ -73,7 +75,7 @@ export function onKeyDown<TItem>({
     // panel.
     event.preventDefault();
 
-    store.send(event.key, null);
+    store.dispatch(event.key, null);
   } else if (event.key === 'Enter') {
     // No item is selected, so we let the browser handle the native `onSubmit`
     // form event.

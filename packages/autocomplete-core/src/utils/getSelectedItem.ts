@@ -1,9 +1,9 @@
-import { AutocompleteCollection, AutocompleteState } from '../types';
+import { AutocompleteCollection, AutocompleteState, BaseItem } from '../types';
 
 // We don't have access to the autocomplete source when we call `onKeyDown`
 // or `onClick` because those are native browser events.
 // However, we can get the source from the suggestion index.
-function getCollectionFromSelectedItemId<TItem>({
+function getCollectionFromSelectedItemId<TItem extends BaseItem>({
   state,
 }: {
   state: AutocompleteState<TItem>;
@@ -43,7 +43,7 @@ function getCollectionFromSelectedItemId<TItem>({
  *                      ↑
  *         (absolute: 3, relative: 1)
  */
-function getRelativeSelectedItemId<TItem>({
+function getRelativeSelectedItemId<TItem extends BaseItem>({
   state,
   collection,
 }: {
@@ -70,7 +70,7 @@ function getRelativeSelectedItemId<TItem>({
   return state.selectedItemId! - previousItemsOffset;
 }
 
-export function getSelectedItem<TItem>({
+export function getSelectedItem<TItem extends BaseItem>({
   state,
 }: {
   state: AutocompleteState<TItem>;
