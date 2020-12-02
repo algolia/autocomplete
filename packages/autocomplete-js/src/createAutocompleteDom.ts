@@ -11,6 +11,7 @@ import {
   Panel,
   ResetButton,
   Root,
+  SubmitButton,
 } from './components';
 import { AutocompleteClassNames, AutocompleteDom } from './types';
 
@@ -30,10 +31,12 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   const inputWrapper = InputWrapper({ classNames });
   const label = Label({ classNames, ...getLabelProps({}) });
   const input = Input({ classNames, getInputProps });
+  const submitButton = SubmitButton({ classNames });
   const resetButton = ResetButton({ classNames });
   const form = Form({ classNames, ...getFormProps({ inputElement: input }) });
   const panel = Panel({ classNames, ...getPanelProps({}) });
 
+  label.appendChild(submitButton);
   inputWrapper.appendChild(input);
   inputWrapper.appendChild(label);
   inputWrapper.appendChild(resetButton);
@@ -46,6 +49,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     root,
     form,
     label,
+    submitButton,
     resetButton,
     panel,
   };
