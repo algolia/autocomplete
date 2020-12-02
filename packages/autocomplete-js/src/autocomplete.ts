@@ -47,6 +47,7 @@ export function autocomplete<TItem extends BaseItem>({
     form,
     label,
     input,
+    submitButton,
     resetButton,
     root,
     panel,
@@ -111,6 +112,7 @@ export function autocomplete<TItem extends BaseItem>({
       inputWrapper,
       label,
       panel,
+      submitButton,
       resetButton,
     });
 
@@ -141,6 +143,7 @@ export function autocomplete<TItem extends BaseItem>({
         inputWrapper,
         label,
         panel,
+        submitButton,
         resetButton,
       });
     }, 0);
