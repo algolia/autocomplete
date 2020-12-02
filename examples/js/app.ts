@@ -5,6 +5,8 @@ import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-pl
 import algoliasearch from 'algoliasearch';
 import insightsClient from 'search-insights';
 
+import '@algolia/autocomplete-theme-classic';
+
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
