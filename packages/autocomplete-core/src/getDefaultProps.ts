@@ -1,4 +1,3 @@
-import { getNavigator } from './getNavigator';
 import {
   AutocompleteOptions,
   BaseItem,
@@ -91,7 +90,19 @@ export function getDefaultProps<TItem extends BaseItem>(
         );
     },
     navigator: {
-      ...getNavigator({ environment }),
+      navigate({ itemUrl }) {
+        environment.location.assign(itemUrl);
+      },
+      navigateNewTab({ itemUrl }) {
+        const windowReference = environment.open(itemUrl, '_blank', 'noopener');
+
+        if (windowReference) {
+          windowReference.focus();
+        }
+      },
+      navigateNewWindow({ itemUrl }) {
+        environment.open(itemUrl, '_blank', 'noopener');
+      },
       ...props.navigator,
     },
   };
