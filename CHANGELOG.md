@@ -1,3 +1,45 @@
+# [](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.35...v) (2020-12-03)
+
+
+### Bug Fixes
+
+* **core:** allow null `inputElement` in `getInputProps` ([75b990a](https://github.com/algolia/autocomplete.js/commit/75b990a866399af4b1f51aa45cd44206ce03a99d))
+* **core:** disable `getSources` concurrent fix ([a558b5e](https://github.com/algolia/autocomplete.js/commit/a558b5e238a5f1897bf61e1b1ae6e5742685e4ea))
+* **core:** extend `TItem` to object ([fcf94ff](https://github.com/algolia/autocomplete.js/commit/fcf94fff4788f3f132095a2a6d359b51824a4d51))
+* **core:** run `getSources` promises in a concurrent-safe way ([#347](https://github.com/algolia/autocomplete.js/issues/347)) ([5c6ab2e](https://github.com/algolia/autocomplete.js/commit/5c6ab2ee596eb031bf2f403a9bbb9418cdd22f4a))
+* **examples:** update ref types ([1d0cb20](https://github.com/algolia/autocomplete.js/commit/1d0cb208a6b3ce3da24bbfab3557831481e96032))
+* **js:** add `templates` type to `getSources` ([69b9718](https://github.com/algolia/autocomplete.js/commit/69b97188dc570ef1082287576eae01ef4c505947))
+* **js:** calculate panel position before opening ([#375](https://github.com/algolia/autocomplete.js/issues/375)) ([307a7ac](https://github.com/algolia/autocomplete.js/commit/307a7acc4283e10a19cb7d067f04f1bea79dc56f))
+* **js:** clean environment effects ([eec80d2](https://github.com/algolia/autocomplete.js/commit/eec80d2cd590234dc653517adc78b2c6c6423716))
+* **js:** fix debounce function ([82e6f4e](https://github.com/algolia/autocomplete.js/commit/82e6f4e0c017dbab675b53a107a8842f529a73fc))
+* **js:** fix internal state type ([6def041](https://github.com/algolia/autocomplete.js/commit/6def041fdb0487184d571639a912e70d61a9576d))
+* **js:** make `panelContainer` optional ([fe5db0c](https://github.com/algolia/autocomplete.js/commit/fe5db0c16aae404af6f1a8e34ad4fa8c259a676d))
+* **js:** pass submit button to render ([ca119f3](https://github.com/algolia/autocomplete.js/commit/ca119f33f1ebb00b22bfb21423ffbaa8ac576e81))
+* update icons `stroke-width` ([23e321b](https://github.com/algolia/autocomplete.js/commit/23e321ba22e535a184d8a000f8ee16b887b1ac2d))
+
+
+### Features
+
+* **core:** rename `searchBoxElement` to `formElement` ([#374](https://github.com/algolia/autocomplete.js/issues/374)) ([79c4985](https://github.com/algolia/autocomplete.js/commit/79c49854b0ff18a2c28b47e0173e819af7a6112c))
+* **js:** add loading indicator ([59dc31b](https://github.com/algolia/autocomplete.js/commit/59dc31bec1b4ba0f199359bfaddb2d37074ae8c8))
+* **js:** add PanelLayout element ([371fae0](https://github.com/algolia/autocomplete.js/commit/371fae04c43c1d7bfec2b125873a8ee4bb075aad))
+* **js:** batch DOM updates ([#372](https://github.com/algolia/autocomplete.js/issues/372)) ([d06873e](https://github.com/algolia/autocomplete.js/commit/d06873e1fff737f853ac813df21d2b7b365c5446))
+* **js:** display reset button only when query ([1656530](https://github.com/algolia/autocomplete.js/commit/16565304a50724d898e68686ef5301797cfac7ad))
+* **js:** don't append panel on initial loading ([84ce729](https://github.com/algolia/autocomplete.js/commit/84ce729d24b7cf027daa0f61e7816ba5892cf6c5))
+* **js:** introduce `panelContainer` option ([98dfe4b](https://github.com/algolia/autocomplete.js/commit/98dfe4b95b9085bb2a9e51d03d466582aeffee55))
+* **js:** pass source to header and footer templates ([9983c64](https://github.com/algolia/autocomplete.js/commit/9983c64477408b52b9449cdb46faa2dc3e24ef0d))
+* **js:** turn search label into submit button ([27e61cb](https://github.com/algolia/autocomplete.js/commit/27e61cbc4e6f3b039764f665225bd385c82941c4))
+* **plugins:** introduce Insights plugin ([#373](https://github.com/algolia/autocomplete.js/issues/373)) ([2e967be](https://github.com/algolia/autocomplete.js/commit/2e967be6a33c532c472f9ca76295d605ed4f6f99))
+* **theme:** prepare Autocomplete Classic Theme ([#361](https://github.com/algolia/autocomplete.js/issues/361)) ([8638a98](https://github.com/algolia/autocomplete.js/commit/8638a98c76c28f7ecdd51775888f52b514432405))
+* **website:** update GitHub logo ([20a9b48](https://github.com/algolia/autocomplete.js/commit/20a9b482b267f8866d1b9795e4024a0cd084fd4e))
+
+
+### Reverts
+
+* "chore(shipjs): release all packages" ([552fbf6](https://github.com/algolia/autocomplete.js/commit/552fbf66c352f6684037c02bab8562e848b15262))
+
+
+
 # [1.0.0-alpha.36](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.35...v1.0.0-alpha.36) (2020-12-03)
 
 ### Bug Fixes
