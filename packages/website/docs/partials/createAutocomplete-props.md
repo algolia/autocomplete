@@ -82,7 +82,13 @@ By default, it opens when there are items in the state.
 
 > `(params: { state: AutocompleteState, event: Event, ...setters }) => void`
 
-The function called when the autocomplete form is submitted.
+The function called when the Autocomplete form is submitted.
+
+### `onReset`
+
+> `(params: { state: AutocompleteState, event: Event, ...setters }) => void`
+
+The function called when the Autocomplete form is reset.
 
 ### `onInput`
 

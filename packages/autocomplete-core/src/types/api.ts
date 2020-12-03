@@ -67,6 +67,8 @@ interface OnSubmitParams<TItem extends BaseItem>
   event: any;
 }
 
+type OnResetParams<TItem extends BaseItem> = OnSubmitParams<TItem>;
+
 interface OnInputParams<TItem extends BaseItem>
   extends AutocompleteSetters<TItem> {
   query: string;
@@ -248,9 +250,13 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    */
   shouldPanelShow?(params: { state: AutocompleteState<TItem> }): boolean;
   /**
-   * The function called when the autocomplete form is submitted.
+   * The function called when the Autocomplete form is submitted.
    */
   onSubmit?(params: OnSubmitParams<TItem>): void;
+  /**
+   * The function called when the Autocomplete form is reset.
+   */
+  onReset?(params: OnResetParams<TItem>): void;
   /**
    * The function called when the input changes.
    *
@@ -285,5 +291,6 @@ export interface InternalAutocompleteOptions<TItem extends BaseItem>
   plugins: Array<AutocompletePlugin<TItem, unknown>>;
   shouldPanelShow(params: { state: AutocompleteState<TItem> }): boolean;
   onSubmit(params: OnSubmitParams<TItem>): void;
+  onReset(params: OnResetParams<TItem>): void;
   onInput?(params: OnInputParams<TItem>): void | Promise<any>;
 }

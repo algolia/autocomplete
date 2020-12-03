@@ -133,6 +133,17 @@ export function getPropGetters<
       onReset: (event) => {
         ((event as unknown) as Event).preventDefault();
 
+        props.onReset({
+          state: store.getState(),
+          setSelectedItemId,
+          setQuery,
+          setCollections,
+          setIsOpen,
+          setStatus,
+          setContext,
+          event,
+        });
+
         if (props.openOnFocus) {
           onInput({
             query: '',

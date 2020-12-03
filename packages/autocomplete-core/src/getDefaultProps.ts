@@ -60,6 +60,12 @@ export function getDefaultProps<TItem extends BaseItem>(
         plugin.onSubmit?.(params);
       });
     },
+    onReset(params) {
+      props.onReset?.(params);
+      plugins.forEach((plugin) => {
+        plugin.onReset?.(params);
+      });
+    },
     getSources(options) {
       return Promise.all(
         [...plugins.map((plugin) => plugin.getSources), props.getSources]

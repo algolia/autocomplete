@@ -18,7 +18,10 @@ export type AutocompletePlugin<
   TItem extends BaseItem,
   TData = unknown
 > = Partial<
-  Pick<AutocompleteOptions<TItem>, 'onStateChange' | 'onSubmit' | 'getSources'>
+  Pick<
+    AutocompleteOptions<TItem>,
+    'onStateChange' | 'onSubmit' | 'onReset' | 'getSources'
+  >
 > & {
   /**
    * Function called when Autocomplete starts.
