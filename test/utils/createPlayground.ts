@@ -22,6 +22,7 @@ export function createPlayground<TItem extends Record<string, unknown>>(
   document.body.appendChild(formElement);
 
   return {
+    ...autocomplete,
     inputElement,
     formElement,
   };
