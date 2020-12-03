@@ -103,6 +103,8 @@ type ClassNames = Partial<{
   input: string;
   touchSearchButton: string;
   resetButton: string;
+  submitButton: string;
+  loadingIndicator: string;
   panel: string;
   panelLayout: string;
   source: string;

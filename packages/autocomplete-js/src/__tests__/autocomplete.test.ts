@@ -64,27 +64,35 @@ describe('autocomplete-js', () => {
                 for="autocomplete-input"
                 id="autocomplete-label"
               >
-                <svg
-                  height="20"
-                  viewBox="0 0 20 20"
-                  width="20"
+                <button
+                  class="aa-SubmitButton"
+                  type="submit"
                 >
-                  <path
-                    d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
-                    fill="none"
-                    fill-rule="evenodd"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.4"
-                  />
-                </svg>
+                  <svg
+                    class="aa-SubmitIcon"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    width="20"
+                  >
+                    <path
+                      d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
+                      fill="none"
+                      fill-rule="evenodd"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.4"
+                    />
+                  </svg>
+                </button>
               </label>
               <button
                 class="aa-ResetButton"
+                hidden=""
                 type="reset"
               >
                 <svg
+                  class="aa-ResetIcon"
                   height="20"
                   viewBox="0 0 20 20"
                   width="20"
@@ -100,6 +108,40 @@ describe('autocomplete-js', () => {
                   />
                 </svg>
               </button>
+              <div
+                class="aa-LoadingIndicator"
+                hidden=""
+              >
+                <svg
+                  class="aa-LoadingIcon"
+                  height="20"
+                  viewBox="0 0 100 100"
+                  width="20"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    fill="none"
+                    r="35"
+                    stroke="currentColor"
+                    stroke-dasharray="164.93361431346415 56.97787143782138"
+                    stroke-width="6"
+                  >
+                    
+        
+                    <animatetransform
+                      attributeName="transform"
+                      dur="1s"
+                      keyTimes="0;0.40;0.65;1"
+                      repeatCount="indefinite"
+                      type="rotate"
+                      values="0 50 50;90 50 50;180 50 50;360 50 50"
+                    />
+                    
+
+                  </circle>
+                </svg>
+              </div>
             </div>
           </form>
         </div>

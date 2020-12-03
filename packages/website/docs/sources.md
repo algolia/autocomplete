@@ -298,8 +298,18 @@ type SourceTemplate = {
     item: TItem;
     state: AutocompleteState<TItem>;
   }>;
-  header?: Template<{ root: HTMLElement; state: AutocompleteState<TItem> }>;
-  footer?: Template<{ root: HTMLElement; state: AutocompleteState<TItem> }>;
+  header?: Template<{
+    root: HTMLElement;
+    state: AutocompleteState<TItem>;
+    source: AutocompleteSource;
+    items: TItem[];
+  }>;
+  footer?: Template<{
+    root: HTMLElement;
+    state: AutocompleteState<TItem>;
+    source: AutocompleteSource;
+    items: TItem[];
+  }>;
 };
 ```
 
@@ -321,7 +331,9 @@ const autocompleteSearch = autocomplete({
   getSources() {
     return [
       {
-        getItemInputValue: ({ item }) => item.query,
+        getItemInputValue({ item }) {
+          return item.query;
+        },
         getItems({ query }) {
           return getAlgoliaHits({
             searchClient,

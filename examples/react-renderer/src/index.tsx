@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import '@algolia/autocomplete-theme-classic';
+
 import './reset.css';
 import './index.css';
-import './autocomplete.css';
 import { App } from './App';
 
 ReactDOM.render(

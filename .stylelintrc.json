@@ -11,15 +11,16 @@
     "stylelint-prettier/recommended"
   ],
   "rules": {
-    "selector-class-pattern": ["^Autocomplete-[A-Za-z0-9-]*$"],
+    "selector-class-pattern": ["^aa-[A-Za-z0-9-]*$"],
     "prettier/prettier": true,
     "max-nesting-depth": [
-      2,
+      1,
       {
         "ignore": ["pseudo-classes"],
         "ignoreAtRules": ["media"]
       }
     ],
+    "rule-empty-line-before": "always",
     "plugin/no-unsupported-browser-features": [
       null,
       {

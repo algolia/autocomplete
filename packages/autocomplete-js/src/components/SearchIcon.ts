@@ -2,6 +2,7 @@ import { Component } from '../types/Component';
 
 export const SearchIcon: Component<{}, SVGSVGElement> = () => {
   const element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  element.setAttribute('class', 'aa-SubmitIcon');
   element.setAttribute('viewBox', '0 0 20 20');
   element.setAttribute('width', '20');
   element.setAttribute('height', '20');

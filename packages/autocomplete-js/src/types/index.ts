@@ -31,6 +31,8 @@ export type SourceTemplates<TItem extends BaseItem> = {
   header?: Template<{
     root: HTMLElement;
     state: AutocompleteState<TItem>;
+    source: AutocompleteSource<TItem>;
+    items: TItem[];
   }>;
   /**
    * The template for the section footer.
@@ -38,6 +40,8 @@ export type SourceTemplates<TItem extends BaseItem> = {
   footer?: Template<{
     root: HTMLElement;
     state: AutocompleteState<TItem>;
+    source: AutocompleteSource<TItem>;
+    items: TItem[];
   }>;
 };
 
@@ -74,7 +78,9 @@ export type AutocompleteClassNames = Partial<{
   inputWrapper: string;
   input: string;
   touchSearchButton: string;
+  submitButton: string;
   resetButton: string;
+  loadingIndicator: string;
   panel: string;
   panelLayout: string;
   source: string;
@@ -90,7 +96,9 @@ export type AutocompleteDom = {
   root: HTMLDivElement;
   form: HTMLFormElement;
   label: HTMLLabelElement;
+  submitButton: HTMLButtonElement;
   resetButton: HTMLButtonElement;
+  loadingIndicator: HTMLDivElement;
   panel: HTMLDivElement;
   touchOverlay: HTMLDivElement;
 };
@@ -152,6 +160,7 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * ```
    */
   render?: AutocompleteRenderer<TItem>;
+  initialState?: Partial<AutocompleteState<TItem>>;
 }
 
 export interface AutocompleteApi<TItem extends BaseItem>

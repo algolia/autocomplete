@@ -16,7 +16,7 @@ import {
   AutocompleteRenderer,
   AutocompleteState,
 } from './types';
-import { setPropertiesWithoutEvents } from './utils';
+import { setProperties, setPropertiesWithoutEvents } from './utils';
 
 type RenderProps<TItem extends BaseItem> = {
   state: AutocompleteState<TItem>;
@@ -37,11 +37,17 @@ export function render<TItem extends BaseItem>(
     panelRoot,
     root,
     input,
+    resetButton,
+    submitButton,
+    loadingIndicator,
     panel,
   }: RenderProps<TItem>
 ): () => void {
-  setPropertiesWithoutEvents(root, getRootProps());
+  setPropertiesWithoutEvents(root, getRootProps({}));
   setPropertiesWithoutEvents(input, getInputProps({ inputElement: input }));
+  setPropertiesWithoutEvents(resetButton, { hidden: !state.query });
+  setProperties(submitButton, { hidden: state.status === 'stalled' });
+  setProperties(loadingIndicator, { hidden: state.status !== 'stalled' });
 
   panel.innerHTML = '';
 
@@ -53,15 +59,13 @@ export function render<TItem extends BaseItem>(
     return () => {};
   }
 
-  if (!panelRoot.contains(panel)) {
+  // We add the panel element to the DOM when it's not yet appended and that the
+  // items are fetched.
+  if (!panelRoot.contains(panel) && state.status !== 'loading') {
     panelRoot.appendChild(panel);
   }
 
-  if (state.status === 'stalled') {
-    panel.classList.add('aa-Panel--stalled');
-  } else {
-    panel.classList.remove('aa-Panel--stalled');
-  }
+  panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');
 
   const sections = state.collections.map(({ source, items }) => {
     const sectionElement = SourceContainer({ classNames });
@@ -70,7 +74,12 @@ export function render<TItem extends BaseItem>(
       const headerElement = SourceHeader({ classNames });
 
       renderTemplate({
-        template: source.templates.header({ root: headerElement, state }),
+        template: source.templates.header({
+          root: headerElement,
+          state,
+          source,
+          items,
+        }),
         parent: sectionElement,
         element: headerElement,
       });
@@ -106,7 +115,12 @@ export function render<TItem extends BaseItem>(
       });
 
       renderTemplate({
-        template: source.templates.footer({ root: footerElement, state }),
+        template: source.templates.footer({
+          root: footerElement,
+          state,
+          source,
+          items,
+        }),
         parent: sectionElement,
         element: footerElement,
       });

@@ -9,9 +9,11 @@ import {
   Input,
   InputWrapper,
   Label,
+  LoadingIndicator,
   Panel,
   ResetButton,
   Root,
+  SubmitButton,
   TouchOverlay,
   TouchSearchButton,
 } from './components';
@@ -49,13 +51,17 @@ export function createAutocompleteDom<TItem extends BaseItem>({
         }
       : undefined,
   });
+  const submitButton = SubmitButton({ classNames });
   const resetButton = ResetButton({ classNames });
+  const loadingIndicator = LoadingIndicator({ classNames });
   const form = Form({ classNames, ...getFormProps({ inputElement: input }) });
   const panel = Panel({ classNames, ...getPanelProps({}) });
 
+  label.appendChild(submitButton);
   inputWrapper.appendChild(input);
   inputWrapper.appendChild(label);
   inputWrapper.appendChild(resetButton);
+  inputWrapper.appendChild(loadingIndicator);
   form.appendChild(inputWrapper);
 
   if (isTouch) {
@@ -101,7 +107,9 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     root,
     form,
     label,
+    submitButton,
     resetButton,
+    loadingIndicator,
     panel,
   };
 }
