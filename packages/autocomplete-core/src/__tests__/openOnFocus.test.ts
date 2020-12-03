@@ -1,32 +1,12 @@
-import { createSource } from '../../../../test/utils';
-import { createAutocomplete } from '../createAutocomplete';
-
-type AutocompleteItem = { url: string };
+import { createSource, createPlayground } from '../../../../test/utils';
 
 describe('openOnFocus', () => {
   function setupTest(props) {
-    const autocomplete = createAutocomplete<AutocompleteItem>({
+    return createPlayground({
       openOnFocus: true,
       defaultSelectedItemId: 0,
       ...props,
     });
-    const inputElement = document.createElement('input');
-    const formElement = document.createElement('form');
-    const inputProps = autocomplete.getInputProps({ inputElement });
-    const formProps = autocomplete.getFormProps({ inputElement });
-    inputElement.addEventListener('focus', inputProps.onFocus);
-    inputElement.addEventListener('blur', inputProps.onBlur);
-    inputElement.addEventListener('input', inputProps.onChange);
-    inputElement.addEventListener('keydown', inputProps.onKeyDown);
-    formElement.addEventListener('reset', formProps.onReset);
-    formElement.addEventListener('submit', formProps.onSubmit);
-    formElement.appendChild(inputElement);
-    document.body.appendChild(formElement);
-
-    return {
-      inputElement,
-      formElement,
-    };
   }
 
   test('triggers a search on reset', () => {

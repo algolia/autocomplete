@@ -1,7 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import { createCollection } from '../../../../test/utils';
-import { createAutocomplete } from '../createAutocomplete';
+import { createCollection, createPlayground } from '../../../../test/utils';
 
 type AutocompleteNavigator = {
   navigate(...args: any[]): void;
@@ -17,27 +16,6 @@ function createNavigator(
     navigateNewTab: jest.fn(),
     navigateNewWindow: jest.fn(),
     ...navigator,
-  };
-}
-
-type AutocompleteItem = { url: string };
-
-function setupTest(props) {
-  const autocomplete = createAutocomplete<AutocompleteItem>({
-    openOnFocus: true,
-    defaultSelectedItemId: 0,
-    ...props,
-  });
-  const inputElement = document.createElement('input');
-  const inputProps = autocomplete.getInputProps({ inputElement });
-  inputElement.addEventListener('focus', inputProps.onFocus);
-  inputElement.addEventListener('blur', inputProps.onBlur);
-  inputElement.addEventListener('input', inputProps.onChange);
-  inputElement.addEventListener('keydown', inputProps.onKeyDown);
-  document.body.appendChild(inputElement);
-
-  return {
-    inputElement,
   };
 }
 
@@ -60,7 +38,9 @@ describe('navigator', () => {
     });
 
     function setupTestWithUrlItems() {
-      return setupTest({
+      return createPlayground({
+        openOnFocus: true,
+        defaultSelectedItemId: 0,
         initialState: {
           collections: [
             createCollection({
@@ -121,7 +101,9 @@ describe('navigator', () => {
   describe('custom navigator', () => {
     describe('without url', () => {
       function setupCustomNavigatorWithoutUrlTest(props) {
-        return setupTest({
+        return createPlayground({
+          openOnFocus: true,
+          defaultSelectedItemId: 0,
           initialState: {
             collections: [
               createCollection({
@@ -185,7 +167,9 @@ describe('navigator', () => {
 
   describe('with url', () => {
     function setupCustomNavigatorWithUrlTest(props) {
-      return setupTest({
+      return createPlayground({
+        openOnFocus: true,
+        defaultSelectedItemId: 0,
         initialState: {
           collections: [
             createCollection({
