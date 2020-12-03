@@ -10,7 +10,7 @@ function defer<TValue>(fn: () => TValue, timeout: number) {
 
 describe('stallThreshold', () => {
   test('sets the experience to stalled after 300ms', async () => {
-    const onStateChange = jest.fn((x) => x);
+    const onStateChange = jest.fn();
     const autocomplete = createAutocomplete({
       onStateChange,
       getSources() {
@@ -54,7 +54,7 @@ describe('stallThreshold', () => {
   });
 
   test('allows custom stall threshold', async () => {
-    const onStateChange = jest.fn((x) => x);
+    const onStateChange = jest.fn();
     const autocomplete = createAutocomplete({
       stallThreshold: 400,
       onStateChange,

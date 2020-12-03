@@ -10,7 +10,7 @@ describe('debug', () => {
   });
 
   test('keeps the panel open on blur', () => {
-    const onStateChange = jest.fn((x) => x);
+    const onStateChange = jest.fn();
     const { getInputProps } = createAutocomplete({
       debug: true,
       openOnFocus: true,
