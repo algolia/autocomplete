@@ -144,21 +144,6 @@ export function getPropGetters<
           event,
         });
 
-        if (props.openOnFocus) {
-          onInput({
-            query: '',
-            event,
-            store,
-            props,
-            setSelectedItemId,
-            setQuery,
-            setCollections,
-            setIsOpen,
-            setStatus,
-            setContext,
-            refresh,
-          });
-        }
         store.dispatch('reset', null);
 
         if (providedProps.inputElement) {

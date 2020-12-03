@@ -2,7 +2,7 @@ import { createAutocomplete } from '../createAutocomplete';
 
 describe('environment', () => {
   test('defaults to the global object', () => {
-    jest.spyOn(global, 'setTimeout');
+    jest.spyOn(global, 'setTimeout').mockImplementationOnce(jest.fn());
     const autocomplete = createAutocomplete({ openOnFocus: true });
     const inputElement = document.createElement('input');
     const inputProps = autocomplete.getInputProps({ inputElement });

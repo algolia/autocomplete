@@ -1,29 +1,7 @@
 import userEvent from '@testing-library/user-event';
 
+import { createCollection } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
-import { AutocompleteCollection } from '../types';
-
-type CreateCollectionParams<TItem extends Record<string, unknown>> = {
-  source?: Partial<AutocompleteCollection<TItem>['source']>;
-  items?: AutocompleteCollection<TItem>['items'];
-};
-
-function createCollection<TItem extends Record<string, unknown>>({
-  source,
-  items,
-}: CreateCollectionParams<TItem>): AutocompleteCollection<TItem> {
-  return {
-    source: {
-      getItemInputValue: ({ state }) => state.query,
-      getItemUrl: () => undefined,
-      onHighlight: () => {},
-      onSelect: () => {},
-      getItems: () => items,
-      ...source,
-    },
-    items,
-  };
-}
 
 type AutocompleteNavigator = {
   navigate(...args: any[]): void;

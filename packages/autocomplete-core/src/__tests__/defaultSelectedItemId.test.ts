@@ -5,12 +5,12 @@ import { createAutocomplete } from '../createAutocomplete';
 describe('defaultSelectedItemId', () => {
   test('selects unset defaultSelectedItemId on open (onInput)', () => {
     const onStateChange = jest.fn();
-    const { getInputProps } = createAutocomplete({
+    const autocomplete = createAutocomplete({
       openOnFocus: true,
       onStateChange,
     });
     const inputElement = document.createElement('input');
-    const inputProps = getInputProps({ inputElement });
+    const inputProps = autocomplete.getInputProps({ inputElement });
     inputElement.addEventListener('focus', inputProps.onFocus);
     inputElement.addEventListener('blur', inputProps.onBlur);
     document.body.appendChild(inputElement);
@@ -27,13 +27,13 @@ describe('defaultSelectedItemId', () => {
 
   test('selects provided defaultSelectedItemId on open (onInput)', () => {
     const onStateChange = jest.fn();
-    const { getInputProps } = createAutocomplete({
+    const autocomplete = createAutocomplete({
       openOnFocus: true,
       onStateChange,
       defaultSelectedItemId: 0,
     });
     const inputElement = document.createElement('input');
-    const inputProps = getInputProps({ inputElement });
+    const inputProps = autocomplete.getInputProps({ inputElement });
     inputElement.addEventListener('focus', inputProps.onFocus);
     document.body.appendChild(inputElement);
 
