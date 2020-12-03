@@ -4,9 +4,7 @@ export function getNextSelectedItemId<TItem extends BaseItem>(
   moveAmount: number,
   baseIndex: number | null,
   itemCount: number,
-  defaultSelectedItemId: InternalAutocompleteOptions<
-    TItem
-  >['defaultSelectedItemId']
+  defaultSelectedItemId: InternalAutocompleteOptions<TItem>['defaultSelectedItemId']
 ): number | null {
   // We allow circular keyboard navigation from the base index.
   // The base index can either be `null` (nothing is highlighted) or `0`

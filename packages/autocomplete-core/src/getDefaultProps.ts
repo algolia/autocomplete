@@ -16,9 +16,8 @@ export function getDefaultProps<TItem extends BaseItem>(
   props: AutocompleteOptions<TItem>,
   subscribers: Subscribers<TItem>
 ): InternalAutocompleteOptions<TItem> {
-  const environment: InternalAutocompleteOptions<
-    TItem
-  >['environment'] = (typeof window !== 'undefined'
+  const environment: InternalAutocompleteOptions<TItem>['environment'] = (typeof window !==
+  'undefined'
     ? window
     : {}) as typeof window;
   const plugins = props.plugins || [];

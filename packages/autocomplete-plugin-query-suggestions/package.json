@@ -35,8 +35,8 @@
     "@algolia/autocomplete-js": "1.0.0-alpha.36"
   },
   "devDependencies": {
-    "@algolia/client-search": "4.6.0",
-    "algoliasearch": "4.6.0"
+    "@algolia/client-search": "4.8.3",
+    "algoliasearch": "4.8.3"
   },
   "peerDependencies": {
     "@algolia/client-search": "^4.5.1",

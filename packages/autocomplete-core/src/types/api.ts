@@ -119,9 +119,7 @@ export interface AutocompleteSource<TItem extends BaseItem> {
 }
 
 export type InternalAutocompleteSource<TItem extends BaseItem> = {
-  [KParam in keyof AutocompleteSource<TItem>]-?: AutocompleteSource<
-    TItem
-  >[KParam];
+  [KParam in keyof AutocompleteSource<TItem>]-?: AutocompleteSource<TItem>[KParam];
 };
 
 export type GetSources<TItem extends BaseItem> = (
