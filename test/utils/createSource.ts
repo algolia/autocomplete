@@ -1,8 +1,12 @@
-import { AutocompleteSource, BaseItem } from '@algolia/autocomplete-core';
+import {
+  AutocompleteSource,
+  BaseItem,
+  InternalAutocompleteSource,
+} from '@algolia/autocomplete-core';
 
 export function createSource<TItem extends BaseItem>(
   source?: Partial<AutocompleteSource<TItem>>
-): AutocompleteSource<TItem> {
+): InternalAutocompleteSource<TItem> {
   return {
     getItemInputValue: ({ state }) => state.query,
     getItemUrl: () => undefined,
