@@ -122,7 +122,6 @@ export const stateReducer: Reducer = (state, action) => {
           action.props.openOnFocus === true
             ? action.props.defaultSelectedItemId
             : null,
-        isOpen: action.props.openOnFocus, // @TODO: Check with UX team if we want to close the panel on reset.
         status: 'idle',
         query: '',
       };
