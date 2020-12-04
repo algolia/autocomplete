@@ -791,11 +791,75 @@ describe('getInputProps', () => {
     });
 
     describe('Enter', () => {
-      test.todo('is a noop without selectedItemId');
+      test('is a noop without selectedItemId', () => {
+        const onStateChange = jest.fn();
+        const { inputProps } = createPlayground(createAutocomplete, {
+          onStateChange,
+          initialState: {
+            isOpen: true,
+            selectedItemId: null,
+            collections: [
+              createCollection({
+                items: [{ label: '1' }, { label: '2' }],
+              }),
+            ],
+          },
+        });
 
-      test.todo('is a noop with empty collections');
+        const stateChanges = (onStateChange.mock.calls[0] || []).length;
+        const event = {
+          ...new KeyboardEvent('keydown'),
+          key: 'Enter',
+        };
+        inputProps.onKeyDown(event);
 
-      test.todo('prevents the default event behavior');
+        expect(onStateChange).toHaveBeenCalledTimes(stateChanges);
+      });
+
+      test('is a noop with empty collections', () => {
+        const onStateChange = jest.fn();
+        const { inputProps } = createPlayground(createAutocomplete, {
+          onStateChange,
+          initialState: {
+            isOpen: true,
+            selectedItemId: 0,
+            collections: [],
+          },
+        });
+
+        const stateChanges = (onStateChange.mock.calls[0] || []).length;
+        const event = {
+          ...new KeyboardEvent('keydown'),
+          key: 'Enter',
+        };
+        inputProps.onKeyDown(event);
+
+        expect(onStateChange).toHaveBeenCalledTimes(stateChanges);
+      });
+
+      test('prevents the default event behavior', () => {
+        const { inputProps } = createPlayground(createAutocomplete, {
+          openOnFocus: true,
+          initialState: {
+            selectedItemId: 0,
+            collections: [
+              createCollection({
+                items: [{ label: '1' }, { label: '2' }],
+              }),
+            ],
+          },
+        });
+
+        const event = {
+          ...new KeyboardEvent('keydown'),
+          key: 'Enter',
+          preventDefault: jest.fn(),
+        };
+
+        inputProps.onKeyDown(event);
+
+        expect(event.preventDefault).toHaveBeenCalledTimes(1);
+      });
 
       describe('Plain Enter', () => {
         test.todo('calls onSelect with item URL');
