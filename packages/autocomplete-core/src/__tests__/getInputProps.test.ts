@@ -1,5 +1,4 @@
 import userEvent from '@testing-library/user-event';
-import { logDOM } from '@testing-library/dom';
 
 import {
   createCollection,
@@ -8,7 +7,6 @@ import {
   runAllMicroTasks,
 } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
-import { createElement } from 'react';
 
 describe('getInputProps', () => {
   beforeEach(() => {
@@ -325,7 +323,7 @@ describe('getInputProps', () => {
       });
     });
 
-    test('calls getSources', async () => {
+    test('calls getSources', () => {
       const onStateChange = jest.fn();
       const getSources = jest.fn((..._args: any[]) => {
         return [
@@ -685,7 +683,7 @@ describe('getInputProps', () => {
         });
       });
 
-      test('does not call onHighlight when no selectedItemId', async () => {
+      test('does not call onHighlight when no selectedItemId', () => {
         const onStateChange = jest.fn();
         const onHighlight = jest.fn();
         const { inputElement } = createPlayground(createAutocomplete, {
@@ -763,7 +761,7 @@ describe('getInputProps', () => {
         });
       });
 
-      test('resets the state when panel is closed', async () => {
+      test('resets the state when panel is closed', () => {
         const onStateChange = jest.fn();
         const { inputElement } = createPlayground(createAutocomplete, {
           onStateChange,
