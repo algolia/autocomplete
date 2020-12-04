@@ -5,7 +5,7 @@ import { createAutocomplete } from '../createAutocomplete';
 
 describe('getSources', () => {
   test('gets calls on input', () => {
-    const getSources = jest.fn(() => {
+    const getSources = jest.fn((..._args: any[]) => {
       return [createSource()];
     });
     const { inputElement } = createPlayground(createAutocomplete, {

@@ -1,8 +1,9 @@
 import { createPlayground, createSource } from '../../../../test/utils';
+import { createAutocomplete } from '../createAutocomplete';
 
 describe('refresh', () => {
   function setupTest(props) {
-    return createPlayground({
+    return createPlayground(createAutocomplete, {
       openOnFocus: true,
       defaultSelectedItemId: 0,
       ...props,
