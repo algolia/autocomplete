@@ -1,10 +1,5 @@
+import { defer } from '../../../../../test/utils';
 import { createConcurrentSafePromise } from '../createConcurrentSafePromise';
-
-function defer<TValue>(fn: () => TValue, timeout: number) {
-  return new Promise<TValue>((resolve) => {
-    setTimeout(() => resolve(fn()), timeout);
-  });
-}
 
 describe('createConcurrentSafePromise', () => {
   test('resolves the non-promise values in order', async () => {
