@@ -58,7 +58,7 @@ export function onInput<TItem extends BaseItem>({
   }
 
   if (lastStalledId) {
-    clearTimeout(lastStalledId);
+    props.environment.clearTimeout(lastStalledId);
   }
 
   setQuery(query);
@@ -162,7 +162,7 @@ export function onInput<TItem extends BaseItem>({
         })
         .finally(() => {
           if (lastStalledId) {
-            clearTimeout(lastStalledId);
+            props.environment.clearTimeout(lastStalledId);
           }
         });
     });

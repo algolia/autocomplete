@@ -9,7 +9,7 @@ describe('getPanelProps', () => {
     expect(panelProps).toEqual(expect.objectContaining({ customProps: {} }));
   });
 
-  test('prevents default even behavior when onMouseDown', () => {
+  test('prevents default event behavior when onMouseDown', () => {
     const { getPanelProps } = createPlayground(createAutocomplete, {
       id: 'autocomplete',
     });

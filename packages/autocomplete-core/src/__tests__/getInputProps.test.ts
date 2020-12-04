@@ -1,4 +1,10 @@
-import { createPlayground } from '../../../../test/utils';
+import userEvent from '@testing-library/user-event';
+
+import {
+  createPlayground,
+  createSource,
+  runAllMicroTasks,
+} from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 describe('getInputProps', () => {
@@ -242,9 +248,292 @@ describe('getInputProps', () => {
     expect(inputProps.type).toEqual('search');
   });
 
-  describe('onChange', () => {});
+  describe('onChange', () => {
+    test('sets the query', () => {
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+      });
+
+      userEvent.type(inputElement, 'a');
+
+      expect(onStateChange).toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          query: 'a',
+        }),
+      });
+    });
+
+    test('sets selectedItemId to defaultSelectedItemId', () => {
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+        defaultSelectedItemId: 0,
+      });
+
+      userEvent.type(inputElement, 'a');
+
+      expect(onStateChange).toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          selectedItemId: 0,
+        }),
+      });
+    });
+
+    test('resets the state without query', () => {
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+      });
+
+      userEvent.type(inputElement, '');
+
+      expect(onStateChange).not.toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          status: 'loading',
+        }),
+      });
+      expect(onStateChange).toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          status: 'idle',
+          collections: [],
+          isOpen: false,
+        }),
+      });
+    });
+
+    test('sets the status to loading before fetching sources', () => {
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+      });
+
+      userEvent.type(inputElement, 'a');
+
+      expect(onStateChange).toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          status: 'loading',
+        }),
+      });
+    });
+
+    test('calls getSources', async () => {
+      const onStateChange = jest.fn();
+      const getSources = jest.fn((..._args: any[]) => {
+        return [
+          createSource({
+            getItems() {
+              return [{ label: '1' }, { label: '2' }];
+            },
+          }),
+        ];
+      });
+      const {
+        inputElement,
+        refresh,
+        setCollections,
+        setContext,
+        setIsOpen,
+        setQuery,
+        setSelectedItemId,
+        setStatus,
+      } = createPlayground(createAutocomplete, {
+        onStateChange,
+        getSources,
+      });
+
+      userEvent.type(inputElement, 'a');
+
+      expect(getSources).toHaveBeenCalledWith({
+        query: 'a',
+        refresh,
+        setCollections,
+        setContext,
+        setIsOpen,
+        setQuery,
+        setSelectedItemId,
+        setStatus,
+        state: {
+          collections: [],
+          completion: null,
+          context: {},
+          isOpen: false,
+          query: 'a',
+          selectedItemId: null,
+          status: 'loading',
+        },
+      });
+    });
+
+    test('fetches sources that return collections opens panel', async () => {
+      const onStateChange = jest.fn();
+      const getSources = jest.fn((..._args: any[]) => {
+        return [
+          createSource({
+            getItems() {
+              return [{ label: '1' }, { label: '2' }];
+            },
+          }),
+        ];
+      });
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+        getSources,
+      });
+
+      userEvent.type(inputElement, 'a');
+
+      await runAllMicroTasks();
+
+      expect(onStateChange).toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          status: 'idle',
+          isOpen: true,
+          collections: [
+            {
+              source: expect.any(Object),
+              items: [
+                { label: '1', __autocomplete_id: 0 },
+                { label: '2', __autocomplete_id: 1 },
+              ],
+            },
+          ],
+        }),
+      });
+    });
+
+    test('fetches sources that do not return collections closes panel', async () => {
+      const onStateChange = jest.fn();
+      const getSources = jest.fn((..._args: any[]) => {
+        return [
+          createSource({
+            getItems() {
+              return [];
+            },
+          }),
+        ];
+      });
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+        getSources,
+      });
+
+      userEvent.type(inputElement, 'a');
+
+      await runAllMicroTasks();
+
+      expect(onStateChange).toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          status: 'idle',
+          isOpen: false,
+          collections: [
+            {
+              source: expect.any(Object),
+              items: [],
+            },
+          ],
+        }),
+      });
+    });
+
+    test('calls onHighlight', async () => {
+      const onStateChange = jest.fn();
+      const onHighlight = jest.fn();
+      const getSources = jest.fn((..._args: any[]) => {
+        return [
+          createSource({
+            getItems() {
+              return [{ label: '1' }, { label: '2' }];
+            },
+            onHighlight,
+          }),
+        ];
+      });
+      const {
+        inputElement,
+        setCollections,
+        setContext,
+        setIsOpen,
+        setQuery,
+        setSelectedItemId,
+        setStatus,
+      } = createPlayground(createAutocomplete, {
+        defaultSelectedItemId: 0,
+        onStateChange,
+        getSources,
+      });
+
+      userEvent.type(inputElement, 'a');
+
+      await runAllMicroTasks();
+
+      expect(onHighlight).toHaveBeenCalledTimes(1);
+      expect(onHighlight).toHaveBeenCalledWith({
+        event: expect.any(Event),
+        item: { label: '1', __autocomplete_id: 0 },
+        itemInputValue: 'a',
+        itemUrl: undefined,
+        source: expect.any(Object),
+        setCollections,
+        setContext,
+        setIsOpen,
+        setQuery,
+        setSelectedItemId,
+        setStatus,
+        state: {
+          collections: [
+            {
+              source: expect.any(Object),
+              items: [
+                { label: '1', __autocomplete_id: 0 },
+                { label: '2', __autocomplete_id: 1 },
+              ],
+            },
+          ],
+          completion: null,
+          context: {},
+          isOpen: true,
+          query: 'a',
+          selectedItemId: 0,
+          status: 'idle',
+        },
+      });
+    });
+
+    test.todo('catches errors and sets status to error');
+
+    test('clears stalled timeout', async () => {
+      const environment = {
+        ...global,
+        setTimeout: jest.fn(() => 999),
+        clearTimeout: jest.fn(),
+      };
+
+      const { inputElement } = createPlayground(createAutocomplete, {
+        environment,
+      });
+
+      userEvent.type(inputElement, 'a');
+
+      await runAllMicroTasks();
+
+      expect(environment.clearTimeout).toHaveBeenCalledTimes(1);
+      expect(environment.clearTimeout).toHaveBeenCalledWith(999);
+    });
+  });
+
   describe('onKeyDown', () => {});
+
   describe('onFocus', () => {});
+
   describe('onBlur', () => {});
+
   describe('onClick', () => {});
 });
