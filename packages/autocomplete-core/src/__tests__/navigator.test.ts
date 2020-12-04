@@ -1,6 +1,7 @@
 import userEvent from '@testing-library/user-event';
 
 import { createCollection, createPlayground } from '../../../../test/utils';
+import { createAutocomplete } from '../createAutocomplete';
 
 type AutocompleteNavigator = {
   navigate(...args: any[]): void;
@@ -38,7 +39,7 @@ describe('navigator', () => {
     });
 
     function setupTestWithUrlItems() {
-      return createPlayground({
+      return createPlayground(createAutocomplete, {
         openOnFocus: true,
         defaultSelectedItemId: 0,
         initialState: {
@@ -101,7 +102,7 @@ describe('navigator', () => {
   describe('custom navigator', () => {
     describe('without url', () => {
       function setupCustomNavigatorWithoutUrlTest(props) {
-        return createPlayground({
+        return createPlayground(createAutocomplete, {
           openOnFocus: true,
           defaultSelectedItemId: 0,
           initialState: {
@@ -167,7 +168,7 @@ describe('navigator', () => {
 
   describe('with url', () => {
     function setupCustomNavigatorWithUrlTest(props) {
-      return createPlayground({
+      return createPlayground(createAutocomplete, {
         openOnFocus: true,
         defaultSelectedItemId: 0,
         initialState: {

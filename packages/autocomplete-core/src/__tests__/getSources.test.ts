@@ -1,13 +1,16 @@
 import userEvent from '@testing-library/user-event';
 
 import { createSource, createPlayground } from '../../../../test/utils';
+import { createAutocomplete } from '../createAutocomplete';
 
 describe('getSources', () => {
   test('gets calls on input', () => {
     const getSources = jest.fn(() => {
       return [createSource()];
     });
-    const { inputElement } = createPlayground({ getSources });
+    const { inputElement } = createPlayground(createAutocomplete, {
+      getSources,
+    });
 
     inputElement.focus();
     userEvent.type(inputElement, 'a');

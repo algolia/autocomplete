@@ -1,9 +1,10 @@
 import {
   AutocompleteOptions,
-  createAutocomplete,
+  createAutocomplete as createAutocompleteCore,
 } from '@algolia/autocomplete-core';
 
 export function createPlayground<TItem extends Record<string, unknown>>(
+  createAutocomplete: typeof createAutocompleteCore,
   props: AutocompleteOptions<TItem>
 ) {
   const autocomplete = createAutocomplete<TItem>(props);
