@@ -12,10 +12,7 @@ export function createCollection<TItem extends Record<string, unknown>>({
   items = [],
 }: CreateCollectionParams<TItem>): AutocompleteCollection<TItem> {
   return {
-    source: {
-      ...createSource(),
-      ...source,
-    },
+    source: createSource(source),
     items,
   };
 }
