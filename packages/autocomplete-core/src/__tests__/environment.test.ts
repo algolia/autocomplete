@@ -31,4 +31,12 @@ describe('environment', () => {
 
     expect(environment.setTimeout).toHaveBeenCalledTimes(1);
   });
+
+  test('does not throw without window', () => {
+    delete global.window;
+
+    expect(() => {
+      createAutocomplete({});
+    }).not.toThrow();
+  });
 });
