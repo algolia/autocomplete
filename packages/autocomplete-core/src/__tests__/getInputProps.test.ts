@@ -713,11 +713,81 @@ describe('getInputProps', () => {
     });
 
     describe('Escape', () => {
-      test.todo('prevents the default event behavior');
+      test('prevents the default event behavior', () => {
+        const { inputProps } = createPlayground(createAutocomplete, {
+          openOnFocus: true,
+          initialState: {
+            collections: [
+              createCollection({
+                items: [{ label: '1' }, { label: '2' }],
+              }),
+            ],
+          },
+        });
 
-      test.todo('closes the panel and resets completion when panel is open');
+        const event = {
+          ...new KeyboardEvent('keydown'),
+          key: 'Escape',
+          preventDefault: jest.fn(),
+        };
 
-      test.todo('resets the state when panel is closed');
+        inputProps.onKeyDown(event);
+
+        expect(event.preventDefault).toHaveBeenCalledTimes(1);
+      });
+
+      test('closes the panel and resets completion when panel is open', () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+          initialState: {
+            completion: 'a',
+            collections: [
+              createCollection({
+                items: [{ label: '1' }, { label: '2' }],
+              }),
+            ],
+          },
+        });
+
+        inputElement.focus();
+        userEvent.type(inputElement, '{esc}');
+
+        expect(onStateChange).toHaveBeenLastCalledWith({
+          prevState: expect.anything(),
+          state: expect.objectContaining({
+            isOpen: false,
+            completion: null,
+          }),
+        });
+      });
+
+      test('resets the state when panel is closed', async () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          initialState: {
+            isOpen: true,
+            collections: [
+              createCollection({
+                items: [{ label: '1' }, { label: '2' }],
+              }),
+            ],
+          },
+        });
+
+        userEvent.type(inputElement, '{esc}');
+
+        expect(onStateChange).toHaveBeenLastCalledWith({
+          prevState: expect.anything(),
+          state: expect.objectContaining({
+            query: '',
+            status: 'idle',
+            collections: [],
+          }),
+        });
+      });
     });
 
     describe('Enter', () => {
