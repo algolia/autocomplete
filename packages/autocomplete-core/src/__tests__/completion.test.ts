@@ -1,4 +1,4 @@
-import userEvents from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 
 import { createCollection, createPlayground } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
@@ -24,7 +24,7 @@ describe('completion', () => {
     });
 
     inputElement.focus();
-    userEvents.type(inputElement, '{arrowdown}');
+    userEvent.type(inputElement, '{arrowdown}');
 
     expect(onStateChange).toHaveBeenLastCalledWith({
       prevState: expect.anything(),
@@ -33,7 +33,7 @@ describe('completion', () => {
       }),
     });
 
-    userEvents.type(inputElement, '{arrowdown}');
+    userEvent.type(inputElement, '{arrowdown}');
 
     expect(onStateChange).toHaveBeenLastCalledWith({
       prevState: expect.anything(),
@@ -42,7 +42,7 @@ describe('completion', () => {
       }),
     });
 
-    userEvents.type(inputElement, '{arrowdown}');
+    userEvent.type(inputElement, '{arrowdown}');
 
     expect(onStateChange).toHaveBeenLastCalledWith({
       prevState: expect.anything(),
@@ -72,7 +72,7 @@ describe('completion', () => {
     });
 
     inputElement.focus();
-    userEvents.type(inputElement, '{esc}{arrowdown}');
+    userEvent.type(inputElement, '{esc}{arrowdown}');
 
     expect(onStateChange).toHaveBeenLastCalledWith({
       prevState: expect.anything(),
@@ -90,7 +90,7 @@ describe('completion', () => {
     });
 
     inputElement.focus();
-    userEvents.type(inputElement, '{arrowdown}');
+    userEvent.type(inputElement, '{arrowdown}');
 
     expect(onStateChange).toHaveBeenLastCalledWith({
       prevState: expect.anything(),
@@ -115,7 +115,7 @@ describe('completion', () => {
     });
 
     inputElement.focus();
-    userEvents.type(inputElement, '{arrowdown}');
+    userEvent.type(inputElement, '{arrowdown}');
 
     expect(onStateChange).toHaveBeenLastCalledWith({
       prevState: expect.anything(),

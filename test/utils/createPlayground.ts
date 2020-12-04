@@ -26,5 +26,7 @@ export function createPlayground<TItem extends Record<string, unknown>>(
     ...autocomplete,
     inputElement,
     formElement,
+    inputProps,
+    formProps,
   };
 }

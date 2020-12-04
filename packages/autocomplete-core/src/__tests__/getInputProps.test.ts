@@ -1,11 +1,14 @@
 import userEvent from '@testing-library/user-event';
+import { logDOM } from '@testing-library/dom';
 
 import {
+  createCollection,
   createPlayground,
   createSource,
   runAllMicroTasks,
 } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
+import { createElement } from 'react';
 
 describe('getInputProps', () => {
   beforeEach(() => {
@@ -524,12 +527,239 @@ describe('getInputProps', () => {
 
       await runAllMicroTasks();
 
-      expect(environment.clearTimeout).toHaveBeenCalledTimes(1);
-      expect(environment.clearTimeout).toHaveBeenCalledWith(999);
+      expect(environment.clearTimeout).toHaveBeenLastCalledWith(999);
     });
   });
 
-  describe('onKeyDown', () => {});
+  describe('onKeyDown', () => {
+    describe('ArrowUp/ArrowDown', () => {
+      test('prevents the default event behavior', () => {
+        const { inputProps } = createPlayground(createAutocomplete, {
+          openOnFocus: true,
+          initialState: {
+            collections: [
+              createCollection({
+                items: [{ label: '1' }, { label: '2' }],
+              }),
+            ],
+          },
+        });
+
+        const event = {
+          ...new KeyboardEvent('keydown'),
+          key: 'ArrowDown',
+          preventDefault: jest.fn(),
+        };
+
+        inputProps.onKeyDown(event);
+
+        expect(event.preventDefault).toHaveBeenCalledTimes(1);
+      });
+
+      function setupTestWithItem(props) {
+        const playground = createPlayground(createAutocomplete, {
+          id: 'autocomplete',
+          openOnFocus: true,
+          initialState: {
+            collections: [
+              createCollection({
+                items: [{ label: '1' }],
+              }),
+            ],
+          },
+          ...props,
+        });
+        const item = document.createElement('div');
+        item.setAttribute('id', 'autocomplete-item-0');
+        document.body.appendChild(item);
+
+        return { ...playground, item };
+      }
+
+      test('scrolls to the selected item with scrollIntoViewIfNeeded fallback with ArrowDown', () => {
+        const onStateChange = jest.fn();
+        const { inputElement, item } = setupTestWithItem({ onStateChange });
+        (item as any).scrollIntoViewIfNeeded = jest.fn();
+
+        inputElement.focus();
+        userEvent.type(inputElement, '{arrowdown}');
+
+        expect((item as any).scrollIntoViewIfNeeded).toHaveBeenCalledTimes(1);
+        expect((item as any).scrollIntoViewIfNeeded).toHaveBeenCalledWith(
+          false
+        );
+      });
+
+      test('scrolls to the selected item with scrollIntoViewIfNeeded fallback with ArrowUp', () => {
+        const onStateChange = jest.fn();
+        const { inputElement, item } = setupTestWithItem({ onStateChange });
+        (item as any).scrollIntoViewIfNeeded = jest.fn();
+
+        inputElement.focus();
+        userEvent.type(inputElement, '{arrowup}');
+
+        expect((item as any).scrollIntoViewIfNeeded).toHaveBeenCalledTimes(1);
+        expect((item as any).scrollIntoViewIfNeeded).toHaveBeenCalledWith(
+          false
+        );
+      });
+
+      test('scrolls to the selected item with scrollIntoView fallback with ArrowDown', () => {
+        const onStateChange = jest.fn();
+        const { inputElement, item } = setupTestWithItem({ onStateChange });
+        item.scrollIntoView = jest.fn();
+
+        inputElement.focus();
+        userEvent.type(inputElement, '{arrowdown}');
+
+        expect(item.scrollIntoView).toHaveBeenCalledTimes(1);
+        expect(item.scrollIntoView).toHaveBeenCalledWith(false);
+      });
+
+      test('scrolls to the selected item with scrollIntoView fallback with ArrowUp', () => {
+        const onStateChange = jest.fn();
+        const { inputElement, item } = setupTestWithItem({ onStateChange });
+        item.scrollIntoView = jest.fn();
+
+        inputElement.focus();
+        userEvent.type(inputElement, '{arrowup}');
+
+        expect(item.scrollIntoView).toHaveBeenCalledTimes(1);
+        expect(item.scrollIntoView).toHaveBeenCalledWith(false);
+      });
+
+      test('calls onHighlight when selectedItemId', () => {
+        const onStateChange = jest.fn();
+        const onHighlight = jest.fn();
+        const {
+          inputElement,
+          setCollections,
+          setContext,
+          setIsOpen,
+          setQuery,
+          setSelectedItemId,
+          setStatus,
+        } = createPlayground(createAutocomplete, {
+          openOnFocus: true,
+          onStateChange,
+          initialState: {
+            collections: [
+              createCollection({
+                source: { onHighlight },
+                items: [{ label: '1' }, { label: '2' }],
+              }),
+            ],
+          },
+        });
+
+        inputElement.focus();
+        userEvent.type(inputElement, 'a{arrowdown}');
+
+        expect(onHighlight).toHaveBeenCalledTimes(1);
+        expect(onHighlight).toHaveBeenCalledWith({
+          event: expect.any(Event),
+          item: { label: '1' },
+          itemInputValue: 'a',
+          itemUrl: undefined,
+          source: expect.any(Object),
+          setCollections,
+          setContext,
+          setIsOpen,
+          setQuery,
+          setSelectedItemId,
+          setStatus,
+          state: {
+            collections: [
+              {
+                source: expect.any(Object),
+                items: [{ label: '1' }, { label: '2' }],
+              },
+            ],
+            completion: 'a',
+            context: {},
+            isOpen: true,
+            query: 'a',
+            selectedItemId: 0,
+            status: 'loading',
+          },
+        });
+      });
+
+      test('does not call onHighlight when no selectedItemId', async () => {
+        const onStateChange = jest.fn();
+        const onHighlight = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          openOnFocus: true,
+          onStateChange,
+          initialState: {
+            collections: [
+              createCollection({
+                source: { onHighlight },
+                items: [{ label: '1' }, { label: '2' }],
+              }),
+            ],
+          },
+        });
+
+        inputElement.focus();
+        expect(onHighlight).toHaveBeenCalledTimes(0);
+
+        userEvent.type(inputElement, '{arrowdown}');
+        expect(onHighlight).toHaveBeenCalledTimes(1);
+
+        userEvent.type(inputElement, '{arrowup}');
+        expect(onHighlight).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('Escape', () => {
+      test.todo('prevents the default event behavior');
+
+      test.todo('closes the panel and resets completion when panel is open');
+
+      test.todo('resets the state when panel is closed');
+    });
+
+    describe('Enter', () => {
+      test.todo('is a noop without selectedItemId');
+
+      test.todo('is a noop with empty collections');
+
+      test.todo('prevents the default event behavior');
+
+      describe('Plain Enter', () => {
+        test.todo('calls onSelect with item URL');
+
+        test.todo('calls navigate with item URL');
+
+        test.todo('calls onInput and onSelect without item URL');
+      });
+
+      describe('Meta+Enter / Ctrl+Enter', () => {
+        test.todo('skips onSelect without item URL');
+
+        test.todo('skips navigateNewTab without item URL');
+
+        test.todo('calls onSelect with item URL');
+
+        test.todo('calls navigateNewTab with item URL');
+      });
+
+      describe('Shift+Enter', () => {
+        test.todo('skips onSelect without item URL');
+
+        test.todo('skips navigateNewWindow without item URL');
+
+        test.todo('calls onSelect with item URL');
+
+        test.todo('calls navigateNewWindow with item URL');
+      });
+
+      describe('Alt+Enter', () => {
+        test.todo('triggers default browser behavior');
+      });
+    });
+  });
 
   describe('onFocus', () => {});
 
