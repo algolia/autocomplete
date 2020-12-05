@@ -1,5 +1,6 @@
 export * from './AutocompleteApi';
 export * from './AutocompleteCollection';
+export * from './AutocompleteContext';
 export * from './AutocompleteEnvironment';
 export * from './AutocompleteOptions';
 export * from './AutocompleteSource';

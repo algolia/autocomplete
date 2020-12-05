@@ -1,5 +1,6 @@
 import { BaseItem } from './AutocompleteApi';
 import { AutocompleteCollection } from './AutocompleteCollection';
+import { AutocompleteContext } from './AutocompleteContext';
 
 export interface AutocompleteState<TItem extends BaseItem> {
   selectedItemId: number | null;
@@ -8,5 +9,5 @@ export interface AutocompleteState<TItem extends BaseItem> {
   collections: Array<AutocompleteCollection<TItem>>;
   isOpen: boolean;
   status: 'idle' | 'loading' | 'stalled' | 'error';
-  context: { [key: string]: unknown };
+  context: AutocompleteContext;
 }
