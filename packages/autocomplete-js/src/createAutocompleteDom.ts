@@ -17,7 +17,7 @@ import {
 import { AutocompleteClassNames, AutocompleteDom } from './types';
 
 type CreateDomProps<TItem extends BaseItem> = AutocompleteCoreApi<TItem> & {
-  classNames: AutocompleteClassNames;
+  classNames: Partial<AutocompleteClassNames>;
 };
 
 export function createAutocompleteDom<TItem extends BaseItem>({

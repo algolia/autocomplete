@@ -20,7 +20,7 @@ import { setProperties, setPropertiesWithoutEvents } from './utils';
 
 type RenderProps<TItem extends BaseItem> = {
   state: AutocompleteState<TItem>;
-  classNames: AutocompleteClassNames;
+  classNames: Partial<AutocompleteClassNames>;
   panelRoot: HTMLElement;
 } & AutocompleteCoreApi<TItem> &
   AutocompleteDom;

@@ -8,7 +8,7 @@ export interface AutocompleteScopeApi<TItem extends BaseItem>
   /**
    * Triggers a search to refresh the state.
    */
-  refresh: () => Promise<void>;
+  refresh(): Promise<void>;
 }
 
 export type AutocompleteApi<
