@@ -860,11 +860,205 @@ describe('getInputProps', () => {
       });
 
       describe('Plain Enter', () => {
-        test.todo('calls onSelect with item URL');
+        test('calls onSelect with item URL', () => {
+          const onSelect = jest.fn();
+          const navigator = {
+            navigate: jest.fn(),
+            navigateNewTab: jest.fn(),
+            navigateNewWindow: jest.fn(),
+          };
+          const {
+            inputElement,
+            setCollections,
+            setContext,
+            setIsOpen,
+            setQuery,
+            setSelectedItemId,
+            setStatus,
+          } = createPlayground(createAutocomplete, {
+            navigator,
+            defaultSelectedItemId: 0,
+            initialState: {
+              isOpen: true,
+              collections: [
+                createCollection({
+                  source: { onSelect, getItemUrl: ({ item }) => item.url },
+                  items: [
+                    { label: '1', url: '#1' },
+                    { label: '2', url: '#2' },
+                  ],
+                }),
+              ],
+            },
+          });
 
-        test.todo('calls navigate with item URL');
+          inputElement.focus();
+          userEvent.type(inputElement, '{enter}');
 
-        test.todo('calls onInput and onSelect without item URL');
+          expect(onSelect).toHaveBeenCalledTimes(1);
+          expect(onSelect).toHaveBeenCalledWith({
+            event: expect.any(KeyboardEvent),
+            item: {
+              label: '1',
+              url: '#1',
+            },
+            itemInputValue: '',
+            itemUrl: '#1',
+            setCollections,
+            setContext,
+            setIsOpen,
+            setQuery,
+            setSelectedItemId,
+            setStatus,
+            source: expect.any(Object),
+            state: {
+              collections: [
+                {
+                  items: [
+                    {
+                      label: '1',
+                      url: '#1',
+                    },
+                    {
+                      label: '2',
+                      url: '#2',
+                    },
+                  ],
+                  source: expect.any(Object),
+                },
+              ],
+              completion: null,
+              context: {},
+              isOpen: false,
+              query: '',
+              selectedItemId: 0,
+              status: 'idle',
+            },
+          });
+        });
+
+        test('calls navigate with item URL', () => {
+          const onSelect = jest.fn();
+          const navigator = {
+            navigate: jest.fn(),
+            navigateNewTab: jest.fn(),
+            navigateNewWindow: jest.fn(),
+          };
+          const { inputElement } = createPlayground(createAutocomplete, {
+            navigator,
+            defaultSelectedItemId: 0,
+            initialState: {
+              isOpen: true,
+              collections: [
+                createCollection({
+                  source: { onSelect, getItemUrl: ({ item }) => item.url },
+                  items: [
+                    { label: '1', url: '#1' },
+                    { label: '2', url: '#2' },
+                  ],
+                }),
+              ],
+            },
+          });
+
+          inputElement.focus();
+          userEvent.type(inputElement, '{enter}');
+
+          expect(navigator.navigate).toHaveBeenCalledTimes(1);
+          expect(navigator.navigate).toHaveBeenCalledWith({
+            item: { label: '1', url: '#1' },
+            itemUrl: '#1',
+            state: {
+              collections: [
+                {
+                  items: [
+                    { label: '1', url: '#1' },
+                    { label: '2', url: '#2' },
+                  ],
+                  source: {
+                    getItemInputValue: expect.any(Function),
+                    getItemUrl: expect.any(Function),
+                    getItems: expect.any(Function),
+                    onHighlight: expect.any(Function),
+                    onSelect,
+                  },
+                },
+              ],
+              completion: null,
+              context: {},
+              isOpen: false,
+              query: '',
+              selectedItemId: 0,
+              status: 'idle',
+            },
+          });
+        });
+
+        test('calls onInput and onSelect without item URL', async () => {
+          const onSelect = jest.fn();
+          const onInput = jest.fn();
+          const navigator = {
+            navigate: jest.fn(),
+            navigateNewTab: jest.fn(),
+            navigateNewWindow: jest.fn(),
+          };
+          const {
+            inputElement,
+            setCollections,
+            setContext,
+            setIsOpen,
+            setQuery,
+            setSelectedItemId,
+            setStatus,
+          } = createPlayground(createAutocomplete, {
+            onInput,
+            navigator,
+            defaultSelectedItemId: 0,
+            initialState: {
+              isOpen: true,
+              collections: [
+                createCollection({
+                  source: { onSelect },
+                  items: [{ label: '1' }, { label: '2' }],
+                }),
+              ],
+            },
+          });
+
+          inputElement.focus();
+          userEvent.type(inputElement, '{enter}');
+
+          expect(onInput).toHaveBeenCalledTimes(1);
+          await runAllMicroTasks();
+          expect(onSelect).toHaveBeenCalledTimes(1);
+          expect(onSelect).toHaveBeenCalledWith({
+            event: expect.any(KeyboardEvent),
+            item: { label: '1' },
+            itemInputValue: '',
+            itemUrl: undefined,
+            setCollections,
+            setContext,
+            setIsOpen,
+            setQuery,
+            setSelectedItemId,
+            setStatus,
+            source: expect.any(Object),
+            state: {
+              collections: [
+                {
+                  items: [{ label: '1' }, { label: '2' }],
+                  source: expect.any(Object),
+                },
+              ],
+              completion: null,
+              context: {},
+              isOpen: false,
+              query: '',
+              selectedItemId: 0,
+              status: 'idle',
+            },
+          });
+        });
       });
 
       describe('Meta+Enter / Ctrl+Enter', () => {
@@ -888,7 +1082,35 @@ describe('getInputProps', () => {
       });
 
       describe('Alt+Enter', () => {
-        test.todo('triggers default browser behavior');
+        test('triggers default browser behavior', () => {
+          const onSelect = jest.fn();
+          const navigator = {
+            navigate: jest.fn(),
+            navigateNewTab: jest.fn(),
+            navigateNewWindow: jest.fn(),
+          };
+          const { inputElement } = createPlayground(createAutocomplete, {
+            navigator,
+            defaultSelectedItemId: 0,
+            initialState: {
+              isOpen: true,
+              collections: [
+                createCollection({
+                  source: { onSelect },
+                  items: [{ label: '1' }, { label: '2' }],
+                }),
+              ],
+            },
+          });
+
+          inputElement.focus();
+          userEvent.type(inputElement, '{alt}+{enter}');
+
+          expect(onSelect).toHaveBeenCalledTimes(0);
+          expect(navigator.navigate).toHaveBeenCalledTimes(0);
+          expect(navigator.navigateNewTab).toHaveBeenCalledTimes(0);
+          expect(navigator.navigateNewWindow).toHaveBeenCalledTimes(0);
+        });
       });
     });
   });
