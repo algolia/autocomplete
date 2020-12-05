@@ -21,6 +21,7 @@ describe('onReset', () => {
     expect(onResetProp).toHaveBeenCalledTimes(1);
     expect(onResetProp).toHaveBeenCalledWith({
       event: expect.any(Event),
+      refresh: expect.any(Function),
       setCollections: expect.any(Function),
       setContext: expect.any(Function),
       setIsOpen: expect.any(Function),

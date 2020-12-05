@@ -2,7 +2,7 @@ import {
   AutocompleteOptions,
   BaseItem,
   InternalAutocompleteOptions,
-  Subscribers,
+  AutocompleteSubscribers,
 } from './types';
 import {
   generateAutocompleteId,
@@ -13,7 +13,7 @@ import {
 
 export function getDefaultProps<TItem extends BaseItem>(
   props: AutocompleteOptions<TItem>,
-  subscribers: Subscribers<TItem>
+  subscribers: AutocompleteSubscribers<TItem>
 ): InternalAutocompleteOptions<TItem> {
   const environment: InternalAutocompleteOptions<TItem>['environment'] = (typeof window !==
   'undefined'

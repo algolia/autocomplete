@@ -1,6 +1,7 @@
-import { BaseItem, InternalAutocompleteSource } from './api';
+import { BaseItem } from './AutocompleteApi';
+import { InternalAutocompleteSource } from './AutocompleteSource';
 
-export interface AutocompleteAccessibilityGetters<
+export interface AutocompletePropGetters<
   TItem extends BaseItem,
   TEvent = Event,
   TMouseEvent = MouseEvent,

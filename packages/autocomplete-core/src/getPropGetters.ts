@@ -1,27 +1,25 @@
 import { onInput } from './onInput';
 import { onKeyDown } from './onKeyDown';
 import {
-  InternalAutocompleteOptions,
-  AutocompleteSetters,
+  AutocompleteScopeApi,
   AutocompleteStore,
-  AutocompleteRefresh,
-  GetPanelProps,
+  BaseItem,
   GetEnvironmentProps,
   GetFormProps,
   GetInputProps,
   GetItemProps,
   GetLabelProps,
   GetListProps,
+  GetPanelProps,
   GetRootProps,
-  BaseItem,
+  InternalAutocompleteOptions,
 } from './types';
 import { getSelectedItem, isOrContainsNode } from './utils';
 
 interface GetPropGettersOptions<TItem extends BaseItem>
-  extends AutocompleteSetters<TItem> {
+  extends AutocompleteScopeApi<TItem> {
   store: AutocompleteStore<TItem>;
   props: InternalAutocompleteOptions<TItem>;
-  refresh: AutocompleteRefresh;
 }
 
 export function getPropGetters<
@@ -121,6 +119,7 @@ export function getPropGetters<
           setIsOpen,
           setStatus,
           setContext,
+          refresh,
           event,
         });
 
@@ -141,6 +140,7 @@ export function getPropGetters<
           setIsOpen,
           setStatus,
           setContext,
+          refresh,
           event,
         });
 
@@ -324,6 +324,7 @@ export function getPropGetters<
             setIsOpen,
             setStatus,
             setContext,
+            refresh,
             event,
           });
         }
@@ -380,6 +381,7 @@ export function getPropGetters<
             setIsOpen,
             setStatus,
             setContext,
+            refresh,
             event,
           });
         });

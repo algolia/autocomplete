@@ -1,8 +1,7 @@
 import {
-  AutocompleteSetters,
+  AutocompleteScopeApi,
   AutocompleteState,
   AutocompleteStore,
-  AutocompleteRefresh,
   BaseItem,
   InternalAutocompleteOptions,
 } from './types';
@@ -11,7 +10,7 @@ import { getSelectedItem } from './utils';
 let lastStalledId: number | null = null;
 
 interface OnInputParams<TItem extends BaseItem>
-  extends AutocompleteSetters<TItem> {
+  extends AutocompleteScopeApi<TItem> {
   query: string;
   event: any;
   store: AutocompleteStore<TItem>;
@@ -24,7 +23,6 @@ interface OnInputParams<TItem extends BaseItem>
    * but we want to close the panel in that case.
    */
   nextState?: Partial<AutocompleteState<TItem>>;
-  refresh: AutocompleteRefresh;
 }
 
 export function onInput<TItem extends BaseItem>({
@@ -151,6 +149,7 @@ export function onInput<TItem extends BaseItem>({
               setIsOpen,
               setStatus,
               setContext,
+              refresh,
               event,
             });
           }

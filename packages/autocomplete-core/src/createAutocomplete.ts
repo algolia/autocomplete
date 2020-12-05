@@ -9,7 +9,7 @@ import {
   AutocompleteApi,
   AutocompleteOptions,
   BaseItem,
-  Subscribers,
+  AutocompleteSubscribers,
 } from './types';
 
 export function createAutocomplete<
@@ -22,7 +22,7 @@ export function createAutocomplete<
 ): AutocompleteApi<TItem, TEvent, TMouseEvent, TKeyboardEvent> {
   checkOptions(options);
 
-  const subscribers: Subscribers<TItem> = [];
+  const subscribers: AutocompleteSubscribers<TItem> = [];
   const props = getDefaultProps(options, subscribers);
   const store = createStore(stateReducer, props);
 

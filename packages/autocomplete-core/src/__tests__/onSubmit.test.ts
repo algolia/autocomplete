@@ -21,6 +21,7 @@ describe('onSubmit', () => {
     expect(onSubmitProp).toHaveBeenCalledTimes(1);
     expect(onSubmitProp).toHaveBeenCalledWith({
       event: expect.any(Event),
+      refresh: expect.any(Function),
       setCollections: expect.any(Function),
       setContext: expect.any(Function),
       setIsOpen: expect.any(Function),

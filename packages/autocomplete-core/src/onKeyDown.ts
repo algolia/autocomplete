@@ -1,19 +1,17 @@
 import { onInput } from './onInput';
 import {
-  AutocompleteSetters,
+  AutocompleteScopeApi,
   AutocompleteStore,
-  AutocompleteRefresh,
   BaseItem,
   InternalAutocompleteOptions,
 } from './types';
 import { getSelectedItem } from './utils';
 
 interface OnKeyDownOptions<TItem extends BaseItem>
-  extends AutocompleteSetters<TItem> {
+  extends AutocompleteScopeApi<TItem> {
   event: KeyboardEvent;
   store: AutocompleteStore<TItem>;
   props: InternalAutocompleteOptions<TItem>;
-  refresh: AutocompleteRefresh;
 }
 
 export function onKeyDown<TItem extends BaseItem>({
@@ -66,6 +64,7 @@ export function onKeyDown<TItem extends BaseItem>({
         setIsOpen,
         setStatus,
         setContext,
+        refresh,
         event,
       });
     }
@@ -110,6 +109,7 @@ export function onKeyDown<TItem extends BaseItem>({
           setIsOpen,
           setStatus,
           setContext,
+          refresh,
           event,
         });
         props.navigator.navigateNewTab({
@@ -132,6 +132,7 @@ export function onKeyDown<TItem extends BaseItem>({
           setIsOpen,
           setStatus,
           setContext,
+          refresh,
           event,
         });
         props.navigator.navigateNewWindow({
@@ -156,6 +157,7 @@ export function onKeyDown<TItem extends BaseItem>({
           setIsOpen,
           setStatus,
           setContext,
+          refresh,
           event,
         });
         props.navigator.navigate({
@@ -195,6 +197,7 @@ export function onKeyDown<TItem extends BaseItem>({
           setIsOpen,
           setStatus,
           setContext,
+          refresh,
           event,
         });
       });

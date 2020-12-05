@@ -459,6 +459,7 @@ describe('getInputProps', () => {
       });
       const {
         inputElement,
+        refresh,
         setCollections,
         setContext,
         setIsOpen,
@@ -481,6 +482,7 @@ describe('getInputProps', () => {
         item: { label: '1', __autocomplete_id: 0 },
         itemInputValue: 'a',
         itemUrl: undefined,
+        refresh,
         source: expect.any(Object),
         setCollections,
         setContext,
@@ -631,6 +633,7 @@ describe('getInputProps', () => {
         const onHighlight = jest.fn();
         const {
           inputElement,
+          refresh,
           setCollections,
           setContext,
           setIsOpen,
@@ -660,6 +663,7 @@ describe('getInputProps', () => {
           itemInputValue: 'a',
           itemUrl: undefined,
           source: expect.any(Object),
+          refresh,
           setCollections,
           setContext,
           setIsOpen,
@@ -869,6 +873,7 @@ describe('getInputProps', () => {
           };
           const {
             inputElement,
+            refresh,
             setCollections,
             setContext,
             setIsOpen,
@@ -904,6 +909,7 @@ describe('getInputProps', () => {
             },
             itemInputValue: '',
             itemUrl: '#1',
+            refresh,
             setCollections,
             setContext,
             setIsOpen,
@@ -1004,6 +1010,7 @@ describe('getInputProps', () => {
           };
           const {
             inputElement,
+            refresh,
             setCollections,
             setContext,
             setIsOpen,
@@ -1036,6 +1043,7 @@ describe('getInputProps', () => {
             item: { label: '1' },
             itemInputValue: '',
             itemUrl: undefined,
+            refresh,
             setCollections,
             setContext,
             setIsOpen,

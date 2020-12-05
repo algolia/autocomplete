@@ -1,9 +1,9 @@
+import { BaseItem } from './AutocompleteApi';
 import {
   AutocompleteCollection,
   AutocompleteCollectionItemsArray,
-  BaseItem,
-} from './api';
-import { AutocompleteState } from './state';
+} from './AutocompleteCollection';
+import { AutocompleteState } from './AutocompleteState';
 
 export type StateUpdater<TState> = (value: TState) => void;
 

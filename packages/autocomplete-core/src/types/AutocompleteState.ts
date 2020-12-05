@@ -1,4 +1,5 @@
-import { AutocompleteCollection, BaseItem } from './api';
+import { BaseItem } from './AutocompleteApi';
+import { AutocompleteCollection } from './AutocompleteCollection';
 
 export interface AutocompleteState<TItem extends BaseItem> {
   selectedItemId: number | null;
