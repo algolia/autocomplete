@@ -14,29 +14,61 @@ import {
   Root,
   SubmitButton,
 } from './components';
-import { AutocompleteClassNames, AutocompleteDom } from './types';
+import {
+  AutocompleteClassNames,
+  AutocompleteDom,
+  AutocompletePropGetters,
+  AutocompleteState,
+} from './types';
 
-type CreateDomProps<TItem extends BaseItem> = AutocompleteCoreApi<TItem> & {
+type CreateDomProps<TItem extends BaseItem> = AutocompletePropGetters<TItem> & {
   classNames: Partial<AutocompleteClassNames>;
+  autocomplete: AutocompleteCoreApi<TItem>;
+  state: AutocompleteState<TItem>;
 };
 
 export function createAutocompleteDom<TItem extends BaseItem>({
+  autocomplete,
+  classNames,
   getRootProps,
   getFormProps,
   getLabelProps,
   getInputProps,
   getPanelProps,
-  classNames,
+  state,
 }: CreateDomProps<TItem>): AutocompleteDom {
-  const root = Root({ classNames, ...getRootProps({}) });
+  const root = Root({
+    classNames,
+    ...getRootProps({
+      state,
+      props: autocomplete.getRootProps({}),
+    }),
+  });
   const inputWrapper = InputWrapper({ classNames });
-  const label = Label({ classNames, ...getLabelProps({}) });
-  const input = Input({ classNames, getInputProps });
+  const label = Label({
+    classNames,
+    ...getLabelProps({ state, props: autocomplete.getLabelProps({}) }),
+  });
+  const input = Input({
+    classNames,
+    state,
+    getInputProps,
+    getInputPropsCore: autocomplete.getInputProps,
+  });
   const submitButton = SubmitButton({ classNames });
   const resetButton = ResetButton({ classNames });
   const loadingIndicator = LoadingIndicator({ classNames });
-  const form = Form({ classNames, ...getFormProps({ inputElement: input }) });
-  const panel = Panel({ classNames, ...getPanelProps({}) });
+  const form = Form({
+    classNames,
+    ...getFormProps({
+      state,
+      props: autocomplete.getFormProps({ inputElement: input }),
+    }),
+  });
+  const panel = Panel({
+    classNames,
+    ...getPanelProps({ state, props: autocomplete.getPanelProps({}) }),
+  });
 
   label.appendChild(submitButton);
   inputWrapper.appendChild(input);

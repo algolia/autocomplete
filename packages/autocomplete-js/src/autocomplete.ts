@@ -24,6 +24,14 @@ export function autocomplete<TItem extends BaseItem>({
   render: renderer = defaultRenderer,
   panelPlacement = 'input-wrapper-width',
   classNames = {},
+  getEnvironmentProps = ({ props }) => props,
+  getFormProps = ({ props }) => props,
+  getInputProps = ({ props }) => props,
+  getItemProps = ({ props }) => props,
+  getLabelProps = ({ props }) => props,
+  getListProps = ({ props }) => props,
+  getPanelProps = ({ props }) => props,
+  getRootProps = ({ props }) => props,
   ...props
 }: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
   const { runEffect, cleanupEffects } = createEffectWrapper();
@@ -41,6 +49,16 @@ export function autocomplete<TItem extends BaseItem>({
       props.onStateChange?.(options);
     },
   });
+  const initialState: AutocompleteState<TItem> = {
+    collections: [],
+    completion: null,
+    context: {},
+    isOpen: false,
+    query: '',
+    selectedItemId: null,
+    status: 'idle',
+    ...props.initialState,
+  };
 
   const {
     inputWrapper,
@@ -53,8 +71,17 @@ export function autocomplete<TItem extends BaseItem>({
     root,
     panel,
   } = createAutocompleteDom({
-    ...autocomplete,
+    state: initialState,
+    autocomplete,
     classNames,
+    getEnvironmentProps,
+    getFormProps,
+    getInputProps,
+    getItemProps,
+    getLabelProps,
+    getListProps,
+    getPanelProps,
+    getRootProps,
   });
 
   function setPanelPosition() {
@@ -92,19 +119,17 @@ export function autocomplete<TItem extends BaseItem>({
 
   runEffect(() => {
     const panelRoot = getHTMLElement(panelContainer);
-    const state: AutocompleteState<TItem> = {
-      collections: [],
-      completion: null,
-      context: {},
-      isOpen: false,
-      query: '',
-      selectedItemId: null,
-      status: 'idle',
-      ...props.initialState,
-    };
     render(renderer, {
-      state,
-      ...autocomplete,
+      state: initialState,
+      autocomplete,
+      getEnvironmentProps,
+      getFormProps,
+      getInputProps,
+      getItemProps,
+      getLabelProps,
+      getListProps,
+      getPanelProps,
+      getRootProps,
       classNames,
       panelRoot,
       root,
@@ -136,7 +161,15 @@ export function autocomplete<TItem extends BaseItem>({
     }>(({ state }) => {
       unmountRef.current = render(renderer, {
         state,
-        ...autocomplete,
+        autocomplete,
+        getEnvironmentProps,
+        getFormProps,
+        getInputProps,
+        getItemProps,
+        getLabelProps,
+        getListProps,
+        getPanelProps,
+        getRootProps,
         classNames,
         panelRoot,
         root,

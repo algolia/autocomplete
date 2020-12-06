@@ -6,6 +6,7 @@ import {
 import { MaybePromise } from '@algolia/autocomplete-shared';
 
 import { AutocompleteClassNames } from './AutocompleteClassNames';
+import { AutocompletePropGetters } from './AutocompletePropGetters';
 import { AutocompleteSource } from './AutocompleteSource';
 import { AutocompleteState } from './AutocompleteState';
 
@@ -16,7 +17,8 @@ export type AutocompleteRenderer<TItem extends BaseItem> = (params: {
 }) => void;
 
 export interface AutocompleteOptions<TItem extends BaseItem>
-  extends AutocompleteCoreOptions<TItem> {
+  extends AutocompleteCoreOptions<TItem>,
+    Partial<AutocompletePropGetters<TItem>> {
   /**
    * The container for the Autocomplete search box.
    *

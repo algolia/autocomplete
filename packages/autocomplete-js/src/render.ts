@@ -13,6 +13,7 @@ import { renderTemplate } from './renderTemplate';
 import {
   AutocompleteClassNames,
   AutocompleteDom,
+  AutocompletePropGetters,
   AutocompleteRenderer,
   AutocompleteState,
 } from './types';
@@ -22,12 +23,14 @@ type RenderProps<TItem extends BaseItem> = {
   state: AutocompleteState<TItem>;
   classNames: Partial<AutocompleteClassNames>;
   panelRoot: HTMLElement;
-} & AutocompleteCoreApi<TItem> &
-  AutocompleteDom;
+  autocomplete: AutocompleteCoreApi<TItem>;
+} & AutocompleteDom &
+  AutocompletePropGetters<TItem>;
 
 export function render<TItem extends BaseItem>(
   renderer: AutocompleteRenderer<TItem>,
   {
+    autocomplete,
     state,
     getRootProps,
     getInputProps,
@@ -43,8 +46,18 @@ export function render<TItem extends BaseItem>(
     panel,
   }: RenderProps<TItem>
 ): () => void {
-  setPropertiesWithoutEvents(root, getRootProps({}));
-  setPropertiesWithoutEvents(input, getInputProps({ inputElement: input }));
+  setPropertiesWithoutEvents(
+    root,
+    getRootProps({ state, props: autocomplete.getRootProps({}) })
+  );
+  setPropertiesWithoutEvents(
+    input,
+    getInputProps({
+      state,
+      props: autocomplete.getInputProps({ inputElement: input }),
+      inputElement: input,
+    })
+  );
   setPropertiesWithoutEvents(resetButton, { hidden: !state.query });
   setProperties(submitButton, { hidden: state.status === 'stalled' });
   setProperties(loadingIndicator, { hidden: state.status !== 'stalled' });
@@ -88,14 +101,17 @@ export function render<TItem extends BaseItem>(
     if (items.length > 0) {
       const listElement = SourceList({
         classNames,
-        ...getListProps(),
+        ...getListProps({ state, props: autocomplete.getListProps({}) }),
       });
       const listFragment = document.createDocumentFragment();
 
       items.forEach((item) => {
         const itemElement = SourceItem({
           classNames,
-          ...getItemProps({ item, source }),
+          ...getItemProps({
+            state,
+            props: autocomplete.getItemProps({ item, source }),
+          }),
         });
 
         renderTemplate({
