@@ -1,3 +1,20 @@
+# [](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.36...v) (2020-12-06)
+
+
+### Bug Fixes
+
+* **test-utils:** forward `TItem` type to `createSource` ([ae62c78](https://github.com/algolia/autocomplete.js/commit/ae62c78b9452eef9141c4420e5fbc8e62ea67993))
+
+
+### Features
+
+* **core:** export `AutocompleteContext` type ([f6ce779](https://github.com/algolia/autocomplete.js/commit/f6ce779575aadcce4d7c711f950ebff7ae25dcc5))
+* **core:** pass `refresh` to all events ([bd45a77](https://github.com/algolia/autocomplete.js/commit/bd45a7793143425ba84f6f0bd2b66811b525f984))
+* **core:** support `onReset` prop ([b7a66a8](https://github.com/algolia/autocomplete.js/commit/b7a66a85216c8a54330c087127da1ae45a59c1e6))
+* **js:** introduce Props API ([04bef73](https://github.com/algolia/autocomplete.js/commit/04bef73d7b8b23fa2d0d1a0256dc794dab5a8422))
+
+
+
 # [1.0.0-alpha.36](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.35...v1.0.0-alpha.36) (2020-12-03)
 
 ### Bug Fixes
