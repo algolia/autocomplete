@@ -1,4 +1,8 @@
-import { BaseItem, createAutocomplete } from '@algolia/autocomplete-core';
+import {
+  AutocompleteScopeApi,
+  BaseItem,
+  createAutocomplete,
+} from '@algolia/autocomplete-core';
 import { createRef, invariant } from '@algolia/autocomplete-shared';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
@@ -8,6 +12,7 @@ import { render } from './render';
 import {
   AutocompleteApi,
   AutocompleteOptions,
+  AutocompletePropGetters,
   AutocompleteState,
 } from './types';
 import { debounce, getHTMLElement, setProperties } from './utils';
@@ -60,20 +65,7 @@ export function autocomplete<TItem extends BaseItem>({
     ...props.initialState,
   };
 
-  const {
-    inputWrapper,
-    form,
-    label,
-    input,
-    submitButton,
-    resetButton,
-    loadingIndicator,
-    root,
-    panel,
-  } = createAutocompleteDom({
-    state: initialState,
-    autocomplete,
-    classNames,
+  const propGetters: AutocompletePropGetters<TItem> = {
     getEnvironmentProps,
     getFormProps,
     getInputProps,
@@ -82,14 +74,30 @@ export function autocomplete<TItem extends BaseItem>({
     getListProps,
     getPanelProps,
     getRootProps,
+  };
+  const autocompleteScopeApi: AutocompleteScopeApi<TItem> = {
+    setSelectedItemId: autocomplete.setSelectedItemId,
+    setQuery: autocomplete.setQuery,
+    setCollections: autocomplete.setCollections,
+    setIsOpen: autocomplete.setIsOpen,
+    setStatus: autocomplete.setStatus,
+    setContext: autocomplete.setContext,
+    refresh: autocomplete.refresh,
+  };
+  const dom = createAutocompleteDom({
+    state: initialState,
+    autocomplete,
+    classNames,
+    propGetters,
+    autocompleteScopeApi,
   });
 
   function setPanelPosition() {
-    setProperties(panel, {
+    setProperties(dom.panel, {
       style: getPanelPositionStyle({
         panelPlacement,
-        container: root,
-        form,
+        container: dom.root,
+        form: dom.form,
         environment: props.environment,
       }),
     });
@@ -97,9 +105,9 @@ export function autocomplete<TItem extends BaseItem>({
 
   runEffect(() => {
     const environmentProps = autocomplete.getEnvironmentProps({
-      formElement: form,
-      panelElement: panel,
-      inputElement: input,
+      formElement: dom.form,
+      panelElement: dom.panel,
+      inputElement: dom.input,
     });
 
     setProperties(window as any, environmentProps);
@@ -122,25 +130,11 @@ export function autocomplete<TItem extends BaseItem>({
     render(renderer, {
       state: initialState,
       autocomplete,
-      getEnvironmentProps,
-      getFormProps,
-      getInputProps,
-      getItemProps,
-      getLabelProps,
-      getListProps,
-      getPanelProps,
-      getRootProps,
+      propGetters,
+      dom,
       classNames,
       panelRoot,
-      root,
-      form,
-      input,
-      inputWrapper,
-      label,
-      panel,
-      submitButton,
-      resetButton,
-      loadingIndicator,
+      autocompleteScopeApi,
     });
 
     return () => {};
@@ -162,25 +156,11 @@ export function autocomplete<TItem extends BaseItem>({
       unmountRef.current = render(renderer, {
         state,
         autocomplete,
-        getEnvironmentProps,
-        getFormProps,
-        getInputProps,
-        getItemProps,
-        getLabelProps,
-        getListProps,
-        getPanelProps,
-        getRootProps,
+        propGetters,
+        dom,
         classNames,
         panelRoot,
-        root,
-        form,
-        input,
-        inputWrapper,
-        label,
-        panel,
-        submitButton,
-        resetButton,
-        loadingIndicator,
+        autocompleteScopeApi,
       });
     }, 0);
 
@@ -208,10 +188,10 @@ export function autocomplete<TItem extends BaseItem>({
       containerElement.tagName !== 'INPUT',
       'The `container` option does not support `input` elements. You need to change the container to a `div`.'
     );
-    containerElement.appendChild(root);
+    containerElement.appendChild(dom.root);
 
     return () => {
-      containerElement.removeChild(root);
+      containerElement.removeChild(dom.root);
     };
   });
 
@@ -232,13 +212,7 @@ export function autocomplete<TItem extends BaseItem>({
   });
 
   return {
-    setSelectedItemId: autocomplete.setSelectedItemId,
-    setQuery: autocomplete.setQuery,
-    setCollections: autocomplete.setCollections,
-    setIsOpen: autocomplete.setIsOpen,
-    setStatus: autocomplete.setStatus,
-    setContext: autocomplete.setContext,
-    refresh: autocomplete.refresh,
+    ...autocompleteScopeApi,
     destroy() {
       cleanupEffects();
     },

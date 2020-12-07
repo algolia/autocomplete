@@ -1,4 +1,7 @@
-import { AutocompleteApi as AutocompleteCoreApi } from '@algolia/autocomplete-core';
+import {
+  AutocompleteApi as AutocompleteCoreApi,
+  AutocompleteScopeApi,
+} from '@algolia/autocomplete-core';
 
 import { AutocompletePropGetters, AutocompleteState } from '../types';
 import { Component, WithClassNames } from '../types/Component';
@@ -8,6 +11,7 @@ type InputProps = WithClassNames<{
   state: AutocompleteState<any>;
   getInputProps: AutocompletePropGetters<any>['getInputProps'];
   getInputPropsCore: AutocompleteCoreApi<any>['getInputProps'];
+  autocompleteScopeApi: AutocompleteScopeApi<any>;
 }>;
 
 export const Input: Component<InputProps, HTMLInputElement> = ({
@@ -15,14 +19,17 @@ export const Input: Component<InputProps, HTMLInputElement> = ({
   getInputProps,
   getInputPropsCore,
   state,
+  autocompleteScopeApi,
 }) => {
   const element = document.createElement('input');
+  const inputProps = getInputProps({
+    state,
+    props: getInputPropsCore({ inputElement: element }),
+    inputElement: element,
+    ...autocompleteScopeApi,
+  });
   setProperties(element, {
-    ...getInputProps({
-      state,
-      props: getInputPropsCore({ inputElement: element }),
-      inputElement: element,
-    }),
+    ...inputProps,
     class: concatClassNames(['aa-Input', classNames.input]),
   });
 

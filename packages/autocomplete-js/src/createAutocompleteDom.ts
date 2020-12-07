@@ -1,5 +1,6 @@
 import {
   AutocompleteApi as AutocompleteCoreApi,
+  AutocompleteScopeApi,
   BaseItem,
 } from '@algolia/autocomplete-core';
 
@@ -21,54 +22,56 @@ import {
   AutocompleteState,
 } from './types';
 
-type CreateDomProps<TItem extends BaseItem> = AutocompletePropGetters<TItem> & {
+type CreateDomProps<TItem extends BaseItem> = {
   classNames: Partial<AutocompleteClassNames>;
   autocomplete: AutocompleteCoreApi<TItem>;
   state: AutocompleteState<TItem>;
+  propGetters: AutocompletePropGetters<TItem>;
+  autocompleteScopeApi: AutocompleteScopeApi<TItem>;
 };
 
 export function createAutocompleteDom<TItem extends BaseItem>({
   autocomplete,
   classNames,
-  getRootProps,
-  getFormProps,
-  getLabelProps,
-  getInputProps,
-  getPanelProps,
+  propGetters,
   state,
+  autocompleteScopeApi,
 }: CreateDomProps<TItem>): AutocompleteDom {
-  const root = Root({
-    classNames,
-    ...getRootProps({
-      state,
-      props: autocomplete.getRootProps({}),
-    }),
+  const rootProps = propGetters.getRootProps({
+    state,
+    props: autocomplete.getRootProps({}),
+    ...autocompleteScopeApi,
   });
+  const root = Root({ classNames, ...rootProps });
   const inputWrapper = InputWrapper({ classNames });
-  const label = Label({
-    classNames,
-    ...getLabelProps({ state, props: autocomplete.getLabelProps({}) }),
+  const labelProps = propGetters.getLabelProps({
+    state,
+    props: autocomplete.getLabelProps({}),
+    ...autocompleteScopeApi,
   });
+  const label = Label({ classNames, ...labelProps });
   const input = Input({
     classNames,
     state,
-    getInputProps,
+    getInputProps: propGetters.getInputProps,
     getInputPropsCore: autocomplete.getInputProps,
+    autocompleteScopeApi,
   });
   const submitButton = SubmitButton({ classNames });
   const resetButton = ResetButton({ classNames });
   const loadingIndicator = LoadingIndicator({ classNames });
-  const form = Form({
-    classNames,
-    ...getFormProps({
-      state,
-      props: autocomplete.getFormProps({ inputElement: input }),
-    }),
+  const formProps = propGetters.getFormProps({
+    state,
+    props: autocomplete.getFormProps({ inputElement: input }),
+    ...autocompleteScopeApi,
   });
-  const panel = Panel({
-    classNames,
-    ...getPanelProps({ state, props: autocomplete.getPanelProps({}) }),
+  const form = Form({ classNames, ...formProps });
+  const panelProps = propGetters.getPanelProps({
+    state,
+    props: autocomplete.getPanelProps({}),
+    ...autocompleteScopeApi,
   });
+  const panel = Panel({ classNames, ...panelProps });
 
   label.appendChild(submitButton);
   inputWrapper.appendChild(input);

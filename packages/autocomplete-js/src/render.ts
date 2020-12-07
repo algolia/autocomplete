@@ -1,4 +1,7 @@
-import { AutocompleteApi as AutocompleteCoreApi } from '@algolia/autocomplete-core';
+import {
+  AutocompleteApi as AutocompleteCoreApi,
+  AutocompleteScopeApi,
+} from '@algolia/autocomplete-core';
 import { BaseItem } from '@algolia/autocomplete-core/src';
 
 import {
@@ -24,49 +27,49 @@ type RenderProps<TItem extends BaseItem> = {
   classNames: Partial<AutocompleteClassNames>;
   panelRoot: HTMLElement;
   autocomplete: AutocompleteCoreApi<TItem>;
-} & AutocompleteDom &
-  AutocompletePropGetters<TItem>;
+  propGetters: AutocompletePropGetters<TItem>;
+  dom: AutocompleteDom;
+  autocompleteScopeApi: AutocompleteScopeApi<TItem>;
+};
 
 export function render<TItem extends BaseItem>(
   renderer: AutocompleteRenderer<TItem>,
   {
     autocomplete,
     state,
-    getRootProps,
-    getInputProps,
-    getListProps,
-    getItemProps,
+    propGetters,
     classNames,
     panelRoot,
-    root,
-    input,
-    resetButton,
-    submitButton,
-    loadingIndicator,
-    panel,
+    dom,
+    autocompleteScopeApi,
   }: RenderProps<TItem>
 ): () => void {
   setPropertiesWithoutEvents(
-    root,
-    getRootProps({ state, props: autocomplete.getRootProps({}) })
-  );
-  setPropertiesWithoutEvents(
-    input,
-    getInputProps({
+    dom.root,
+    propGetters.getRootProps({
       state,
-      props: autocomplete.getInputProps({ inputElement: input }),
-      inputElement: input,
+      props: autocomplete.getRootProps({}),
+      ...autocompleteScopeApi,
     })
   );
-  setPropertiesWithoutEvents(resetButton, { hidden: !state.query });
-  setProperties(submitButton, { hidden: state.status === 'stalled' });
-  setProperties(loadingIndicator, { hidden: state.status !== 'stalled' });
+  setPropertiesWithoutEvents(
+    dom.input,
+    propGetters.getInputProps({
+      state,
+      props: autocomplete.getInputProps({ inputElement: dom.input }),
+      inputElement: dom.input,
+      ...autocompleteScopeApi,
+    })
+  );
+  setPropertiesWithoutEvents(dom.resetButton, { hidden: !state.query });
+  setProperties(dom.submitButton, { hidden: state.status === 'stalled' });
+  setProperties(dom.loadingIndicator, { hidden: state.status !== 'stalled' });
 
-  panel.innerHTML = '';
+  dom.panel.innerHTML = '';
 
   if (!state.isOpen) {
-    if (panelRoot.contains(panel)) {
-      panelRoot.removeChild(panel);
+    if (panelRoot.contains(dom.panel)) {
+      panelRoot.removeChild(dom.panel);
     }
 
     return () => {};
@@ -74,11 +77,11 @@ export function render<TItem extends BaseItem>(
 
   // We add the panel element to the DOM when it's not yet appended and that the
   // items are fetched.
-  if (!panelRoot.contains(panel) && state.status !== 'loading') {
-    panelRoot.appendChild(panel);
+  if (!panelRoot.contains(dom.panel) && state.status !== 'loading') {
+    panelRoot.appendChild(dom.panel);
   }
 
-  panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');
+  dom.panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');
 
   const sections = state.collections.map(({ source, items }) => {
     const sectionElement = SourceContainer({ classNames });
@@ -101,16 +104,21 @@ export function render<TItem extends BaseItem>(
     if (items.length > 0) {
       const listElement = SourceList({
         classNames,
-        ...getListProps({ state, props: autocomplete.getListProps({}) }),
+        ...propGetters.getListProps({
+          state,
+          props: autocomplete.getListProps({}),
+          ...autocompleteScopeApi,
+        }),
       });
       const listFragment = document.createDocumentFragment();
 
       items.forEach((item) => {
         const itemElement = SourceItem({
           classNames,
-          ...getItemProps({
+          ...propGetters.getItemProps({
             state,
             props: autocomplete.getItemProps({ item, source }),
+            ...autocompleteScopeApi,
           }),
         });
 
@@ -146,11 +154,11 @@ export function render<TItem extends BaseItem>(
   });
 
   const panelLayoutElement = PanelLayout({ classNames });
-  panel.appendChild(panelLayoutElement);
+  dom.panel.appendChild(panelLayoutElement);
 
   renderer({ root: panelLayoutElement, sections, state });
 
   return () => {
-    panelRoot.removeChild(panel);
+    panelRoot.removeChild(dom.panel);
   };
 }
