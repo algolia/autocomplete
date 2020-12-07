@@ -1,5 +1,5 @@
 import { BaseItem, createAutocomplete } from '@algolia/autocomplete-core';
-import { createRef } from '@algolia/autocomplete-shared';
+import { createRef, invariant } from '@algolia/autocomplete-shared';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
 import { createEffectWrapper } from './createEffectWrapper';
@@ -204,6 +204,10 @@ export function autocomplete<TItem extends BaseItem>({
 
   runEffect(() => {
     const containerElement = getHTMLElement(container);
+    invariant(
+      containerElement.tagName !== 'INPUT',
+      'The `container` option does not support `input` elements. You need to change the container to a `div`.'
+    );
     containerElement.appendChild(root);
 
     return () => {
