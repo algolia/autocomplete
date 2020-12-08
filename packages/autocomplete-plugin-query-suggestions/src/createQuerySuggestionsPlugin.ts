@@ -1,4 +1,7 @@
-import { AutocompletePlugin } from '@algolia/autocomplete-core';
+import {
+  AutocompletePlugin,
+  AutocompleteState,
+} from '@algolia/autocomplete-core';
 import {
   getAlgoliaHits as defaultGetAlgoliaHits,
   SourceTemplates,
@@ -17,7 +20,7 @@ export type CreateQuerySuggestionsPluginParams<
 > = {
   searchClient: SearchClient;
   indexName: string;
-  getSearchParams?(): SearchOptions;
+  getSearchParams?(params: { state: AutocompleteState<TItem> }): SearchOptions;
   getTemplates?(params: GetTemplatesParams<TItem>): SourceTemplates<TItem>;
   getAlgoliaHits?: typeof defaultGetAlgoliaHits;
 };
@@ -35,7 +38,7 @@ export function createQuerySuggestionsPlugin<
   undefined
 > {
   return {
-    getSources({ query, setQuery, refresh }) {
+    getSources({ query, setQuery, refresh, state }) {
       return [
         {
           getItemInputValue({ item }) {
@@ -48,7 +51,7 @@ export function createQuerySuggestionsPlugin<
                 {
                   indexName,
                   query,
-                  params: getSearchParams(),
+                  params: getSearchParams({ state }),
                 },
               ],
             });
