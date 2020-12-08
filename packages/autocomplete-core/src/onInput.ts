@@ -1,3 +1,4 @@
+import { invariant } from '@algolia/autocomplete-shared';
 import {
   AutocompleteScopeApi,
   AutocompleteState,
@@ -114,6 +115,13 @@ export function onInput<TItem extends BaseItem>({
               refresh,
             })
           ).then((items) => {
+            invariant(
+              Array.isArray(items),
+              `The \`getItems\` function must return an array of items but returned type ${JSON.stringify(
+                typeof items
+              )}:\n\n${JSON.stringify(items, null, 2)}`
+            );
+
             return {
               source,
               items,
