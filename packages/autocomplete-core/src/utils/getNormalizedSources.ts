@@ -1,4 +1,4 @@
-import { MaybePromise } from '@algolia/autocomplete-shared';
+import { invariant, MaybePromise } from '@algolia/autocomplete-shared';
 
 import {
   AutocompleteSource,
@@ -16,6 +16,13 @@ export function getNormalizedSources<TItem extends BaseItem>(
   options: GetSourcesParams<TItem>
 ): Promise<Array<InternalAutocompleteSource<TItem>>> {
   return Promise.resolve(getSources(options)).then((sources) => {
+    invariant(
+      Array.isArray(sources),
+      `The \`getSources\` function must return an array of sources but returned type ${JSON.stringify(
+        typeof sources
+      )}:\n\n${JSON.stringify(sources, null, 2)}`
+    );
+
     return Promise.all(
       sources.filter(Boolean).map((source) => {
         const normalizedSource: InternalAutocompleteSource<TItem> = {
