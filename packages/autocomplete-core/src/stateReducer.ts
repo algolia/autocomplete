@@ -1,3 +1,5 @@
+import { invariant } from '@algolia/autocomplete-shared';
+
 import { getCompletion } from './getCompletion';
 import { Reducer } from './types';
 import { getItemsCount, getNextSelectedItemId } from './utils';
@@ -162,6 +164,11 @@ export const stateReducer: Reducer = (state, action) => {
     }
 
     default:
+      invariant(
+        false,
+        `The reducer action ${JSON.stringify(action.type)} is not supported.`
+      );
+
       return state;
   }
 };
