@@ -5,6 +5,7 @@ module.exports = {
     './scripts/jest/setupTests.ts',
   ],
   testPathIgnorePatterns: ['node_modules/', 'dist/', 'cypress/'],
+  coveragePathIgnorePatterns: ['node_modules/', 'dist/'],
   watchPlugins: [
     'jest-watch-typeahead/filename',
     'jest-watch-typeahead/testname',
