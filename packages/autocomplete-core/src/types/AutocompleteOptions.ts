@@ -28,6 +28,9 @@ export type GetSourcesParams<TItem extends BaseItem> = OnInputParams<TItem>;
 
 export type GetSources<TItem extends BaseItem> = (
   params: GetSourcesParams<TItem>
+) => MaybePromise<Array<AutocompleteSource<TItem> | boolean | undefined>>;
+export type InternalGetSources<TItem extends BaseItem> = (
+  params: GetSourcesParams<TItem>
 ) => Promise<Array<InternalAutocompleteSource<TItem>>>;
 
 export interface AutocompleteOptions<TItem extends BaseItem> {
@@ -91,9 +94,7 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
   /**
    * The sources to get the suggestions from.
    */
-  getSources?(
-    params: GetSourcesParams<TItem>
-  ): MaybePromise<Array<AutocompleteSource<TItem>>>;
+  getSources?: GetSources<TItem>;
   /**
    * The environment from where your JavaScript is running.
    * Useful if you're using autocomplete in a different context than
@@ -146,7 +147,7 @@ export interface InternalAutocompleteOptions<TItem extends BaseItem>
   openOnFocus: boolean;
   stallThreshold: number;
   initialState: AutocompleteState<TItem>;
-  getSources: GetSources<TItem>;
+  getSources: InternalGetSources<TItem>;
   environment: AutocompleteEnvironment;
   navigator: AutocompleteNavigator<TItem>;
   plugins: Array<AutocompletePlugin<TItem, unknown>>;

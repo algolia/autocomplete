@@ -64,11 +64,11 @@ export function getDefaultProps<TItem extends BaseItem>(
         plugin.onReset?.(params);
       });
     },
-    getSources(options) {
+    getSources(params) {
       return Promise.all(
         [...plugins.map((plugin) => plugin.getSources), props.getSources]
           .filter(Boolean)
-          .map((getSources) => getNormalizedSources(getSources!, options))
+          .map((getSources) => getNormalizedSources(getSources!, params))
       )
         .then((nested) => flatten(nested))
         .then((sources) =>
