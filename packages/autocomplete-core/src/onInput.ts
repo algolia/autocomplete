@@ -1,4 +1,5 @@
 import { invariant } from '@algolia/autocomplete-shared';
+
 import {
   AutocompleteScopeApi,
   AutocompleteState,
