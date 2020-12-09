@@ -9,7 +9,7 @@ describe('warn', () => {
     }).toWarnDev('[Autocomplete] warning');
   });
 
-  test('does not log when the condition is unmet', () => {
+  test('does not log when the condition is met', () => {
     expect(() => {
       warn(true, 'warning');
     }).not.toWarnDev();
