@@ -58,12 +58,11 @@ export function getPropGetters<
           getterProps.panelElement,
         ].some((contextNode) => {
           return (
-            contextNode &&
-            (isOrContainsNode(contextNode, event.target as Node) ||
-              isOrContainsNode(
-                contextNode,
-                props.environment.document.activeElement!
-              ))
+            isOrContainsNode(contextNode, event.target as Node) ||
+            isOrContainsNode(
+              contextNode,
+              props.environment.document.activeElement!
+            )
           );
         });
 
