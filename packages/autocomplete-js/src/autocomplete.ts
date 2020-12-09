@@ -3,7 +3,7 @@ import {
   BaseItem,
   createAutocomplete,
 } from '@algolia/autocomplete-core';
-import { createRef, invariant } from '@algolia/autocomplete-shared';
+import { createRef, debounce, invariant } from '@algolia/autocomplete-shared';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
 import { createEffectWrapper } from './createEffectWrapper';
@@ -15,7 +15,7 @@ import {
   AutocompletePropGetters,
   AutocompleteState,
 } from './types';
-import { debounce, getHTMLElement, setProperties } from './utils';
+import { getHTMLElement, setProperties } from './utils';
 
 function defaultRenderer({ root, sections }) {
   for (const section of sections) {
