@@ -1,3 +1,3 @@
-export type AutocompleteContext = {
+export interface AutocompleteContext {
   [key: string]: unknown;
-};
+}
