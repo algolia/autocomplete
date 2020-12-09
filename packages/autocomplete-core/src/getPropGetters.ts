@@ -305,9 +305,7 @@ export function getPropGetters<
 
         store.dispatch('mousemove', item.__autocomplete_id);
 
-        const highlightedItem = getSelectedItem({
-          state: store.getState(),
-        });
+        const highlightedItem = getSelectedItem(store.getState());
 
         if (store.getState().selectedItemId !== null && highlightedItem) {
           const { item, itemInputValue, itemUrl, source } = highlightedItem;

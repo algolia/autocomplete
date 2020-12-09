@@ -3,11 +3,9 @@ import { AutocompleteCollection, AutocompleteState, BaseItem } from '../types';
 // We don't have access to the autocomplete source when we call `onKeyDown`
 // or `onClick` because those are native browser events.
 // However, we can get the source from the suggestion index.
-function getCollectionFromSelectedItemId<TItem extends BaseItem>({
-  state,
-}: {
-  state: AutocompleteState<TItem>;
-}): AutocompleteCollection<TItem> | undefined {
+function getCollectionFromSelectedItemId<TItem extends BaseItem>(
+  state: AutocompleteState<TItem>
+): AutocompleteCollection<TItem> | undefined {
   // Given 3 sources with respectively 1, 2 and 3 suggestions: [1, 2, 3]
   // We want to get the accumulated counts:
   // [1, 1 + 2, 1 + 2 + 3] = [1, 3, 3 + 3] = [1, 3, 6]
@@ -70,12 +68,10 @@ function getRelativeSelectedItemId<TItem extends BaseItem>({
   return state.selectedItemId! - previousItemsOffset;
 }
 
-export function getSelectedItem<TItem extends BaseItem>({
-  state,
-}: {
-  state: AutocompleteState<TItem>;
-}) {
-  const collection = getCollectionFromSelectedItemId({ state });
+export function getSelectedItem<TItem extends BaseItem>(
+  state: AutocompleteState<TItem>
+) {
+  const collection = getCollectionFromSelectedItemId(state);
 
   if (!collection) {
     return null;

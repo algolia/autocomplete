@@ -3,7 +3,7 @@ import { getItemsCount } from '../getItemsCount';
 
 describe('getItemsCount', () => {
   test('returns 0 with empty collection', () => {
-    const state = createState({});
+    const state = createState();
 
     expect(getItemsCount(state)).toEqual(0);
   });

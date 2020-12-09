@@ -139,9 +139,7 @@ export function onInput<TItem extends BaseItem>({
                 props.shouldPanelShow({ state: store.getState() }))
           );
 
-          const highlightedItem = getSelectedItem({
-            state: store.getState(),
-          });
+          const highlightedItem = getSelectedItem(store.getState());
 
           if (store.getState().selectedItemId !== null && highlightedItem) {
             const { item, itemInputValue, itemUrl, source } = highlightedItem;
