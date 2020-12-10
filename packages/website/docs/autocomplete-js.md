@@ -83,7 +83,7 @@ The container for the Autocomplete panel. You can either pass a [CSS selector](h
 
 ### `panelPlacement`
 
-> `"start" | "end" | "full-width" | "input-wrapper-width" | defaults to `"input-wrapper-width"`
+> `"start" | "end" | "full-width" | "input-wrapper-width"` | defaults to `"input-wrapper-width"`
 
 The panel horizontal position.
 
