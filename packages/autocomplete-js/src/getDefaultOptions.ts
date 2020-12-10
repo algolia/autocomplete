@@ -2,6 +2,7 @@ import { BaseItem } from '@algolia/autocomplete-core';
 
 import { defaultRenderer } from './defaultRenderer';
 import { AutocompleteOptions } from './types';
+import { getHTMLElement } from './utils';
 
 export function getDefaultOptions<TItem extends BaseItem>(
   options: AutocompleteOptions<TItem>
@@ -23,8 +24,10 @@ export function getDefaultOptions<TItem extends BaseItem>(
     ...core
   } = options;
   const renderer = {
-    container,
-    panelContainer: panelContainer ?? document.body,
+    container: getHTMLElement(container),
+    panelContainer: panelContainer
+      ? getHTMLElement(panelContainer)
+      : document.body,
     render: render ?? defaultRenderer,
     panelPlacement: panelPlacement ?? 'input-wrapper-width',
     classNames: classNames ?? {},

@@ -25,7 +25,7 @@ import { setProperties, setPropertiesWithoutEvents } from './utils';
 type RenderProps<TItem extends BaseItem> = {
   state: AutocompleteState<TItem>;
   classNames: Partial<AutocompleteClassNames>;
-  panelRoot: HTMLElement;
+  panelContainer: HTMLElement;
   autocomplete: AutocompleteCoreApi<TItem>;
   propGetters: AutocompletePropGetters<TItem>;
   dom: AutocompleteDom;
@@ -39,7 +39,7 @@ export function render<TItem extends BaseItem>(
     state,
     propGetters,
     classNames,
-    panelRoot,
+    panelContainer,
     dom,
     autocompleteScopeApi,
   }: RenderProps<TItem>
@@ -68,8 +68,8 @@ export function render<TItem extends BaseItem>(
   dom.panel.innerHTML = '';
 
   if (!state.isOpen) {
-    if (panelRoot.contains(dom.panel)) {
-      panelRoot.removeChild(dom.panel);
+    if (panelContainer.contains(dom.panel)) {
+      panelContainer.removeChild(dom.panel);
     }
 
     return;
@@ -77,8 +77,8 @@ export function render<TItem extends BaseItem>(
 
   // We add the panel element to the DOM when it's not yet appended and that the
   // items are fetched.
-  if (!panelRoot.contains(dom.panel) && state.status !== 'loading') {
-    panelRoot.appendChild(dom.panel);
+  if (!panelContainer.contains(dom.panel) && state.status !== 'loading') {
+    panelContainer.appendChild(dom.panel);
   }
 
   dom.panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');

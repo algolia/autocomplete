@@ -17,7 +17,7 @@ import {
   AutocompletePropGetters,
   AutocompleteState,
 } from './types';
-import { getHTMLElement, mergeDeep, setProperties } from './utils';
+import { mergeDeep, setProperties } from './utils';
 
 export function autocomplete<TItem extends BaseItem>(
   options: AutocompleteOptions<TItem>
@@ -39,6 +39,7 @@ export function autocomplete<TItem extends BaseItem>(
       },
     })
   );
+  const renderRequestIdRef = createRef<number | null>(null);
   const lastStateRef = createRef<AutocompleteState<TItem>>({
     collections: [],
     completion: null,
@@ -91,6 +92,27 @@ export function autocomplete<TItem extends BaseItem>(
     });
   }
 
+  function runRender() {
+    render(props.current.renderer.render, {
+      state: lastStateRef.current,
+      autocomplete: autocomplete.current,
+      propGetters,
+      dom: dom.current,
+      classNames: props.current.renderer.classNames,
+      panelContainer: props.current.renderer.panelContainer,
+      autocompleteScopeApi,
+    });
+  }
+
+  function scheduleRender(state: AutocompleteState<TItem>) {
+    if (renderRequestIdRef.current !== null) {
+      cancelAnimationFrame(renderRequestIdRef.current);
+    }
+
+    lastStateRef.current = state;
+    renderRequestIdRef.current = requestAnimationFrame(runRender);
+  }
+
   runEffect(() => {
     const environmentProps = autocomplete.current.getEnvironmentProps({
       formElement: dom.current.form,
@@ -114,7 +136,7 @@ export function autocomplete<TItem extends BaseItem>(
   });
 
   runEffect(() => {
-    const containerElement = getHTMLElement(props.current.renderer.container);
+    const containerElement = props.current.renderer.container;
     invariant(
       containerElement.tagName !== 'INPUT',
       'The `container` option does not support `input` elements. You need to change the container to a `div`.'
@@ -127,20 +149,12 @@ export function autocomplete<TItem extends BaseItem>(
   });
 
   runEffect(() => {
-    const panelElement = getHTMLElement(props.current.renderer.panelContainer);
-    render(props.current.renderer.render, {
-      state: lastStateRef.current,
-      autocomplete: autocomplete.current,
-      propGetters,
-      dom: dom.current,
-      classNames: props.current.renderer.classNames,
-      panelRoot: panelElement,
-      autocompleteScopeApi,
-    });
+    const panelContainerElement = props.current.renderer.panelContainer;
+    scheduleRender(lastStateRef.current);
 
     return () => {
-      if (panelElement.contains(dom.current.panel)) {
-        panelElement.removeChild(dom.current.panel);
+      if (panelContainerElement.contains(dom.current.panel)) {
+        panelContainerElement.removeChild(dom.current.panel);
       }
     };
   });
@@ -149,16 +163,7 @@ export function autocomplete<TItem extends BaseItem>(
     const debouncedRender = debounce<{
       state: AutocompleteState<TItem>;
     }>(({ state }) => {
-      lastStateRef.current = state;
-      render(props.current.renderer.render, {
-        state,
-        autocomplete: autocomplete.current,
-        propGetters,
-        dom: dom.current,
-        classNames: props.current.renderer.classNames,
-        panelRoot: getHTMLElement(props.current.renderer.panelContainer),
-        autocompleteScopeApi,
-      });
+      scheduleRender(state);
     }, 0);
 
     onStateChangeRef.current = ({ state, prevState }) => {
@@ -180,7 +185,7 @@ export function autocomplete<TItem extends BaseItem>(
 
   runEffect(() => {
     const onResize = debounce<Event>(() => {
-      setPanelPosition();
+      requestAnimationFrame(setPanelPosition);
     }, 20);
     window.addEventListener('resize', onResize);
 
@@ -213,15 +218,7 @@ export function autocomplete<TItem extends BaseItem>(
     runEffects();
 
     autocomplete.current.refresh().then(() => {
-      render(props.current.renderer.render, {
-        state: lastStateRef.current,
-        autocomplete: autocomplete.current,
-        propGetters,
-        dom: dom.current,
-        classNames: props.current.renderer.classNames,
-        panelRoot: getHTMLElement(props.current.renderer.panelContainer),
-        autocompleteScopeApi,
-      });
+      scheduleRender(lastStateRef.current);
     });
   }
 
