@@ -15,7 +15,7 @@ export function getPanelPositionStyle({
   environment = window,
 }: GetPanelPositionStyleParams) {
   const containerRect = container.getBoundingClientRect();
-  const top = containerRect.top + containerRect.height;
+  const top = container.offsetTop + containerRect.height;
 
   switch (panelPlacement) {
     case 'start': {
