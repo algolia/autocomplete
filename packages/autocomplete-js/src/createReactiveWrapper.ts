@@ -1,6 +1,6 @@
 type ReactiveValue<TValue> = () => TValue;
 export type Reactive<TValue> = {
-  current: TValue;
+  value: TValue;
   /**
    * @private
    */
@@ -21,10 +21,10 @@ export function createReactiveWrapper() {
       const reactive: Reactive<TValue> = {
         _fn: value,
         _ref: { current: value() },
-        get current() {
+        get value() {
           return this._ref.current;
         },
-        set current(value) {
+        set value(value) {
           this._ref.current = value;
         },
       };

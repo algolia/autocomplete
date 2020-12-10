@@ -32,10 +32,10 @@ export function autocomplete<TItem extends BaseItem>(
   const props = reactive(() => getDefaultOptions(optionsRef.current));
   const autocomplete = reactive(() =>
     createAutocomplete<TItem>({
-      ...props.current.core,
+      ...props.value.core,
       onStateChange(options) {
         onStateChangeRef.current?.(options as any);
-        props.current.core.onStateChange?.(options as any);
+        props.value.core.onStateChange?.(options as any);
       },
     })
   );
@@ -48,58 +48,58 @@ export function autocomplete<TItem extends BaseItem>(
     query: '',
     selectedItemId: null,
     status: 'idle',
-    ...props.current.core.initialState,
+    ...props.value.core.initialState,
   });
 
   const propGetters: AutocompletePropGetters<TItem> = {
-    getEnvironmentProps: props.current.renderer.getEnvironmentProps,
-    getFormProps: props.current.renderer.getFormProps,
-    getInputProps: props.current.renderer.getInputProps,
-    getItemProps: props.current.renderer.getItemProps,
-    getLabelProps: props.current.renderer.getLabelProps,
-    getListProps: props.current.renderer.getListProps,
-    getPanelProps: props.current.renderer.getPanelProps,
-    getRootProps: props.current.renderer.getRootProps,
+    getEnvironmentProps: props.value.renderer.getEnvironmentProps,
+    getFormProps: props.value.renderer.getFormProps,
+    getInputProps: props.value.renderer.getInputProps,
+    getItemProps: props.value.renderer.getItemProps,
+    getLabelProps: props.value.renderer.getLabelProps,
+    getListProps: props.value.renderer.getListProps,
+    getPanelProps: props.value.renderer.getPanelProps,
+    getRootProps: props.value.renderer.getRootProps,
   };
   const autocompleteScopeApi: AutocompleteScopeApi<TItem> = {
-    setSelectedItemId: autocomplete.current.setSelectedItemId,
-    setQuery: autocomplete.current.setQuery,
-    setCollections: autocomplete.current.setCollections,
-    setIsOpen: autocomplete.current.setIsOpen,
-    setStatus: autocomplete.current.setStatus,
-    setContext: autocomplete.current.setContext,
-    refresh: autocomplete.current.refresh,
+    setSelectedItemId: autocomplete.value.setSelectedItemId,
+    setQuery: autocomplete.value.setQuery,
+    setCollections: autocomplete.value.setCollections,
+    setIsOpen: autocomplete.value.setIsOpen,
+    setStatus: autocomplete.value.setStatus,
+    setContext: autocomplete.value.setContext,
+    refresh: autocomplete.value.refresh,
   };
 
   const dom = reactive(() =>
     createAutocompleteDom({
       state: lastStateRef.current,
-      autocomplete: autocomplete.current,
-      classNames: props.current.renderer.classNames,
+      autocomplete: autocomplete.value,
+      classNames: props.value.renderer.classNames,
       propGetters,
       autocompleteScopeApi,
     })
   );
 
   function setPanelPosition() {
-    setProperties(dom.current.panel, {
+    setProperties(dom.value.panel, {
       style: getPanelPositionStyle({
-        panelPlacement: props.current.renderer.panelPlacement,
-        container: dom.current.root,
-        form: dom.current.form,
-        environment: props.current.core.environment,
+        panelPlacement: props.value.renderer.panelPlacement,
+        container: dom.value.root,
+        form: dom.value.form,
+        environment: props.value.core.environment,
       }),
     });
   }
 
   function runRender() {
-    render(props.current.renderer.render, {
+    render(props.value.renderer.render, {
       state: lastStateRef.current,
-      autocomplete: autocomplete.current,
+      autocomplete: autocomplete.value,
       propGetters,
-      dom: dom.current,
-      classNames: props.current.renderer.classNames,
-      panelContainer: props.current.renderer.panelContainer,
+      dom: dom.value,
+      classNames: props.value.renderer.classNames,
+      panelContainer: props.value.renderer.panelContainer,
       autocompleteScopeApi,
     });
   }
@@ -114,10 +114,10 @@ export function autocomplete<TItem extends BaseItem>(
   }
 
   runEffect(() => {
-    const environmentProps = autocomplete.current.getEnvironmentProps({
-      formElement: dom.current.form,
-      panelElement: dom.current.panel,
-      inputElement: dom.current.input,
+    const environmentProps = autocomplete.value.getEnvironmentProps({
+      formElement: dom.value.form,
+      panelElement: dom.value.panel,
+      inputElement: dom.value.input,
     });
 
     setProperties(window as any, environmentProps);
@@ -136,25 +136,25 @@ export function autocomplete<TItem extends BaseItem>(
   });
 
   runEffect(() => {
-    const containerElement = props.current.renderer.container;
+    const containerElement = props.value.renderer.container;
     invariant(
       containerElement.tagName !== 'INPUT',
       'The `container` option does not support `input` elements. You need to change the container to a `div`.'
     );
-    containerElement.appendChild(dom.current.root);
+    containerElement.appendChild(dom.value.root);
 
     return () => {
-      containerElement.removeChild(dom.current.root);
+      containerElement.removeChild(dom.value.root);
     };
   });
 
   runEffect(() => {
-    const panelContainerElement = props.current.renderer.panelContainer;
+    const panelContainerElement = props.value.renderer.panelContainer;
     scheduleRender(lastStateRef.current);
 
     return () => {
-      if (panelContainerElement.contains(dom.current.panel)) {
-        panelContainerElement.removeChild(dom.current.panel);
+      if (panelContainerElement.contains(dom.value.panel)) {
+        panelContainerElement.removeChild(dom.value.panel);
       }
     };
   });
@@ -208,8 +208,8 @@ export function autocomplete<TItem extends BaseItem>(
     cleanupEffects();
 
     optionsRef.current = mergeDeep(
-      props.current.renderer,
-      props.current.core,
+      props.value.renderer,
+      props.value.core,
       { initialState: lastStateRef.current },
       updatedOptions
     );
@@ -217,7 +217,7 @@ export function autocomplete<TItem extends BaseItem>(
     runReactives();
     runEffects();
 
-    autocomplete.current.refresh().then(() => {
+    autocomplete.value.refresh().then(() => {
       scheduleRender(lastStateRef.current);
     });
   }
