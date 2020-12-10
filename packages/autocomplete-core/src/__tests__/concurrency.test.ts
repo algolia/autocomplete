@@ -1,12 +1,7 @@
 import userEvent from '@testing-library/user-event';
 
+import { defer } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
-
-function defer<TValue>(fn: () => TValue, timeout: number) {
-  return new Promise<TValue>((resolve) => {
-    setTimeout(() => resolve(fn()), timeout);
-  });
-}
 
 describe.skip('concurrency', () => {
   test('resolves the responses in order from getSources', async () => {

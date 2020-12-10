@@ -12,7 +12,7 @@ export function getCompletion<TItem extends BaseItem>({
     return null;
   }
 
-  const { itemInputValue } = getSelectedItem({ state })!;
+  const { itemInputValue } = getSelectedItem(state)!;
 
   return itemInputValue || null;
 }

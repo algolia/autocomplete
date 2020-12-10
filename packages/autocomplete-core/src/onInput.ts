@@ -1,8 +1,9 @@
+import { invariant } from '@algolia/autocomplete-shared';
+
 import {
-  AutocompleteSetters,
+  AutocompleteScopeApi,
   AutocompleteState,
   AutocompleteStore,
-  AutocompleteRefresh,
   BaseItem,
   InternalAutocompleteOptions,
 } from './types';
@@ -11,7 +12,7 @@ import { getSelectedItem } from './utils';
 let lastStalledId: number | null = null;
 
 interface OnInputParams<TItem extends BaseItem>
-  extends AutocompleteSetters<TItem> {
+  extends AutocompleteScopeApi<TItem> {
   query: string;
   event: any;
   store: AutocompleteStore<TItem>;
@@ -24,7 +25,6 @@ interface OnInputParams<TItem extends BaseItem>
    * but we want to close the panel in that case.
    */
   nextState?: Partial<AutocompleteState<TItem>>;
-  refresh: AutocompleteRefresh;
 }
 
 export function onInput<TItem extends BaseItem>({
@@ -58,7 +58,7 @@ export function onInput<TItem extends BaseItem>({
   }
 
   if (lastStalledId) {
-    clearTimeout(lastStalledId);
+    props.environment.clearTimeout(lastStalledId);
   }
 
   setQuery(query);
@@ -116,6 +116,13 @@ export function onInput<TItem extends BaseItem>({
               refresh,
             })
           ).then((items) => {
+            invariant(
+              Array.isArray(items),
+              `The \`getItems\` function must return an array of items but returned type ${JSON.stringify(
+                typeof items
+              )}:\n\n${JSON.stringify(items, null, 2)}`
+            );
+
             return {
               source,
               items,
@@ -132,9 +139,7 @@ export function onInput<TItem extends BaseItem>({
                 props.shouldPanelShow({ state: store.getState() }))
           );
 
-          const highlightedItem = getSelectedItem({
-            state: store.getState(),
-          });
+          const highlightedItem = getSelectedItem(store.getState());
 
           if (store.getState().selectedItemId !== null && highlightedItem) {
             const { item, itemInputValue, itemUrl, source } = highlightedItem;
@@ -151,6 +156,7 @@ export function onInput<TItem extends BaseItem>({
               setIsOpen,
               setStatus,
               setContext,
+              refresh,
               event,
             });
           }
@@ -162,7 +168,7 @@ export function onInput<TItem extends BaseItem>({
         })
         .finally(() => {
           if (lastStalledId) {
-            clearTimeout(lastStalledId);
+            props.environment.clearTimeout(lastStalledId);
           }
         });
     });

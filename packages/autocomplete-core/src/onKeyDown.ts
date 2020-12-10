@@ -1,19 +1,17 @@
 import { onInput } from './onInput';
 import {
-  AutocompleteSetters,
+  AutocompleteScopeApi,
   AutocompleteStore,
-  AutocompleteRefresh,
   BaseItem,
   InternalAutocompleteOptions,
 } from './types';
 import { getSelectedItem } from './utils';
 
 interface OnKeyDownOptions<TItem extends BaseItem>
-  extends AutocompleteSetters<TItem> {
+  extends AutocompleteScopeApi<TItem> {
   event: KeyboardEvent;
   store: AutocompleteStore<TItem>;
   props: InternalAutocompleteOptions<TItem>;
-  refresh: AutocompleteRefresh;
 }
 
 export function onKeyDown<TItem extends BaseItem>({
@@ -47,9 +45,7 @@ export function onKeyDown<TItem extends BaseItem>({
       }
     }
 
-    const highlightedItem = getSelectedItem({
-      state: store.getState(),
-    });
+    const highlightedItem = getSelectedItem(store.getState());
 
     if (store.getState().selectedItemId !== null && highlightedItem) {
       const { item, itemInputValue, itemUrl, source } = highlightedItem;
@@ -66,6 +62,7 @@ export function onKeyDown<TItem extends BaseItem>({
         setIsOpen,
         setStatus,
         setContext,
+        refresh,
         event,
       });
     }
@@ -92,9 +89,9 @@ export function onKeyDown<TItem extends BaseItem>({
     // highlighted.
     event.preventDefault();
 
-    const { item, itemInputValue, itemUrl, source } = getSelectedItem({
-      state: store.getState(),
-    })!;
+    const { item, itemInputValue, itemUrl, source } = getSelectedItem(
+      store.getState()
+    )!;
 
     if (event.metaKey || event.ctrlKey) {
       if (itemUrl !== undefined) {
@@ -110,6 +107,7 @@ export function onKeyDown<TItem extends BaseItem>({
           setIsOpen,
           setStatus,
           setContext,
+          refresh,
           event,
         });
         props.navigator.navigateNewTab({
@@ -132,6 +130,7 @@ export function onKeyDown<TItem extends BaseItem>({
           setIsOpen,
           setStatus,
           setContext,
+          refresh,
           event,
         });
         props.navigator.navigateNewWindow({
@@ -156,6 +155,7 @@ export function onKeyDown<TItem extends BaseItem>({
           setIsOpen,
           setStatus,
           setContext,
+          refresh,
           event,
         });
         props.navigator.navigate({
@@ -195,6 +195,7 @@ export function onKeyDown<TItem extends BaseItem>({
           setIsOpen,
           setStatus,
           setContext,
+          refresh,
           event,
         });
       });

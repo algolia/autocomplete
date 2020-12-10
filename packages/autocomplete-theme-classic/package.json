@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-theme-classic",
   "description": "Classic theme for Algolia Autocomplete.",
-  "version": "1.0.0-alpha.36",
+  "version": "1.0.0-alpha.37",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete.js",
   "repository": "algolia/autocomplete.js",

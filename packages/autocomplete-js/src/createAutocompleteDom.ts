@@ -1,5 +1,6 @@
 import {
   AutocompleteApi as AutocompleteCoreApi,
+  AutocompleteScopeApi,
   BaseItem,
 } from '@algolia/autocomplete-core';
 
@@ -17,33 +18,54 @@ import {
   TouchOverlay,
   TouchSearchButton,
 } from './components';
-import { AutocompleteClassNames, AutocompleteDom } from './types';
+import {
+  AutocompleteClassNames,
+  AutocompleteDom,
+  AutocompletePropGetters,
+  AutocompleteState,
+} from './types';
 
-type CreateDomProps<TItem extends BaseItem> = AutocompleteCoreApi<TItem> & {
-  classNames: AutocompleteClassNames;
+type CreateDomProps<TItem extends BaseItem> = {
+  classNames: Partial<AutocompleteClassNames>;
   isTouch: boolean;
   placeholder?: string;
   onTouchOverlayClose(): void;
+  autocomplete: AutocompleteCoreApi<TItem>;
+  state: AutocompleteState<TItem>;
+  propGetters: AutocompletePropGetters<TItem>;
+  autocompleteScopeApi: AutocompleteScopeApi<TItem>;
 };
 
 export function createAutocompleteDom<TItem extends BaseItem>({
   isTouch,
   placeholder = 'Search',
   onTouchOverlayClose,
-  getRootProps,
-  getFormProps,
-  getLabelProps,
-  getInputProps,
-  getPanelProps,
+  autocomplete,
   classNames,
+  propGetters,
+  state,
+  autocompleteScopeApi,
 }: CreateDomProps<TItem>): AutocompleteDom {
-  const root = Root({ classNames, ...getRootProps({}) });
+  const rootProps = propGetters.getRootProps({
+    state,
+    props: autocomplete.getRootProps({}),
+    ...autocompleteScopeApi,
+  });
+  const root = Root({ classNames, ...rootProps });
   const touchOverlay = TouchOverlay({ classNames });
   const inputWrapper = InputWrapper({ classNames });
-  const label = Label({ classNames, ...getLabelProps({}) });
+  const labelProps = propGetters.getLabelProps({
+    state,
+    props: autocomplete.getLabelProps({}),
+    ...autocompleteScopeApi,
+  });
+  const label = Label({ classNames, ...labelProps });
   const input = Input({
+    state,
+    getInputProps: propGetters.getInputProps,
+    getInputPropsCore: autocomplete.getInputProps,
+    autocompleteScopeApi,
     classNames,
-    getInputProps,
     onTouchEscape: isTouch
       ? () => {
           document.body.removeChild(touchOverlay);
@@ -51,11 +73,30 @@ export function createAutocompleteDom<TItem extends BaseItem>({
         }
       : undefined,
   });
-  const submitButton = SubmitButton({ classNames });
-  const resetButton = ResetButton({ classNames });
-  const loadingIndicator = LoadingIndicator({ classNames });
-  const form = Form({ classNames, ...getFormProps({ inputElement: input }) });
-  const panel = Panel({ classNames, ...getPanelProps({}) });
+  const submitButton = SubmitButton({
+    classNames,
+    hidden: state.status === 'stalled',
+  });
+  const resetButton = ResetButton({
+    classNames,
+    hidden: !state.query,
+  });
+  const loadingIndicator = LoadingIndicator({
+    classNames,
+    hidden: state.status !== 'stalled',
+  });
+  const formProps = propGetters.getFormProps({
+    state,
+    props: autocomplete.getFormProps({ inputElement: input }),
+    ...autocompleteScopeApi,
+  });
+  const form = Form({ classNames, ...formProps });
+  const panelProps = propGetters.getPanelProps({
+    state,
+    props: autocomplete.getPanelProps({}),
+    ...autocompleteScopeApi,
+  });
+  const panel = Panel({ classNames, ...panelProps });
 
   label.appendChild(submitButton);
   inputWrapper.appendChild(input);

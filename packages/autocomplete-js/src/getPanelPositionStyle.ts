@@ -15,7 +15,7 @@ export function getPanelPositionStyle({
   environment = window,
 }: GetPanelPositionStyleParams) {
   const containerRect = container.getBoundingClientRect();
-  const top = containerRect.top + containerRect.height;
+  const top = container.offsetTop + containerRect.height;
 
   switch (panelPlacement) {
     case 'start': {
@@ -39,8 +39,6 @@ export function getPanelPositionStyle({
         top,
         left: 0,
         right: 0,
-        // @TODO [IE support] IE doesn't support `"unset"`
-        // See https://caniuse.com/#feat=css-unset-value
         width: 'unset',
         maxWidth: 'unset',
       };
@@ -55,8 +53,6 @@ export function getPanelPositionStyle({
         right:
           environment.document.documentElement.clientWidth -
           (formRect.left + formRect.width),
-        // @TODO [IE support] IE doesn't support `"unset"`
-        // See https://caniuse.com/#feat=css-unset-value
         width: 'unset',
         maxWidth: 'unset',
       };

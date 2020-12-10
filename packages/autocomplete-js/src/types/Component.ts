@@ -1,4 +1,4 @@
-import { AutocompleteClassNames } from '.';
+import { AutocompleteClassNames } from './AutocompleteClassNames';
 
 export type WithClassNames<TProps> = TProps & {
   classNames: Partial<AutocompleteClassNames>;

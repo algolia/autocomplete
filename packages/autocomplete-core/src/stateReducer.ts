@@ -1,3 +1,5 @@
+import { invariant } from '@algolia/autocomplete-shared';
+
 import { getCompletion } from './getCompletion';
 import { Reducer } from './types';
 import { getItemsCount, getNextSelectedItemId } from './utils';
@@ -122,7 +124,6 @@ export const stateReducer: Reducer = (state, action) => {
           action.props.openOnFocus === true
             ? action.props.defaultSelectedItemId
             : null,
-        isOpen: action.props.openOnFocus, // @TODO: Check with UX team if we want to close the panel on reset.
         status: 'idle',
         query: '',
       };
@@ -163,6 +164,11 @@ export const stateReducer: Reducer = (state, action) => {
     }
 
     default:
+      invariant(
+        false,
+        `The reducer action ${JSON.stringify(action.type)} is not supported.`
+      );
+
       return state;
   }
 };

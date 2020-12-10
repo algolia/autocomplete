@@ -1,9 +1,8 @@
-import { getNavigator } from './getNavigator';
 import {
   AutocompleteOptions,
   BaseItem,
   InternalAutocompleteOptions,
-  Subscribers,
+  AutocompleteSubscribers,
 } from './types';
 import {
   generateAutocompleteId,
@@ -14,11 +13,10 @@ import {
 
 export function getDefaultProps<TItem extends BaseItem>(
   props: AutocompleteOptions<TItem>,
-  subscribers: Subscribers<TItem>
+  subscribers: AutocompleteSubscribers<TItem>
 ): InternalAutocompleteOptions<TItem> {
-  const environment: InternalAutocompleteOptions<
-    TItem
-  >['environment'] = (typeof window !== 'undefined'
+  const environment: InternalAutocompleteOptions<TItem>['environment'] = (typeof window !==
+  'undefined'
     ? window
     : {}) as typeof window;
   const plugins = props.plugins || [];
@@ -60,11 +58,17 @@ export function getDefaultProps<TItem extends BaseItem>(
         plugin.onSubmit?.(params);
       });
     },
-    getSources(options) {
+    onReset(params) {
+      props.onReset?.(params);
+      plugins.forEach((plugin) => {
+        plugin.onReset?.(params);
+      });
+    },
+    getSources(params) {
       return Promise.all(
         [...plugins.map((plugin) => plugin.getSources), props.getSources]
           .filter(Boolean)
-          .map((getSources) => getNormalizedSources(getSources!, options))
+          .map((getSources) => getNormalizedSources(getSources!, params))
       )
         .then((nested) => flatten(nested))
         .then((sources) =>
@@ -86,7 +90,19 @@ export function getDefaultProps<TItem extends BaseItem>(
         );
     },
     navigator: {
-      ...getNavigator({ environment }),
+      navigate({ itemUrl }) {
+        environment.location.assign(itemUrl);
+      },
+      navigateNewTab({ itemUrl }) {
+        const windowReference = environment.open(itemUrl, '_blank', 'noopener');
+
+        if (windowReference) {
+          windowReference.focus();
+        }
+      },
+      navigateNewWindow({ itemUrl }) {
+        environment.open(itemUrl, '_blank', 'noopener');
+      },
       ...props.navigator,
     },
   };

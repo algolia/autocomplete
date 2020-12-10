@@ -1,27 +1,25 @@
 import { onInput } from './onInput';
 import { onKeyDown } from './onKeyDown';
 import {
-  InternalAutocompleteOptions,
-  AutocompleteSetters,
+  AutocompleteScopeApi,
   AutocompleteStore,
-  AutocompleteRefresh,
-  GetPanelProps,
+  BaseItem,
   GetEnvironmentProps,
   GetFormProps,
   GetInputProps,
   GetItemProps,
   GetLabelProps,
   GetListProps,
+  GetPanelProps,
   GetRootProps,
-  BaseItem,
+  InternalAutocompleteOptions,
 } from './types';
 import { getSelectedItem, isOrContainsNode } from './utils';
 
 interface GetPropGettersOptions<TItem extends BaseItem>
-  extends AutocompleteSetters<TItem> {
+  extends AutocompleteScopeApi<TItem> {
   store: AutocompleteStore<TItem>;
   props: InternalAutocompleteOptions<TItem>;
-  refresh: AutocompleteRefresh;
 }
 
 export function getPropGetters<
@@ -60,12 +58,11 @@ export function getPropGetters<
           getterProps.panelElement,
         ].some((contextNode) => {
           return (
-            contextNode &&
-            (isOrContainsNode(contextNode, event.target as Node) ||
-              isOrContainsNode(
-                contextNode,
-                props.environment.document.activeElement!
-              ))
+            isOrContainsNode(contextNode, event.target as Node) ||
+            isOrContainsNode(
+              contextNode,
+              props.environment.document.activeElement!
+            )
           );
         });
 
@@ -121,6 +118,7 @@ export function getPropGetters<
           setIsOpen,
           setStatus,
           setContext,
+          refresh,
           event,
         });
 
@@ -133,21 +131,18 @@ export function getPropGetters<
       onReset: (event) => {
         ((event as unknown) as Event).preventDefault();
 
-        if (props.openOnFocus) {
-          onInput({
-            query: '',
-            event,
-            store,
-            props,
-            setSelectedItemId,
-            setQuery,
-            setCollections,
-            setIsOpen,
-            setStatus,
-            setContext,
-            refresh,
-          });
-        }
+        props.onReset({
+          state: store.getState(),
+          setSelectedItemId,
+          setQuery,
+          setCollections,
+          setIsOpen,
+          setStatus,
+          setContext,
+          refresh,
+          event,
+        });
+
         store.dispatch('reset', null);
 
         if (providedProps.inputElement) {
@@ -309,9 +304,7 @@ export function getPropGetters<
 
         store.dispatch('mousemove', item.__autocomplete_id);
 
-        const highlightedItem = getSelectedItem({
-          state: store.getState(),
-        });
+        const highlightedItem = getSelectedItem(store.getState());
 
         if (store.getState().selectedItemId !== null && highlightedItem) {
           const { item, itemInputValue, itemUrl, source } = highlightedItem;
@@ -328,6 +321,7 @@ export function getPropGetters<
             setIsOpen,
             setStatus,
             setContext,
+            refresh,
             event,
           });
         }
@@ -384,6 +378,7 @@ export function getPropGetters<
             setIsOpen,
             setStatus,
             setContext,
+            refresh,
             event,
           });
         });

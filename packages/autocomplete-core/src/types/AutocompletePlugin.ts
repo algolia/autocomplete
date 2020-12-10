@@ -1,10 +1,7 @@
-import {
-  AutocompleteOptions,
-  OnHighlightParams,
-  OnSelectParams,
-  BaseItem,
-} from './api';
-import { AutocompleteSetters } from './setters';
+import { BaseItem } from './AutocompleteApi';
+import { AutocompleteOptions } from './AutocompleteOptions';
+import { AutocompleteSetters } from './AutocompleteSetters';
+import { OnSelectParams, OnHighlightParams } from './AutocompleteSource';
 
 type PluginSubscriber<TParams> = (params: TParams) => void;
 
@@ -18,7 +15,10 @@ export type AutocompletePlugin<
   TItem extends BaseItem,
   TData = unknown
 > = Partial<
-  Pick<AutocompleteOptions<TItem>, 'onStateChange' | 'onSubmit' | 'getSources'>
+  Pick<
+    AutocompleteOptions<TItem>,
+    'onStateChange' | 'onSubmit' | 'onReset' | 'getSources'
+  >
 > & {
   /**
    * Function called when Autocomplete starts.

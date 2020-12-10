@@ -1,90 +1,134 @@
-import { BaseItem, createAutocomplete } from '@algolia/autocomplete-core';
-import { createRef } from '@algolia/autocomplete-shared';
+import {
+  AutocompleteScopeApi,
+  BaseItem,
+  createAutocomplete,
+} from '@algolia/autocomplete-core';
+import { createRef, debounce, invariant } from '@algolia/autocomplete-shared';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
 import { createEffectWrapper } from './createEffectWrapper';
+import { createReactiveWrapper } from './createReactiveWrapper';
+import { getDefaultOptions } from './getDefaultOptions';
 import { getPanelPositionStyle } from './getPanelPositionStyle';
 import { render } from './render';
 import {
   AutocompleteApi,
   AutocompleteOptions,
+  AutocompletePropGetters,
   AutocompleteState,
 } from './types';
-import { debounce, getHTMLElement, setProperties } from './utils';
+import { mergeDeep, setProperties } from './utils';
 
-function defaultRenderer({ root, sections }) {
-  for (const section of sections) {
-    root.appendChild(section);
-  }
-}
+export function autocomplete<TItem extends BaseItem>(
+  options: AutocompleteOptions<TItem>
+): AutocompleteApi<TItem> {
+  const { runEffect, cleanupEffects, runEffects } = createEffectWrapper();
+  const { reactive, runReactives } = createReactiveWrapper();
 
-export function autocomplete<TItem extends BaseItem>({
-  container,
-  panelContainer = document.body,
-  render: renderer = defaultRenderer,
-  panelPlacement = 'input-wrapper-width',
-  classNames = {},
-  touchMediaQuery = '(max-width: 900px)',
-  ...props
-}: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
-  const { runEffect, cleanupEffects } = createEffectWrapper();
+  const optionsRef = createRef(options);
   const onStateChangeRef = createRef<
-    | ((params: {
-        state: AutocompleteState<TItem>;
-        prevState: AutocompleteState<TItem>;
-      }) => void)
-    | undefined
+    AutocompleteOptions<TItem>['onStateChange']
   >(undefined);
-  const autocomplete = createAutocomplete<TItem>({
-    ...props,
-    onStateChange(options) {
-      onStateChangeRef.current?.(options as any);
-      props.onStateChange?.(options);
-    },
+  const props = reactive(() => getDefaultOptions(optionsRef.current));
+  const autocomplete = reactive(() =>
+    createAutocomplete<TItem>({
+      ...props.value.core,
+      onStateChange(options) {
+        onStateChangeRef.current?.(options as any);
+        props.value.core.onStateChange?.(options as any);
+      },
+    })
+  );
+  const renderRequestIdRef = createRef<number | null>(null);
+  const lastStateRef = createRef<AutocompleteState<TItem>>({
+    collections: [],
+    completion: null,
+    context: {},
+    isOpen: false,
+    query: '',
+    selectedItemId: null,
+    status: 'idle',
+    ...props.value.core.initialState,
   });
+  const isTouch = reactive(
+    () => window.matchMedia(props.value.renderer.touchMediaQuery).matches
+  );
 
-  const mediaQueryList = window.matchMedia(touchMediaQuery);
+  const propGetters: AutocompletePropGetters<TItem> = {
+    getEnvironmentProps: props.value.renderer.getEnvironmentProps,
+    getFormProps: props.value.renderer.getFormProps,
+    getInputProps: props.value.renderer.getInputProps,
+    getItemProps: props.value.renderer.getItemProps,
+    getLabelProps: props.value.renderer.getLabelProps,
+    getListProps: props.value.renderer.getListProps,
+    getPanelProps: props.value.renderer.getPanelProps,
+    getRootProps: props.value.renderer.getRootProps,
+  };
+  const autocompleteScopeApi: AutocompleteScopeApi<TItem> = {
+    setSelectedItemId: autocomplete.value.setSelectedItemId,
+    setQuery: autocomplete.value.setQuery,
+    setCollections: autocomplete.value.setCollections,
+    setIsOpen: autocomplete.value.setIsOpen,
+    setStatus: autocomplete.value.setStatus,
+    setContext: autocomplete.value.setContext,
+    refresh: autocomplete.value.refresh,
+  };
 
-  const {
-    touchOverlay,
-    inputWrapper,
-    form,
-    label,
-    input,
-    submitButton,
-    resetButton,
-    loadingIndicator,
-    root,
-    panel,
-  } = createAutocompleteDom({
-    isTouch: mediaQueryList.matches,
-    placeholder: props.placeholder,
-    onTouchOverlayClose() {
-      autocomplete.setQuery('');
-      autocomplete.refresh();
-    },
-    ...autocomplete,
-    classNames,
-  });
+  const dom = reactive(() =>
+    createAutocompleteDom({
+      placeholder: props.value.core.placeholder,
+      isTouch: isTouch.value,
+      state: lastStateRef.current,
+      autocomplete: autocomplete.value,
+      classNames: props.value.renderer.classNames,
+      propGetters,
+      autocompleteScopeApi,
+      onTouchOverlayClose() {
+        autocomplete.value.setQuery('');
+        autocomplete.value.refresh();
+      },
+    })
+  );
 
   function setPanelPosition() {
-    setProperties(panel, {
-      style: mediaQueryList.matches
+    setProperties(dom.value.panel, {
+      style: isTouch.value
         ? {}
         : getPanelPositionStyle({
-            panelPlacement,
-            container: root,
-            form,
-            environment: props.environment,
+            panelPlacement: props.value.renderer.panelPlacement,
+            container: dom.value.root,
+            form: dom.value.form,
+            environment: props.value.core.environment,
           }),
     });
   }
 
+  function runRender() {
+    render(props.value.renderer.render, {
+      state: lastStateRef.current,
+      autocomplete: autocomplete.value,
+      propGetters,
+      dom: dom.value,
+      classNames: props.value.renderer.classNames,
+      panelContainer: props.value.renderer.panelContainer,
+      autocompleteScopeApi,
+    });
+  }
+
+  function scheduleRender(state: AutocompleteState<TItem>) {
+    if (renderRequestIdRef.current !== null) {
+      cancelAnimationFrame(renderRequestIdRef.current);
+    }
+
+    lastStateRef.current = state;
+    renderRequestIdRef.current = requestAnimationFrame(runRender);
+  }
+
   runEffect(() => {
-    const environmentProps = autocomplete.getEnvironmentProps({
-      formElement: form,
-      panelElement: panel,
-      inputElement: input,
+    const environmentProps = autocomplete.value.getEnvironmentProps({
+      formElement: dom.value.form,
+      panelElement: dom.value.panel,
+      inputElement: dom.value.input,
     });
 
     setProperties(window as any, environmentProps);
@@ -103,69 +147,39 @@ export function autocomplete<TItem extends BaseItem>({
   });
 
   runEffect(() => {
-    const panelRoot = mediaQueryList.matches
-      ? touchOverlay
-      : getHTMLElement(panelContainer);
-    const state: AutocompleteState<TItem> = {
-      collections: [],
-      completion: null,
-      context: {},
-      isOpen: false,
-      query: '',
-      selectedItemId: null,
-      status: 'idle',
-      ...props.initialState,
-    };
-    render(renderer, {
-      state,
-      ...autocomplete,
-      classNames,
-      panelRoot,
-      root,
-      form,
-      input,
-      inputWrapper,
-      label,
-      panel,
-      submitButton,
-      resetButton,
-      loadingIndicator,
-    });
+    const containerElement = props.value.renderer.container;
+    invariant(
+      containerElement.tagName !== 'INPUT',
+      'The `container` option does not support `input` elements. You need to change the container to a `div`.'
+    );
+    containerElement.appendChild(dom.value.root);
 
-    return () => {};
+    return () => {
+      containerElement.removeChild(dom.value.root);
+    };
   });
 
   runEffect(() => {
-    const panelRoot = getHTMLElement(panelContainer);
-    const unmountRef = createRef<(() => void) | undefined>(undefined);
-    // This batches state changes to limit DOM mutations.
-    // Every time we call a setter in `autocomplete-core` (e.g., in `onInput`),
-    // the core `onStateChange` function is called.
-    // We don't need to be notified of all these state changes to render.
-    // As an example:
-    //  - without debouncing: "iphone case" query → 85 renders
-    //  - with debouncing: "iphone case" query → 12 renders
-    const debouncedOnStateChange = debounce<{
+    const panelContainerElement = isTouch.value
+      ? dom.value.touchOverlay
+      : props.value.renderer.panelContainer;
+    scheduleRender(lastStateRef.current);
+
+    return () => {
+      if (panelContainerElement.contains(dom.value.panel)) {
+        panelContainerElement.removeChild(dom.value.panel);
+      }
+    };
+  });
+
+  runEffect(() => {
+    const debouncedRender = debounce<{
       state: AutocompleteState<TItem>;
     }>(({ state }) => {
-      unmountRef.current = render(renderer, {
-        state,
-        ...autocomplete,
-        classNames,
-        panelRoot,
-        root,
-        form,
-        input,
-        inputWrapper,
-        label,
-        panel,
-        submitButton,
-        resetButton,
-        loadingIndicator,
-      });
+      scheduleRender(state);
     }, 0);
 
-    onStateChangeRef.current = ({ prevState, state }) => {
+    onStateChangeRef.current = ({ state, prevState }) => {
       // The outer DOM might have changed since the last time the panel was
       // positioned. The layout might have shifted vertically for instance.
       // It's therefore safer to re-calculate the panel position before opening
@@ -174,29 +188,27 @@ export function autocomplete<TItem extends BaseItem>({
         setPanelPosition();
       }
 
-      return debouncedOnStateChange({ state });
+      debouncedRender({ state });
     };
 
     return () => {
-      unmountRef.current?.();
       onStateChangeRef.current = undefined;
     };
   });
 
   runEffect(() => {
-    const containerElement = getHTMLElement(container);
-    containerElement.appendChild(root);
-
-    return () => {
-      containerElement.removeChild(root);
-    };
-  });
-
-  runEffect(() => {
     const onResize = debounce<Event>(() => {
-      setPanelPosition();
-    }, 100);
+      const previousIsTouch = isTouch.value;
+      isTouch.value = window.matchMedia(
+        props.value.renderer.touchMediaQuery
+      ).matches;
 
+      if (previousIsTouch !== isTouch.value) {
+        update({});
+      } else {
+        requestAnimationFrame(setPanelPosition);
+      }
+    }, 20);
     window.addEventListener('resize', onResize);
 
     return () => {
@@ -204,20 +216,37 @@ export function autocomplete<TItem extends BaseItem>({
     };
   });
 
-  requestAnimationFrame(() => {
-    setPanelPosition();
+  runEffect(() => {
+    requestAnimationFrame(setPanelPosition);
+
+    return () => {};
   });
 
+  function destroy() {
+    cleanupEffects();
+  }
+
+  function update(updatedOptions: Partial<AutocompleteOptions<TItem>> = {}) {
+    cleanupEffects();
+
+    optionsRef.current = mergeDeep(
+      props.value.renderer,
+      props.value.core,
+      { initialState: lastStateRef.current },
+      updatedOptions
+    );
+
+    runReactives();
+    runEffects();
+
+    autocomplete.value.refresh().then(() => {
+      scheduleRender(lastStateRef.current);
+    });
+  }
+
   return {
-    setSelectedItemId: autocomplete.setSelectedItemId,
-    setQuery: autocomplete.setQuery,
-    setCollections: autocomplete.setCollections,
-    setIsOpen: autocomplete.setIsOpen,
-    setStatus: autocomplete.setStatus,
-    setContext: autocomplete.setContext,
-    refresh: autocomplete.refresh,
-    destroy() {
-      cleanupEffects();
-    },
+    ...autocompleteScopeApi,
+    update,
+    destroy,
   };
 }

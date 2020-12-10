@@ -4,7 +4,7 @@ Suite of Autocomplete libraries to build fast and fully-featured autocomplete ex
 
 ---
 
-[![Version](https://img.shields.io/npm/v/autocomplete.js.svg?style=flat-square)](https://www.npmjs.com/package/autocomplete.js) [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/autocomplete.js/badge?style=flat-square)](https://www.jsdelivr.com/package/npm/autocomplete.js) [![MIT License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
+[![Version](https://img.shields.io/npm/v/@algolia/autocomplete-core.svg?style=flat-square)](https://www.npmjs.com/package/@algolia/autocomplete-core) [![MIT License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
 ## Why
 

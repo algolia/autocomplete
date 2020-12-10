@@ -6,7 +6,16 @@ module.exports = {
     mainVersionFile: 'lerna.json',
     // We rely on Lerna to bump our dependencies.
     packagesToBump: [],
-    packagesToPublish: ['packages/autocomplete-*'],
+    packagesToPublish: [
+      'packages/autocomplete-core',
+      'packages/autocomplete-js',
+      'packages/autocomplete-plugin-algolia-insights',
+      'packages/autocomplete-plugin-query-suggestions',
+      'packages/autocomplete-plugin-recent-searches',
+      'packages/autocomplete-preset-algolia',
+      'packages/autocomplete-shared',
+      'packages/autocomplete-theme-classic',
+    ],
   },
   publishCommand({ tag }) {
     return `yarn publish --access public --tag ${tag}`;

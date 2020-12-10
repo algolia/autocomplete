@@ -1,11 +1,14 @@
-export function debounce<TParams>(fn: (params: TParams) => void, time: number) {
+export function debounce<TParams>(
+  fn: (...params: TParams[]) => void,
+  time: number
+) {
   let timerId: ReturnType<typeof setTimeout> | undefined = undefined;
 
-  return function (args: TParams) {
+  return function (...args: TParams[]) {
     if (timerId) {
       clearTimeout(timerId);
     }
 
-    timerId = setTimeout(() => fn(args), time);
+    timerId = setTimeout(() => fn(...args), time);
   };
 }

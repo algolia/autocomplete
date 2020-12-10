@@ -5,8 +5,12 @@ describe('flatten', () => {
     expect(flatten(['value', 'value'])).toEqual(['value', 'value']);
   });
 
-  it('spreads arrays', () => {
+  it('spreads single array', () => {
     expect(flatten(['value', ['value']])).toEqual(['value', 'value']);
+  });
+
+  it('spreads multiple arrays', () => {
+    expect(flatten([['value'], ['value']])).toEqual(['value', 'value']);
   });
 
   it('ignores empty arrays', () => {

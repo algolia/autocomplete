@@ -1,5 +1,6 @@
-import { BaseItem, InternalAutocompleteOptions } from './api';
-import { AutocompleteState } from './state';
+import { BaseItem } from './AutocompleteApi';
+import { InternalAutocompleteOptions } from './AutocompleteOptions';
+import { AutocompleteState } from './AutocompleteState';
 
 export interface AutocompleteStore<TItem extends BaseItem> {
   getState(): AutocompleteState<TItem>;

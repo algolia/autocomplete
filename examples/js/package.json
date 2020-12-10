@@ -1,7 +1,7 @@
 {
   "name": "@algolia/js-example",
   "description": "Autocomplete JavaScript Sandbox",
-  "version": "1.0.0-alpha.36",
+  "version": "1.0.0-alpha.37",
   "private": true,
   "license": "MIT",
   "main": "index.html",
@@ -10,14 +10,14 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.0.0-alpha.36",
-    "@algolia/autocomplete-plugin-algolia-insights": "1.0.0-alpha.36",
-    "@algolia/autocomplete-plugin-query-suggestions": "1.0.0-alpha.36",
-    "@algolia/autocomplete-plugin-recent-searches": "1.0.0-alpha.36",
-    "@algolia/autocomplete-preset-algolia": "1.0.0-alpha.36",
-    "@algolia/autocomplete-theme-classic": "1.0.0-alpha.36",
-    "algoliasearch": "4.7.0",
-    "search-insights": "1.6.2"
+    "@algolia/autocomplete-js": "1.0.0-alpha.37",
+    "@algolia/autocomplete-plugin-algolia-insights": "1.0.0-alpha.37",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.0.0-alpha.37",
+    "@algolia/autocomplete-plugin-recent-searches": "1.0.0-alpha.37",
+    "@algolia/autocomplete-preset-algolia": "1.0.0-alpha.37",
+    "@algolia/autocomplete-theme-classic": "1.0.0-alpha.37",
+    "algoliasearch": "4.8.3",
+    "search-insights": "1.6.3"
   },
   "devDependencies": {
     "parcel-bundler": "1.12.4"
