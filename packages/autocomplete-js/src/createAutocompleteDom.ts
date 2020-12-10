@@ -57,9 +57,18 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     getInputPropsCore: autocomplete.getInputProps,
     autocompleteScopeApi,
   });
-  const submitButton = SubmitButton({ classNames });
-  const resetButton = ResetButton({ classNames });
-  const loadingIndicator = LoadingIndicator({ classNames });
+  const submitButton = SubmitButton({
+    classNames,
+    hidden: state.status === 'stalled',
+  });
+  const resetButton = ResetButton({
+    classNames,
+    hidden: !state.query,
+  });
+  const loadingIndicator = LoadingIndicator({
+    classNames,
+    hidden: state.status !== 'stalled',
+  });
   const formProps = propGetters.getFormProps({
     state,
     props: autocomplete.getFormProps({ inputElement: input }),
