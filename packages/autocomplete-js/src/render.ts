@@ -43,7 +43,7 @@ export function render<TItem extends BaseItem>(
     dom,
     autocompleteScopeApi,
   }: RenderProps<TItem>
-): () => void {
+): void {
   setPropertiesWithoutEvents(
     dom.root,
     propGetters.getRootProps({
@@ -72,7 +72,7 @@ export function render<TItem extends BaseItem>(
       panelRoot.removeChild(dom.panel);
     }
 
-    return () => {};
+    return;
   }
 
   // We add the panel element to the DOM when it's not yet appended and that the
@@ -157,8 +157,4 @@ export function render<TItem extends BaseItem>(
   dom.panel.appendChild(panelLayoutElement);
 
   renderer({ root: panelLayoutElement, sections, state });
-
-  return () => {
-    panelRoot.removeChild(dom.panel);
-  };
 }

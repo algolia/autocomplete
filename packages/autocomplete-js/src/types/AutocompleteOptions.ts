@@ -65,4 +65,8 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    */
   render?: AutocompleteRenderer<TItem>;
   initialState?: Partial<AutocompleteState<TItem>>;
+  onStateChange?(props: {
+    state: AutocompleteState<TItem>;
+    prevState: AutocompleteState<TItem>;
+  }): void;
 }

@@ -10,15 +10,15 @@ import {
 } from './AutocompleteSource';
 import { AutocompleteState } from './AutocompleteState';
 
-interface OnSubmitParams<TItem extends BaseItem>
+export interface OnSubmitParams<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
   state: AutocompleteState<TItem>;
   event: any;
 }
 
-type OnResetParams<TItem extends BaseItem> = OnSubmitParams<TItem>;
+export type OnResetParams<TItem extends BaseItem> = OnSubmitParams<TItem>;
 
-interface OnInputParams<TItem extends BaseItem>
+export interface OnInputParams<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
   query: string;
   state: AutocompleteState<TItem>;

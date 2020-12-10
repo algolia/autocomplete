@@ -7,6 +7,8 @@ import { createRef, debounce, invariant } from '@algolia/autocomplete-shared';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
 import { createEffectWrapper } from './createEffectWrapper';
+import { createReactiveWrapper } from './createReactiveWrapper';
+import { getDefaultOptions } from './getDefaultOptions';
 import { getPanelPositionStyle } from './getPanelPositionStyle';
 import { render } from './render';
 import {
@@ -15,46 +17,29 @@ import {
   AutocompletePropGetters,
   AutocompleteState,
 } from './types';
-import { getHTMLElement, setProperties } from './utils';
+import { getHTMLElement, mergeDeep, setProperties } from './utils';
 
-function defaultRenderer({ root, sections }) {
-  for (const section of sections) {
-    root.appendChild(section);
-  }
-}
+export function autocomplete<TItem extends BaseItem>(
+  options: AutocompleteOptions<TItem>
+): AutocompleteApi<TItem> {
+  const { runEffect, cleanupEffects, runEffects } = createEffectWrapper();
+  const { reactive, runReactives } = createReactiveWrapper();
 
-export function autocomplete<TItem extends BaseItem>({
-  container,
-  panelContainer = document.body,
-  render: renderer = defaultRenderer,
-  panelPlacement = 'input-wrapper-width',
-  classNames = {},
-  getEnvironmentProps = ({ props }) => props,
-  getFormProps = ({ props }) => props,
-  getInputProps = ({ props }) => props,
-  getItemProps = ({ props }) => props,
-  getLabelProps = ({ props }) => props,
-  getListProps = ({ props }) => props,
-  getPanelProps = ({ props }) => props,
-  getRootProps = ({ props }) => props,
-  ...props
-}: AutocompleteOptions<TItem>): AutocompleteApi<TItem> {
-  const { runEffect, cleanupEffects } = createEffectWrapper();
+  const optionsRef = createRef(options);
   const onStateChangeRef = createRef<
-    | ((params: {
-        state: AutocompleteState<TItem>;
-        prevState: AutocompleteState<TItem>;
-      }) => void)
-    | undefined
+    AutocompleteOptions<TItem>['onStateChange']
   >(undefined);
-  const autocomplete = createAutocomplete<TItem>({
-    ...props,
-    onStateChange(options) {
-      onStateChangeRef.current?.(options as any);
-      props.onStateChange?.(options);
-    },
-  });
-  const initialState: AutocompleteState<TItem> = {
+  const props = reactive(() => getDefaultOptions(optionsRef.current));
+  const autocomplete = reactive(() =>
+    createAutocomplete<TItem>({
+      ...props.current.core,
+      onStateChange(options) {
+        onStateChangeRef.current?.(options as any);
+        props.current.core.onStateChange?.(options as any);
+      },
+    })
+  );
+  const lastStateRef = createRef<AutocompleteState<TItem>>({
     collections: [],
     completion: null,
     context: {},
@@ -62,52 +47,55 @@ export function autocomplete<TItem extends BaseItem>({
     query: '',
     selectedItemId: null,
     status: 'idle',
-    ...props.initialState,
-  };
-
-  const propGetters: AutocompletePropGetters<TItem> = {
-    getEnvironmentProps,
-    getFormProps,
-    getInputProps,
-    getItemProps,
-    getLabelProps,
-    getListProps,
-    getPanelProps,
-    getRootProps,
-  };
-  const autocompleteScopeApi: AutocompleteScopeApi<TItem> = {
-    setSelectedItemId: autocomplete.setSelectedItemId,
-    setQuery: autocomplete.setQuery,
-    setCollections: autocomplete.setCollections,
-    setIsOpen: autocomplete.setIsOpen,
-    setStatus: autocomplete.setStatus,
-    setContext: autocomplete.setContext,
-    refresh: autocomplete.refresh,
-  };
-  const dom = createAutocompleteDom({
-    state: initialState,
-    autocomplete,
-    classNames,
-    propGetters,
-    autocompleteScopeApi,
+    ...props.current.core.initialState,
   });
 
+  const propGetters: AutocompletePropGetters<TItem> = {
+    getEnvironmentProps: props.current.renderer.getEnvironmentProps,
+    getFormProps: props.current.renderer.getFormProps,
+    getInputProps: props.current.renderer.getInputProps,
+    getItemProps: props.current.renderer.getItemProps,
+    getLabelProps: props.current.renderer.getLabelProps,
+    getListProps: props.current.renderer.getListProps,
+    getPanelProps: props.current.renderer.getPanelProps,
+    getRootProps: props.current.renderer.getRootProps,
+  };
+  const autocompleteScopeApi: AutocompleteScopeApi<TItem> = {
+    setSelectedItemId: autocomplete.current.setSelectedItemId,
+    setQuery: autocomplete.current.setQuery,
+    setCollections: autocomplete.current.setCollections,
+    setIsOpen: autocomplete.current.setIsOpen,
+    setStatus: autocomplete.current.setStatus,
+    setContext: autocomplete.current.setContext,
+    refresh: autocomplete.current.refresh,
+  };
+
+  const dom = reactive(() =>
+    createAutocompleteDom({
+      state: lastStateRef.current,
+      autocomplete: autocomplete.current,
+      classNames: props.current.renderer.classNames,
+      propGetters,
+      autocompleteScopeApi,
+    })
+  );
+
   function setPanelPosition() {
-    setProperties(dom.panel, {
+    setProperties(dom.current.panel, {
       style: getPanelPositionStyle({
-        panelPlacement,
-        container: dom.root,
-        form: dom.form,
-        environment: props.environment,
+        panelPlacement: props.current.renderer.panelPlacement,
+        container: dom.current.root,
+        form: dom.current.form,
+        environment: props.current.core.environment,
       }),
     });
   }
 
   runEffect(() => {
-    const environmentProps = autocomplete.getEnvironmentProps({
-      formElement: dom.form,
-      panelElement: dom.panel,
-      inputElement: dom.input,
+    const environmentProps = autocomplete.current.getEnvironmentProps({
+      formElement: dom.current.form,
+      panelElement: dom.current.panel,
+      inputElement: dom.current.input,
     });
 
     setProperties(window as any, environmentProps);
@@ -126,45 +114,54 @@ export function autocomplete<TItem extends BaseItem>({
   });
 
   runEffect(() => {
-    const panelRoot = getHTMLElement(panelContainer);
-    render(renderer, {
-      state: initialState,
-      autocomplete,
-      propGetters,
-      dom,
-      classNames,
-      panelRoot,
-      autocompleteScopeApi,
-    });
+    const containerElement = getHTMLElement(props.current.renderer.container);
+    invariant(
+      containerElement.tagName !== 'INPUT',
+      'The `container` option does not support `input` elements. You need to change the container to a `div`.'
+    );
+    containerElement.appendChild(dom.current.root);
 
-    return () => {};
+    return () => {
+      containerElement.removeChild(dom.current.root);
+    };
   });
 
   runEffect(() => {
-    const panelRoot = getHTMLElement(panelContainer);
-    const unmountRef = createRef<(() => void) | undefined>(undefined);
-    // This batches state changes to limit DOM mutations.
-    // Every time we call a setter in `autocomplete-core` (e.g., in `onInput`),
-    // the core `onStateChange` function is called.
-    // We don't need to be notified of all these state changes to render.
-    // As an example:
-    //  - without debouncing: "iphone case" query → 85 renders
-    //  - with debouncing: "iphone case" query → 12 renders
-    const debouncedOnStateChange = debounce<{
+    const panelElement = getHTMLElement(props.current.renderer.panelContainer);
+    render(props.current.renderer.render, {
+      state: lastStateRef.current,
+      autocomplete: autocomplete.current,
+      propGetters,
+      dom: dom.current,
+      classNames: props.current.renderer.classNames,
+      panelRoot: panelElement,
+      autocompleteScopeApi,
+    });
+
+    return () => {
+      if (panelElement.contains(dom.current.panel)) {
+        panelElement.removeChild(dom.current.panel);
+      }
+    };
+  });
+
+  runEffect(() => {
+    const debouncedRender = debounce<{
       state: AutocompleteState<TItem>;
     }>(({ state }) => {
-      unmountRef.current = render(renderer, {
+      lastStateRef.current = state;
+      render(props.current.renderer.render, {
         state,
-        autocomplete,
+        autocomplete: autocomplete.current,
         propGetters,
-        dom,
-        classNames,
-        panelRoot,
+        dom: dom.current,
+        classNames: props.current.renderer.classNames,
+        panelRoot: getHTMLElement(props.current.renderer.panelContainer),
         autocompleteScopeApi,
       });
     }, 0);
 
-    onStateChangeRef.current = ({ prevState, state }) => {
+    onStateChangeRef.current = ({ state, prevState }) => {
       // The outer DOM might have changed since the last time the panel was
       // positioned. The layout might have shifted vertically for instance.
       // It's therefore safer to re-calculate the panel position before opening
@@ -173,33 +170,18 @@ export function autocomplete<TItem extends BaseItem>({
         setPanelPosition();
       }
 
-      return debouncedOnStateChange({ state });
+      debouncedRender({ state });
     };
 
     return () => {
-      unmountRef.current?.();
       onStateChangeRef.current = undefined;
-    };
-  });
-
-  runEffect(() => {
-    const containerElement = getHTMLElement(container);
-    invariant(
-      containerElement.tagName !== 'INPUT',
-      'The `container` option does not support `input` elements. You need to change the container to a `div`.'
-    );
-    containerElement.appendChild(dom.root);
-
-    return () => {
-      containerElement.removeChild(dom.root);
     };
   });
 
   runEffect(() => {
     const onResize = debounce<Event>(() => {
       setPanelPosition();
-    }, 100);
-
+    }, 20);
     window.addEventListener('resize', onResize);
 
     return () => {
@@ -207,14 +189,45 @@ export function autocomplete<TItem extends BaseItem>({
     };
   });
 
-  requestAnimationFrame(() => {
-    setPanelPosition();
+  runEffect(() => {
+    requestAnimationFrame(setPanelPosition);
+
+    return () => {};
   });
+
+  function destroy() {
+    cleanupEffects();
+  }
+
+  function update(updatedOptions: Partial<AutocompleteOptions<TItem>> = {}) {
+    cleanupEffects();
+
+    optionsRef.current = mergeDeep(
+      props.current.renderer,
+      props.current.core,
+      { initialState: lastStateRef.current },
+      updatedOptions
+    );
+
+    runReactives();
+    runEffects();
+
+    autocomplete.current.refresh().then(() => {
+      render(props.current.renderer.render, {
+        state: lastStateRef.current,
+        autocomplete: autocomplete.current,
+        propGetters,
+        dom: dom.current,
+        classNames: props.current.renderer.classNames,
+        panelRoot: getHTMLElement(props.current.renderer.panelContainer),
+        autocompleteScopeApi,
+      });
+    });
+  }
 
   return {
     ...autocompleteScopeApi,
-    destroy() {
-      cleanupEffects();
-    },
+    update,
+    destroy,
   };
 }
