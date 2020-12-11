@@ -34,7 +34,6 @@ type CreateDomProps<TItem extends BaseItem> = {
   classNames: Partial<AutocompleteClassNames>;
   isTouch: boolean;
   placeholder?: string;
-  onTouchOverlayClose(): void;
   autocomplete: AutocompleteCoreApi<TItem>;
   state: AutocompleteState<TItem>;
   propGetters: AutocompletePropGetters<TItem>;
@@ -44,7 +43,6 @@ type CreateDomProps<TItem extends BaseItem> = {
 export function createAutocompleteDom<TItem extends BaseItem>({
   isTouch,
   placeholder = 'Search',
-  onTouchOverlayClose,
   autocomplete,
   classNames,
   propGetters,
@@ -78,7 +76,8 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     onTouchEscape: isTouch
       ? () => {
           document.body.removeChild(touchOverlay);
-          onTouchOverlayClose();
+          autocomplete.setQuery('');
+          autocomplete.refresh();
         }
       : undefined,
   });

@@ -83,10 +83,6 @@ export function autocomplete<TItem extends BaseItem>(
       classNames: props.value.renderer.classNames,
       propGetters,
       autocompleteScopeApi,
-      onTouchOverlayClose() {
-        autocomplete.value.setQuery('');
-        autocomplete.value.refresh();
-      },
     })
   );
 
