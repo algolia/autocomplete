@@ -45,7 +45,7 @@ describe('debounce', () => {
     setTimeout(() => {
       debouncedFn('hello2');
       expect(fn).toHaveBeenCalledTimes(0);
-    }, 9);
+    }, 8);
 
     setTimeout(() => {
       debouncedFn('hello3');
@@ -56,6 +56,6 @@ describe('debounce', () => {
       expect(fn).toHaveBeenCalledTimes(1);
       expect(fn).toHaveBeenCalledWith('hello3');
       done();
-    }, 39);
+    }, 40);
   });
 });
