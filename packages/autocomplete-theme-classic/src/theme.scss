@@ -39,7 +39,7 @@
 .aa-TouchSearchButton {
   border: 1px solid #d6d6e7;
   border-radius: 3px;
-  box-shadow: rgba(119, 122, 175, 0.3) 0 1px 4px 0 inset;
+  box-shadow: rgb(119 122 175 / 30%) 0 1px 4px 0 inset;
   font: inherit;
 }
 
@@ -73,7 +73,7 @@
 
   &:focus {
     border-color: #3c4fe0;
-    box-shadow: rgba(35, 38, 59, 0.05) 0 1px 0 0;
+    box-shadow: rgb(35 38 59 / 5%) 0 1px 0 0;
     outline: currentColor none medium;
   }
 }
