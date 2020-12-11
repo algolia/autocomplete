@@ -53,6 +53,8 @@ export function getPropGetters<
           return;
         }
 
+        // @TODO: support cases where there are multiple Autocomplete instances.
+        // Right now, a second instance makes this computation return false.
         const isTargetWithinAutocomplete = [
           getterProps.formElement,
           getterProps.panelElement,
