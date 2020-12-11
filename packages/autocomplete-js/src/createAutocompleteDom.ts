@@ -55,6 +55,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
 }: CreateDomProps<TItem>): CreateAutocompleteDomReturn {
   function onTouchOverlayClose() {
     autocomplete.setQuery('');
+    autocomplete.setIsOpen(false);
     autocomplete.refresh();
   }
 
