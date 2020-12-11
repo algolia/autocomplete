@@ -31,6 +31,7 @@ autocomplete({
   container: '#autocomplete',
   openOnFocus: true,
   debug: true,
+  placeholder: 'Search',
   plugins: [
     algoliaInsightsPlugin,
     recentSearchesPlugin,
