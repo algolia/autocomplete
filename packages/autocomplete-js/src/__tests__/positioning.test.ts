@@ -51,23 +51,23 @@ const querySuggestionsFixturePlugin: AutocompletePlugin<
 describe('Panel positioning', () => {
   const rootPosition = {
     bottom: 0,
-    height: 40,
+    height: 20,
     left: 300,
     right: 990,
     top: 20,
     width: 600,
     x: 300,
-    y: 40,
+    y: 20,
   };
   const formPosition = {
     bottom: 0,
-    height: 40,
+    height: 20,
     left: 300,
     right: 990,
     top: 20,
     width: 600,
     x: 300,
-    y: 40,
+    y: 20,
   };
 
   beforeAll(() => {
@@ -100,6 +100,11 @@ describe('Panel positioning', () => {
     });
 
     const root = document.querySelector<HTMLDivElement>('.aa-Autocomplete');
+    Object.defineProperty(root, 'offsetTop', {
+      writable: true,
+      configurable: true,
+      value: 40,
+    });
     root.getBoundingClientRect = jest.fn().mockReturnValue(rootPosition);
     const form = document.querySelector<HTMLFormElement>('.aa-Form');
     form.getBoundingClientRect = jest.fn().mockReturnValue(formPosition);
@@ -130,6 +135,11 @@ describe('Panel positioning', () => {
 
     const root = document.querySelector<HTMLDivElement>('.aa-Autocomplete');
     root.getBoundingClientRect = jest.fn().mockReturnValue(rootPosition);
+    Object.defineProperty(root, 'offsetTop', {
+      writable: true,
+      configurable: true,
+      value: 40,
+    });
     const form = document.querySelector<HTMLFormElement>('.aa-Form');
     form.getBoundingClientRect = jest.fn().mockReturnValue(formPosition);
 
@@ -147,15 +157,16 @@ describe('Panel positioning', () => {
     input.blur();
 
     // Move the root vertically
-    root.getBoundingClientRect = jest.fn().mockReturnValue({
-      ...rootPosition,
-      top: 40,
+    Object.defineProperty(root, 'offsetTop', {
+      writable: true,
+      configurable: true,
+      value: 90,
     });
 
     input.focus();
 
     expect(getByTestId(panelContainer, 'panel')).toHaveStyle({
-      top: '80px',
+      top: '110px',
       left: '300px',
       right: '1020px',
     });

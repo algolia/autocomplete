@@ -76,6 +76,7 @@ export type GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (props: {
   autoComplete: 'on' | 'off';
   autoCorrect: 'on' | 'off';
   autoCapitalize: 'on' | 'off';
+  enterKeyHint: 'go' | 'search';
   spellCheck: 'false';
   maxLength: number;
   type: 'search';

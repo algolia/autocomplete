@@ -16,3 +16,12 @@ body {
   padding: 1rem;
   width: 100%;
 }
+
+.content p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.content img {
+  max-width: 100%;
+}

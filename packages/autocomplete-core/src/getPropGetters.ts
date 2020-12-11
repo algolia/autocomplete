@@ -53,6 +53,8 @@ export function getPropGetters<
           return;
         }
 
+        // @TODO: support cases where there are multiple Autocomplete instances.
+        // Right now, a second instance makes this computation return false.
         const isTargetWithinAutocomplete = [
           getterProps.formElement,
           getterProps.panelElement,
@@ -180,6 +182,7 @@ export function getPropGetters<
 
     const isTouchDevice = 'ontouchstart' in props.environment;
     const { inputElement, maxLength = 512, ...rest } = providedProps || {};
+    const selectedItem = getSelectedItem(store.getState());
 
     return {
       'aria-autocomplete': 'both',
@@ -194,6 +197,7 @@ export function getPropGetters<
       autoComplete: 'off',
       autoCorrect: 'off',
       autoCapitalize: 'off',
+      enterKeyHint: selectedItem?.itemUrl ? 'go' : 'search',
       spellCheck: 'false',
       autoFocus: props.autoFocus,
       placeholder: props.placeholder,
