@@ -180,6 +180,7 @@ export function getPropGetters<
 
     const isTouchDevice = 'ontouchstart' in props.environment;
     const { inputElement, maxLength = 512, ...rest } = providedProps || {};
+    const selectedItem = getSelectedItem(store.getState());
 
     return {
       'aria-autocomplete': 'both',
@@ -194,6 +195,7 @@ export function getPropGetters<
       autoComplete: 'off',
       autoCorrect: 'off',
       autoCapitalize: 'off',
+      enterKeyHint: selectedItem?.itemUrl ? 'go' : 'search',
       spellCheck: 'false',
       autoFocus: props.autoFocus,
       placeholder: props.placeholder,

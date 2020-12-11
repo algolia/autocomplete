@@ -249,6 +249,48 @@ describe('getInputProps', () => {
     expect(inputProps.type).toEqual('search');
   });
 
+  test('returns enterKeyHint "search" without item URL', () => {
+    const { getInputProps, inputElement } = createPlayground(
+      createAutocomplete,
+      {
+        defaultSelectedItemId: 0,
+        initialState: {
+          collections: [
+            createCollection({
+              items: [{ label: '1' }, { label: '2' }],
+            }),
+          ],
+        },
+      }
+    );
+    const inputProps = getInputProps({ inputElement });
+
+    expect(inputProps.enterKeyHint).toEqual('search');
+  });
+
+  test('returns enterKeyHint "go" with item URL', () => {
+    const { getInputProps, inputElement } = createPlayground(
+      createAutocomplete,
+      {
+        defaultSelectedItemId: 0,
+        initialState: {
+          collections: [
+            createCollection({
+              source: { getItemUrl: ({ item }) => item.url },
+              items: [
+                { label: '1', url: '#1' },
+                { label: '2', url: '#2' },
+              ],
+            }),
+          ],
+        },
+      }
+    );
+    const inputProps = getInputProps({ inputElement });
+
+    expect(inputProps.enterKeyHint).toEqual('go');
+  });
+
   describe('onChange', () => {
     test('sets the query', () => {
       const onStateChange = jest.fn();
