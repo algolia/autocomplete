@@ -49,6 +49,11 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   state,
   autocompleteScopeApi,
 }: CreateDomProps<TItem>): AutocompleteDom {
+  function onTouchOverlayClose() {
+    autocomplete.setQuery('');
+    autocomplete.refresh();
+  }
+
   const rootProps = propGetters.getRootProps({
     state,
     props: autocomplete.getRootProps({}),
@@ -76,8 +81,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     onTouchEscape: isTouch
       ? () => {
           document.body.removeChild(touchOverlay);
-          autocomplete.setQuery('');
-          autocomplete.refresh();
+          onTouchOverlayClose();
         }
       : undefined,
   });
