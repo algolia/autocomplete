@@ -7,8 +7,10 @@ type InputWrapperProps = WithClassNames<{}>;
 
 export const InputWrapper: Component<InputWrapperProps, HTMLDivElement> = ({
   classNames,
+  ...props
 }) => {
   return Element<'div'>('div', {
-    class: concatClassNames(['aa-InputWrapper', classNames.inputWrapper]),
+    ...props,
+    class: concatClassNames('aa-InputWrapper', classNames.inputWrapper),
   });
 };

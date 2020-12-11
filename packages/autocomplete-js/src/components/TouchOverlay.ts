@@ -11,6 +11,6 @@ export const TouchOverlay: Component<TouchOverlayProps, HTMLDivElement> = ({
 }) => {
   return Element<'div'>('div', {
     ...props,
-    class: concatClassNames(['aa-TouchOverlay', classNames.touchOverlay]),
+    class: concatClassNames('aa-TouchOverlay', classNames.touchOverlay),
   });
 };

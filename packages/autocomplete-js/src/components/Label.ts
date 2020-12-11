@@ -13,10 +13,8 @@ export const Label: Component<LabelProps, HTMLLabelElement> = ({
   classNames,
   ...props
 }) => {
-  const element = Element<'label'>('label', {
+  return Element<'label'>('label', {
     ...props,
-    class: concatClassNames(['aa-Label', classNames.label]),
+    class: concatClassNames('aa-Label', classNames.label),
   });
-
-  return element;
 };

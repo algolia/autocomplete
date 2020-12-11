@@ -15,7 +15,7 @@ export const Panel: Component<PanelProps, HTMLDivElement> = ({
 }) => {
   const element = Element<'div'>('div', {
     ...props,
-    class: concatClassNames(['aa-Panel', classNames.panel]),
+    class: concatClassNames('aa-Panel', classNames.panel),
   });
 
   if (__TEST__) {

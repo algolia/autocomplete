@@ -15,6 +15,6 @@ export const Root: Component<RootProps, HTMLDivElement> = ({
 }) => {
   return Element<'div'>('div', {
     ...props,
-    class: concatClassNames(['aa-Autocomplete', classNames.root]),
+    class: concatClassNames('aa-Autocomplete', classNames.root),
   });
 };

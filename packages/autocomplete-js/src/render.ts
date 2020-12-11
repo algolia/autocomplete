@@ -23,27 +23,23 @@ import {
 import { setProperties, setPropertiesWithoutEvents } from './utils';
 
 type RenderProps<TItem extends BaseItem> = {
-  state: AutocompleteState<TItem>;
-  classNames: Partial<AutocompleteClassNames>;
-  panelContainer: HTMLElement;
   autocomplete: AutocompleteCoreApi<TItem>;
-  propGetters: AutocompletePropGetters<TItem>;
-  dom: AutocompleteDom;
   autocompleteScopeApi: AutocompleteScopeApi<TItem>;
+  classNames: Partial<AutocompleteClassNames>;
+  dom: AutocompleteDom;
+  isTouch: boolean;
+  panelContainer: HTMLElement;
+  propGetters: AutocompletePropGetters<TItem>;
+  state: AutocompleteState<TItem>;
 };
 
-export function render<TItem extends BaseItem>(
-  renderer: AutocompleteRenderer<TItem>,
-  {
-    autocomplete,
-    state,
-    propGetters,
-    classNames,
-    panelContainer,
-    dom,
-    autocompleteScopeApi,
-  }: RenderProps<TItem>
-): void {
+export function renderSearchBox<TItem extends BaseItem>({
+  autocomplete,
+  autocompleteScopeApi,
+  dom,
+  propGetters,
+  state,
+}: RenderProps<TItem>): void {
   setPropertiesWithoutEvents(
     dom.root,
     propGetters.getRootProps({
@@ -62,9 +58,23 @@ export function render<TItem extends BaseItem>(
     })
   );
   setPropertiesWithoutEvents(dom.resetButton, { hidden: !state.query });
-  setProperties(dom.submitButton, { hidden: state.status === 'stalled' });
+  setProperties(dom.label, { hidden: state.status === 'stalled' });
   setProperties(dom.loadingIndicator, { hidden: state.status !== 'stalled' });
+}
 
+export function renderPanel<TItem extends BaseItem>(
+  renderer: AutocompleteRenderer<TItem>,
+  {
+    autocomplete,
+    autocompleteScopeApi,
+    classNames,
+    dom,
+    isTouch,
+    panelContainer,
+    propGetters,
+    state,
+  }: RenderProps<TItem>
+): void {
   dom.panel.innerHTML = '';
 
   if (!state.isOpen) {
@@ -81,10 +91,12 @@ export function render<TItem extends BaseItem>(
     panelContainer.appendChild(dom.panel);
   }
 
+  dom.panel.classList.toggle('aa-Panel--desktop', !isTouch);
+  dom.panel.classList.toggle('aa-Panel--touch', isTouch);
   dom.panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');
 
-  const sections = state.collections.map(({ source, items }) => {
-    const sectionElement = SourceContainer({ classNames });
+  const sourceElements = state.collections.map(({ source, items }) => {
+    const sourceElement = SourceContainer({ classNames });
 
     if (source.templates.header) {
       const headerElement = SourceHeader({ classNames });
@@ -96,7 +108,7 @@ export function render<TItem extends BaseItem>(
           source,
           items,
         }),
-        parent: sectionElement,
+        parent: sourceElement,
         element: headerElement,
       });
     }
@@ -130,7 +142,7 @@ export function render<TItem extends BaseItem>(
       });
 
       listElement.appendChild(listFragment);
-      sectionElement.appendChild(listElement);
+      sourceElement.appendChild(listElement);
     }
 
     if (source.templates.footer) {
@@ -145,16 +157,16 @@ export function render<TItem extends BaseItem>(
           source,
           items,
         }),
-        parent: sectionElement,
+        parent: sourceElement,
         element: footerElement,
       });
     }
 
-    return sectionElement;
+    return sourceElement;
   });
 
   const panelLayoutElement = PanelLayout({ classNames });
   dom.panel.appendChild(panelLayoutElement);
 
-  renderer({ root: panelLayoutElement, sections, state });
+  renderer({ root: panelLayoutElement, sections: sourceElements, state });
 }

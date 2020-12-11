@@ -33,6 +33,12 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * @default document.body
    */
   panelContainer?: string | HTMLElement;
+  /**
+   * The Media Query to turn Autocomplete into a touch experience.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries
+   * @default "(hover: none) and (pointer: coarse)"
+   */
   touchMediaQuery?: string;
   getSources?: (
     params: GetSourcesParams<TItem>

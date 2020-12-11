@@ -7,8 +7,10 @@ type SourceHeaderProps = WithClassNames<{}>;
 
 export const SourceHeader: Component<SourceHeaderProps, HTMLDivElement> = ({
   classNames,
+  ...props
 }) => {
   return Element<'div'>('div', {
-    class: concatClassNames(['aa-SourceHeader', classNames.sourceHeader]),
+    ...props,
+    class: concatClassNames('aa-SourceHeader', classNames.sourceHeader),
   });
 };

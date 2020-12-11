@@ -10,7 +10,7 @@ import { createEffectWrapper } from './createEffectWrapper';
 import { createReactiveWrapper } from './createReactiveWrapper';
 import { getDefaultOptions } from './getDefaultOptions';
 import { getPanelPositionStyle } from './getPanelPositionStyle';
-import { render } from './render';
+import { renderPanel, renderSearchBox } from './render';
 import {
   AutocompleteApi,
   AutocompleteOptions,
@@ -104,15 +104,21 @@ export function autocomplete<TItem extends BaseItem>(
   }
 
   function runRender() {
-    render(props.value.renderer.render, {
+    const renderProps = {
+      isTouch: isTouch.value,
       state: lastStateRef.current,
       autocomplete: autocomplete.value,
       propGetters,
       dom: dom.value,
       classNames: props.value.renderer.classNames,
-      panelContainer: props.value.renderer.panelContainer,
+      panelContainer: isTouch.value
+        ? dom.value.touchOverlay
+        : props.value.renderer.panelContainer,
       autocompleteScopeApi,
-    });
+    };
+
+    renderSearchBox(renderProps);
+    renderPanel(props.value.renderer.render, renderProps);
   }
 
   function scheduleRender(state: AutocompleteState<TItem>) {
@@ -147,19 +153,6 @@ export function autocomplete<TItem extends BaseItem>(
   });
 
   runEffect(() => {
-    const containerElement = props.value.renderer.container;
-    invariant(
-      containerElement.tagName !== 'INPUT',
-      'The `container` option does not support `input` elements. You need to change the container to a `div`.'
-    );
-    containerElement.appendChild(dom.value.root);
-
-    return () => {
-      containerElement.removeChild(dom.value.root);
-    };
-  });
-
-  runEffect(() => {
     const panelContainerElement = isTouch.value
       ? dom.value.touchOverlay
       : props.value.renderer.panelContainer;
@@ -169,6 +162,19 @@ export function autocomplete<TItem extends BaseItem>(
       if (panelContainerElement.contains(dom.value.panel)) {
         panelContainerElement.removeChild(dom.value.panel);
       }
+    };
+  });
+
+  runEffect(() => {
+    const containerElement = props.value.renderer.container;
+    invariant(
+      containerElement.tagName !== 'INPUT',
+      'The `container` option does not support `input` elements. You need to change the container to a `div`.'
+    );
+    containerElement.appendChild(dom.value.root);
+
+    return () => {
+      containerElement.removeChild(dom.value.root);
     };
   });
 

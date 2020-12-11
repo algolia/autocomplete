@@ -15,6 +15,6 @@ export const SourceItem: Component<SourceItemProps, HTMLLIElement> = ({
 }) => {
   return Element<'li'>('li', {
     ...props,
-    class: concatClassNames(['aa-Item', classNames.item]),
+    class: concatClassNames('aa-Item', classNames.item),
   });
 };

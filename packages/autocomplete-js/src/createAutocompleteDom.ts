@@ -5,18 +5,23 @@ import {
 } from '@algolia/autocomplete-core';
 
 import {
-  Element,
   Form,
   Input,
   InputWrapper,
+  InputWrapperPrefix,
+  InputWrapperSuffix,
   Label,
   LoadingIndicator,
   Panel,
   ResetButton,
   Root,
   SubmitButton,
+  TouchCancelButton,
+  TouchFormContainer,
   TouchOverlay,
   TouchSearchButton,
+  TouchSearchButtonIcon,
+  TouchSearchButtonPlaceholder,
 } from './components';
 import {
   AutocompleteClassNames,
@@ -53,13 +58,17 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   });
   const root = Root({ classNames, ...rootProps });
   const touchOverlay = TouchOverlay({ classNames });
-  const inputWrapper = InputWrapper({ classNames });
+
   const labelProps = propGetters.getLabelProps({
     state,
     props: autocomplete.getLabelProps({}),
     ...autocompleteScopeApi,
   });
-  const label = Label({ classNames, ...labelProps });
+  const submitButton = SubmitButton({ classNames });
+  const label = Label({ classNames, children: [submitButton], ...labelProps });
+  const resetButton = ResetButton({ classNames });
+  const loadingIndicator = LoadingIndicator({ classNames });
+
   const input = Input({
     state,
     getInputProps: propGetters.getInputProps,
@@ -73,24 +82,30 @@ export function createAutocompleteDom<TItem extends BaseItem>({
         }
       : undefined,
   });
-  const submitButton = SubmitButton({
+
+  const inputWrapperPrefix = InputWrapperPrefix({
     classNames,
-    hidden: state.status === 'stalled',
+    children: [label, loadingIndicator],
   });
-  const resetButton = ResetButton({
+  const inputWrapperSuffix = InputWrapperSuffix({
     classNames,
-    hidden: !state.query,
+    children: [resetButton],
   });
-  const loadingIndicator = LoadingIndicator({
+  const inputWrapper = InputWrapper({
     classNames,
-    hidden: state.status !== 'stalled',
+    children: [input],
   });
+
   const formProps = propGetters.getFormProps({
     state,
     props: autocomplete.getFormProps({ inputElement: input }),
     ...autocompleteScopeApi,
   });
-  const form = Form({ classNames, ...formProps });
+  const form = Form({
+    classNames,
+    children: [inputWrapperPrefix, inputWrapper, inputWrapperSuffix],
+    ...formProps,
+  });
   const panelProps = propGetters.getPanelProps({
     state,
     props: autocomplete.getPanelProps({}),
@@ -98,43 +113,33 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   });
   const panel = Panel({ classNames, ...panelProps });
 
-  label.appendChild(submitButton);
-  inputWrapper.appendChild(input);
-  inputWrapper.appendChild(label);
-  inputWrapper.appendChild(resetButton);
-  inputWrapper.appendChild(loadingIndicator);
-  form.appendChild(inputWrapper);
-
   if (isTouch) {
-    const touchFormContainer = Element('div', {
-      class: 'aa-TouchFormContainer',
-    });
-    const touchCancelButton = Element('button', {
-      textContent: 'Cancel',
-      class: 'aa-TouchCancelButton',
-      onClick() {
-        document.body.removeChild(touchOverlay);
-        onTouchOverlayClose();
-      },
+    const touchSearchButtonIcon = TouchSearchButtonIcon({ classNames });
+    const touchSearchButtonPlaceholder = TouchSearchButtonPlaceholder({
+      classNames,
+      textContent: placeholder,
     });
     const touchSearchButton = TouchSearchButton({
       classNames,
       onClick(event: MouseEvent) {
         event.preventDefault();
-        // todo: use panel container
         document.body.appendChild(touchOverlay);
         input.focus();
       },
+      children: [touchSearchButtonIcon, touchSearchButtonPlaceholder],
     });
-    const touchSearchButtonPlaceholder = Element('div', {
-      textContent: placeholder,
-      class: 'aa-TouchSearchButtonPlaceholder',
+    const touchCancelButton = TouchCancelButton({
+      classNames,
+      onClick() {
+        document.body.removeChild(touchOverlay);
+        onTouchOverlayClose();
+      },
+    });
+    const touchFormContainer = TouchFormContainer({
+      classNames,
+      children: [form, touchCancelButton],
     });
 
-    touchSearchButton.appendChild(label.cloneNode(true));
-    touchSearchButton.appendChild(touchSearchButtonPlaceholder);
-    touchFormContainer.appendChild(form);
-    touchFormContainer.appendChild(touchCancelButton);
     touchOverlay.appendChild(touchFormContainer);
     root.appendChild(touchSearchButton);
   } else {

@@ -1,73 +1,60 @@
-.aa-TouchOverlay {
-  backdrop-filter: blur(16px);
-  background: rgb(255 255 255 / 0.92);
-  bottom: 0;
-  left: 0;
-
-  /* background: rgb(255 255 255 / 85%);
-  backdrop-filter: blur(3px); */
-  padding: 0.5rem;
-  position: fixed;
-  right: 0;
-  top: 0;
-}
-
-.aa-TouchFormContainer {
-  display: flex;
-  grid-gap: 0.5rem;
-  justify-content: space-between;
-}
-
-.aa-TouchCancelButton {
-  background: none;
-  border: 0;
-  color: inherit;
-  cursor: pointer;
-  font-size: inherit;
-  padding: 0;
-}
-
 .aa-Form {
   flex-grow: 1;
   margin: 0;
   position: relative;
 }
 
-.aa-Label {
+.aa-InputWrapperPrefix,
+.aa-InputWrapperSuffix {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+.aa-InputWrapperSuffix {
+  right: 0;
+}
+
+.aa-Label,
+.aa-TouchSearchButtonIcon {
   align-items: center;
   color: #777;
   cursor: initial;
   display: flex;
   height: 100%;
-  position: absolute;
 }
 
-.aa-InputWrapper {
+.aa-InputWrapper,
+.aa-TouchSearchButton {
+  align-items: center;
   background-color: #fff;
-  max-width: 100%;
-  min-height: 2.5rem;
+  display: flex;
+  height: 2.5rem;
   position: relative;
   width: 100%;
 }
 
-.aa-TouchOverlay .aa-InputWrapper {
-  background-color: transparent;
+.aa-Input,
+.aa-TouchSearchButton {
+  border: 1px solid #d6d6e7;
+  border-radius: 3px;
+  box-shadow: rgba(119, 122, 175, 0.3) 0 1px 4px 0 inset;
+  font: inherit;
 }
 
-.aa-Input,
-.aa-TouchSearchButtonPlaceholder {
-  padding: 0 2.25rem;
+.aa-TouchSearchButton {
+  color: #5a5e9a;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
 }
 
 .aa-Input {
   appearance: none;
   background: none;
-  border: 1px solid #d6d6e7;
-  border-radius: 3px;
-  box-shadow: rgba(119, 122, 175, 0.3) 0 1px 4px 0 inset;
   caret-color: #5a5e9a;
   color: #23263b;
-  font: inherit;
   height: 100%;
   padding: 0 2.25rem;
   position: absolute;
@@ -93,7 +80,8 @@
 
 .aa-SubmitButton,
 .aa-ResetButton,
-.aa-LoadingIndicator {
+.aa-LoadingIndicator,
+.aa-TouchSearchButtonIcon {
   height: 100%;
   padding: 0 0.5rem;
 }
@@ -103,26 +91,6 @@
   background: none;
   border: 0;
   cursor: pointer;
-}
-
-.aa-ResetButton {
-  position: absolute;
-  right: 0;
-}
-
-.aa-TouchSearchButton {
-  align-items: center;
-  background-color: #fff;
-  border: 2px solid #ddd;
-  border-radius: 3px;
-  color: inherit;
-  cursor: pointer;
-  display: flex;
-  font: inherit;
-  max-width: 100%;
-  min-height: 2.5rem;
-  position: relative;
-  width: 100%;
 }
 
 .aa-LoadingIndicator {
@@ -135,38 +103,38 @@
 }
 
 .aa-Panel {
-  max-width: 480px;
-  position: absolute;
-  width: 100%;
+  .aa-PanelLayout {
+    margin-top: 5px;
+  }
 
-  &--stalled {
-    filter: grayscale(1);
-    opacity: 0.5;
-    transition: opacity 200ms ease-in;
-    @media screen and (prefers-reduced-motion: reduce) {
-      transition: none;
+  &--desktop {
+    max-width: 480px;
+    position: absolute;
+    width: 100%;
+
+    &--stalled {
+      filter: grayscale(1);
+      opacity: 0.5;
+      transition: opacity 200ms ease-in;
+      @media screen and (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
+    }
+
+    .aa-PanelLayout {
+      background-color: #fff;
+      border: 1px solid rgba(150, 150, 150, 0.16);
+      border-radius: 3px;
+      box-shadow: 0 0 0 1px rgba(35, 38, 59, 0.05),
+        0 8px 16px -4px rgba(35, 38, 59, 0.25);
     }
   }
-}
 
-.aa-TouchOverlay .aa-Panel {
-  position: relative;
-}
-
-.aa-PanelLayout {
-  background-color: #fff;
-  border: 1px solid rgba(150, 150, 150, 0.16);
-  border-radius: 3px;
-  box-shadow: 0 0 0 1px rgba(35, 38, 59, 0.05),
-    0 8px 16px -4px rgba(35, 38, 59, 0.25);
-  margin-top: 5px;
-}
-
-.aa-TouchOverlay .aa-PanelLayout {
-  background-color: transparent;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
+  &--touch {
+    .aa-Item {
+      border-radius: 5px;
+    }
+  }
 }
 
 .aa-List {
@@ -183,15 +151,7 @@
   justify-content: space-between;
 }
 
-.aa-TouchOverlay .aa-Item {
-  border-radius: 5px;
-}
-
-.aa-Item mark {
-  background: none;
-  font-style: normal;
-  font-weight: bold;
-
+.aa-Item {
   mark {
     background: none;
     font-style: normal;
@@ -208,10 +168,6 @@
   color: inherit;
   text-decoration: none;
 }
-
-/* .aa-TouchOverlay .aa-Item[aria-selected='true'] {
-  background-color: rgba(255, 255, 255, 1);
-} */
 
 .aa-ItemContent {
   display: flex;
@@ -240,4 +196,30 @@
   &:focus {
     color: rgba(80, 80, 80, 1);
   }
+}
+
+.aa-TouchOverlay {
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.95);
+  bottom: 0;
+  left: 0;
+  padding: 0.5rem;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+
+.aa-TouchFormContainer {
+  display: flex;
+  grid-gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.aa-TouchCancelButton {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font-size: inherit;
+  padding: 0;
 }

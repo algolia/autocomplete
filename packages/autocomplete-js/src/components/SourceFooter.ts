@@ -7,8 +7,10 @@ type SourceFooterProps = WithClassNames<{}>;
 
 export const SourceFooter: Component<SourceFooterProps, HTMLDivElement> = ({
   classNames,
+  ...props
 }) => {
   return Element<'div'>('div', {
-    class: concatClassNames(['aa-SourceFooter', classNames.sourceFooter]),
+    ...props,
+    class: concatClassNames('aa-SourceFooter', classNames.sourceFooter),
   });
 };

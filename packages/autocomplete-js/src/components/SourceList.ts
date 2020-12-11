@@ -15,6 +15,6 @@ export const SourceList: Component<SourceListProps, HTMLUListElement> = ({
 }) => {
   return Element<'ul'>('ul', {
     ...props,
-    class: concatClassNames(['aa-List', classNames.list]),
+    class: concatClassNames('aa-List', classNames.list),
   });
 };

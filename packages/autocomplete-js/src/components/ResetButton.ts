@@ -4,21 +4,17 @@ import { concatClassNames } from '../utils';
 import { Element } from './Element';
 import { ResetIcon } from './ResetIcon';
 
-type ResetButtonProps = WithClassNames<{
-  hidden: boolean;
-}>;
+type ResetButtonProps = WithClassNames<{}>;
 
 export const ResetButton: Component<ResetButtonProps, HTMLButtonElement> = ({
   classNames,
+  children = [],
   ...props
 }) => {
-  const element = Element<'button'>('button', {
-    type: 'reset',
-    class: concatClassNames(['aa-ResetButton', classNames.resetButton]),
+  return Element<'button'>('button', {
     ...props,
+    type: 'reset',
+    class: concatClassNames('aa-ResetButton', classNames.resetButton),
+    children: [ResetIcon({}), ...children],
   });
-
-  element.appendChild(ResetIcon({}));
-
-  return element;
 };

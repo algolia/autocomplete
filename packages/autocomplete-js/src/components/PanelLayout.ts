@@ -11,6 +11,6 @@ export const PanelLayout: Component<PanelLayoutProps, HTMLDivElement> = ({
 }) => {
   return Element<'div'>('div', {
     ...props,
-    class: concatClassNames(['aa-PanelLayout', classNames.panelLayout]),
+    class: concatClassNames('aa-PanelLayout', classNames.panelLayout),
   });
 };

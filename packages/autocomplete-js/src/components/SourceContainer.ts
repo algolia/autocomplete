@@ -7,8 +7,10 @@ type SourceContainerProps = WithClassNames<{}>;
 
 export const SourceContainer: Component<SourceContainerProps, HTMLElement> = ({
   classNames,
+  ...props
 }) => {
   return Element<'section'>('section', {
-    class: concatClassNames(['aa-Source', classNames.source]),
+    ...props,
+    class: concatClassNames('aa-Source', classNames.source),
   });
 };

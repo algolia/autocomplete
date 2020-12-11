@@ -15,6 +15,6 @@ export const Form: Component<FormProps, HTMLFormElement> = ({
 }) => {
   return Element<'form'>('form', {
     ...props,
-    class: concatClassNames(['aa-Form', classNames.form]),
+    class: concatClassNames('aa-Form', classNames.form),
   });
 };

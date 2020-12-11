@@ -1,24 +1,20 @@
 import { Component, WithClassNames } from '../types/Component';
-import { concatClassNames, setProperties } from '../utils';
+import { concatClassNames } from '../utils';
 
+import { Element } from './Element';
 import { SearchIcon } from './SearchIcon';
 
-type SubmitButtonProps = WithClassNames<{
-  hidden: boolean;
-}>;
+type SubmitButtonProps = WithClassNames<{}>;
 
 export const SubmitButton: Component<SubmitButtonProps, HTMLButtonElement> = ({
   classNames,
+  children = [],
   ...props
 }) => {
-  const element = document.createElement('button');
-  setProperties(element, {
-    type: 'submit',
-    class: concatClassNames(['aa-SubmitButton', classNames.submitButton]),
+  return Element<'button'>('button', {
     ...props,
+    type: 'submit',
+    class: concatClassNames('aa-SubmitButton', classNames.submitButton),
+    children: [SearchIcon({}), ...children],
   });
-
-  element.appendChild(SearchIcon({}));
-
-  return element;
 };

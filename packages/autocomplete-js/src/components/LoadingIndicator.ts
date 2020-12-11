@@ -1,26 +1,18 @@
 import { Component, WithClassNames } from '../types/Component';
-import { concatClassNames, setProperties } from '../utils';
+import { concatClassNames } from '../utils';
 
+import { Element } from './Element';
 import { LoadingIcon } from './LoadingIcon';
 
-type LoadingIndicatorProps = WithClassNames<{
-  hidden: boolean;
-}>;
+type LoadingIndicatorProps = WithClassNames<{}>;
 
 export const LoadingIndicator: Component<
   LoadingIndicatorProps,
   HTMLDivElement
-> = ({ classNames, ...props }) => {
-  const element = document.createElement('div');
-  setProperties(element, {
-    class: concatClassNames([
-      'aa-LoadingIndicator',
-      classNames.loadingIndicator,
-    ]),
+> = ({ classNames, children = [], ...props }) => {
+  return Element<'div'>('div', {
+    class: concatClassNames('aa-LoadingIndicator', classNames.loadingIndicator),
     ...props,
+    children: [LoadingIcon({}), ...children],
   });
-
-  element.appendChild(LoadingIcon({}));
-
-  return element;
 };

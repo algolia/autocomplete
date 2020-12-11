@@ -32,7 +32,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
     render: render ?? defaultRenderer,
     panelPlacement: panelPlacement ?? 'input-wrapper-width',
     classNames: classNames ?? {},
-    touchMediaQuery: touchMediaQuery ?? '(max-width: 900px)',
+    touchMediaQuery: touchMediaQuery ?? '(hover: none) and (pointer: coarse)',
     getEnvironmentProps: getEnvironmentProps ?? (({ props }) => props),
     getFormProps: getFormProps ?? (({ props }) => props),
     getInputProps: getInputProps ?? (({ props }) => props),

@@ -3,20 +3,18 @@ import { concatClassNames } from '../utils';
 
 import { Element } from './Element';
 
-type TouchSearchButtonProps = WithClassNames<{
-  onClick(event: MouseEvent): void;
-  children: Node[];
-}>;
+type TouchCancelButtonProps = WithClassNames<{}>;
 
-export const TouchSearchButton: Component<
-  TouchSearchButtonProps,
+export const TouchCancelButton: Component<
+  TouchCancelButtonProps,
   HTMLButtonElement
 > = ({ classNames, ...props }) => {
   return Element<'button'>('button', {
     ...props,
+    textContent: 'Cancel',
     class: concatClassNames(
-      'aa-TouchSearchButton',
-      classNames.touchSearchButton
+      'aa-TouchCancelButton',
+      classNames.touchCancelButton
     ),
   });
 };

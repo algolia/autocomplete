@@ -3,5 +3,5 @@ import cssnano from 'cssnano';
 import sass from 'postcss-node-sass';
 
 export default {
-  plugins: [autoprefixer, sass, cssnano],
+  plugins: [sass, autoprefixer, cssnano],
 };

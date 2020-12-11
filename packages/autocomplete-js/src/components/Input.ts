@@ -43,6 +43,6 @@ export const Input: Component<InputProps, HTMLInputElement> = ({
 
       inputProps.onKeyDown(event);
     },
-    class: concatClassNames(['aa-Input', classNames.input]),
+    class: concatClassNames('aa-Input', classNames.input),
   });
 };
