@@ -13,10 +13,7 @@ let lastStalledId: number | null = null;
 
 interface OnInputParams<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
-  query: string;
   event: any;
-  store: AutocompleteStore<TItem>;
-  props: InternalAutocompleteOptions<TItem>;
   /**
    * The next partial state to apply after the function is called.
    *
@@ -25,34 +22,27 @@ interface OnInputParams<TItem extends BaseItem>
    * but we want to close the panel in that case.
    */
   nextState?: Partial<AutocompleteState<TItem>>;
+  props: InternalAutocompleteOptions<TItem>;
+  query: string;
+  store: AutocompleteStore<TItem>;
 }
 
 export function onInput<TItem extends BaseItem>({
-  query,
   event,
-  store,
-  props,
-  setSelectedItemId,
-  setQuery,
-  setCollections,
-  setIsOpen,
-  setStatus,
-  setContext,
   nextState = {},
+  props,
+  query,
   refresh,
+  store,
+  ...setters
 }: OnInputParams<TItem>): Promise<void> {
   if (props.onInput) {
     return Promise.resolve(
       props.onInput({
         query,
-        state: store.getState(),
-        setSelectedItemId,
-        setQuery,
-        setCollections,
-        setIsOpen,
-        setStatus,
-        setContext,
         refresh,
+        state: store.getState(),
+        ...setters,
       })
     );
   }
@@ -60,6 +50,14 @@ export function onInput<TItem extends BaseItem>({
   if (lastStalledId) {
     props.environment.clearTimeout(lastStalledId);
   }
+
+  const {
+    setCollections,
+    setIsOpen,
+    setQuery,
+    setSelectedItemId,
+    setStatus,
+  } = setters;
 
   setQuery(query);
   setSelectedItemId(props.defaultSelectedItemId);
@@ -88,14 +86,9 @@ export function onInput<TItem extends BaseItem>({
   return props
     .getSources({
       query,
-      state: store.getState(),
-      setSelectedItemId,
-      setQuery,
-      setCollections,
-      setIsOpen,
-      setStatus,
-      setContext,
       refresh,
+      state: store.getState(),
+      ...setters,
     })
     .then((sources) => {
       setStatus('loading');
@@ -106,14 +99,9 @@ export function onInput<TItem extends BaseItem>({
           return Promise.resolve(
             source.getItems({
               query,
-              state: store.getState(),
-              setSelectedItemId,
-              setQuery,
-              setCollections,
-              setIsOpen,
-              setStatus,
-              setContext,
               refresh,
+              state: store.getState(),
+              ...setters,
             })
           ).then((items) => {
             invariant(
@@ -123,10 +111,7 @@ export function onInput<TItem extends BaseItem>({
               )}:\n\n${JSON.stringify(items, null, 2)}`
             );
 
-            return {
-              source,
-              items,
-            };
+            return { source, items };
           });
         })
       )
@@ -145,19 +130,14 @@ export function onInput<TItem extends BaseItem>({
             const { item, itemInputValue, itemUrl, source } = highlightedItem;
 
             source.onHighlight({
+              event,
               item,
               itemInputValue,
               itemUrl,
+              refresh,
               source,
               state: store.getState(),
-              setSelectedItemId,
-              setQuery,
-              setCollections,
-              setIsOpen,
-              setStatus,
-              setContext,
-              refresh,
-              event,
+              ...setters,
             });
           }
         })

@@ -27,17 +27,7 @@ export function getPropGetters<
   TEvent,
   TMouseEvent,
   TKeyboardEvent
->({
-  store,
-  props,
-  setSelectedItemId,
-  setQuery,
-  setCollections,
-  setIsOpen,
-  setStatus,
-  setContext,
-  refresh,
-}: GetPropGettersOptions<TItem>) {
+>({ props, refresh, store, ...setters }: GetPropGettersOptions<TItem>) {
   const getEnvironmentProps: GetEnvironmentProps = (getterProps) => {
     return {
       // On touch devices, we do not rely on the native `blur` event of the
@@ -113,43 +103,27 @@ export function getPropGetters<
         ((event as unknown) as Event).preventDefault();
 
         props.onSubmit({
-          state: store.getState(),
-          setSelectedItemId,
-          setQuery,
-          setCollections,
-          setIsOpen,
-          setStatus,
-          setContext,
-          refresh,
           event,
+          refresh,
+          state: store.getState(),
+          ...setters,
         });
 
         store.dispatch('submit', null);
-
-        if (providedProps.inputElement) {
-          providedProps.inputElement.blur();
-        }
+        providedProps.inputElement?.blur();
       },
       onReset: (event) => {
         ((event as unknown) as Event).preventDefault();
 
         props.onReset({
-          state: store.getState(),
-          setSelectedItemId,
-          setQuery,
-          setCollections,
-          setIsOpen,
-          setStatus,
-          setContext,
-          refresh,
           event,
+          refresh,
+          state: store.getState(),
+          ...setters,
         });
 
         store.dispatch('reset', null);
-
-        if (providedProps.inputElement) {
-          providedProps.inputElement.focus();
-        }
+        providedProps.inputElement?.focus();
       },
       ...rest,
     };
@@ -163,17 +137,12 @@ export function getPropGetters<
       // because the panel should open with the current query.
       if (props.openOnFocus || store.getState().query.length > 0) {
         onInput({
-          query: store.getState().completion || store.getState().query,
           event,
-          store,
           props,
-          setSelectedItemId,
-          setQuery,
-          setCollections,
-          setIsOpen,
-          setStatus,
-          setContext,
+          query: store.getState().completion || store.getState().query,
           refresh,
+          store,
+          ...setters,
         });
       }
 
@@ -205,32 +174,22 @@ export function getPropGetters<
       type: 'search',
       onChange: (event) => {
         onInput({
+          event,
+          props,
           query: (((event as unknown) as Event)
             .currentTarget as HTMLInputElement).value.slice(0, maxLength),
-          event,
-          store,
-          props,
-          setSelectedItemId,
-          setQuery,
-          setCollections,
-          setIsOpen,
-          setStatus,
-          setContext,
           refresh,
+          store,
+          ...setters,
         });
       },
       onKeyDown: (event) => {
         onKeyDown({
           event: (event as unknown) as KeyboardEvent,
-          store,
           props,
-          setSelectedItemId,
-          setQuery,
-          setCollections,
-          setIsOpen,
-          setStatus,
-          setContext,
           refresh,
+          store,
+          ...setters,
         });
       },
       onFocus,
@@ -314,19 +273,14 @@ export function getPropGetters<
           const { item, itemInputValue, itemUrl, source } = highlightedItem;
 
           source.onHighlight({
+            event,
             item,
             itemInputValue,
             itemUrl,
+            refresh,
             source,
             state: store.getState(),
-            setSelectedItemId,
-            setQuery,
-            setCollections,
-            setIsOpen,
-            setStatus,
-            setContext,
-            refresh,
-            event,
+            ...setters,
           });
         }
       },
@@ -353,37 +307,25 @@ export function getPropGetters<
         const runPreCommand = itemUrl
           ? Promise.resolve()
           : onInput({
-              query: itemInputValue,
               event,
-              store,
+              nextState: { isOpen: false },
               props,
-              setSelectedItemId,
-              setQuery,
-              setCollections,
-              setIsOpen,
-              setStatus,
-              setContext,
+              query: itemInputValue,
               refresh,
-              nextState: {
-                isOpen: false,
-              },
+              store,
+              ...setters,
             });
 
         runPreCommand.then(() => {
           source.onSelect({
+            event,
             item,
             itemInputValue,
             itemUrl,
+            refresh,
             source,
             state: store.getState(),
-            setSelectedItemId,
-            setQuery,
-            setCollections,
-            setIsOpen,
-            setStatus,
-            setContext,
-            refresh,
-            event,
+            ...setters,
           });
         });
       },

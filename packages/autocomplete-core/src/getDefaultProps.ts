@@ -13,7 +13,7 @@ import {
 
 export function getDefaultProps<TItem extends BaseItem>(
   props: AutocompleteOptions<TItem>,
-  subscribers: AutocompleteSubscribers<TItem>
+  pluginSubscribers: AutocompleteSubscribers<TItem>
 ): InternalAutocompleteOptions<TItem> {
   const environment: InternalAutocompleteOptions<TItem>['environment'] = (typeof window !==
   'undefined'
@@ -34,6 +34,7 @@ export function getDefaultProps<TItem extends BaseItem>(
     // Since `generateAutocompleteId` triggers a side effect (it increments
     // and internal counter), we don't want to execute it if unnecessary.
     id: props.id ?? generateAutocompleteId(),
+    plugins,
     // The following props need to be deeply defaulted.
     initialState: {
       selectedItemId: null,
@@ -45,24 +46,17 @@ export function getDefaultProps<TItem extends BaseItem>(
       context: {},
       ...props.initialState,
     },
-    plugins,
     onStateChange(params) {
       props.onStateChange?.(params);
-      plugins.forEach((plugin) => {
-        plugin.onStateChange?.(params);
-      });
+      plugins.forEach((x) => x.onStateChange?.(params));
     },
     onSubmit(params) {
       props.onSubmit?.(params);
-      plugins.forEach((plugin) => {
-        plugin.onSubmit?.(params);
-      });
+      plugins.forEach((x) => x.onSubmit?.(params));
     },
     onReset(params) {
       props.onReset?.(params);
-      plugins.forEach((plugin) => {
-        plugin.onReset?.(params);
-      });
+      plugins.forEach((x) => x.onReset?.(params));
     },
     getSources(params) {
       return Promise.all(
@@ -76,15 +70,11 @@ export function getDefaultProps<TItem extends BaseItem>(
             ...source,
             onSelect(params) {
               source.onSelect(params);
-              subscribers.forEach((subscriber) => {
-                subscriber.onSelect?.(params);
-              });
+              pluginSubscribers.forEach((x) => x.onSelect?.(params));
             },
             onHighlight(params) {
               source.onHighlight(params);
-              subscribers.forEach((subscriber) => {
-                subscriber.onHighlight?.(params);
-              });
+              pluginSubscribers.forEach((x) => x.onHighlight?.(params));
             },
           }))
         );
@@ -95,10 +85,7 @@ export function getDefaultProps<TItem extends BaseItem>(
       },
       navigateNewTab({ itemUrl }) {
         const windowReference = environment.open(itemUrl, '_blank', 'noopener');
-
-        if (windowReference) {
-          windowReference.focus();
-        }
+        windowReference?.focus();
       },
       navigateNewWindow({ itemUrl }) {
         environment.open(itemUrl, '_blank', 'noopener');

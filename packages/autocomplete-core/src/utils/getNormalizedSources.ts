@@ -25,6 +25,9 @@ export function getNormalizedSources<TItem extends BaseItem>(
 
     return Promise.all(
       sources
+        // We allow `undefined` and `false` sources to allow users to use
+        // `Boolean(query) && source` (=> `false`).
+        // We need to remove these values at this point.
         .filter((maybeSource: any): maybeSource is AutocompleteSource<TItem> =>
           Boolean(maybeSource)
         )

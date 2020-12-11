@@ -10,21 +10,16 @@ import { getSelectedItem } from './utils';
 interface OnKeyDownOptions<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
   event: KeyboardEvent;
-  store: AutocompleteStore<TItem>;
   props: InternalAutocompleteOptions<TItem>;
+  store: AutocompleteStore<TItem>;
 }
 
 export function onKeyDown<TItem extends BaseItem>({
   event,
-  store,
   props,
-  setSelectedItemId,
-  setQuery,
-  setCollections,
-  setIsOpen,
-  setStatus,
-  setContext,
   refresh,
+  store,
+  ...setters
 }: OnKeyDownOptions<TItem>): void {
   if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
     // Default browser behavior changes the caret placement on ArrowUp and
@@ -51,24 +46,19 @@ export function onKeyDown<TItem extends BaseItem>({
       const { item, itemInputValue, itemUrl, source } = highlightedItem;
 
       source.onHighlight({
+        event,
         item,
         itemInputValue,
         itemUrl,
+        refresh,
         source,
         state: store.getState(),
-        setSelectedItemId,
-        setQuery,
-        setCollections,
-        setIsOpen,
-        setStatus,
-        setContext,
-        refresh,
-        event,
+        ...setters,
       });
     }
   } else if (event.key === 'Escape') {
     // This prevents the default browser behavior on `input[type="search"]`
-    // to remove the query right away because we first want to close the
+    // from removing the query right away because we first want to close the
     // panel.
     event.preventDefault();
 
@@ -96,19 +86,14 @@ export function onKeyDown<TItem extends BaseItem>({
     if (event.metaKey || event.ctrlKey) {
       if (itemUrl !== undefined) {
         source.onSelect({
+          event,
           item,
           itemInputValue,
           itemUrl,
+          refresh,
           source,
           state: store.getState(),
-          setSelectedItemId,
-          setQuery,
-          setCollections,
-          setIsOpen,
-          setStatus,
-          setContext,
-          refresh,
-          event,
+          ...setters,
         });
         props.navigator.navigateNewTab({
           itemUrl,
@@ -119,19 +104,14 @@ export function onKeyDown<TItem extends BaseItem>({
     } else if (event.shiftKey) {
       if (itemUrl !== undefined) {
         source.onSelect({
+          event,
           item,
           itemInputValue,
           itemUrl,
+          refresh,
           source,
           state: store.getState(),
-          setSelectedItemId,
-          setQuery,
-          setCollections,
-          setIsOpen,
-          setStatus,
-          setContext,
-          refresh,
-          event,
+          ...setters,
         });
         props.navigator.navigateNewWindow({
           itemUrl,
@@ -144,19 +124,14 @@ export function onKeyDown<TItem extends BaseItem>({
     } else {
       if (itemUrl !== undefined) {
         source.onSelect({
+          event,
           item,
           itemInputValue,
           itemUrl,
+          refresh,
           source,
           state: store.getState(),
-          setSelectedItemId,
-          setQuery,
-          setCollections,
-          setIsOpen,
-          setStatus,
-          setContext,
-          refresh,
-          event,
+          ...setters,
         });
         props.navigator.navigate({
           itemUrl,
@@ -168,35 +143,23 @@ export function onKeyDown<TItem extends BaseItem>({
       }
 
       onInput({
-        query: itemInputValue,
         event,
-        store,
+        nextState: { isOpen: false },
         props,
-        setSelectedItemId,
-        setQuery,
-        setCollections,
-        setIsOpen,
-        setStatus,
-        setContext,
-        nextState: {
-          isOpen: false,
-        },
+        query: itemInputValue,
         refresh,
+        store,
+        ...setters,
       }).then(() => {
         source.onSelect({
+          event,
           item,
           itemInputValue,
           itemUrl,
+          refresh,
           source,
           state: store.getState(),
-          setSelectedItemId,
-          setQuery,
-          setCollections,
-          setIsOpen,
-          setStatus,
-          setContext,
-          refresh,
-          event,
+          ...setters,
         });
       });
     }
