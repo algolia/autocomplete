@@ -78,6 +78,11 @@
   }
 }
 
+.aa-Label[hidden],
+.aa-LoadingIndicator[hidden] {
+  display: none;
+}
+
 .aa-SubmitButton,
 .aa-ResetButton,
 .aa-LoadingIndicator,

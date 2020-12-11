@@ -57,9 +57,9 @@ export function renderSearchBox<TItem extends BaseItem>({
       ...autocompleteScopeApi,
     })
   );
-  setPropertiesWithoutEvents(dom.resetButton, { hidden: !state.query });
   setProperties(dom.label, { hidden: state.status === 'stalled' });
   setProperties(dom.loadingIndicator, { hidden: state.status !== 'stalled' });
+  setPropertiesWithoutEvents(dom.resetButton, { hidden: !state.query });
 }
 
 export function renderPanel<TItem extends BaseItem>(

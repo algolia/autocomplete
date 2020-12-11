@@ -150,13 +150,21 @@ export function autocomplete<TItem extends BaseItem>(
 
   runEffect(() => {
     const panelContainerElement = isTouch.value
-      ? dom.value.touchOverlay
+      ? document.body
       : props.value.renderer.panelContainer;
+    const panelElement = isTouch.value
+      ? dom.value.touchOverlay
+      : dom.value.panel;
+
+    if (isTouch.value && lastStateRef.current.isOpen) {
+      dom.value.openTouchOverlay();
+    }
+
     scheduleRender(lastStateRef.current);
 
     return () => {
-      if (panelContainerElement.contains(dom.value.panel)) {
-        panelContainerElement.removeChild(dom.value.panel);
+      if (panelContainerElement.contains(panelElement)) {
+        panelContainerElement.removeChild(panelElement);
       }
     };
   });

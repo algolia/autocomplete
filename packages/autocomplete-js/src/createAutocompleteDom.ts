@@ -40,6 +40,10 @@ type CreateDomProps<TItem extends BaseItem> = {
   autocompleteScopeApi: AutocompleteScopeApi<TItem>;
 };
 
+type CreateAutocompleteDomReturn = AutocompleteDom & {
+  openTouchOverlay(): void;
+};
+
 export function createAutocompleteDom<TItem extends BaseItem>({
   isTouch,
   placeholder = 'Search',
@@ -48,7 +52,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   propGetters,
   state,
   autocompleteScopeApi,
-}: CreateDomProps<TItem>): AutocompleteDom {
+}: CreateDomProps<TItem>): CreateAutocompleteDomReturn {
   function onTouchOverlayClose() {
     autocomplete.setQuery('');
     autocomplete.refresh();
@@ -116,6 +120,11 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   });
   const panel = Panel({ classNames, ...panelProps });
 
+  function openTouchOverlay() {
+    document.body.appendChild(touchOverlay);
+    input.focus();
+  }
+
   if (isTouch) {
     const touchSearchButtonIcon = TouchSearchButtonIcon({ classNames });
     const touchSearchButtonPlaceholder = TouchSearchButtonPlaceholder({
@@ -150,6 +159,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   }
 
   return {
+    openTouchOverlay,
     touchOverlay,
     inputWrapper,
     input,
