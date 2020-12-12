@@ -5,7 +5,7 @@ type ElementProps = Record<string, unknown> & {
 };
 
 export function Element<KParam extends keyof HTMLElementTagNameMap>(
-  tagName: keyof HTMLElementTagNameMap | HTMLElement,
+  tagName: KParam,
   { children = [], ...props }: ElementProps
 ): HTMLElementTagNameMap[KParam] {
   const element =
@@ -16,5 +16,5 @@ export function Element<KParam extends keyof HTMLElementTagNameMap>(
 
   element.append(...children);
 
-  return element as any;
+  return element;
 }

@@ -4,14 +4,7 @@ import {
 } from '@algolia/autocomplete-core';
 import { BaseItem } from '@algolia/autocomplete-core/src';
 
-import {
-  PanelLayout,
-  SourceContainer,
-  SourceFooter,
-  SourceHeader,
-  SourceItem,
-  SourceList,
-} from './components';
+import { Element } from './components';
 import { renderTemplate } from './renderTemplate';
 import {
   AutocompleteClassNames,
@@ -25,7 +18,7 @@ import { setProperties, setPropertiesWithoutEvents } from './utils';
 type RenderProps<TItem extends BaseItem> = {
   autocomplete: AutocompleteCoreApi<TItem>;
   autocompleteScopeApi: AutocompleteScopeApi<TItem>;
-  classNames: Partial<AutocompleteClassNames>;
+  classNames: AutocompleteClassNames;
   dom: AutocompleteDom;
   isTouch: boolean;
   panelContainer: HTMLElement;
@@ -96,10 +89,10 @@ export function renderPanel<TItem extends BaseItem>(
   dom.panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');
 
   const sourceElements = state.collections.map(({ source, items }) => {
-    const sourceElement = SourceContainer({ classNames });
+    const sourceElement = Element('section', { class: classNames.source });
 
     if (source.templates.header) {
-      const headerElement = SourceHeader({ classNames });
+      const headerElement = Element('div', { class: classNames.sourceHeader });
 
       renderTemplate({
         template: source.templates.header({
@@ -114,8 +107,8 @@ export function renderPanel<TItem extends BaseItem>(
     }
 
     if (items.length > 0) {
-      const listElement = SourceList({
-        classNames,
+      const listElement = Element('ul', {
+        class: classNames.list,
         ...propGetters.getListProps({
           state,
           props: autocomplete.getListProps({}),
@@ -125,8 +118,8 @@ export function renderPanel<TItem extends BaseItem>(
       const listFragment = document.createDocumentFragment();
 
       items.forEach((item) => {
-        const itemElement = SourceItem({
-          classNames,
+        const itemElement = Element('li', {
+          class: classNames.item,
           ...propGetters.getItemProps({
             state,
             props: autocomplete.getItemProps({ item, source }),
@@ -146,10 +139,7 @@ export function renderPanel<TItem extends BaseItem>(
     }
 
     if (source.templates.footer) {
-      const footerElement = SourceFooter({
-        classNames,
-      });
-
+      const footerElement = Element('div', { class: classNames.sourceFooter });
       renderTemplate({
         template: source.templates.footer({
           root: footerElement,
@@ -165,7 +155,7 @@ export function renderPanel<TItem extends BaseItem>(
     return sourceElement;
   });
 
-  const panelLayoutElement = PanelLayout({ classNames });
+  const panelLayoutElement = Element('div', { class: classNames.panelLayout });
   dom.panel.appendChild(panelLayoutElement);
 
   renderer({ root: panelLayoutElement, sections: sourceElements, state });

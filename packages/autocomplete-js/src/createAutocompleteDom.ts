@@ -5,23 +5,11 @@ import {
 } from '@algolia/autocomplete-core';
 
 import {
-  Form,
+  Element,
   Input,
-  InputWrapper,
-  InputWrapperPrefix,
-  InputWrapperSuffix,
-  Label,
-  LoadingIndicator,
-  Panel,
-  ResetButton,
-  Root,
-  SubmitButton,
-  TouchCancelButton,
-  TouchFormContainer,
-  TouchOverlay,
-  TouchSearchButton,
-  TouchSearchButtonIcon,
-  TouchSearchButtonPlaceholder,
+  LoadingIcon,
+  ResetIcon,
+  SearchIcon,
 } from './components';
 import {
   AutocompleteClassNames,
@@ -29,9 +17,10 @@ import {
   AutocompletePropGetters,
   AutocompleteState,
 } from './types';
+import { setProperties } from './utils';
 
 type CreateDomProps<TItem extends BaseItem> = {
-  classNames: Partial<AutocompleteClassNames>;
+  classNames: AutocompleteClassNames;
   isTouch: boolean;
   placeholder?: string;
   autocomplete: AutocompleteCoreApi<TItem>;
@@ -64,25 +53,40 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     props: autocomplete.getRootProps({}),
     ...autocompleteScopeApi,
   });
-  const root = Root({ classNames, ...rootProps });
-  const touchOverlay = TouchOverlay({ classNames });
+  const root = Element('div', { class: classNames.root, ...rootProps });
+  const touchOverlay = Element('div', { class: classNames.touchOverlay });
 
   const labelProps = propGetters.getLabelProps({
     state,
     props: autocomplete.getLabelProps({}),
     ...autocompleteScopeApi,
   });
-  const submitButton = SubmitButton({ classNames });
-  const label = Label({ classNames, children: [submitButton], ...labelProps });
-  const resetButton = ResetButton({ classNames });
-  const loadingIndicator = LoadingIndicator({ classNames });
+  const submitButton = Element('button', {
+    class: classNames.submitButton,
+    type: 'submit',
+    children: [SearchIcon({})],
+  });
+  const label = Element('label', {
+    class: classNames.label,
+    children: [submitButton],
+    ...labelProps,
+  });
+  const resetButton = Element('button', {
+    class: classNames.resetButton,
+    type: 'reset',
+    children: [ResetIcon({})],
+  });
+  const loadingIndicator = Element('div', {
+    class: classNames.loadingIndicator,
+    children: [LoadingIcon({})],
+  });
 
   const input = Input({
+    class: classNames.input,
     state,
     getInputProps: propGetters.getInputProps,
     getInputPropsCore: autocomplete.getInputProps,
     autocompleteScopeApi,
-    classNames,
     onTouchEscape: isTouch
       ? () => {
           document.body.removeChild(touchOverlay);
@@ -91,16 +95,16 @@ export function createAutocompleteDom<TItem extends BaseItem>({
       : undefined,
   });
 
-  const inputWrapperPrefix = InputWrapperPrefix({
-    classNames,
+  const inputWrapperPrefix = Element('div', {
+    class: classNames.inputWrapperPrefix,
     children: [label, loadingIndicator],
   });
-  const inputWrapperSuffix = InputWrapperSuffix({
-    classNames,
+  const inputWrapperSuffix = Element('div', {
+    class: classNames.inputWrapperSuffix,
     children: [resetButton],
   });
-  const inputWrapper = InputWrapper({
-    classNames,
+  const inputWrapper = Element('div', {
+    class: classNames.inputWrapper,
     children: [input],
   });
 
@@ -109,8 +113,8 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     props: autocomplete.getFormProps({ inputElement: input }),
     ...autocompleteScopeApi,
   });
-  const form = Form({
-    classNames,
+  const form = Element('form', {
+    class: classNames.form,
     children: [inputWrapperPrefix, inputWrapper, inputWrapperSuffix],
     ...formProps,
   });
@@ -119,7 +123,13 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     props: autocomplete.getPanelProps({}),
     ...autocompleteScopeApi,
   });
-  const panel = Panel({ classNames, ...panelProps });
+  const panel = Element('div', { class: classNames.panel, ...panelProps });
+
+  if (__TEST__) {
+    setProperties(panel, {
+      'data-testid': 'panel',
+    });
+  }
 
   function openTouchOverlay() {
     document.body.appendChild(touchOverlay);
@@ -127,13 +137,16 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   }
 
   if (isTouch) {
-    const touchSearchButtonIcon = TouchSearchButtonIcon({ classNames });
-    const touchSearchButtonPlaceholder = TouchSearchButtonPlaceholder({
-      classNames,
+    const touchSearchButtonIcon = Element('div', {
+      class: classNames.touchSearchButtonIcon,
+      children: [SearchIcon({})],
+    });
+    const touchSearchButtonPlaceholder = Element('div', {
+      class: classNames.touchSearchButtonPlaceholder,
       textContent: placeholder,
     });
-    const touchSearchButton = TouchSearchButton({
-      classNames,
+    const touchSearchButton = Element('button', {
+      class: classNames.touchSearchButton,
       onClick(event: MouseEvent) {
         event.preventDefault();
         document.body.appendChild(touchOverlay);
@@ -141,15 +154,16 @@ export function createAutocompleteDom<TItem extends BaseItem>({
       },
       children: [touchSearchButtonIcon, touchSearchButtonPlaceholder],
     });
-    const touchCancelButton = TouchCancelButton({
-      classNames,
+    const touchCancelButton = Element('button', {
+      class: classNames.touchCancelButton,
+      textContent: 'Cancel',
       onClick() {
         document.body.removeChild(touchOverlay);
         onTouchOverlayClose();
       },
     });
-    const touchFormContainer = TouchFormContainer({
-      classNames,
+    const touchFormContainer = Element('div', {
+      class: classNames.touchFormContainer,
       children: [form, touchCancelButton],
     });
 

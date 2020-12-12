@@ -4,18 +4,18 @@ import {
 } from '@algolia/autocomplete-core';
 
 import { AutocompletePropGetters, AutocompleteState } from '../types';
-import { Component, WithClassNames } from '../types/Component';
-import { concatClassNames } from '../utils';
+import { Component } from '../types/Component';
+import { setProperties } from '../utils';
 
 import { Element } from './Element';
 
-type InputProps = WithClassNames<{
+type InputProps = {
   onTouchEscape?(): void;
   state: AutocompleteState<any>;
   getInputProps: AutocompletePropGetters<any>['getInputProps'];
   getInputPropsCore: AutocompleteCoreApi<any>['getInputProps'];
   autocompleteScopeApi: AutocompleteScopeApi<any>;
-}>;
+};
 
 export const Input: Component<InputProps, HTMLInputElement> = ({
   classNames,
@@ -24,8 +24,9 @@ export const Input: Component<InputProps, HTMLInputElement> = ({
   state,
   autocompleteScopeApi,
   onTouchEscape,
+  ...props
 }) => {
-  const element = document.createElement('input');
+  const element = Element('input', props);
   const inputProps = getInputProps({
     state,
     props: getInputPropsCore({ inputElement: element }),
@@ -33,7 +34,7 @@ export const Input: Component<InputProps, HTMLInputElement> = ({
     ...autocompleteScopeApi,
   });
 
-  return Element<'input'>(element, {
+  setProperties(element, {
     ...inputProps,
     onKeyDown(event: KeyboardEvent) {
       if (onTouchEscape && event.key === 'Escape') {
@@ -43,6 +44,7 @@ export const Input: Component<InputProps, HTMLInputElement> = ({
 
       inputProps.onKeyDown(event);
     },
-    class: concatClassNames('aa-Input', classNames.input),
   });
+
+  return element;
 };
