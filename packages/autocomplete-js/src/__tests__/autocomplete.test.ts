@@ -117,6 +117,7 @@ describe('autocomplete-js', () => {
                 autocomplete="off"
                 autocorrect="off"
                 class="aa-Input"
+                enterkeyhint="search"
                 id="autocomplete-input"
                 maxlength="512"
                 placeholder=""
