@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Feature request
+    url: https://github.com/algolia/autocomplete.js/discussions/new
+    about: Request a feature to add to Autocomplete.
+  - name: Ask a question
+    url: https://github.com/algolia/autocomplete.js/discussions/new
+    about: Ask questions and discuss with other community members.
