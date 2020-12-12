@@ -43,7 +43,7 @@
     "@typescript-eslint/eslint-plugin": "2.19.0",
     "@typescript-eslint/parser": "2.19.0",
     "algoliasearch": "4.8.3",
-    "autoprefixer": "10.0.1",
+    "autoprefixer": "10.0.4",
     "babel-eslint": "10.1.0",
     "babel-loader": "8.2.2",
     "babel-plugin-inline-json": "1.2.2",

@@ -193,11 +193,11 @@
   padding: 0;
 }
 
-.aa-Panel {
-  .aa-PanelLayout {
-    margin-top: 5px;
-  }
+.aa-PanelLayout {
+  margin-top: 5px;
+}
 
+.aa-Panel {
   &--desktop {
     max-width: 480px;
     position: absolute;

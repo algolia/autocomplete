@@ -59,7 +59,7 @@ export function renderSearchBox<TItem extends BaseItem>({
   );
   setProperties(dom.label, { hidden: state.status === 'stalled' });
   setProperties(dom.loadingIndicator, { hidden: state.status !== 'stalled' });
-  setPropertiesWithoutEvents(dom.resetButton, { hidden: !state.query });
+  setProperties(dom.resetButton, { hidden: !state.query });
 }
 
 export function renderPanel<TItem extends BaseItem>(
