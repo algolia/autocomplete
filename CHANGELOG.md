@@ -1,3 +1,25 @@
+# [1.0.0-alpha.38](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.37...v1.0.0-alpha.38) (2020-12-12)
+
+### Bug Fixes
+
+- **core:** convert `AutocompleteContext` to interface ([0fbfe59](https://github.com/algolia/autocomplete.js/commit/0fbfe59a1897f64e6b95a45269ff710f72183925))
+- **js:** vertically offset panel based on `offsetTop` ([bb1af17](https://github.com/algolia/autocomplete.js/commit/bb1af17f92ffe97c9002fdddc8733356161fdf4e))
+
+### Features
+
+- **core:** add `enterKeyHint` prop to input ([7ff2971](https://github.com/algolia/autocomplete.js/commit/7ff29719b48e08863f5d4eb62021b12e4e1472c0))
+- **core:** add invariant for `getItems` ([b57ccf3](https://github.com/algolia/autocomplete.js/commit/b57ccf3f915f5316c67af682427f7e6d8b07dc04))
+- **core:** add invariant for `getSources` ([309371c](https://github.com/algolia/autocomplete.js/commit/309371c5ec06b5c50fb3aef08de8f0b25b34d216))
+- **core:** add invariant for unknown reducer actions ([27d6281](https://github.com/algolia/autocomplete.js/commit/27d628194724bf04c381490c13d910fd368cd582))
+- **insights:** extends `AutocompleteContext` with Insights API ([f1e8de4](https://github.com/algolia/autocomplete.js/commit/f1e8de43fcbad20c48997a3d8dd17e11f6339fe7))
+- **js:** add non-input container invariant ([2e3a8ed](https://github.com/algolia/autocomplete.js/commit/2e3a8ed12a0167c78400ec0ae9c0c92041229a99))
+- **js:** introduce Autocomplete Touch ([#379](https://github.com/algolia/autocomplete.js/issues/379)) ([5cfbdf2](https://github.com/algolia/autocomplete.js/commit/5cfbdf266818fa6a2a026ec7ce62b0e37d2a1f8b))
+- **js:** introduce Update API ([921788c](https://github.com/algolia/autocomplete.js/commit/921788ce1067da9e8d42fd5dd2c688db659b9c88))
+- **js:** pass scope API to prop getters ([18c7474](https://github.com/algolia/autocomplete.js/commit/18c7474b74b4e023dd6bcaa6c05040b5680ba926))
+- **js:** schedule renders ([ef54af3](https://github.com/algolia/autocomplete.js/commit/ef54af3b85d13af511b7ae7edef5fbae00dd61e6))
+- **query-suggestions:** pass `state` to `getSearchParams` ([5b8de7f](https://github.com/algolia/autocomplete.js/commit/5b8de7f48165f4ff60a9250f9245ef7771e5eb16))
+- **shared:** add invariant util ([0e28f55](https://github.com/algolia/autocomplete.js/commit/0e28f550ca918d15023fe641ef2e893ce779cc95))
+
 # [1.0.0-alpha.37](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.36...v1.0.0-alpha.37) (2020-12-06)
 
 ### Features
