@@ -3,6 +3,8 @@ import { AutocompleteApi as AutocompleteCoreApi } from '@algolia/autocomplete-co
 import { Component, WithClassNames } from '../types/Component';
 import { concatClassNames, setProperties } from '../utils';
 
+import { Element } from './Element';
+
 type PanelProps = WithClassNames<
   ReturnType<AutocompleteCoreApi<any>['getPanelProps']>
 >;
@@ -11,10 +13,9 @@ export const Panel: Component<PanelProps, HTMLDivElement> = ({
   classNames,
   ...props
 }) => {
-  const element = document.createElement('div');
-  setProperties(element, {
+  const element = Element<'div'>('div', {
     ...props,
-    class: concatClassNames(['aa-Panel', classNames.panel]),
+    class: concatClassNames('aa-Panel', classNames.panel),
   });
 
   if (__TEST__) {

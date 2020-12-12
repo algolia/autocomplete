@@ -1,39 +1,64 @@
 .aa-Form {
+  flex-grow: 1;
+  margin: 0;
   position: relative;
 }
 
-.aa-Label {
+.aa-InputWrapperPrefix,
+.aa-InputWrapperSuffix {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+.aa-InputWrapperSuffix {
+  right: 0;
+}
+
+.aa-Label,
+.aa-TouchSearchButtonIcon {
   align-items: center;
   color: #777;
   cursor: initial;
   display: flex;
   height: 100%;
-  position: absolute;
-  z-index: 2;
 }
 
-.aa-InputWrapper {
+.aa-InputWrapper,
+.aa-TouchSearchButton {
+  align-items: center;
   background-color: #fff;
-  max-width: 100%;
-  min-height: 2.5rem;
+  display: flex;
+  height: 2.5rem;
   position: relative;
   width: 100%;
+}
+
+.aa-Input,
+.aa-TouchSearchButton {
+  border: 1px solid #d6d6e7;
+  border-radius: 3px;
+  box-shadow: rgb(119 122 175 / 30%) 0 1px 4px 0 inset;
+  font: inherit;
+}
+
+.aa-TouchSearchButton {
+  color: #5a5e9a;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
 }
 
 .aa-Input {
   appearance: none;
   background: none;
-  border: 1px solid #d6d6e7;
-  border-radius: 3px;
-  box-shadow: rgba(119, 122, 175, 0.3) 0 1px 4px 0 inset;
   caret-color: #5a5e9a;
   color: #23263b;
-  font: inherit;
   height: 100%;
   padding: 0 2.25rem;
   position: absolute;
   width: 100%;
-  z-index: 2;
 
   &::-webkit-search-decoration,
   &::-webkit-search-cancel-button,
@@ -48,14 +73,20 @@
 
   &:focus {
     border-color: #3c4fe0;
-    box-shadow: rgba(35, 38, 59, 0.05) 0 1px 0 0;
+    box-shadow: rgb(35 38 59 / 5%) 0 1px 0 0;
     outline: currentColor none medium;
   }
 }
 
+.aa-Label[hidden],
+.aa-LoadingIndicator[hidden] {
+  display: none;
+}
+
 .aa-SubmitButton,
 .aa-ResetButton,
-.aa-LoadingIndicator {
+.aa-LoadingIndicator,
+.aa-TouchSearchButtonIcon {
   height: 100%;
   padding: 0 0.5rem;
 }
@@ -64,13 +95,8 @@
 .aa-ResetButton {
   background: none;
   border: 0;
+  color: inherit;
   cursor: pointer;
-}
-
-.aa-ResetButton {
-  position: absolute;
-  right: 0;
-  z-index: 2;
 }
 
 .aa-LoadingIndicator {
@@ -80,30 +106,6 @@
 
 .aa-LoadingIcon {
   height: 100%;
-}
-
-.aa-Panel {
-  max-width: 480px;
-  position: absolute;
-  width: 100%;
-
-  &--stalled {
-    filter: grayscale(1);
-    opacity: 0.5;
-    transition: opacity 200ms ease-in;
-    @media screen and (prefers-reduced-motion: reduce) {
-      transition: none;
-    }
-  }
-}
-
-.aa-PanelLayout {
-  background-color: #fff;
-  border: 1px solid rgba(150, 150, 150, 0.16);
-  border-radius: 3px;
-  box-shadow: 0 0 0 1px rgba(35, 38, 59, 0.05),
-    0 8px 16px -4px rgba(35, 38, 59, 0.25);
-  margin-top: 5px;
 }
 
 .aa-List {
@@ -125,6 +127,7 @@
     font-weight: bold;
   }
 
+  /* stylelint-disable-next-line */
   &[aria-selected='true'] {
     background-color: #f5f5fa;
   }
@@ -144,7 +147,7 @@
 
 .aa-ItemSourceIcon,
 .aa-ItemActionButton {
-  color: rgba(80, 80, 80, 0.32);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .aa-ItemActionButton {
@@ -161,5 +164,66 @@
   &:hover,
   &:focus {
     color: rgba(80, 80, 80, 1);
+  }
+}
+
+.aa-TouchOverlay {
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.95);
+  bottom: 0;
+  left: 0;
+  padding: 0.5rem;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+
+.aa-TouchFormContainer {
+  display: flex;
+  grid-gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.aa-TouchCancelButton {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font-size: inherit;
+  padding: 0;
+}
+
+.aa-PanelLayout {
+  margin-top: 5px;
+}
+
+.aa-Panel {
+  &--desktop {
+    max-width: 480px;
+    position: absolute;
+    width: 100%;
+
+    .aa-PanelLayout {
+      background-color: #fff;
+      border: 1px solid rgba(150, 150, 150, 0.16);
+      border-radius: 3px;
+      box-shadow: 0 0 0 1px rgba(35, 38, 59, 0.05),
+        0 8px 16px -4px rgba(35, 38, 59, 0.25);
+    }
+
+    &--stalled {
+      filter: grayscale(1);
+      opacity: 0.5;
+      transition: opacity 200ms ease-in;
+      @media screen and (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
+    }
+  }
+
+  &--touch {
+    .aa-Item {
+      border-radius: 5px;
+    }
   }
 }

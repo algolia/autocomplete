@@ -8,4 +8,5 @@ export type AutocompleteDom = {
   resetButton: HTMLButtonElement;
   loadingIndicator: HTMLDivElement;
   panel: HTMLDivElement;
+  touchOverlay: HTMLDivElement;
 };

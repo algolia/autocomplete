@@ -14,13 +14,16 @@
     "selector-class-pattern": ["^aa-[A-Za-z0-9-]*$"],
     "prettier/prettier": true,
     "max-nesting-depth": [
-      1,
+      2,
       {
         "ignore": ["pseudo-classes"],
         "ignoreAtRules": ["media"]
       }
     ],
-    "rule-empty-line-before": "always",
+    "rule-empty-line-before": [
+      "always",
+      { "ignore": ["after-comment", "first-nested", "inside-block"] }
+    ],
     "plugin/no-unsupported-browser-features": [
       null,
       {

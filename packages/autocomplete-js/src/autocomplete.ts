@@ -10,7 +10,7 @@ import { createEffectWrapper } from './createEffectWrapper';
 import { createReactiveWrapper } from './createReactiveWrapper';
 import { getDefaultOptions } from './getDefaultOptions';
 import { getPanelPositionStyle } from './getPanelPositionStyle';
-import { render } from './render';
+import { renderPanel, renderSearchBox } from './render';
 import {
   AutocompleteApi,
   AutocompleteOptions,
@@ -50,6 +50,9 @@ export function autocomplete<TItem extends BaseItem>(
     status: 'idle',
     ...props.value.core.initialState,
   });
+  const isTouch = reactive(
+    () => window.matchMedia(props.value.renderer.touchMediaQuery).matches
+  );
 
   const propGetters: AutocompletePropGetters<TItem> = {
     getEnvironmentProps: props.value.renderer.getEnvironmentProps,
@@ -73,6 +76,8 @@ export function autocomplete<TItem extends BaseItem>(
 
   const dom = reactive(() =>
     createAutocompleteDom({
+      placeholder: props.value.core.placeholder,
+      isTouch: isTouch.value,
       state: lastStateRef.current,
       autocomplete: autocomplete.value,
       classNames: props.value.renderer.classNames,
@@ -83,25 +88,33 @@ export function autocomplete<TItem extends BaseItem>(
 
   function setPanelPosition() {
     setProperties(dom.value.panel, {
-      style: getPanelPositionStyle({
-        panelPlacement: props.value.renderer.panelPlacement,
-        container: dom.value.root,
-        form: dom.value.form,
-        environment: props.value.core.environment,
-      }),
+      style: isTouch.value
+        ? {}
+        : getPanelPositionStyle({
+            panelPlacement: props.value.renderer.panelPlacement,
+            container: dom.value.root,
+            form: dom.value.form,
+            environment: props.value.core.environment,
+          }),
     });
   }
 
   function runRender() {
-    render(props.value.renderer.render, {
+    const renderProps = {
+      isTouch: isTouch.value,
       state: lastStateRef.current,
       autocomplete: autocomplete.value,
       propGetters,
       dom: dom.value,
       classNames: props.value.renderer.classNames,
-      panelContainer: props.value.renderer.panelContainer,
+      panelContainer: isTouch.value
+        ? dom.value.touchOverlay
+        : props.value.renderer.panelContainer,
       autocompleteScopeApi,
-    });
+    };
+
+    renderSearchBox(renderProps);
+    renderPanel(props.value.renderer.render, renderProps);
   }
 
   function scheduleRender(state: AutocompleteState<TItem>) {
@@ -136,6 +149,27 @@ export function autocomplete<TItem extends BaseItem>(
   });
 
   runEffect(() => {
+    const panelContainerElement = isTouch.value
+      ? document.body
+      : props.value.renderer.panelContainer;
+    const panelElement = isTouch.value
+      ? dom.value.touchOverlay
+      : dom.value.panel;
+
+    if (isTouch.value && lastStateRef.current.isOpen) {
+      dom.value.openTouchOverlay();
+    }
+
+    scheduleRender(lastStateRef.current);
+
+    return () => {
+      if (panelContainerElement.contains(panelElement)) {
+        panelContainerElement.removeChild(panelElement);
+      }
+    };
+  });
+
+  runEffect(() => {
     const containerElement = props.value.renderer.container;
     invariant(
       containerElement.tagName !== 'INPUT',
@@ -145,17 +179,6 @@ export function autocomplete<TItem extends BaseItem>(
 
     return () => {
       containerElement.removeChild(dom.value.root);
-    };
-  });
-
-  runEffect(() => {
-    const panelContainerElement = props.value.renderer.panelContainer;
-    scheduleRender(lastStateRef.current);
-
-    return () => {
-      if (panelContainerElement.contains(dom.value.panel)) {
-        panelContainerElement.removeChild(dom.value.panel);
-      }
     };
   });
 
@@ -185,7 +208,16 @@ export function autocomplete<TItem extends BaseItem>(
 
   runEffect(() => {
     const onResize = debounce<Event>(() => {
-      requestAnimationFrame(setPanelPosition);
+      const previousIsTouch = isTouch.value;
+      isTouch.value = window.matchMedia(
+        props.value.renderer.touchMediaQuery
+      ).matches;
+
+      if (previousIsTouch !== isTouch.value) {
+        update({});
+      } else {
+        requestAnimationFrame(setPanelPosition);
+      }
     }, 20);
     window.addEventListener('resize', onResize);
 

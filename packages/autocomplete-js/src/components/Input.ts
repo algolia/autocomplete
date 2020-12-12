@@ -5,9 +5,12 @@ import {
 
 import { AutocompletePropGetters, AutocompleteState } from '../types';
 import { Component, WithClassNames } from '../types/Component';
-import { concatClassNames, setProperties } from '../utils';
+import { concatClassNames } from '../utils';
+
+import { Element } from './Element';
 
 type InputProps = WithClassNames<{
+  onTouchEscape?(): void;
   state: AutocompleteState<any>;
   getInputProps: AutocompletePropGetters<any>['getInputProps'];
   getInputPropsCore: AutocompleteCoreApi<any>['getInputProps'];
@@ -20,6 +23,7 @@ export const Input: Component<InputProps, HTMLInputElement> = ({
   getInputPropsCore,
   state,
   autocompleteScopeApi,
+  onTouchEscape,
 }) => {
   const element = document.createElement('input');
   const inputProps = getInputProps({
@@ -28,10 +32,17 @@ export const Input: Component<InputProps, HTMLInputElement> = ({
     inputElement: element,
     ...autocompleteScopeApi,
   });
-  setProperties(element, {
-    ...inputProps,
-    class: concatClassNames(['aa-Input', classNames.input]),
-  });
 
-  return element;
+  return Element<'input'>(element, {
+    ...inputProps,
+    onKeyDown(event: KeyboardEvent) {
+      if (onTouchEscape && event.key === 'Escape') {
+        onTouchEscape();
+        return;
+      }
+
+      inputProps.onKeyDown(event);
+    },
+    class: concatClassNames('aa-Input', classNames.input),
+  });
 };

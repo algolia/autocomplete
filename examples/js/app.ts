@@ -29,6 +29,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 
 autocomplete({
   container: '#autocomplete',
+  placeholder: 'Search',
   openOnFocus: true,
   plugins: [
     algoliaInsightsPlugin,

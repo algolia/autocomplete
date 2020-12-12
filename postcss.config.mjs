@@ -1,7 +1,21 @@
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
+import color from 'postcss-color-rgb';
+import comment from 'postcss-comment';
 import sass from 'postcss-node-sass';
+import presetEnv from 'postcss-preset-env';
 
 export default {
-  plugins: [autoprefixer, sass, cssnano],
+  parser: comment,
+  plugins: [
+    presetEnv({
+      features: {
+        'nesting-rules': false,
+      },
+    }),
+    color,
+    sass,
+    autoprefixer,
+    cssnano,
+  ],
 };

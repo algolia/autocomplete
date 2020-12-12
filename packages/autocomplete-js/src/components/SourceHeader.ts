@@ -1,15 +1,16 @@
 import { Component, WithClassNames } from '../types/Component';
-import { concatClassNames, setProperties } from '../utils';
+import { concatClassNames } from '../utils';
+
+import { Element } from './Element';
 
 type SourceHeaderProps = WithClassNames<{}>;
 
 export const SourceHeader: Component<SourceHeaderProps, HTMLDivElement> = ({
   classNames,
+  ...props
 }) => {
-  const element = document.createElement('div');
-  setProperties(element, {
-    class: concatClassNames(['aa-SourceHeader', classNames.sourceHeader]),
+  return Element<'div'>('div', {
+    ...props,
+    class: concatClassNames('aa-SourceHeader', classNames.sourceHeader),
   });
-
-  return element;
 };

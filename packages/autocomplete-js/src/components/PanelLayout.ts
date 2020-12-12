@@ -1,5 +1,7 @@
 import { Component, WithClassNames } from '../types/Component';
-import { concatClassNames, setProperties } from '../utils';
+import { concatClassNames } from '../utils';
+
+import { Element } from './Element';
 
 type PanelLayoutProps = WithClassNames<{}>;
 
@@ -7,11 +9,8 @@ export const PanelLayout: Component<PanelLayoutProps, HTMLDivElement> = ({
   classNames,
   ...props
 }) => {
-  const element = document.createElement('div');
-  setProperties(element, {
+  return Element<'div'>('div', {
     ...props,
-    class: concatClassNames(['aa-PanelLayout', classNames.panelLayout]),
+    class: concatClassNames('aa-PanelLayout', classNames.panelLayout),
   });
-
-  return element;
 };
