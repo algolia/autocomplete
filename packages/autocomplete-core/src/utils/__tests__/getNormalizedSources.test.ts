@@ -21,7 +21,7 @@ describe('getNormalizedSources', () => {
         getItemInputValue: expect.any(Function),
         getItemUrl: expect.any(Function),
         getItems: expect.any(Function),
-        onHighlight: expect.any(Function),
+        onActive: expect.any(Function),
         onSelect: expect.any(Function),
       },
     ]);
@@ -42,7 +42,7 @@ describe('getNormalizedSources', () => {
         getItemInputValue: expect.any(Function),
         getItemUrl: expect.any(Function),
         getItems: expect.any(Function),
-        onHighlight: expect.any(Function),
+        onActive: expect.any(Function),
         onSelect: expect.any(Function),
       },
     ]);
@@ -118,7 +118,7 @@ describe('getNormalizedSources', () => {
     expect(params.setIsOpen).toHaveBeenCalledWith(false);
   });
 
-  test('provides a default implementation for onHighlight', async () => {
+  test('provides a default implementation for onActive', async () => {
     const getSources = () => [{ getItems: () => [] }];
     const params = {
       query: '',
@@ -129,7 +129,7 @@ describe('getNormalizedSources', () => {
     const [normalizedSource] = await getNormalizedSources(getSources, params);
 
     expect(
-      normalizedSource.onHighlight({
+      normalizedSource.onActive({
         ...params,
         item: {},
         event: new Event(''),

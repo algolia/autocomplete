@@ -21,12 +21,12 @@ describe('getPanelProps', () => {
     expect(event.preventDefault).toHaveBeenCalledTimes(1);
   });
 
-  test('sets the selectedItemId to defaultSelectedItemId when onMouseLeave', () => {
+  test('sets the activeItemId to defaultActiveItemId when onMouseLeave', () => {
     const onStateChange = jest.fn();
     const { getPanelProps } = createPlayground(createAutocomplete, {
       onStateChange,
       id: 'autocomplete',
-      defaultSelectedItemId: 0,
+      defaultActiveItemId: 0,
     });
     const panelProps = getPanelProps({});
 
@@ -35,7 +35,7 @@ describe('getPanelProps', () => {
     expect(onStateChange).toHaveBeenLastCalledWith({
       prevState: expect.anything(),
       state: expect.objectContaining({
-        selectedItemId: 0,
+        activeItemId: 0,
       }),
     });
   });

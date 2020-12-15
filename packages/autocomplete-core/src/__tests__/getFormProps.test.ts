@@ -128,14 +128,14 @@ describe('getFormProps', () => {
       });
     });
 
-    test('sets the selectedItemId to null', () => {
+    test('sets the activeItemId to null', () => {
       const onStateChange = jest.fn();
       const { getFormProps, inputElement } = createPlayground(
         createAutocomplete,
         {
           onStateChange,
           initialState: {
-            selectedItemId: 0,
+            activeItemId: 0,
           },
         }
       );
@@ -146,7 +146,7 @@ describe('getFormProps', () => {
       expect(onStateChange).toHaveBeenLastCalledWith({
         prevState: expect.anything(),
         state: expect.objectContaining({
-          selectedItemId: null,
+          activeItemId: null,
         }),
       });
     });
@@ -264,14 +264,14 @@ describe('getFormProps', () => {
       });
     });
 
-    test('sets the selectedItemId to null without openOnFocus', () => {
+    test('sets the activeItemId to null without openOnFocus', () => {
       const onStateChange = jest.fn();
       const { getFormProps, inputElement } = createPlayground(
         createAutocomplete,
         {
           onStateChange,
           initialState: {
-            selectedItemId: 0,
+            activeItemId: 0,
           },
         }
       );
@@ -282,21 +282,21 @@ describe('getFormProps', () => {
       expect(onStateChange).toHaveBeenLastCalledWith({
         prevState: expect.anything(),
         state: expect.objectContaining({
-          selectedItemId: null,
+          activeItemId: null,
         }),
       });
     });
 
-    test('sets the selectedItemId to defaultSelectedItemId with openOnFocus', () => {
+    test('sets the activeItemId to defaultActiveItemId with openOnFocus', () => {
       const onStateChange = jest.fn();
       const { getFormProps, inputElement } = createPlayground(
         createAutocomplete,
         {
-          defaultSelectedItemId: 0,
+          defaultActiveItemId: 0,
           openOnFocus: true,
           onStateChange,
           initialState: {
-            selectedItemId: null,
+            activeItemId: null,
           },
         }
       );
@@ -307,7 +307,7 @@ describe('getFormProps', () => {
       expect(onStateChange).toHaveBeenLastCalledWith({
         prevState: expect.anything(),
         state: expect.objectContaining({
-          selectedItemId: 0,
+          activeItemId: 0,
         }),
       });
     });

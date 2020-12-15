@@ -53,7 +53,7 @@ describe('getItemProps', () => {
   test('returns aria-selected when selected', () => {
     const { getItemProps } = createPlayground(createAutocomplete, {
       initialState: {
-        selectedItemId: 0,
+        activeItemId: 0,
       },
     });
     const itemProps = getItemProps({

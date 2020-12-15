@@ -8,7 +8,7 @@ import { AutocompleteState } from './AutocompleteState';
 export type StateUpdater<TState> = (value: TState) => void;
 
 export interface AutocompleteSetters<TItem extends BaseItem> {
-  setSelectedItemId: StateUpdater<AutocompleteState<TItem>['selectedItemId']>;
+  setActiveItemId: StateUpdater<AutocompleteState<TItem>['activeItemId']>;
   setQuery: StateUpdater<AutocompleteState<TItem>['query']>;
   setCollections: StateUpdater<
     Array<

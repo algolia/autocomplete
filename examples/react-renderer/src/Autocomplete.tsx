@@ -36,7 +36,7 @@ export function Autocomplete(
     context: {},
     isOpen: false,
     query: '',
-    selectedItemId: null,
+    activeItemId: null,
     status: 'idle',
   });
   const autocomplete = React.useMemo(

@@ -57,9 +57,9 @@ export type CreateAlgoliaInsightsPluginParams = {
    */
   onSelect?(params: OnSelectParams): void;
   /**
-   * Hook to send an Insights event when an item is highlighted.
+   * Hook to send an Insights event when an item is active.
    */
-  onHighlight?(params: OnHighlightParams): void;
+  onActive?(params: OnHighlightParams): void;
 };
 
 export function createAlgoliaInsightsPlugin({
@@ -70,7 +70,7 @@ export function createAlgoliaInsightsPlugin({
   onSelect: onSelectEvent = ({ insights, insightsEvents }) => {
     insights.clickedObjectIDsAfterSearch(...insightsEvents);
   },
-  onHighlight: onHighlightEvent = () => {},
+  onActive: onActiveEvent = () => {},
 }: CreateAlgoliaInsightsPluginParams): AutocompletePlugin<any, undefined> {
   const insights = createSearchInsightsApi(insightsClient);
   const previousItems = createRef<AlgoliaInsightsHit[]>([]);
@@ -103,7 +103,7 @@ export function createAlgoliaInsightsPlugin({
   }, 0);
 
   return {
-    subscribe({ setContext, onSelect, onHighlight }) {
+    subscribe({ setContext, onSelect, onActive }) {
       setContext({ algoliaInsightsPlugin: { insights } });
 
       onSelect(({ item, state, event }) => {
@@ -125,12 +125,12 @@ export function createAlgoliaInsightsPlugin({
         });
       });
 
-      onHighlight(({ item, state, event }) => {
+      onActive(({ item, state, event }) => {
         if (!isAlgoliaInsightsHit(item)) {
           return;
         }
 
-        onHighlightEvent({
+        onActiveEvent({
           state,
           event,
           insights,

@@ -4,7 +4,7 @@ export function createScopeApi<
   TItem extends BaseItem
 >(): AutocompleteScopeApi<TItem> {
   return {
-    setSelectedItemId: jest.fn(),
+    setActiveItemId: jest.fn(),
     setQuery: jest.fn(),
     setCollections: jest.fn(),
     setIsOpen: jest.fn(),

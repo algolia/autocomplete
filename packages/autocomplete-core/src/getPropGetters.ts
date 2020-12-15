@@ -14,7 +14,7 @@ import {
   GetRootProps,
   InternalAutocompleteOptions,
 } from './types';
-import { getSelectedItem, isOrContainsNode } from './utils';
+import { getActiveItem, isOrContainsNode } from './utils';
 
 interface GetPropGettersOptions<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
@@ -151,13 +151,13 @@ export function getPropGetters<
 
     const isTouchDevice = 'ontouchstart' in props.environment;
     const { inputElement, maxLength = 512, ...rest } = providedProps || {};
-    const selectedItem = getSelectedItem(store.getState());
+    const activeItem = getActiveItem(store.getState());
 
     return {
       'aria-autocomplete': 'both',
       'aria-activedescendant':
-        store.getState().isOpen && store.getState().selectedItemId !== null
-          ? `${props.id}-item-${store.getState().selectedItemId}`
+        store.getState().isOpen && store.getState().activeItemId !== null
+          ? `${props.id}-item-${store.getState().activeItemId}`
           : undefined,
       'aria-controls': store.getState().isOpen ? `${props.id}-list` : undefined,
       'aria-labelledby': `${props.id}-label`,
@@ -166,7 +166,7 @@ export function getPropGetters<
       autoComplete: 'off',
       autoCorrect: 'off',
       autoCapitalize: 'off',
-      enterKeyHint: selectedItem?.itemUrl ? 'go' : 'search',
+      enterKeyHint: activeItem?.itemUrl ? 'go' : 'search',
       spellCheck: 'false',
       autoFocus: props.autoFocus,
       placeholder: props.placeholder,
@@ -258,21 +258,20 @@ export function getPropGetters<
     return {
       id: `${props.id}-item-${item.__autocomplete_id}`,
       role: 'option',
-      'aria-selected':
-        store.getState().selectedItemId === item.__autocomplete_id,
+      'aria-selected': store.getState().activeItemId === item.__autocomplete_id,
       onMouseMove(event) {
-        if (item.__autocomplete_id === store.getState().selectedItemId) {
+        if (item.__autocomplete_id === store.getState().activeItemId) {
           return;
         }
 
         store.dispatch('mousemove', item.__autocomplete_id);
 
-        const highlightedItem = getSelectedItem(store.getState());
+        const activeItem = getActiveItem(store.getState());
 
-        if (store.getState().selectedItemId !== null && highlightedItem) {
-          const { item, itemInputValue, itemUrl, source } = highlightedItem;
+        if (store.getState().activeItemId !== null && activeItem) {
+          const { item, itemInputValue, itemUrl, source } = activeItem;
 
-          source.onHighlight({
+          source.onActive({
             event,
             item,
             itemInputValue,
@@ -302,7 +301,7 @@ export function getPropGetters<
         // If `getItemUrl` is provided, it means that the suggestion
         // is a link, not plain text that aims at updating the query.
         // We can therefore skip the state change because it will update
-        // the `selectedItemId`, resulting in a UI flash, especially
+        // the `activeItemId`, resulting in a UI flash, especially
         // noticeable on mobile.
         const runPreCommand = itemUrl
           ? Promise.resolve()

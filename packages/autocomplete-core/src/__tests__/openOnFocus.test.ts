@@ -5,7 +5,7 @@ describe('openOnFocus', () => {
   function setupTest(props) {
     return createPlayground(createAutocomplete, {
       openOnFocus: true,
-      defaultSelectedItemId: 0,
+      defaultActiveItemId: 0,
       ...props,
     });
   }
@@ -36,11 +36,11 @@ describe('openOnFocus', () => {
     });
   });
 
-  test('sets defaultSelectedItemId on reset', () => {
+  test('sets defaultActiveItemId on reset', () => {
     const onStateChange = jest.fn();
     const { formElement } = setupTest({
       onStateChange,
-      defaultSelectedItemId: 1,
+      defaultActiveItemId: 1,
     });
 
     formElement.reset();
@@ -48,7 +48,7 @@ describe('openOnFocus', () => {
     expect(onStateChange).toHaveBeenLastCalledWith({
       prevState: expect.anything(),
       state: expect.objectContaining({
-        selectedItemId: 1,
+        activeItemId: 1,
       }),
     });
   });

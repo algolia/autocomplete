@@ -144,7 +144,7 @@ autocomplete({
 
 ```js
 const {
-  setSelectedItemId,
+  setActiveItemId,
   setQuery,
   setCollections,
   setIsOpen,

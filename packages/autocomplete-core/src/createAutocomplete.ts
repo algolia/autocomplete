@@ -52,8 +52,8 @@ export function createAutocomplete<
       onSelect(fn) {
         subscribers.push({ onSelect: fn });
       },
-      onHighlight(fn) {
-        subscribers.push({ onHighlight: fn });
+      onActive(fn) {
+        subscribers.push({ onActive: fn });
       },
     })
   );

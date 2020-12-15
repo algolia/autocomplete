@@ -1,5 +1,5 @@
 import { AutocompleteState, BaseItem } from './types';
-import { getSelectedItem } from './utils';
+import { getActiveItem } from './utils';
 
 interface GetCompletionProps<TItem extends BaseItem> {
   state: AutocompleteState<TItem>;
@@ -8,11 +8,11 @@ interface GetCompletionProps<TItem extends BaseItem> {
 export function getCompletion<TItem extends BaseItem>({
   state,
 }: GetCompletionProps<TItem>): string | null {
-  if (state.isOpen === false || state.selectedItemId === null) {
+  if (state.isOpen === false || state.activeItemId === null) {
     return null;
   }
 
-  const { itemInputValue } = getSelectedItem(state)!;
+  const { itemInputValue } = getActiveItem(state)!;
 
   return itemInputValue || null;
 }

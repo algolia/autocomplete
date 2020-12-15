@@ -41,7 +41,7 @@ describe('navigator', () => {
     function setupTestWithUrlItems() {
       return createPlayground(createAutocomplete, {
         openOnFocus: true,
-        defaultSelectedItemId: 0,
+        defaultActiveItemId: 0,
         initialState: {
           collections: [
             createCollection({
@@ -104,7 +104,7 @@ describe('navigator', () => {
       function setupCustomNavigatorWithoutUrlTest(props) {
         return createPlayground(createAutocomplete, {
           openOnFocus: true,
-          defaultSelectedItemId: 0,
+          defaultActiveItemId: 0,
           initialState: {
             collections: [
               createCollection({
@@ -170,7 +170,7 @@ describe('navigator', () => {
     function setupCustomNavigatorWithUrlTest(props) {
       return createPlayground(createAutocomplete, {
         openOnFocus: true,
-        defaultSelectedItemId: 0,
+        defaultActiveItemId: 0,
         initialState: {
           collections: [
             createCollection({
@@ -207,7 +207,7 @@ describe('navigator', () => {
           context: {},
           isOpen: true,
           query: '',
-          selectedItemId: 0,
+          activeItemId: 0,
           status: 'loading',
         },
       });
@@ -235,7 +235,7 @@ describe('navigator', () => {
           context: {},
           isOpen: true,
           query: '',
-          selectedItemId: 0,
+          activeItemId: 0,
           status: 'loading',
         },
       });
@@ -263,7 +263,7 @@ describe('navigator', () => {
           context: {},
           isOpen: true,
           query: '',
-          selectedItemId: 0,
+          activeItemId: 0,
           status: 'loading',
         },
       });
@@ -291,7 +291,7 @@ describe('navigator', () => {
           context: {},
           isOpen: true,
           query: '',
-          selectedItemId: 0,
+          activeItemId: 0,
           status: 'loading',
         },
       });

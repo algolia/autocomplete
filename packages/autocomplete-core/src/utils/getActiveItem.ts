@@ -3,7 +3,7 @@ import { AutocompleteCollection, AutocompleteState, BaseItem } from '../types';
 // We don't have access to the autocomplete source when we call `onKeyDown`
 // or `onClick` because those are native browser events.
 // However, we can get the source from the suggestion index.
-function getCollectionFromSelectedItemId<TItem extends BaseItem>(
+function getCollectionFromActiveItemId<TItem extends BaseItem>(
   state: AutocompleteState<TItem>
 ): AutocompleteCollection<TItem> | undefined {
   // Given 3 sources with respectively 1, 2 and 3 suggestions: [1, 2, 3]
@@ -22,7 +22,7 @@ function getCollectionFromSelectedItemId<TItem extends BaseItem>(
 
   // Based on the accumulated counts, we can infer the index of the suggestion.
   const collectionIndex = accumulatedCollectionsCount.reduce((acc, current) => {
-    if (current <= state.selectedItemId!) {
+    if (current <= state.activeItemId!) {
       return acc + 1;
     }
 
@@ -41,7 +41,7 @@ function getCollectionFromSelectedItemId<TItem extends BaseItem>(
  *                      ↑
  *         (absolute: 3, relative: 1)
  */
-function getRelativeSelectedItemId<TItem extends BaseItem>({
+function getRelativeActiveItemId<TItem extends BaseItem>({
   state,
   collection,
 }: {
@@ -65,20 +65,19 @@ function getRelativeSelectedItemId<TItem extends BaseItem>({
     counter++;
   }
 
-  return state.selectedItemId! - previousItemsOffset;
+  return state.activeItemId! - previousItemsOffset;
 }
 
-export function getSelectedItem<TItem extends BaseItem>(
+export function getActiveItem<TItem extends BaseItem>(
   state: AutocompleteState<TItem>
 ) {
-  const collection = getCollectionFromSelectedItemId(state);
+  const collection = getCollectionFromActiveItemId(state);
 
   if (!collection) {
     return null;
   }
 
-  const item =
-    collection.items[getRelativeSelectedItemId({ state, collection })];
+  const item = collection.items[getRelativeActiveItemId({ state, collection })];
   const source = collection.source;
   const itemInputValue = source.getItemInputValue({ item, state });
   const itemUrl = source.getItemUrl({ item, state });

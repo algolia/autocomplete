@@ -7,7 +7,7 @@ function createCollection<TItem extends { label: string }>(
     source: {
       getItemInputValue: ({ item }) => item.label,
       getItemUrl: () => undefined,
-      onHighlight: () => {},
+      onActive: () => {},
       onSelect: () => {},
       getItems: () => items,
     },

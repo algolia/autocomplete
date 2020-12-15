@@ -26,7 +26,7 @@ export function getDefaultProps<TItem extends BaseItem>(
     openOnFocus: false,
     placeholder: '',
     autoFocus: false,
-    defaultSelectedItemId: null,
+    defaultActiveItemId: null,
     stallThreshold: 300,
     environment,
     shouldPanelShow: ({ state }) => getItemsCount(state) > 0,
@@ -37,7 +37,7 @@ export function getDefaultProps<TItem extends BaseItem>(
     plugins,
     // The following props need to be deeply defaulted.
     initialState: {
-      selectedItemId: null,
+      activeItemId: null,
       query: '',
       completion: null,
       collections: [],
@@ -72,9 +72,9 @@ export function getDefaultProps<TItem extends BaseItem>(
               source.onSelect(params);
               pluginSubscribers.forEach((x) => x.onSelect?.(params));
             },
-            onHighlight(params) {
-              source.onHighlight(params);
-              pluginSubscribers.forEach((x) => x.onHighlight?.(params));
+            onActive(params) {
+              source.onActive(params);
+              pluginSubscribers.forEach((x) => x.onActive?.(params));
             },
           }))
         );

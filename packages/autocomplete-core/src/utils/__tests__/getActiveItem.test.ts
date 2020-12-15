@@ -3,13 +3,13 @@ import {
   createSource,
   createState,
 } from '../../../../../test/utils';
-import { getSelectedItem } from '../getSelectedItem';
+import { getActiveItem } from '../getActiveItem';
 
-describe('getSelectedItem', () => {
+describe('getActiveItem', () => {
   test('returns null with empty collections', () => {
     const state = createState();
 
-    expect(getSelectedItem(state)).toEqual(null);
+    expect(getActiveItem(state)).toEqual(null);
   });
 
   test('returns item from first collection', () => {
@@ -26,7 +26,7 @@ describe('getSelectedItem', () => {
       },
     });
     const state = createState({
-      selectedItemId: 0,
+      activeItemId: 0,
       collections: [
         createCollection({
           source: source1,
@@ -35,7 +35,7 @@ describe('getSelectedItem', () => {
       ],
     });
 
-    expect(getSelectedItem(state)).toEqual({
+    expect(getActiveItem(state)).toEqual({
       item: item1,
       itemInputValue: '1',
       itemUrl: '#1',
@@ -69,7 +69,7 @@ describe('getSelectedItem', () => {
       },
     });
     const state = createState({
-      selectedItemId: 1,
+      activeItemId: 1,
       collections: [
         createCollection({
           source: source1,
@@ -82,7 +82,7 @@ describe('getSelectedItem', () => {
       ],
     });
 
-    expect(getSelectedItem(state)).toEqual({
+    expect(getActiveItem(state)).toEqual({
       item: item2,
       itemInputValue: '2',
       itemUrl: '#2',

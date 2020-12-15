@@ -5,7 +5,7 @@ describe('refresh', () => {
   function setupTest(props) {
     return createPlayground(createAutocomplete, {
       openOnFocus: true,
-      defaultSelectedItemId: 0,
+      defaultActiveItemId: 0,
       ...props,
     });
   }

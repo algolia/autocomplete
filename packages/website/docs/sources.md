@@ -275,13 +275,13 @@ const source = {
 
 Called when an item is selected.
 
-### `onHighlight`
+### `onActive`
 
 > `(params: { state: AutocompleteState, ...setters, event: Event, item: TItem, itemInputValue: string, itemUrl: string, source: AutocompleteSource }) => void`
 
-Called when an item is selected.
+Called when an item is active.
 
-You can trigger different behaviors with a mouse highlight and a keyboard highlight based on the `event`.
+You can trigger different behaviors if the item is active following a mouse event or a keyboard event based on the `event` param.
 
 ### `templates` (specific to `@algolia/autocomplete-js`)
 

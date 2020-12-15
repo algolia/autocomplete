@@ -5,7 +5,7 @@ import {
   BaseItem,
   InternalAutocompleteOptions,
 } from './types';
-import { getSelectedItem } from './utils';
+import { getActiveItem } from './utils';
 
 interface OnKeyDownOptions<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
@@ -29,7 +29,7 @@ export function onKeyDown<TItem extends BaseItem>({
     store.dispatch(event.key, null);
 
     const nodeItem = props.environment.document.getElementById(
-      `${props.id}-item-${store.getState().selectedItemId}`
+      `${props.id}-item-${store.getState().activeItemId}`
     );
 
     if (nodeItem) {
@@ -40,12 +40,12 @@ export function onKeyDown<TItem extends BaseItem>({
       }
     }
 
-    const highlightedItem = getSelectedItem(store.getState());
+    const highlightedItem = getActiveItem(store.getState());
 
-    if (store.getState().selectedItemId !== null && highlightedItem) {
+    if (store.getState().activeItemId !== null && highlightedItem) {
       const { item, itemInputValue, itemUrl, source } = highlightedItem;
 
-      source.onHighlight({
+      source.onActive({
         event,
         item,
         itemInputValue,
@@ -64,10 +64,10 @@ export function onKeyDown<TItem extends BaseItem>({
 
     store.dispatch(event.key, null);
   } else if (event.key === 'Enter') {
-    // No item is selected, so we let the browser handle the native `onSubmit`
-    // form event.
+    // No active item, so we let the browser handle the native `onSubmit` form
+    // event.
     if (
-      store.getState().selectedItemId === null ||
+      store.getState().activeItemId === null ||
       store
         .getState()
         .collections.every((collection) => collection.items.length === 0)
@@ -79,7 +79,7 @@ export function onKeyDown<TItem extends BaseItem>({
     // highlighted.
     event.preventDefault();
 
-    const { item, itemInputValue, itemUrl, source } = getSelectedItem(
+    const { item, itemInputValue, itemUrl, source } = getActiveItem(
       store.getState()
     )!;
 

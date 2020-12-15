@@ -39,7 +39,7 @@ const autocomplete = createAutocomplete({
 
 ## State
 
-### `selectedItemId`
+### `activeItemId`
 
 > `number | null` | defaults to `null`
 
@@ -85,7 +85,7 @@ Learn more on the [context](context) page.
 
 ## Setters
 
-### `setSelectedItemId`
+### `setActiveItemId`
 
 > `(value: number | null) => void`
 

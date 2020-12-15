@@ -13,10 +13,10 @@ interface GetAutocompleteSettersOptions<TItem extends BaseItem> {
 export function getAutocompleteSetters<TItem extends BaseItem>({
   store,
 }: GetAutocompleteSettersOptions<TItem>) {
-  const setSelectedItemId: AutocompleteApi<TItem>['setSelectedItemId'] = (
+  const setActiveItemId: AutocompleteApi<TItem>['setActiveItemId'] = (
     value
   ) => {
-    store.dispatch('setSelectedItemId', value);
+    store.dispatch('setActiveItemId', value);
   };
 
   const setQuery: AutocompleteApi<TItem>['setQuery'] = (value) => {
@@ -53,7 +53,7 @@ export function getAutocompleteSetters<TItem extends BaseItem>({
   };
 
   return {
-    setSelectedItemId,
+    setActiveItemId,
     setQuery,
     setCollections,
     setIsOpen,

@@ -18,7 +18,7 @@ describe('createAutocomplete', () => {
       setContext: expect.any(Function),
       setIsOpen: expect.any(Function),
       setQuery: expect.any(Function),
-      setSelectedItemId: expect.any(Function),
+      setActiveItemId: expect.any(Function),
       setStatus: expect.any(Function),
     });
   });
@@ -29,13 +29,13 @@ describe('createAutocomplete', () => {
 
     expect(plugin.subscribe).toHaveBeenCalledTimes(1);
     expect(plugin.subscribe).toHaveBeenLastCalledWith({
-      onHighlight: expect.any(Function),
+      onActive: expect.any(Function),
       onSelect: expect.any(Function),
       setCollections: expect.any(Function),
       setContext: expect.any(Function),
       setIsOpen: expect.any(Function),
       setQuery: expect.any(Function),
-      setSelectedItemId: expect.any(Function),
+      setActiveItemId: expect.any(Function),
       setStatus: expect.any(Function),
     });
   });

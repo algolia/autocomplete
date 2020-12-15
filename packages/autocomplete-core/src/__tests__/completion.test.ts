@@ -82,7 +82,7 @@ describe('completion', () => {
     });
   });
 
-  test('does not set completion when no selectedItemId', () => {
+  test('does not set completion when no activeItemId', () => {
     const onStateChange = jest.fn();
     const { inputElement } = createPlayground(createAutocomplete, {
       openOnFocus: true,

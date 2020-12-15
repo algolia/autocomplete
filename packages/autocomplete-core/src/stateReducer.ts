@@ -2,14 +2,14 @@ import { invariant } from '@algolia/autocomplete-shared';
 
 import { getCompletion } from './getCompletion';
 import { Reducer } from './types';
-import { getItemsCount, getNextSelectedItemId } from './utils';
+import { getItemsCount, getNextActiveItemId } from './utils';
 
 export const stateReducer: Reducer = (state, action) => {
   switch (action.type) {
-    case 'setSelectedItemId': {
+    case 'setActiveItemId': {
       return {
         ...state,
-        selectedItemId: action.payload,
+        activeItemId: action.payload,
       };
     }
 
@@ -55,11 +55,11 @@ export const stateReducer: Reducer = (state, action) => {
     case 'ArrowDown': {
       const nextState = {
         ...state,
-        selectedItemId: getNextSelectedItemId(
+        activeItemId: getNextActiveItemId(
           1,
-          state.selectedItemId,
+          state.activeItemId,
           getItemsCount(state),
-          action.props.defaultSelectedItemId
+          action.props.defaultActiveItemId
         ),
       };
 
@@ -72,11 +72,11 @@ export const stateReducer: Reducer = (state, action) => {
     case 'ArrowUp': {
       const nextState = {
         ...state,
-        selectedItemId: getNextSelectedItemId(
+        activeItemId: getNextActiveItemId(
           -1,
-          state.selectedItemId,
+          state.activeItemId,
           getItemsCount(state),
-          action.props.defaultSelectedItemId
+          action.props.defaultActiveItemId
         ),
       };
 
@@ -106,7 +106,7 @@ export const stateReducer: Reducer = (state, action) => {
     case 'submit': {
       return {
         ...state,
-        selectedItemId: null,
+        activeItemId: null,
         isOpen: false,
         status: 'idle',
       };
@@ -115,14 +115,14 @@ export const stateReducer: Reducer = (state, action) => {
     case 'reset': {
       return {
         ...state,
-        selectedItemId:
+        activeItemId:
           // Since we open the panel on reset when openOnFocus=true
-          // we need to restore the highlighted index to the defaultSelectedItemId. (DocSearch use-case)
+          // we need to restore the highlighted index to the defaultActiveItemId. (DocSearch use-case)
 
           // Since we close the panel when openOnFocus=false
           // we lose track of the highlighted index. (Query-suggestions use-case)
           action.props.openOnFocus === true
-            ? action.props.defaultSelectedItemId
+            ? action.props.defaultActiveItemId
             : null,
         status: 'idle',
         query: '',
@@ -132,7 +132,7 @@ export const stateReducer: Reducer = (state, action) => {
     case 'focus': {
       return {
         ...state,
-        selectedItemId: action.props.defaultSelectedItemId,
+        activeItemId: action.props.defaultActiveItemId,
         isOpen: action.props.openOnFocus || state.query.length > 0,
       };
     }
@@ -145,21 +145,21 @@ export const stateReducer: Reducer = (state, action) => {
       return {
         ...state,
         isOpen: false,
-        selectedItemId: null,
+        activeItemId: null,
       };
     }
 
     case 'mousemove': {
       return {
         ...state,
-        selectedItemId: action.payload,
+        activeItemId: action.payload,
       };
     }
 
     case 'mouseleave': {
       return {
         ...state,
-        selectedItemId: action.props.defaultSelectedItemId,
+        activeItemId: action.props.defaultActiveItemId,
       };
     }
 

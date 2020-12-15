@@ -66,7 +66,7 @@ const {
   getItemProps,
   getLabelProps,
   getListProps,
-  setSelectedItemId,
+  setActiveItemId,
   setQuery,
   setCollections,
   setIsOpen,

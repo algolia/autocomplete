@@ -46,7 +46,7 @@ export function autocomplete<TItem extends BaseItem>(
     context: {},
     isOpen: false,
     query: '',
-    selectedItemId: null,
+    activeItemId: null,
     status: 'idle',
     ...props.value.core.initialState,
   });
@@ -65,7 +65,7 @@ export function autocomplete<TItem extends BaseItem>(
     getRootProps: props.value.renderer.getRootProps,
   };
   const autocompleteScopeApi: AutocompleteScopeApi<TItem> = {
-    setSelectedItemId: autocomplete.value.setSelectedItemId,
+    setActiveItemId: autocomplete.value.setActiveItemId,
     setQuery: autocomplete.value.setQuery,
     setCollections: autocomplete.value.setCollections,
     setIsOpen: autocomplete.value.setIsOpen,

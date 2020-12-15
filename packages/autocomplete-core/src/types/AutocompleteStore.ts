@@ -19,7 +19,7 @@ type Action<TItem extends BaseItem, TPayload> = {
 };
 
 type ActionType =
-  | 'setSelectedItemId'
+  | 'setActiveItemId'
   | 'setQuery'
   | 'setCollections'
   | 'setIsOpen'

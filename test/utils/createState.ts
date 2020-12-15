@@ -5,7 +5,7 @@ export function createState<TItem extends BaseItem>(
   partialState: Partial<AutocompleteState<TItem>> = {}
 ): AutocompleteState<TItem> {
   return {
-    selectedItemId: null,
+    activeItemId: null,
     query: '',
     completion: null,
     collections: [],

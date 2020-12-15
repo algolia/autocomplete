@@ -4,7 +4,7 @@ import { createAutocomplete } from '../createAutocomplete';
 describe('plugins', () => {
   test.todo('notifies plugins when onSelect');
 
-  test.todo('notifies plugins when onHighlight');
+  test.todo('notifies plugins when onActive');
 
   test('notifies plugins when onStateChange', () => {
     const onStateChange = jest.fn();

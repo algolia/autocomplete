@@ -43,13 +43,13 @@ describe('getInputProps', () => {
     expect(inputProps['aria-activedescendant']).toBeUndefined();
   });
 
-  test('returns undefined aria-activedescendant when panel is open and but no selected item', () => {
+  test('returns undefined aria-activedescendant when panel is open and but no active item', () => {
     const { getInputProps, inputElement } = createPlayground(
       createAutocomplete,
       {
         initialState: {
           isOpen: true,
-          selectedItemId: null,
+          activeItemId: null,
         },
       }
     );
@@ -65,7 +65,7 @@ describe('getInputProps', () => {
         id: 'autocomplete',
         initialState: {
           isOpen: true,
-          selectedItemId: 0,
+          activeItemId: 0,
         },
       }
     );
@@ -253,7 +253,7 @@ describe('getInputProps', () => {
     const { getInputProps, inputElement } = createPlayground(
       createAutocomplete,
       {
-        defaultSelectedItemId: 0,
+        defaultActiveItemId: 0,
         initialState: {
           collections: [
             createCollection({
@@ -272,7 +272,7 @@ describe('getInputProps', () => {
     const { getInputProps, inputElement } = createPlayground(
       createAutocomplete,
       {
-        defaultSelectedItemId: 0,
+        defaultActiveItemId: 0,
         initialState: {
           collections: [
             createCollection({
@@ -308,11 +308,11 @@ describe('getInputProps', () => {
       });
     });
 
-    test('sets selectedItemId to defaultSelectedItemId', () => {
+    test('sets activeItemId to defaultActiveItemId', () => {
       const onStateChange = jest.fn();
       const { inputElement } = createPlayground(createAutocomplete, {
         onStateChange,
-        defaultSelectedItemId: 0,
+        defaultActiveItemId: 0,
       });
 
       userEvent.type(inputElement, 'a');
@@ -320,7 +320,7 @@ describe('getInputProps', () => {
       expect(onStateChange).toHaveBeenLastCalledWith({
         prevState: expect.anything(),
         state: expect.objectContaining({
-          selectedItemId: 0,
+          activeItemId: 0,
         }),
       });
     });
@@ -383,7 +383,7 @@ describe('getInputProps', () => {
         setContext,
         setIsOpen,
         setQuery,
-        setSelectedItemId,
+        setActiveItemId,
         setStatus,
       } = createPlayground(createAutocomplete, {
         onStateChange,
@@ -399,7 +399,7 @@ describe('getInputProps', () => {
         setContext,
         setIsOpen,
         setQuery,
-        setSelectedItemId,
+        setActiveItemId,
         setStatus,
         state: {
           collections: [],
@@ -407,7 +407,7 @@ describe('getInputProps', () => {
           context: {},
           isOpen: false,
           query: 'a',
-          selectedItemId: null,
+          activeItemId: null,
           status: 'loading',
         },
       });
@@ -486,16 +486,16 @@ describe('getInputProps', () => {
       });
     });
 
-    test('calls onHighlight', async () => {
+    test('calls onActive', async () => {
       const onStateChange = jest.fn();
-      const onHighlight = jest.fn();
+      const onActive = jest.fn();
       const getSources = jest.fn((..._args: any[]) => {
         return [
           createSource({
             getItems() {
               return [{ label: '1' }, { label: '2' }];
             },
-            onHighlight,
+            onActive,
           }),
         ];
       });
@@ -506,10 +506,10 @@ describe('getInputProps', () => {
         setContext,
         setIsOpen,
         setQuery,
-        setSelectedItemId,
+        setActiveItemId,
         setStatus,
       } = createPlayground(createAutocomplete, {
-        defaultSelectedItemId: 0,
+        defaultActiveItemId: 0,
         onStateChange,
         getSources,
       });
@@ -518,8 +518,8 @@ describe('getInputProps', () => {
 
       await runAllMicroTasks();
 
-      expect(onHighlight).toHaveBeenCalledTimes(1);
-      expect(onHighlight).toHaveBeenCalledWith({
+      expect(onActive).toHaveBeenCalledTimes(1);
+      expect(onActive).toHaveBeenCalledWith({
         event: expect.any(Event),
         item: { label: '1', __autocomplete_id: 0 },
         itemInputValue: 'a',
@@ -530,7 +530,7 @@ describe('getInputProps', () => {
         setContext,
         setIsOpen,
         setQuery,
-        setSelectedItemId,
+        setActiveItemId,
         setStatus,
         state: {
           collections: [
@@ -546,7 +546,7 @@ describe('getInputProps', () => {
           context: {},
           isOpen: true,
           query: 'a',
-          selectedItemId: 0,
+          activeItemId: 0,
           status: 'idle',
         },
       });
@@ -618,7 +618,7 @@ describe('getInputProps', () => {
         return { ...playground, item };
       }
 
-      test('scrolls to the selected item with scrollIntoViewIfNeeded fallback with ArrowDown', () => {
+      test('scrolls to the active item with scrollIntoViewIfNeeded fallback with ArrowDown', () => {
         const onStateChange = jest.fn();
         const { inputElement, item } = setupTestWithItem({ onStateChange });
         (item as any).scrollIntoViewIfNeeded = jest.fn();
@@ -632,7 +632,7 @@ describe('getInputProps', () => {
         );
       });
 
-      test('scrolls to the selected item with scrollIntoViewIfNeeded fallback with ArrowUp', () => {
+      test('scrolls to the active item with scrollIntoViewIfNeeded fallback with ArrowUp', () => {
         const onStateChange = jest.fn();
         const { inputElement, item } = setupTestWithItem({ onStateChange });
         (item as any).scrollIntoViewIfNeeded = jest.fn();
@@ -646,7 +646,7 @@ describe('getInputProps', () => {
         );
       });
 
-      test('scrolls to the selected item with scrollIntoView fallback with ArrowDown', () => {
+      test('scrolls to the active item with scrollIntoView fallback with ArrowDown', () => {
         const onStateChange = jest.fn();
         const { inputElement, item } = setupTestWithItem({ onStateChange });
         item.scrollIntoView = jest.fn();
@@ -658,7 +658,7 @@ describe('getInputProps', () => {
         expect(item.scrollIntoView).toHaveBeenCalledWith(false);
       });
 
-      test('scrolls to the selected item with scrollIntoView fallback with ArrowUp', () => {
+      test('scrolls to the active item with scrollIntoView fallback with ArrowUp', () => {
         const onStateChange = jest.fn();
         const { inputElement, item } = setupTestWithItem({ onStateChange });
         item.scrollIntoView = jest.fn();
@@ -670,9 +670,9 @@ describe('getInputProps', () => {
         expect(item.scrollIntoView).toHaveBeenCalledWith(false);
       });
 
-      test('calls onHighlight when selectedItemId', () => {
+      test('calls onActive when activeItemId', () => {
         const onStateChange = jest.fn();
-        const onHighlight = jest.fn();
+        const onActive = jest.fn();
         const {
           inputElement,
           refresh,
@@ -680,7 +680,7 @@ describe('getInputProps', () => {
           setContext,
           setIsOpen,
           setQuery,
-          setSelectedItemId,
+          setActiveItemId,
           setStatus,
         } = createPlayground(createAutocomplete, {
           openOnFocus: true,
@@ -688,7 +688,7 @@ describe('getInputProps', () => {
           initialState: {
             collections: [
               createCollection({
-                source: { onHighlight },
+                source: { onActive },
                 items: [{ label: '1' }, { label: '2' }],
               }),
             ],
@@ -698,8 +698,8 @@ describe('getInputProps', () => {
         inputElement.focus();
         userEvent.type(inputElement, 'a{arrowdown}');
 
-        expect(onHighlight).toHaveBeenCalledTimes(1);
-        expect(onHighlight).toHaveBeenCalledWith({
+        expect(onActive).toHaveBeenCalledTimes(1);
+        expect(onActive).toHaveBeenCalledWith({
           event: expect.any(Event),
           item: { label: '1' },
           itemInputValue: 'a',
@@ -710,7 +710,7 @@ describe('getInputProps', () => {
           setContext,
           setIsOpen,
           setQuery,
-          setSelectedItemId,
+          setActiveItemId,
           setStatus,
           state: {
             collections: [
@@ -723,22 +723,22 @@ describe('getInputProps', () => {
             context: {},
             isOpen: true,
             query: 'a',
-            selectedItemId: 0,
+            activeItemId: 0,
             status: 'loading',
           },
         });
       });
 
-      test('does not call onHighlight when no selectedItemId', () => {
+      test('does not call onActive when no activeItemId', () => {
         const onStateChange = jest.fn();
-        const onHighlight = jest.fn();
+        const onActive = jest.fn();
         const { inputElement } = createPlayground(createAutocomplete, {
           openOnFocus: true,
           onStateChange,
           initialState: {
             collections: [
               createCollection({
-                source: { onHighlight },
+                source: { onActive },
                 items: [{ label: '1' }, { label: '2' }],
               }),
             ],
@@ -746,13 +746,13 @@ describe('getInputProps', () => {
         });
 
         inputElement.focus();
-        expect(onHighlight).toHaveBeenCalledTimes(0);
+        expect(onActive).toHaveBeenCalledTimes(0);
 
         userEvent.type(inputElement, '{arrowdown}');
-        expect(onHighlight).toHaveBeenCalledTimes(1);
+        expect(onActive).toHaveBeenCalledTimes(1);
 
         userEvent.type(inputElement, '{arrowup}');
-        expect(onHighlight).toHaveBeenCalledTimes(1);
+        expect(onActive).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -835,13 +835,13 @@ describe('getInputProps', () => {
     });
 
     describe('Enter', () => {
-      test('is a noop without selectedItemId', () => {
+      test('is a noop without activeItemId', () => {
         const onStateChange = jest.fn();
         const { inputProps } = createPlayground(createAutocomplete, {
           onStateChange,
           initialState: {
             isOpen: true,
-            selectedItemId: null,
+            activeItemId: null,
             collections: [
               createCollection({
                 items: [{ label: '1' }, { label: '2' }],
@@ -866,7 +866,7 @@ describe('getInputProps', () => {
           onStateChange,
           initialState: {
             isOpen: true,
-            selectedItemId: 0,
+            activeItemId: 0,
             collections: [],
           },
         });
@@ -885,7 +885,7 @@ describe('getInputProps', () => {
         const { inputProps } = createPlayground(createAutocomplete, {
           openOnFocus: true,
           initialState: {
-            selectedItemId: 0,
+            activeItemId: 0,
             collections: [
               createCollection({
                 items: [{ label: '1' }, { label: '2' }],
@@ -920,11 +920,11 @@ describe('getInputProps', () => {
             setContext,
             setIsOpen,
             setQuery,
-            setSelectedItemId,
+            setActiveItemId,
             setStatus,
           } = createPlayground(createAutocomplete, {
             navigator,
-            defaultSelectedItemId: 0,
+            defaultActiveItemId: 0,
             initialState: {
               isOpen: true,
               collections: [
@@ -956,7 +956,7 @@ describe('getInputProps', () => {
             setContext,
             setIsOpen,
             setQuery,
-            setSelectedItemId,
+            setActiveItemId,
             setStatus,
             source: expect.any(Object),
             state: {
@@ -979,7 +979,7 @@ describe('getInputProps', () => {
               context: {},
               isOpen: false,
               query: '',
-              selectedItemId: 0,
+              activeItemId: 0,
               status: 'idle',
             },
           });
@@ -994,7 +994,7 @@ describe('getInputProps', () => {
           };
           const { inputElement } = createPlayground(createAutocomplete, {
             navigator,
-            defaultSelectedItemId: 0,
+            defaultActiveItemId: 0,
             initialState: {
               isOpen: true,
               collections: [
@@ -1027,7 +1027,7 @@ describe('getInputProps', () => {
                     getItemInputValue: expect.any(Function),
                     getItemUrl: expect.any(Function),
                     getItems: expect.any(Function),
-                    onHighlight: expect.any(Function),
+                    onActive: expect.any(Function),
                     onSelect,
                   },
                 },
@@ -1036,7 +1036,7 @@ describe('getInputProps', () => {
               context: {},
               isOpen: false,
               query: '',
-              selectedItemId: 0,
+              activeItemId: 0,
               status: 'idle',
             },
           });
@@ -1057,12 +1057,12 @@ describe('getInputProps', () => {
             setContext,
             setIsOpen,
             setQuery,
-            setSelectedItemId,
+            setActiveItemId,
             setStatus,
           } = createPlayground(createAutocomplete, {
             onInput,
             navigator,
-            defaultSelectedItemId: 0,
+            defaultActiveItemId: 0,
             initialState: {
               isOpen: true,
               collections: [
@@ -1090,7 +1090,7 @@ describe('getInputProps', () => {
             setContext,
             setIsOpen,
             setQuery,
-            setSelectedItemId,
+            setActiveItemId,
             setStatus,
             source: expect.any(Object),
             state: {
@@ -1104,7 +1104,7 @@ describe('getInputProps', () => {
               context: {},
               isOpen: false,
               query: '',
-              selectedItemId: 0,
+              activeItemId: 0,
               status: 'idle',
             },
           });
@@ -1141,7 +1141,7 @@ describe('getInputProps', () => {
           };
           const { inputElement } = createPlayground(createAutocomplete, {
             navigator,
-            defaultSelectedItemId: 0,
+            defaultActiveItemId: 0,
             initialState: {
               isOpen: true,
               collections: [

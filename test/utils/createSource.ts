@@ -10,7 +10,7 @@ export function createSource<TItem extends BaseItem>(
   return {
     getItemInputValue: ({ state }) => state.query,
     getItemUrl: () => undefined,
-    onHighlight: () => {},
+    onActive: () => {},
     onSelect: () => {},
     getItems: () => [],
     ...source,

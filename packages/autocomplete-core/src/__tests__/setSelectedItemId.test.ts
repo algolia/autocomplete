@@ -1,25 +1,25 @@
 import { createAutocomplete } from '../createAutocomplete';
 
-describe('setSelectedItemId', () => {
-  test('sets the selected item ID', () => {
+describe('setActiveItemId', () => {
+  test('sets the active item ID', () => {
     const onStateChange = jest.fn();
-    const { setSelectedItemId } = createAutocomplete({ onStateChange });
+    const { setActiveItemId } = createAutocomplete({ onStateChange });
 
-    setSelectedItemId(1);
+    setActiveItemId(1);
 
     expect(onStateChange).toHaveBeenCalledTimes(1);
     expect(onStateChange).toHaveBeenCalledWith(
       expect.objectContaining({
-        state: expect.objectContaining({ selectedItemId: 1 }),
+        state: expect.objectContaining({ activeItemId: 1 }),
       })
     );
 
-    setSelectedItemId(null);
+    setActiveItemId(null);
 
     expect(onStateChange).toHaveBeenCalledTimes(2);
     expect(onStateChange).toHaveBeenCalledWith(
       expect.objectContaining({
-        state: expect.objectContaining({ selectedItemId: null }),
+        state: expect.objectContaining({ activeItemId: null }),
       })
     );
   });

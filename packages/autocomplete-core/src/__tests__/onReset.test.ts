@@ -26,7 +26,7 @@ describe('onReset', () => {
       setContext: expect.any(Function),
       setIsOpen: expect.any(Function),
       setQuery: expect.any(Function),
-      setSelectedItemId: expect.any(Function),
+      setActiveItemId: expect.any(Function),
       setStatus: expect.any(Function),
       state: {
         collections: [],
@@ -34,7 +34,7 @@ describe('onReset', () => {
         context: {},
         isOpen: false,
         query: '',
-        selectedItemId: null,
+        activeItemId: null,
         status: 'idle',
       },
     });

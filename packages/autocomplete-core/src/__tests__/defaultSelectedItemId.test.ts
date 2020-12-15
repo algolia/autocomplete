@@ -2,8 +2,8 @@ import userEvent from '@testing-library/user-event';
 
 import { createAutocomplete } from '../createAutocomplete';
 
-describe('defaultSelectedItemId', () => {
-  test('selects unset defaultSelectedItemId on open (onInput)', () => {
+describe('defaultActiveItemId', () => {
+  test('selects unset defaultActiveItemId on open (onInput)', () => {
     const onStateChange = jest.fn();
     const autocomplete = createAutocomplete({
       openOnFocus: true,
@@ -20,17 +20,17 @@ describe('defaultSelectedItemId', () => {
     expect(onStateChange).toHaveBeenLastCalledWith({
       prevState: expect.anything(),
       state: expect.objectContaining({
-        selectedItemId: null,
+        activeItemId: null,
       }),
     });
   });
 
-  test('selects provided defaultSelectedItemId on open (onInput)', () => {
+  test('selects provided defaultActiveItemId on open (onInput)', () => {
     const onStateChange = jest.fn();
     const autocomplete = createAutocomplete({
       openOnFocus: true,
       onStateChange,
-      defaultSelectedItemId: 0,
+      defaultActiveItemId: 0,
     });
     const inputElement = document.createElement('input');
     const inputProps = autocomplete.getInputProps({ inputElement });
@@ -42,17 +42,17 @@ describe('defaultSelectedItemId', () => {
     expect(onStateChange).toHaveBeenLastCalledWith({
       prevState: expect.anything(),
       state: expect.objectContaining({
-        selectedItemId: 0,
+        activeItemId: 0,
       }),
     });
   });
 
-  test('selects defaultSelectedItemId with openOnFocus on reset', () => {
+  test('selects defaultActiveItemId with openOnFocus on reset', () => {
     const onStateChange = jest.fn();
     const autocomplete = createAutocomplete({
       openOnFocus: true,
       onStateChange,
-      defaultSelectedItemId: 0,
+      defaultActiveItemId: 0,
     });
     const formElement = document.createElement('form');
     const inputElement = document.createElement('input');
@@ -63,23 +63,23 @@ describe('defaultSelectedItemId', () => {
     document.body.appendChild(formElement);
     formElement.appendChild(inputElement);
 
-    autocomplete.setSelectedItemId(null);
+    autocomplete.setActiveItemId(null);
     formElement.reset();
 
     expect(onStateChange).toHaveBeenLastCalledWith({
       prevState: expect.anything(),
       state: expect.objectContaining({
-        selectedItemId: 0,
+        activeItemId: 0,
       }),
     });
   });
 
-  test('selects defaultSelectedItemId on focus', () => {
+  test('selects defaultActiveItemId on focus', () => {
     const onStateChange = jest.fn();
     const { getInputProps } = createAutocomplete({
       openOnFocus: true,
       onStateChange,
-      defaultSelectedItemId: 0,
+      defaultActiveItemId: 0,
     });
     const inputElement = document.createElement('input');
     const inputProps = getInputProps({ inputElement });
@@ -91,19 +91,19 @@ describe('defaultSelectedItemId', () => {
     expect(onStateChange).toHaveBeenLastCalledWith({
       prevState: expect.anything(),
       state: expect.objectContaining({
-        selectedItemId: 0,
+        activeItemId: 0,
       }),
     });
   });
 
-  test('selects defaultSelectedItemId when ArrowDown on the last', () => {
+  test('selects defaultActiveItemId when ArrowDown on the last', () => {
     const onStateChange = jest.fn();
     const { getInputProps } = createAutocomplete({
       openOnFocus: true,
       onStateChange,
-      defaultSelectedItemId: 0,
+      defaultActiveItemId: 0,
       initialState: {
-        selectedItemId: 1,
+        activeItemId: 1,
       },
     });
     const inputElement = document.createElement('input');
@@ -117,19 +117,19 @@ describe('defaultSelectedItemId', () => {
     expect(onStateChange).toHaveBeenLastCalledWith({
       prevState: expect.anything(),
       state: expect.objectContaining({
-        selectedItemId: 0,
+        activeItemId: 0,
       }),
     });
   });
 
-  test('selects defaultSelectedItemId when ArrowUp on the first', () => {
+  test('selects defaultActiveItemId when ArrowUp on the first', () => {
     const onStateChange = jest.fn();
     const { getInputProps } = createAutocomplete({
       openOnFocus: true,
       onStateChange,
-      defaultSelectedItemId: 0,
+      defaultActiveItemId: 0,
       initialState: {
-        selectedItemId: 1,
+        activeItemId: 1,
       },
     });
     const inputElement = document.createElement('input');
@@ -143,7 +143,7 @@ describe('defaultSelectedItemId', () => {
     expect(onStateChange).toHaveBeenLastCalledWith({
       prevState: expect.anything(),
       state: expect.objectContaining({
-        selectedItemId: 0,
+        activeItemId: 0,
       }),
     });
   });

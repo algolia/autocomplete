@@ -3,7 +3,7 @@ import { AutocompleteCollection } from './AutocompleteCollection';
 import { AutocompleteContext } from './AutocompleteContext';
 
 export interface AutocompleteState<TItem extends BaseItem> {
-  selectedItemId: number | null;
+  activeItemId: number | null;
   query: string;
   completion: string | null;
   collections: Array<AutocompleteCollection<TItem>>;

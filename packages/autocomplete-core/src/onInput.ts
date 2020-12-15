@@ -7,7 +7,7 @@ import {
   BaseItem,
   InternalAutocompleteOptions,
 } from './types';
-import { getSelectedItem } from './utils';
+import { getActiveItem } from './utils';
 
 let lastStalledId: number | null = null;
 
@@ -55,12 +55,12 @@ export function onInput<TItem extends BaseItem>({
     setCollections,
     setIsOpen,
     setQuery,
-    setSelectedItemId,
+    setActiveItemId,
     setStatus,
   } = setters;
 
   setQuery(query);
-  setSelectedItemId(props.defaultSelectedItemId);
+  setActiveItemId(props.defaultActiveItemId);
 
   if (query.length === 0 && props.openOnFocus === false) {
     setStatus('idle');
@@ -124,12 +124,12 @@ export function onInput<TItem extends BaseItem>({
                 props.shouldPanelShow({ state: store.getState() }))
           );
 
-          const highlightedItem = getSelectedItem(store.getState());
+          const highlightedItem = getActiveItem(store.getState());
 
-          if (store.getState().selectedItemId !== null && highlightedItem) {
+          if (store.getState().activeItemId !== null && highlightedItem) {
             const { item, itemInputValue, itemUrl, source } = highlightedItem;
 
-            source.onHighlight({
+            source.onActive({
               event,
               item,
               itemInputValue,

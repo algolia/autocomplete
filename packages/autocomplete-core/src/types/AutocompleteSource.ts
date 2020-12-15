@@ -57,7 +57,7 @@ export interface AutocompleteSource<TItem extends BaseItem> {
    * An item is highlighted either via keyboard navigation or via mouse over.
    * You can trigger different behaviors based on the event `type`.
    */
-  onHighlight?(params: OnHighlightParams<TItem>): void;
+  onActive?(params: OnHighlightParams<TItem>): void;
 }
 
 export type InternalAutocompleteSource<TItem extends BaseItem> = {

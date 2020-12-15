@@ -73,7 +73,7 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    *
    * @default null
    */
-  defaultSelectedItemId?: number | null;
+  defaultActiveItemId?: number | null;
   /**
    * Whether to open the panel on focus when there's no query.
    *
@@ -143,7 +143,7 @@ export interface InternalAutocompleteOptions<TItem extends BaseItem>
   }): void;
   placeholder: string;
   autoFocus: boolean;
-  defaultSelectedItemId: number | null;
+  defaultActiveItemId: number | null;
   openOnFocus: boolean;
   stallThreshold: number;
   initialState: AutocompleteState<TItem>;

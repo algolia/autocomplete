@@ -8,7 +8,7 @@ type PluginSubscriber<TParams> = (params: TParams) => void;
 interface PluginSubscribeParams<TItem extends BaseItem>
   extends AutocompleteSetters<TItem> {
   onSelect(fn: PluginSubscriber<OnSelectParams<TItem>>): void;
-  onHighlight(fn: PluginSubscriber<OnHighlightParams<TItem>>): void;
+  onActive(fn: PluginSubscriber<OnHighlightParams<TItem>>): void;
 }
 
 export type AutocompletePlugin<

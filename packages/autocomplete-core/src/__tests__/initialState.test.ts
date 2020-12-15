@@ -13,7 +13,7 @@ describe('initialState', () => {
 
     expect(onStateChange).toHaveBeenCalledWith({
       prevState: {
-        selectedItemId: null,
+        activeItemId: null,
         query: '',
         completion: null,
         collections: [],
@@ -27,7 +27,7 @@ describe('initialState', () => {
 
   test('sets the initial state', () => {
     const initialState = {
-      selectedItemId: 0,
+      activeItemId: 0,
       query: 'Initial query',
       completion: 'Initial query completion',
       collections: [],

@@ -42,7 +42,7 @@ export function getNormalizedSources<TItem extends BaseItem>(
             onSelect({ setIsOpen }) {
               setIsOpen(false);
             },
-            onHighlight: noop,
+            onActive: noop,
             ...source,
           };
 
