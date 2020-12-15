@@ -39,7 +39,6 @@ export function autocomplete<TItem extends BaseItem>(
       },
     })
   );
-  const renderRequestIdRef = createRef<number | null>(null);
   const lastStateRef = createRef<AutocompleteState<TItem>>({
     collections: [],
     completion: null,
@@ -76,13 +75,13 @@ export function autocomplete<TItem extends BaseItem>(
 
   const dom = reactive(() =>
     createAutocompleteDom({
-      placeholder: props.value.core.placeholder,
-      isTouch: isTouch.value,
-      state: lastStateRef.current,
       autocomplete: autocomplete.value,
-      classNames: props.value.renderer.classNames,
-      propGetters,
       autocompleteScopeApi,
+      classNames: props.value.renderer.classNames,
+      isTouch: isTouch.value,
+      placeholder: props.value.core.placeholder,
+      propGetters,
+      state: lastStateRef.current,
     })
   );
 
@@ -101,16 +100,19 @@ export function autocomplete<TItem extends BaseItem>(
 
   function runRender() {
     const renderProps = {
-      isTouch: isTouch.value,
-      state: lastStateRef.current,
       autocomplete: autocomplete.value,
-      propGetters,
-      dom: dom.value,
+      autocompleteScopeApi,
       classNames: props.value.renderer.classNames,
+      container: props.value.renderer.container,
+      dom: dom.value,
+      isTouch: isTouch.value,
       panelContainer: isTouch.value
         ? dom.value.touchOverlay
         : props.value.renderer.panelContainer,
-      autocompleteScopeApi,
+      pragma: props.value.renderer.pragma,
+      pragmaFrag: props.value.renderer.pragmaFrag,
+      propGetters,
+      state: lastStateRef.current,
     };
 
     renderSearchBox(renderProps);
@@ -118,12 +120,8 @@ export function autocomplete<TItem extends BaseItem>(
   }
 
   function scheduleRender(state: AutocompleteState<TItem>) {
-    if (renderRequestIdRef.current !== null) {
-      cancelAnimationFrame(renderRequestIdRef.current);
-    }
-
     lastStateRef.current = state;
-    renderRequestIdRef.current = requestAnimationFrame(runRender);
+    runRender();
   }
 
   runEffect(() => {

@@ -123,22 +123,34 @@ type ClassNames = Partial<{
 
 ### `render`
 
-> `(params: { root: HTMLElement, sections: HTMLElement[], state: AutocompleteState<TItem> }) => void`
+> `(params: { children: VNode, state: AutocompleteState<TItem> }) => void`
 
-Function called to render the autocomplete results. It is useful for rendering sections in different row or column layouts.
+Function called to render the autocomplete panel. It is useful for rendering sections in different row or column layouts.
 
-The default implementation appends all the sections to the root:
+Default implementation:
 
 ```js
+import { render } from 'preact';
+
 autocomplete({
   // ...
-  render({ root, sections }) {
-    for (const section of sections) {
-      root.appendChild(section);
-    }
+  render({ children }, root) {
+    render(children, root);
   },
 });
 ```
+
+### `pragma`
+
+> `(type: string | PragmaFrag, props: Record<string, any> | null, ...children: ComponentChildren[]) => VNode` | defaults to `preact.createElement`
+
+Function used to create elements.
+
+### `pragmaFrag`
+
+> `typeof Fragment` | defaults to `preact.Fragment`
+
+Component used for fragments.
 
 ## Returned props
 

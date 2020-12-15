@@ -75,6 +75,7 @@ describe('autocomplete-js', () => {
               </label>
               <div
                 class="aa-LoadingIndicator"
+                hidden=""
               >
                 <svg
                   class="aa-LoadingIcon"
@@ -130,6 +131,7 @@ describe('autocomplete-js', () => {
             >
               <button
                 class="aa-ResetButton"
+                hidden=""
                 type="reset"
               >
                 <svg

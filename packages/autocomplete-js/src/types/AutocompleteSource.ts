@@ -4,9 +4,12 @@ import {
   BaseItem,
 } from '@algolia/autocomplete-core';
 
+import { Pragma, PragmaFrag, VNode } from './AutocompleteRenderer';
 import { AutocompleteState } from './AutocompleteState';
 
-type Template<TParams> = (params: TParams) => string | void;
+type Template<TParams> = (
+  params: TParams & { pragma: Pragma; pragmaFrag: PragmaFrag }
+) => VNode | string;
 
 /**
  * Templates to display in the autocomplete panel.
@@ -18,7 +21,6 @@ export type SourceTemplates<TItem extends BaseItem> = {
    * The template for the suggestion item.
    */
   item: Template<{
-    root: HTMLElement;
     item: TItem;
     state: AutocompleteState<TItem>;
   }>;
@@ -26,7 +28,6 @@ export type SourceTemplates<TItem extends BaseItem> = {
    * The template for the section header.
    */
   header?: Template<{
-    root: HTMLElement;
     state: AutocompleteState<TItem>;
     source: AutocompleteSource<TItem>;
     items: TItem[];
@@ -35,7 +36,6 @@ export type SourceTemplates<TItem extends BaseItem> = {
    * The template for the section footer.
    */
   footer?: Template<{
-    root: HTMLElement;
     state: AutocompleteState<TItem>;
     source: AutocompleteSource<TItem>;
     items: TItem[];

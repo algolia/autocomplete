@@ -1,4 +1,3 @@
-export * from './Element';
 export * from './Input';
 export * from './LoadingIcon';
 export * from './ResetIcon';

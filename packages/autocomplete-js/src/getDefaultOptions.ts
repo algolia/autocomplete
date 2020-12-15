@@ -1,7 +1,13 @@
 import { BaseItem } from '@algolia/autocomplete-core';
+import { createElement, Fragment, render } from 'preact';
 
-import { defaultRenderer } from './defaultRenderer';
-import { AutocompleteClassNames, AutocompleteOptions } from './types';
+import {
+  AutocompleteClassNames,
+  AutocompleteOptions,
+  AutocompleteRenderer,
+  Pragma,
+  PragmaFrag,
+} from './types';
 import { getHTMLElement, mergeClassNames } from './utils';
 
 const defaultClassNames: AutocompleteClassNames = {
@@ -30,16 +36,16 @@ const defaultClassNames: AutocompleteClassNames = {
   touchSearchButtonPlaceholder: 'aa-TouchSearchButtonPlaceholder',
 };
 
+const defaultRender: AutocompleteRenderer<any> = ({ children }, root) => {
+  render(children, root);
+};
+
 export function getDefaultOptions<TItem extends BaseItem>(
   options: AutocompleteOptions<TItem>
 ) {
   const {
-    container,
-    panelContainer,
-    render,
-    panelPlacement,
     classNames,
-    touchMediaQuery,
+    container,
     getEnvironmentProps,
     getFormProps,
     getInputProps,
@@ -48,20 +54,20 @@ export function getDefaultOptions<TItem extends BaseItem>(
     getListProps,
     getPanelProps,
     getRootProps,
+    panelContainer,
+    panelPlacement,
+    pragma,
+    pragmaFrag,
+    render,
+    touchMediaQuery,
     ...core
   } = options;
   const renderer = {
-    container: getHTMLElement(container),
-    panelContainer: panelContainer
-      ? getHTMLElement(panelContainer)
-      : document.body,
-    render: render ?? defaultRenderer,
-    panelPlacement: panelPlacement ?? 'input-wrapper-width',
     classNames: mergeClassNames(
       defaultClassNames,
       classNames ?? {}
     ) as AutocompleteClassNames,
-    touchMediaQuery: touchMediaQuery ?? '(hover: none) and (pointer: coarse)',
+    container: getHTMLElement(container),
     getEnvironmentProps: getEnvironmentProps ?? (({ props }) => props),
     getFormProps: getFormProps ?? (({ props }) => props),
     getInputProps: getInputProps ?? (({ props }) => props),
@@ -70,6 +76,14 @@ export function getDefaultOptions<TItem extends BaseItem>(
     getListProps: getListProps ?? (({ props }) => props),
     getPanelProps: getPanelProps ?? (({ props }) => props),
     getRootProps: getRootProps ?? (({ props }) => props),
+    panelContainer: panelContainer
+      ? getHTMLElement(panelContainer)
+      : document.body,
+    panelPlacement: panelPlacement ?? 'input-wrapper-width',
+    pragma: pragma ?? (createElement as Pragma),
+    pragmaFrag: pragmaFrag ?? (Fragment as PragmaFrag),
+    render: render ?? defaultRender,
+    touchMediaQuery: touchMediaQuery ?? '(hover: none) and (pointer: coarse)',
   };
 
   return {

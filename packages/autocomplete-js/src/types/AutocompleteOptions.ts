@@ -7,14 +7,13 @@ import { MaybePromise } from '@algolia/autocomplete-shared';
 
 import { AutocompleteClassNames } from './AutocompleteClassNames';
 import { AutocompletePropGetters } from './AutocompletePropGetters';
+import {
+  AutocompleteRenderer,
+  Pragma,
+  PragmaFrag,
+} from './AutocompleteRenderer';
 import { AutocompleteSource } from './AutocompleteSource';
 import { AutocompleteState } from './AutocompleteState';
-
-export type AutocompleteRenderer<TItem extends BaseItem> = (params: {
-  root: HTMLElement;
-  sections: HTMLElement[];
-  state: AutocompleteState<TItem>;
-}) => void;
 
 export interface AutocompleteOptions<TItem extends BaseItem>
   extends AutocompleteCoreOptions<TItem>,
@@ -56,19 +55,9 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    */
   classNames?: Partial<AutocompleteClassNames>;
   /**
-   * Function called to render the autocomplete results. It is useful for rendering sections in different row or column layouts.
-   * The default implementation appends all the sections to the root:
-   *
-   * ```js
-   * autocomplete({
-   *   // ...
-   *   render({ root, sections }) {
-   *     for (const section of sections) {
-   *       root.appendChild(section);
-   *     }
-   *   },
-   * });
-   * ```
+   * Function called to render the autocomplete panel.
+   * It is useful for rendering sections in different row or column layouts.
+   * The default implementation appends all the sections to the root.
    */
   render?: AutocompleteRenderer<TItem>;
   initialState?: Partial<AutocompleteState<TItem>>;
@@ -76,4 +65,16 @@ export interface AutocompleteOptions<TItem extends BaseItem>
     state: AutocompleteState<TItem>;
     prevState: AutocompleteState<TItem>;
   }): void;
+  /**
+   * Function used to create elements.
+   *
+   * @default preact.createElement
+   */
+  pragma?: Pragma;
+  /**
+   * Component used for fragments.
+   *
+   * @default preact.Fragment
+   */
+  pragmaFrag?: PragmaFrag;
 }

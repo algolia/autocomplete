@@ -4,5 +4,6 @@ export * from './AutocompleteCollection';
 export * from './AutocompleteDom';
 export * from './AutocompleteOptions';
 export * from './AutocompletePropGetters';
+export * from './AutocompleteRenderer';
 export * from './AutocompleteSource';
 export * from './AutocompleteState';

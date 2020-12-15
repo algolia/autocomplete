@@ -4,14 +4,14 @@ import {
 } from '@algolia/autocomplete-core';
 import { BaseItem } from '@algolia/autocomplete-core/src';
 
-import { Element } from './components';
-import { renderTemplate } from './renderTemplate';
 import {
   AutocompleteClassNames,
   AutocompleteDom,
   AutocompletePropGetters,
   AutocompleteRenderer,
   AutocompleteState,
+  Pragma,
+  PragmaFrag,
 } from './types';
 import { setProperties, setPropertiesWithoutEvents } from './utils';
 
@@ -22,6 +22,8 @@ type RenderProps<TItem extends BaseItem> = {
   dom: AutocompleteDom;
   isTouch: boolean;
   panelContainer: HTMLElement;
+  pragma: Pragma;
+  pragmaFrag: PragmaFrag;
   propGetters: AutocompletePropGetters<TItem>;
   state: AutocompleteState<TItem>;
 };
@@ -56,7 +58,7 @@ export function renderSearchBox<TItem extends BaseItem>({
 }
 
 export function renderPanel<TItem extends BaseItem>(
-  renderer: AutocompleteRenderer<TItem>,
+  render: AutocompleteRenderer<TItem>,
   {
     autocomplete,
     autocompleteScopeApi,
@@ -64,12 +66,12 @@ export function renderPanel<TItem extends BaseItem>(
     dom,
     isTouch,
     panelContainer,
+    pragma,
+    pragmaFrag,
     propGetters,
     state,
   }: RenderProps<TItem>
 ): void {
-  dom.panel.innerHTML = '';
-
   if (!state.isOpen) {
     if (panelContainer.contains(dom.panel)) {
       panelContainer.removeChild(dom.panel);
@@ -88,75 +90,68 @@ export function renderPanel<TItem extends BaseItem>(
   dom.panel.classList.toggle('aa-Panel--touch', isTouch);
   dom.panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');
 
-  const sourceElements = state.collections.map(({ source, items }) => {
-    const sourceElement = Element('section', { class: classNames.source });
-
-    if (source.templates.header) {
-      const headerElement = Element('div', { class: classNames.sourceHeader });
-
-      renderTemplate({
-        template: source.templates.header({
-          root: headerElement,
-          state,
-          source,
-          items,
-        }),
-        parent: sourceElement,
-        element: headerElement,
-      });
-    }
-
-    if (items.length > 0) {
-      const listElement = Element('ul', {
-        class: classNames.list,
-        ...propGetters.getListProps({
-          state,
-          props: autocomplete.getListProps({}),
-          ...autocompleteScopeApi,
-        }),
-      });
-      const listFragment = document.createDocumentFragment();
-
-      items.forEach((item) => {
-        const itemElement = Element('li', {
-          class: classNames.item,
-          ...propGetters.getItemProps({
+  const children = pragma('div', {
+    className: 'aa-PanelLayout',
+    children: state.collections.map(({ source, items }) => {
+      return pragma('section', {
+        className: classNames.source,
+        children: pragma('ul', {
+          className: classNames.list,
+          ...propGetters.getListProps({
             state,
-            props: autocomplete.getItemProps({ item, source }),
+            props: autocomplete.getListProps({}),
             ...autocompleteScopeApi,
           }),
-        });
-
-        renderTemplate({
-          template: source.templates.item({ root: itemElement, item, state }),
-          parent: listFragment,
-          element: itemElement,
-        });
-      });
-
-      listElement.appendChild(listFragment);
-      sourceElement.appendChild(listElement);
-    }
-
-    if (source.templates.footer) {
-      const footerElement = Element('div', { class: classNames.sourceFooter });
-      renderTemplate({
-        template: source.templates.footer({
-          root: footerElement,
-          state,
-          source,
-          items,
+          children: [
+            source.templates.header &&
+              pragma('div', {
+                className: classNames.sourceHeader,
+                children: [
+                  source.templates.header({
+                    pragma,
+                    pragmaFrag,
+                    items,
+                    source,
+                    state,
+                  }),
+                ],
+              }),
+            ...items.map((item) => {
+              return pragma('li', {
+                className: classNames.item,
+                ...propGetters.getItemProps({
+                  state,
+                  props: autocomplete.getItemProps({ item, source }),
+                  ...autocompleteScopeApi,
+                }),
+                children: [
+                  source.templates.item({
+                    pragma,
+                    pragmaFrag,
+                    item,
+                    state,
+                  }),
+                ],
+              });
+            }),
+            source.templates.footer &&
+              pragma('div', {
+                className: classNames.sourceFooter,
+                children: [
+                  source.templates.footer({
+                    pragma,
+                    pragmaFrag,
+                    items,
+                    source,
+                    state,
+                  }),
+                ],
+              }),
+          ],
         }),
-        parent: sourceElement,
-        element: footerElement,
       });
-    }
-
-    return sourceElement;
+    }),
   });
 
-  const panelLayoutElement = Element('div', { class: classNames.panelLayout });
-  dom.panel.appendChild(panelLayoutElement);
-
-  renderer({ root: panelLayoutElement, sections: sourceElements, state });
+  render({ children, state }, dom.panel);
 }
