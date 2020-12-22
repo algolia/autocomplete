@@ -274,7 +274,7 @@ function Autocomplete() {
 
   React.useEffect(() => {
     if (!(formRef.current && panelRef.current && inputRef.current)) {
-      return;
+      return = true;
     }
 
     const { onTouchStart, onTouchMove } = getEnvironmentProps({
