@@ -171,7 +171,7 @@ function Autocomplete() {
             Search
           </label>
           <input
-            class="aa-Input"
+            className="aa-Input"
             ref={inputRef}
             {...autocomplete.getInputProps({})}
           />
@@ -200,7 +200,7 @@ function Autocomplete() {
             Search
           </label>
           <input
-            class="aa-Input"
+            className="aa-Input"
             ref={inputRef}
             {...autocomplete.getInputProps({})}
           />
