@@ -206,7 +206,7 @@ function Autocomplete() {
             ref={inputRef}
             {...autocomplete.getInputProps({})}
           />
-          <button class="aa-ResetButton" type="reset">
+          <button className="aa-ResetButton" type="reset">
             ｘ
           </button>
         </div>
