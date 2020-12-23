@@ -99,20 +99,18 @@ function Autocomplete() {
               <section key={`source-${index}`} className="aa-Source">
                 {items.length > 0 && (
                   <ul className="aa-List" {...autocomplete.getListProps()}>
-                    {items.map((item, index) => {
-                      return (
-                        <li
-                          key={item.objectID}
-                          className="aa-Item"
-                          {...autocomplete.getItemProps({
-                            item,
-                            source,
-                          })}
-                        >
-                          {item.query}
-                        </li>
-                      );
-                    })}
+                    {items.map((item) => (
+                      <li
+                        key={item.objectID}
+                        className="aa-Item"
+                        {...autocomplete.getItemProps({
+                          item,
+                          source,
+                        })}
+                      >
+                        {item.query}
+                      </li>
+                    ))}
                   </ul>
                 )}
               </section>
