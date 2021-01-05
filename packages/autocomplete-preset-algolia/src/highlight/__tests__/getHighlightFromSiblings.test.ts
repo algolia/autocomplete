@@ -20,14 +20,11 @@ describe('getHighlightFromSiblings', () => {
     expect(
       getHighlightFromSiblings(
         [
-          { isHighlighted: false, value: 'Amazon' },
-          {
-            isHighlighted: true,
-            value: ' - Fire HD8 - 8&quot; - Tablet - 16GB - Wi-',
-          },
-          { isHighlighted: false, value: 'Fi' },
+          { isHighlighted: true, value: 'Amazon' },
           { isHighlighted: false, value: ' - ' },
-          { isHighlighted: false, value: 'Black' },
+          { isHighlighted: true, value: 'Fire' },
+          { isHighlighted: false, value: ' ' },
+          { isHighlighted: true, value: 'TV' },
         ],
         1
       )
