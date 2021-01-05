@@ -5,6 +5,20 @@ type HighlightParams<TItem> = {
   query: string;
 };
 
+type EscapeAndReplace = {
+  query: string;
+  itemQuery: string;
+};
+
+const escapeSpecialChars = new RegExp(/[-/\\^$*+?.()|[\]{}]/g);
+
+function escapeAndReplace({ query, itemQuery }: EscapeAndReplace) {
+  return itemQuery.replace(
+    new RegExp(query.replace(escapeSpecialChars, '\\$&'), 'g'),
+    `__aa-highlight__${query}__/aa-highlight__`
+  );
+}
+
 function highlight<TItem extends RecentSearchesItem>({
   item,
   query,
@@ -14,10 +28,7 @@ function highlight<TItem extends RecentSearchesItem>({
     _highlightResult: {
       query: {
         value: query
-          ? item.query.replace(
-              new RegExp(query, 'g'),
-              `__aa-highlight__${query}__/aa-highlight__`
-            )
+          ? escapeAndReplace({ query, itemQuery: item.query })
           : item.query,
       },
     },

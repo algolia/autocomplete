@@ -19,7 +19,7 @@ function concatParts(
     return (
       acc +
       (current.isHighlighted
-        ? `${highlightPreTag}${current.value}${highlightPostTag}`
+        ? highlightPreTag + current.value + highlightPostTag
         : current.value)
     );
   }, '');
