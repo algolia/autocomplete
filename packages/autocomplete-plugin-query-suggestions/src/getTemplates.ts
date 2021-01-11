@@ -1,4 +1,5 @@
-import { reverseHighlightHit, SourceTemplates } from '@algolia/autocomplete-js';
+import { SourceTemplates } from '@algolia/autocomplete-js';
+import { parseAlgoliaHitReverseHighlight } from '@algolia/autocomplete-preset-algolia';
 
 import { QuerySuggestionsHit } from './types';
 
@@ -41,12 +42,14 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
               }),
               createElement('div', {
                 className: 'aa-ItemTitle',
-                dangerouslySetInnerHTML: {
-                  __html: reverseHighlightHit({
-                    hit: item,
-                    attribute: 'query',
-                  }),
-                },
+                children: parseAlgoliaHitReverseHighlight<any>({
+                  hit: item,
+                  attribute: 'query',
+                }).map((x) =>
+                  x.isHighlighted
+                    ? createElement('mark', { children: x.value })
+                    : x.value
+                ),
               }),
             ],
           }),

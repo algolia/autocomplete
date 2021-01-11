@@ -6,5 +6,8 @@ export function reverseHighlightedParts(parts: ParsedAttribute[]) {
     return parts.map((part) => ({ ...part, isHighlighted: false }));
   }
 
-  return parts.map((part) => ({ ...part, isHighlighted: !part.isHighlighted }));
+  return parts.map((part) => ({
+    ...part,
+    isHighlighted: !part.isHighlighted && part.value.trim().length > 0,
+  }));
 }
