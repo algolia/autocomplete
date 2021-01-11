@@ -8,7 +8,7 @@ import {
   AutocompleteClassNames,
   AutocompleteDom,
   AutocompletePropGetters,
-  AutocompleteRenderer,
+  AutocompleteRender,
   AutocompleteState,
   Pragma,
   PragmaFrag,
@@ -19,11 +19,11 @@ type RenderProps<TItem extends BaseItem> = {
   autocomplete: AutocompleteCoreApi<TItem>;
   autocompleteScopeApi: AutocompleteScopeApi<TItem>;
   classNames: AutocompleteClassNames;
+  createElement: Pragma;
   dom: AutocompleteDom;
+  Fragment: PragmaFrag;
   isTouch: boolean;
   panelContainer: HTMLElement;
-  pragma: Pragma;
-  pragmaFrag: PragmaFrag;
   propGetters: AutocompletePropGetters<TItem>;
   state: AutocompleteState<TItem>;
 };
@@ -58,16 +58,16 @@ export function renderSearchBox<TItem extends BaseItem>({
 }
 
 export function renderPanel<TItem extends BaseItem>(
-  render: AutocompleteRenderer<TItem>,
+  render: AutocompleteRender<TItem>,
   {
     autocomplete,
     autocompleteScopeApi,
     classNames,
+    createElement,
     dom,
+    Fragment,
     isTouch,
     panelContainer,
-    pragma,
-    pragmaFrag,
     propGetters,
     state,
   }: RenderProps<TItem>
@@ -90,13 +90,13 @@ export function renderPanel<TItem extends BaseItem>(
   dom.panel.classList.toggle('aa-Panel--touch', isTouch);
   dom.panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');
 
-  const children = pragma('div', {
+  const children = createElement('div', {
     className: 'aa-PanelLayout',
     children: state.collections.map(({ source, items }, sourceIndex) => {
-      return pragma('section', {
+      return createElement('section', {
         key: sourceIndex,
         className: classNames.source,
-        children: pragma('ul', {
+        children: createElement('ul', {
           className: classNames.list,
           ...propGetters.getListProps({
             state,
@@ -105,12 +105,12 @@ export function renderPanel<TItem extends BaseItem>(
           }),
           children: [
             source.templates.header &&
-              pragma('div', {
+              createElement('div', {
                 className: classNames.sourceHeader,
                 children: [
                   source.templates.header({
-                    pragma,
-                    pragmaFrag,
+                    createElement,
+                    Fragment,
                     items,
                     source,
                     state,
@@ -120,7 +120,7 @@ export function renderPanel<TItem extends BaseItem>(
             ...items.map((item) => {
               const itemProps = autocomplete.getItemProps({ item, source });
 
-              return pragma('li', {
+              return createElement('li', {
                 key: itemProps.id,
                 className: classNames.item,
                 ...propGetters.getItemProps({
@@ -130,8 +130,8 @@ export function renderPanel<TItem extends BaseItem>(
                 }),
                 children: [
                   source.templates.item({
-                    pragma,
-                    pragmaFrag,
+                    createElement,
+                    Fragment,
                     item,
                     state,
                   }),
@@ -139,12 +139,12 @@ export function renderPanel<TItem extends BaseItem>(
               });
             }),
             source.templates.footer &&
-              pragma('div', {
+              createElement('div', {
                 className: classNames.sourceFooter,
                 children: [
                   source.templates.footer({
-                    pragma,
-                    pragmaFrag,
+                    createElement,
+                    Fragment,
                     items,
                     source,
                     state,

@@ -1,20 +1,36 @@
-import { BaseItem } from '@algolia/autocomplete-core';
-import type { ComponentChildren, Fragment, VNode } from 'preact';
-
-import { AutocompleteState } from './AutocompleteState';
-
-export type AutocompleteRenderer<TItem extends BaseItem> = (
-  params: {
-    children: VNode;
-    state: AutocompleteState<TItem>;
-  },
-  root: HTMLElement
-) => void;
-
 export type Pragma = (
-  type: string | PragmaFrag,
+  type: any,
   props: Record<string, any> | null,
   ...children: ComponentChildren[]
 ) => VNode;
-export type PragmaFrag = typeof Fragment;
-export type { VNode };
+export type PragmaFrag = any;
+
+type ComponentChild =
+  | VNode<any>
+  | object
+  | string
+  | number
+  | boolean
+  | null
+  | undefined;
+type ComponentChildren = ComponentChild[] | ComponentChild;
+
+export type VNode<TProps = any> = {
+  type: any;
+  props: TProps & { children: ComponentChildren };
+};
+
+export type AutocompleteRenderer = {
+  /**
+   * Function used to create elements.
+   *
+   * @default preact.createElement
+   */
+  createElement: Pragma;
+  /**
+   * Component used for fragments.
+   *
+   * @default preact.Fragment
+   */
+  Fragment: PragmaFrag;
+};

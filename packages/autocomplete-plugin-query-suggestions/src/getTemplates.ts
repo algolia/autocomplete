@@ -10,23 +10,23 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
   onTapAhead,
 }: GetTemplatesParams<TItem>): SourceTemplates<TItem> {
   return {
-    item({ item, pragma, pragmaFrag }) {
-      return pragma(pragmaFrag, {
+    item({ item, createElement, Fragment }) {
+      return createElement(Fragment, {
         children: [
-          pragma('div', {
+          createElement('div', {
             className: 'aa-ItemContent',
             children: [
-              pragma('div', {
+              createElement('div', {
                 className: 'aa-ItemSourceIcon',
                 children: [
-                  pragma(
+                  createElement(
                     'svg',
                     {
                       width: '20',
                       height: '20',
                       viewBox: '0 0 20 20',
                     },
-                    pragma('path', {
+                    createElement('path', {
                       d:
                         'M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z',
                       stroke: 'currentColor',
@@ -39,18 +39,18 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
                   ),
                 ],
               }),
-              pragma('div', {
+              createElement('div', {
                 className: 'aa-ItemTitle',
                 dangerouslySetInnerHTML: {
                   __html: reverseHighlightHit({
-                    hit: item as any,
+                    hit: item,
                     attribute: 'query',
                   }),
                 },
               }),
             ],
           }),
-          pragma('button', {
+          createElement('button', {
             className: 'aa-ItemActionButton',
             title: `Fill query with "${item.query}"`,
             onClick(event: MouseEvent) {
@@ -58,7 +58,7 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
               onTapAhead(item);
             },
             children: [
-              pragma(
+              createElement(
                 'svg',
                 {
                   viewBox: '0 0 24 24',
@@ -66,12 +66,12 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
                   width: '18',
                   height: '18',
                 },
-                pragma('rect', {
+                createElement('rect', {
                   fill: 'none',
                   height: '24',
                   width: '24',
                 }),
-                pragma('path', {
+                createElement('path', {
                   d: 'M5,15h2V8.41L18.59,20L20,18.59L8.41,7H15V5H5V15z',
                 })
               ),

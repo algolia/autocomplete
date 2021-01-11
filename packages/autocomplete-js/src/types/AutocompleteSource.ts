@@ -8,7 +8,7 @@ import { Pragma, PragmaFrag, VNode } from './AutocompleteRenderer';
 import { AutocompleteState } from './AutocompleteState';
 
 type Template<TParams> = (
-  params: TParams & { pragma: Pragma; pragmaFrag: PragmaFrag }
+  params: TParams & { createElement: Pragma; Fragment: PragmaFrag }
 ) => VNode | string;
 
 /**

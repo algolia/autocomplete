@@ -7,11 +7,8 @@ import { MaybePromise } from '@algolia/autocomplete-shared';
 
 import { AutocompleteClassNames } from './AutocompleteClassNames';
 import { AutocompletePropGetters } from './AutocompletePropGetters';
-import {
-  AutocompleteRenderer,
-  Pragma,
-  PragmaFrag,
-} from './AutocompleteRenderer';
+import { AutocompleteRender } from './AutocompleteRender';
+import { AutocompleteRenderer } from './AutocompleteRenderer';
 import { AutocompleteSource } from './AutocompleteSource';
 import { AutocompleteState } from './AutocompleteState';
 
@@ -59,22 +56,14 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * It is useful for rendering sections in different row or column layouts.
    * The default implementation appends all the sections to the root.
    */
-  render?: AutocompleteRenderer<TItem>;
+  render?: AutocompleteRender<TItem>;
   initialState?: Partial<AutocompleteState<TItem>>;
   onStateChange?(props: {
     state: AutocompleteState<TItem>;
     prevState: AutocompleteState<TItem>;
   }): void;
   /**
-   * Function used to create elements.
-   *
-   * @default preact.createElement
+   * Custom renderer.
    */
-  pragma?: Pragma;
-  /**
-   * Component used for fragments.
-   *
-   * @default preact.Fragment
-   */
-  pragmaFrag?: PragmaFrag;
+  renderer?: AutocompleteRenderer;
 }

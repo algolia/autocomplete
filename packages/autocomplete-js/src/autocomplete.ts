@@ -104,13 +104,13 @@ export function autocomplete<TItem extends BaseItem>(
       autocompleteScopeApi,
       classNames: props.value.renderer.classNames,
       container: props.value.renderer.container,
+      createElement: props.value.renderer.renderer.createElement,
       dom: dom.value,
+      Fragment: props.value.renderer.renderer.Fragment,
       isTouch: isTouch.value,
       panelContainer: isTouch.value
         ? dom.value.touchOverlay
         : props.value.renderer.panelContainer,
-      pragma: props.value.renderer.pragma,
-      pragmaFrag: props.value.renderer.pragmaFrag,
       propGetters,
       state: lastStateRef.current,
     };

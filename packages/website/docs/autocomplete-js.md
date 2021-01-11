@@ -140,15 +140,17 @@ autocomplete({
 });
 ```
 
-### `pragma`
+### `renderer`
 
-> `(type: string | PragmaFrag, props: Record<string, any> | null, ...children: ComponentChildren[]) => VNode` | defaults to `preact.createElement`
+#### `createElement`
+
+> `(type: any, props: Record<string, any> | null, ...children: ComponentChildren[]) => VNode` | defaults to `preact.createElement`
 
 Function used to create elements.
 
-### `pragmaFrag`
+#### `Fragment`
 
-> `typeof Fragment` | defaults to `preact.Fragment`
+> defaults to `preact.Fragment`
 
 Component used for fragments.
 
