@@ -117,11 +117,14 @@ export function renderPanel<TItem extends BaseItem>(
                 ],
               }),
             ...items.map((item) => {
+              const itemProps = autocomplete.getItemProps({ item, source });
+
               return pragma('li', {
+                key: itemProps.id,
                 className: classNames.item,
                 ...propGetters.getItemProps({
                   state,
-                  props: autocomplete.getItemProps({ item, source }),
+                  props: itemProps,
                   ...autocompleteScopeApi,
                 }),
                 children: [
