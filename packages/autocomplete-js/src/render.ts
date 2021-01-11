@@ -92,8 +92,9 @@ export function renderPanel<TItem extends BaseItem>(
 
   const children = pragma('div', {
     className: 'aa-PanelLayout',
-    children: state.collections.map(({ source, items }) => {
+    children: state.collections.map(({ source, items }, sourceIndex) => {
       return pragma('section', {
+        key: sourceIndex,
         className: classNames.source,
         children: pragma('ul', {
           className: classNames.list,
