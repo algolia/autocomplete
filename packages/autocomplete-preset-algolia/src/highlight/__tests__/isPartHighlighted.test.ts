@@ -1,9 +1,9 @@
-import getHighlightFromSiblings from '../getHighlightFromSiblings';
+import { isPartHighlighted } from '../isPartHighlighted';
 
-describe('getHighlightFromSiblings', () => {
+describe('isPartHighlighted', () => {
   test('returns the isHighlighted value with a missing sibling', () => {
     expect(
-      getHighlightFromSiblings(
+      isPartHighlighted(
         [
           { isHighlighted: true, value: 'Amazon' },
           {
@@ -18,7 +18,7 @@ describe('getHighlightFromSiblings', () => {
 
   test('returns the isHighlighted value with both siblings', () => {
     expect(
-      getHighlightFromSiblings(
+      isPartHighlighted(
         [
           { isHighlighted: true, value: 'Amazon' },
           { isHighlighted: false, value: ' - ' },

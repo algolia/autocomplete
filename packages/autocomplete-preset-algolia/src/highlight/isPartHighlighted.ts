@@ -17,10 +17,7 @@ function unescape(value: string): string {
     : value;
 }
 
-export default function getHighlightFromSiblings(
-  parts: ParsedAttribute[],
-  i: number
-) {
+export function isPartHighlighted(parts: ParsedAttribute[], i: number) {
   const current = parts[i];
   const isNextHighlighted = parts[i + 1]?.isHighlighted || true;
   const isPreviousHighlighted = parts[i - 1]?.isHighlighted || true;
