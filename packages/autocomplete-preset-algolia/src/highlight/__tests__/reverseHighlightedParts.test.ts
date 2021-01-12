@@ -7,7 +7,7 @@ describe('reverseHighlightedParts', () => {
         { isHighlighted: true, value: 'amazon ((fire' },
         { isHighlighted: false, value: 'tv)) tablet??' },
       ])
-    ).toMatchObject([
+    ).toEqual([
       { isHighlighted: false, value: 'amazon ((fire' },
       { isHighlighted: true, value: 'tv)) tablet??' },
     ]);
@@ -18,9 +18,7 @@ describe('reverseHighlightedParts', () => {
       reverseHighlightedParts([
         { isHighlighted: true, value: 'amazon ((fire tv)) tablet??' },
       ])
-    ).toMatchObject([
-      { isHighlighted: false, value: 'amazon ((fire tv)) tablet??' },
-    ]);
+    ).toEqual([{ isHighlighted: false, value: 'amazon ((fire tv)) tablet??' }]);
   });
 
   test('returns a reversed highlighted parts array based on sibling highlighting', () => {
@@ -29,7 +27,7 @@ describe('reverseHighlightedParts', () => {
         { isHighlighted: true, value: 'amazon ((fire tv)) tablet' },
         { isHighlighted: false, value: '??' },
       ])
-    ).toMatchObject([
+    ).toEqual([
       { isHighlighted: false, value: 'amazon ((fire tv)) tablet' },
       { isHighlighted: false, value: '??' },
     ]);
