@@ -43,6 +43,11 @@ const defaultRender: AutocompleteRender<any> = ({ children }, root) => {
   render(children, root);
 };
 
+const defaultRenderer: AutocompleteRenderer = {
+  createElement: preactCreateElement,
+  Fragment: PreactFragment,
+};
+
 export function getDefaultOptions<TItem extends BaseItem>(
   options: AutocompleteOptions<TItem>
 ) {
@@ -64,11 +69,6 @@ export function getDefaultOptions<TItem extends BaseItem>(
     touchMediaQuery,
     ...core
   } = options;
-
-  const defaultRenderer: AutocompleteRenderer = {
-    createElement: preactCreateElement,
-    Fragment: PreactFragment,
-  };
 
   return {
     renderer: {
