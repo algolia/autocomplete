@@ -12,7 +12,7 @@ import {
   AlgoliaInsightsHit,
   InsightsApi,
   InsightsClient,
-  OnHighlightParams,
+  OnActiveParams,
   OnItemsChangeParams,
   OnSelectParams,
 } from './types';
@@ -59,7 +59,7 @@ export type CreateAlgoliaInsightsPluginParams = {
   /**
    * Hook to send an Insights event when an item is active.
    */
-  onActive?(params: OnHighlightParams): void;
+  onActive?(params: OnActiveParams): void;
 };
 
 export function createAlgoliaInsightsPlugin({
