@@ -1,3 +1,4 @@
+import { isPartHighlighted } from './isPartHighlighted';
 import { ParsedAttribute } from './ParsedAttribute';
 
 export function reverseHighlightedParts(parts: ParsedAttribute[]) {
@@ -6,8 +7,8 @@ export function reverseHighlightedParts(parts: ParsedAttribute[]) {
     return parts.map((part) => ({ ...part, isHighlighted: false }));
   }
 
-  return parts.map((part) => ({
+  return parts.map((part, i) => ({
     ...part,
-    isHighlighted: !part.isHighlighted && part.value.trim().length > 0,
+    isHighlighted: !isPartHighlighted(parts, i) && part.value.trim().length > 0,
   }));
 }

@@ -15,7 +15,7 @@ function highlight<TItem extends RecentSearchesItem>({
       query: {
         value: query
           ? item.query.replace(
-              new RegExp(query, 'g'),
+              new RegExp(query.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g'),
               `__aa-highlight__${query}__/aa-highlight__`
             )
           : item.query,
