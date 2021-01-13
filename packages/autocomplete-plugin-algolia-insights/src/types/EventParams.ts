@@ -15,7 +15,7 @@ export type OnSelectParams = {
   event: any;
 };
 
-export type OnHighlightParams = OnSelectParams;
+export type OnActiveParams = OnSelectParams;
 
 export type OnItemsChangeParams = {
   insights: InsightsApi;
