@@ -1,6 +1,5 @@
 ---
-id: upgrading
-title: Upgrading
+id: createAlgoliaInsightsPlugin
 ---
 
 import Wip from './partials/wip.md'

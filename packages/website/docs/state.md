@@ -1,6 +1,6 @@
 ---
 id: state
-title: State
+title: Controlling behavior with State
 ---
 
 The autocomplete state drives the behavior of the experience.

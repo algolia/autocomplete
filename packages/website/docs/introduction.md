@@ -1,6 +1,6 @@
 ---
-id: upgrading
-title: Upgrading
+id: introduction
+title: What is Autocomplete?
 ---
 
 import Wip from './partials/wip.md'

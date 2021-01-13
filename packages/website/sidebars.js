@@ -2,45 +2,76 @@
 
 module.exports = {
   docs: {
-    'The Basics': [
-      'getting-started',
-      'installation',
+    Introduction: ['introduction', 'getting-started', 'help'],
+    'Core Concepts': [
+      'basic-options',
+      'sources',
       'state',
       'context',
-      'sources',
       'keyboard-navigation',
-      'layout',
-      'prop-getters',
-      'controlled-mode',
+      // 'prop-getters',
       'plugins',
-      'more-resources',
     ],
-    Workflow: ['debugging', 'upgrading'],
-    Guides: ['creating-a-renderer'],
-  },
-  api: {
-    'autocomplete-core': ['createAutocomplete'],
-    'autocomplete-js': [
-      'autocomplete-js',
-      'getAlgoliaHits-js',
-      'getAlgoliaResults-js',
-      'highlightHit',
-      'reverseHighlightHit',
-      'snippetHit',
-      'reverseSnippetHit',
+    Guides: [
+      'using-query-suggestions-plugin',
+      'using-recent-searches-plugin',
+      'using-algolia-insights-plugin',
+      'creating-multi-source-autocompletes',
+      'using-dynamic-sources-based-on-query',
+      'creating-a-renderer',
+      'upgrading',
+      'debugging',
     ],
-    'autocomplete-preset-algolia': [
-      'getAlgoliaHits',
-      'getAlgoliaResults',
-      'parseAlgoliaHitHighlight',
-      'parseAlgoliaHitReverseHighlight',
-      'parseAlgoliaHitSnippet',
-      'parseAlgoliaHitReverseSnippet',
+    'API Reference': [
+      'api',
+      {
+        type: 'category',
+        label: 'autocomplete-core',
+        items: ['createAutocomplete'],
+      },
+      {
+        type: 'category',
+        label: 'autocomplete-js',
+        items: [
+          'autocomplete-js',
+          'getAlgoliaHits-js',
+          'getAlgoliaResults-js',
+          'highlightHit',
+          'reverseHighlightHit',
+          'snippetHit',
+          'reverseSnippetHit',
+        ],
+      },
+      {
+        type: 'category',
+        label: 'autocomplete-preset-algolia',
+        items: [
+          'getAlgoliaHits',
+          'getAlgoliaResults',
+          'parseAlgoliaHitHighlight',
+          'parseAlgoliaHitReverseHighlight',
+          'parseAlgoliaHitSnippet',
+          'parseAlgoliaHitReverseSnippet',
+        ],
+      },
+      {
+        type: 'category',
+        label: 'autocomplete-plugin-recent-searches',
+        items: [
+          'createLocalStorageRecentSearchesPlugin',
+          'createRecentSearchesPlugin',
+        ],
+      },
+      {
+        type: 'category',
+        label: 'autocomplete-plugin-query-suggestions',
+        items: ['createQuerySuggestionsPlugin'],
+      },
+      {
+        type: 'category',
+        label: 'autocomplete-plugin-algolia-insights',
+        items: ['createAlgoliaInsightsPlugin'],
+      },
     ],
-    'autocomplete-plugin-recent-searches': [
-      'createLocalStorageRecentSearchesPlugin',
-      'createRecentSearchesPlugin',
-    ],
-    'autocomplete-plugin-query-suggestions': ['createQuerySuggestionsPlugin'],
   },
 };

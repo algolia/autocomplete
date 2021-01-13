@@ -1,4 +1,8 @@
 ---
 id: api
-title: API
+title: Introduction
 ---
+
+import Wip from './partials/wip.md'
+
+<Wip />
