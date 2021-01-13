@@ -1,6 +1,6 @@
 ---
 id: keyboard-navigation
-title: Keyboard Navigation
+title: Integrating keyboard navigation
 ---
 
 The Navigator API is used to redirect users when a suggestion link is opened programmatically using keyboard navigation.

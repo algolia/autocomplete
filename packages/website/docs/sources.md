@@ -1,6 +1,6 @@
 ---
 id: sources
-title: Sources
+title: Populating autocomplete with Sources
 ---
 
 Sources are data that describes the suggestions and their behavior.

@@ -16,14 +16,19 @@ module.exports = {
       },
       items: [
         {
-          to: 'docs/getting-started',
           label: 'Docs',
+          to: 'docs/introduction',
           position: 'right',
         },
         {
           label: 'API',
-          type: 'doc',
-          docId: 'createAutocomplete',
+          to: 'docs/api',
+          position: 'right',
+        },
+        {
+          label: 'Playground',
+          to:
+            'https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.ts',
           position: 'right',
         },
         {
@@ -46,7 +51,7 @@ module.exports = {
             },
             {
               label: 'API',
-              to: 'docs/createAutocomplete',
+              to: 'docs/api',
             },
           ],
         },

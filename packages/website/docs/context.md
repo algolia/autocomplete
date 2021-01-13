@@ -1,6 +1,6 @@
 ---
 id: context
-title: Context
+title: Accessing data with Context
 ---
 
 The autocomplete context allows to store data in the state to use in different lifecycle hooks.
