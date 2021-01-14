@@ -3,6 +3,6 @@ id: api
 title: Introduction
 ---
 
-import Wip from './partials/wip.md'
+import Draft from './partials/draft.md'
 
-<Wip />
+<Draft />

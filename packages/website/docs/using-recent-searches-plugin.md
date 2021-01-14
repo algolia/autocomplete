@@ -3,6 +3,6 @@ id: using-recent-searches-plugin
 title: Using the Recent Searches plugin
 ---
 
-import Wip from './partials/wip.md'
+import Draft from './partials/draft.md'
 
-<Wip />
+<Draft />
