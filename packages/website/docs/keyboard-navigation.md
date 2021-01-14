@@ -9,7 +9,7 @@ The Navigator API redirects users when opening a suggestion using their keyboard
 
 Autocomplete provides keyboard accessibility out of the box and lets you define how to navigate to results without leaving the keyboard.
 
-The API defines three navigation schemes based on key combinations:
+The Navigator API defines three navigation schemes based on key combinations:
 
 - **In the current tab** when hitting <kbd>Enter</kbd>
 - **In a new tab** when hitting <kbd>⌘ Cmd</kbd>+<kbd>Enter</kbd> or <kbd>Ctrl</kbd>+<kbd>Enter</kbd>
