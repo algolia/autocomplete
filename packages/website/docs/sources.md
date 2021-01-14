@@ -5,6 +5,39 @@ title: Populating autocomplete with Sources
 
 Sources are data that describes the suggestions and their behavior.
 
+:::note Draft
+
+This page needs to cover:
+
+- **Sources** define the data sources where to retrieve the items to display in the autocomplete.
+  - For example, you could hardcode an array of static items to display.
+    - Code snippet
+  - You could also search for matches into a list of hard-coded items:
+    - Code snippet
+- Before moving on to more complex sources, let’s take a closer look at these static sources.
+  - You’ll notice that **getSources** returns an array of sources.
+    - Each source uses the **getItems** function to return the actual items to display. The items could just be a static array, or you could use a function to filter/refine the items based on the query. The **getItems** function is called each time the input changes.
+    - [Optional] You can use **getItemInputValue** to fill the search box input with a particular attribute of an item. By default, the input will show the same query a user has typed in.
+      - Code snippet
+    - [Optional] You can use **getItemURL** to add [keyboard accessibility](https://autocomplete.algolia.com/docs/keyboard-navigation) features to let users open items in the current tab, in a new tab or in a new window.
+      - Code snippet
+  - In addition to defining the data sources for items in the autocomplete, a source also defines how to display the items using **templates.**
+    - A **template** can either return a string:
+      - Code snippet
+    - Or a **template** can be a Preact component:
+      - Code snippet
+    - Or a **template** can be HTML:
+      - Code snippet similar to [this sandbox](https://codesandbox.io/s/algoliajs-example-forked-298f6?file=/app.tsx)
+    - Or a **template** can be a component using your own `createElement` and `Fragment`:
+      - Code snippet
+- Static sources can be useful, particularly if a user hasn’t typed anything yet. (See our guide on using **dynamic sources based on the query**.) But you may want a more complex search beyond just looking for exact matches in strings. In that case, you can search into one or more Algolia indices using the built-in **getAlgoliaHits** method**:**
+  - **Code snippet**
+  - **getAlgoliaHits expects a searchClient and one or more queries (link relevant Algolia docs)**
+- **getSources** support promises, which means that you can fetch your sources from an asynchronous API:
+  - Code snippet
+
+:::
+
 ## Examples
 
 ### Using static sources

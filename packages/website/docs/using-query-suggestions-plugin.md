@@ -3,6 +3,6 @@ id: using-query-suggestions-plugin
 title: Using the Query Suggestions plugin
 ---
 
-import Wip from './partials/wip.md'
+import Draft from './partials/draft.md'
 
-<Wip />
+<Draft />

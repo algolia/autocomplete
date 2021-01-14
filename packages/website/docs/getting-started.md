@@ -3,6 +3,24 @@ id: getting-started
 title: Getting Started
 ---
 
+:::note Draft
+
+This page needs to cover:
+
+- These docs provide a few ways to learn how to use Autocomplete:
+  - Read about **Core Concepts**—here you can learn more about underlying principles, like **Sources** and **State**.
+  - Follow our **Guides** to understand how to build common UX patterns.
+  - Refer to **API reference**.
+  - [Maybe v2] Play in the **Playground** where you can select components of your autocomplete and we provide you with the code.
+- Keep reading for a simple sample implementation
+- Installation
+  - JS
+  - Core
+- A basic example
+  - Commented code snippet on a basic example (only using query-suggestions plug-in) with resulting UI and links to various **Core Concepts.**
+
+:::
+
 This page is an overview of the Autocomplete documentation and related resources.
 
 Autocomplete is a JavaScript library for **building autocomplete search experiences**.

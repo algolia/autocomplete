@@ -5,6 +5,36 @@ title: Controlling behavior with State
 
 The autocomplete state drives the behavior of the experience.
 
+:::note Draft
+
+This page needs to cover:
+
+- State is the underlying set of properties that drives the autocomplete behavior. For example, the **query** state is the value in the input to search and retrieve items for. As the query state changes, the items retrieved and displayed from the **sources** change.
+- Autocomplete state is made up of:
+  - query - the value in the input to search for
+  - selectedItemId - which item (if any) is selected
+  - completion - the completed version of the input text
+  - isOpen - if the autocomplete display panel is open
+  - status - 'idle' | 'loading' | 'stalled' | 'error'
+  - collections - **Sources** and items powering the experience
+  - context - global state passed to lifecycle hooks, see more in **Context**
+- You can set an **initialState** when instantiating an autocomplete.
+  - Code snippet
+- State changes occur automatically when a user changes the input, selects an item, etc. You can also manually set the state using setters
+  - For example, you may want to manually set the query in some cases
+    - Code snippet
+  - This is the full list of setters:
+    - setQuery
+    - setSelectedItemId
+    - setIsOpen
+    - setStatus
+    - setCollections
+    - setContext
+- Finally, you can listen for state changes using **onStateChange**
+  - Code snippet
+
+:::
+
 The state is passed to all lifecycle hooks so that you can customize the behavior.
 
 ## Examples
