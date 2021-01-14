@@ -69,7 +69,7 @@ const autocomplete = createAutocomplete({
 });
 ```
 
-## Parameters
+## Reference
 
 Autocomplete merges the provided parameters with the default configuration, so you can only rewrite what you need.
 
