@@ -3,60 +3,40 @@ id: state
 title: Controlling behavior with State
 ---
 
-The autocomplete state drives the behavior of the experience.
+The state drives the full behavior of the autocomplete experience.
 
-:::note Draft
+The state is an underlying set of properties that drives the autocomplete behavior. For example, `query` contains the value typed in the search input. As the query changes, the retrieved items from the [sources](/docs/sources) change.
 
-This page needs to cover:
+The state contains:
+- `query`: the search input value
+- `selectedItemId`: which item is selected
+- `completion`: the completed version of the query
+- `isOpen`: whether the autocomplete display panel is open or not
+- `status`: the autocomplete status
+- `collections`: the autocomplete's collections of items
+- `context`: the global context passed to lifecycle hooks (see more in [**Context**](/docs/context))
 
-- State is the underlying set of properties that drives the autocomplete behavior. For example, the **query** state is the value in the input to search and retrieve items for. As the query state changes, the items retrieved and displayed from the **sources** change.
-- Autocomplete state is made up of:
-  - query - the value in the input to search for
-  - selectedItemId - which item (if any) is selected
-  - completion - the completed version of the input text
-  - isOpen - if the autocomplete display panel is open
-  - status - 'idle' | 'loading' | 'stalled' | 'error'
-  - collections - **Sources** and items powering the experience
-  - context - global state passed to lifecycle hooks, see more in **Context**
-- You can set an **initialState** when instantiating an autocomplete.
-  - Code snippet
-- State changes occur automatically when a user changes the input, selects an item, etc. You can also manually set the state using setters
-  - For example, you may want to manually set the query in some cases
-    - Code snippet
-  - This is the full list of setters:
-    - setQuery
-    - setSelectedItemId
-    - setIsOpen
-    - setStatus
-    - setCollections
-    - setContext
-- Finally, you can listen for state changes using **onStateChange**
-  - Code snippet
+## Usage
 
-:::
-
-The state is passed to all lifecycle hooks so that you can customize the behavior.
-
-## Examples
+The state is available in all lifecycle hooks so you can customize the behavior.
 
 ### Setting an initial state
 
-You can instantiate autocomplete with an initial state with the `initialState` prop.
+You can instantiate an autocomplete with an initial state via the `initialState` prop.
 
 ```js
 const autocomplete = createAutocomplete({
   // ...
   initialState: {
-    // This sets the `search` query param as initial query.
-    // Example: `https://website.com/?search=navigator
+    // This uses the `search` query parameter as the initial query
     query: new URL(window.location).searchParams.get('search'),
   },
 });
 ```
 
-### Listening state changes
+### Listening to state changes
 
-You can create your own API based on the autocomplete state with the [`onStateChange`](createAutocomplete#onstatechange) prop.
+State changes occur automatically when a user interacts with the autocomplete (updates the input text, selects an item, etc.). You can react to state changes using the [`onStateChange`](createAutocomplete#onstatechange) lifecycle hook.
 
 ```js
 const autocomplete = createAutocomplete({
@@ -67,51 +47,75 @@ const autocomplete = createAutocomplete({
 });
 ```
 
+You can also manually update the state using setters. It's useful to implement custom features on top of autocomplete.
+
+In the following example, when detecting a potential filter in the query, you're manually adding it to the list of active filters using [Context](context) and removing it from the query.
+
+```js
+const categories = ['Tops', 'Bottoms', 'Hats', 'Bags', 'Footwear'];
+
+const autocomplete = createAutocomplete({
+  // ...
+  onStateChange({ state, setQuery, setContext }) {
+    const { query, context } = state;
+    const match = categories.find((category) => query.endsWith(category));
+
+    if (match) {
+      const filters = [...context.filters, match];
+      const position = query.lastIndexOf(match);
+
+      setContext({ filters });
+      setQuery(query.substr(0, position));
+    }
+  },
+});
+```
+
 ## State
 
 ### `activeItemId`
 
 > `number | null` | defaults to `null`
 
-The highlighted item index.
+The highlighted item's index.
 
 ### `query`
 
 > `string` | defaults to `""`
 
-The query of the input.
+The value of the search input.
 
 ### `completion`
 
 > `string | null` | defaults to `null`
 
-The completion of the input.
+The completion of the query.
 
 ### `isOpen`
 
 > `boolean` | defaults to `false`
 
-Whether the panel is opened.
+Whether the panel is open or not.
 
 ### `collections`
 
 > `Collection[]` | defaults to `[]`
 
-The collections of the experience.
+The collections of items.
 
 ### `status`
 
 > `'idle' | 'loading' | 'stalled' | 'error'` | defaults to `idle`
 
-The status of the experience.
+The autocomplete's status.
 
 ### `context`
 
-> `object` | defaults to `{}`
+> `{ [key: string]: unknown }` | defaults to `{}`
 
-The autocomplete context passed to lifecycle hooks.
+The global context passed to lifecycle hooks.
 
-Learn more on the [context](context) page.
+See more in [**Context**](context).
 
 ## Setters
 
@@ -131,24 +135,24 @@ Sets the query.
 
 > `(value: boolean) => void`
 
-Sets the open state of the panel.
+Sets whether the panel is open or not.
 
 ### `setStatus`
 
 > `(value: 'idle' | 'loading' | 'stalled' | 'error') => void`
 
-Sets the status of the experience.
+Sets the status of the autocomplete.
 
 ### `setCollections`
 
 > `(value: Collection[]) => void`
 
-Sets the collections of the experience.
+Sets the collections of items of the autocomplete.
 
 ### `setContext`
 
 > `(value: object) => void`
 
-Sets the context passed in the lifecycle hooks.
+Sets the context passed to lifecycle hooks.
 
-Learn more on the [context](context) page.
+See more in [**Context**](context).
