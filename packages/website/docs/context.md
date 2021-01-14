@@ -3,23 +3,17 @@ id: context
 title: Accessing data with Context
 ---
 
-The autocomplete context allows to store data in the state to use in different lifecycle hooks.
+The Context lets you store data and access it in different lifecycle hooks.
 
-:::note Draft
+Sometimes you need to store arbitrary data so you can access it later in your autocomplete. For example, when retrieving hits from Algolia, you may want to reuse the total number of retrieved hits in a template.
 
-This page needs to cover:
+Autocomplete lets you store data using its Context API and access it anywhere from the [state](/docs/state).
 
-- You can use **context** to store and access data in the **state**. You can think of it as a global variable.
-- For example, you can use **context** to store data regarding the number of hits from an Algolia response, and then use this when creating **templates** in your sources. Without storing this value in the **context**, you wouldn’t have access to it in the templates.
-- Like all setters, **setContext** expects an object that it will merge with the previous context object.
-  - Code snippet (including setContext and using context.nbHits in a template)
-- **Plugins** can also store their API in **context**
+## Usage
 
-:::
+Context exposes a `setContext` function, which takes an object and merges it with the existing context. You can then access the context in `state.context`.
 
-You can use this API to access data in the templates that you would otherwise have access only in `getSources` for instance. The `setContext` setters expects an object that will be merged with the previous context. You can then read the context in `state.context`.
-
-The following example stores the number of hits from an Algolia response to display it in the templates.
+The following example stores the number of hits from an Algolia response, making it accessible everywhere in your autocomplete.
 
 ```js
 const autocomplete = createAutocomplete({
@@ -33,15 +27,13 @@ const autocomplete = createAutocomplete({
           query,
         },
       ],
-    }).then((results) => {
-      const productsResults = results[0];
-
+    }).then(([products]) => {
       setContext({
-        nbProducts: productsResults.nbHits,
+        nbProducts: products.nbHits,
       });
 
-      // You can now use `state.context.nbProducts` anywhere you have access to
-      // the state.
+      // You can now use `state.context.nbProducts`
+      // anywhere where you have access to `state`.
 
       return [
         // ...
@@ -50,3 +42,23 @@ const autocomplete = createAutocomplete({
   },
 });
 ```
+
+Context can be handy when developing Autocomplete plugins. It avoids polluting the global namespace while still being able to pass data around across different lifecycle hooks.
+
+## Reference
+
+The `setContext` function is accessible on your `autocomplete` instance. It's also provided in the `subscribe` function of Autocomplete plugins.
+
+The `context` object is available on the [`state`](/docs/state) object.
+
+### `setContext`
+
+> `<TState>(value: TState) => void`
+
+The function to pass data to to store it in the context.
+
+### `context`
+
+> `{ [key: string]: unknown }`
+
+The context to read data from.
