@@ -45,6 +45,21 @@ const autocomplete = createAutocomplete({
 
 Context can be handy when developing Autocomplete plugins. It avoids polluting the global namespace while still being able to pass data around across different lifecycle hooks.
 
+```js
+function createAutocompletePlugin() {
+  return {
+    // ...
+    subscribe({ setContext }) {
+      setContext({
+        autocompletePlugin: {
+          // ...
+        },
+      });
+    },
+  };
+}
+```
+
 ## Reference
 
 The `setContext` function is accessible on your `autocomplete` instance.
