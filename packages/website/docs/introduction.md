@@ -23,8 +23,6 @@ Autocomplete is a JavaScript library that lets you quickly build autocomplete ex
 - A container to inject the experience into
 - Data to fill the autocomplete with
 
-Once, you've passed the container to inject the experience into and configured the sources to populate the autocomplete, the library creates and embeds the interactive DOM elements that make up the user interface.
-
 The data that populates the autocomplete results are called [`sources`](/docs/sources). You can use whatever you want in your sources: a static set of searches terms, search results from an external source like an [Algolia](https://www.algolia.com/doc/guides/getting-started/what-is-algolia/) index, recent searches, and much more.
 
 By configuring just those two required parameters (`container` and `getSources`) you can have an interactive autocomplete experience. **The library creates an input and provides the interactivity and accessibility attributes, but you're in full control of the DOM elements to output.**
