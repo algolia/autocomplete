@@ -47,18 +47,18 @@ Context can be handy when developing Autocomplete plugins. It avoids polluting t
 
 ## Reference
 
-The `setContext` function is accessible on your `autocomplete` instance. It's also provided in the `subscribe` function of Autocomplete plugins.
+The `setContext` function is accessible on your `autocomplete` instance. It's also provided in the `subscribe` function of [Autocomplete plugins](/docs/plugins).
 
 The `context` object is available on the [`state`](/docs/state) object.
 
 ### `setContext`
 
-> `<TState>(value: TState) => void`
+> `(value: Record<string, unknown>) => void`
 
 The function to pass data to to store it in the context.
 
 ### `context`
 
-> `{ [key: string]: unknown }`
+> `Record<string, unknown>`
 
 The context to read data from.
