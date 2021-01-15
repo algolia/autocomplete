@@ -1,4 +1,8 @@
-import { autocomplete } from '@algolia/autocomplete-js';
+import {
+  autocomplete,
+  getAlgoliaHits,
+  reverseHighlightHit,
+} from '@algolia/autocomplete-js';
 import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
@@ -36,4 +40,38 @@ autocomplete({
     recentSearchesPlugin,
     querySuggestionsPlugin,
   ],
+  getSources() {
+    return [
+      {
+        getItems({ query }) {
+          return getAlgoliaHits({
+            searchClient,
+            queries: [
+              {
+                indexName: 'instant_search_demo_query_suggestions',
+                query,
+                params: {
+                  hitsPerPage: 4,
+                },
+              },
+            ],
+          });
+        },
+        templates: {
+          header() {
+            return 'Suggestions';
+          },
+          item({ item }) {
+            return reverseHighlightHit({ hit: item, attribute: 'query' });
+          },
+          footer() {
+            return 'Footer';
+          },
+          empty() {
+            return 'No results';
+          },
+        },
+      },
+    ];
+  },
 });

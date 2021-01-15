@@ -3,7 +3,12 @@ import {
   BaseItem,
   createAutocomplete,
 } from '@algolia/autocomplete-core';
-import { createRef, debounce, invariant } from '@algolia/autocomplete-shared';
+import {
+  createRef,
+  debounce,
+  getItemsCount,
+  invariant,
+} from '@algolia/autocomplete-shared';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
 import { createEffectWrapper } from './createEffectWrapper';
@@ -25,6 +30,7 @@ export function autocomplete<TItem extends BaseItem>(
   const { runEffect, cleanupEffects, runEffects } = createEffectWrapper();
   const { reactive, runReactives } = createReactiveWrapper();
 
+  const hasEmptySourceTemplateRef = createRef(false);
   const optionsRef = createRef(options);
   const onStateChangeRef = createRef<
     AutocompleteOptions<TItem>['onStateChange']
@@ -37,8 +43,23 @@ export function autocomplete<TItem extends BaseItem>(
         onStateChangeRef.current?.(options as any);
         props.value.core.onStateChange?.(options as any);
       },
+      shouldPanelShow:
+        optionsRef.current.shouldPanelShow ||
+        (({ state }) => {
+          const hasItems = getItemsCount(state) > 0;
+
+          return (
+            (!hasItems &&
+              Boolean(
+                hasEmptySourceTemplateRef.current ||
+                  props.value.renderer.renderEmpty
+              )) ||
+            hasItems
+          );
+        }),
     })
   );
+
   const renderRequestIdRef = createRef<number | null>(null);
   const lastStateRef = createRef<AutocompleteState<TItem>>({
     collections: [],
@@ -113,8 +134,18 @@ export function autocomplete<TItem extends BaseItem>(
       autocompleteScopeApi,
     };
 
+    hasEmptySourceTemplateRef.current = renderProps.state.collections.some(
+      (collection) => collection.source.templates.empty
+    );
+
+    const render =
+      (!getItemsCount(renderProps.state) &&
+        !hasEmptySourceTemplateRef.current &&
+        props.value.renderer.renderEmpty) ||
+      props.value.renderer.render;
+
     renderSearchBox(renderProps);
-    renderPanel(props.value.renderer.render, renderProps);
+    renderPanel(render, renderProps);
   }
 
   function scheduleRender(state: AutocompleteState<TItem>) {

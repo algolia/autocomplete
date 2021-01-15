@@ -15,7 +15,6 @@ export type AutocompleteRenderer<TItem extends BaseItem> = (params: {
   sections: HTMLElement[];
   state: AutocompleteState<TItem>;
 }) => void;
-
 export interface AutocompleteOptions<TItem extends BaseItem>
   extends AutocompleteCoreOptions<TItem>,
     Partial<AutocompletePropGetters<TItem>> {
@@ -71,6 +70,7 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * ```
    */
   render?: AutocompleteRenderer<TItem>;
+  renderEmpty?: AutocompleteRenderer<TItem>;
   initialState?: Partial<AutocompleteState<TItem>>;
   onStateChange?(props: {
     state: AutocompleteState<TItem>;

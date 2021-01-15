@@ -310,6 +310,11 @@ type SourceTemplate = {
     source: AutocompleteSource;
     items: TItem[];
   }>;
+  empty?: Template<{
+    root: HTMLElement;
+    state: AutocompleteState<TItem>;
+    source: AutocompleteSource;
+  }>;
 };
 ```
 
@@ -357,6 +362,9 @@ const autocompleteSearch = autocomplete({
           },
           footer() {
             return 'Footer';
+          },
+          empty() {
+            return 'No results';
           },
         },
       },

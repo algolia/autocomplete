@@ -1,8 +1,8 @@
-import { invariant } from '@algolia/autocomplete-shared';
+import { getItemsCount, invariant } from '@algolia/autocomplete-shared';
 
 import { getCompletion } from './getCompletion';
 import { Reducer } from './types';
-import { getItemsCount, getNextActiveItemId } from './utils';
+import { getNextActiveItemId } from './utils';
 
 export const stateReducer: Reducer = (state, action) => {
   switch (action.type) {

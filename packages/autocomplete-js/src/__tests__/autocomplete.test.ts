@@ -1,6 +1,5 @@
-import { fireEvent } from '@testing-library/dom';
-
-import { autocomplete } from '../autocomplete';
+import { autocomplete } from '@algolia/autocomplete-js';
+import { fireEvent, waitFor } from '@testing-library/dom';
 
 describe('autocomplete-js', () => {
   test('renders with default options', () => {
@@ -154,6 +153,162 @@ describe('autocomplete-js', () => {
         </div>
       </div>
     `);
+  });
+
+  test('renders empty template on empty results', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      id: 'autocomplete',
+      container,
+      panelContainer,
+      debug: true,
+      openOnFocus: true,
+      shouldPanelShow: () => true,
+      getSources() {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+              empty() {
+                return 'No results template';
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, {
+      target: { value: 'aasdjfaisdf' },
+    });
+    input.focus();
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    expect(
+      panelContainer.querySelector<HTMLElement>('.aa-Panel').textContent
+    ).toEqual('No results template');
+  });
+
+  test('renders renderEmpty method on empty results', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      id: 'autocomplete',
+      container,
+      panelContainer,
+      debug: true,
+      openOnFocus: true,
+      shouldPanelShow: () => true,
+      getSources() {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+      renderEmpty({ root }) {
+        const div = document.createElement('div');
+        div.innerHTML = 'No results render';
+
+        root.appendChild(div);
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, {
+      target: { value: 'aasdjfaisdf' },
+    });
+    input.focus();
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    expect(
+      panelContainer.querySelector<HTMLElement>('.aa-Panel').textContent
+    ).toEqual('No results render');
+  });
+
+  test('renders empty template over renderEmpty method on empty results', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      id: 'autocomplete',
+      container,
+      panelContainer,
+      debug: true,
+      openOnFocus: true,
+      shouldPanelShow: () => true,
+      getSources() {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+              empty() {
+                return 'No results template';
+              },
+            },
+          },
+        ];
+      },
+      renderEmpty({ root }) {
+        const div = document.createElement('div');
+        div.innerHTML = 'No results render';
+
+        root.appendChild(div);
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, {
+      target: { value: 'aasdjfaisdf' },
+    });
+    input.focus();
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    expect(
+      panelContainer.querySelector<HTMLElement>('.aa-Panel').textContent
+    ).toEqual('No results template');
   });
 
   test('renders with autoFocus', () => {

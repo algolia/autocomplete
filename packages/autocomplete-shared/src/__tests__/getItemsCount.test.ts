@@ -1,4 +1,4 @@
-import { createCollection, createState } from '../../../../../test/utils';
+import { createCollection, createState } from '../../../../test/utils';
 import { getItemsCount } from '../getItemsCount';
 
 describe('getItemsCount', () => {

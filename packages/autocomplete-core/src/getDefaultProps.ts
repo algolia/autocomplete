@@ -1,15 +1,12 @@
+import { getItemsCount } from '@algolia/autocomplete-shared';
+
 import {
   AutocompleteOptions,
   BaseItem,
   InternalAutocompleteOptions,
   AutocompleteSubscribers,
 } from './types';
-import {
-  generateAutocompleteId,
-  getItemsCount,
-  getNormalizedSources,
-  flatten,
-} from './utils';
+import { generateAutocompleteId, getNormalizedSources, flatten } from './utils';
 
 export function getDefaultProps<TItem extends BaseItem>(
   props: AutocompleteOptions<TItem>,

@@ -140,6 +140,26 @@ autocomplete({
 });
 ```
 
+### `renderEmpty`
+
+> `(params: { root: HTMLElement, sections: HTMLElement[], state: AutocompleteState<TItem> }) => void`
+
+Function called to render an empty section when no hits are returned. It is useful for letting the user know that the query returned no results.
+
+The default implementation close the panel when there's no results.
+
+```js
+autocomplete({
+  // ...
+  renderEmpty({ root }) {
+    const div = document.createElement('div');
+
+    div.innerHTML = 'Your query returned no results';
+    root.appendChild(div);
+  },
+});
+```
+
 ## Returned props
 
 ```js
