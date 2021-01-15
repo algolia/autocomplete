@@ -3,13 +3,13 @@ id: state
 title: Controlling behavior with State
 ---
 
-The state drives the full behavior of the autocomplete experience.
+The state drives the behavior of the autocomplete experience.
 
 The state is an underlying set of properties that drives the autocomplete behavior. For example, `query` contains the value typed in the search input. As the query changes, the retrieved items from the [sources](/docs/sources) change.
 
 The state contains:
 - `query`: the search input value
-- `selectedItemId`: which item is selected
+- `activeItemId`: which item is active
 - `completion`: the completed version of the query
 - `isOpen`: whether the autocomplete display panel is open or not
 - `status`: the autocomplete status
@@ -22,7 +22,7 @@ The state is available in all lifecycle hooks so you can customize the behavior.
 
 ### Setting an initial state
 
-You can instantiate an autocomplete with an initial state via the `initialState` prop.
+You can instantiate an autocomplete with an initial state via the [`initialState`](/docs/autocomplete-js/#initialstate) prop.
 
 ```js
 const autocomplete = createAutocomplete({
@@ -111,7 +111,7 @@ The autocomplete's status.
 
 ### `context`
 
-> `{ [key: string]: unknown }` | defaults to `{}`
+> `AutocompleteContext` | defaults to `{}`
 
 The global context passed to lifecycle hooks.
 
@@ -151,7 +151,7 @@ Sets the collections of items of the autocomplete.
 
 ### `setContext`
 
-> `(value: object) => void`
+> `(value: AutocompleteContext) => void`
 
 Sets the context passed to lifecycle hooks.
 
