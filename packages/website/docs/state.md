@@ -49,24 +49,30 @@ const autocomplete = createAutocomplete({
 
 You can also manually update the state using setters. It's useful to implement custom features on top of autocomplete.
 
-In the following example, when detecting a potential filter in the query, you're manually adding it to the list of active filters using [Context](context) and removing it from the query.
+For example, let's say you want to let users fill the search input with the value of a suggestion by clicking or tapping it. You can use the [`setQuery`](state#setquery) setter provided by [`getSources`](sources#getsources) to attach an event when clicking the tap-ahead button and manually set the query.
 
 ```js
-const categories = ['Tops', 'Bottoms', 'Hats', 'Bags', 'Footwear'];
-
 const autocomplete = createAutocomplete({
-  // ...
-  onStateChange({ state, setQuery, setContext }) {
-    const { query, context } = state;
-    const match = categories.find((category) => query.endsWith(category));
+  getSources({ query, setQuery, refresh }) {
+    return [
+      {
+        // ...
+        templates: {
+          item({ item, root }) {
+            const tapAheadButton = document.createElement('button');
 
-    if (match) {
-      const filters = [...context.filters, match];
-      const position = query.lastIndexOf(match);
+            tapAheadButton.addEventListener('click', (event) => {
+              event.stopPropagation();
 
-      setContext({ filters });
-      setQuery(query.substr(0, position));
-    }
+              setQuery(item.query);
+              refresh();
+            });
+
+            root.appendChild(tapAheadButton);
+          },
+        },
+      },
+    ];
   },
 });
 ```
