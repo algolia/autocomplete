@@ -47,7 +47,17 @@ Context can be handy when developing Autocomplete plugins. It avoids polluting t
 
 ## Reference
 
-The `setContext` function is accessible on your `autocomplete` instance. It's also provided in the `subscribe` function of [Autocomplete plugins](/docs/plugins).
+The `setContext` function is accessible on your `autocomplete` instance.
+
+It's also provided in:
+- [`getSources`](createAutocomplete#getsources)
+- [`onInput`](createAutocomplete#oninput)
+- [`onSubmit`](createAutocomplete#onsubmit)
+- [`onReset`](createAutocomplete#onreset)
+- [`source.onActive`](sources#onactive)
+- [`source.onSelect`](sources#onselect)
+- [`source.getItems`](sources#getitems)
+- `plugin.subscribe`
 
 The `context` object is available on the [`state`](/docs/state) object.
 
