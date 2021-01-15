@@ -105,7 +105,7 @@ Whether the panel is open or not.
 
 ### `collections`
 
-> `Collection[]` | defaults to `[]`
+> `AutocompleteCollection[]` | defaults to `[]`
 
 The collections of items.
 
