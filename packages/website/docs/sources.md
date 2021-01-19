@@ -130,7 +130,7 @@ const searchClient = algoliasearch(
 const autocomplete = createAutocomplete({
   getSources({ query }) {
     if (!query) {
-      [
+      return [
         {
           getItems() {
             return [
