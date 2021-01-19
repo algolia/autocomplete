@@ -40,35 +40,52 @@ autocomplete({
     recentSearchesPlugin,
     querySuggestionsPlugin,
   ],
-  getSources() {
+  getSources({ query }) {
+    if (!query) {
+      return [];
+    }
+
     return [
       {
-        getItems({ query }) {
+        getItems() {
           return getAlgoliaHits({
             searchClient,
-            queries: [
-              {
-                indexName: 'instant_search_demo_query_suggestions',
-                query,
-                params: {
-                  hitsPerPage: 4,
-                },
-              },
-            ],
+            queries: [{ indexName: 'instant_search', query }],
           });
         },
         templates: {
-          header() {
-            return 'Suggestions';
+          item({ item, root }) {
+            const itemContent = document.createElement('div');
+            const ItemSourceIcon = document.createElement('div');
+            const itemTitle = document.createElement('div');
+            const sourceIcon = document.createElement('img');
+
+            sourceIcon.width = 20;
+            sourceIcon.height = 20;
+            sourceIcon.src = item.image;
+
+            ItemSourceIcon.classList.add('aa-ItemSourceIcon');
+            ItemSourceIcon.appendChild(sourceIcon);
+
+            itemTitle.innerHTML = reverseHighlightHit({
+              hit: item,
+              attribute: 'name',
+            });
+            itemTitle.classList.add('aa-ItemTitle');
+
+            itemContent.classList.add('aa-ItemContent');
+            itemContent.appendChild(ItemSourceIcon);
+            itemContent.appendChild(itemTitle);
+
+            root.appendChild(itemContent);
           },
-          item({ item }) {
-            return reverseHighlightHit({ hit: item, attribute: 'query' });
-          },
-          footer() {
-            return 'Footer';
-          },
-          empty() {
-            return 'No results';
+          empty({ root }) {
+            const itemContent = document.createElement('div');
+
+            itemContent.innerHTML = 'No results for this query';
+            itemContent.classList.add('aa-ItemContent');
+
+            root.appendChild(itemContent);
           },
         },
       },

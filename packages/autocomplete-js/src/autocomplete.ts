@@ -30,7 +30,7 @@ export function autocomplete<TItem extends BaseItem>(
   const { runEffect, cleanupEffects, runEffects } = createEffectWrapper();
   const { reactive, runReactives } = createReactiveWrapper();
 
-  const hasEmptySourceTemplateRef = createRef(false);
+  const hasEmptySourceTemplateRef = createRef(true);
   const optionsRef = createRef(options);
   const onStateChangeRef = createRef<
     AutocompleteOptions<TItem>['onStateChange']
@@ -71,6 +71,7 @@ export function autocomplete<TItem extends BaseItem>(
     status: 'idle',
     ...props.value.core.initialState,
   });
+
   const isTouch = reactive(
     () => window.matchMedia(props.value.renderer.touchMediaQuery).matches
   );

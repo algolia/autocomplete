@@ -58,7 +58,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
       ? getHTMLElement(panelContainer)
       : document.body,
     render: render ?? defaultRenderer,
-    renderEmpty: renderEmpty ?? undefined,
+    renderEmpty,
     panelPlacement: panelPlacement ?? 'input-wrapper-width',
     classNames: mergeClassNames(
       defaultClassNames,
