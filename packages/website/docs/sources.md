@@ -119,7 +119,7 @@ autocomplete({
 });
 ```
 
-**Templates aren't limited to strings.** You can provide anything as long as they're a valid Virtual DOM element (see more in [**Templates**](templates)).
+**Templates aren't limited to strings.** You can provide anything as long as they're a valid virtual DOM element (see more in [**Templates**](templates)).
 
 ### Using dynamic sources
 
