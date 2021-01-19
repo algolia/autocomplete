@@ -268,13 +268,7 @@ You can use the official [`autocomplete-plugin-query-suggestions`](createQuerySu
 
 ### Customizing items with templates
 
-In addition to defining data sources for items, a source also lets you customize how to display items using [`templates`](#templates-specific-to-algoliaautocomplete-js).
-
-:::info
-
-Templates are only supported in [autocomplete-js](autocomplete-js).
-
-:::
+In addition to defining data sources for items, a source also lets you customize how to display items using [`templates`](#templates).
 
 Templates can return a string:
 
@@ -473,10 +467,10 @@ Called whenever an item is active.
 
 You can trigger different behaviors if the item is active depending on the triggering event using the `event` parameter.
 
-### `templates` (specific to `@algolia/autocomplete-js`)
+### `templates`
 
 > `SourceTemplate`
 
-The `@algolia/autocomplete-js` supports source templates.
+A set of templates to customize how items are displayed.
 
-A template can either return a string or perform DOM mutations without returning a string.
+You can also provide templates for header and a footer elements around the list of items.
