@@ -331,7 +331,7 @@ You can use the official [`autocomplete-plugin-query-suggestions`](createQuerySu
 
 The function to fetch sources and their behaviors.
 
-See [source](#source) to see what to return.
+See [source](#source) for what to return.
 
 ## Source
 
