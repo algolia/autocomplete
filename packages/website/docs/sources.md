@@ -394,7 +394,7 @@ You can use the official [`autocomplete-plugin-query-suggestions`](createQuerySu
 
 :::
 
-## Reference
+## Sources
 
 ### `getSources`
 
@@ -402,7 +402,11 @@ You can use the official [`autocomplete-plugin-query-suggestions`](createQuerySu
 
 The function to fetch sources and their behaviors.
 
-A source implements the following interface:
+See [source](#source) to see what to return.
+
+## Source
+
+Each source implements the following interface:
 
 ### `getItems`
 
