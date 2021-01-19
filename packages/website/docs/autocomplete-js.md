@@ -146,7 +146,7 @@ autocomplete({
 
 Function called to render an empty section when no hits are returned. It is useful for letting the user know that the query returned no results.
 
-The default implementation close the panel when there's no results.
+There is no default implementation, which closes the panel when there's no results.
 
 ```js
 autocomplete({
