@@ -169,7 +169,7 @@ const autocomplete = createAutocomplete({
 
 The [`getSources`](#getsources) function provides access to the current `query`, which you can use to return sources conditionally. You can use this pattern to display recent searches when the query is empty and search results when the user types.
 
-Note that you have access to the [complete autocomplete state](state), not only the query. It lets you compute sources based on many different aspects.
+Note that you have access to the [full autocomplete state](state), not only the query. It lets you compute sources based on [various aspects](state#state), such as the query, but also the autocomplete status, whether the autocomplete is open or not, the context, etc.
 
 ### Using asynchronous sources
 
