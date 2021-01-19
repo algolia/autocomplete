@@ -94,8 +94,9 @@ autocomplete({
 Or a [Preact](https://preactjs.com/) component:
 
 ```js
-import { autocomplete } from '@algolia/autocomplete-js';
+/** @jsx jsx */
 import { h } from 'preact';
+import { autocomplete } from '@algolia/autocomplete-js';
 
 autocomplete({
   // ...
@@ -105,21 +106,20 @@ autocomplete({
         // ...
         templates: {
           item({ item }) {
-            return h('div', null, item.name);
+            return <div>{item.name}</div>;
           },
         },
       },
     ];
   },
 });
-
 ```
 
 Or HTML/JSX-like syntax (here using [htm](https://github.com/developit/htm)):
 
 ```js
-import { autocomplete, highlightHit } from '@algolia/autocomplete-js';
 import { html } from 'htm/preact';
+import { autocomplete } from '@algolia/autocomplete-js';
 
 autocomplete({
   // ...
@@ -129,9 +129,7 @@ autocomplete({
         // ...
         templates: {
           item({ item }) {
-            return html`<div>
-              ${html([highlightHit({ hit: item, attribute: 'name' })])}
-            </div>`
+            return html`<div>${item.name}</div>`
           },
         },
       },
