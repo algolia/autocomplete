@@ -3,7 +3,7 @@ id: sources
 title: Populating autocomplete with Sources
 ---
 
-Sources define from where to retrieve items and their behavior.
+Sources define where to retrieve items from and their behavior.
 
 **The most important aspect of an autocomplete experience is the items you display.** Most of the time they're search results to a query, but you could imagine many different usages.
 
@@ -30,6 +30,7 @@ autocomplete({
         getItemUrl({ item }) {
           return item.url;
         },
+        // ...
       },
     ];
   },
@@ -56,6 +57,130 @@ autocomplete({
         },
         getItemUrl({ item }) {
           return item.url;
+        },
+        // ...
+      },
+    ];
+  },
+});
+```
+
+### Customizing items with templates
+
+In addition to defining data sources for items, a source also lets you customize how to display items using [`templates`](#templates).
+
+Templates can return a string:
+
+```js
+import { autocomplete } from '@algolia/autocomplete-js';
+
+autocomplete({
+  // ...
+  getSources({ query }) {
+    return [
+      {
+        // ...
+        templates: {
+          item({ item }) {
+            return `Result: ${item.name}`;
+          },
+        },
+      },
+    ];
+  },
+});
+```
+
+Or a [Preact](https://preactjs.com/) component:
+
+```js
+import { autocomplete } from '@algolia/autocomplete-js';
+import { h } from 'preact';
+
+autocomplete({
+  // ...
+  getSources({ query }) {
+    return [
+      {
+        // ...
+        templates: {
+          item({ item }) {
+            return h('div', null, item.name);
+          },
+        },
+      },
+    ];
+  },
+});
+
+```
+
+Or HTML/JSX-like syntax (here using [htm](https://github.com/developit/htm)):
+
+```js
+import { autocomplete, highlightHit } from '@algolia/autocomplete-js';
+import { html } from 'htm/preact';
+
+autocomplete({
+  // ...
+  getSources({ query }) {
+    return [
+      {
+        // ...
+        templates: {
+          item({ item }) {
+            return html`<div>
+              ${html([highlightHit({ hit: item, attribute: 'name' })])}
+            </div>`
+          },
+        },
+      },
+    ];
+  },
+});
+```
+
+Or a custom component using `createElement` and `Fragment`:
+
+```js
+import { autocomplete } from '@algolia/autocomplete-js';
+
+autocomplete({
+  // ...
+  getSources({ query }) {
+    return [
+      {
+        // ...
+        templates: {
+          item({ item, createElement, Fragment }) {
+            return createElement(Fragment, {}, item.name);
+          },
+        },
+      },
+    ];
+  },
+});
+```
+
+You can also define `header` and `footer` templates to display before and after the items list.
+
+```js
+import { autocomplete } from '@algolia/autocomplete-js';
+
+autocomplete({
+  // ...
+  getSources({ query }) {
+    return [
+      {
+        // ...
+        templates: {
+          header() {
+            return 'Suggestions';
+          },
+          // ...
+          footer() {
+            return 'Footer';
+          },
         },
       },
     ];
@@ -104,6 +229,7 @@ autocomplete({
         getItemUrl({ item }) {
           return item.url;
         },
+        // ...
       },
     ];
   },
@@ -269,129 +395,6 @@ autocomplete({
 You can use the official [`autocomplete-plugin-query-suggestions`](createQuerySuggestionsPlugin) plugin to retrieve Query Suggestions from Algolia.
 
 :::
-
-### Customizing items with templates
-
-In addition to defining data sources for items, a source also lets you customize how to display items using [`templates`](#templates).
-
-Templates can return a string:
-
-```js
-import { autocomplete } from '@algolia/autocomplete-js';
-
-autocomplete({
-  // ...
-  getSources({ query }) {
-    return [
-      {
-        // ...
-        templates: {
-          item({ item }) {
-            return `Result: ${item.name}`;
-          },
-        },
-      },
-    ];
-  },
-});
-```
-
-Or a [Preact](https://preactjs.com/) component:
-
-```js
-import { autocomplete } from '@algolia/autocomplete-js';
-import { h } from 'preact';
-
-autocomplete({
-  // ...
-  getSources({ query }) {
-    return [
-      {
-        // ...
-        templates: {
-          item({ item }) {
-            return h('div', null, item.name);
-          },
-        },
-      },
-    ];
-  },
-});
-
-```
-
-Or HTML/JSX-like syntax (here using [htm](https://github.com/developit/htm)):
-
-```js
-import { autocomplete, highlightHit } from '@algolia/autocomplete-js';
-import { html } from 'htm/preact';
-
-autocomplete({
-  // ...
-  getSources({ query }) {
-    return [
-      {
-        // ...
-        templates: {
-          item({ item }) {
-            return html`<div>
-              ${html([highlightHit({ hit: item, attribute: 'name' })])}
-            </div>`
-          },
-        },
-      },
-    ];
-  },
-});
-```
-
-Or a custom component using `createElement` and `Fragment`:
-
-```js
-import { autocomplete } from '@algolia/autocomplete-js';
-
-autocomplete({
-  // ...
-  getSources({ query }) {
-    return [
-      {
-        // ...
-        templates: {
-          item({ item, createElement, Fragment }) {
-            return createElement(Fragment, {}, item.name);
-          },
-        },
-      },
-    ];
-  },
-});
-```
-
-You can also define `header` and `footer` templates to display before and after the items list.
-
-```js
-import { autocomplete } from '@algolia/autocomplete-js';
-
-autocomplete({
-  // ...
-  getSources({ query }) {
-    return [
-      {
-        // ...
-        templates: {
-          header() {
-            return 'Suggestions';
-          },
-          // ...
-          footer() {
-            return 'Footer';
-          },
-        },
-      },
-    ];
-  },
-});
-```
 
 ## Reference
 
