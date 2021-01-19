@@ -428,8 +428,6 @@ const source = {
 
 Called to get the value of the item. The value is used to fill the search box.
 
-If you don't want to update the input value when an item is selected, you can return `state.query`.
-
 ```js
 const items = [{ value: 'Apple' }, { value: 'Banana' }];
 
