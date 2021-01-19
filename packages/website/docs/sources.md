@@ -65,15 +65,17 @@ autocomplete({
 });
 ```
 
+Before moving on to more complex sources, let's take a closer look at the code.
+
+Notice that the [`getSources`](#getsources) function returns an array of sources. Each source implements a [`getItems`](#getitems) function to return the items to display. These items can be a simple static array, but you can also use a function to refine items based on the query. **The [`getItems`](#getitems) function is called whenever the input changes.**
+
+By default, autocomplete items are meant to be hyperlinks. To determine what URL to navigate to, you can implement a [`getItemURL`](#getitemurl) function. It enables the [keyboard accessibility](https://autocomplete.algolia.com/docs/keyboard-navigation) feature, allowing users to open items in the current tab, a new tab, or a new window from their keyboard.
+
 ### Customizing items with templates
 
 In addition to defining data sources for items, a source also lets you customize how to display items using [`templates`](#templates).
 
-Templates can return a string:
-
 ```js
-import { autocomplete } from '@algolia/autocomplete-js';
-
 autocomplete({
   // ...
   getSources({ query }) {
@@ -91,80 +93,9 @@ autocomplete({
 });
 ```
 
-Or a [Preact](https://preactjs.com/) component:
+You can also display header and a footer elements around the list of items.
 
 ```js
-/** @jsx jsx */
-import { h } from 'preact';
-import { autocomplete } from '@algolia/autocomplete-js';
-
-autocomplete({
-  // ...
-  getSources({ query }) {
-    return [
-      {
-        // ...
-        templates: {
-          item({ item }) {
-            return <div>{item.name}</div>;
-          },
-        },
-      },
-    ];
-  },
-});
-```
-
-Or HTML/JSX-like syntax (here using [htm](https://github.com/developit/htm)):
-
-```js
-import { html } from 'htm/preact';
-import { autocomplete } from '@algolia/autocomplete-js';
-
-autocomplete({
-  // ...
-  getSources({ query }) {
-    return [
-      {
-        // ...
-        templates: {
-          item({ item }) {
-            return html`<div>${item.name}</div>`
-          },
-        },
-      },
-    ];
-  },
-});
-```
-
-Or a custom component using `createElement` and `Fragment`:
-
-```js
-import { autocomplete } from '@algolia/autocomplete-js';
-
-autocomplete({
-  // ...
-  getSources({ query }) {
-    return [
-      {
-        // ...
-        templates: {
-          item({ item, createElement, Fragment }) {
-            return createElement(Fragment, {}, item.name);
-          },
-        },
-      },
-    ];
-  },
-});
-```
-
-You can also define `header` and `footer` templates to display before and after the items list.
-
-```js
-import { autocomplete } from '@algolia/autocomplete-js';
-
 autocomplete({
   // ...
   getSources({ query }) {
@@ -175,7 +106,9 @@ autocomplete({
           header() {
             return 'Suggestions';
           },
-          // ...
+          item({ item }) {
+            return `Result: ${item.name}`;
+          },
           footer() {
             return 'Footer';
           },
@@ -186,11 +119,7 @@ autocomplete({
 });
 ```
 
-Before moving on to more complex sources, let's take a closer look at the code.
-
-Notice that the [`getSources`](#getsources) function returns an array of sources. Each source implements a [`getItems`](#getitems) function to return the items to display. These items can be a simple static array, but you can also use a function to refine items based on the query. **The [`getItems`](#getitems) function is called whenever the input changes.**
-
-By default, autocomplete items are meant to be hyperlinks. To determine what URL to navigate to, you can implement a [`getItemURL`](#getitemurl) function. It enables the [keyboard accessibility](https://autocomplete.algolia.com/docs/keyboard-navigation) feature, allowing users to open items in the current tab, a new tab, or a new window from their keyboard.
+Templates don't have to be strings. You can provide anything as long as they're a valid Virtual DOM element (see more in [**Templates**](templates)).
 
 ### Using dynamic sources
 
