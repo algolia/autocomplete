@@ -16,7 +16,8 @@ Autocomplete gives you total freedom to return rich suggestions via the Sources 
 The most straightforward way to provide items is to return static sources. Each source returns a collection of items.
 
 ```js
-const autocomplete = createAutocomplete({
+autocomplete({
+  // ...
   getSources() {
     return [
       {
@@ -42,7 +43,8 @@ Here, whatever the autocomplete state is, it always returns these two items.
 You can access the autocomplete state in your sources, meaning you can search within static sources to update them as the user types.
 
 ```js
-const autocomplete = createAutocomplete({
+autocomplete({
+  // ...
   getSources() {
     return [
       {
@@ -75,7 +77,7 @@ In this case, you could search into one or more Algolia indices using the built-
 
 ```js
 import algoliasearch from 'algoliasearch/lite';
-import { createAutocomplete } from '@algolia/autocomplete-core';
+import { autocomplete } from '@algolia/autocomplete-js';
 import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
 
 const searchClient = algoliasearch(
@@ -83,7 +85,8 @@ const searchClient = algoliasearch(
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
-const autocomplete = createAutocomplete({
+autocomplete({
+  // ...
   getSources() {
     return [
       {
@@ -119,7 +122,7 @@ You don't have to show an empty screen until the user types a query. A typical p
 
 ```js
 import algoliasearch from 'algoliasearch/lite';
-import { createAutocomplete } from '@algolia/autocomplete-core';
+import { autocomplete } from '@algolia/autocomplete-js';
 import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
 
 const searchClient = algoliasearch(
@@ -127,7 +130,8 @@ const searchClient = algoliasearch(
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
-const autocomplete = createAutocomplete({
+autocomplete({
+  // ...
   getSources({ query }) {
     if (!query) {
       return [
@@ -178,9 +182,8 @@ The [`getSources`](#getsources) function supports promises so that you can fetch
 For example, you could use the [Query Autocomplete](https://developers.google.com/places/web-service/query) service of the Google Places API to search for places and retrieve popular queries that map to actual points of interest.
 
 ```js
-import { createAutocomplete } from '@algolia/autocomplete-core';
-
-const autocomplete = createAutocomplete({
+autocomplete({
+  // ...
   getSources({ query }) {
     return fetch(
       `https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=${query}&key=YOUR_GOOGLE_PLACES_API_KEY`
@@ -212,7 +215,7 @@ For example, you may want to display Algolia search results and Query Suggestion
 
 ```js
 import algoliasearch from 'algoliasearch/lite';
-import { createAutocomplete } from '@algolia/autocomplete-core';
+import { autocomplete } from '@algolia/autocomplete-js';
 import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
 
 const searchClient = algoliasearch(
@@ -220,9 +223,10 @@ const searchClient = algoliasearch(
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
-const autocomplete = createAutocomplete({
+autocomplete({
+  // ...
   getSources({ query }) {
-    return getAlgoliaResults({
+    return getAlgoliaHits({
       searchClient,
       queries: [
         {
