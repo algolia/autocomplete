@@ -71,7 +71,7 @@ Autocomplete uses [Preact 10](https://preactjs.com/guide/v10/whats-new/) to rend
 
 Native HTML elements aren't valid VNodes, which means you can't return a template string that contains HTML, or an HTML element. But if you're not using a virtual DOM implementation in your app, there are still two ways you can return HTML.
 
-#### Using `dangerouslySetInnerHTML`
+#### Using `createElement`
 
 Each template function provides access to `createElement` and `Fragment` to create VNodes.
 
@@ -87,6 +87,40 @@ autocomplete({
         templates: {
           item({ item, createElement, Fragment }) {
             return createElement(Fragment, {}, item.name);
+          },
+        },
+      },
+    ];
+  },
+});
+```
+
+You can also leverage `dangerouslySetInnerHTML` if you need to provide more complex HTML without having to create nested VNodes.
+
+```js
+import { autocomplete } from '@algolia/autocomplete-js';
+
+autocomplete({
+  // ...
+  getSources() {
+    return [
+      {
+        // ...
+        templates: {
+          item({ item, createElement }) {
+            return createElement('div', {
+              dangerouslySetInnerHTML: {
+                __html: `<div>
+                  <img
+                    src="${item.image}"
+                    alt="${item.name}"
+                  />
+                </div>
+                <div>
+                  ${item.name}
+                </div>`,
+              },
+            });
           },
         },
       },
