@@ -39,7 +39,7 @@ autocomplete({
 });
 ```
 
-This is all you need to build a [fully functional, accessible, keyboard-navigable autocomplete](https://codesandbox.io/s/vigilant-dew-g2ezl?file=/src/index.js).
+This is all you need to build a [fully functional, accessible, keyboard-navigable autocomplete](https://codesandbox.io/s/vigilant-dew-g2ezl).
 
 Now, this is a great start, but **you can go much further**. Here are some of the options you'll probably want to use next:
 - Use [`placeholder`](autocomplete-js#placeholder) to define the text that appears in the input before the user types anything.
