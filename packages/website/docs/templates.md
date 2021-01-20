@@ -61,7 +61,7 @@ autocomplete({
 });
 ```
 
-::: info
+:::info
 
 Autocomplete uses [Preact 10](https://preactjs.com/guide/v10/whats-new/) to render templates by default. It isn't compatible with earlier versions.
 
