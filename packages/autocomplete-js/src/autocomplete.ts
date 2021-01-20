@@ -150,6 +150,16 @@ export function autocomplete<TItem extends BaseItem>(
         props.value.renderer.renderEmpty) ||
       props.value.renderer.render;
 
+    hasEmptySourceTemplateRef.current = renderProps.state.collections.some(
+      (collection) => collection.source.templates.empty
+    );
+
+    const render =
+      (!getItemsCount(renderProps.state) &&
+        !hasEmptySourceTemplateRef.current &&
+        props.value.renderer.renderEmpty) ||
+      props.value.renderer.render;
+
     renderSearchBox(renderProps);
     renderPanel(render, renderProps);
   }
