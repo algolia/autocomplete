@@ -25,7 +25,7 @@ The state is available in all lifecycle hooks so you can customize the behavior.
 You can instantiate an autocomplete with an initial state via the [`initialState`](/docs/autocomplete-js/#initialstate) prop.
 
 ```js
-const autocomplete = createAutocomplete({
+autocomplete({
   // ...
   initialState: {
     // This uses the `search` query parameter as the initial query
@@ -39,7 +39,7 @@ const autocomplete = createAutocomplete({
 State changes occur automatically when a user interacts with the autocomplete (updates the input text, selects an item, etc.). You can react to state changes using the [`onStateChange`](createAutocomplete#onstatechange) lifecycle hook.
 
 ```js
-const autocomplete = createAutocomplete({
+autocomplete({
   // ...
   onStateChange({ state }) {
     console.log(state);
@@ -52,7 +52,8 @@ You can also manually update the state using setters. It's useful to implement c
 For example, let's say you want to let users fill the search input with the value of a suggestion by clicking or tapping it. You can use the [`setQuery`](state#setquery) setter provided by [`getSources`](sources#getsources) to attach an event when clicking the tap-ahead button and manually set the query.
 
 ```js
-const autocomplete = createAutocomplete({
+autocomplete({
+  // ...
   getSources({ query, setQuery, refresh }) {
     return [
       {

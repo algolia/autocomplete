@@ -16,7 +16,7 @@ Context exposes a `setContext` function, which takes an object and merges it wit
 The following example stores the number of hits from an Algolia response, making it accessible everywhere in your autocomplete.
 
 ```js
-const autocomplete = createAutocomplete({
+autocomplete({
   // ...
   getSources({ query, setContext }) {
     return getAlgoliaResults({
