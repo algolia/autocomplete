@@ -1,10 +1,63 @@
-import { createPlayground } from '../../../../test/utils';
+import userEvent from '@testing-library/user-event';
+
+import {
+  createCollection,
+  createPlayground,
+  createSource,
+  runAllMicroTasks,
+} from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 describe('plugins', () => {
-  test.todo('notifies plugins when onSelect');
+  test('notifies plugins when onActive', async () => {
+    const onActive = jest.fn();
+    const plugin = { onActive };
+    const { inputElement } = createPlayground(createAutocomplete, {
+      defaultActiveItemId: 0,
+      plugins: [plugin],
+      getSources: () => {
+        return [
+          createSource({
+            getItems() {
+              return [{ label: '1' }, { label: '2' }];
+            },
+            onActive,
+          }),
+        ];
+      },
+    });
 
-  test.todo('notifies plugins when onActive');
+    userEvent.type(inputElement, 'a');
+
+    await runAllMicroTasks();
+    expect(onActive).toHaveBeenCalledTimes(1);
+    expect(plugin.onActive).toHaveBeenCalledTimes(1);
+  });
+
+  test('notifies plugins when onSelect', async () => {
+    const onSelect = jest.fn();
+    const plugin = { onSelect };
+    const { inputElement } = createPlayground(createAutocomplete, {
+      defaultActiveItemId: 0,
+      plugins: [plugin],
+      initialState: {
+        isOpen: true,
+        collections: [
+          createCollection({
+            source: { onSelect },
+            items: [{ label: '1' }, { label: '2' }],
+          }),
+        ],
+      },
+    });
+
+    inputElement.focus();
+    userEvent.type(inputElement, '{enter}');
+
+    await runAllMicroTasks();
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(plugin.onSelect).toHaveBeenCalledTimes(1);
+  });
 
   test('notifies plugins when onStateChange', () => {
     const onStateChange = jest.fn();
