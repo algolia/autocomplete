@@ -260,18 +260,18 @@ See [template](#template) for what to return.
 
 ### `header`
 
-> `(params: { state: AutocompleteState<TItem>, source: AutocompleteSource<TItem>, createElement: Pragma; Fragment: PragmaFrag }) => VNode | string`
+> `(params: { state: AutocompleteState<TItem>, source: AutocompleteSource<TItem>, createElement: Pragma, Fragment: PragmaFrag }) => VNode | string`
 
 A function that returns the template for the header (before the list of items).
 
 ### `item`
 
-> `(params: { item: TItem, state: AutocompleteState<TItem>, createElement: Pragma; Fragment: PragmaFrag }) => VNode | string`
+> `(params: { item: TItem, state: AutocompleteState<TItem>, createElement: Pragma, Fragment: PragmaFrag }) => VNode | string`
 
 A function that returns the template for each item of the source.
 
 ### `footer`
 
-> `(params: { state: AutocompleteState<TItem>, source: AutocompleteSource<TItem>, createElement: Pragma; Fragment: PragmaFrag }) => VNode | string`
+> `(params: { state: AutocompleteState<TItem>, source: AutocompleteSource<TItem>, createElement: Pragma, Fragment: PragmaFrag }) => VNode | string`
 
 A function that returns the template for the footer (after the list of items).
