@@ -136,6 +136,17 @@ export function renderPanel<TItem extends BaseItem>(
 
       listElement.appendChild(listFragment);
       sourceElement.appendChild(listElement);
+    } else if (source.templates.empty) {
+      const emptyElement = Element('div', { class: classNames.sourceEmpty });
+      renderTemplate({
+        template: source.templates.empty({
+          root: emptyElement,
+          state,
+          source,
+        }),
+        parent: sourceElement,
+        element: emptyElement,
+      });
     }
 
     if (source.templates.footer) {

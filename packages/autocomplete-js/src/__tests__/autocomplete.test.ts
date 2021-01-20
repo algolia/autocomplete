@@ -1,5 +1,6 @@
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 
+import { wait } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
 
 describe('autocomplete-js', () => {
@@ -154,6 +155,200 @@ describe('autocomplete-js', () => {
         </div>
       </div>
     `);
+  });
+
+  test('renders empty template on no results', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      getSources() {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+              empty() {
+                return 'No results template';
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, {
+      target: { value: 'aasdjfaisdf' },
+    });
+    input.focus();
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    expect(
+      panelContainer.querySelector<HTMLElement>('.aa-Panel')
+    ).toHaveTextContent('No results template');
+  });
+
+  test('calls renderEmpty without empty template on no results', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+    const renderEmpty = jest.fn(({ root }) => {
+      const div = document.createElement('div');
+      div.innerHTML = 'No results render';
+
+      root.appendChild(div);
+    });
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      getSources() {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+      renderEmpty,
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, {
+      target: { value: 'aasdjfaisdf' },
+    });
+    input.focus();
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    expect(renderEmpty).toHaveBeenCalledWith({
+      root: expect.anything(),
+      state: expect.anything(),
+      sections: expect.anything(),
+    });
+
+    expect(
+      panelContainer.querySelector<HTMLElement>('.aa-Panel')
+    ).toHaveTextContent('No results render');
+  });
+
+  test('renders empty template over renderEmpty method on no results', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      getSources() {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+              empty() {
+                return 'No results template';
+              },
+            },
+          },
+        ];
+      },
+      renderEmpty({ root }) {
+        const div = document.createElement('div');
+        div.innerHTML = 'No results render';
+
+        root.appendChild(div);
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, {
+      target: { value: 'aasdjfaisdf' },
+    });
+    input.focus();
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    expect(
+      panelContainer.querySelector<HTMLElement>('.aa-Panel')
+    ).toHaveTextContent('No results template');
+  });
+
+  test('allows user-provided shouldPanelShow', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      shouldPanelShow: () => false,
+      getSources() {
+        return [
+          {
+            getItems() {
+              return [
+                { label: 'Item 1' },
+                { label: 'Item 2' },
+                { label: 'Item 3' },
+              ];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, {
+      target: { value: 'aasdjfaisdf' },
+    });
+    input.focus();
+
+    await wait(50);
+
+    expect(
+      panelContainer.querySelector<HTMLElement>('.aa-Panel')
+    ).not.toBeInTheDocument();
   });
 
   test('renders with autoFocus', () => {
