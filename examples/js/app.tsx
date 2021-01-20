@@ -76,8 +76,6 @@ autocomplete({
   },
 });
 
-console.log('mokaze');
-
 type ProductItemProps = {
   hit: ProductHit;
 };

@@ -7,6 +7,7 @@ export type AutocompleteRender<TItem extends BaseItem> = (
   params: {
     children: VNode;
     state: AutocompleteState<TItem>;
+    sections: VNode[];
   },
   root: HTMLElement
 ) => void;
