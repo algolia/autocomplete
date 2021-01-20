@@ -61,6 +61,12 @@ autocomplete({
 });
 ```
 
+::: info
+
+Autocomplete uses [Preact 10](https://preactjs.com/guide/v10/whats-new/) to render templates by default. It isn't compatible with earlier versions.
+
+:::
+
 ### Returning HTML
 
 Native HTML elements aren't valid VNodes, which means you can't return a template string that contains HTML, or an HTML element. But if you're not using a virtual DOM implementation in your app, there are still two ways you can return HTML.
