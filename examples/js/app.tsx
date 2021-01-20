@@ -82,15 +82,9 @@ function ProductItem({ hit }: ProductItemProps) {
         <img src={hit.image} alt={hit.name} width="20" height="20" />
       </div>
 
-      <div
-        className="aa-ItemTitle"
-        dangerouslySetInnerHTML={{
-          __html: highlightHit<ProductHit>({
-            hit,
-            attribute: 'name',
-          }),
-        }}
-      />
+      <div className="aa-ItemTitle">
+        {highlightHit<ProductHit>({ hit, attribute: 'name' })}
+      </div>
     </div>
   );
 }

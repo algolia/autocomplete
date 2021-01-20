@@ -4,11 +4,6 @@ id: parseAlgoliaHitHighlight
 
 Returns the highlighted parts of an Algolia hit.
 
-<!-- prettier-ignore -->
-:::info
-This function escapes characters.
-:::
-
 ## Example
 
 ```js
@@ -44,9 +39,3 @@ The Algolia hit to retrieve the attribute value from.
 > `string` | required
 
 The attribute to retrieve the reverse highlight value from.
-
-### `ignoreEscape`
-
-> `string[]` | defaults to `[]`
-
-The characters to skip from escaping.
