@@ -62,7 +62,7 @@ export function onInput<TItem extends BaseItem>({
   setQuery(query);
   setActiveItemId(props.defaultActiveItemId);
 
-  if (query.length === 0 && props.openOnFocus === false) {
+  if (!query && props.openOnFocus === false) {
     setStatus('idle');
     setCollections(
       store.getState().collections.map((collection) => ({
@@ -120,7 +120,7 @@ export function onInput<TItem extends BaseItem>({
           setCollections(collections as any);
           setIsOpen(
             nextState.isOpen ??
-              ((query.length === 0 && props.openOnFocus) ||
+              ((!query && props.openOnFocus) ||
                 props.shouldPanelShow({ state: store.getState() }))
           );
 

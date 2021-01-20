@@ -135,7 +135,7 @@ export function getPropGetters<
     function onFocus(event: TEvent) {
       // We want to trigger a query when `openOnFocus` is true
       // because the panel should open with the current query.
-      if (props.openOnFocus || store.getState().query.length > 0) {
+      if (props.openOnFocus || Boolean(store.getState().query)) {
         onInput({
           event,
           props,
