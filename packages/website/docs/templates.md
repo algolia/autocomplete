@@ -248,7 +248,7 @@ autocomplete({
 
 ### `templates`
 
-> `AutocompleteTemplate`
+> `AutocompleteTemplates`
 
 A set of templates to customize how items are displayed. You can also provide templates for header and footer elements around the list of items.
 
