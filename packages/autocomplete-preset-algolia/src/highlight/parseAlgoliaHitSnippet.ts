@@ -9,7 +9,6 @@ import { ParsedAttribute } from './ParsedAttribute';
 export function parseAlgoliaHitSnippet<THit extends Hit<{}>>({
   hit,
   attribute,
-  ignoreEscape,
 }: ParseAlgoliaHitParams<THit>): ParsedAttribute[] {
   const path = `_snippetResult.${attribute}.value`;
   let highlightedValue = getAttributeValueByPath(hit, path);
@@ -26,8 +25,5 @@ export function parseAlgoliaHitSnippet<THit extends Hit<{}>>({
     highlightedValue = getAttributeValueByPath(hit, attribute as string) || '';
   }
 
-  return parseAttribute({
-    highlightedValue,
-    ignoreEscape,
-  });
+  return parseAttribute({ highlightedValue });
 }
