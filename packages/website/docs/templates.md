@@ -244,12 +244,6 @@ autocomplete({
 });
 ```
 
-:::note
-
-Autocomplete also provides an [optional default theme](#).
-
-:::
-
 ## Templates
 
 ### `templates`
