@@ -314,7 +314,7 @@ describe('autocomplete-js', () => {
     ).toHaveTextContent('No results template');
   });
 
-  test('overrides the default implementation of shouldPanelShow', async () => {
+  test('allows user-provided shouldPanelShow', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
