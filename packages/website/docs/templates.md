@@ -264,17 +264,17 @@ See [template](#template) for what to return.
 
 ## Template
 
-### `item`
-
-> `(params: { item: TItem, state: AutocompleteState<TItem>, createElement: Pragma; Fragment: PragmaFrag }) => VNode | string`
-
-A function that returns the template for each item of the source.
-
 ### `header`
 
 > `(params: { state: AutocompleteState<TItem>, source: AutocompleteSource<TItem>, createElement: Pragma; Fragment: PragmaFrag }) => VNode | string`
 
 A function that returns the template for the header (before the list of items).
+
+### `item`
+
+> `(params: { item: TItem, state: AutocompleteState<TItem>, createElement: Pragma; Fragment: PragmaFrag }) => VNode | string`
+
+A function that returns the template for each item of the source.
 
 ### `footer`
 
