@@ -39,7 +39,7 @@ autocomplete({
 
 Or a [Preact](https://preactjs.com/) component:
 
-```js
+```jsx
 /** @jsx h */
 import { h } from 'preact';
 import { autocomplete } from '@algolia/autocomplete-js';
@@ -190,7 +190,7 @@ Since you're fully controlling the rendered HTML, you can style it the way you w
 
 For example, if you're using [Bootstrap](https://getbootstrap.com/):
 
-```js
+```jsx
 /** @jsx h */
 import { h } from 'preact';
 import { autocomplete } from '@algolia/autocomplete-js';
@@ -216,7 +216,7 @@ autocomplete({
 
 Or [Tailwind CSS](https://tailwindcss.com/):
 
-```js
+```jsx
 /** @jsx h */
 import { h } from 'preact';
 import { autocomplete } from '@algolia/autocomplete-js';
