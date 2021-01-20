@@ -21,6 +21,7 @@ const defaultClassNames: AutocompleteClassNames = {
   source: 'aa-Source',
   sourceFooter: 'aa-SourceFooter',
   sourceHeader: 'aa-SourceHeader',
+  sourceEmpty: 'aa-SourceEmpty',
   submitButton: 'aa-SubmitButton',
   touchCancelButton: 'aa-TouchCancelButton',
   touchFormContainer: 'aa-TouchFormContainer',
@@ -37,6 +38,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
     container,
     panelContainer,
     render,
+    renderEmpty,
     panelPlacement,
     classNames,
     touchMediaQuery,
@@ -56,6 +58,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
       ? getHTMLElement(panelContainer)
       : document.body,
     render: render ?? defaultRenderer,
+    renderEmpty,
     panelPlacement: panelPlacement ?? 'input-wrapper-width',
     classNames: mergeClassNames(
       defaultClassNames,

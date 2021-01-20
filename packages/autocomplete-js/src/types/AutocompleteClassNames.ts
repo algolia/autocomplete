@@ -15,6 +15,7 @@ export type AutocompleteClassNames = {
   source: string;
   sourceFooter: string;
   sourceHeader: string;
+  sourceEmpty: string;
   submitButton: string;
   touchCancelButton: string;
   touchFormContainer: string;
