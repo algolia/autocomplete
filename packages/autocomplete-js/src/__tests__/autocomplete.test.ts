@@ -1,13 +1,7 @@
-import { getItemsCount } from '@algolia/autocomplete-shared';
 import { fireEvent, waitFor } from '@testing-library/dom';
 
+import { wait } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
-
-const wait = (time = 10) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, time);
-  });
-};
 
 describe('autocomplete-js', () => {
   test('renders with default options', () => {
@@ -322,7 +316,7 @@ describe('autocomplete-js', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
-      shouldPanelShow: ({ state }) => getItemsCount(state) < 0,
+      shouldPanelShow: () => false,
       getSources() {
         return [
           {
@@ -350,7 +344,7 @@ describe('autocomplete-js', () => {
     });
     input.focus();
 
-    await wait(500);
+    await wait(50);
 
     expect(
       panelContainer.querySelector<HTMLElement>('.aa-Panel')
