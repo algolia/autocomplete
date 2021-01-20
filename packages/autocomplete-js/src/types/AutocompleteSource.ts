@@ -40,6 +40,13 @@ export type SourceTemplates<TItem extends BaseItem> = {
     source: AutocompleteSource<TItem>;
     items: TItem[];
   }>;
+  /**
+   * The template for the empty section.
+   */
+  empty?: Template<{
+    state: AutocompleteState<TItem>;
+    source: AutocompleteSource<TItem>;
+  }>;
 };
 
 type WithTemplates<TType, TItem extends BaseItem> = TType & {

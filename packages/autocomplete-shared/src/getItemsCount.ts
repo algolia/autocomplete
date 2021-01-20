@@ -1,6 +1,6 @@
-import { AutocompleteState } from '../types';
-
-export function getItemsCount(state: AutocompleteState<any>) {
+export function getItemsCount<
+  TAutocompleteState extends { collections: any[] }
+>(state: TAutocompleteState) {
   if (state.collections.length === 0) {
     return 0;
   }

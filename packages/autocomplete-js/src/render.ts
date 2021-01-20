@@ -117,27 +117,47 @@ export function renderPanel<TItem extends BaseItem>(
                   }),
                 ],
               }),
-            ...items.map((item) => {
-              const itemProps = autocomplete.getItemProps({ item, source });
+            items.length === 0 && source.templates.empty
+              ? createElement('div', {
+                  className: classNames.sourceEmpty,
+                  children: [
+                    source.templates.empty({
+                      createElement,
+                      Fragment,
+                      source,
+                      state,
+                    }),
+                  ],
+                })
+              : createElement('ul', {
+                  className: classNames.list,
+                  children: [
+                    ...items.map((item) => {
+                      const itemProps = autocomplete.getItemProps({
+                        item,
+                        source,
+                      });
 
-              return createElement('li', {
-                key: itemProps.id,
-                className: classNames.item,
-                ...propGetters.getItemProps({
-                  state,
-                  props: itemProps,
-                  ...autocompleteScopeApi,
+                      return createElement('li', {
+                        key: itemProps.id,
+                        className: classNames.item,
+                        ...propGetters.getItemProps({
+                          state,
+                          props: itemProps,
+                          ...autocompleteScopeApi,
+                        }),
+                        children: [
+                          source.templates.item({
+                            createElement,
+                            Fragment,
+                            item,
+                            state,
+                          }),
+                        ],
+                      });
+                    }),
+                  ],
                 }),
-                children: [
-                  source.templates.item({
-                    createElement,
-                    Fragment,
-                    item,
-                    state,
-                  }),
-                ],
-              });
-            }),
             source.templates.footer &&
               createElement('div', {
                 className: classNames.sourceFooter,
