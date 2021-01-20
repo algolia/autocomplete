@@ -7,7 +7,7 @@ Autocomplete is an open-source, production-ready JavaScript library for building
 
 A user types into an input, and the autocomplete "completes" their thought by providing full terms or results: this is the very base of an autocomplete experience.
 
-For example, try typing the letter "s" in the search box on the top right of this site. You can directly navigate to documentation on concepts like "**s**ources" and "**s**tate". If you continue typing, say "st", the results update. You see pages having to do with "**st**ate," "getting **st**arted," and "**st**atic sources."
+For example, try typing the letter "s" in the search box on the top right of this site. You can directly navigate to documentation on concepts like "<strong><u>s</u></strong>ources" and "<strong><u>s</u></strong>tate". If you continue typing, say "st", the results update. You see pages having to do with "<strong><u>st</u></strong>ate," "getting <strong><u>st</u></strong>arted," and "<strong><u>st</u></strong>atic sources."
 
 **Autocomplete is now a ubiquitous part of most search experiences.** Search providers like Google, e-commerce sites like Amazon, and messaging apps like Slack all offer autocomplete experiences on mobile and desktop.
 
