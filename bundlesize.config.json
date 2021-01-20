@@ -18,11 +18,11 @@
     },
     {
       "path": "packages/autocomplete-plugin-recent-searches/dist/umd/index.production.js",
-      "maxSize": "3.25 kB"
+      "maxSize": "3.5 kB"
     },
     {
       "path": "packages/autocomplete-plugin-query-suggestions/dist/umd/index.production.js",
-      "maxSize": "2.3 kB"
+      "maxSize": "2.5 kB"
     }
   ]
 }
