@@ -158,7 +158,7 @@ autocomplete({
 
 ### Rendering a header and footer
 
-In addition to rendering items, you can customize what to display before and after the list of items using the `header` and `footer` templates.
+In addition to rendering items, you can customize what to display before and after the list of items using the [`header`](#header) and [`footer`](#footer) templates.
 
 ```js
 autocomplete({
@@ -186,7 +186,7 @@ autocomplete({
 
 ### Rendering an empty state
 
-When there are no results, you might want to display a message to inform users or let them know what to do next. You can do this with the `empty` template.
+When there are no results, you might want to display a message to inform users or let them know what to do next. You can do this with the [`empty`](#empty) template.
 
 ```js
 autocomplete({
