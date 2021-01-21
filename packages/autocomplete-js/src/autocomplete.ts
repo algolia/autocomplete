@@ -20,6 +20,7 @@ import {
   AutocompleteApi,
   AutocompleteOptions,
   AutocompletePropGetters,
+  AutocompleteSource,
   AutocompleteState,
 } from './types';
 import { mergeDeep, setProperties } from './utils';
@@ -30,7 +31,7 @@ export function autocomplete<TItem extends BaseItem>(
   const { runEffect, cleanupEffects, runEffects } = createEffectWrapper();
   const { reactive, runReactives } = createReactiveWrapper();
 
-  const hasEmptySourceTemplateRef = createRef(true);
+  const hasEmptySourceTemplateRef = createRef(false);
   const optionsRef = createRef(options);
   const onStateChangeRef = createRef<
     AutocompleteOptions<TItem>['onStateChange']
@@ -40,6 +41,10 @@ export function autocomplete<TItem extends BaseItem>(
     createAutocomplete<TItem>({
       ...props.value.core,
       onStateChange(options) {
+        hasEmptySourceTemplateRef.current = options.state.collections.some(
+          (collection) =>
+            (collection.source as AutocompleteSource<TItem>).templates.empty
+        );
         onStateChangeRef.current?.(options as any);
         props.value.core.onStateChange?.(options as any);
       },
@@ -116,7 +121,9 @@ export function autocomplete<TItem extends BaseItem>(
     });
   }
 
-  function runRender() {
+  function scheduleRender(state: AutocompleteState<TItem>) {
+    lastStateRef.current = state;
+
     const renderProps = {
       autocomplete: autocomplete.value,
       autocompleteScopeApi,
@@ -132,24 +139,14 @@ export function autocomplete<TItem extends BaseItem>(
       propGetters,
       state: lastStateRef.current,
     };
-
-    hasEmptySourceTemplateRef.current = renderProps.state.collections.some(
-      (collection) => collection.source.templates.empty
-    );
-
     const render =
-      (!getItemsCount(renderProps.state) &&
+      (!getItemsCount(state) &&
         !hasEmptySourceTemplateRef.current &&
         props.value.renderer.renderEmpty) ||
       props.value.renderer.render;
 
     renderSearchBox(renderProps);
     renderPanel(render, renderProps);
-  }
-
-  function scheduleRender(state: AutocompleteState<TItem>) {
-    lastStateRef.current = state;
-    runRender();
   }
 
   runEffect(() => {

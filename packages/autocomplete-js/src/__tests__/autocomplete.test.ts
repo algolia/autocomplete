@@ -1,6 +1,5 @@
 import { fireEvent, waitFor } from '@testing-library/dom';
 
-import { wait } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
 
 describe('autocomplete-js', () => {
@@ -188,10 +187,7 @@ describe('autocomplete-js', () => {
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, {
-      target: { value: 'aasdjfaisdf' },
-    });
-    input.focus();
+    fireEvent.input(input, { target: { value: 'a' } });
 
     await waitFor(() => {
       expect(
@@ -237,10 +233,7 @@ describe('autocomplete-js', () => {
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, {
-      target: { value: 'aasdjfaisdf' },
-    });
-    input.focus();
+    fireEvent.input(input, { target: { value: 'a' } });
 
     await waitFor(() => {
       expect(
@@ -299,10 +292,7 @@ describe('autocomplete-js', () => {
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, {
-      target: { value: 'aasdjfaisdf' },
-    });
-    input.focus();
+    fireEvent.input(input, { target: { value: 'a' } });
 
     await waitFor(() => {
       expect(
@@ -346,12 +336,7 @@ describe('autocomplete-js', () => {
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, {
-      target: { value: 'aasdjfaisdf' },
-    });
-    input.focus();
-
-    await wait(50);
+    fireEvent.input(input, { target: { value: 'a' } });
 
     expect(
       panelContainer.querySelector<HTMLElement>('.aa-Panel')
@@ -480,10 +465,7 @@ describe('autocomplete-js', () => {
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, {
-      target: { value: 'a' },
-    });
-    input.focus();
+    fireEvent.input(input, { target: { value: 'a' } });
 
     expect(input).toHaveValue('a');
   });
