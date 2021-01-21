@@ -1,6 +1,5 @@
 import { fireEvent, waitFor } from '@testing-library/dom';
 
-import { wait } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
 
 describe('autocomplete-js', () => {
@@ -76,6 +75,7 @@ describe('autocomplete-js', () => {
               </label>
               <div
                 class="aa-LoadingIndicator"
+                hidden=""
               >
                 <svg
                   class="aa-LoadingIcon"
@@ -131,6 +131,7 @@ describe('autocomplete-js', () => {
             >
               <button
                 class="aa-ResetButton"
+                hidden=""
                 type="reset"
               >
                 <svg
@@ -186,10 +187,7 @@ describe('autocomplete-js', () => {
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, {
-      target: { value: 'aasdjfaisdf' },
-    });
-    input.focus();
+    fireEvent.input(input, { target: { value: 'a' } });
 
     await waitFor(() => {
       expect(
@@ -205,7 +203,7 @@ describe('autocomplete-js', () => {
   test('calls renderEmpty without empty template on no results', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
-    const renderEmpty = jest.fn(({ root }) => {
+    const renderEmpty = jest.fn((_params, root) => {
       const div = document.createElement('div');
       div.innerHTML = 'No results render';
 
@@ -235,10 +233,7 @@ describe('autocomplete-js', () => {
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, {
-      target: { value: 'aasdjfaisdf' },
-    });
-    input.focus();
+    fireEvent.input(input, { target: { value: 'a' } });
 
     await waitFor(() => {
       expect(
@@ -246,11 +241,16 @@ describe('autocomplete-js', () => {
       ).toBeInTheDocument();
     });
 
-    expect(renderEmpty).toHaveBeenCalledWith({
-      root: expect.anything(),
-      state: expect.anything(),
-      sections: expect.anything(),
-    });
+    expect(renderEmpty).toHaveBeenCalledWith(
+      {
+        state: expect.anything(),
+        children: expect.anything(),
+        sections: expect.any(Array),
+        createElement: expect.anything(),
+        Fragment: expect.anything(),
+      },
+      expect.any(HTMLElement)
+    );
 
     expect(
       panelContainer.querySelector<HTMLElement>('.aa-Panel')
@@ -282,7 +282,7 @@ describe('autocomplete-js', () => {
           },
         ];
       },
-      renderEmpty({ root }) {
+      renderEmpty(_params, root) {
         const div = document.createElement('div');
         div.innerHTML = 'No results render';
 
@@ -292,10 +292,7 @@ describe('autocomplete-js', () => {
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, {
-      target: { value: 'aasdjfaisdf' },
-    });
-    input.focus();
+    fireEvent.input(input, { target: { value: 'a' } });
 
     await waitFor(() => {
       expect(
@@ -308,7 +305,7 @@ describe('autocomplete-js', () => {
     ).toHaveTextContent('No results template');
   });
 
-  test('allows user-provided shouldPanelShow', async () => {
+  test('allows user-provided shouldPanelShow', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -339,12 +336,7 @@ describe('autocomplete-js', () => {
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, {
-      target: { value: 'aasdjfaisdf' },
-    });
-    input.focus();
-
-    await wait(50);
+    fireEvent.input(input, { target: { value: 'a' } });
 
     expect(
       panelContainer.querySelector<HTMLElement>('.aa-Panel')
@@ -473,10 +465,7 @@ describe('autocomplete-js', () => {
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, {
-      target: { value: 'a' },
-    });
-    input.focus();
+    fireEvent.input(input, { target: { value: 'a' } });
 
     expect(input).toHaveValue('a');
   });

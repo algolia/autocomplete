@@ -123,42 +123,55 @@ type ClassNames = Partial<{
 
 ### `render`
 
-> `(params: { root: HTMLElement, sections: HTMLElement[], state: AutocompleteState<TItem> }) => void`
+> `(params: { children: VNode, state: AutocompleteState<TItem>, sections: VNode[], createElement: Pragma, Fragment: PragmaFrag }) => void`
 
-Function called to render the autocomplete results. It is useful for rendering sections in different row or column layouts.
+Function called to render the autocomplete panel. It is useful for rendering sections in different row or column layouts.
 
-The default implementation appends all the sections to the root:
+Default implementation:
 
 ```js
+import { render } from 'preact';
+
 autocomplete({
   // ...
-  render({ root, sections }) {
-    for (const section of sections) {
-      root.appendChild(section);
-    }
+  render({ children }, root) {
+    render(children, root);
   },
 });
 ```
 
 ### `renderEmpty`
 
-> `(params: { root: HTMLElement, sections: HTMLElement[], state: AutocompleteState<TItem> }) => void`
+> `(params: { root: HTMLElement, state: AutocompleteState<TItem>, sections: VNode[], createElement: Pragma, Fragment: PragmaFrag }) => void`
 
 Function called to render an empty section when no hits are returned. It is useful for letting the user know that the query returned no results.
 
 There is no default implementation, which closes the panel when there's no results.
 
-```js
+````js
 autocomplete({
   // ...
-  renderEmpty({ root }) {
+  renderEmpty(_params, root) {
     const div = document.createElement('div');
 
     div.innerHTML = 'Your query returned no results';
     root.appendChild(div);
   },
 });
-```
+
+### `renderer`
+
+#### `createElement`
+
+> `(type: any, props: Record<string, any> | null, ...children: ComponentChildren[]) => VNode` | defaults to `preact.createElement`
+
+Function used to create elements.
+
+#### `Fragment`
+
+> defaults to `preact.Fragment`
+
+Component used for fragments.
 
 ## Returned props
 
@@ -172,7 +185,7 @@ const {
   setContext,
   refresh,
 } = autocomplete(options);
-```
+````
 
 `autocomplete` returns all the [state setters](state#setters) and `refresh` method that updates the UI state.
 

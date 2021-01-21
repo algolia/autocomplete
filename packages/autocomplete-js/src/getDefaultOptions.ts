@@ -1,7 +1,16 @@
 import { BaseItem } from '@algolia/autocomplete-core';
+import {
+  createElement as preactCreateElement,
+  Fragment as PreactFragment,
+  render,
+} from 'preact';
 
-import { defaultRenderer } from './defaultRenderer';
-import { AutocompleteClassNames, AutocompleteOptions } from './types';
+import {
+  AutocompleteClassNames,
+  AutocompleteOptions,
+  AutocompleteRender,
+  AutocompleteRenderer,
+} from './types';
 import { getHTMLElement, mergeClassNames } from './utils';
 
 const defaultClassNames: AutocompleteClassNames = {
@@ -31,17 +40,21 @@ const defaultClassNames: AutocompleteClassNames = {
   touchSearchButtonPlaceholder: 'aa-TouchSearchButtonPlaceholder',
 };
 
+const defaultRender: AutocompleteRender<any> = ({ children }, root) => {
+  render(children, root);
+};
+
+const defaultRenderer: AutocompleteRenderer = {
+  createElement: preactCreateElement,
+  Fragment: PreactFragment,
+};
+
 export function getDefaultOptions<TItem extends BaseItem>(
   options: AutocompleteOptions<TItem>
 ) {
   const {
-    container,
-    panelContainer,
-    render,
-    renderEmpty,
-    panelPlacement,
     classNames,
-    touchMediaQuery,
+    container,
     getEnvironmentProps,
     getFormProps,
     getInputProps,
@@ -50,33 +63,39 @@ export function getDefaultOptions<TItem extends BaseItem>(
     getListProps,
     getPanelProps,
     getRootProps,
+    panelContainer,
+    panelPlacement,
+    render,
+    renderEmpty,
+    renderer,
+    touchMediaQuery,
     ...core
   } = options;
-  const renderer = {
-    container: getHTMLElement(container),
-    panelContainer: panelContainer
-      ? getHTMLElement(panelContainer)
-      : document.body,
-    render: render ?? defaultRenderer,
-    renderEmpty,
-    panelPlacement: panelPlacement ?? 'input-wrapper-width',
-    classNames: mergeClassNames(
-      defaultClassNames,
-      classNames ?? {}
-    ) as AutocompleteClassNames,
-    touchMediaQuery: touchMediaQuery ?? '(hover: none) and (pointer: coarse)',
-    getEnvironmentProps: getEnvironmentProps ?? (({ props }) => props),
-    getFormProps: getFormProps ?? (({ props }) => props),
-    getInputProps: getInputProps ?? (({ props }) => props),
-    getItemProps: getItemProps ?? (({ props }) => props),
-    getLabelProps: getLabelProps ?? (({ props }) => props),
-    getListProps: getListProps ?? (({ props }) => props),
-    getPanelProps: getPanelProps ?? (({ props }) => props),
-    getRootProps: getRootProps ?? (({ props }) => props),
-  };
 
   return {
-    renderer,
+    renderer: {
+      classNames: mergeClassNames(
+        defaultClassNames,
+        classNames ?? {}
+      ) as AutocompleteClassNames,
+      container: getHTMLElement(container),
+      getEnvironmentProps: getEnvironmentProps ?? (({ props }) => props),
+      getFormProps: getFormProps ?? (({ props }) => props),
+      getInputProps: getInputProps ?? (({ props }) => props),
+      getItemProps: getItemProps ?? (({ props }) => props),
+      getLabelProps: getLabelProps ?? (({ props }) => props),
+      getListProps: getListProps ?? (({ props }) => props),
+      getPanelProps: getPanelProps ?? (({ props }) => props),
+      getRootProps: getRootProps ?? (({ props }) => props),
+      panelContainer: panelContainer
+        ? getHTMLElement(panelContainer)
+        : document.body,
+      panelPlacement: panelPlacement ?? 'input-wrapper-width',
+      render: render ?? defaultRender,
+      renderEmpty,
+      renderer: renderer ?? defaultRenderer,
+      touchMediaQuery: touchMediaQuery ?? '(hover: none) and (pointer: coarse)',
+    },
     core,
   };
 }

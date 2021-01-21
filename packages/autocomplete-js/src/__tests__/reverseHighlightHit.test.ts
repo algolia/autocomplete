@@ -19,7 +19,23 @@ describe('reverseHighlightHit', () => {
         },
         attribute: 'query',
       })
-    ).toMatchInlineSnapshot(`"<mark>amazon </mark>fire tablet<mark>s</mark>"`);
+    ).toEqual([
+      expect.objectContaining({
+        type: 'mark',
+        props: {
+          children: 'amazon ',
+        },
+      }),
+      'fire',
+      ' ',
+      'tablet',
+      expect.objectContaining({
+        type: 'mark',
+        props: {
+          children: 's',
+        },
+      }),
+    ]);
   });
 
   test('returns a reversed fully highlighted hit', () => {
@@ -40,7 +56,7 @@ describe('reverseHighlightHit', () => {
         },
         attribute: 'query',
       })
-    ).toMatchInlineSnapshot(`"amazon fire tablets"`);
+    ).toEqual(['amazon', ' ', 'fire', ' ', 'tablets']);
   });
 
   test('returns a reversed empty highlighted query hit', () => {
@@ -60,6 +76,6 @@ describe('reverseHighlightHit', () => {
         },
         attribute: 'query',
       })
-    ).toMatchInlineSnapshot(`"amazon fire tablets"`);
+    ).toEqual(['amazon fire tablets']);
   });
 });

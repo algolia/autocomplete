@@ -4,14 +4,14 @@ import {
 } from '@algolia/autocomplete-core';
 import { BaseItem } from '@algolia/autocomplete-core/src';
 
-import { Element } from './components';
-import { renderTemplate } from './renderTemplate';
 import {
   AutocompleteClassNames,
   AutocompleteDom,
   AutocompletePropGetters,
-  AutocompleteRenderer,
+  AutocompleteRender,
   AutocompleteState,
+  Pragma,
+  PragmaFrag,
 } from './types';
 import { setProperties, setPropertiesWithoutEvents } from './utils';
 
@@ -19,7 +19,9 @@ type RenderProps<TItem extends BaseItem> = {
   autocomplete: AutocompleteCoreApi<TItem>;
   autocompleteScopeApi: AutocompleteScopeApi<TItem>;
   classNames: AutocompleteClassNames;
+  createElement: Pragma;
   dom: AutocompleteDom;
+  Fragment: PragmaFrag;
   isTouch: boolean;
   panelContainer: HTMLElement;
   propGetters: AutocompletePropGetters<TItem>;
@@ -56,20 +58,20 @@ export function renderSearchBox<TItem extends BaseItem>({
 }
 
 export function renderPanel<TItem extends BaseItem>(
-  renderer: AutocompleteRenderer<TItem>,
+  render: AutocompleteRender<TItem>,
   {
     autocomplete,
     autocompleteScopeApi,
     classNames,
+    createElement,
     dom,
+    Fragment,
     isTouch,
     panelContainer,
     propGetters,
     state,
   }: RenderProps<TItem>
 ): void {
-  dom.panel.innerHTML = '';
-
   if (!state.isOpen) {
     if (panelContainer.contains(dom.panel)) {
       panelContainer.removeChild(dom.panel);
@@ -88,86 +90,93 @@ export function renderPanel<TItem extends BaseItem>(
   dom.panel.classList.toggle('aa-Panel--touch', isTouch);
   dom.panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');
 
-  const sourceElements = state.collections.map(({ source, items }) => {
-    const sourceElement = Element('section', { class: classNames.source });
-
-    if (source.templates.header) {
-      const headerElement = Element('div', { class: classNames.sourceHeader });
-
-      renderTemplate({
-        template: source.templates.header({
-          root: headerElement,
-          state,
-          source,
-          items,
-        }),
-        parent: sourceElement,
-        element: headerElement,
-      });
-    }
-
-    if (items.length > 0) {
-      const listElement = Element('ul', {
-        class: classNames.list,
+  const sections = state.collections.map(({ source, items }, sourceIndex) => {
+    return createElement('section', {
+      key: sourceIndex,
+      className: classNames.source,
+      children: createElement('ul', {
+        className: classNames.list,
         ...propGetters.getListProps({
           state,
           props: autocomplete.getListProps({}),
           ...autocompleteScopeApi,
         }),
-      });
-      const listFragment = document.createDocumentFragment();
+        children: [
+          source.templates.header &&
+            createElement('div', {
+              className: classNames.sourceHeader,
+              children: [
+                source.templates.header({
+                  createElement,
+                  Fragment,
+                  items,
+                  source,
+                  state,
+                }),
+              ],
+            }),
+          items.length === 0 && source.templates.empty
+            ? createElement('div', {
+                className: classNames.sourceEmpty,
+                children: [
+                  source.templates.empty({
+                    createElement,
+                    Fragment,
+                    source,
+                    state,
+                  }),
+                ],
+              })
+            : createElement('ul', {
+                className: classNames.list,
+                children: [
+                  ...items.map((item) => {
+                    const itemProps = autocomplete.getItemProps({
+                      item,
+                      source,
+                    });
 
-      items.forEach((item) => {
-        const itemElement = Element('li', {
-          class: classNames.item,
-          ...propGetters.getItemProps({
-            state,
-            props: autocomplete.getItemProps({ item, source }),
-            ...autocompleteScopeApi,
-          }),
-        });
-
-        renderTemplate({
-          template: source.templates.item({ root: itemElement, item, state }),
-          parent: listFragment,
-          element: itemElement,
-        });
-      });
-
-      listElement.appendChild(listFragment);
-      sourceElement.appendChild(listElement);
-    } else if (source.templates.empty) {
-      const emptyElement = Element('div', { class: classNames.sourceEmpty });
-      renderTemplate({
-        template: source.templates.empty({
-          root: emptyElement,
-          state,
-          source,
-        }),
-        parent: sourceElement,
-        element: emptyElement,
-      });
-    }
-
-    if (source.templates.footer) {
-      const footerElement = Element('div', { class: classNames.sourceFooter });
-      renderTemplate({
-        template: source.templates.footer({
-          root: footerElement,
-          state,
-          source,
-          items,
-        }),
-        parent: sourceElement,
-        element: footerElement,
-      });
-    }
-
-    return sourceElement;
+                    return createElement('li', {
+                      key: itemProps.id,
+                      className: classNames.item,
+                      ...propGetters.getItemProps({
+                        state,
+                        props: itemProps,
+                        ...autocompleteScopeApi,
+                      }),
+                      children: [
+                        source.templates.item({
+                          createElement,
+                          Fragment,
+                          item,
+                          state,
+                        }),
+                      ],
+                    });
+                  }),
+                ],
+              }),
+          source.templates.footer &&
+            createElement('div', {
+              className: classNames.sourceFooter,
+              children: [
+                source.templates.footer({
+                  createElement,
+                  Fragment,
+                  items,
+                  source,
+                  state,
+                }),
+              ],
+            }),
+        ],
+      }),
+    });
+  });
+  const children = createElement('div', {
+    className: 'aa-PanelLayout',
+    children: sections,
   });
 
-  const panelLayoutElement = Element('div', { class: classNames.panelLayout });
-  dom.panel.appendChild(panelLayoutElement);
-
-  renderer({ root: panelLayoutElement, sections: sourceElements, state });
+  render({ children, state, sections, createElement, Fragment }, dom.panel);
 }

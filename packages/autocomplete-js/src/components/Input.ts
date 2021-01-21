@@ -3,30 +3,29 @@ import {
   AutocompleteScopeApi,
 } from '@algolia/autocomplete-core';
 
+import { createDomElement } from '../createDomElement';
 import { AutocompletePropGetters, AutocompleteState } from '../types';
 import { Component } from '../types/Component';
 import { setProperties } from '../utils';
 
-import { Element } from './Element';
-
 type InputProps = {
-  onTouchEscape?(): void;
-  state: AutocompleteState<any>;
+  autocompleteScopeApi: AutocompleteScopeApi<any>;
   getInputProps: AutocompletePropGetters<any>['getInputProps'];
   getInputPropsCore: AutocompleteCoreApi<any>['getInputProps'];
-  autocompleteScopeApi: AutocompleteScopeApi<any>;
+  onTouchEscape?(): void;
+  state: AutocompleteState<any>;
 };
 
 export const Input: Component<InputProps, HTMLInputElement> = ({
+  autocompleteScopeApi,
   classNames,
   getInputProps,
   getInputPropsCore,
-  state,
-  autocompleteScopeApi,
   onTouchEscape,
+  state,
   ...props
 }) => {
-  const element = Element('input', props);
+  const element = createDomElement('input', props);
   const inputProps = getInputProps({
     state,
     props: getInputPropsCore({ inputElement: element }),
