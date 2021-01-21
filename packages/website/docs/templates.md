@@ -135,7 +135,7 @@ By default, `createElement` and `Fragment` default to [Preact](https://preactjs.
 
 If you're not using a transpiler to build your app, you can still use Autocomplete with the [htm](https://github.com/developit/htm) library, which lets you use a JSX-like syntax directly in the browser.
 
-```jsx
+```js
 import { html } from 'htm/preact';
 import { autocomplete } from '@algolia/autocomplete-js';
 
@@ -260,7 +260,7 @@ See [template](#template) for what to return.
 
 ### `header`
 
-> `(params: { state: AutocompleteState<TItem>, source: AutocompleteSource<TItem>, createElement: Pragma, Fragment: PragmaFrag }) => VNode | string`
+> `(params: { state: AutocompleteState<TItem>, source: AutocompleteSource<TItem>, items: TItem[], createElement: Pragma, Fragment: PragmaFrag }) => VNode | string`
 
 A function that returns the template for the header (before the list of items).
 
@@ -272,6 +272,6 @@ A function that returns the template for each item of the source.
 
 ### `footer`
 
-> `(params: { state: AutocompleteState<TItem>, source: AutocompleteSource<TItem>, createElement: Pragma, Fragment: PragmaFrag }) => VNode | string`
+> `(params: { state: AutocompleteState<TItem>, source: AutocompleteSource<TItem>, items: TItem[], createElement: Pragma, Fragment: PragmaFrag }) => VNode | string`
 
 A function that returns the template for the footer (after the list of items).
