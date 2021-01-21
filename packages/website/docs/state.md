@@ -52,24 +52,33 @@ You can also manually update the state using setters. It's useful to implement c
 For example, let's say you want to let users fill the search input with the value of a suggestion by clicking or tapping it. You can use the [`setQuery`](state#setquery) setter provided by [`getSources`](sources#getsources) to attach an event when clicking the tap-ahead button and manually set the query.
 
 ```js
+/** @jsx h */
+import { h } from 'preact';
+import { autocomplete } from '@algolia/autocomplete-js';
+
 autocomplete({
   // ...
-  getSources({ query, setQuery, refresh }) {
+  getSources({ setQuery, refresh }) {
     return [
       {
         // ...
         templates: {
-          item({ item, root }) {
-            const tapAheadButton = document.createElement('button');
+          item({ item }) {
+            return (
+              <div>
+                <div>{item.query}</div>
+                <button
+                  onClick={(event) => {
+                    event.stopPropagation();
 
-            tapAheadButton.addEventListener('click', (event) => {
-              event.stopPropagation();
-
-              setQuery(item.query);
-              refresh();
-            });
-
-            root.appendChild(tapAheadButton);
+                    setQuery(item.query);
+                    refresh();
+                  }}
+                >
+                  Fill query
+                </button>
+              </div>
+            );
           },
         },
       },
