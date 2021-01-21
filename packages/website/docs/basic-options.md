@@ -19,11 +19,13 @@ autocomplete({
   getSources() {
     return [
       {
-        getItems() {
+        getItems({ query }) {
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
             { label: 'GitHub', url: 'https://github.com' },
-          ];
+          ].filter(({ label }) =>
+            label.toLowerCase().includes(query.toLowerCase())
+          );
         },
         getItemUrl({ item }) {
           return item.url;
