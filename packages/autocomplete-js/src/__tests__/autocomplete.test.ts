@@ -93,8 +93,8 @@ describe('autocomplete-js', () => {
                     stroke-dasharray="164.93361431346415 56.97787143782138"
                     stroke-width="6"
                   >
-
-
+                    
+        
                     <animatetransform
                       attributeName="transform"
                       dur="1s"
@@ -103,7 +103,7 @@ describe('autocomplete-js', () => {
                       type="rotate"
                       values="0 50 50;90 50 50;180 50 50;360 50 50"
                     />
-
+                    
 
                   </circle>
                 </svg>
@@ -252,8 +252,11 @@ describe('autocomplete-js', () => {
       {
         state: expect.anything(),
         children: expect.anything(),
+        sections: expect.any(Array),
+        createElement: expect.anything(),
+        Fragment: expect.anything(),
       },
-      expect.anything()
+      expect.any(HTMLElement)
     );
 
     expect(

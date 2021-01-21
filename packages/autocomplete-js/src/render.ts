@@ -178,5 +178,5 @@ export function renderPanel<TItem extends BaseItem>(
     children: sections,
   });
 
-  render({ children, state, sections }, dom.panel);
+  render({ children, state, sections, createElement, Fragment }, dom.panel);
 }

@@ -1,6 +1,6 @@
 import { BaseItem } from '@algolia/autocomplete-core';
 
-import { VNode } from './AutocompleteRenderer';
+import { Pragma, PragmaFrag, VNode } from './AutocompleteRenderer';
 import { AutocompleteState } from './AutocompleteState';
 
 export type AutocompleteRender<TItem extends BaseItem> = (
@@ -8,6 +8,8 @@ export type AutocompleteRender<TItem extends BaseItem> = (
     children: VNode;
     state: AutocompleteState<TItem>;
     sections: VNode[];
+    createElement: Pragma;
+    Fragment: PragmaFrag;
   },
   root: HTMLElement
 ) => void;

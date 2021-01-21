@@ -123,7 +123,7 @@ type ClassNames = Partial<{
 
 ### `render`
 
-> `(params: { children: VNode, state: AutocompleteState<TItem> }) => void`
+> `(params: { children: VNode, state: AutocompleteState<TItem>, sections: VNode[], createElement: Pragma, Fragment: PragmaFrag }) => void`
 
 Function called to render the autocomplete panel. It is useful for rendering sections in different row or column layouts.
 
@@ -142,7 +142,7 @@ autocomplete({
 
 ### `renderEmpty`
 
-> `(params: { root: HTMLElement, sections: HTMLElement[], state: AutocompleteState<TItem> }) => void`
+> `(params: { root: HTMLElement, state: AutocompleteState<TItem>, sections: VNode[], createElement: Pragma, Fragment: PragmaFrag }) => void`
 
 Function called to render an empty section when no hits are returned. It is useful for letting the user know that the query returned no results.
 
@@ -151,7 +151,7 @@ There is no default implementation, which closes the panel when there's no resul
 ````js
 autocomplete({
   // ...
-  renderEmpty({ root }) {
+  renderEmpty(_params, root) {
     const div = document.createElement('div');
 
     div.innerHTML = 'Your query returned no results';
