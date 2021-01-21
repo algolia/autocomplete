@@ -20,7 +20,7 @@ The Navigator API defines three navigation schemes based on key combinations:
 To activate keyboard navigation, you need to implement a [`getItemUrl`](createAutocomplete#getitemurl) function in each of your [sources](/docs/sources) to provide the URL to navigate to. It tells the Navigator API which link to open on <kbd>Enter</kbd>.
 
 ```js {6-8}
-const autocomplete = createAutocomplete({
+autocomplete({
   // ...
   getSources() {
     return [
@@ -59,8 +59,10 @@ For example, if you're using Autocomplete in a [Gatsby](https://www.gatsbyjs.org
 
 ```js
 import { navigate } from 'gatsby';
+import { autocomplete } from '@algolia/autocomplete-js';
 
-const autocomplete = createAutocomplete({
+autocomplete({
+  // ...
   navigator: {
     navigate({ itemUrl }) {
       navigate(itemUrl);
