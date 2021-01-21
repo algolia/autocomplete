@@ -184,6 +184,29 @@ autocomplete({
 });
 ```
 
+### Rendering an empty state
+
+When there are no results, you might want to display a message to inform users or let them know what to do next. You can do this with the `empty` template.
+
+```js
+autocomplete({
+  // ...
+  getSources({ query }) {
+    return [
+      {
+        // ...
+        templates: {
+          // ...
+          empty() {
+            return 'No results.';
+          },
+        },
+      },
+    ];
+  },
+});
+```
+
 ### Styling items
 
 Since you're fully controlling the rendered HTML, you can style it the way you want or use any class-based CSS library.
@@ -275,3 +298,9 @@ A function that returns the template for each item of the source.
 > `(params: { state: AutocompleteState<TItem>, source: AutocompleteSource<TItem>, items: TItem[], createElement: Pragma, Fragment: PragmaFrag }) => VNode | string`
 
 A function that returns the template for the footer (after the list of items).
+
+### `empty`
+
+> `(params: { state: AutocompleteState<TItem>, source: AutocompleteSource<TItem>, createElement: Pragma, Fragment: PragmaFrag }) => VNode | string`
+
+A function that returns the template for when there are no items.
