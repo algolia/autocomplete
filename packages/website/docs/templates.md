@@ -129,7 +129,7 @@ autocomplete({
 });
 ```
 
-By default, `createElement` and `Fragment` default to [Preact](https://preactjs.com/)'s `Preact.createElement` (or `h`) and `preact.Fragment`. You can customize these and provide the virtual DOM implementation you prefer.
+By default, `createElement` and `Fragment` default to [Preact](https://preactjs.com/)'s `preact.createElement` (or `h`) and `preact.Fragment`. You can customize these and provide the virtual DOM implementation you prefer.
 
 #### Using the `htm` library
 
