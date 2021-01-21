@@ -1,15 +1,21 @@
+/** @jsx h */
 import {
   autocomplete,
   getAlgoliaHits,
-  reverseHighlightHit,
+  highlightHit,
 } from '@algolia/autocomplete-js';
 import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch';
+import { h } from 'preact';
 import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
+
+type Product = { name: string; image: string };
+type ProductHit = Hit<Product>;
 
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
@@ -24,9 +30,10 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'instant_search_demo_query_suggestions',
-  getSearchParams() {
+  getSearchParams({ state }) {
     return recentSearchesPlugin.data.getAlgoliaSearchParams({
       clickAnalytics: true,
+      hitsPerPage: state.query ? 5 : 10,
     });
   },
 });
@@ -34,6 +41,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
+  debug: true,
   openOnFocus: true,
   plugins: [
     algoliaInsightsPlugin,
@@ -48,47 +56,40 @@ autocomplete({
     return [
       {
         getItems() {
-          return getAlgoliaHits({
+          return getAlgoliaHits<Product>({
             searchClient,
             queries: [{ indexName: 'instant_search', query }],
           });
         },
         templates: {
-          item({ item, root }) {
-            const itemContent = document.createElement('div');
-            const ItemSourceIcon = document.createElement('div');
-            const itemTitle = document.createElement('div');
-            const sourceIcon = document.createElement('img');
-
-            sourceIcon.width = 20;
-            sourceIcon.height = 20;
-            sourceIcon.src = item.image;
-
-            ItemSourceIcon.classList.add('aa-ItemSourceIcon');
-            ItemSourceIcon.appendChild(sourceIcon);
-
-            itemTitle.innerHTML = reverseHighlightHit({
-              hit: item,
-              attribute: 'name',
-            });
-            itemTitle.classList.add('aa-ItemTitle');
-
-            itemContent.classList.add('aa-ItemContent');
-            itemContent.appendChild(ItemSourceIcon);
-            itemContent.appendChild(itemTitle);
-
-            root.appendChild(itemContent);
+          item({ item }) {
+            return <ProductItem hit={item} />;
           },
-          empty({ root }) {
-            const itemContent = document.createElement('div');
-
-            itemContent.innerHTML = 'No results for this query';
-            itemContent.classList.add('aa-ItemContent');
-
-            root.appendChild(itemContent);
+          empty() {
+            return (
+              <div className="aa-ItemContent">No results for this query.</div>
+            );
           },
         },
       },
     ];
   },
 });
+
+type ProductItemProps = {
+  hit: ProductHit;
+};
+
+function ProductItem({ hit }: ProductItemProps) {
+  return (
+    <div className="aa-ItemContent">
+      <div className="aa-ItemSourceIcon">
+        <img src={hit.image} alt={hit.name} width="20" height="20" />
+      </div>
+
+      <div className="aa-ItemTitle">
+        {highlightHit<ProductHit>({ hit, attribute: 'name' })}
+      </div>
+    </div>
+  );
+}

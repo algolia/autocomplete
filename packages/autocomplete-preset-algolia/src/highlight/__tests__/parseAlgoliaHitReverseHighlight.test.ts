@@ -64,63 +64,6 @@ describe('parseAlgoliaHitReverseHighlight', () => {
     `);
   });
 
-  test('escapes characters', () => {
-    expect(
-      parseAlgoliaHitReverseHighlight({
-        attribute: 'title',
-        hit: {
-          objectID: '1',
-          title: 'Hello there',
-          _highlightResult: {
-            title: {
-              value: `__aa-highlight__Food__/aa-highlight__ & <Drinks> 'n' "Music"`,
-            },
-          },
-        },
-      })
-    ).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "isHighlighted": false,
-          "value": "Food",
-        },
-        Object {
-          "isHighlighted": true,
-          "value": " &amp; &lt;Drinks&gt; &#39;n&#39; &quot;Music&quot;",
-        },
-      ]
-    `);
-  });
-
-  test('does not escape ignored characters', () => {
-    expect(
-      parseAlgoliaHitReverseHighlight({
-        attribute: 'title',
-        hit: {
-          objectID: '1',
-          title: 'Hello there',
-          _highlightResult: {
-            title: {
-              value: `__aa-highlight__Food__/aa-highlight__ & <Drinks> 'n' "Music"`,
-            },
-          },
-        },
-        ignoreEscape: ["'"],
-      })
-    ).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "isHighlighted": false,
-          "value": "Food",
-        },
-        Object {
-          "isHighlighted": true,
-          "value": " &amp; &lt;Drinks&gt; 'n' &quot;Music&quot;",
-        },
-      ]
-    `);
-  });
-
   test('returns the attribute value if the attribute cannot be highlighted', () => {
     expect(
       parseAlgoliaHitReverseHighlight({
@@ -148,7 +91,7 @@ describe('parseAlgoliaHitReverseHighlight', () => {
     ]);
   });
 
-  test('returns empty string if the attribute does not exist', () => {
+  test('returns empty parts if the attribute does not exist', () => {
     expect(
       parseAlgoliaHitReverseHighlight({
         // @ts-ignore

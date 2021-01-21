@@ -1,36 +1,19 @@
 import {
   parseAlgoliaHitHighlight,
   parseAlgoliaHitReverseHighlight,
-  parseAlgoliaHitSnippet,
   parseAlgoliaHitReverseSnippet,
+  parseAlgoliaHitSnippet,
 } from '@algolia/autocomplete-preset-algolia';
 import { Hit } from '@algolia/client-search';
+import { createElement as preactCreateElement } from 'preact';
 
-type ParsedAttribute = {
-  value: string;
-  isHighlighted: boolean;
-};
-
-function concatParts(
-  parts: ParsedAttribute[],
-  { highlightPreTag, highlightPostTag }
-) {
-  return parts.reduce<string>((acc, current) => {
-    return (
-      acc +
-      (current.isHighlighted
-        ? `${highlightPreTag}${current.value}${highlightPostTag}`
-        : current.value)
-    );
-  }, '');
-}
+import { AutocompleteRenderer } from './types';
 
 type HighlightItemParams<TItem> = {
   hit: TItem;
   attribute: keyof TItem;
-  highlightPreTag?: string;
-  highlightPostTag?: string;
-  ignoreEscape?: string[];
+  tagName?: string;
+  createElement?: AutocompleteRenderer['createElement'];
 };
 
 /**
@@ -39,17 +22,11 @@ type HighlightItemParams<TItem> = {
 export function highlightHit<TItem extends Hit<{}>>({
   hit,
   attribute,
-  highlightPreTag = '<mark>',
-  highlightPostTag = '</mark>',
-  ignoreEscape,
+  tagName = 'mark',
+  createElement = preactCreateElement,
 }: HighlightItemParams<TItem>) {
-  return concatParts(
-    parseAlgoliaHitHighlight<TItem>({
-      hit,
-      attribute,
-      ignoreEscape,
-    }),
-    { highlightPreTag, highlightPostTag }
+  return parseAlgoliaHitHighlight<TItem>({ hit, attribute }).map((x) =>
+    x.isHighlighted ? createElement(tagName, { children: x.value }) : x.value
   );
 }
 
@@ -61,17 +38,11 @@ export function highlightHit<TItem extends Hit<{}>>({
 export function reverseHighlightHit<TItem extends Hit<{}>>({
   hit,
   attribute,
-  highlightPreTag = '<mark>',
-  highlightPostTag = '</mark>',
-  ignoreEscape,
+  tagName = 'mark',
+  createElement = preactCreateElement,
 }: HighlightItemParams<TItem>) {
-  return concatParts(
-    parseAlgoliaHitReverseHighlight<TItem>({
-      hit,
-      attribute,
-      ignoreEscape,
-    }),
-    { highlightPreTag, highlightPostTag }
+  return parseAlgoliaHitReverseHighlight<TItem>({ hit, attribute }).map((x) =>
+    x.isHighlighted ? createElement(tagName, { children: x.value }) : x.value
   );
 }
 
@@ -81,17 +52,11 @@ export function reverseHighlightHit<TItem extends Hit<{}>>({
 export function snippetHit<TItem extends Hit<{}>>({
   hit,
   attribute,
-  highlightPreTag = '<mark>',
-  highlightPostTag = '</mark>',
-  ignoreEscape,
+  tagName = 'mark',
+  createElement = preactCreateElement,
 }: HighlightItemParams<TItem>) {
-  return concatParts(
-    parseAlgoliaHitSnippet<TItem>({
-      hit,
-      attribute,
-      ignoreEscape,
-    }),
-    { highlightPreTag, highlightPostTag }
+  return parseAlgoliaHitSnippet<TItem>({ hit, attribute }).map((x) =>
+    x.isHighlighted ? createElement(tagName, { children: x.value }) : x.value
   );
 }
 
@@ -103,16 +68,10 @@ export function snippetHit<TItem extends Hit<{}>>({
 export function reverseSnippetHit<TItem extends Hit<{}>>({
   hit,
   attribute,
-  highlightPreTag = '<mark>',
-  highlightPostTag = '</mark>',
-  ignoreEscape,
+  tagName = 'mark',
+  createElement = preactCreateElement,
 }: HighlightItemParams<TItem>) {
-  return concatParts(
-    parseAlgoliaHitReverseSnippet<TItem>({
-      hit,
-      attribute,
-      ignoreEscape,
-    }),
-    { highlightPreTag, highlightPostTag }
+  return parseAlgoliaHitReverseSnippet<TItem>({ hit, attribute }).map((x) =>
+    x.isHighlighted ? createElement(tagName, { children: x.value }) : x.value
   );
 }
