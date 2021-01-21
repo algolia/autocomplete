@@ -11,7 +11,7 @@ Yet, only two parameters are required to create an autocomplete:
 - The **container** you want your autocomplete to go in.
 - The **sources** from which to get the items to display (see more in [**Sources**](sources)).
 
-```js
+```js title="JavaScript"
 import { autocomplete } from '@algolia/autocomplete-js';
 
 autocomplete({
@@ -37,6 +37,12 @@ autocomplete({
     ];
   },
 });
+```
+
+The `container` options refers to where to inject the autocomplete in your HTML. It can be a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). Make sure to provide a container (e.g., a `div`), not an `input`. Autocomplete generates a fully accessible search box for you.
+
+```html title="HTML"
+<div id="autocomplete"></div>
 ```
 
 This is all you need to build a [fully functional, accessible, keyboard-navigable autocomplete](https://codesandbox.io/s/vigilant-dew-g2ezl).
