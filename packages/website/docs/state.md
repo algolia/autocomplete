@@ -65,9 +65,11 @@ autocomplete({
         templates: {
           item({ item }) {
             return (
-              <div>
-                <div>{item.query}</div>
+              <div className="aa-ItemContent">
+                <div className="aa-ItemSourceIcon">Icon</div>
+                <div className="aa-ItemTitle">{item.query}</div>
                 <button
+                  className="aa-ItemActionButton"
                   onClick={(event) => {
                     event.stopPropagation();
 
