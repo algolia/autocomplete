@@ -1,6 +1,5 @@
 import { fireEvent, waitFor } from '@testing-library/dom';
 
-import { wait } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
 
 describe('autocomplete-js', () => {

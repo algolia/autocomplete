@@ -155,7 +155,7 @@ export function autocomplete<TItem extends BaseItem>(
     );
 
     const render =
-      (!getItemsCount(renderProps.state) &&
+      (!getItemsCount(state) &&
         !hasEmptySourceTemplateRef.current &&
         props.value.renderer.renderEmpty) ||
       props.value.renderer.render;
