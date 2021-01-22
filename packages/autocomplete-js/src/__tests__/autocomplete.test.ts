@@ -166,6 +166,7 @@ describe('autocomplete-js', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
+      openOnFocus: true,
       getSources() {
         return [
           {
@@ -200,6 +201,43 @@ describe('autocomplete-js', () => {
     ).toHaveTextContent('No results template');
   });
 
+  test("doesn't render empty template when openOnFocus is false", () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      openOnFocus: false,
+      getSources() {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+              empty() {
+                return 'No results template';
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    expect(
+      panelContainer.querySelector<HTMLElement>('.aa-Panel')
+    ).not.toBeInTheDocument();
+  });
+
   test('calls renderEmpty without empty template on no results', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
@@ -214,6 +252,7 @@ describe('autocomplete-js', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
+      openOnFocus: true,
       getSources() {
         return [
           {
@@ -265,6 +304,7 @@ describe('autocomplete-js', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
+      openOnFocus: true,
       getSources() {
         return [
           {
