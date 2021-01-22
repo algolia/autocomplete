@@ -1,6 +1,11 @@
+import { fireEvent } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
-import { createSource, createPlayground } from '../../../../test/utils';
+import {
+  createSource,
+  createPlayground,
+  runAllMicroTasks,
+} from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 describe('getSources', () => {
@@ -37,7 +42,42 @@ describe('getSources', () => {
     });
   });
 
-  test.todo('provides default source implementations');
+  test('provides a default source implementations', async () => {
+    const onStateChange = jest.fn();
+    const getSources = () => {
+      return [
+        {
+          getItems() {
+            return [];
+          },
+          templates: {
+            item() {},
+          },
+        },
+      ];
+    };
+    const { inputElement } = createPlayground(createAutocomplete, {
+      getSources,
+      onStateChange,
+      openOnFocus: true,
+    });
+
+    fireEvent.input(inputElement, { target: { value: 'a' } });
+
+    await runAllMicroTasks();
+
+    onStateChange.mock.calls.forEach((x) =>
+      x[0].state.collections.forEach((collection: any) => {
+        expect(collection.source.getItemInputValue).not.toBe(undefined);
+        expect(collection.source.getItemUrl).not.toBe(undefined);
+        expect(collection.source.getItems).not.toBe(undefined);
+        expect(collection.source.onActive).not.toBe(undefined);
+        expect(collection.source.onSelect).not.toBe(undefined);
+        expect(collection.source.templates).not.toBe(undefined);
+        expect(collection.source.templates.item).not.toBe(undefined);
+      })
+    );
+  });
 
   test.todo('concat getSources from plugins');
 });
