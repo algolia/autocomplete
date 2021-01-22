@@ -201,7 +201,7 @@ describe('autocomplete-js', () => {
     ).toHaveTextContent('No results template');
   });
 
-  test("doesn't render empty template when openOnFocus is false", () => {
+  test("doesn't render empty template on no query when openOnFocus is false", async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -231,11 +231,64 @@ describe('autocomplete-js', () => {
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, { target: { value: 'a' } });
+    fireEvent.input(input, { target: { value: '' } });
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).not.toBeInTheDocument();
+    });
 
     expect(
       panelContainer.querySelector<HTMLElement>('.aa-Panel')
     ).not.toBeInTheDocument();
+
+    expect(input).toHaveValue('');
+  });
+
+  test('render empty template after query when openOnFocus is false', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      openOnFocus: true,
+      getSources() {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+              empty() {
+                return 'No results template';
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'Query' } });
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    expect(
+      panelContainer.querySelector<HTMLElement>('.aa-Panel')
+    ).toBeInTheDocument();
+
+    expect(input).toHaveValue('Query');
   });
 
   test('calls renderEmpty without empty template on no results', async () => {

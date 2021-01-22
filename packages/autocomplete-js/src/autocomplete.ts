@@ -53,7 +53,7 @@ export function autocomplete<TItem extends BaseItem>(
         (({ state }) => {
           const hasItems = getItemsCount(state) > 0;
 
-          if (!props.value.core.openOnFocus) {
+          if (!props.value.core.openOnFocus && !state.query) {
             return hasItems;
           }
 
