@@ -242,11 +242,9 @@ describe('autocomplete-js', () => {
     expect(
       panelContainer.querySelector<HTMLElement>('.aa-Panel')
     ).not.toBeInTheDocument();
-
-    expect(input).toHaveValue('');
   });
 
-  test('render empty template after query when openOnFocus is false', async () => {
+  test('render empty template on query when openOnFocus is false', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -286,9 +284,7 @@ describe('autocomplete-js', () => {
 
     expect(
       panelContainer.querySelector<HTMLElement>('.aa-Panel')
-    ).toBeInTheDocument();
-
-    expect(input).toHaveValue('Query');
+    ).toHaveTextContent('No results template');
   });
 
   test('calls renderEmpty without empty template on no results', async () => {
