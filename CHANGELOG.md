@@ -1,3 +1,21 @@
+# [](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.38...v) (2021-01-22)
+
+
+### Bug Fixes
+
+* **core:** update query conditions ([adb08aa](https://github.com/algolia/autocomplete.js/commit/adb08aa358c70c2002f7c264ff99f182ce9aedf4))
+* **recent-searches:** escape highlighted query regex ([#387](https://github.com/algolia/autocomplete.js/issues/387)) ([d23f133](https://github.com/algolia/autocomplete.js/commit/d23f1336624680b72068fa93131448d251346a56))
+
+
+### Features
+
+* **core:** rename highlight to active ([1c1b951](https://github.com/algolia/autocomplete.js/commit/1c1b9512cd834c2bd2c48525df535d7039c14058))
+* **emptyStates:** implements empty source template and renderEmpty method ([#395](https://github.com/algolia/autocomplete.js/issues/395)) ([8bd35e6](https://github.com/algolia/autocomplete.js/commit/8bd35e6c186f1a4398108abd76dbd006c2b734b2))
+* **js:** change renderer implementation to virtual DOM ([#381](https://github.com/algolia/autocomplete.js/issues/381)) ([5a1efc2](https://github.com/algolia/autocomplete.js/commit/5a1efc2cccd968b9f359ebd9ea26812743122d4c)), closes [#399](https://github.com/algolia/autocomplete.js/issues/399)
+* **reverseHighlight/reverseSnippet:** implement sibling strategy from InstantSearch.js ([#388](https://github.com/algolia/autocomplete.js/issues/388)) ([d86a33a](https://github.com/algolia/autocomplete.js/commit/d86a33a50adefa3b6996e80e1d3b407f0dab59be))
+
+
+
 # [1.0.0-alpha.38](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.37...v1.0.0-alpha.38) (2020-12-12)
 
 ### Bug Fixes
