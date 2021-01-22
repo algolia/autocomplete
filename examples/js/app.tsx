@@ -9,7 +9,7 @@ import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch';
-import { h } from 'preact';
+import { h, Fragment } from 'preact';
 import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
@@ -82,14 +82,15 @@ type ProductItemProps = {
 
 function ProductItem({ hit }: ProductItemProps) {
   return (
+    <Fragment>
+    <div className="aa-ItemSourceIcon">
+      <img src={hit.image} alt={hit.name} width="20" height="20" />
+    </div>
     <div className="aa-ItemContent">
-      <div className="aa-ItemSourceIcon">
-        <img src={hit.image} alt={hit.name} width="20" height="20" />
-      </div>
-
-      <div className="aa-ItemTitle">
+      <div className="aa-ItemContentTitle">
         {highlightHit<ProductHit>({ hit, attribute: 'name' })}
       </div>
     </div>
+  </Fragment>
   );
 }
