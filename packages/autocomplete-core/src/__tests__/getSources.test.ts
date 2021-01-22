@@ -1,4 +1,3 @@
-import { fireEvent } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
 import {
@@ -44,12 +43,11 @@ describe('getSources', () => {
 
   test('provides a default source implementations', async () => {
     const onStateChange = jest.fn();
+    const sources = createSource();
     const getSources = () => {
       return [
         {
-          getItems() {
-            return [];
-          },
+          ...sources,
           templates: {
             item() {},
           },
@@ -59,25 +57,82 @@ describe('getSources', () => {
     const { inputElement } = createPlayground(createAutocomplete, {
       getSources,
       onStateChange,
-      openOnFocus: true,
     });
 
-    fireEvent.input(inputElement, { target: { value: 'a' } });
+    inputElement.focus();
+    userEvent.type(inputElement, 'a');
 
     await runAllMicroTasks();
 
-    onStateChange.mock.calls.forEach((x) =>
-      x[0].state.collections.forEach((collection: any) => {
-        expect(collection.source.getItemInputValue).not.toBe(undefined);
-        expect(collection.source.getItemUrl).not.toBe(undefined);
-        expect(collection.source.getItems).not.toBe(undefined);
-        expect(collection.source.onActive).not.toBe(undefined);
-        expect(collection.source.onSelect).not.toBe(undefined);
-        expect(collection.source.templates).not.toBe(undefined);
-        expect(collection.source.templates.item).not.toBe(undefined);
-      })
-    );
+    expect(onStateChange).toHaveBeenCalledWith({
+      prevState: expect.anything(),
+      state: expect.objectContaining({
+        collections: expect.arrayContaining([
+          expect.objectContaining({
+            source: expect.objectContaining({
+              getItemInputValue: sources.getItemInputValue,
+              getItemUrl: sources.getItemUrl,
+              getItems: sources.getItems,
+              onActive: expect.any(Function),
+              onSelect: expect.any(Function),
+              templates: expect.objectContaining({
+                item: expect.any(Function),
+              }),
+            }),
+          }),
+        ]),
+      }),
+    });
   });
 
-  test.todo('concat getSources from plugins');
+  test('concat getSources from plugins', async () => {
+    const sources = createSource();
+    const getSources = () => {
+      return [
+        {
+          ...sources,
+          templates: {
+            item() {},
+          },
+        },
+      ];
+    };
+    const plugin = {
+      getSources: jest.fn((..._args: any[]) => {
+        return [sources];
+      }),
+    };
+
+    const onStateChange = jest.fn();
+    const { inputElement } = createPlayground(createAutocomplete, {
+      onStateChange,
+      getSources,
+      plugins: [plugin],
+    });
+
+    inputElement.focus();
+    userEvent.type(inputElement, 'a');
+
+    await runAllMicroTasks();
+
+    expect(onStateChange).toHaveBeenCalledWith({
+      prevState: expect.anything(),
+      state: expect.objectContaining({
+        collections: expect.arrayContaining([
+          expect.objectContaining({
+            source: expect.objectContaining({
+              getItemInputValue: sources.getItemInputValue,
+              getItemUrl: sources.getItemUrl,
+              getItems: sources.getItems,
+              onActive: expect.any(Function),
+              onSelect: expect.any(Function),
+              templates: expect.objectContaining({
+                item: expect.any(Function),
+              }),
+            }),
+          }),
+        ]),
+      }),
+    });
+  });
 });
