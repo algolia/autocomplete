@@ -29,7 +29,7 @@ body {
         --muted-color: rgba(167, 167, 96, 0.6);
         --selected-color: rgba(247, 247, 0, 0.1);
         --icon-color: rgb(31, 207, 248);
-        --text-color: rgb(214, 218, 221);
+        --text-color: rgb(183, 192, 199);
         --background-color: rgb(21, 23, 42);
         --panel-shadow: inset 1px 1px 0 0 rgb(44, 46, 64), 0 3px 8px 0 rgb(0, 3, 9);
     }
@@ -156,6 +156,17 @@ body {
 // ----------------
 .aa-Panel {
     position: absolute;
+    //reset
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    button {
+        appearance: none;
+        background: none;
+        border: none;
+    }
     .aa-PanelLayout {
         //display: flex;
         margin-top: var(--spacing-half);
@@ -250,7 +261,6 @@ section.aa-Source {
 // ----------------
 li.aa-Item {
     display: flex;
-    margin-left: 2px;
     padding: 0 var(--spacing-half);
     line-height: 1.1em;
     align-items: center;
@@ -276,7 +286,7 @@ li.aa-Item {
     .aa-ItemSourceIcon {
         box-shadow: inset 0 0 0 1px var(--selected-color);
         border-radius: 3px;
-        margin: 2px 0;
+        margin: 2px 0 2px 2px;
         flex-shrink: 0;
         font-size: var(--icon-size);
         width: calc(var(--icon-size) + var(--spacing));
@@ -300,6 +310,7 @@ li.aa-Item {
     }
     .aa-ItemContent {
         flex-shrink: 1;
+        overflow: hidden;
         width: 100%;
         color: var(--text-color);
         cursor: pointer;
@@ -312,6 +323,7 @@ li.aa-Item {
             overflow-x: hidden;
             padding-top: 2px;
             mark {
+                color: var(--text-color);
                 background: none;
                 font-style: normal;
                 font-weight: bold;
@@ -391,7 +403,7 @@ li.aa-Item {
             width: var(--icon-size);
             stroke-width: var(--icon-stroke-width);
             color: var(--muted-color);
-            margin: 0 var(--spacing);
+            margin: 0 var(--spacing-half);
             &:hover {
                 color: var(--text-color);
             }
