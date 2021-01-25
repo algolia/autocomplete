@@ -43,20 +43,19 @@ describe('getSources', () => {
 
   test('provides a default source implementations', async () => {
     const onStateChange = jest.fn();
-    const getSources = () => {
-      return [
-        {
-          getItems() {
-            return [];
-          },
-          templates: {
-            item() {},
-          },
-        },
-      ];
-    };
     const { inputElement } = createPlayground(createAutocomplete, {
-      getSources,
+      getSources: () => {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item() {},
+            },
+          },
+        ];
+      },
       onStateChange,
     });
 
@@ -88,18 +87,6 @@ describe('getSources', () => {
 
   test('concat getSources from plugins', async () => {
     const onStateChange = jest.fn();
-    const getSources = () => {
-      return [
-        {
-          getItems() {
-            return [];
-          },
-          templates: {
-            item() {},
-          },
-        },
-      ];
-    };
     const plugin = {
       getSources: () => {
         return [
@@ -116,7 +103,18 @@ describe('getSources', () => {
     };
     const { inputElement } = createPlayground(createAutocomplete, {
       onStateChange,
-      getSources,
+      getSources: () => {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item() {},
+            },
+          },
+        ];
+      },
       plugins: [plugin],
     });
 
@@ -125,9 +123,6 @@ describe('getSources', () => {
 
     await runAllMicroTasks();
 
-    expect(onStateChange.mock.calls.pop()[0].state.collections).toEqual([
-      expect.any(Object),
-      expect.any(Object),
-    ]);
+    expect(onStateChange.mock.calls.pop()[0].state.collections).toHaveLength(2);
   });
 });
