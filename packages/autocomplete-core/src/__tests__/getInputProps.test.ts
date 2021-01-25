@@ -1165,9 +1165,151 @@ describe('getInputProps', () => {
     });
   });
 
-  describe('onFocus', () => {});
+  describe('onFocus', () => {
+    test('triggers a query if `openOnFocus` is true', () => {
+      const getSources = jest.fn(() => [createSource()]);
+      const { inputElement } = createPlayground(createAutocomplete, {
+        openOnFocus: true,
+        getSources,
+      });
 
-  describe('onBlur', () => {});
+      inputElement.focus();
 
-  describe('onClick', () => {});
+      expect(getSources).toHaveBeenCalledTimes(1);
+    });
+
+    test('triggers a query if the current query is not empty', () => {
+      const getSources = jest.fn(() => [createSource()]);
+      const { inputElement } = createPlayground(createAutocomplete, {
+        getSources,
+        initialState: {
+          query: 'i',
+        },
+      });
+
+      inputElement.focus();
+
+      expect(getSources).toHaveBeenCalledTimes(1);
+    });
+
+    test('sets activeItemId and isOpen', () => {
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+        defaultActiveItemId: 1,
+        initialState: {
+          query: 'i',
+        },
+      });
+
+      inputElement.focus();
+
+      expect(onStateChange).toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          activeItemId: 1,
+          isOpen: true,
+        }),
+      });
+    });
+  });
+
+  describe('onBlur', () => {
+    test('resets activeItemId and isOpen', () => {
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+        defaultActiveItemId: 1,
+        openOnFocus: true,
+      });
+      inputElement.focus();
+
+      inputElement.blur();
+
+      expect(onStateChange).toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          activeItemId: null,
+          isOpen: false,
+        }),
+      });
+    });
+    test('does not reset activeItemId and isOpen on touch devices', () => {
+      const environment = {
+        ...global,
+        ontouchstart: () => {},
+      };
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        environment,
+        onStateChange,
+        defaultActiveItemId: 1,
+        openOnFocus: true,
+      });
+      inputElement.focus();
+
+      inputElement.blur();
+
+      expect(onStateChange).toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          activeItemId: 1,
+          isOpen: true,
+        }),
+      });
+    });
+  });
+
+  describe('onClick', () => {
+    test('is a noop when the input is not focused', () => {
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+      });
+
+      inputElement.click();
+
+      expect(onStateChange).toHaveBeenCalledTimes(0);
+    });
+
+    test('is a noop when panel is already open', () => {
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+        openOnFocus: true,
+        initialState: {
+          isOpen: true,
+        },
+      });
+
+      inputElement.focus();
+
+      // Clear mock information set by the `focus` event
+      onStateChange.mockClear();
+
+      inputElement.click();
+
+      expect(onStateChange).toHaveBeenCalledTimes(0);
+    });
+
+    test('sets activeItemId and isOpen when the input is focused and the panel closed', () => {
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+        defaultActiveItemId: 1,
+      });
+
+      inputElement.focus();
+
+      inputElement.click();
+
+      expect(onStateChange).toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          activeItemId: 1,
+          isOpen: false,
+        }),
+      });
+    });
+  });
 });
