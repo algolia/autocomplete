@@ -65,7 +65,7 @@ describe('getEnvironmentProps', () => {
       expect(inputElement.blur).toHaveBeenCalledTimes(0);
     });
 
-    test('blurs input if the target is outside Autocomplete', () => {
+    test('closes panel if the target is outside Autocomplete', () => {
       const onStateChange = jest.fn();
       const {
         getEnvironmentProps,
