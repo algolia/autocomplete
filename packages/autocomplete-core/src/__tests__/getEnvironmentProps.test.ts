@@ -28,6 +28,8 @@ describe('getEnvironmentProps', () => {
         bubbles: true,
       });
       window.dispatchEvent(customEvent);
+
+      expect(document.activeElement).toBe(inputElement);
     });
 
     test('is a noop when the event target is the input element', () => {
