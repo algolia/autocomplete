@@ -69,7 +69,7 @@ describe('getSources', () => {
       state: expect.objectContaining({
         collections: expect.arrayContaining([
           expect.objectContaining({
-            source: expect.objectContaining({
+            source: {
               getItemInputValue: expect.any(Function),
               getItemUrl: expect.any(Function),
               getItems: expect.any(Function),
@@ -78,7 +78,7 @@ describe('getSources', () => {
               templates: expect.objectContaining({
                 item: expect.any(Function),
               }),
-            }),
+            },
           }),
         ]),
       }),
