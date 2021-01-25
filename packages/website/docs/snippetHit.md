@@ -2,7 +2,7 @@
 id: snippetHit
 ---
 
-Returns a string with highlighted and escaped matching parts of an Algolia hit snippet.
+Returns a virtual node with matching parts of an Algolia hit snippet.
 
 ## Example
 
@@ -36,14 +36,8 @@ The attribute to retrieve the snippet value from.
 
 The HTML tag to prefix the value with.
 
-### `highlightPostTag`
+### `tagName`
 
-> `string` | defaults to `</mark>`
+> `string` | defaults to `mark`
 
-The HTML tag to suffix the value with.
-
-### `ignoreEscape`
-
-> `string[]` | defaults to `[]`
-
-The characters to skip from escaping.
+The tag name of the virtual node.

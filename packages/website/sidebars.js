@@ -6,6 +6,7 @@ module.exports = {
     'Core Concepts': [
       'basic-options',
       'sources',
+      'templates',
       'state',
       'context',
       'keyboard-navigation',

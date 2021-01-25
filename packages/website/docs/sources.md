@@ -53,7 +53,9 @@ autocomplete({
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
             { label: 'GitHub', url: 'https://github.com' },
-          ].filter((item) => item.toLowerCase().includes(query.toLowerCase()));
+          ].filter(({ label }) =>
+            label.toLowerCase().includes(query.toLowerCase())
+          );
         },
         getItemUrl({ item }) {
           return item.url;
@@ -119,7 +121,7 @@ autocomplete({
 });
 ```
 
-**Templates aren't limited to strings.** You can provide anything as long as they're a valid virtual DOM element (see more in **Templates**).
+**Templates aren't limited to strings.** You can provide anything as long as they're a valid virtual DOM element (see more in [**Templates**](templates)).
 
 ### Using dynamic sources
 
