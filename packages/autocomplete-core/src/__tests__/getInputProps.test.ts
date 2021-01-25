@@ -1202,29 +1202,7 @@ describe('getInputProps', () => {
             setActiveItemId,
             setStatus,
             source: expect.any(Object),
-            state: {
-              collections: [
-                {
-                  items: [
-                    {
-                      label: '1',
-                      url: '#1',
-                    },
-                    {
-                      label: '2',
-                      url: '#2',
-                    },
-                  ],
-                  source: expect.any(Object),
-                },
-              ],
-              completion: null,
-              context: {},
-              isOpen: false,
-              query: '',
-              activeItemId: 0,
-              status: 'idle',
-            },
+            state: expect.any(Object),
           });
         });
 
@@ -1258,29 +1236,7 @@ describe('getInputProps', () => {
               url: '#1',
             },
             itemUrl: '#1',
-            state: {
-              collections: [
-                {
-                  items: [
-                    {
-                      label: '1',
-                      url: '#1',
-                    },
-                    {
-                      label: '2',
-                      url: '#2',
-                    },
-                  ],
-                  source: expect.any(Object),
-                },
-              ],
-              completion: null,
-              context: {},
-              isOpen: false,
-              query: '',
-              activeItemId: 0,
-              status: 'idle',
-            },
+            state: expect.any(Object),
           });
         });
       });
@@ -1387,29 +1343,7 @@ describe('getInputProps', () => {
             setActiveItemId,
             setStatus,
             source: expect.any(Object),
-            state: {
-              collections: [
-                {
-                  items: [
-                    {
-                      label: '1',
-                      url: '#1',
-                    },
-                    {
-                      label: '2',
-                      url: '#2',
-                    },
-                  ],
-                  source: expect.any(Object),
-                },
-              ],
-              completion: null,
-              context: {},
-              isOpen: false,
-              query: '',
-              activeItemId: 0,
-              status: 'idle',
-            },
+            state: expect.any(Object),
           });
         });
 
@@ -1443,29 +1377,7 @@ describe('getInputProps', () => {
               url: '#1',
             },
             itemUrl: '#1',
-            state: {
-              collections: [
-                {
-                  items: [
-                    {
-                      label: '1',
-                      url: '#1',
-                    },
-                    {
-                      label: '2',
-                      url: '#2',
-                    },
-                  ],
-                  source: expect.any(Object),
-                },
-              ],
-              completion: null,
-              context: {},
-              isOpen: false,
-              query: '',
-              activeItemId: 0,
-              status: 'idle',
-            },
+            state: expect.any(Object),
           });
         });
       });
