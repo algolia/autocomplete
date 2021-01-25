@@ -2,6 +2,7 @@ import userEvent from '@testing-library/user-event';
 
 import {
   createCollection,
+  createNavigator,
   createPlayground,
   createSource,
   runAllMicroTasks,
@@ -908,11 +909,7 @@ describe('getInputProps', () => {
       describe('Plain Enter', () => {
         test('calls onSelect with item URL', () => {
           const onSelect = jest.fn();
-          const navigator = {
-            navigate: jest.fn(),
-            navigateNewTab: jest.fn(),
-            navigateNewWindow: jest.fn(),
-          };
+          const navigator = createNavigator();
           const {
             inputElement,
             refresh,
@@ -987,11 +984,7 @@ describe('getInputProps', () => {
 
         test('calls navigate with item URL', () => {
           const onSelect = jest.fn();
-          const navigator = {
-            navigate: jest.fn(),
-            navigateNewTab: jest.fn(),
-            navigateNewWindow: jest.fn(),
-          };
+          const navigator = createNavigator();
           const { inputElement } = createPlayground(createAutocomplete, {
             navigator,
             defaultActiveItemId: 0,
@@ -1045,11 +1038,7 @@ describe('getInputProps', () => {
         test('calls onInput and onSelect without item URL', async () => {
           const onSelect = jest.fn();
           const onInput = jest.fn();
-          const navigator = {
-            navigate: jest.fn(),
-            navigateNewTab: jest.fn(),
-            navigateNewWindow: jest.fn(),
-          };
+          const navigator = createNavigator();
           const {
             inputElement,
             refresh,
@@ -1114,11 +1103,7 @@ describe('getInputProps', () => {
       describe('Meta+Enter / Ctrl+Enter', () => {
         test('skips onSelect without item URL', () => {
           const onSelect = jest.fn();
-          const navigator = {
-            navigate: jest.fn(),
-            navigateNewTab: jest.fn(),
-            navigateNewWindow: jest.fn(),
-          };
+          const navigator = createNavigator();
           const { inputElement } = createPlayground(createAutocomplete, {
             navigator,
             defaultActiveItemId: 0,
@@ -1144,11 +1129,7 @@ describe('getInputProps', () => {
 
         test('skips navigateNewTab without item URL', () => {
           const onSelect = jest.fn();
-          const navigator = {
-            navigate: jest.fn(),
-            navigateNewTab: jest.fn(),
-            navigateNewWindow: jest.fn(),
-          };
+          const navigator = createNavigator();
           const { inputElement } = createPlayground(createAutocomplete, {
             navigator,
             defaultActiveItemId: 0,
@@ -1174,11 +1155,7 @@ describe('getInputProps', () => {
 
         test('calls onSelect with item URL', () => {
           const onSelect = jest.fn();
-          const navigator = {
-            navigate: jest.fn(),
-            navigateNewTab: jest.fn(),
-            navigateNewWindow: jest.fn(),
-          };
+          const navigator = createNavigator();
           const {
             inputElement,
             refresh,
@@ -1253,11 +1230,7 @@ describe('getInputProps', () => {
 
         test('calls navigateNewTab with item URL', () => {
           const onSelect = jest.fn();
-          const navigator = {
-            navigate: jest.fn(),
-            navigateNewTab: jest.fn(),
-            navigateNewWindow: jest.fn(),
-          };
+          const navigator = createNavigator();
           const { inputElement } = createPlayground(createAutocomplete, {
             navigator,
             defaultActiveItemId: 0,
@@ -1315,11 +1288,7 @@ describe('getInputProps', () => {
       describe('Shift+Enter', () => {
         test('skips onSelect without item URL', () => {
           const onSelect = jest.fn();
-          const navigator = {
-            navigate: jest.fn(),
-            navigateNewTab: jest.fn(),
-            navigateNewWindow: jest.fn(),
-          };
+          const navigator = createNavigator();
           const { inputElement } = createPlayground(createAutocomplete, {
             navigator,
             defaultActiveItemId: 0,
@@ -1345,11 +1314,7 @@ describe('getInputProps', () => {
 
         test('skips navigateNewWindow without item URL', () => {
           const onSelect = jest.fn();
-          const navigator = {
-            navigate: jest.fn(),
-            navigateNewTab: jest.fn(),
-            navigateNewWindow: jest.fn(),
-          };
+          const navigator = createNavigator();
           const { inputElement } = createPlayground(createAutocomplete, {
             navigator,
             defaultActiveItemId: 0,
@@ -1375,11 +1340,7 @@ describe('getInputProps', () => {
 
         test('calls onSelect with item URL', () => {
           const onSelect = jest.fn();
-          const navigator = {
-            navigate: jest.fn(),
-            navigateNewTab: jest.fn(),
-            navigateNewWindow: jest.fn(),
-          };
+          const navigator = createNavigator();
           const {
             inputElement,
             refresh,
@@ -1454,11 +1415,7 @@ describe('getInputProps', () => {
 
         test('calls navigateNewWindow with item URL', () => {
           const onSelect = jest.fn();
-          const navigator = {
-            navigate: jest.fn(),
-            navigateNewTab: jest.fn(),
-            navigateNewWindow: jest.fn(),
-          };
+          const navigator = createNavigator();
           const { inputElement } = createPlayground(createAutocomplete, {
             navigator,
             defaultActiveItemId: 0,
@@ -1516,11 +1473,7 @@ describe('getInputProps', () => {
       describe('Alt+Enter', () => {
         test('triggers default browser behavior', () => {
           const onSelect = jest.fn();
-          const navigator = {
-            navigate: jest.fn(),
-            navigateNewTab: jest.fn(),
-            navigateNewWindow: jest.fn(),
-          };
+          const navigator = createNavigator();
           const { inputElement } = createPlayground(createAutocomplete, {
             navigator,
             defaultActiveItemId: 0,
