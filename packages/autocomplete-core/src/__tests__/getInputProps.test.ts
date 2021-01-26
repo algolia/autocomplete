@@ -1222,8 +1222,8 @@ describe('getInputProps', () => {
         defaultActiveItemId: 1,
         openOnFocus: true,
       });
-      inputElement.focus();
 
+      inputElement.focus();
       inputElement.blur();
 
       expect(onStateChange).toHaveBeenLastCalledWith({
@@ -1234,6 +1234,7 @@ describe('getInputProps', () => {
         }),
       });
     });
+
     test('does not reset activeItemId and isOpen on touch devices', () => {
       const environment = {
         ...global,
@@ -1246,8 +1247,8 @@ describe('getInputProps', () => {
         defaultActiveItemId: 1,
         openOnFocus: true,
       });
-      inputElement.focus();
 
+      inputElement.focus();
       inputElement.blur();
 
       expect(onStateChange).toHaveBeenLastCalledWith({
@@ -1300,7 +1301,6 @@ describe('getInputProps', () => {
       });
 
       inputElement.focus();
-
       inputElement.click();
 
       expect(onStateChange).toHaveBeenLastCalledWith({
