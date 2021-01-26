@@ -227,21 +227,42 @@ autocomplete({
 
 ## Reference
 
-:::note Draft
+### `subscribe`
 
-This page needs to cover:
+> `(params: { onSelect: (fn: params: TParams) => void, onActive: (fn: params: TParams) => void, ...setters: AutocompleteSetters }) => void`
 
-- Plugins are a way of encapsulating sources, including the data and display. They can also trigger particular actions on an interaction.
-- For example, the insights plugin sends click and conversion events.
-- We provide some out-of-the-box plugins, but you can also build your own.
-- As a simple example, you could create a plugin to display a static list of predefined items:
-  - Code snippet
-- We also have created a couple out-of-the box plugins:
-  - Our **recent-searches plug-in** stores recently made searches in local storage so that you can incorporate an individual’s recent searches into an autocomplete.
-    - Code snippet + live example
-  - Our **query-suggestions plug-in** is made to work with an Algolia Query Suggestions index.
-    - Code snippet + live example
+The function called when Autocomplete starts.
 
-We'll also need to document the Plugin API.
+It lets you subscribe to lifecycle hooks and interact with the instance's state and context.
 
-:::
+### `onStateChange`
+
+> `(params: { state: AutocompleteState<TItem> }) => void`
+
+The function called when the internal state changes.
+
+### `onSubmit`
+
+> `(params: { state: AutocompleteState, event: Event, ...setters: AutocompleteSetters }) => void`
+
+The function called when the Autocomplete form is submitted.
+
+### `onReset`
+
+> `(params: { state: AutocompleteState, event: Event, ...setters: AutocompleteSetters }) => void`
+
+The function called when the Autocomplete form is reset.
+
+### `getSources`
+
+> `(params: { query: string, state: AutocompleteState, ...setters: AutocompleteSetters }) => Array<AutocompleteSource> | Promise<Array<AutocompleteSource>>`
+
+The sources to get the suggestions from.
+
+When defined, they're merged with the sources on your Autocomplete instance.
+
+### `data`
+
+> `unknown`
+
+An extra plugin object to expose properties and functions as APIs.
