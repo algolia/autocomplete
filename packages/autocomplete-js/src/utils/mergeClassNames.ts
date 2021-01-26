@@ -8,8 +8,9 @@ export function mergeClassNames(
       const accValue = acc[key];
       const currentValue = current[key];
 
-      if (accValue !== currentValue)
+      if (accValue !== currentValue) {
         acc[key] = [accValue, currentValue].filter(Boolean).join(' ');
+      }
     });
 
     return acc;
