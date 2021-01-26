@@ -22,7 +22,7 @@
 // ----------------
 // Darkmode
 // ----------------
-%darkmode {
+@mixin darkmode() {
     --aa-primary-color: rgb(247, 247, 0);
     --aa-muted-color: rgba(167, 167, 96, 0.6);
     --aa-selected-color: rgba(247, 247, 0, 0.1);
@@ -35,13 +35,13 @@
 body {
     &[data-theme='dark'],
     &.dark {
-        @extend %darkmode;
+        @include darkmode();
     }
 }
 
 @media (prefers-color-scheme: dark) {
     body {
-        @extend %darkmode;
+        @include darkmode();
     }
 }
 
