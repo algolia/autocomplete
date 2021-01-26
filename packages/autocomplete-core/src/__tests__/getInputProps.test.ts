@@ -1381,22 +1381,140 @@ describe('getInputProps', () => {
       expect(onStateChange).toHaveBeenCalledTimes(0);
     });
 
-    test('sets activeItemId and isOpen when the input is focused and the panel closed', () => {
-      const onStateChange = jest.fn();
-      const { inputElement } = createPlayground(createAutocomplete, {
-        onStateChange,
-        defaultActiveItemId: 1,
+    describe('when the input is focused and the panel closed', () => {
+      describe('sets activeItemId', () => {
+        test('to null when there is no defaultActiveItemId', () => {
+          const onStateChange = jest.fn();
+          const { inputElement } = createPlayground(createAutocomplete, {
+            onStateChange,
+          });
+
+          inputElement.focus();
+
+          // Closes the panel while keeping the input focused
+          userEvent.type(inputElement, '{esc}');
+
+          inputElement.click();
+
+          expect(onStateChange).toHaveBeenLastCalledWith({
+            prevState: expect.anything(),
+            state: expect.objectContaining({
+              activeItemId: null,
+            }),
+          });
+        });
+
+        test('to defaultActiveItemId value when set', () => {
+          const onStateChange = jest.fn();
+          const { inputElement } = createPlayground(createAutocomplete, {
+            onStateChange,
+            defaultActiveItemId: 1,
+          });
+
+          inputElement.focus();
+
+          // Closes the panel while keeping the input focused
+          userEvent.type(inputElement, '{esc}');
+
+          inputElement.click();
+
+          expect(onStateChange).toHaveBeenLastCalledWith({
+            prevState: expect.anything(),
+            state: expect.objectContaining({
+              activeItemId: 1,
+            }),
+          });
+        });
+      });
+      describe('sets isOpen', () => {
+        test('to false when openOnFocus is false and the query empty', () => {
+          const onStateChange = jest.fn();
+          const { inputElement } = createPlayground(createAutocomplete, {
+            onStateChange,
+          });
+
+          inputElement.focus();
+
+          // Closes the panel while keeping the input focused
+          userEvent.type(inputElement, '{esc}');
+
+          inputElement.click();
+
+          expect(onStateChange).toHaveBeenLastCalledWith({
+            prevState: expect.anything(),
+            state: expect.objectContaining({
+              isOpen: false,
+            }),
+          });
+        });
+
+        test('to true when the query is set', () => {
+          const onStateChange = jest.fn();
+          const { inputElement } = createPlayground(createAutocomplete, {
+            onStateChange,
+            initialState: {
+              query: 'i',
+            },
+          });
+
+          inputElement.focus();
+
+          // Closes the panel while keeping the input focused
+          userEvent.type(inputElement, '{esc}');
+
+          inputElement.click();
+
+          expect(onStateChange).toHaveBeenLastCalledWith({
+            prevState: expect.anything(),
+            state: expect.objectContaining({
+              isOpen: true,
+            }),
+          });
+        });
+
+        test('to true when openOnFocus is true', () => {
+          const onStateChange = jest.fn();
+          const { inputElement } = createPlayground(createAutocomplete, {
+            onStateChange,
+            openOnFocus: true,
+          });
+
+          inputElement.focus();
+
+          // Closes the panel while keeping the input focused
+          userEvent.type(inputElement, '{esc}');
+
+          inputElement.click();
+
+          expect(onStateChange).toHaveBeenLastCalledWith({
+            prevState: expect.anything(),
+            state: expect.objectContaining({
+              isOpen: true,
+            }),
+          });
+        });
       });
 
-      inputElement.focus();
-      inputElement.click();
+      test('to true when openOnFocus is true and the query is set', () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+        });
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          activeItemId: 1,
-          isOpen: false,
-        }),
+        inputElement.focus();
+
+        // Closes the panel while keeping the input focused
+        userEvent.type(inputElement, '{esc}');
+
+        inputElement.click();
+
+        expect(onStateChange).toHaveBeenLastCalledWith({
+          prevState: expect.anything(),
+          state: expect.objectContaining({
+            isOpen: true,
+          }),
+        });
       });
     });
   });
