@@ -1323,6 +1323,27 @@ describe('getInputProps', () => {
       });
     });
 
+    test('does not reset activeItemId and isOpen when debug is true', () => {
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+        debug: true,
+        defaultActiveItemId: 1,
+        openOnFocus: true,
+      });
+
+      inputElement.focus();
+      inputElement.blur();
+
+      expect(onStateChange).toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          activeItemId: 1,
+          isOpen: true,
+        }),
+      });
+    });
+
     test('does not reset activeItemId and isOpen on touch devices', () => {
       const environment = {
         ...global,
