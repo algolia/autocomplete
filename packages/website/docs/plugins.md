@@ -39,7 +39,7 @@ autocomplete({
 ```
 :::note
 
-Plugins execute in their sort order in the `plugins` array.
+Plugins execute sequentially, in the defined order.
 
 :::
 
@@ -125,7 +125,7 @@ There are a few useful official plugins you can already use with Autocomplete.
 
 #### Recent searches
 
-The `recent-searches` plugin lets you display a list of the latest searches the user made. It comes with a [pre-implemented version](createLocalStorageRecentSearchesPlugin) that connects with the user's [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
+The [`recent-searches`](createRecentSearchesPlugin) plugin lets you display a list of the latest searches the user made. It comes with a [pre-implemented version](createLocalStorageRecentSearchesPlugin) that connects with the user's [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
 
 ```js
 import { autocomplete } from '@algolia/autocomplete-js';
@@ -136,7 +136,7 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
 });
 
 autocomplete({
-  container: '#autocomplete',
+  // ...
   openOnFocus: true,
   plugins: [recentSearchesPlugin],
 });
@@ -165,7 +165,7 @@ const recentSearchesPlugin = createRecentSearchesPlugin({
 });
 
 autocomplete({
-  container: '#autocomplete',
+  // ...
   openOnFocus: true,
   plugins: [recentSearchesPlugin],
 });
@@ -179,7 +179,51 @@ The `getAll` function supports [promises](https://developer.mozilla.org/en-US/do
 
 #### Query Suggestions
 
+The [`query-suggestions`](createQuerySuggestionsPlugin) plugin allows you to plug [Algolia Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) to your autocomplete.
+
+```js
+import algoliasearch from 'algoliasearch/lite';
+import { autocomplete } from '@algolia/autocomplete-js';
+import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
+
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  searchClient,
+  indexName: 'instant_search_demo_query_suggestions',
+});
+
+autocomplete({
+  // ...
+  plugins: [querySuggestionsPlugin],
+});
+```
+
 #### Insights
+
+The [`algolia-insights`](createAlgoliaInsightsPlugin) plugin automatically sends click and conversion events to the [Algolia Insights API](https://www.algolia.com/doc/rest-api/insights/) whenever a user interacts with the autocomplete.
+
+
+```js
+import algoliasearch from 'algoliasearch/lite';
+import { autocomplete } from '@algolia/autocomplete-js';
+import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
+import insightsClient from 'search-insights';
+
+const appId = 'latency';
+const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
+const searchClient = algoliasearch(appId, apiKey);
+insightsClient('init', { appId, apiKey });
+
+const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+autocomplete({
+  // ...
+  plugins: [algoliaInsightsPlugin],
+});
+```
 
 ## Reference
 
