@@ -2,36 +2,46 @@
 // Variables
 // ----------------
 :root {
-    --base-unit: 16;
-    --font-size: calc(var(--base-unit) * 1px);
-    --spacing-factor: 1; // xs:0.6 / sm:0.8 / md:1 / lg:1.2 / xl:1.5 - refs in spacing.json
-    --spacing: calc(var(--base-unit) * var(--spacing-factor) * 1px);
-    --spacing-half: calc(var(--spacing) / 2);
-    --spacing-third: calc(var(--spacing) / 3);
-    --icon-size: 16px;
-    --icon-stroke-width: calc((20 / var(--base-unit)) * 1.6);
-    --primary-color: rgb(62, 52, 211);
-    --muted-color: rgba(128, 126, 163, 0.6);
-    --selected-color: rgba(62, 52, 211, 0.1);
-    --icon-color: rgb(119, 119, 163);
-    --text-color: rgb(38, 38, 39);
-    --background-color: rgb(255, 255, 255);
-    --panel-shadow: 0 0 0 1px rgba(35, 38, 59, 0.1), 0 6px 16px -4px rgba(35, 38, 59, 0.15);
+    --aa-base-unit: 16;
+    --aa-font-size: calc(var(--aa-base-unit) * 1px);
+    --aa-spacing-factor: 1; // xs:0.6 / sm:0.8 / md:1 / lg:1.2 / xl:1.5 - refs in spacing.json
+    --aa-spacing: calc(var(--aa-base-unit) * var(--aa-spacing-factor) * 1px);
+    --aa-spacing-half: calc(var(--aa-spacing) / 2);
+    --aa-spacing-third: calc(var(--aa-spacing) / 3);
+    --aa-icon-size: 18px;
+    --aa-icon-stroke-width: calc((20 / var(--aa-base-unit)) * 1.6);
+    --aa-primary-color: rgb(62, 52, 211);
+    --aa-muted-color: rgba(128, 126, 163, 0.6);
+    --aa-selected-color: rgba(62, 52, 211, 0.1);
+    --aa-icon-color: rgb(119, 119, 163);
+    --aa-text-color: rgb(38, 38, 39);
+    --aa-background-color: rgb(255, 255, 255);
+    --aa-panel-shadow: 0 0 0 1px rgba(35, 38, 59, 0.1), 0 6px 16px -4px rgba(35, 38, 59, 0.15);
 }
 
 // ----------------
 // Darkmode
 // ----------------
+%darkmode {
+    --aa-primary-color: rgb(247, 247, 0);
+    --aa-muted-color: rgba(167, 167, 96, 0.6);
+    --aa-selected-color: rgba(247, 247, 0, 0.1);
+    --aa-icon-color: rgb(31, 207, 248);
+    --aa-text-color: rgb(183, 192, 199);
+    --aa-background-color: rgb(21, 23, 42);
+    --aa-panel-shadow: inset 1px 1px 0 0 rgb(44, 46, 64), 0 3px 8px 0 rgb(0, 3, 9);
+}
+
 body {
     &[data-theme='dark'],
     &.dark {
-        --primary-color: rgb(247, 247, 0);
-        --muted-color: rgba(167, 167, 96, 0.6);
-        --selected-color: rgba(247, 247, 0, 0.1);
-        --icon-color: rgb(31, 207, 248);
-        --text-color: rgb(183, 192, 199);
-        --background-color: rgb(21, 23, 42);
-        --panel-shadow: inset 1px 1px 0 0 rgb(44, 46, 64), 0 3px 8px 0 rgb(0, 3, 9);
+        @extend %darkmode;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        @extend %darkmode;
     }
 }
 
@@ -40,7 +50,7 @@ body {
 // ----------------
 .aa-Autocomplete,
 .aa-TouchFormContainer {
-    font-size: var(--font-size);
+    font-size: var(--aa-font-size);
     text-align: left;
     line-height: 1em;
     //reset
@@ -54,15 +64,15 @@ body {
         width: 100%;
         position: relative;
         display: flex;
-        border: 1px solid var(--muted-color);
+        border: 1px solid var(--aa-muted-color);
         align-items: center;
-        padding: 0 var(--spacing) 0 var(--spacing-half);
+        padding: 0 var(--aa-spacing) 0 var(--aa-spacing-half);
         line-height: 1em;
-        background-color: var(--background-color);
+        background-color: var(--aa-background-color);
         border-radius: 3px;
         &:focus-within {
-            border-color: var(--primary-color);
-            box-shadow: var(--selected-color) 0 0 0 3px, inset var(--selected-color) 0 0 0 2px;
+            border-color: var(--aa-primary-color);
+            box-shadow: var(--aa-selected-color) 0 0 0 3px, inset var(--aa-selected-color) 0 0 0 2px;
             outline: currentcolor none medium;
         }
         .aa-InputWrapperPrefix {
@@ -71,22 +81,22 @@ body {
             flex-wrap: none;
             display: flex;
             align-items: center;
-            padding-right: var(--spacing-half);
+            padding-right: var(--aa-spacing-half);
             // the container for search and loading icons
             label.aa-Label,
             .aa-LoadingIndicator {
                 cursor: initial;
                 flex-shrink: 0;
                 text-align: center;
-                width: calc(var(--spacing) + var(--icon-size));
+                width: calc(var(--aa-spacing) + var(--aa-icon-size));
                 button {
                     appearance: none;
                     background: none;
                     border: none;
                 }
                 svg {
-                    color: var(--primary-color);
-                    stroke-width: var(--icon-stroke-width);
+                    color: var(--aa-primary-color);
+                    stroke-width: var(--aa-icon-stroke-width);
                     width: 20px;
                     position: relative;
                     left: 2px;
@@ -100,12 +110,12 @@ body {
             // input of the searchbox, where the placeholder and query appear
             input.aa-Input {
                 width: 100%;
-                height: calc(var(--spacing) * 2.5);
+                height: calc(var(--aa-spacing) * 2.5);
                 appearance: none;
                 background: none;
                 border: none;
                 font: inherit;
-                color: var(--text-color);
+                color: var(--aa-text-color);
                 // remove native appearence
                 &::-webkit-search-decoration,
                 &::-webkit-search-cancel-button,
@@ -115,7 +125,7 @@ body {
                 }
                 &::placeholder {
                     opacity: 1;
-                    color: var(--muted-color);
+                    color: var(--aa-muted-color);
                 }
                 // remove focus effect as we moved it to parent wrapper
                 &:focus {
@@ -136,16 +146,16 @@ body {
                 border: 0;
                 cursor: pointer;
                 background: none;
-                color: var(--muted-color);
+                color: var(--aa-muted-color);
                 &[hidden] {
                     display: none;
                 }
                 &:hover {
-                    color: var(--text-color);
+                    color: var(--aa-text-color);
                 }
                 svg {
-                    width: var(--icon-size);
-                    stroke-width: var(--icon-stroke-width);
+                    width: var(--aa-icon-size);
+                    stroke-width: var(--aa-icon-stroke-width);
                 }
             }
         }
@@ -171,13 +181,13 @@ body {
     &.aa-Panel--desktop {
         .aa-PanelLayout {
             //display: flex;
-            margin-top: var(--spacing-half);
-            padding-top: var(--spacing-half);
+            margin-top: var(--aa-spacing-half);
+            padding-top: var(--aa-spacing-half);
             border-radius: 3px;
-            background-color: var(--background-color);
-            box-shadow: var(--panel-shadow);
+            background-color: var(--aa-background-color);
+            box-shadow: var(--aa-panel-shadow);
             text-align: left;
-            padding-bottom: var(--spacing-half);
+            padding-bottom: var(--aa-spacing-half);
             overflow: hidden;
             .col-results {
                 // max-height: 400px;
@@ -191,7 +201,7 @@ body {
                 flex-shrink: 1;
                 max-width: 50%;
                 overflow: hidden;
-                border-left: solid 1px var(--selected-color);
+                border-left: solid 1px var(--aa-selected-color);
                 &:empty {
                     //display:none;
                 }
@@ -199,14 +209,14 @@ body {
         }
     }
     &.aa-Panel--touch {
-        right: var(--spacing-half);
-        left: var(--spacing-half);
-        padding-top: var(--spacing-half);
+        right: var(--aa-spacing-half);
+        left: var(--aa-spacing-half);
+        padding-top: var(--aa-spacing-half);
         .aa-Item {
             padding: 0;
         }
         .aa-SourceHeader {
-            margin: var(--spacing-half) 0 var(--spacing-half) 2px;
+            margin: var(--aa-spacing-half) 0 var(--aa-spacing-half) 2px;
         }
     }
     // when a query isn't resolved yet
@@ -227,31 +237,31 @@ section.aa-Source {
     // source title
     .aa-SourceHeader {
         position: relative;
-        line-height: var(--spacing);
-        margin: var(--spacing-half) var(--spacing);
+        line-height: var(--aa-spacing);
+        margin: var(--aa-spacing-half) var(--aa-spacing);
         // title typography
         span {
-            color: var(--primary-color);
+            color: var(--aa-primary-color);
             display: inline-block;
             position: relative;
             z-index: 2;
-            padding-right: var(--spacing-half);
+            padding-right: var(--aa-spacing-half);
             font-size: 0.8em;
             font-weight: 600;
             text-transform: capitalize;
-            background: var(--background-color);
+            background: var(--aa-background-color);
         }
         // Line separator
         .aa-SourceHeaderLine {
             z-index: 1;
             position: absolute;
             display: block;
-            top: var(--spacing-half);
+            top: var(--aa-spacing-half);
             left: 0;
             right: 0;
             height: 2px;
             opacity: 0.3;
-            border-bottom: solid 1px var(--primary-color);
+            border-bottom: solid 1px var(--aa-primary-color);
         }
         // hide empty header
         &:empty {
@@ -275,15 +285,15 @@ section.aa-Source {
 // ----------------
 li.aa-Item {
     display: flex;
-    padding: 0 var(--spacing-half);
+    padding: 0 var(--aa-spacing-half);
     line-height: 1.1em;
     align-items: center;
-    color: var(--text-color);
+    color: var(--aa-text-color);
     height: 100%;
     cursor: pointer;
     // when the result is active
     &[aria-selected='true'] {
-        background-color: var(--selected-color);
+        background-color: var(--aa-selected-color);
         .aa-ItemActionButton {
             visibility: visible;
         }
@@ -298,37 +308,33 @@ li.aa-Item {
     }
     // the result type icon inlined svg or img
     .aa-ItemSourceIcon {
-        box-shadow: inset 0 0 0 1px var(--selected-color);
+        box-shadow: inset 0 0 0 1px var(--aa-selected-color);
         border-radius: 3px;
         margin: 2px 0 2px 2px;
         flex-shrink: 0;
-        font-size: var(--icon-size);
-        width: calc(var(--icon-size) + var(--spacing));
-        height: calc(var(--icon-size) + var(--spacing));
-        stroke-width: var(--icon-stroke-width);
-        color: var(--icon-color);
-        margin-right: var(--spacing-half);
+        font-size: var(--aa-icon-size);
+        width: calc(var(--aa-icon-size) + var(--aa-spacing));
+        height: calc(var(--aa-icon-size) + var(--aa-spacing));
+        stroke-width: var(--aa-icon-stroke-width);
+        color: var(--aa-icon-color);
+        margin-right: var(--aa-spacing-half);
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
-        i {
-            text-rendering: auto;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        img {
-            width: var(--icon-size);
-            height: var(--icon-size);
+        img,
+        svg {
+            width: var(--aa-icon-size);
+            height: var(--aa-icon-size);
         }
     }
     .aa-ItemContent {
         flex-shrink: 1;
         overflow: hidden;
         width: 100%;
-        color: var(--text-color);
+        color: var(--aa-text-color);
         cursor: pointer;
-        padding: calc(var(--spacing) / 4) 0;
+        padding: calc(var(--aa-spacing) / 4) 0;
         .aa-ItemContentTitle {
             display: inline-block;
             max-width: 100%;
@@ -336,7 +342,7 @@ li.aa-Item {
             text-overflow: ellipsis;
             overflow-x: hidden;
             mark {
-                color: var(--text-color);
+                color: var(--aa-text-color);
                 background: none;
                 font-style: normal;
                 font-weight: bold;
@@ -346,7 +352,7 @@ li.aa-Item {
             display: inline-block;
             max-width: 100%;
             white-space: nowrap;
-            color: var(--muted-color);
+            color: var(--aa-muted-color);
             font-size: 0.75em;
             text-overflow: ellipsis;
             overflow-x: hidden;
@@ -362,13 +368,13 @@ li.aa-Item {
             .aa-ItemContentDash {
                 display: none;
                 opacity: 0.4;
-                color: var(--muted-color);
+                color: var(--aa-muted-color);
             }
             .aa-ItemContentTag {
                 padding: 0.08em 0.3em;
                 margin-right: 0.4em;
                 border-radius: 3px;
-                background-color: var(--selected-color);
+                background-color: var(--aa-selected-color);
             }
         }
         &.aa-ItemContent--dual {
@@ -383,7 +389,7 @@ li.aa-Item {
         }
         .aa-ItemContentDescription {
             padding: 0.3em 0;
-            color: var(--text-color);
+            color: var(--aa-text-color);
             opacity: 0.7;
             font-size: 0.85em;
             text-overflow: ellipsis;
@@ -408,17 +414,17 @@ li.aa-Item {
         background: none;
         cursor: pointer;
         align-items: center;
-        color: var(--muted-color);
+        color: var(--aa-muted-color);
         &:hover svg {
-            color: var(--text-color);
+            color: var(--aa-text-color);
         }
         svg {
-            width: var(--icon-size);
-            stroke-width: var(--icon-stroke-width);
-            color: var(--muted-color);
-            margin: 0 var(--spacing-half);
+            width: var(--aa-icon-size);
+            stroke-width: var(--aa-icon-stroke-width);
+            color: var(--aa-muted-color);
+            margin: 0 var(--aa-spacing-half);
             &:hover {
-                color: var(--text-color);
+                color: var(--aa-text-color);
             }
         }
     }
@@ -429,33 +435,33 @@ li.aa-Item {
 //----------------
 .aa-TouchSearchButton {
     align-items: center;
-    height: calc(var(--spacing) * 2.5);
-    background-color: var(--background-color);
+    height: calc(var(--aa-spacing) * 2.5);
+    background-color: var(--aa-background-color);
     display: flex;
     position: relative;
-    border: 1px solid var(--muted-color);
+    border: 1px solid var(--aa-muted-color);
     border-radius: 3px;
     font: inherit;
     cursor: pointer;
-    padding: 0 var(--spacing-half);
+    padding: 0 var(--aa-spacing-half);
     text-align: left;
-    color: var(--muted-color);
+    color: var(--aa-muted-color);
     .aa-TouchSearchButtonIcon {
         align-items: center;
-        color: var(--icon-color);
+        color: var(--aa-icon-color);
         cursor: initial;
         display: flex;
         height: 100%;
-        margin-right: var(--spacing-third);
+        margin-right: var(--aa-spacing-third);
     }
 }
 
 .aa-TouchOverlay {
     backdrop-filter: blur(16px);
-    background: var(--background-color);
+    background: var(--aa-background-color);
     bottom: 0;
     left: 0;
-    padding: var(--spacing-half);
+    padding: var(--aa-spacing-half);
     position: fixed;
     right: 0;
     top: 0;
