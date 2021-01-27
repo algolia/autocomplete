@@ -265,7 +265,7 @@ The function called when the Autocomplete form is reset.
 
 The sources to get the suggestions from.
 
-When defined, they're merged with the sources on your Autocomplete instance.
+When defined, they're merged with the sources of your Autocomplete instance.
 
 ### `data`
 
