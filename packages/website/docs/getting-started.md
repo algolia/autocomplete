@@ -9,13 +9,13 @@ This documentation offers a few ways to learn about the Autocomplete library:
   - Read the [**Core Concepts**](/docs/basic-options) to learn more about underlying principles, like [**Sources**](/docs/sources) and [**State**](/docs/state).
   - Follow the [**Guides**](/docs/using-query-suggestions-plugin) to understand how to build common UX patterns.
   - Refer to [**API reference**](/docs/api) for a comprehensive list of parameters and options.
-  - Try out [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.ts) where you can fork a basic implemention and play around.
+  - Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.ts) where you can fork a basic implementation and play around.
 
 Keep reading to see how to install and start a basic implementation.
 
 ## Installation
 
-You can choose to [install the `autocomplete-js` package](#javascript) which includes everything you need to render a vanilla JS autocomplete experience, or [install the `autocomplete-core` package](#headless) if you want to [build a renderer](creating-a-renderer) from scratch.
+You can choose to [install the `autocomplete-js` package](#javascript) which includes everything you need to render a JavaScript autocomplete experience, or [install the `autocomplete-core` package](#headless) if you want to [build a renderer](creating-a-renderer) from scratch.
 
 Unless you've found that [`autocomplete-js`](/autocomplete-js) doesn't suit your needs, it's best to get started with that.
 
@@ -73,7 +73,7 @@ import { autocomplete } from '@algolia/autocomplete-js';
 autocomplete({
   container: '#autocomplete',
   getSources() {
-    ...
+    return [/* ... */];
   },
 });
 ```
@@ -172,7 +172,7 @@ autocomplete({
           }
         },
         getItemUrl({ item }) {
-            eturn item.url;
+            return item.url;
         }
       }
     ];
@@ -182,4 +182,4 @@ autocomplete({
 
 ## Going further
 
-This outlines a very simple autocomplete implementation. There's a lot more you can do, like and [adding multiple sources](/docs/creating-multi-source-autocompletes), using [templates for headers, footers](/docs/templates#rendering-a-header-and-footer), or when there's [no results](/docs/templates#rendering-an-empty-state). To learn about customization options, read more about the [**Core Concepts**](/docs/basic-options) or follow one of the [**Guides**](/docs/using-query-suggestions-plugin).
+This outlines a very simple autocomplete implementation. There's a lot more you can do, like [adding multiple sources](/docs/creating-multi-source-autocompletes), using [templates for headers, footers](/docs/templates#rendering-a-header-and-footer), or when there's [no results](/docs/templates#rendering-an-empty-state). To learn about customization options, read more about the [**Core Concepts**](/docs/basic-options) or follow one of the [**Guides**](/docs/using-query-suggestions-plugin).
