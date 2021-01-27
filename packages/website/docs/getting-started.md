@@ -57,7 +57,7 @@ If you don't want to use a package manager, you can use standalone endpoints:
 <script src="https://unpkg.com/@algolia/autocomplete-core@alpha"></script>
 ```
 
-## Choosing a container
+## Selecting a container
 
 To get started, you need to select a container you want your autocomplete to go in. If you don't have one already, you can insert one into your markup:
 
@@ -65,7 +65,7 @@ To get started, you need to select a container you want your autocomplete to go 
 <div id="autocomplete"></div>
 ```
 
-Then, insert your autocomplete into it by calling the `autocomplete` function and providing the `container`:
+Then, insert your autocomplete into it by calling the `autocomplete` function and providing the `container`. It can be a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). Make sure to provide a container (e.g., a `div`), not an `input`. Autocomplete generates a fully accessible search box for you.
 
 ```js title="JavaScript"
 import { autocomplete } from '@algolia/autocomplete-js';
@@ -85,11 +85,11 @@ Autocomplete is now plugged in. But you won't see anything appear until you defi
 
 ## Defining your sources
 
-[Sources](/docs/sources) define where to retrieve the items to display in your autocomplete dropdown. Sources can be a static array or be dynamic.
+[Sources](/docs/sources) define where to retrieve the items to display in your autocomplete dropdown. You define your sources in the [`getSources`](/docs/sources#getsources) function by returning an array of [source objects](/sources#source). Each source object needs to include a [`getItems`](docs/sources#getitems) property that returns the items to display. Sources can be a static array or be dynamic.
 
-This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) that's [powering the documentation search](https://docsearch.algolia.com/) on this site as a source. The `autocomplete-js` library provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
+This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) that's [powering the documentation search](https://docsearch.algolia.com/) on this site as a source. The [`autocomplete-js`](/docs/autocomplete-js) library provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
 
-```js
+```js title="JavaScript"
 import algoliasearch from 'algoliasearch/lite';
 import { autocomplete, getAlgoliaHits } from "@algolia/autocomplete-js";
 
@@ -127,13 +127,13 @@ autocomplete({
 
 The `searchClient` requires an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id). It lets you search into your Algolia index using an array of `queries`, which defines the queries you want to make to the index.
 
-This example makes just one query to the "autocomplete" index with the `query` prop from [`getSources`](/docs/partials/createautocomplete-props/#getsources). It passes one additional parameter, [`hitsPerPage`](https://www.algolia.com/doc/api-reference/api-parameters/hitsPerPage/) to define how many items to display, but you could pass any other [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/).
+This example makes just one query to the "autocomplete" index with the using the `query` from [`getSources`](/docs/partials/createautocomplete-props/#getsources). It passes one additional parameter, [`hitsPerPage`](https://www.algolia.com/doc/api-reference/api-parameters/hitsPerPage/) to define how many items to display, but you could pass any other [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/).
 
 ### Using templates
 
 [Sources](/docs/sources) also define *how* to display items in your Autocomplete using [`templates`](/docs/templates).  Templates can return a string or anything that's a valid Virtual DOM element. The example uses [Preact](https://preactjs.com/) component called `AutocompleteItem` as the template for each item to display.
 
-```js
+```js title="JavaScript"
 /** @jsx h */
 import { autocomplete, getAlgoliaHits } from "@algolia/autocomplete-js";
 import algoliasearch from "algoliasearch";
@@ -192,11 +192,11 @@ autocomplete({
 });
 ```
 
-The template displays the section name, found in the `item.hierachy` and a breadcrumb composed of the levels in `item.hierarchy`, except for the final level, which is the section name.
+The template displays the section name, found in the `item.hierachy` and a breadcrumb composed of the levels in `item.hierarchy`, except for the final level, which is the section name. The final level where the section name is found is given in `item.type`.
 
 That creates a basic implementation. To make it more useful, you can use the [`getItemUrl`](/docs/sources#getitemurl) to add [keyboard accessibility](keyboard-navigation) features. It lets users open items directly from the autocomplete.
 
-```js
+```js title="JavaScript"
 /** @jsx h */
 import { autocomplete, getAlgoliaHits } from "@algolia/autocomplete-js";
 import algoliasearch from "algoliasearch";
