@@ -52,6 +52,11 @@ export function autocomplete<TItem extends BaseItem>(
         optionsRef.current.shouldPanelShow ||
         (({ state }) => {
           const hasItems = getItemsCount(state) > 0;
+
+          if (!props.value.core.openOnFocus && !state.query) {
+            return hasItems;
+          }
+
           const hasEmptyTemplate = Boolean(
             hasEmptySourceTemplateRef.current ||
               props.value.renderer.renderEmpty

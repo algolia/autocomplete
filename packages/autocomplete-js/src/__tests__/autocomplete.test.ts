@@ -166,6 +166,7 @@ describe('autocomplete-js', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
+      openOnFocus: true,
       getSources() {
         return [
           {
@@ -192,12 +193,86 @@ describe('autocomplete-js', () => {
     await waitFor(() => {
       expect(
         panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
+      ).toHaveTextContent('No results template');
+    });
+  });
+
+  test("doesn't render empty template on no query when openOnFocus is false", async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      openOnFocus: false,
+      getSources() {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+              empty() {
+                return 'No results template';
+              },
+            },
+          },
+        ];
+      },
     });
 
-    expect(
-      panelContainer.querySelector<HTMLElement>('.aa-Panel')
-    ).toHaveTextContent('No results template');
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: '' } });
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  test('render empty template on query when openOnFocus is false', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      openOnFocus: true,
+      getSources() {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+              empty() {
+                return 'No results template';
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'Query' } });
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toHaveTextContent('No results template');
+    });
   });
 
   test('calls renderEmpty without empty template on no results', async () => {
@@ -214,6 +289,7 @@ describe('autocomplete-js', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
+      openOnFocus: true,
       getSources() {
         return [
           {
@@ -238,7 +314,7 @@ describe('autocomplete-js', () => {
     await waitFor(() => {
       expect(
         panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
+      ).toHaveTextContent('No results render');
     });
 
     expect(renderEmpty).toHaveBeenCalledWith(
@@ -251,10 +327,6 @@ describe('autocomplete-js', () => {
       },
       expect.any(HTMLElement)
     );
-
-    expect(
-      panelContainer.querySelector<HTMLElement>('.aa-Panel')
-    ).toHaveTextContent('No results render');
   });
 
   test('renders empty template over renderEmpty method on no results', async () => {
@@ -265,6 +337,7 @@ describe('autocomplete-js', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
+      openOnFocus: true,
       getSources() {
         return [
           {
@@ -297,12 +370,8 @@ describe('autocomplete-js', () => {
     await waitFor(() => {
       expect(
         panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
+      ).toHaveTextContent('No results template');
     });
-
-    expect(
-      panelContainer.querySelector<HTMLElement>('.aa-Panel')
-    ).toHaveTextContent('No results template');
   });
 
   test('allows user-provided shouldPanelShow', () => {
