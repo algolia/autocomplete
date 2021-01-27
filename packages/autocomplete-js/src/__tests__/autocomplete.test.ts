@@ -193,12 +193,8 @@ describe('autocomplete-js', () => {
     await waitFor(() => {
       expect(
         panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
+      ).toHaveTextContent('No results template');
     });
-
-    expect(
-      panelContainer.querySelector<HTMLElement>('.aa-Panel')
-    ).toHaveTextContent('No results template');
   });
 
   test("doesn't render empty template on no query when openOnFocus is false", async () => {
@@ -275,12 +271,8 @@ describe('autocomplete-js', () => {
     await waitFor(() => {
       expect(
         panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
+      ).toHaveTextContent('No results template');
     });
-
-    expect(
-      panelContainer.querySelector<HTMLElement>('.aa-Panel')
-    ).toHaveTextContent('No results template');
   });
 
   test('calls renderEmpty without empty template on no results', async () => {
@@ -322,7 +314,7 @@ describe('autocomplete-js', () => {
     await waitFor(() => {
       expect(
         panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
+      ).toHaveTextContent('No results render');
     });
 
     expect(renderEmpty).toHaveBeenCalledWith(
@@ -335,10 +327,6 @@ describe('autocomplete-js', () => {
       },
       expect.any(HTMLElement)
     );
-
-    expect(
-      panelContainer.querySelector<HTMLElement>('.aa-Panel')
-    ).toHaveTextContent('No results render');
   });
 
   test('renders empty template over renderEmpty method on no results', async () => {
@@ -382,12 +370,8 @@ describe('autocomplete-js', () => {
     await waitFor(() => {
       expect(
         panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
+      ).toHaveTextContent('No results template');
     });
-
-    expect(
-      panelContainer.querySelector<HTMLElement>('.aa-Panel')
-    ).toHaveTextContent('No results template');
   });
 
   test('allows user-provided shouldPanelShow', () => {
