@@ -1447,6 +1447,7 @@ describe('getInputProps', () => {
           });
         });
       });
+
       describe('sets isOpen', () => {
         test('to false when openOnFocus is false and the query empty', () => {
           const onStateChange = jest.fn();
