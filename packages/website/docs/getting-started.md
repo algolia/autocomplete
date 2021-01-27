@@ -3,42 +3,23 @@ id: getting-started
 title: Getting Started
 ---
 
-:::note Draft
+Check out the different ways to learn how to use Autocomplete, including following a basic implementation.
 
-This page needs to cover:
+This documentation offers a few ways to learn about the Autocomplete library:
+  - Read the [**Core Concepts**](/docs/basic-options) to learn more about underlying principles, like [**Sources**](/docs/sources) and [**State**](/docs/state).
+  - Follow the [**Guides**](/docs/using-query-suggestions-plugin) to understand how to build common UX patterns.
+  - Refer to [**API reference**](/docs/api) for a comprehensive list of parameters and options.
+  - Try out [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.ts) where you can fork a basic implemention and play around.
 
-- These docs provide a few ways to learn how to use Autocomplete:
-  - Read about **Core Concepts**—here you can learn more about underlying principles, like **Sources** and **State**.
-  - Follow our **Guides** to understand how to build common UX patterns.
-  - Refer to **API reference**.
-  - [Maybe v2] Play in the **Playground** where you can select components of your autocomplete and we provide you with the code.
-- Keep reading for a simple sample implementation
-- Installation
-  - JS
-  - Core
-- A basic example
-  - Commented code snippet on a basic example (only using query-suggestions plug-in) with resulting UI and links to various **Core Concepts.**
-
-:::
-
-This page is an overview of the Autocomplete documentation and related resources.
-
-Autocomplete is a JavaScript library for **building autocomplete search experiences**.
-
-## Features
-
-- Displays suggestions as you type
-- Provides autocompletion
-- Supports custom templates for UI flexibility
-- Works well with RTL languages
-- Triggers custom hooks to plug your logic
-- Plugs easily to Algolia's realtime search engine
-
-## What is Autocomplete
+Keep reading to see how to install and start a basic implementation.
 
 ## Installation
 
-Autocomplete is available on the [npm](https://www.npmjs.com/) registry.
+You can choose to [install the `autocomplete-js` package](#javascript) which includes everything you need to render a vanilla JS autocomplete experience, or [install the `autocomplete-core` package](#headless) if you want to [build a renderer](creating-a-renderer) from scratch.
+
+Unless you've found that [`autocomplete-js`](/autocomplete-js) doesn't suit your needs, it's best to get started with that.
+
+The Autocomplete library is available on the [npm](https://www.npmjs.com/) registry.
 
 ### JavaScript
 
@@ -48,7 +29,7 @@ yarn add @algolia/autocomplete-js@alpha
 npm install @algolia/autocomplete-js@alpha
 ```
 
-If you do not wish to use a package manager, you can use standalone endpoints:
+If you don't want to use a package manager, you can use standalone endpoints:
 
 ```html
 <!-- jsDelivr -->
@@ -66,7 +47,7 @@ yarn add @algolia/autocomplete-core@alpha
 npm install @algolia/autocomplete-core@alpha
 ```
 
-If you do not wish to use a package manager, you can use standalone endpoints:
+If you don't want to use a package manager, you can use standalone endpoints:
 
 ```html
 <!-- jsDelivr -->
@@ -75,3 +56,130 @@ If you do not wish to use a package manager, you can use standalone endpoints:
 <!-- unpkg -->
 <script src="https://unpkg.com/@algolia/autocomplete-core@alpha"></script>
 ```
+
+## Choosing a container
+
+To get started, you need to select a container you want your autocomplete to go in. If you don't have one already, you can insert one into your markup:
+
+```js title="HTML"
+<div id="autocomplete"></div>
+```
+
+Then, insert your autocomplete into it by calling the `autocomplete` function and providing the `container`:
+
+```js title="JavaScript"
+import { autocomplete } from '@algolia/autocomplete-js';
+
+autocomplete({
+  container: '#autocomplete',
+  getSources() {
+    ...
+  },
+});
+```
+
+Autocomplete is now plugged in. But you won't see anything appear until you define your [sources](/docs/sources).
+
+## Defining your sources
+
+[Sources](/docs/sources) define where to retrieve the items to display in your autocomplete dropdown. Sources can be a static array or be dynamic.
+
+This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) that's [powering the documentation search](https://docsearch.algolia.com/) on this site as a source. The `autocomplete-js` library provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
+
+```js
+import algoliasearch from 'algoliasearch/lite';
+import { autocomplete, getAlgoliaHits } from "@algolia/autocomplete-js";
+
+const searchClient = algoliasearch(
+  'BH4D9OD16A',
+  'a5c3ccfd361b8bcb9708e679c43ae0e5'
+);
+
+autocomplete({
+  container: '#autocomplete',
+  getSources({ query }) {
+    return [
+      {
+        getItems({ query }) {
+          return getAlgoliaHits({
+            searchClient,
+            queries: [{ indexName: "autocomplete", query }]
+          });
+        },
+      },
+    ];
+  },
+});
+```
+[Sources](/docs/sources) also define *how* to display items in your Autocomplete using [`templates`](/docs/templates):
+
+```js
+import algoliasearch from 'algoliasearch/lite';
+import { autocomplete, getAlgoliaHits } from "@algolia/autocomplete-js";
+
+const searchClient = algoliasearch(
+  'BH4D9OD16A',
+  'a5c3ccfd361b8bcb9708e679c43ae0e5'
+);
+
+autocomplete({
+  container: "#autocomplete",
+  getSources({ query }) {
+    return [
+      {
+        getItems({ query }) {
+          return getAlgoliaHits({
+            searchClient,
+            queries: [{ indexName: "autocomplete", query }]
+          });
+        },
+        templates: {
+          item({ item }) {
+            return item.content;
+          }
+        }
+      }
+    ];
+  }
+});
+```
+
+That creates a basic implementation. To make it more useful, you can use the [`getItemUrl`](/docs/sources#getitemurl) to add [keyboard accessibility](keyboard-navigation) features. It lets users open items directly from the autocomplete.
+
+```js
+import algoliasearch from 'algoliasearch/lite';
+import { autocomplete, getAlgoliaHits } from "@algolia/autocomplete-js";
+
+const searchClient = algoliasearch(
+  'BH4D9OD16A',
+  'a5c3ccfd361b8bcb9708e679c43ae0e5'
+);
+
+autocomplete({
+  container: "#autocomplete",
+  getSources({ query }) {
+    return [
+      {
+        getItems({ query }) {
+          return getAlgoliaHits({
+            searchClient,
+            queries: [{ indexName: "autocomplete", query }]
+          })
+        },
+        templates: {
+          item({ item }) {
+            return item.content;
+          }
+        },
+        getItemUrl({ item }) {
+            eturn item.url;
+        }
+      }
+    ];
+  }
+});
+```
+
+## Going further
+
+This outlines a very simple autocomplete implementation. There's a lot more you can do, like and [adding multiple sources](/docs/creating-multi-source-autocompletes), using [templates for headers, footers](/docs/templates#rendering-a-header-and-footer), or when there's [no results](/docs/templates#rendering-an-empty-state). To learn about customization options, read more about the [**Core Concepts**](/docs/basic-options) or follow one of the [**Guides**](/docs/using-query-suggestions-plugin).
