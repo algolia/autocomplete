@@ -1412,9 +1412,379 @@ describe('getInputProps', () => {
     });
   });
 
-  describe('onFocus', () => {});
+  describe('onFocus', () => {
+    test('triggers a query if `openOnFocus` is true', () => {
+      const getSources = jest.fn(() => [createSource()]);
+      const { inputElement } = createPlayground(createAutocomplete, {
+        openOnFocus: true,
+        getSources,
+      });
 
-  describe('onBlur', () => {});
+      inputElement.focus();
 
-  describe('onClick', () => {});
+      expect(getSources).toHaveBeenCalledTimes(1);
+    });
+
+    test('triggers a query if the current query is not empty', () => {
+      const getSources = jest.fn(() => [createSource()]);
+      const { inputElement } = createPlayground(createAutocomplete, {
+        getSources,
+        initialState: {
+          query: 'i',
+        },
+      });
+
+      inputElement.focus();
+
+      expect(getSources).toHaveBeenCalledTimes(1);
+    });
+
+    describe('set activeItemId', () => {
+      test('to null when there is no defaultActiveItemId', () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+        });
+
+        inputElement.focus();
+
+        expect(onStateChange).toHaveBeenLastCalledWith({
+          prevState: expect.anything(),
+          state: expect.objectContaining({
+            activeItemId: null,
+          }),
+        });
+      });
+
+      test('to defaultActiveItemId value when set', () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          defaultActiveItemId: 0,
+        });
+
+        inputElement.focus();
+
+        expect(onStateChange).toHaveBeenLastCalledWith({
+          prevState: expect.anything(),
+          state: expect.objectContaining({
+            activeItemId: 0,
+          }),
+        });
+      });
+    });
+
+    describe('set isOpen', () => {
+      test('to false when openOnFocus is false and the query empty', () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+        });
+
+        inputElement.focus();
+
+        expect(onStateChange).toHaveBeenLastCalledWith({
+          prevState: expect.anything(),
+          state: expect.objectContaining({
+            isOpen: false,
+          }),
+        });
+      });
+
+      test('to true when the query is set', () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          initialState: {
+            query: 'i',
+          },
+        });
+
+        inputElement.focus();
+
+        expect(onStateChange).toHaveBeenLastCalledWith({
+          prevState: expect.anything(),
+          state: expect.objectContaining({
+            isOpen: true,
+          }),
+        });
+      });
+
+      test('to true when openOnFocus is true', () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+        });
+
+        inputElement.focus();
+
+        expect(onStateChange).toHaveBeenLastCalledWith({
+          prevState: expect.anything(),
+          state: expect.objectContaining({
+            isOpen: true,
+          }),
+        });
+      });
+
+      test('to true when openOnFocus is true and the query is set', () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+          initialState: {
+            query: 'i',
+          },
+        });
+
+        inputElement.focus();
+
+        expect(onStateChange).toHaveBeenLastCalledWith({
+          prevState: expect.anything(),
+          state: expect.objectContaining({
+            isOpen: true,
+          }),
+        });
+      });
+    });
+  });
+
+  describe('onBlur', () => {
+    test('resets activeItemId and isOpen', () => {
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+        defaultActiveItemId: 1,
+        openOnFocus: true,
+      });
+
+      inputElement.focus();
+      inputElement.blur();
+
+      expect(onStateChange).toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          activeItemId: null,
+          isOpen: false,
+        }),
+      });
+    });
+
+    test('does not reset activeItemId and isOpen when debug is true', () => {
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+        debug: true,
+        defaultActiveItemId: 1,
+        openOnFocus: true,
+      });
+
+      inputElement.focus();
+      inputElement.blur();
+
+      expect(onStateChange).toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          activeItemId: 1,
+          isOpen: true,
+        }),
+      });
+    });
+
+    test('does not reset activeItemId and isOpen on touch devices', () => {
+      const environment = {
+        ...global,
+        ontouchstart: () => {},
+      };
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        environment,
+        onStateChange,
+        defaultActiveItemId: 1,
+        openOnFocus: true,
+      });
+
+      inputElement.focus();
+      inputElement.blur();
+
+      expect(onStateChange).toHaveBeenLastCalledWith({
+        prevState: expect.anything(),
+        state: expect.objectContaining({
+          activeItemId: 1,
+          isOpen: true,
+        }),
+      });
+    });
+  });
+
+  describe('onClick', () => {
+    test('is a noop when the input is not focused', () => {
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+      });
+
+      inputElement.click();
+
+      expect(onStateChange).toHaveBeenCalledTimes(0);
+    });
+
+    test('is a noop when panel is already open', () => {
+      const onStateChange = jest.fn();
+      const { inputElement } = createPlayground(createAutocomplete, {
+        onStateChange,
+        openOnFocus: true,
+        initialState: {
+          isOpen: true,
+        },
+      });
+
+      inputElement.focus();
+
+      // Clear mock information set by the `focus` event
+      onStateChange.mockClear();
+
+      inputElement.click();
+
+      expect(onStateChange).toHaveBeenCalledTimes(0);
+    });
+
+    describe('when the input is focused and the panel closed', () => {
+      describe('sets activeItemId', () => {
+        test('to null when there is no defaultActiveItemId', () => {
+          const onStateChange = jest.fn();
+          const { inputElement } = createPlayground(createAutocomplete, {
+            onStateChange,
+          });
+
+          inputElement.focus();
+
+          // Closes the panel while keeping the input focused
+          userEvent.type(inputElement, '{esc}');
+
+          inputElement.click();
+
+          expect(onStateChange).toHaveBeenLastCalledWith({
+            prevState: expect.anything(),
+            state: expect.objectContaining({
+              activeItemId: null,
+            }),
+          });
+        });
+
+        test('to defaultActiveItemId value when set', () => {
+          const onStateChange = jest.fn();
+          const { inputElement } = createPlayground(createAutocomplete, {
+            onStateChange,
+            defaultActiveItemId: 1,
+          });
+
+          inputElement.focus();
+
+          // Closes the panel while keeping the input focused
+          userEvent.type(inputElement, '{esc}');
+
+          inputElement.click();
+
+          expect(onStateChange).toHaveBeenLastCalledWith({
+            prevState: expect.anything(),
+            state: expect.objectContaining({
+              activeItemId: 1,
+            }),
+          });
+        });
+      });
+
+      describe('sets isOpen', () => {
+        test('to false when openOnFocus is false and the query empty', () => {
+          const onStateChange = jest.fn();
+          const { inputElement } = createPlayground(createAutocomplete, {
+            onStateChange,
+          });
+
+          inputElement.focus();
+
+          // Closes the panel while keeping the input focused
+          userEvent.type(inputElement, '{esc}');
+
+          inputElement.click();
+
+          expect(onStateChange).toHaveBeenLastCalledWith({
+            prevState: expect.anything(),
+            state: expect.objectContaining({
+              isOpen: false,
+            }),
+          });
+        });
+
+        test('to true when the query is set', () => {
+          const onStateChange = jest.fn();
+          const { inputElement } = createPlayground(createAutocomplete, {
+            onStateChange,
+            initialState: {
+              query: 'i',
+            },
+          });
+
+          inputElement.focus();
+
+          // Closes the panel while keeping the input focused
+          userEvent.type(inputElement, '{esc}');
+
+          inputElement.click();
+
+          expect(onStateChange).toHaveBeenLastCalledWith({
+            prevState: expect.anything(),
+            state: expect.objectContaining({
+              isOpen: true,
+            }),
+          });
+        });
+
+        test('to true when openOnFocus is true', () => {
+          const onStateChange = jest.fn();
+          const { inputElement } = createPlayground(createAutocomplete, {
+            onStateChange,
+            openOnFocus: true,
+          });
+
+          inputElement.focus();
+
+          // Closes the panel while keeping the input focused
+          userEvent.type(inputElement, '{esc}');
+
+          inputElement.click();
+
+          expect(onStateChange).toHaveBeenLastCalledWith({
+            prevState: expect.anything(),
+            state: expect.objectContaining({
+              isOpen: true,
+            }),
+          });
+        });
+      });
+
+      test('to true when openOnFocus is true and the query is set', () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+        });
+
+        inputElement.focus();
+
+        // Closes the panel while keeping the input focused
+        userEvent.type(inputElement, '{esc}');
+
+        inputElement.click();
+
+        expect(onStateChange).toHaveBeenLastCalledWith({
+          prevState: expect.anything(),
+          state: expect.objectContaining({
+            isOpen: true,
+          }),
+        });
+      });
+    });
+  });
 });
