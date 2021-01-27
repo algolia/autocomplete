@@ -238,10 +238,6 @@ describe('autocomplete-js', () => {
         panelContainer.querySelector<HTMLElement>('.aa-Panel')
       ).not.toBeInTheDocument();
     });
-
-    expect(
-      panelContainer.querySelector<HTMLElement>('.aa-Panel')
-    ).not.toBeInTheDocument();
   });
 
   test('render empty template on query when openOnFocus is false', async () => {
