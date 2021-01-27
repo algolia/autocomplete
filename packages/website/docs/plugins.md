@@ -5,9 +5,9 @@ title: Plugins
 
 Plugins encapsulate and distribute custom Autocomplete behaviors.
 
-**Great autocomplete experiences are more than just functional autocomplete mechanisms.** They unleash their full power when augmented with custom functionalities that bring value to your end-users and help you reach your goals.
+An autocomplete can be much more than a functional combo box. **Autocomplete lets you extend and encapsulate custom behavior with its Plugin API.**
 
-**Autocomplete lets you extend and encapsulate custom behavior with its Plugin API.** For example, the [official Algolia Insights plugin](createAlgoliaInsightsPlugin) automatically sends click and conversion events to the [Algolia Insights API](https://www.algolia.com/doc/rest-api/insights/) whenever a user interacts with the autocomplete.
+For example, the [official Algolia Insights plugin](createAlgoliaInsightsPlugin) automatically sends click and conversion events to the [Algolia Insights API](https://www.algolia.com/doc/rest-api/insights/) whenever a user interacts with the autocomplete.
 
 You can use one of our existing official plugins or build your own.
 
