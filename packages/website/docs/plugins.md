@@ -95,18 +95,24 @@ function createTopGitHubRepositoriesPlugin({ repositories, username }) {
 
   return {
     getSources() {
-      return sortedRepositories;
-    },
-    getItemUrl({ item }) {
-      return `https://github.com/${username}/${item.name}`;
-    },
-    templates: {
-      header() {
-        return `Discover our top ${repositories.length} GitHub repositories`;
-      },
-      item({ item }) {
-        return item.name;
-      },
+      return [
+        {
+          getItems() {
+            return sortedRepositories;
+          },
+          getItemUrl({ item }) {
+            return `https://github.com/${username}/${item.name}`;
+          },
+          templates: {
+            header() {
+              return `Discover our top ${repositories.length} GitHub repositories`;
+            },
+            item({ item }) {
+              return item.name;
+            },
+          },
+        },
+      ];
     },
   };
 }
