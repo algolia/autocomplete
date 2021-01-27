@@ -72,11 +72,14 @@ import { autocomplete } from '@algolia/autocomplete-js';
 
 autocomplete({
   container: '#autocomplete',
+  placeholder: "Search the autocomplete documentation",
+  openOnFocus: true,
   getSources() {
     return [/* ... */];
   },
 });
 ```
+The [`placeholder`](/docs/autocomplete-js#placeholder) option defines the placeholder text used until the user starts typing in the input. The [`openOnFocus`](/docs/autocomplete-js#openonfocus) option defines whether to open the panel on [focus](https://developer.mozilla.org/en-US/docs/Web/API/Window/focus_event), when there's no query. It defaults to `false`, so you need to set it to `true` if you want the dropdown to appear as soon as a user clicks on it.
 
 Autocomplete is now plugged in. But you won't see anything appear until you define your [sources](/docs/sources).
 
@@ -96,46 +99,91 @@ const searchClient = algoliasearch(
 );
 
 autocomplete({
-  container: '#autocomplete',
+  container: "#autocomplete",
+  placeholder: "Search documentation",
+  openOnFocus: true,
   getSources({ query }) {
     return [
       {
-        getItems({ query }) {
+        getItems() {
           return getAlgoliaHits({
             searchClient,
-            queries: [{ indexName: "autocomplete", query }]
+            queries: [
+              {
+                indexName: "autocomplete",
+                query,
+                params: {
+                  hitsPerPage: 10
+                }
+              }
+            ]
           });
         },
-      },
+      }
     ];
-  },
+  }
 });
 ```
-[Sources](/docs/sources) also define *how* to display items in your Autocomplete using [`templates`](/docs/templates):
+
+The `searchClient` requires an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id). It lets you search into your Algolia index using an array of `queries`, which defines the queries you want to make to the index.
+
+This example makes just one query to the "autocomplete" index with the `query` prop from [`getSources`](/docs/partials/createautocomplete-props/#getsources). It passes one additional parameter, [`hitsPerPage`](https://www.algolia.com/doc/api-reference/api-parameters/hitsPerPage/) to define how many items to display, but you could pass any other [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/).
+
+### Using templates
+
+[Sources](/docs/sources) also define *how* to display items in your Autocomplete using [`templates`](/docs/templates).  Templates can return a string or anything that's a valid Virtual DOM element. The example uses [Preact](https://preactjs.com/) component called `AutocompleteItem` as the template for each item to display.
 
 ```js
-import algoliasearch from 'algoliasearch/lite';
+/** @jsx h */
 import { autocomplete, getAlgoliaHits } from "@algolia/autocomplete-js";
+import algoliasearch from "algoliasearch";
+import { h } from "preact";
 
 const searchClient = algoliasearch(
-  'BH4D9OD16A',
-  'a5c3ccfd361b8bcb9708e679c43ae0e5'
+  "BH4D9OD16A",
+  "a5c3ccfd361b8bcb9708e679c43ae0e5"
 );
+
+function AutocompleteItem({ hit, breadcrumb }) {
+  return (
+    <a href={hit.url} className="aa-ItemLink">
+      <div className="aa-ItemContent">
+        <div className="aa-ItemTitle">{hit.hierarchy[hit.type]}</div>
+        <div className="aa-ItemContentSubtitle">{breadcrumb.join(" • ")}</div>
+      </div>
+    </a>
+  );
+}
 
 autocomplete({
   container: "#autocomplete",
+  placeholder: "Search documentation",
+  openOnFocus: true,
   getSources({ query }) {
     return [
       {
-        getItems({ query }) {
+        getItems() {
           return getAlgoliaHits({
             searchClient,
-            queries: [{ indexName: "autocomplete", query }]
+            queries: [
+              {
+                indexName: "autocomplete",
+                query,
+                params: {
+                  hitsPerPage: 10
+                }
+              }
+            ]
           });
         },
         templates: {
           item({ item }) {
-            return item.content;
+            return AutocompleteItem({
+              hit: item,
+              breadcrumb: Object.values(item.hierarchy)
+                .filter(Boolean)
+                .slice(0, -1)
+            });
           }
         }
       }
@@ -143,36 +191,66 @@ autocomplete({
   }
 });
 ```
+
+The template displays the section name, found in the `item.hierachy` and a breadcrumb composed of the levels in `item.hierarchy`, except for the final level, which is the section name.
 
 That creates a basic implementation. To make it more useful, you can use the [`getItemUrl`](/docs/sources#getitemurl) to add [keyboard accessibility](keyboard-navigation) features. It lets users open items directly from the autocomplete.
 
 ```js
-import algoliasearch from 'algoliasearch/lite';
+/** @jsx h */
 import { autocomplete, getAlgoliaHits } from "@algolia/autocomplete-js";
+import algoliasearch from "algoliasearch";
+import { h } from "preact";
 
 const searchClient = algoliasearch(
-  'BH4D9OD16A',
-  'a5c3ccfd361b8bcb9708e679c43ae0e5'
+  "BH4D9OD16A",
+  "a5c3ccfd361b8bcb9708e679c43ae0e5"
 );
+
+function AutocompleteItem({ hit, breadcrumb }) {
+  return (
+    <a href={hit.url} className="aa-ItemLink">
+      <div className="aa-ItemContent">
+        <div className="aa-ItemTitle">{hit.hierarchy[hit.type]}</div>
+        <div className="aa-ItemContentSubtitle">{breadcrumb.join(" • ")}</div>
+      </div>
+    </a>
+  );
+}
 
 autocomplete({
   container: "#autocomplete",
+  placeholder: "Search documentation",
+  openOnFocus: true,
   getSources({ query }) {
     return [
       {
-        getItems({ query }) {
+        getItems() {
           return getAlgoliaHits({
             searchClient,
-            queries: [{ indexName: "autocomplete", query }]
-          })
+            queries: [
+              {
+                indexName: "autocomplete",
+                query,
+                params: {
+                  hitsPerPage: 10
+                }
+              }
+            ]
+          });
         },
         templates: {
           item({ item }) {
-            return item.content;
+            return AutocompleteItem({
+              hit: item,
+              breadcrumb: Object.values(item.hierarchy)
+                .filter(Boolean)
+                .slice(0, -1)
+            });
           }
         },
         getItemUrl({ item }) {
-            return item.url;
+          return item.url;
         }
       }
     ];
@@ -180,6 +258,8 @@ autocomplete({
 });
 ```
 
+You can see a live example of this in action in [this CodeSandbox](https://codesandbox.io/s/autocomplete-docsearch-results-6j3vl).
+
 ## Going further
 
-This outlines a very simple autocomplete implementation. There's a lot more you can do, like [adding multiple sources](/docs/creating-multi-source-autocompletes), using [templates for headers, footers](/docs/templates#rendering-a-header-and-footer), or when there's [no results](/docs/templates#rendering-an-empty-state). To learn about customization options, read more about the [**Core Concepts**](/docs/basic-options) or follow one of the [**Guides**](/docs/using-query-suggestions-plugin).
+This outlines a simple autocomplete implementation. There's a lot more you can do, like [adding multiple sources](/docs/creating-multi-source-autocompletes), using [templates for headers, footers](/docs/templates#rendering-a-header-and-footer), or when there's [no results](/docs/templates#rendering-an-empty-state). To learn about customization options, read about the [**Core Concepts**](/docs/basic-options) or follow one of the [**Guides**](/docs/using-query-suggestions-plugin).
