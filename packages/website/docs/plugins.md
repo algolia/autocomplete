@@ -49,29 +49,33 @@ An Autocomplete plugin is a simple object that implements the `AutocompletePlugi
 
 It can provide sources, react to state changes, and hook into various autocomplete lifecycle steps. It has access to setters, including the [Context API](context), allowing it to store and retrieve arbitrary data at any time.
 
-Let's create a plugin that adds a static list of GitHub repositories to the autocomplete results.
+Let's create a plugin that searches into a static list of GitHub repositories.
 
 ```js
-const topGitHubRepositoriesPlugin = {
+const gitHubReposPlugin = {
   getSources() {
     return [
       {
         getItems() {
           return [
-            { name: 'algoliasearch-client-javascript', stargazersCount: 884 },
-            { name: 'algoliasearch-client-php', stargazersCount: 554 },
-            { name: 'hn-search', stargazersCount: 383 },
-          ];
+            { name: 'algolia/autocomplete.js', stars: 1237 },
+            { name: 'algolia/algoliasearch-client-javascript', stars: 884 },
+            { name: 'algolia/algoliasearch-client-php', stars: 554 },
+          ].filter(({ label }) =>
+            label.toLowerCase().includes(query.toLowerCase())
+          );
         },
         getItemUrl({ item }) {
           return `https://github.com/algolia/${item.name}`;
         },
         templates: {
-          header() {
-            return 'Discover our top 3 GitHub repositories';
-          },
           item({ item }) {
-            return item.name;
+            const stars = new Intl.NumberFormat('en-US').format(item.stars);
+
+            return `${item.name} (${stars} stars)`;
+          },
+          empty() {
+            return 'No results.';
           },
         },
       },
@@ -81,49 +85,79 @@ const topGitHubRepositoriesPlugin = {
 
 autocomplete({
   // ...
-  plugins: [topGitHubRepositoriesPlugin],
+  plugins: [gitHubReposPlugin],
 });
 ```
 
-Now, if you're willing to package and distribute your plugin for other people to use, you might want to expose a function instead.
+Now, if you're willing to package and distribute your plugin for other people to use, you might want to expose a function instead. For example, you can use the [GitHub API](https://docs.github.com/en/rest/reference/search#search-repositories) to search into all repositories, and let people pass [API parameters](https://docs.github.com/en/rest/reference/search#search-repositories--parameters) as plugin options.
 
-```js
-function createTopGitHubRepositoriesPlugin({ repositories, username }) {
-  const sortedRepositories = repositories.sort(
-    (a, b) => b.stargazersCount - a.stargazersCount
-  );
+```js title="createGitHubReposPlugin.js"
+import qs from 'qs';
+import unfetch from 'unfetch';
+import debounce from 'debounce-promise';
 
+const debouncedFetch = debounce(unfetch, 300);
+
+export function createGitHubReposPlugin(options) {
   return {
-    getSources() {
-      return [
-        {
-          getItems() {
-            return sortedRepositories;
-          },
-          getItemUrl({ item }) {
-            return `https://github.com/${username}/${item.name}`;
-          },
-          templates: {
-            header() {
-              return `Discover our top ${repositories.length} GitHub repositories`;
+    getSources({ query }) {
+      const endpoint = [
+        'https://api.github.com/search/repositories',
+        qs.stringify({ ...options, q: query }),
+      ].join('?');
+
+      return debouncedFetch(endpoint)
+        .then((response) => response.json())
+        .then((repositories) => {
+          return [
+            {
+              getItems() {
+                return repositories.items;
+              },
+              getItemUrl({ item }) {
+                return item.html_url;
+              },
+              templates: {
+                item({ item }) {
+                  const stars = new Intl.NumberFormat('en-US').format(
+                    item.stargazers_count
+                  );
+
+                  return `${item.full_name} (${stars} stars)`;
+                },
+                empty() {
+                  return 'No results.';
+                },
+              },
             },
-            item({ item }) {
-              return item.name;
-            },
-          },
-        },
-      ];
+          ];
+        });
     },
   };
 }
+```
 
-const topGitHubRepositoriesPlugin = createTopGitHubRepositoriesPlugin({
-  username: 'algolia',
-  repositories: [
-    // ...
-  ],
+```js title="index.js"
+import { autocomplete } from '@algolia/autocomplete-js';
+import { createGitHubReposPlugin } from './createGitHubReposPlugin';
+
+const gitHubReposPlugin = createGitHubReposPlugin({
+  per_page: 10,
+});
+
+autocomplete({
+  container: '#autocomplete',
+  plugins: [gitHubReposPlugin],
 });
 ```
+
+You can see [this demo live on CodeSandbox](https://codesandbox.io/s/amazing-neumann-d3l1p).
+
+:::note
+
+The GitHub Search API is [rate limited](https://docs.github.com/en/rest/reference/search), which means you need to debounce calls to avoid 403 errors. For instant search results with no rate limiting, highlighted results, flexible custom ranking, and more, you can index repositories into [Algolia](https://www.algolia.com/) instead.
+
+:::
 
 ### Official plugins
 
