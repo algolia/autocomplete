@@ -210,14 +210,7 @@ const searchClient = algoliasearch(
 );
 
 function AutocompleteItem({ hit, breadcrumb }) {
-  return (
-    <a href={hit.url} className="aa-ItemLink">
-      <div className="aa-ItemContent">
-        <div className="aa-ItemTitle">{hit.hierarchy[hit.type]}</div>
-        <div className="aa-ItemContentSubtitle">{breadcrumb.join(" • ")}</div>
-      </div>
-    </a>
-  );
+  return (/* ... */);
 }
 
 autocomplete({
@@ -228,28 +221,10 @@ autocomplete({
     return [
       {
         getItems() {
-          return getAlgoliaHits({
-            searchClient,
-            queries: [
-              {
-                indexName: "autocomplete",
-                query,
-                params: {
-                  hitsPerPage: 10
-                }
-              }
-            ]
-          });
+          /*...*/
         },
         templates: {
-          item({ item }) {
-            return AutocompleteItem({
-              hit: item,
-              breadcrumb: Object.values(item.hierarchy)
-                .filter(Boolean)
-                .slice(0, -1)
-            });
-          }
+          /*...*/
         },
         getItemUrl({ item }) {
           return item.url;
