@@ -2,7 +2,7 @@
 id: reverseSnippetHit
 ---
 
-Returns a string with highlighted and escaped non-matching parts of an Algolia hit snippet.
+Returns a virtual node with non-matching parts of an Algolia hit snippet.
 
 ## Example
 
@@ -30,20 +30,8 @@ The Algolia hit to retrieve the attribute value from.
 
 The attribute to retrieve the snippet value from.
 
-### `highlightPreTag`
+### `tagName`
 
-> `string` | defaults to `<mark>`
+> `string` | defaults to `mark`
 
-The HTML tag to prefix the value with.
-
-### `highlightPostTag`
-
-> `string` | defaults to `</mark>`
-
-The HTML tag to suffix the value with.
-
-### `ignoreEscape`
-
-> `string[]` | defaults to `[]`
-
-The characters to skip from escaping.
+The tag name of the virtual node.

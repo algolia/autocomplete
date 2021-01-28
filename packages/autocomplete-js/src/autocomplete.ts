@@ -3,7 +3,12 @@ import {
   BaseItem,
   createAutocomplete,
 } from '@algolia/autocomplete-core';
-import { createRef, debounce, invariant } from '@algolia/autocomplete-shared';
+import {
+  createRef,
+  debounce,
+  getItemsCount,
+  invariant,
+} from '@algolia/autocomplete-shared';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
 import { createEffectWrapper } from './createEffectWrapper';
@@ -15,6 +20,7 @@ import {
   AutocompleteApi,
   AutocompleteOptions,
   AutocompletePropGetters,
+  AutocompleteSource,
   AutocompleteState,
 } from './types';
 import { mergeDeep, setProperties } from './utils';
@@ -25,6 +31,7 @@ export function autocomplete<TItem extends BaseItem>(
   const { runEffect, cleanupEffects, runEffects } = createEffectWrapper();
   const { reactive, runReactives } = createReactiveWrapper();
 
+  const hasEmptySourceTemplateRef = createRef(false);
   const optionsRef = createRef(options);
   const onStateChangeRef = createRef<
     AutocompleteOptions<TItem>['onStateChange']
@@ -34,12 +41,26 @@ export function autocomplete<TItem extends BaseItem>(
     createAutocomplete<TItem>({
       ...props.value.core,
       onStateChange(options) {
+        hasEmptySourceTemplateRef.current = options.state.collections.some(
+          (collection) =>
+            (collection.source as AutocompleteSource<TItem>).templates.empty
+        );
         onStateChangeRef.current?.(options as any);
         props.value.core.onStateChange?.(options as any);
       },
+      shouldPanelShow:
+        optionsRef.current.shouldPanelShow ||
+        (({ state }) => {
+          const hasItems = getItemsCount(state) > 0;
+          const hasEmptyTemplate = Boolean(
+            hasEmptySourceTemplateRef.current ||
+              props.value.renderer.renderEmpty
+          );
+
+          return (!hasItems && hasEmptyTemplate) || hasItems;
+        }),
     })
   );
-  const renderRequestIdRef = createRef<number | null>(null);
   const lastStateRef = createRef<AutocompleteState<TItem>>({
     collections: [],
     completion: null,
@@ -50,6 +71,7 @@ export function autocomplete<TItem extends BaseItem>(
     status: 'idle',
     ...props.value.core.initialState,
   });
+
   const isTouch = reactive(
     () => window.matchMedia(props.value.renderer.touchMediaQuery).matches
   );
@@ -76,13 +98,13 @@ export function autocomplete<TItem extends BaseItem>(
 
   const dom = reactive(() =>
     createAutocompleteDom({
-      placeholder: props.value.core.placeholder,
-      isTouch: isTouch.value,
-      state: lastStateRef.current,
       autocomplete: autocomplete.value,
-      classNames: props.value.renderer.classNames,
-      propGetters,
       autocompleteScopeApi,
+      classNames: props.value.renderer.classNames,
+      isTouch: isTouch.value,
+      placeholder: props.value.core.placeholder,
+      propGetters,
+      state: lastStateRef.current,
     })
   );
 
@@ -99,31 +121,32 @@ export function autocomplete<TItem extends BaseItem>(
     });
   }
 
-  function runRender() {
+  function scheduleRender(state: AutocompleteState<TItem>) {
+    lastStateRef.current = state;
+
     const renderProps = {
-      isTouch: isTouch.value,
-      state: lastStateRef.current,
       autocomplete: autocomplete.value,
-      propGetters,
-      dom: dom.value,
+      autocompleteScopeApi,
       classNames: props.value.renderer.classNames,
+      container: props.value.renderer.container,
+      createElement: props.value.renderer.renderer.createElement,
+      dom: dom.value,
+      Fragment: props.value.renderer.renderer.Fragment,
+      isTouch: isTouch.value,
       panelContainer: isTouch.value
         ? dom.value.touchOverlay
         : props.value.renderer.panelContainer,
-      autocompleteScopeApi,
+      propGetters,
+      state: lastStateRef.current,
     };
+    const render =
+      (!getItemsCount(state) &&
+        !hasEmptySourceTemplateRef.current &&
+        props.value.renderer.renderEmpty) ||
+      props.value.renderer.render;
 
     renderSearchBox(renderProps);
-    renderPanel(props.value.renderer.render, renderProps);
-  }
-
-  function scheduleRender(state: AutocompleteState<TItem>) {
-    if (renderRequestIdRef.current !== null) {
-      cancelAnimationFrame(renderRequestIdRef.current);
-    }
-
-    lastStateRef.current = state;
-    renderRequestIdRef.current = requestAnimationFrame(runRender);
+    renderPanel(render, renderProps);
   }
 
   runEffect(() => {

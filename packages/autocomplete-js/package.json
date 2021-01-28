@@ -33,7 +33,8 @@
   "dependencies": {
     "@algolia/autocomplete-core": "1.0.0-alpha.38",
     "@algolia/autocomplete-preset-algolia": "1.0.0-alpha.38",
-    "@algolia/autocomplete-shared": "1.0.0-alpha.38"
+    "@algolia/autocomplete-shared": "1.0.0-alpha.38",
+    "preact": "^10.0.0"
   },
   "devDependencies": {
     "@algolia/client-search": "4.8.3"
