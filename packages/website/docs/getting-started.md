@@ -192,7 +192,9 @@ autocomplete({
 });
 ```
 
-The template displays the section name, found in the `item.hierachy` and a breadcrumb composed of the levels in `item.hierarchy`, except for the final level, which is the section name. The final level where the section name is found is given in `item.type`.
+The template displays the section name, found in the `item.hierachy` and a breadcrumb composed of the levels in `item.hierarchy`, except for the final level, which is the section name. The final level where the section name is found is given in `item.type`. Try it out below.
+
+<input placeholder="This is just a placeholder"></input>
 
 That creates a basic implementation. To make it more useful, you can use the [`getItemUrl`](/docs/sources#getitemurl) to add [keyboard accessibility](keyboard-navigation) features. It lets users open items directly from the autocomplete.
 
@@ -257,8 +259,9 @@ autocomplete({
   }
 });
 ```
+Now give it a try:
 
-You can see a live example of this in action in [this CodeSandbox](https://codesandbox.io/s/autocomplete-docsearch-results-6j3vl).
+<input placeholder="This is just another placeholder"></input>
 
 ## Going further
 
