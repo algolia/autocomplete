@@ -553,7 +553,30 @@ describe('getInputProps', () => {
       });
     });
 
-    test.todo('catches errors and sets status to error');
+    /* eslint-disable-next-line jest/no-done-callback */
+    test('lets user handle the errors', (done) => {
+      const getSources = jest.fn((..._args: any[]) => {
+        return [
+          createSource({
+            getItems() {
+              return new Promise<any>((resolve, reject) => {
+                reject(new Error('Fetch error'));
+              }).catch((err) => {
+                expect(err).toEqual(expect.any(Error));
+                done();
+                return [];
+              });
+            },
+          }),
+        ];
+      });
+
+      const { inputElement } = createPlayground(createAutocomplete, {
+        getSources,
+      });
+
+      userEvent.type(inputElement, 'a');
+    });
 
     test('clears stalled timeout', async () => {
       const environment = {
