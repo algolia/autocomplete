@@ -57,7 +57,7 @@ If you don't want to use a package manager, you can use standalone endpoints:
 <script src="https://unpkg.com/@algolia/autocomplete-core@alpha"></script>
 ```
 
-## Selecting a container
+## Defining where to put your autocomplete
 
 To get started, you need to select a container you want your autocomplete to go in. If you don't have one already, you can insert one into your markup:
 
@@ -83,7 +83,7 @@ The [`placeholder`](/docs/autocomplete-js#placeholder) option defines the placeh
 
 Autocomplete is now plugged in. But you won't see anything appear until you define your [sources](/docs/sources).
 
-## Defining your sources
+## Defining what items to display
 
 [Sources](/docs/sources) define where to retrieve the items to display in your autocomplete dropdown. You define your sources in the [`getSources`](/docs/sources#getsources) function by returning an array of [source objects](/sources#sources). Each source object needs to include a [`getItems`](/docs/sources#getitems) property that returns the items to display. Sources can be a static array or be dynamic.
 
@@ -129,9 +129,11 @@ The `searchClient` requires an [Algolia application ID and API key](https://www.
 
 This example makes just one query to the "autocomplete" index using the `query` from [`getSources`](/docs/sources#getsources). It passes one additional parameter, [`hitsPerPage`](https://www.algolia.com/doc/api-reference/api-parameters/hitsPerPage/) to define how many items to display, but you could pass any other [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/).
 
-### Using templates
+Although you've now declared what items display using [`getSources`](/docs/sources#getsources), you still won't see anything until you've defined _how_ to display the items you've retrieved.
 
-[Sources](/docs/sources) also define *how* to display items in your Autocomplete using [`templates`](/docs/templates).  Templates can return a string or anything that's a valid Virtual DOM element. The example creates a [Preact](https://preactjs.com/) component called `AutocompleteItem` as the template for each item to display.
+## Defining how to display items
+
+[Sources](/docs/sources) also define how to display items in your Autocomplete using [`templates`](/docs/templates).  Templates can return a string or anything that's a valid Virtual DOM element. The example creates a [Preact](https://preactjs.com/) component called `AutocompleteItem` as the template for each item to display.
 
 ```js title="JavaScript"
 /** @jsx h */
@@ -192,25 +194,25 @@ autocomplete({
 });
 ```
 
-The template displays the page or section name, found in the last level of the `item.hierachy`. Beneath that, the template displays a breadcrumb composed of the levels in `item.hierarchy`, except for the lastl level, which is the section name. The level where the section or page name is found is given in `item.type`. Deeper levels indicate more deeply nested sections on a apge. For example, this is what the record for this section () looks like:
+The template displays the page or section name, found in the last level of the `item.hierachy`. Beneath that, the template displays a breadcrumb composed of the levels in `item.hierarchy`, except for the last level, which is the section name. The level where the section or page name is found is given in `item.type`. Deeper levels indicate more deeply nested sections on a page. For example, this is what the record for this section looks like:
 
 ```json title="JSON record"
 {
   "hierarchy": {
     "lvl0":"The Basics",
     "lvl1":"Getting Started",
-    "lvl2":null,
+    "lvl2":"Defining how to display items",
     "lvl3":null,
     "lvl4":null,
     "lvl5":null,
     "lvl6":null
     },
-  "type":"lvl1",
+  "type":"lvl2",
   "url":"https://autocomplete.algolia.com/docs/getting-started/"
 }
 ```
 
-Check out how template displayes the records by searching in the input below:
+Check out how the template displays items by searching in the input below:
 
 <input placeholder="This is just a placeholder"></input>
 
