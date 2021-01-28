@@ -20,7 +20,7 @@ export function parseAlgoliaHitHighlight<THit extends Hit<{}>>({
   if (typeof highlightedValue !== 'string') {
     warn(
       false,
-      `The attribute path ${JSON.stringify(
+      `The attribute "${path.join('.')}" described by the path ${JSON.stringify(
         path
       )} does not exist on the hit. Did you set it in \`attributesToHighlight\`?` +
         '\nSee https://www.algolia.com/doc/api-reference/api-parameters/attributesToHighlight/'

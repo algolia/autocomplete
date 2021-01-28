@@ -116,6 +116,45 @@ describe('parseAlgoliaHitReverseSnippet', () => {
     ]);
   });
 
+  test('returns the highlighted snippet parts of the hit with a nested array attribute containing a dot', () => {
+    expect(
+      parseAlgoliaHitReverseSnippet({
+        attribute: ['hierarchy', 'lvl0.inside'],
+        hit: {
+          objectID: '1',
+          hierarchy: {
+            'lvl0.inside': 'Hello there',
+          },
+          _snippetResult: {
+            hierarchy: {
+              'lvl0.inside': {
+                value:
+                  '__aa-highlight__He__/aa-highlight__llo t__aa-highlight__he__/aa-highlight__re',
+              },
+            },
+          },
+        },
+      })
+    ).toEqual([
+      {
+        isHighlighted: false,
+        value: 'He',
+      },
+      {
+        isHighlighted: true,
+        value: 'llo t',
+      },
+      {
+        isHighlighted: false,
+        value: 'he',
+      },
+      {
+        isHighlighted: true,
+        value: 're',
+      },
+    ]);
+  });
+
   test('returns the non-highlighted parts when every part matches', () => {
     expect(
       parseAlgoliaHitReverseSnippet({
@@ -191,7 +230,7 @@ describe('parseAlgoliaHitReverseSnippet', () => {
         },
       });
     }).toWarnDev(
-      '[Autocomplete] The attribute path ["description"] does not exist on the hit. Did you set it in `attributesToSnippet`?' +
+      '[Autocomplete] The attribute "description" described by the path ["description"] does not exist on the hit. Did you set it in `attributesToSnippet`?' +
         '\nSee https://www.algolia.com/doc/api-reference/api-parameters/attributesToSnippet/'
     );
   });
@@ -234,7 +273,7 @@ describe('parseAlgoliaHitReverseSnippet', () => {
         },
       });
     }).toWarnDev(
-      '[Autocomplete] The attribute path ["description"] does not exist on the hit. Did you set it in `attributesToSnippet`?' +
+      '[Autocomplete] The attribute "description" described by the path ["description"] does not exist on the hit. Did you set it in `attributesToSnippet`?' +
         '\nSee https://www.algolia.com/doc/api-reference/api-parameters/attributesToSnippet/'
     );
   });
@@ -279,7 +318,35 @@ describe('parseAlgoliaHitReverseSnippet', () => {
         },
       });
     }).toWarnDev(
-      '[Autocomplete] The attribute path ["title","description"] does not exist on the hit. Did you set it in `attributesToSnippet`?' +
+      '[Autocomplete] The attribute "title.description" described by the path ["title","description"] does not exist on the hit. Did you set it in `attributesToSnippet`?' +
+        '\nSee https://www.algolia.com/doc/api-reference/api-parameters/attributesToSnippet/'
+    );
+  });
+
+  test('warns if the nested array attribute containing a dot does not exist', () => {
+    expect(() => {
+      parseAlgoliaHitReverseSnippet({
+        attribute: ['hierarchy', 'lvl1.inside'],
+        hit: {
+          objectID: '1',
+          hierarchy: {
+            'lvl0.inside': 'Hello there',
+          },
+          _highlightResult: {
+            hierarchy: {
+              'lvl0.inside': {
+                value:
+                  '__aa-highlight__He__/aa-highlight__llo t__aa-highlight__he__/aa-highlight__re',
+                matchLevel: 'partial',
+                matchedWords: [],
+                fullyHighlighted: false,
+              },
+            },
+          },
+        },
+      });
+    }).toWarnDev(
+      '[Autocomplete] The attribute "hierarchy.lvl1.inside" described by the path ["hierarchy","lvl1.inside"] does not exist on the hit. Did you set it in `attributesToSnippet`?' +
         '\nSee https://www.algolia.com/doc/api-reference/api-parameters/attributesToSnippet/'
     );
   });
