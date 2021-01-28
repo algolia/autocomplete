@@ -33,7 +33,7 @@ import { highlightHit } from '@algolia/autocomplete-js';
 // fetch an Algolia hit
 const hit = {
   query: {
-      title: 'Hello there',
+    title: 'Hello there',
   }
   _highlightResult: {
     query: {
