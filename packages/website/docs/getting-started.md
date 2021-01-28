@@ -192,9 +192,25 @@ autocomplete({
 });
 ```
 
-The template displays the section name, found in the `item.hierachy` and a breadcrumb composed of the levels in `item.hierarchy`, except for the final level, which is the section name. The final level where the section name is found is given in `item.type`.
+The template displays the page or section name, found in the last level of the `item.hierachy`. Beneath that, the template displays a breadcrumb composed of the levels in `item.hierarchy`, except for the lastl level, which is the section name. The level where the section or page name is found is given in `item.type`. Deeper levels indicate more deeply nested sections on a apge. For example, this is what the record for this section () looks like:
 
-Try it out below:
+```json title="JSON record"
+{
+  "hierarchy": {
+    "lvl0":"The Basics",
+    "lvl1":"Getting Started",
+    "lvl2":null,
+    "lvl3":null,
+    "lvl4":null,
+    "lvl5":null,
+    "lvl6":null
+    },
+  "type":"lvl1",
+  "url":"https://autocomplete.algolia.com/docs/getting-started/"
+}
+```
+
+Check out how template displayes the records by searching in the input below:
 
 <input placeholder="This is just a placeholder"></input>
 
