@@ -6,9 +6,9 @@ title: Getting Started
 Check out the different ways to learn how to use Autocomplete, including following a basic implementation.
 
 This documentation offers a few ways to learn about the Autocomplete library:
-  - Read the [**Core Concepts**](/docs/basic-options) to learn more about underlying principles, like [**Sources**](/docs/sources) and [**State**](/docs/state).
-  - Follow the [**Guides**](/docs/using-query-suggestions-plugin) to understand how to build common UX patterns.
-  - Refer to [**API reference**](/docs/api) for a comprehensive list of parameters and options.
+  - Read the [**Core Concepts**](basic-options) to learn more about underlying principles, like [**Sources**](sources) and [**State**](state).
+  - Follow the [**Guides**](using-query-suggestions-plugin) to understand how to build common UX patterns.
+  - Refer to [**API reference**](api) for a comprehensive list of parameters and options.
   - Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.ts) where you can fork a basic implementation and play around.
 
 Keep reading to see how to install and start a basic implementation.
@@ -17,7 +17,7 @@ Keep reading to see how to install and start a basic implementation.
 
 You can choose to [install the `autocomplete-js` package](#javascript) which includes everything you need to render a JavaScript autocomplete experience, or [install the `autocomplete-core` package](#headless) if you want to [build a renderer](creating-a-renderer) from scratch.
 
-Unless you've found that [`autocomplete-js`](/docs/autocomplete-js) doesn't suit your needs, it's best to get started with that.
+Unless you've found that [`autocomplete-js`](autocomplete-js) doesn't suit your needs, it's best to get started with that.
 
 The Autocomplete library is available on the [npm](https://www.npmjs.com/) registry.
 
@@ -65,7 +65,7 @@ To get started, you need to select a container you want your autocomplete to go 
 <div id="autocomplete"></div>
 ```
 
-Then, insert your autocomplete into it by calling the [`autocomplete`](/docs/autocomplete-js) function and providing the [`container`](/docs/autocomplete-js/#container). It can be a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). Make sure to provide a container (e.g., a `div`), not an `input`. Autocomplete generates a fully accessible search box for you.
+Then, insert your autocomplete into it by calling the [`autocomplete`](autocomplete-js) function and providing the [`container`](autocomplete-js/#container). It can be a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). Make sure to provide a container (e.g., a `div`), not an `input`. Autocomplete generates a fully accessible search box for you.
 
 ```js title="JavaScript"
 import { autocomplete } from '@algolia/autocomplete-js';
@@ -79,15 +79,15 @@ autocomplete({
   },
 });
 ```
-The [`placeholder`](/docs/autocomplete-js#placeholder) option defines the placeholder text used until the user starts typing in the input. The [`openOnFocus`](/docs/autocomplete-js#openonfocus) option defines whether to open the panel on [focus](https://developer.mozilla.org/en-US/docs/Web/API/Window/focus_event), when there's no query. It defaults to `false`, so you need to set it to `true` if you want the dropdown to appear as soon as a user clicks on it.
+The [`placeholder`](autocomplete-js#placeholder) option defines the placeholder text used until the user starts typing in the input. The [`openOnFocus`](autocomplete-js#openonfocus) option defines whether to open the panel on [focus](https://developer.mozilla.org/en-US/docs/Web/API/Window/focus_event), when there's no query. It defaults to `false`, so you need to set it to `true` if you want the dropdown to appear as soon as a user clicks on it.
 
-Autocomplete is now plugged in. But you won't see anything appear until you define your [sources](/docs/sources).
+Autocomplete is now plugged in. But you won't see anything appear until you define your [sources](sources).
 
 ## Defining what items to display
 
-[Sources](/docs/sources) define where to retrieve the items to display in your autocomplete dropdown. You define your sources in the [`getSources`](/docs/sources#getsources) function by returning an array of [source objects](/docs/sources#source). Each source object needs to include a [`getItems`](/docs/sources#getitems) property that returns the items to display. Sources can be a static array or be dynamic.
+[Sources](sources) define where to retrieve the items to display in your autocomplete dropdown. You define your sources in the [`getSources`](sources#getsources) function by returning an array of [source objects](sources#source). Each source object needs to include a [`getItems`](sources#getitems) property that returns the items to display. Sources can be a static array or be dynamic.
 
-This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) that's [powering the documentation search](https://docsearch.algolia.com/) on this site as a source. The [`autocomplete-js`](/docs/autocomplete-js) library provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
+This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) that's [powering the documentation search](https://docsearch.algolia.com/) on this site as a source. The [`autocomplete-js`](autocomplete-js) library provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
 
 ```js title="JavaScript"
 import algoliasearch from 'algoliasearch/lite';
@@ -127,13 +127,13 @@ autocomplete({
 
 The `searchClient` requires an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id). It lets you search into your Algolia index using an array of `queries`, which defines the queries you want to make to the index.
 
-This example makes just one query to the "autocomplete" index using the `query` from [`getSources`](/docs/sources#getsources). It passes one additional parameter, [`hitsPerPage`](https://www.algolia.com/doc/api-reference/api-parameters/hitsPerPage/) to define how many items to display, but you could pass any other [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/).
+This example makes just one query to the "autocomplete" index using the `query` from [`getSources`](sources#getsources). It passes one additional parameter, [`hitsPerPage`](https://www.algolia.com/doc/api-reference/api-parameters/hitsPerPage/) to define how many items to display, but you could pass any other [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/).
 
-Although you've now declared what items display using [`getSources`](/docs/sources#getsources), you still won't see anything until you've defined _how_ to display the items you've retrieved.
+Although you've now declared what items display using [`getSources`](sources#getsources), you still won't see anything until you've defined _how_ to display the items you've retrieved.
 
 ## Defining how to display items
 
-[Sources](/docs/sources) also define how to display items in your Autocomplete using [`templates`](/docs/templates).  Templates can return a string or anything that's a valid Virtual DOM element. The example creates a [Preact](https://preactjs.com/) component called `AutocompleteItem` as the template for each item to display.
+[Sources](sources) also define how to display items in your Autocomplete using [`templates`](templates).  Templates can return a string or anything that's a valid Virtual DOM element. The example creates a [Preact](https://preactjs.com/) component called `AutocompleteItem` as the template for each item to display.
 
 ```js title="JavaScript"
 /** @jsx h */
@@ -216,7 +216,7 @@ Check out how the template displays items by searching in the input below:
 
 <input placeholder="This is just a placeholder"></input>
 
-That creates a basic implementation. To make it more useful, you can use the [`getItemUrl`](/docs/sources#getitemurl) to add [keyboard accessibility](keyboard-navigation) features. It lets users open items directly from the autocomplete menu.
+That creates a basic implementation. To make it more useful, you can use the [`getItemUrl`](sources#getitemurl) to add [keyboard accessibility](keyboard-navigation) features. It lets users open items directly from the autocomplete menu.
 
 ```js title="JavaScript"
 /** @jsx h */
@@ -260,4 +260,4 @@ Now give it a try:
 
 ## Going further
 
-This outlines a simple autocomplete implementation. There's a lot more you can do, like [adding multiple sources](/docs/creating-multi-source-autocompletes), using [templates for headers, footers](/docs/templates#rendering-a-header-and-footer), or when there's [no results](/docs/templates#rendering-an-empty-state). To learn about customization options, read the [**Core Concepts**](/docs/basic-options) or follow one of the [**Guides**](/docs/using-query-suggestions-plugin).
+This outlines a simple autocomplete implementation. There's a lot more you can do, like [adding multiple sources](creating-multi-source-autocompletes), using [templates for headers, footers](templates#rendering-a-header-and-footer), or when there's [no results](templates#rendering-an-empty-state). To learn about customization options, read the [**Core Concepts**](basic-options) or follow one of the [**Guides**](using-query-suggestions-plugin).
