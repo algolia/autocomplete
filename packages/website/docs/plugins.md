@@ -159,6 +159,42 @@ The GitHub Search API is [rate limited](https://docs.github.com/en/rest/referenc
 
 :::
 
+#### Subscribing to source lifecycle hooks
+
+When building, you also get access to the [`subscribe`](#subscribe) method. It runs once when the autocomplete instance starts and lets you subscribe to lifecycle hooks and interact with the instance's state and context.
+
+For example, let's say you want to build a plugin that sends events to Google Analytics when the user navigates results. You can use `subscribe` to hook into `onSelect` and `onActive` events and use the [Google Analytics API](https://developers.google.com/analytics/devguides/collection/analyticsjs/sending-hits) there.
+
+```js
+function createGoogleAnalyticsPlugin({ trackingId, options }) {
+  return {
+    subscribe({ onSelect, onActive }) {
+      ga('create', trackingId, ...options);
+
+      const event = {
+        hitType: 'event',
+        eventCategory: 'Autocomplete',
+        eventLabel: item.name,
+      };
+
+      onSelect(({ item }) => {
+        ga('send', {
+          ...event,
+          eventAction: 'select',
+        });
+      });
+
+      onActive(({ item }) => {
+        ga('send', {
+          ...event,
+          eventAction: 'active',
+        });
+      });
+    },
+  };
+}
+```
+
 ### Official plugins
 
 There are a few useful official plugins you can already use with Autocomplete.
