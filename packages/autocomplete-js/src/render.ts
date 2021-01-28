@@ -94,83 +94,80 @@ export function renderPanel<TItem extends BaseItem>(
     return createElement('section', {
       key: sourceIndex,
       className: classNames.source,
-      children: createElement('ul', {
-        className: classNames.list,
-        ...propGetters.getListProps({
-          state,
-          props: autocomplete.getListProps({}),
-          ...autocompleteScopeApi,
-        }),
-        children: [
-          source.templates.header &&
-            createElement('div', {
-              className: classNames.sourceHeader,
-              children: [
-                source.templates.header({
-                  createElement,
-                  Fragment,
-                  items,
-                  source,
-                  state,
-                }),
-              ],
-            }),
-          items.length === 0 && source.templates.empty
-            ? createElement('div', {
-                className: classNames.sourceEmpty,
-                children: [
-                  source.templates.empty({
-                    createElement,
-                    Fragment,
-                    source,
-                    state,
-                  }),
-                ],
-              })
-            : createElement('ul', {
-                className: classNames.list,
-                children: [
-                  ...items.map((item) => {
-                    const itemProps = autocomplete.getItemProps({
-                      item,
-                      source,
-                    });
-
-                    return createElement('li', {
-                      key: itemProps.id,
-                      className: classNames.item,
-                      ...propGetters.getItemProps({
-                        state,
-                        props: itemProps,
-                        ...autocompleteScopeApi,
-                      }),
-                      children: [
-                        source.templates.item({
-                          createElement,
-                          Fragment,
-                          item,
-                          state,
-                        }),
-                      ],
-                    });
-                  }),
-                ],
+      children: [
+        source.templates.header &&
+          createElement('div', {
+            className: classNames.sourceHeader,
+            children: [
+              source.templates.header({
+                createElement,
+                Fragment,
+                items,
+                source,
+                state,
               }),
-          source.templates.footer &&
-            createElement('div', {
-              className: classNames.sourceFooter,
+            ],
+          }),
+        items.length === 0 && source.templates.empty
+          ? createElement('div', {
+              className: classNames.sourceEmpty,
               children: [
-                source.templates.footer({
+                source.templates.empty({
                   createElement,
                   Fragment,
-                  items,
                   source,
                   state,
                 }),
               ],
+            })
+          : createElement('ul', {
+              className: classNames.list,
+              ...propGetters.getListProps({
+                state,
+                props: autocomplete.getListProps({}),
+                ...autocompleteScopeApi,
+              }),
+              children: [
+                ...items.map((item) => {
+                  const itemProps = autocomplete.getItemProps({
+                    item,
+                    source,
+                  });
+
+                  return createElement('li', {
+                    key: itemProps.id,
+                    className: classNames.item,
+                    ...propGetters.getItemProps({
+                      state,
+                      props: itemProps,
+                      ...autocompleteScopeApi,
+                    }),
+                    children: [
+                      source.templates.item({
+                        createElement,
+                        Fragment,
+                        item,
+                        state,
+                      }),
+                    ],
+                  });
+                }),
+              ],
             }),
-        ],
-      }),
+        source.templates.footer &&
+          createElement('div', {
+            className: classNames.sourceFooter,
+            children: [
+              source.templates.footer({
+                createElement,
+                Fragment,
+                items,
+                source,
+                state,
+              }),
+            ],
+          }),
+      ],
     });
   });
   const children = createElement('div', {
