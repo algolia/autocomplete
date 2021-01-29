@@ -179,22 +179,16 @@ body {
             text-align: left;
             padding-bottom: var(--aa-spacing-half);
             overflow: hidden;
-            .col-results {
-                // max-height: 400px;
+            .aa-PanelLayoutResults {
                 width: 50%;
                 overflow-y: scroll;
                 // section.aa-Source
             }
-            aside.col-preview {
-                //max-height: 400px;
-                //animation: fadeIn ease-in .2s;
+            .aa-PanelLayoutPreview {
                 flex-shrink: 1;
                 max-width: 50%;
                 overflow: hidden;
                 border-left: solid 1px var(--aa-selected-color);
-                &:empty {
-                    //display:none;
-                }
             }
         }
     }
@@ -271,7 +265,7 @@ body {
 }
 
 // ----------------
-// Hit Layout - smart layout
+// Hit Layout
 // ----------------
 .aa-Item {
     display: flex;
@@ -325,18 +319,18 @@ body {
         color: var(--aa-text-color);
         cursor: pointer;
         padding: calc(var(--aa-spacing) / 4) 0;
+        mark {
+            color: var(--aa-text-color);
+            background: none;
+            font-style: normal;
+            font-weight: bold;
+        }
         .aa-ItemContentTitle {
             display: inline-block;
             max-width: 100%;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow-x: hidden;
-            mark {
-                color: var(--aa-text-color);
-                background: none;
-                font-style: normal;
-                font-weight: bold;
-            }
         }
         .aa-ItemContentSubtitle {
             display: inline-block;
@@ -347,11 +341,6 @@ body {
             text-overflow: ellipsis;
             overflow-x: hidden;
             margin-top: -2px;
-            mark {
-                background: none;
-                font-style: normal;
-                font-weight: bold;
-            }
             &:empty {
                 display: none;
             }
@@ -457,15 +446,15 @@ body {
     top: 0;
     .aa-TouchFormContainer {
         display: flex;
-        grid-gap: 0.5rem;
         justify-content: space-between;
     }
     .aa-TouchCancelButton {
+        padding: 0;
+        padding-left: var(--aa-spacing-half);
         background: none;
         border: 0;
         color: inherit;
         cursor: pointer;
         font-size: inherit;
-        padding: 0;
     }
 }
