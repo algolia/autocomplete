@@ -9,7 +9,7 @@ An autocomplete can be much more than a functional combo box. **Autocomplete let
 
 For example, the [official Algolia Insights plugin](createAlgoliaInsightsPlugin) automatically sends click and conversion events to the [Algolia Insights API](https://www.algolia.com/doc/rest-api/insights/) whenever a user interacts with the autocomplete.
 
-You can use one of our existing official plugins or build your own.
+You can use one of the existing official plugins or build your own.
 
 ## Usage
 
@@ -39,15 +39,15 @@ autocomplete({
 ```
 :::note
 
-Plugins execute sequentially, in the defined order.
+Plugins execute sequentially, in the order you define them.
 
 :::
 
 ### Building your own plugin
 
-An Autocomplete plugin is a simple object that implements the `AutocompletePlugin` interface.
+An Autocomplete plugin is an object that implements the `AutocompletePlugin` interface.
 
-It can provide sources, react to state changes, and hook into various autocomplete lifecycle steps. It has access to setters, including the [Context API](context), allowing it to store and retrieve arbitrary data at any time.
+It can [provide sources](sources), react to [state changes](state), and hook into various autocomplete lifecycle steps. It has access to setters, including the [Context API](context), allowing it to store and retrieve arbitrary data at any time.
 
 Let's create a plugin that searches into a static list of GitHub repositories.
 
@@ -89,7 +89,7 @@ autocomplete({
 });
 ```
 
-Now, if you're willing to package and distribute your plugin for other people to use, you might want to expose a function instead. For example, you can use the [GitHub API](https://docs.github.com/en/rest/reference/search#search-repositories) to search into all repositories, and let people pass [API parameters](https://docs.github.com/en/rest/reference/search#search-repositories--parameters) as plugin options.
+If you want to package and distribute your plugin for other people to use, you might want to expose a function instead. For example, you can use the [GitHub API](https://docs.github.com/en/rest/reference/search#search-repositories) to search into all repositories, and let people pass [API parameters](https://docs.github.com/en/rest/reference/search#search-repositories--parameters) as plugin options.
 
 ```js title="createGitHubReposPlugin.js"
 import qs from 'qs';
