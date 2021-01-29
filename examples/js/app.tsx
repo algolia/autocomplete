@@ -14,7 +14,7 @@ import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
 
-import { shortcutsPlugin } from './shortcutsPlugin'
+import { shortcutsPlugin } from './shortcutsPlugin';
 
 type Product = { name: string; image: string };
 type ProductHit = Hit<Product>;
@@ -69,7 +69,7 @@ autocomplete({
             return (
               <Fragment>
                 <span>Products</span>
-                <div class="aa-SourceHeaderLine"></div>
+                <div className="aa-SourceHeaderLine"></div>
               </Fragment>
             );
           },
@@ -78,7 +78,11 @@ autocomplete({
           },
           empty() {
             return (
-              <div className="aa-ItemContent"><div className="aa-ItemContentTitle">No results for this query.</div></div>
+              <div className="aa-ItemContent">
+                <div className="aa-ItemContentTitle">
+                  No results for this query.
+                </div>
+              </div>
             );
           },
         },

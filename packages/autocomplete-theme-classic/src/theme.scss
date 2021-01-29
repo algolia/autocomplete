@@ -2,37 +2,38 @@
 // Variables
 // ----------------
 :root {
-    --aa-base-unit: 16;
-    --aa-font-size: calc(var(--aa-base-unit) * 1px);
-    --aa-spacing-factor: 1; // xs:0.6 / sm:0.8 / md:1 / lg:1.2 / xl:1.5 - refs in spacing.json
-    --aa-spacing: calc(var(--aa-base-unit) * var(--aa-spacing-factor) * 1px);
-    --aa-spacing-half: calc(var(--aa-spacing) / 2);
-    --aa-spacing-third: calc(var(--aa-spacing) / 3);
-    --aa-icon-size: 18px;
-    --aa-icon-stroke-width: calc((20 / var(--aa-base-unit)) * 1.6);
-    --aa-primary-color: rgb(62, 52, 211);
-    --aa-muted-color: rgba(128, 126, 163, 0.6);
-    --aa-selected-color: rgba(62, 52, 211, 0.1);
-    --aa-icon-color: rgb(119, 119, 163);
-    --aa-text-color: rgb(38, 38, 39);
-    --aa-background-color: rgb(255, 255, 255);
-    --aa-panel-shadow: 0 0 0 1px rgba(35, 38, 59, 0.1), 0 6px 16px -4px rgba(35, 38, 59, 0.15);
+  --aa-base-unit: 16;
+  --aa-font-size: calc(var(--aa-base-unit) * 1px);
+  --aa-spacing-factor: 1; // xs:0.6 / sm:0.8 / md:1 / lg:1.2 / xl:1.5
+  --aa-spacing: calc(var(--aa-base-unit) * var(--aa-spacing-factor) * 1px);
+  --aa-spacing-half: calc(var(--aa-spacing) / 2);
+  --aa-icon-size: 18px;
+  --aa-icon-stroke-width: calc((20 / var(--aa-base-unit)) * 1.6);
+  --aa-primary-color: rgb(62, 52, 211);
+  --aa-muted-color: rgba(128, 126, 163, 0.6);
+  --aa-selected-color: rgba(62, 52, 211, 0.1);
+  --aa-icon-color: rgb(119, 119, 163);
+  --aa-text-color: rgb(38, 38, 39);
+  --aa-background-color: rgb(255, 255, 255);
+  --aa-panel-shadow: 0 0 0 1px rgba(35, 38, 59, 0.1),
+    0 6px 16px -4px rgba(35, 38, 59, 0.15);
 }
 
 // ----------------
 // Darkmode
 // ----------------
 body {
-    &[data-theme='dark'],
-    &.dark {
-        --aa-primary-color: rgb(93, 85, 213);
-        --aa-muted-color: rgba(93, 85, 213, 0.6);
-        --aa-selected-color: rgba(93, 85, 213, 0.25);
-        --aa-icon-color: rgb(119, 119, 163);
-        --aa-text-color: rgb(183, 192, 199);
-        --aa-background-color: rgb(21, 24, 42);
-        --aa-panel-shadow: inset 1px 1px 0 0 rgb(44, 46, 64), 0 3px 8px 0 rgb(0, 3, 9);
-    }
+  &[data-theme='dark'],
+  &.dark {
+    --aa-primary-color: rgb(93, 85, 213);
+    --aa-muted-color: rgba(93, 85, 213, 0.6);
+    --aa-selected-color: rgba(93, 85, 213, 0.25);
+    --aa-icon-color: rgb(119, 119, 163);
+    --aa-text-color: rgb(183, 192, 199);
+    --aa-background-color: rgb(21, 24, 42);
+    --aa-panel-shadow: inset 1px 1px 0 0 rgb(44, 46, 64),
+      0 3px 8px 0 rgb(0, 3, 9);
+  }
 }
 
 // ----------------
@@ -40,175 +41,176 @@ body {
 // ----------------
 .aa-Autocomplete,
 .aa-TouchFormContainer {
-    font-size: var(--aa-font-size);
-    text-align: left;
+  font-size: var(--aa-font-size);
+  line-height: 1em;
+  text-align: left;
+  //reset
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  // searchbox
+  .aa-Form {
+    align-items: center;
+    background-color: var(--aa-background-color);
+    border: 1px solid var(--aa-muted-color);
+    border-radius: 3px;
+    display: flex;
     line-height: 1em;
-    //reset
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
+    padding: 0 var(--aa-spacing) 0 var(--aa-spacing-half);
+    position: relative;
+    width: 100%;
+    &:focus-within {
+      border-color: var(--aa-primary-color);
+      box-shadow: var(--aa-selected-color) 0 0 0 3px,
+        inset var(--aa-selected-color) 0 0 0 2px;
+      outline: currentcolor none medium;
     }
-    // searchbox
-    .aa-Form {
+    .aa-InputWrapperPrefix {
+      align-items: center;
+      display: flex;
+      flex-shrink: 0;
+      flex-wrap: none;
+      order: 1;
+      padding-right: var(--aa-spacing-half);
+      // the container for search and loading icons
+      .aa-Label,
+      .aa-LoadingIndicator {
+        cursor: initial;
+        flex-shrink: 0;
+        text-align: center;
+        width: calc(var(--aa-spacing) + var(--aa-icon-size));
+        button {
+          appearance: none;
+          background: none;
+          border: none;
+        }
+        svg {
+          color: var(--aa-primary-color);
+          left: 2px;
+          position: relative;
+          stroke-width: var(--aa-icon-stroke-width);
+          width: 20px;
+        }
+      }
+    }
+    .aa-InputWrapper {
+      order: 3;
+      position: relative;
+      width: 100%;
+      // input of the searchbox, where the placeholder and query appear
+      .aa-Input {
+        appearance: none;
+        background: none;
+        border: none;
+        color: var(--aa-text-color);
+        font: inherit;
+        height: calc(var(--aa-spacing) * 2.5);
         width: 100%;
-        position: relative;
-        display: flex;
-        border: 1px solid var(--aa-muted-color);
-        align-items: center;
-        padding: 0 var(--aa-spacing) 0 var(--aa-spacing-half);
-        line-height: 1em;
-        background-color: var(--aa-background-color);
-        border-radius: 3px;
-        &:focus-within {
-            border-color: var(--aa-primary-color);
-            box-shadow: var(--aa-selected-color) 0 0 0 3px, inset var(--aa-selected-color) 0 0 0 2px;
-            outline: currentcolor none medium;
+        // remove native appearence
+        &::-webkit-search-decoration,
+        &::-webkit-search-cancel-button,
+        &::-webkit-search-results-button,
+        &::-webkit-search-results-decoration {
+          -webkit-appearance: none;
         }
-        .aa-InputWrapperPrefix {
-            order: 1;
-            flex-shrink: 0;
-            flex-wrap: none;
-            display: flex;
-            align-items: center;
-            padding-right: var(--aa-spacing-half);
-            // the container for search and loading icons
-            .aa-Label,
-            .aa-LoadingIndicator {
-                cursor: initial;
-                flex-shrink: 0;
-                text-align: center;
-                width: calc(var(--aa-spacing) + var(--aa-icon-size));
-                button {
-                    appearance: none;
-                    background: none;
-                    border: none;
-                }
-                svg {
-                    color: var(--aa-primary-color);
-                    stroke-width: var(--aa-icon-stroke-width);
-                    width: 20px;
-                    position: relative;
-                    left: 2px;
-                }
-            }
+        &::placeholder {
+          color: var(--aa-muted-color);
+          opacity: 1;
         }
-        .aa-InputWrapper {
-            position: relative;
-            width: 100%;
-            order: 3;
-            // input of the searchbox, where the placeholder and query appear
-            .aa-Input {
-                width: 100%;
-                height: calc(var(--aa-spacing) * 2.5);
-                appearance: none;
-                background: none;
-                border: none;
-                font: inherit;
-                color: var(--aa-text-color);
-                // remove native appearence
-                &::-webkit-search-decoration,
-                &::-webkit-search-cancel-button,
-                &::-webkit-search-results-button,
-                &::-webkit-search-results-decoration {
-                    -webkit-appearance: none;
-                }
-                &::placeholder {
-                    opacity: 1;
-                    color: var(--aa-muted-color);
-                }
-                // remove focus effect as we moved it to parent wrapper
-                &:focus {
-                    border-color: none;
-                    box-shadow: none;
-                    outline: none;
-                }
-            }
+        // remove focus effect as we moved it to parent wrapper
+        &:focus {
+          border-color: none;
+          box-shadow: none;
+          outline: none;
         }
-        .aa-InputWrapperSuffix {
-            order: 4;
-            display: flex;
-            align-items: center;
-            // accelerator to clear the query
-            .aa-ResetButton {
-                display: flex;
-                align-items: center;
-                border: 0;
-                cursor: pointer;
-                background: none;
-                color: var(--aa-muted-color);
-                &[hidden] {
-                    display: none;
-                }
-                &:hover {
-                    color: var(--aa-text-color);
-                }
-                svg {
-                    width: var(--aa-icon-size);
-                    stroke-width: var(--aa-icon-stroke-width);
-                }
-            }
-        }
+      }
     }
+    .aa-InputWrapperSuffix {
+      align-items: center;
+      display: flex;
+      order: 4;
+      // accelerator to clear the query
+      .aa-ResetButton {
+        align-items: center;
+        background: none;
+        border: 0;
+        color: var(--aa-muted-color);
+        cursor: pointer;
+        display: flex;
+        &[hidden] {
+          display: none;
+        }
+        &:hover {
+          color: var(--aa-text-color);
+        }
+        svg {
+          stroke-width: var(--aa-icon-stroke-width);
+          width: var(--aa-icon-size);
+        }
+      }
+    }
+  }
 }
 
 // ----------------
 // Panel
 // ----------------
 .aa-Panel {
-    position: absolute;
-    //reset
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
+  position: absolute;
+  //reset
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  button {
+    appearance: none;
+    background: none;
+    border: none;
+  }
+  &.aa-Panel--desktop {
+    .aa-PanelLayout {
+      background-color: var(--aa-background-color);
+      border-radius: 3px;
+      box-shadow: var(--aa-panel-shadow);
+      //display: flex;
+      margin-top: var(--aa-spacing-half);
+      overflow: hidden;
+      padding-bottom: var(--aa-spacing-half);
+      padding-top: var(--aa-spacing-half);
+      text-align: left;
+      .aa-PanelLayoutResults {
+        overflow-y: scroll;
+        width: 50%;
+        // section.aa-Source
+      }
+      .aa-PanelLayoutPreview {
+        border-left: solid 1px var(--aa-selected-color);
+        flex-shrink: 1;
+        max-width: 50%;
+        overflow: hidden;
+      }
     }
-    button {
-        appearance: none;
-        background: none;
-        border: none;
+  }
+  &.aa-Panel--touch {
+    left: var(--aa-spacing-half);
+    padding-top: var(--aa-spacing-half);
+    right: var(--aa-spacing-half);
+    .aa-Item {
+      padding: 0;
     }
-    &.aa-Panel--desktop {
-        .aa-PanelLayout {
-            //display: flex;
-            margin-top: var(--aa-spacing-half);
-            padding-top: var(--aa-spacing-half);
-            border-radius: 3px;
-            background-color: var(--aa-background-color);
-            box-shadow: var(--aa-panel-shadow);
-            text-align: left;
-            padding-bottom: var(--aa-spacing-half);
-            overflow: hidden;
-            .aa-PanelLayoutResults {
-                width: 50%;
-                overflow-y: scroll;
-                // section.aa-Source
-            }
-            .aa-PanelLayoutPreview {
-                flex-shrink: 1;
-                max-width: 50%;
-                overflow: hidden;
-                border-left: solid 1px var(--aa-selected-color);
-            }
-        }
+    .aa-SourceHeader {
+      margin: var(--aa-spacing-half) 0 var(--aa-spacing-half) 2px;
     }
-    &.aa-Panel--touch {
-        right: var(--aa-spacing-half);
-        left: var(--aa-spacing-half);
-        padding-top: var(--aa-spacing-half);
-        .aa-Item {
-            padding: 0;
-        }
-        .aa-SourceHeader {
-            margin: var(--aa-spacing-half) 0 var(--aa-spacing-half) 2px;
-        }
-    }
-    // when a query isn't resolved yet
-    &.aa-Panel--stalled {
-        filter: grayscale(1);
-        opacity: 0.8;
-        transition: opacity 200ms ease-in;
-    }
+  }
+  // when a query isn't resolved yet
+  &.aa-Panel--stalled {
+    filter: grayscale(1);
+    opacity: 0.8;
+    transition: opacity 200ms ease-in;
+  }
 }
 
 // ----------------
@@ -217,244 +219,244 @@ body {
 // Each source can be styled independantly here
 // ----------------
 .aa-Source {
-    width: 100%;
-    // source title
-    .aa-SourceHeader {
-        position: relative;
-        line-height: var(--aa-spacing);
-        margin: var(--aa-spacing-half) var(--aa-spacing);
-        // title typography
-        span {
-            color: var(--aa-primary-color);
-            display: inline-block;
-            position: relative;
-            z-index: 2;
-            padding-right: var(--aa-spacing-half);
-            font-size: 0.8em;
-            font-weight: 600;
-            text-transform: capitalize;
-            background: var(--aa-background-color);
-        }
-        // Line separator
-        .aa-SourceHeaderLine {
-            z-index: 1;
-            position: absolute;
-            display: block;
-            top: var(--aa-spacing-half);
-            left: 0;
-            right: 0;
-            height: 2px;
-            opacity: 0.3;
-            border-bottom: solid 1px var(--aa-primary-color);
-        }
-        // hide empty header
-        &:empty {
-            display: none;
-        }
+  width: 100%;
+  // source title
+  .aa-SourceHeader {
+    line-height: var(--aa-spacing);
+    margin: var(--aa-spacing-half) var(--aa-spacing);
+    position: relative;
+    // title typography
+    span {
+      background: var(--aa-background-color);
+      color: var(--aa-primary-color);
+      display: inline-block;
+      font-size: 0.8em;
+      font-weight: 600;
+      padding-right: var(--aa-spacing-half);
+      position: relative;
+      text-transform: capitalize;
+      z-index: 2;
     }
+    // Line separator
+    .aa-SourceHeaderLine {
+      border-bottom: solid 1px var(--aa-primary-color);
+      display: block;
+      height: 2px;
+      left: 0;
+      opacity: 0.3;
+      position: absolute;
+      right: 0;
+      top: var(--aa-spacing-half);
+      z-index: 1;
+    }
+    // hide empty header
     &:empty {
-        // hide empty section
-        display: none;
+      display: none;
     }
-    // the list of results inside the source
-    ul.aa-List {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
+  }
+  &:empty {
+    // hide empty section
+    display: none;
+  }
+  // the list of results inside the source
+  ul.aa-List {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 // ----------------
 // Hit Layout
 // ----------------
 .aa-Item {
-    display: flex;
-    padding: 0 var(--aa-spacing-half);
-    line-height: 1.1em;
-    align-items: center;
-    color: var(--aa-text-color);
-    height: 100%;
-    cursor: pointer;
-    // when the result is active
-    &[aria-selected='true'] {
-        background-color: var(--aa-selected-color);
-        .aa-ItemActionButton {
-            visibility: visible;
-        }
-    }
-    // wrap hit with url but we don't need to see it
-    .aa-ItemLink {
-        color: inherit;
-        text-decoration: none;
-        width: 100%;
-        display: flex;
-        align-items: center;
-    }
-    // the result type icon inlined svg or img
-    .aa-ItemIcon {
-        box-shadow: inset 0 0 0 1px var(--aa-selected-color);
-        border-radius: 3px;
-        margin: 2px 0 2px 2px;
-        flex-shrink: 0;
-        font-size: var(--aa-icon-size);
-        width: calc(var(--aa-icon-size) + var(--aa-spacing));
-        height: calc(var(--aa-icon-size) + var(--aa-spacing));
-        stroke-width: var(--aa-icon-stroke-width);
-        color: var(--aa-icon-color);
-        margin-right: var(--aa-spacing-half);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        img,
-        svg {
-            width: var(--aa-icon-size);
-            height: var(--aa-icon-size);
-        }
-    }
-    .aa-ItemContent {
-        flex-shrink: 1;
-        overflow: hidden;
-        width: 100%;
-        color: var(--aa-text-color);
-        cursor: pointer;
-        padding: calc(var(--aa-spacing) / 4) 0;
-        mark {
-            color: var(--aa-text-color);
-            background: none;
-            font-style: normal;
-            font-weight: bold;
-        }
-        .aa-ItemContentTitle {
-            display: inline-block;
-            max-width: 100%;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow-x: hidden;
-        }
-        .aa-ItemContentSubtitle {
-            display: inline-block;
-            max-width: 100%;
-            white-space: nowrap;
-            color: var(--aa-muted-color);
-            font-size: 0.75em;
-            text-overflow: ellipsis;
-            overflow-x: hidden;
-            margin-top: -2px;
-            &:empty {
-                display: none;
-            }
-            .aa-ItemContentDash {
-                display: none;
-                opacity: 0.4;
-                color: var(--aa-muted-color);
-            }
-            .aa-ItemContentTag {
-                padding: 0.08em 0.3em;
-                margin-right: 0.4em;
-                border-radius: 3px;
-                background-color: var(--aa-selected-color);
-            }
-        }
-        &.aa-ItemContent--dual {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-            justify-content: center;
-            .aa-ItemContentTitle,
-            .aa-ItemContentSubtitle {
-                display: block;
-            }
-        }
-        .aa-ItemContentDescription {
-            padding: 0.3em 0;
-            color: var(--aa-text-color);
-            opacity: 0.7;
-            font-size: 0.85em;
-            text-overflow: ellipsis;
-            max-width: 100%;
-            overflow-x: hidden;
-            mark {
-                background: none;
-                font-style: normal;
-                font-weight: bold;
-            }
-            &:empty {
-                display: none;
-            }
-        }
-    }
-    // secondary click action
+  align-items: center;
+  color: var(--aa-text-color);
+  cursor: pointer;
+  display: flex;
+  height: 100%;
+  line-height: 1.1em;
+  padding: 0 var(--aa-spacing-half);
+  // when the result is active
+  &[aria-selected='true'] {
+    background-color: var(--aa-selected-color);
     .aa-ItemActionButton {
-        display: flex;
-        flex-shrink: 0;
-        visibility: hidden;
-        border: 0;
-        background: none;
-        cursor: pointer;
-        align-items: center;
-        color: var(--aa-muted-color);
-        &:hover svg {
-            color: var(--aa-text-color);
-        }
-        svg {
-            width: var(--aa-icon-size);
-            stroke-width: var(--aa-icon-stroke-width);
-            color: var(--aa-muted-color);
-            margin: 0 var(--aa-spacing-half);
-            &:hover {
-                color: var(--aa-text-color);
-            }
-        }
+      visibility: visible;
     }
+  }
+  // wrap hit with url but we don't need to see it
+  .aa-ItemLink {
+    align-items: center;
+    color: inherit;
+    display: flex;
+    text-decoration: none;
+    width: 100%;
+  }
+  // the result type icon inlined svg or img
+  .aa-ItemIcon {
+    align-items: center;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1px var(--aa-selected-color);
+    color: var(--aa-icon-color);
+    display: flex;
+    flex-shrink: 0;
+    font-size: var(--aa-icon-size);
+    height: calc(var(--aa-icon-size) + var(--aa-spacing));
+    justify-content: center;
+    margin: 2px 0 2px 2px;
+    margin-right: var(--aa-spacing-half);
+    stroke-width: var(--aa-icon-stroke-width);
+    text-align: center;
+    width: calc(var(--aa-icon-size) + var(--aa-spacing));
+    img,
+    svg {
+      height: var(--aa-icon-size);
+      width: var(--aa-icon-size);
+    }
+  }
+  .aa-ItemContent {
+    color: var(--aa-text-color);
+    cursor: pointer;
+    flex-shrink: 1;
+    overflow: hidden;
+    padding: calc(var(--aa-spacing) / 4) 0;
+    width: 100%;
+    mark {
+      background: none;
+      color: var(--aa-text-color);
+      font-style: normal;
+      font-weight: bold;
+    }
+    .aa-ItemContentTitle {
+      display: inline-block;
+      max-width: 100%;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .aa-ItemContentSubtitle {
+      color: var(--aa-muted-color);
+      display: inline-block;
+      font-size: 0.75em;
+      margin-top: -2px;
+      max-width: 100%;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      &:empty {
+        display: none;
+      }
+      .aa-ItemContentDash {
+        color: var(--aa-muted-color);
+        display: none;
+        opacity: 0.4;
+      }
+      .aa-ItemContentTag {
+        background-color: var(--aa-selected-color);
+        border-radius: 3px;
+        margin-right: 0.4em;
+        padding: 0.08em 0.3em;
+      }
+    }
+    &.aa-ItemContent--dual {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+      .aa-ItemContentTitle,
+      .aa-ItemContentSubtitle {
+        display: block;
+      }
+    }
+    .aa-ItemContentDescription {
+      color: var(--aa-text-color);
+      font-size: 0.85em;
+      max-width: 100%;
+      opacity: 0.7;
+      overflow-x: hidden;
+      padding: 0.3em 0;
+      text-overflow: ellipsis;
+      mark {
+        background: none;
+        font-style: normal;
+        font-weight: bold;
+      }
+      &:empty {
+        display: none;
+      }
+    }
+  }
+  // secondary click action
+  .aa-ItemActionButton {
+    align-items: center;
+    background: none;
+    border: 0;
+    color: var(--aa-muted-color);
+    cursor: pointer;
+    display: flex;
+    flex-shrink: 0;
+    visibility: hidden;
+    &:hover svg {
+      color: var(--aa-text-color);
+    }
+    svg {
+      color: var(--aa-muted-color);
+      margin: 0 var(--aa-spacing-half);
+      stroke-width: var(--aa-icon-stroke-width);
+      width: var(--aa-icon-size);
+      &:hover {
+        color: var(--aa-text-color);
+      }
+    }
+  }
 }
 
 //----------------
 // Touch
 //----------------
 .aa-TouchSearchButton {
+  align-items: center;
+  background-color: var(--aa-background-color);
+  border: 1px solid var(--aa-muted-color);
+  border-radius: 3px;
+  color: var(--aa-muted-color);
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  height: calc(var(--aa-spacing) * 2.5);
+  padding: 0 var(--aa-spacing-half);
+  position: relative;
+  text-align: left;
+  .aa-TouchSearchButtonIcon {
     align-items: center;
-    height: calc(var(--aa-spacing) * 2.5);
-    background-color: var(--aa-background-color);
+    color: var(--aa-icon-color);
+    cursor: initial;
     display: flex;
-    position: relative;
-    border: 1px solid var(--aa-muted-color);
-    border-radius: 3px;
-    font: inherit;
-    cursor: pointer;
-    padding: 0 var(--aa-spacing-half);
-    text-align: left;
-    color: var(--aa-muted-color);
-    .aa-TouchSearchButtonIcon {
-        align-items: center;
-        color: var(--aa-icon-color);
-        cursor: initial;
-        display: flex;
-        height: 100%;
-        margin-right: var(--aa-spacing-third);
-    }
+    height: 100%;
+    margin-right: var(--aa-spacing-half);
+  }
 }
 
 .aa-TouchOverlay {
-    backdrop-filter: blur(16px);
-    background: var(--aa-background-color);
-    bottom: 0;
-    left: 0;
-    padding: var(--aa-spacing-half);
-    position: fixed;
-    right: 0;
-    top: 0;
-    .aa-TouchFormContainer {
-        display: flex;
-        justify-content: space-between;
-    }
-    .aa-TouchCancelButton {
-        padding: 0;
-        padding-left: var(--aa-spacing-half);
-        background: none;
-        border: 0;
-        color: inherit;
-        cursor: pointer;
-        font-size: inherit;
-    }
+  backdrop-filter: blur(16px);
+  background: var(--aa-background-color);
+  bottom: 0;
+  left: 0;
+  padding: var(--aa-spacing-half);
+  position: fixed;
+  right: 0;
+  top: 0;
+  .aa-TouchFormContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+  .aa-TouchCancelButton {
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font-size: inherit;
+    padding: 0;
+    padding-left: var(--aa-spacing-half);
+  }
 }
