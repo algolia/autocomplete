@@ -2,7 +2,6 @@
 import {
   autocomplete,
   getAlgoliaHits,
-  highlightHit,
   snippetHit,
 } from '@algolia/autocomplete-js';
 import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
