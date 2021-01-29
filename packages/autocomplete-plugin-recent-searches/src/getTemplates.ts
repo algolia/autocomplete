@@ -14,7 +14,7 @@ export function getTemplates<TItem extends RecentSearchesItem>({
       return createElement(Fragment, {
         children: [
           createElement('div', {
-            className: 'aa-itemIcon',
+            className: 'aa-ItemIcon aa-ItemIcon--no-border',
             children: [
               createElement(
                 'svg',

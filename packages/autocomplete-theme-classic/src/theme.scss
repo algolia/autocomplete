@@ -44,7 +44,7 @@ body {
   font-size: var(--aa-font-size);
   line-height: 1em;
   text-align: left;
-  //reset
+  // reset
   * {
     box-sizing: border-box;
     margin: 0;
@@ -74,7 +74,7 @@ body {
       flex-wrap: none;
       order: 1;
       padding-right: var(--aa-spacing-half);
-      // the container for search and loading icons
+      // container for search and loading icons
       .aa-Label,
       .aa-LoadingIndicator {
         cursor: initial;
@@ -158,8 +158,8 @@ body {
 // Panel
 // ----------------
 .aa-Panel {
-  position: absolute;
-  //reset
+  position: fixed;
+  // reset
   * {
     box-sizing: border-box;
     margin: 0;
@@ -175,7 +175,6 @@ body {
       background-color: var(--aa-background-color);
       border-radius: 3px;
       box-shadow: var(--aa-panel-shadow);
-      //display: flex;
       margin-top: var(--aa-spacing-half);
       overflow: hidden;
       padding-bottom: var(--aa-spacing-half);
@@ -184,7 +183,6 @@ body {
       .aa-PanelLayoutResults {
         overflow-y: scroll;
         width: 50%;
-        // section.aa-Source
       }
       .aa-PanelLayoutPreview {
         border-left: solid 1px var(--aa-selected-color);
@@ -215,18 +213,17 @@ body {
 
 // ----------------
 // Sources
-// children of .col-results
-// Each source can be styled independantly here
+// Each source can be styled independently
 // ----------------
 .aa-Source {
   width: 100%;
   // source title
   .aa-SourceHeader {
     line-height: var(--aa-spacing);
-    margin: var(--aa-spacing-half) var(--aa-spacing);
+    margin: var(--aa-spacing-half) calc(var(--aa-spacing-half) + 2px);
     position: relative;
-    // title typography
-    span {
+    // Title typography
+    .aa-SourceHeaderTitle {
       background: var(--aa-background-color);
       color: var(--aa-primary-color);
       display: inline-block;
@@ -258,8 +255,8 @@ body {
     // hide empty section
     display: none;
   }
-  // the list of results inside the source
-  ul.aa-List {
+  // list of results inside the source
+  .aa-List {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -277,6 +274,7 @@ body {
   height: 100%;
   line-height: 1.1em;
   padding: 0 var(--aa-spacing-half);
+
   // when the result is active
   &[aria-selected='true'] {
     background-color: var(--aa-selected-color);
@@ -295,6 +293,7 @@ body {
   // the result type icon inlined svg or img
   .aa-ItemIcon {
     align-items: center;
+    background: #fff;
     border-radius: 3px;
     box-shadow: inset 0 0 0 1px var(--aa-selected-color);
     color: var(--aa-icon-color);
@@ -303,12 +302,19 @@ body {
     font-size: var(--aa-icon-size);
     height: calc(var(--aa-icon-size) + var(--aa-spacing));
     justify-content: center;
-    margin: 2px 0 2px 2px;
-    margin-right: var(--aa-spacing-half);
+    margin: 2px var(--aa-spacing-half) 2px 2px;
     stroke-width: var(--aa-icon-stroke-width);
     text-align: center;
     width: calc(var(--aa-icon-size) + var(--aa-spacing));
-    img,
+    &.aa-ItemIcon--no-border {
+      background: none;
+      box-shadow: none;
+      margin: 0 var(--aa-spacing-half) 0 2px;
+    }
+    img {
+      height: calc(var(--aa-icon-size) + var(--aa-spacing) - 8px);
+      width: calc(var(--aa-icon-size) + var(--aa-spacing) - 8px);
+    }
     svg {
       height: var(--aa-icon-size);
       width: var(--aa-icon-size);

@@ -30,7 +30,11 @@ export const shortcutsPlugin: AutocompletePlugin<DarkModeItem> = {
             return createElement(
               Fragment,
               {},
-              createElement('span', {}, 'Shortcuts'),
+              createElement(
+                'span',
+                { className: 'aa-SourceHeaderTitle' },
+                'Shortcuts'
+              ),
               createElement('div', { className: 'aa-SourceHeaderLine' })
             );
           },

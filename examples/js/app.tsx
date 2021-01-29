@@ -3,6 +3,7 @@ import {
   autocomplete,
   getAlgoliaHits,
   highlightHit,
+  snippetHit,
 } from '@algolia/autocomplete-js';
 import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
@@ -61,14 +62,22 @@ autocomplete({
         getItems() {
           return getAlgoliaHits<Product>({
             searchClient,
-            queries: [{ indexName: 'instant_search', query }],
+            queries: [
+              {
+                indexName: 'instant_search',
+                query,
+                params: {
+                  attributesToSnippet: ['description:25'],
+                },
+              },
+            ],
           });
         },
         templates: {
           header() {
             return (
               <Fragment>
-                <span>Products</span>
+                <span className="aa-SourceHeaderTitle">Products</span>
                 <div className="aa-SourceHeaderLine"></div>
               </Fragment>
             );
@@ -80,7 +89,7 @@ autocomplete({
             return (
               <div className="aa-ItemContent">
                 <div className="aa-ItemContentTitle">
-                  No results for this query.
+                  No products for this query.
                 </div>
               </div>
             );
@@ -99,11 +108,14 @@ function ProductItem({ hit }: ProductItemProps) {
   return (
     <Fragment>
       <div className="aa-ItemIcon">
-        <img src={hit.image} alt={hit.name} width="20" height="20" />
+        <img src={hit.image} alt={hit.name} width="40" height="40" />
       </div>
       <div className="aa-ItemContent">
         <div className="aa-ItemContentTitle">
           {highlightHit<ProductHit>({ hit, attribute: 'name' })}
+        </div>
+        <div className="aa-ItemContentDescription">
+          {snippetHit<ProductHit>({ hit, attribute: 'description' })}
         </div>
       </div>
       <button className="aa-ItemActionButton" type="button" title="select">

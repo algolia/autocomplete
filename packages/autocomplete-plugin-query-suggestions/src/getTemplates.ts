@@ -14,7 +14,7 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
       return createElement(Fragment, {
         children: [
           createElement('div', {
-            className: 'aa-itemIcon',
+            className: 'aa-ItemIcon aa-ItemIcon--no-border',
             children: [
               createElement(
                 'svg',
@@ -39,7 +39,6 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
           createElement('div', {
             className: 'aa-ItemContent',
             children: [
-
               createElement('div', {
                 className: 'aa-ItemContentTitle',
                 children: reverseHighlightHit<any>({
