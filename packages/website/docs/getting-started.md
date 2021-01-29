@@ -15,13 +15,13 @@ Keep reading to see how to install Autocomplete and build a basic implementation
 
 ## Installation
 
-The recommended way to get started is with the [`autocomplete-js` package](#javascript) which includes everything you need to render a JavaScript autocomplete experience.
+The recommended way to get started is with the [`autocomplete-js` package](#installing-autocomplete-js) which includes everything you need to render a JavaScript autocomplete experience.
 
-Otherwise, you can or [install the `autocomplete-core` package](#headless) if you want to [build a renderer](creating-a-renderer) from scratch.
+Otherwise, you can or [install the `autocomplete-core` package](#installing-autocomplete-core) if you want to [build a renderer](creating-a-renderer) from scratch.
 
 The Autocomplete library is available on the [npm](https://www.npmjs.com/) registry.
 
-### JavaScript
+### Installing `autocomplete-js`
 
 ```bash
 yarn add @algolia/autocomplete-js@alpha
@@ -39,7 +39,13 @@ If you don't want to use a package manager, you can use standalone endpoints:
 <script src="https://unpkg.com/@algolia/autocomplete-js@alpha"></script>
 ```
 
-### Headless
+### Installing `autocomplete-core`
+
+:::note
+
+If you installed the [`autocomplete-js`](autocomplete-js), there's no need to install the [`autocomplete-core`](createAutocomplete) package. You can skip to [defining where to put your autocomplete](#defining-where-to-put-your-autocomplete).
+
+:::
 
 ```bash
 yarn add @algolia/autocomplete-core@alpha
