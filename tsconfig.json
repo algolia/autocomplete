@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "jsx": "react",
+    "jsxFactory": "createElement",
     "module": "es2015",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
