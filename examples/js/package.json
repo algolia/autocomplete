@@ -18,7 +18,7 @@
     "@algolia/autocomplete-theme-classic": "1.0.0-alpha.39",
     "@algolia/client-search": "4.8.3",
     "algoliasearch": "4.8.3",
-    "preact": "^10.5.11",
+    "preact": "10.5.12",
     "search-insights": "1.6.3"
   },
   "devDependencies": {
