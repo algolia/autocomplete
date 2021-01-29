@@ -67,7 +67,7 @@ body {
       border-color: var(--aa-primary-color);
       box-shadow: var(--aa-selected-color) 0 0 0 3px,
         inset var(--aa-selected-color) 0 0 0 2px;
-      outline: currentcolor none medium;
+      outline: currentColor none medium;
     }
     .aa-InputWrapperPrefix {
       align-items: center;
@@ -115,7 +115,7 @@ body {
         &::-webkit-search-cancel-button,
         &::-webkit-search-results-button,
         &::-webkit-search-results-decoration {
-          -webkit-appearance: none;
+          appearance: none;
         }
         &::placeholder {
           color: var(--aa-muted-color);
@@ -144,7 +144,8 @@ body {
         &[hidden] {
           display: none;
         }
-        &:hover {
+        &:hover,
+        &:focus {
           color: var(--aa-text-color);
         }
         svg {
@@ -214,7 +215,9 @@ body {
   &.aa-Panel--stalled {
     filter: grayscale(1);
     opacity: 0.8;
-    transition: opacity 200ms ease-in;
+    @media screen and (prefers-reduced-motion: reduce) {
+      transition: opacity 200ms ease-in;
+    }
   }
 }
 
@@ -413,7 +416,8 @@ body {
     cursor: pointer;
     display: flex;
     flex-shrink: 0;
-    &:hover svg {
+    &:hover svg,
+    &:focus svg {
       color: var(--aa-text-color);
     }
     svg {
@@ -421,7 +425,8 @@ body {
       margin: 0 var(--aa-spacing-half);
       stroke-width: var(--aa-icon-stroke-width);
       width: var(--aa-icon-size);
-      &:hover {
+      &:hover,
+      &:focus {
         color: var(--aa-text-color);
       }
     }
