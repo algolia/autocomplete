@@ -24,6 +24,7 @@
 // Darkmode
 // ----------------
 body {
+  /* stylelint-disable selector-no-qualifying-type, selector-class-pattern */
   &[data-theme='dark'],
   &.dark {
     --aa-primary-color: rgb(93, 85, 213);
@@ -36,6 +37,7 @@ body {
     --aa-panel-shadow: inset 1px 1px 0 0 rgb(44, 46, 64),
       0 3px 8px 0 rgb(0, 3, 9);
   }
+  /* stylelint-enable selector-no-qualifying-type, selector-class-pattern */
 }
 
 // ----------------
@@ -86,7 +88,7 @@ body {
         button {
           appearance: none;
           background: none;
-          border: none;
+          border: 0;
         }
         svg {
           color: var(--aa-primary-color);
@@ -105,7 +107,7 @@ body {
       .aa-Input {
         appearance: none;
         background: none;
-        border: none;
+        border: 0;
         color: var(--aa-text-color);
         font: inherit;
         height: calc(var(--aa-spacing) * 2.5);
@@ -171,7 +173,7 @@ body {
   button {
     appearance: none;
     background: none;
-    border: none;
+    border: 0;
   }
   &.aa-Panel--desktop {
     .aa-PanelLayout {
