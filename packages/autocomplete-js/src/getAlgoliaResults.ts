@@ -8,7 +8,7 @@ import { version } from './version';
 export function getAlgoliaResults<TRecord>({
   searchClient,
   queries,
-}: SearchParams) {
+}: Pick<SearchParams, 'searchClient' | 'queries'>) {
   return getAlgoliaResultsOriginal<TRecord>({
     searchClient,
     queries,
