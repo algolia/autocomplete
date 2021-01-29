@@ -22,7 +22,7 @@
     },
     {
       "path": "packages/autocomplete-plugin-query-suggestions/dist/umd/index.production.js",
-      "maxSize": "2.8 kB"
+      "maxSize": "3 kB"
     }
   ]
 }
