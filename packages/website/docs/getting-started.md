@@ -35,7 +35,7 @@ If you don't want to use a package manager, you can use a standalone endpoint:
 
 We recommend using jsDeliver but [`autocomplete-js`](autocomplete-js) is also available at:
 - [CDNJS](https://cdnjs.com/libraries/autocomplete.js)
-- [unpkg](https://unpkg.com/browse/autocomplete@0.0.1/)
+- [unpkg](https://unpkg.com/@algolia/autocomplete-js@1.0.0-alpha.39)
 
 
 :::note
