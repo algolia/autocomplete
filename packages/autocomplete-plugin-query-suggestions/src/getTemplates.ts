@@ -14,7 +14,7 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
       return createElement(Fragment, {
         children: [
           createElement('div', {
-            className: 'aa-ItemSourceIcon',
+            className: 'aa-itemIcon',
             children: [
               createElement(
                 'svg',

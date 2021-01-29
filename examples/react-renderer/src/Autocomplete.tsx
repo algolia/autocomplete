@@ -153,7 +153,7 @@ export function Autocomplete(
                             {...autocomplete.getItemProps({ item, source })}
                           >
                             <div className="aa-ItemContent">
-                              <SearchIcon className="aa-ItemSourceIcon" />
+                              <SearchIcon className="aa-itemIcon" />
                               <div
                                 className="aa-ItemTitle"
                                 dangerouslySetInnerHTML={{
