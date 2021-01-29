@@ -14,6 +14,8 @@ import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
 
+import { shortcutsPlugin } from './shortcutsPlugin'
+
 type Product = { name: string; image: string };
 type ProductHit = Hit<Product>;
 
@@ -44,6 +46,7 @@ autocomplete({
   debug: true,
   openOnFocus: true,
   plugins: [
+    shortcutsPlugin,
     algoliaInsightsPlugin,
     recentSearchesPlugin,
     querySuggestionsPlugin,
@@ -106,33 +109,4 @@ function ProductItem({ hit }: ProductItemProps) {
       </button>
     </Fragment>
   );
-}
-
-const darkSwitch = document.getElementById("darkSwitch");
-
-if (darkSwitch) {
-  initTheme();
-  darkSwitch.addEventListener("change", () => {
-    resetTheme();
-  });
-}
-
-function initTheme() {
-  const darkThemeSelected =
-    localStorage.getItem("darkSwitch") !== null &&
-    localStorage.getItem("darkSwitch") === "dark";
-  darkSwitch.checked = darkThemeSelected;
-  darkThemeSelected
-    ? document.body.setAttribute("data-theme", "dark")
-    : document.body.removeAttribute("data-theme");
-}
-
-function resetTheme() {
-  if (darkSwitch.checked) {
-    document.body.setAttribute("data-theme", "dark");
-    localStorage.setItem("darkSwitch", "dark");
-  } else {
-    document.body.removeAttribute("data-theme");
-    localStorage.removeItem("darkSwitch");
-  }
 }
