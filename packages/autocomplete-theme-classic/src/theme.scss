@@ -206,7 +206,7 @@ body {
     // when a query isn't resolved yet
     &.aa-Panel--stalled {
         filter: grayscale(1);
-        opacity: 0.5;
+        opacity: 0.8;
         transition: opacity 200ms ease-in;
     }
 }
