@@ -25,7 +25,7 @@ const highlightedValue = highlightHit({
 });
 ```
 
-## Example with an nested array of strings
+## Example with nested attributes
 
 ```js
 import { highlightHit } from '@algolia/autocomplete-js';
@@ -62,7 +62,7 @@ The Algolia hit to retrieve the attribute value from.
 
 > `string | string[]` | required
 
-The attribute to retrieve the highlight value from.
+The attribute to retrieve the highlight value from. You can use the array syntax to reference the nested attributes.
 
 ### `tagName`
 

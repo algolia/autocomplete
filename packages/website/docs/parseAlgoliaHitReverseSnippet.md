@@ -28,7 +28,7 @@ const snippetParts = parseAlgoliaHitReverseSnippet({
 // => [{ value: 'Lap', isHighlighted: false }, { value: 'top', isHighlighted: true }]
 ```
 
-## Example with an nested array of strings
+## Example with nested attributes
 
 ```js
 import { parseAlgoliaHitReverseSnippet } from '@algolia/autocomplete-preset-algolia';
@@ -66,4 +66,4 @@ The Algolia hit to retrieve the attribute value from.
 
 > `string | string[]` | required
 
-The attribute to retrieve the reverse snippet value from.
+The attribute to retrieve the reverse snippet value from. You can use the array syntax to reference the nested attributes.
