@@ -33,17 +33,13 @@ If you don't want to use a package manager, you can use a standalone endpoint:
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js@alpha"></script>
 ```
 
-We recommend using jsDeliver but [`autocomplete-js`](autocomplete-js) is also available at:
-- [CDNJS](https://cdnjs.com/libraries/autocomplete.js)
-- [unpkg](https://unpkg.com/@algolia/autocomplete-js@1.0.0-alpha.39)
-
+We recommend using jsDeliver but [`autocomplete-js`](autocomplete-js) is also available through [unpkg](https://unpkg.com/@algolia/autocomplete-js@1.0.0-alpha.39).
 
 :::note
 
 We don't provide support regarding third party services like jsDeliver or other CDNs.
 
 :::
-
 
 ## Defining where to put your autocomplete
 
