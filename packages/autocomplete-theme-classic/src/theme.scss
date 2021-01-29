@@ -25,12 +25,12 @@
 body {
     &[data-theme='dark'],
     &.dark {
-        --aa-primary-color: rgb(247, 247, 0);
-        --aa-muted-color: rgba(167, 167, 96, 0.6);
-        --aa-selected-color: rgba(247, 247, 0, 0.1);
-        --aa-icon-color: rgb(31, 207, 248);
+        --aa-primary-color: rgb(93, 85, 213);
+        --aa-muted-color: rgba(93, 85, 213, 0.6);
+        --aa-selected-color: rgba(93, 85, 213, 0.25);
+        --aa-icon-color: rgb(119, 119, 163);
         --aa-text-color: rgb(183, 192, 199);
-        --aa-background-color: rgb(21, 23, 42);
+        --aa-background-color: rgb(21, 24, 42);
         --aa-panel-shadow: inset 1px 1px 0 0 rgb(44, 46, 64), 0 3px 8px 0 rgb(0, 3, 9);
     }
 }
