@@ -15,13 +15,11 @@ Keep reading to see how to install Autocomplete and build a basic implementation
 
 ## Installation
 
-The recommended way to get started is with the [`autocomplete-js` package](#installing-autocomplete-js) which includes everything you need to render a JavaScript autocomplete experience.
+The recommended way to get started is with the [`autocomplete-js`](autocomplete-js) package. It includes everything you need to render a JavaScript autocomplete experience.
 
-Otherwise, you can or [install the `autocomplete-core` package](#installing-autocomplete-core) if you want to [build a renderer](creating-a-renderer) from scratch.
+Otherwise, you can install the [`autocomplete-core`](createAutocomplete) package if you want to [build a renderer](creating-a-renderer) from scratch.
 
-The Autocomplete library is available on the [npm](https://www.npmjs.com/) registry.
-
-### Installing `autocomplete-js`
+All Autocomplete packages are available on the [npm](https://www.npmjs.com/) registry.
 
 ```bash
 yarn add @algolia/autocomplete-js@alpha
@@ -29,39 +27,23 @@ yarn add @algolia/autocomplete-js@alpha
 npm install @algolia/autocomplete-js@alpha
 ```
 
-If you don't want to use a package manager, you can use standalone endpoints:
+If you don't want to use a package manager, you can use a standalone endpoint:
 
 ```html
-<!-- jsDelivr -->
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js@alpha"></script>
-
-<!-- unpkg -->
-<script src="https://unpkg.com/@algolia/autocomplete-js@alpha"></script>
 ```
 
-### Installing `autocomplete-core`
+We recommend using jsDeliver but [`autocomplete-js`](autocomplete-js) is also available at:
+- [CDNJS](https://cdnjs.com/libraries/autocomplete.js)
+- [unpkg](https://unpkg.com/browse/autocomplete@0.0.1/)
+
 
 :::note
 
-If you installed the [`autocomplete-js`](autocomplete-js), there's no need to install the [`autocomplete-core`](createAutocomplete) package. You can skip to [defining where to put your autocomplete](#defining-where-to-put-your-autocomplete).
+We don't provide support regarding third party services like jsDeliver or other CDNs.
 
 :::
 
-```bash
-yarn add @algolia/autocomplete-core@alpha
-# or
-npm install @algolia/autocomplete-core@alpha
-```
-
-If you don't want to use a package manager, you can use standalone endpoints:
-
-```html
-<!-- jsDelivr -->
-<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-core@alpha"></script>
-
-<!-- unpkg -->
-<script src="https://unpkg.com/@algolia/autocomplete-core@alpha"></script>
-```
 
 ## Defining where to put your autocomplete
 
