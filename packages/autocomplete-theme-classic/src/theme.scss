@@ -50,7 +50,7 @@ body {
         padding: 0;
     }
     // searchbox
-    form.aa-Form {
+    .aa-Form {
         width: 100%;
         position: relative;
         display: flex;
@@ -73,7 +73,7 @@ body {
             align-items: center;
             padding-right: var(--aa-spacing-half);
             // the container for search and loading icons
-            label.aa-Label,
+            .aa-Label,
             .aa-LoadingIndicator {
                 cursor: initial;
                 flex-shrink: 0;
@@ -98,7 +98,7 @@ body {
             width: 100%;
             order: 3;
             // input of the searchbox, where the placeholder and query appear
-            input.aa-Input {
+            .aa-Input {
                 width: 100%;
                 height: calc(var(--aa-spacing) * 2.5);
                 appearance: none;
@@ -130,7 +130,7 @@ body {
             display: flex;
             align-items: center;
             // accelerator to clear the query
-            button.aa-ResetButton {
+            .aa-ResetButton {
                 display: flex;
                 align-items: center;
                 border: 0;
@@ -220,9 +220,9 @@ body {
 // ----------------
 // Sources
 // children of .col-results
-// Each section can be styled independantly here
+// Each source can be styled independantly here
 // ----------------
-section.aa-Source {
+.aa-Source {
     width: 100%;
     // source title
     .aa-SourceHeader {
@@ -273,7 +273,7 @@ section.aa-Source {
 // ----------------
 // Hit Layout - smart layout
 // ----------------
-li.aa-Item {
+.aa-Item {
     display: flex;
     padding: 0 var(--aa-spacing-half);
     line-height: 1.1em;
@@ -289,7 +289,7 @@ li.aa-Item {
         }
     }
     // wrap hit with url but we don't need to see it
-    a.aa-ItemLink {
+    .aa-ItemLink {
         color: inherit;
         text-decoration: none;
         width: 100%;
@@ -396,7 +396,7 @@ li.aa-Item {
         }
     }
     // secondary click action
-    button.aa-ItemActionButton {
+    .aa-ItemActionButton {
         display: flex;
         flex-shrink: 0;
         visibility: hidden;
