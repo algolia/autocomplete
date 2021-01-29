@@ -14,6 +14,7 @@
   --aa-selected-color: rgba(62, 52, 211, 0.1);
   --aa-icon-color: rgb(119, 119, 163);
   --aa-text-color: rgb(38, 38, 39);
+  --aa-content-text-color: rgb(38, 38, 39, 0.7);
   --aa-background-color: rgb(255, 255, 255);
   --aa-panel-shadow: 0 0 0 1px rgba(35, 38, 59, 0.1),
     0 6px 16px -4px rgba(35, 38, 59, 0.15);
@@ -30,6 +31,7 @@ body {
     --aa-selected-color: rgba(93, 85, 213, 0.25);
     --aa-icon-color: rgb(119, 119, 163);
     --aa-text-color: rgb(183, 192, 199);
+    --aa-content-text-color: rgb(183, 192, 199, 0.8);
     --aa-background-color: rgb(21, 24, 42);
     --aa-panel-shadow: inset 1px 1px 0 0 rgb(44, 46, 64),
       0 3px 8px 0 rgb(0, 3, 9);
@@ -158,7 +160,7 @@ body {
 // Panel
 // ----------------
 .aa-Panel {
-  position: fixed;
+  position: absolute;
   // reset
   * {
     box-sizing: border-box;
@@ -196,7 +198,12 @@ body {
     left: var(--aa-spacing-half);
     padding-top: var(--aa-spacing-half);
     right: var(--aa-spacing-half);
+
+    .aa-TouchOnly {
+      display: none;
+    }
     .aa-Item {
+      border-radius: 3px;
       padding: 0;
     }
     .aa-SourceHeader {
@@ -275,10 +282,15 @@ body {
   line-height: 1.1em;
   padding: 0 var(--aa-spacing-half);
 
+  .aa-ActiveOnly {
+    visibility: hidden;
+  }
   // when the result is active
   &[aria-selected='true'] {
     background-color: var(--aa-selected-color);
-    .aa-ItemActionButton {
+
+    .aa-ItemActionButton,
+    .aa-ActiveOnly {
       visibility: visible;
     }
   }
@@ -375,17 +387,17 @@ body {
       }
     }
     .aa-ItemContentDescription {
-      color: var(--aa-text-color);
+      color: var(--aa-content-text-color);
       font-size: 0.85em;
       max-width: 100%;
-      opacity: 0.7;
       overflow-x: hidden;
       padding: 0.3em 0;
       text-overflow: ellipsis;
       mark {
-        background: none;
+        background: rgb(245 223 77 / 0.5);
+        color: var(--aa-text-color);
         font-style: normal;
-        font-weight: bold;
+        font-weight: 500;
       }
       &:empty {
         display: none;
@@ -401,7 +413,6 @@ body {
     cursor: pointer;
     display: flex;
     flex-shrink: 0;
-    visibility: hidden;
     &:hover svg {
       color: var(--aa-text-color);
     }
