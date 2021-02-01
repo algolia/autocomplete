@@ -5,11 +5,9 @@ title: Using the Query Suggestions plugin
 
 Learn how to include suggested searches using the Query Suggestions plugin.
 
-The most common autocomplete UX is one that displays a list of possible queries, or "query suggestions," that your users can select from as they type. This pattern exists on popular sites such as Google and Amazon, so users expect it from a search experience. **Query Suggestions help users find queries that are guaranteed to return results.** They help users type less, which is especially impactful on mobile.
+The most common autocomplete UX is one that displays a list of possible queries, or "query suggestions," that your users can select from as they type.  **Query Suggestions help users find queries that are guaranteed to return results.** They help users type less, and find what they are looking for faster.
 
-The term “query suggestions” refers to the textual suggestions themselves. The terms “autocomplete” or “dropdown” refer to the UI that your users use to interact with suggestions.
-
-Query Suggestions are different from search results. Query Suggestions are only suggestions of better queries. When typing “smartphone”, a user may receive a suggestion to pick a more precise query, such as “smartphone apple” or “smartphone iphone xs”, which would retrieve more specific results.
+The term “query suggestions” refers to the textual suggestions themselves. Query Suggestions are different from search results. Query Suggestions are only suggestions of better queries. When typing “smartphone”, a user may receive a suggestion to pick a more precise query, such as “smartphone apple” or “smartphone iphone xs”, which would retrieve more specific results.
 
 [Algolia](https://www.algolia.com/) provides a [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) feature that generates suggestions [based on your what your users are searching for and the results within your dataset](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/#how-query-suggestions-works).
 
@@ -19,7 +17,7 @@ This tutorial explains how to integrate [Algolia Query Suggestions](https://www.
 
 :::note
 
-This plugin requires an [Algolia](https://www.algolia.com/) application with the [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) feature enabled.
+Using this plugin requires an [Algolia](https://www.algolia.com/) application with the [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) feature enabled.
 
 :::
 
@@ -45,9 +43,9 @@ autocomplete({
 });
 ```
 
-This boilerplate assumes you want to insert the autocomplete into a DOM element with the id `autocomplete`. You should change the [`container`](autocomplete-js/#container) to [match your markup](basic-options). Setting [`openOnFocus`](autocomplete-js/#openonfocus) to `true` ensures that the dropdown appears as soon as a user clicks on the input.
+This boilerplate assumes you want to insert the autocomplete into a DOM element with `autocomplete` as an [id](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id). You should change the [`container`](autocomplete-js/#container) to [match your markup](basic-options). Setting [`openOnFocus`](autocomplete-js/#openonfocus) to `true` ensures that the dropdown appears as soon as a user clicks on the input.
 
-For now, `plugins` is an empty array, but you'll learn how to add a plugin for Query Suggestions next.
+For now, `plugins` is an empty array, but you'll learn how to add the Query Suggestions plugin next.
 
 ## Adding Query Suggestions
 
@@ -78,7 +76,7 @@ autocomplete({
 });
 ```
 
-You can optionally pass a `getSearchParams` function to apply [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) to the suggestions returned from the plugin.
+You can optionally pass a `getSearchParams` function to apply [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) to the suggestions returned from the plugin. This is particularly useful if you need to align your Query Suggestions with other sections displayed in the autocomplete, like [recent searches](using-recent-searches-plugin).
 
 ```diff
 import { autocomplete } from '@algolia/autocomplete-js';
@@ -111,6 +109,6 @@ This creates a basic Query Suggestions implementation. Try it out below:
 
 ## Next steps
 
-This tutorial focuses on creating and adding Query Suggestions to an autocomplete menu. Many autocomplete menus also include recent searches and possibly other items. You can find an example including [recent searches](using-recent-searches-plugin), [static predefined items](sources#using-static-sources), and results that update upon submit on [GitHub](https://github.com/algolia/doc-code-samples/tree/autocomplete-v1/Autocomplete/multi-source).
+This tutorial focuses on adding Query Suggestions to an autocomplete menu. Many autocomplete menus also include recent searches and possibly other items. You can find an example including [recent searches](using-recent-searches-plugin) and [static predefined items](sources#using-static-sources) on [GitHub](https://github.com/algolia/doc-code-samples/tree/autocomplete-v1/Autocomplete/multi-source). To learn how to display multiple sections in one autocomplete, read the [guide on creating multi-source autocompletes](creating-multi-source-autocompletes).
 
 
