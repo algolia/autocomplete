@@ -76,7 +76,7 @@ Autocomplete is now plugged in. But you won't see anything appear until you defi
 
 [Sources](sources) define where to retrieve the items to display in your autocomplete dropdown. You define your sources in the [`getSources`](sources#getsources) function by returning an array of [source objects](sources#source). Each source object needs to include a [`getItems`](sources#getitems) function that returns the items to display. Sources can be static or dynamic.
 
-This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) that's [powering the documentation search](https://docsearch.algolia.com/) on this site as a source. The [`autocomplete-js`](autocomplete-js) library provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
+This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) [powering the documentation search](https://docsearch.algolia.com/) on this site as a source. The [`autocomplete-js`](autocomplete-js) package provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
 
 ```js title="JavaScript"
 import algoliasearch from 'algoliasearch/lite';
