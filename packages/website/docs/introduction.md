@@ -2,6 +2,15 @@
 id: introduction
 title: What is Autocomplete?
 ---
+import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
+import { AutocompleteItem } from '@site/src/components/AutocompleteExample';
+import { getAlgoliaHits } from '@algolia/autocomplete-js';
+import { html } from "htm/preact";
+import algoliasearch from 'algoliasearch/lite';
+const searchClient = algoliasearch(
+  'BH4D9OD16A',
+  'a5c3ccfd361b8bcb9708e679c43ae0e5'
+);
 
 Autocomplete is an open-source, production-ready JavaScript library for building autocomplete experiences.
 
@@ -9,7 +18,46 @@ A user types into an input, and the autocomplete "completes" their thought by pr
 
 For example, try typing the letter "s" in the search box below.
 
-<input placeholder="This is just a placeholder"></input>
+<AutocompleteExample
+  getSources={({ query }) => {
+    return [
+      {
+        getItems() {
+          return getAlgoliaHits({
+            searchClient,
+            queries: [
+              {
+                indexName: 'autocomplete',
+                query,
+                params: {
+                  hitsPerPage: 5
+                }
+              }
+            ]
+          });
+        },
+        getItemUrl({ item }) {
+          return item.url;
+        },
+        templates: {
+          item({ item }) {
+            return html`<a href=${item.url} className="aa-ItemLink">
+              <div className="aa-ItemContent">
+                <div className="aa-ItemTitle">${item.hierarchy[item.type]}</div>
+                <div className="aa-ItemContentSubtitle">
+                  ${Object.values(item.hierarchy)
+                    .filter(Boolean)
+                    .slice(0, -1)
+                    .join(" • ")}
+                </div>
+              </div>
+            </a>`;
+          }
+        },
+      },
+    ];
+  }}
+/>
 
 You can directly navigate to documentation on concepts like "<strong><u>s</u></strong>ources" and "<strong><u>s</u></strong>tate". If you continue typing, say "st", the results update. You see pages having to do with "<strong><u>st</u></strong>ate," "getting <strong><u>st</u></strong>arted," and "<strong><u>st</u></strong>atic sources."
 
