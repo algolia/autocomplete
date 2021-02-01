@@ -2,7 +2,24 @@ import { createPlayground } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 describe('getEnvironmentProps', () => {
-  test.todo('forwards the remaining props');
+  test('forwards the remaining props', () => {
+    const { getEnvironmentProps, formElement, inputElement } = createPlayground(
+      createAutocomplete,
+      {}
+    );
+    const panelElement = document.createElement('div');
+
+    const environmentProps = getEnvironmentProps({
+      inputElement,
+      formElement,
+      panelElement,
+      customProps: {},
+    });
+
+    expect(environmentProps).toEqual(
+      expect.objectContaining({ customProps: {} })
+    );
+  });
 
   describe('onTouchStart', () => {
     test('is a noop when panel is not open', () => {
