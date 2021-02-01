@@ -130,14 +130,6 @@ export function renderPanel<TItem extends BaseItem>(
             });
 
             return (
-              // @ts-ignore
-              // TypeScript assumes that events and other props are typed like
-              // React while it's typed as the DOM (like Preact). We ignore
-              // these errors.
-              //
-              // Example:
-              // Types of property 'onClick' are incompatible.
-              // Type '(event: MouseEvent) => void' is not assignable to type '(event: MouseEvent<HTMLLIElement, MouseEvent>) => void'.
               <li
                 key={itemProps.id}
                 className={classNames.item}
