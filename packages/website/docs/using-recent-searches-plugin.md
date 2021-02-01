@@ -3,6 +3,69 @@ id: using-recent-searches-plugin
 title: Using the Recent Searches plugin
 ---
 
-import Draft from './partials/draft.md'
+Learn how you can include recent searches in an autocomplete using the Recent Searches plugin.
 
-<Draft />
+Most autocomplete menus include suggested searches. You can make the experience more user-friendly by adding recent searches a user has made. This UX lets users easily recall their past searches in case they want to search for them again.
+
+## Prerequisites
+
+This tutorial assumes that you have:
+- existing markup containing an input element where you want to implement the autocomplete dropdown
+- front-end development proficiency with HTML, CSS, and JavaScript
+
+**This plugin doesn't require an Algolia application.** If you plan on including other sections in your autocomplete such as [Query Suggestions](using-query-suggestions-plugin), you need an [Algolia](https://www.algolia.com/) application with the Query Suggestions feature enabled.
+
+To follow along with the tutorial, start with the markup and style sheets from the [complete example on GitHub](https://github.com/algolia/doc-code-samples/tree/autocomplete-v1/Autocomplete/multi-source). The tutorial includes code snippets of the JavaScript necessary to add recent searches.
+
+## Getting started
+
+First, begin with some boilerplate for the an autocomplete implementation. Create a file called `index.js` in your `src` directory, and add the boilerplate below:
+
+```js
+import { autocomplete } from '@algolia/autocomplete-js';
+
+// Instantiate the autocomplete instance
+autocomplete({
+  // Enter the selector for the <input> element you would like to add the autocomplete menu to.
+  container: '#autocomplete',
+  // For now, plugins is an empty array, but we'll add a plugin for recent searches soon.
+  plugins: [],
+  // By setting openOnFocus to true, we ensure that the dropdown appears as soon as a user clicks on the input.
+  openOnFocus: true,
+});
+```
+
+This boilerplate assumes you want to insert the autocomplete into a DOM element with the id `autocomplete`, you should change it to [match your desired container](basic-options).
+
+## Adding recent searches
+
+The  Autocomplete library provides the `createLocalStorageRecentSearchesPlugin` function for creating a `recentSearches` plugin out-of-the-box. To use it, you need to provide a `key` and `limit`.
+
+The `key` can be any string and is useful to differentiate search histories if you have multiple autocompletes on one page. The `limit` defines the maximum number of recent searches to display.
+
+```diff
+import { autocomplete } from '@algolia/autocomplete-js';
++ import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
++
++ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
++  key: 'RECENT_SEARCH',
++  limit: 5,
++});
++
+// Instantiate the autocomplete instance
+autocomplete({
+  container: '#autocomplete',
+-  plugins: [],
++  plugins: [recentSearchesPlugin],
+  openOnFocus: true,
+});
+```
+
+Since the `recentSearchesPlugin` reads from [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage), you won't see any recent searches in your implementation until you've made some searches. To submit a search, be sure to press enter on the query.
+
+<input placeholder="This is a placholder for a recent searches autocomplete"></input>
+
+## Putting everything together
+
+This tutorial focuses on creating and adding recent searches to an autocomplete menu. Most autocomplete menus include recent searches in addition to suggested searches and possibly other items. You can find an example including [Query Suggestions](using-query-suggestions-plugin), [static predefined items](sources#using-static-sources), and results that update upon submit on [GitHub](https://github.com/algolia/doc-code-samples/tree/autocomplete-v1/Autocomplete/multi-source).
+
