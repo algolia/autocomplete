@@ -64,25 +64,26 @@ describe('getSources', () => {
 
     await runAllMicroTasks();
 
-    expect(onStateChange).toHaveBeenCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        collections: expect.arrayContaining([
-          expect.objectContaining({
-            source: {
-              getItemInputValue: expect.any(Function),
-              getItemUrl: expect.any(Function),
-              getItems: expect.any(Function),
-              onActive: expect.any(Function),
-              onSelect: expect.any(Function),
-              templates: expect.objectContaining({
-                item: expect.any(Function),
-              }),
-            },
-          }),
-        ]),
-      }),
-    });
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          collections: expect.arrayContaining([
+            expect.objectContaining({
+              source: {
+                getItemInputValue: expect.any(Function),
+                getItemUrl: expect.any(Function),
+                getItems: expect.any(Function),
+                onActive: expect.any(Function),
+                onSelect: expect.any(Function),
+                templates: expect.objectContaining({
+                  item: expect.any(Function),
+                }),
+              },
+            }),
+          ]),
+        }),
+      })
+    );
   });
 
   test('concat getSources from plugins', async () => {
