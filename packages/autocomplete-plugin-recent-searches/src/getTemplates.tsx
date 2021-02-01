@@ -30,21 +30,24 @@ export function getTemplates<TItem extends RecentSearchesItem>({
           </div>
           <button
             className="aa-ItemActionButton"
-            title="Remove"
+            title="Remove this search"
             onClick={(event) => {
               event.stopPropagation();
               onRemove(item.id);
             }}
           >
-            <svg viewBox="0 0 20 20" width="20" height="20" fill="currentColor">
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+            >
               <path
-                d="M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z"
-                stroke="currentColor"
-                fill="none"
-                fillRule="evenodd"
-                strokeWidth="1.4"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                strokeWidth={2}
               />
             </svg>
           </button>
