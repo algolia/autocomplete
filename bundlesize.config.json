@@ -6,11 +6,7 @@
     },
     {
       "path": "packages/autocomplete-js/dist/umd/index.production.js",
-<<<<<<< HEAD
-      "maxSize": "13.5 kB"
-=======
       "maxSize": "14 kB"
->>>>>>> d869f075c26862672a96b07093587424216cfe23
     },
     {
       "path": "packages/autocomplete-preset-algolia/dist/umd/index.production.js",
@@ -26,11 +22,7 @@
     },
     {
       "path": "packages/autocomplete-plugin-query-suggestions/dist/umd/index.production.js",
-<<<<<<< HEAD
-      "maxSize": "2.5 kB"
-=======
       "maxSize": "3 kB"
->>>>>>> d869f075c26862672a96b07093587424216cfe23
     }
   ]
 }

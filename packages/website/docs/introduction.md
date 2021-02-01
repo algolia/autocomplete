@@ -3,7 +3,6 @@ id: introduction
 title: What is Autocomplete?
 ---
 
-<<<<<<< HEAD
 Autocomplete is an open-source, production-ready JavaScript library for building autocomplete experiences.
 
 A user types into an input, and the autocomplete "completes" their thought by providing full terms or results: this is the very base of an autocomplete experience.
@@ -43,8 +42,3 @@ Unlike [Algolia InstantSearch](https://www.algolia.com/doc/guides/building-searc
 You're also in charge of providing the collection of items to display. You can easily plug Algolia results using [`getAlgoliaHits`](getAlgoliaHits-js) if you want, but you're free to use Autocomplete with any data sources you want.
 
 Ready to learn more? Move on to [Getting Started](getting-started) to see a basic example in action.
-=======
-import Draft from './partials/draft.md'
-
-<Draft />
->>>>>>> d869f075c26862672a96b07093587424216cfe23

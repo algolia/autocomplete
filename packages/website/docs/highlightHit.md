@@ -60,15 +60,9 @@ The Algolia hit to retrieve the attribute value from.
 
 ### `attribute`
 
-<<<<<<< HEAD
-> `string` | required
-
-The attribute to retrieve the highlight value from.
-=======
 > `string | string[]` | required
 
 The attribute to retrieve the highlight value from. You can use the array syntax to reference the nested attributes.
->>>>>>> d869f075c26862672a96b07093587424216cfe23
 
 ### `tagName`
 
