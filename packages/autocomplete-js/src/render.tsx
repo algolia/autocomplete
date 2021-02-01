@@ -1,3 +1,4 @@
+/** @jsx createElement */
 import {
   AutocompleteApi as AutocompleteCoreApi,
   AutocompleteScopeApi,
@@ -90,90 +91,69 @@ export function renderPanel<TItem extends BaseItem>(
   dom.panel.classList.toggle('aa-Panel--touch', isTouch);
   dom.panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');
 
-  const sections = state.collections.map(({ source, items }, sourceIndex) => {
-    return createElement('section', {
-      key: sourceIndex,
-      className: classNames.source,
-      children: [
-        source.templates.header &&
-          createElement('div', {
-            className: classNames.sourceHeader,
-            children: [
-              source.templates.header({
-                createElement,
-                Fragment,
-                items,
-                source,
-                state,
-              }),
-            ],
-          }),
-        items.length === 0 && source.templates.empty
-          ? createElement('div', {
-              className: classNames.sourceEmpty,
-              children: [
-                source.templates.empty({
+  const sections = state.collections.map(({ source, items }, sourceIndex) => (
+    <section key={sourceIndex} className={classNames.source}>
+      {source.templates.header && (
+        <div className={classNames.sourceHeader}>
+          {source.templates.header({
+            createElement,
+            Fragment,
+            items,
+            source,
+            state,
+          })}
+        </div>
+      )}
+
+      {items.length === 0 && source.templates.empty ? (
+        <div className={classNames.sourceEmpty}>
+          {source.templates.empty({
+            createElement,
+            Fragment,
+            source,
+            state,
+          })}
+        </div>
+      ) : (
+        <ul
+          className={classNames.list}
+          {...propGetters.getListProps({
+            state,
+            props: autocomplete.getListProps({}),
+            ...autocompleteScopeApi,
+          })}
+        >
+          {items.map((item) => {
+            const itemProps = autocomplete.getItemProps({
+              item,
+              source,
+            });
+
+            return (
+              <li
+                key={itemProps.id}
+                className={classNames.item}
+                {...propGetters.getItemProps({
+                  state,
+                  props: itemProps,
+                  ...autocompleteScopeApi,
+                })}
+              >
+                {source.templates.item({
                   createElement,
                   Fragment,
-                  source,
+                  item,
                   state,
-                }),
-              ],
-            })
-          : createElement('ul', {
-              className: classNames.list,
-              ...propGetters.getListProps({
-                state,
-                props: autocomplete.getListProps({}),
-                ...autocompleteScopeApi,
-              }),
-              children: [
-                ...items.map((item) => {
-                  const itemProps = autocomplete.getItemProps({
-                    item,
-                    source,
-                  });
+                })}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </section>
+  ));
 
-                  return createElement('li', {
-                    key: itemProps.id,
-                    className: classNames.item,
-                    ...propGetters.getItemProps({
-                      state,
-                      props: itemProps,
-                      ...autocompleteScopeApi,
-                    }),
-                    children: [
-                      source.templates.item({
-                        createElement,
-                        Fragment,
-                        item,
-                        state,
-                      }),
-                    ],
-                  });
-                }),
-              ],
-            }),
-        source.templates.footer &&
-          createElement('div', {
-            className: classNames.sourceFooter,
-            children: [
-              source.templates.footer({
-                createElement,
-                Fragment,
-                items,
-                source,
-                state,
-              }),
-            ],
-          }),
-      ],
-    });
-  });
-  const children = createElement('div', {
-    className: 'aa-PanelLayout',
-    children: sections,
-  });
+  const children = <div className="aa-PanelLayout">{sections}</div>;
 
   render({ children, state, sections, createElement, Fragment }, dom.panel);
 }
