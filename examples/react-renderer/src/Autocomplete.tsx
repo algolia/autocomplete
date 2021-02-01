@@ -111,15 +111,19 @@ export function Autocomplete(
         className="aa-Form"
         {...autocomplete.getFormProps({ inputElement: inputRef.current })}
       >
-        <div className="aa-InputWrapper">
+        <div className="aa-InputWrapperPrefix">
           <label className="aa-Label" {...autocomplete.getLabelProps({})}>
             <SearchIcon />
           </label>
+        </div>
+        <div className="aa-InputWrapper">
           <input
             className="aa-Input"
             ref={inputRef}
             {...autocomplete.getInputProps({ inputElement: inputRef.current })}
           />
+        </div>
+        <div className="aa-InputWrapperSuffix">
           <button className="aa-ResetButton" type="reset">
             <ResetIcon />
           </button>
@@ -131,6 +135,7 @@ export function Autocomplete(
           ref={panelRef}
           className={[
             'aa-Panel',
+            'aa-Panel--desktop',
             autocompleteState.status === 'stalled' && 'aa-Panel--stalled',
           ]
             .filter(Boolean)
@@ -152,10 +157,12 @@ export function Autocomplete(
                             className="aa-Item"
                             {...autocomplete.getItemProps({ item, source })}
                           >
+                            <div className="aa-ItemIcon aa-ItemIcon--no-border">
+                              <SearchIcon />
+                            </div>
                             <div className="aa-ItemContent">
-                              <SearchIcon className="aa-ItemSourceIcon" />
                               <div
-                                className="aa-ItemTitle"
+                                className="aa-ItemContentTitle"
                                 dangerouslySetInnerHTML={{
                                   __html: item._highlightResult.query.value,
                                 }}

@@ -10,19 +10,23 @@ export function parseAlgoliaHitSnippet<THit extends Hit<{}>>({
   hit,
   attribute,
 }: ParseAlgoliaHitParams<THit>): ParsedAttribute[] {
-  const path = `_snippetResult.${attribute}.value`;
-  let highlightedValue = getAttributeValueByPath(hit, path);
+  const path = Array.isArray(attribute) ? attribute : ([attribute] as string[]);
+  let highlightedValue = getAttributeValueByPath(hit, [
+    '_snippetResult',
+    ...path,
+    'value',
+  ]);
 
   if (typeof highlightedValue !== 'string') {
     warn(
       false,
-      `The attribute ${JSON.stringify(
+      `The attribute "${path.join('.')}" described by the path ${JSON.stringify(
         path
       )} does not exist on the hit. Did you set it in \`attributesToSnippet\`?` +
         '\nSee https://www.algolia.com/doc/api-reference/api-parameters/attributesToSnippet/'
     );
 
-    highlightedValue = getAttributeValueByPath(hit, attribute as string) || '';
+    highlightedValue = getAttributeValueByPath(hit, path) || '';
   }
 
   return parseAttribute({ highlightedValue });
