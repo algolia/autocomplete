@@ -301,12 +301,13 @@ describe('getInputProps', () => {
 
       userEvent.type(inputElement, 'a');
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          query: 'a',
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            query: 'a',
+          }),
+        })
+      );
     });
 
     test('sets activeItemId to defaultActiveItemId', () => {
@@ -318,12 +319,13 @@ describe('getInputProps', () => {
 
       userEvent.type(inputElement, 'a');
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          activeItemId: 0,
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            activeItemId: 0,
+          }),
+        })
+      );
     });
 
     test('resets the state without query', () => {
@@ -334,20 +336,22 @@ describe('getInputProps', () => {
 
       userEvent.type(inputElement, '');
 
-      expect(onStateChange).not.toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          status: 'loading',
-        }),
-      });
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          status: 'idle',
-          collections: [],
-          isOpen: false,
-        }),
-      });
+      expect(onStateChange).not.toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            status: 'loading',
+          }),
+        })
+      );
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            status: 'idle',
+            collections: [],
+            isOpen: false,
+          }),
+        })
+      );
     });
 
     test('sets the status to loading before fetching sources', () => {
@@ -358,12 +362,13 @@ describe('getInputProps', () => {
 
       userEvent.type(inputElement, 'a');
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          status: 'loading',
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            status: 'loading',
+          }),
+        })
+      );
     });
 
     test('calls getSources', () => {
@@ -434,22 +439,23 @@ describe('getInputProps', () => {
 
       await runAllMicroTasks();
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          status: 'idle',
-          isOpen: true,
-          collections: [
-            {
-              source: expect.any(Object),
-              items: [
-                { label: '1', __autocomplete_id: 0 },
-                { label: '2', __autocomplete_id: 1 },
-              ],
-            },
-          ],
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            status: 'idle',
+            isOpen: true,
+            collections: [
+              {
+                source: expect.any(Object),
+                items: [
+                  { label: '1', __autocomplete_id: 0 },
+                  { label: '2', __autocomplete_id: 1 },
+                ],
+              },
+            ],
+          }),
+        })
+      );
     });
 
     test('fetches sources that do not return collections closes panel', async () => {
@@ -472,19 +478,20 @@ describe('getInputProps', () => {
 
       await runAllMicroTasks();
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          status: 'idle',
-          isOpen: false,
-          collections: [
-            {
-              source: expect.any(Object),
-              items: [],
-            },
-          ],
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            status: 'idle',
+            isOpen: false,
+            collections: [
+              {
+                source: expect.any(Object),
+                items: [],
+              },
+            ],
+          }),
+        })
+      );
     });
 
     test('calls onActive', async () => {
@@ -822,13 +829,14 @@ describe('getInputProps', () => {
         inputElement.focus();
         userEvent.type(inputElement, '{esc}');
 
-        expect(onStateChange).toHaveBeenLastCalledWith({
-          prevState: expect.anything(),
-          state: expect.objectContaining({
-            isOpen: false,
-            completion: null,
-          }),
-        });
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: false,
+              completion: null,
+            }),
+          })
+        );
       });
 
       test('resets the state when panel is closed', () => {
@@ -847,14 +855,15 @@ describe('getInputProps', () => {
 
         userEvent.type(inputElement, '{esc}');
 
-        expect(onStateChange).toHaveBeenLastCalledWith({
-          prevState: expect.anything(),
-          state: expect.objectContaining({
-            query: '',
-            status: 'idle',
-            collections: [],
-          }),
-        });
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              query: '',
+              status: 'idle',
+              collections: [],
+            }),
+          })
+        );
       });
     });
 
@@ -1471,12 +1480,13 @@ describe('getInputProps', () => {
 
         inputElement.focus();
 
-        expect(onStateChange).toHaveBeenLastCalledWith({
-          prevState: expect.anything(),
-          state: expect.objectContaining({
-            activeItemId: null,
-          }),
-        });
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              activeItemId: null,
+            }),
+          })
+        );
       });
 
       test('to defaultActiveItemId value when set', () => {
@@ -1488,12 +1498,13 @@ describe('getInputProps', () => {
 
         inputElement.focus();
 
-        expect(onStateChange).toHaveBeenLastCalledWith({
-          prevState: expect.anything(),
-          state: expect.objectContaining({
-            activeItemId: 0,
-          }),
-        });
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              activeItemId: 0,
+            }),
+          })
+        );
       });
     });
 
@@ -1506,12 +1517,13 @@ describe('getInputProps', () => {
 
         inputElement.focus();
 
-        expect(onStateChange).toHaveBeenLastCalledWith({
-          prevState: expect.anything(),
-          state: expect.objectContaining({
-            isOpen: false,
-          }),
-        });
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: false,
+            }),
+          })
+        );
       });
 
       test('to true when the query is set', () => {
@@ -1525,12 +1537,13 @@ describe('getInputProps', () => {
 
         inputElement.focus();
 
-        expect(onStateChange).toHaveBeenLastCalledWith({
-          prevState: expect.anything(),
-          state: expect.objectContaining({
-            isOpen: true,
-          }),
-        });
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: true,
+            }),
+          })
+        );
       });
 
       test('to true when openOnFocus is true', () => {
@@ -1542,12 +1555,13 @@ describe('getInputProps', () => {
 
         inputElement.focus();
 
-        expect(onStateChange).toHaveBeenLastCalledWith({
-          prevState: expect.anything(),
-          state: expect.objectContaining({
-            isOpen: true,
-          }),
-        });
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: true,
+            }),
+          })
+        );
       });
 
       test('to true when openOnFocus is true and the query is set', () => {
@@ -1562,12 +1576,13 @@ describe('getInputProps', () => {
 
         inputElement.focus();
 
-        expect(onStateChange).toHaveBeenLastCalledWith({
-          prevState: expect.anything(),
-          state: expect.objectContaining({
-            isOpen: true,
-          }),
-        });
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: true,
+            }),
+          })
+        );
       });
     });
   });
@@ -1584,13 +1599,14 @@ describe('getInputProps', () => {
       inputElement.focus();
       inputElement.blur();
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          activeItemId: null,
-          isOpen: false,
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            activeItemId: null,
+            isOpen: false,
+          }),
+        })
+      );
     });
 
     test('does not reset activeItemId and isOpen when debug is true', () => {
@@ -1605,13 +1621,14 @@ describe('getInputProps', () => {
       inputElement.focus();
       inputElement.blur();
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          activeItemId: 1,
-          isOpen: true,
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            activeItemId: 1,
+            isOpen: true,
+          }),
+        })
+      );
     });
 
     test('does not reset activeItemId and isOpen on touch devices', () => {
@@ -1630,13 +1647,14 @@ describe('getInputProps', () => {
       inputElement.focus();
       inputElement.blur();
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          activeItemId: 1,
-          isOpen: true,
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            activeItemId: 1,
+            isOpen: true,
+          }),
+        })
+      );
     });
   });
 
@@ -1687,12 +1705,13 @@ describe('getInputProps', () => {
 
           inputElement.click();
 
-          expect(onStateChange).toHaveBeenLastCalledWith({
-            prevState: expect.anything(),
-            state: expect.objectContaining({
-              activeItemId: null,
-            }),
-          });
+          expect(onStateChange).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+              state: expect.objectContaining({
+                activeItemId: null,
+              }),
+            })
+          );
         });
 
         test('to defaultActiveItemId value when set', () => {
@@ -1709,12 +1728,13 @@ describe('getInputProps', () => {
 
           inputElement.click();
 
-          expect(onStateChange).toHaveBeenLastCalledWith({
-            prevState: expect.anything(),
-            state: expect.objectContaining({
-              activeItemId: 1,
-            }),
-          });
+          expect(onStateChange).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+              state: expect.objectContaining({
+                activeItemId: 1,
+              }),
+            })
+          );
         });
       });
 
@@ -1732,12 +1752,13 @@ describe('getInputProps', () => {
 
           inputElement.click();
 
-          expect(onStateChange).toHaveBeenLastCalledWith({
-            prevState: expect.anything(),
-            state: expect.objectContaining({
-              isOpen: false,
-            }),
-          });
+          expect(onStateChange).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+              state: expect.objectContaining({
+                isOpen: false,
+              }),
+            })
+          );
         });
 
         test('to true when the query is set', () => {
@@ -1756,12 +1777,13 @@ describe('getInputProps', () => {
 
           inputElement.click();
 
-          expect(onStateChange).toHaveBeenLastCalledWith({
-            prevState: expect.anything(),
-            state: expect.objectContaining({
-              isOpen: true,
-            }),
-          });
+          expect(onStateChange).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+              state: expect.objectContaining({
+                isOpen: true,
+              }),
+            })
+          );
         });
 
         test('to true when openOnFocus is true', () => {
@@ -1778,12 +1800,13 @@ describe('getInputProps', () => {
 
           inputElement.click();
 
-          expect(onStateChange).toHaveBeenLastCalledWith({
-            prevState: expect.anything(),
-            state: expect.objectContaining({
-              isOpen: true,
-            }),
-          });
+          expect(onStateChange).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+              state: expect.objectContaining({
+                isOpen: true,
+              }),
+            })
+          );
         });
       });
 
@@ -1801,12 +1824,13 @@ describe('getInputProps', () => {
 
         inputElement.click();
 
-        expect(onStateChange).toHaveBeenLastCalledWith({
-          prevState: expect.anything(),
-          state: expect.objectContaining({
-            isOpen: true,
-          }),
-        });
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: true,
+            }),
+          })
+        );
       });
     });
   });

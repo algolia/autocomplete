@@ -1,13 +1,23 @@
 import {
+  AutocompleteState,
   AutocompleteStore,
   BaseItem,
   InternalAutocompleteOptions,
   Reducer,
 } from './types';
 
+type OnStoreStateChange<TItem extends BaseItem> = ({
+  prevState,
+  state,
+}: {
+  prevState: AutocompleteState<TItem>;
+  state: AutocompleteState<TItem>;
+}) => void;
+
 export function createStore<TItem extends BaseItem>(
   reducer: Reducer,
-  props: InternalAutocompleteOptions<TItem>
+  props: InternalAutocompleteOptions<TItem>,
+  onStoreStateChange: OnStoreStateChange<TItem>
 ): AutocompleteStore<TItem> {
   let state = props.initialState;
 
@@ -23,7 +33,7 @@ export function createStore<TItem extends BaseItem>(
         payload,
       });
 
-      props.onStateChange({ state, prevState });
+      onStoreStateChange({ state, prevState });
     },
   };
 }

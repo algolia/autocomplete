@@ -86,13 +86,14 @@ describe('getEnvironmentProps', () => {
       });
       window.document.dispatchEvent(customEvent);
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          activeItemId: null,
-          isOpen: false,
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            activeItemId: null,
+            isOpen: false,
+          }),
+        })
+      );
     });
   });
 

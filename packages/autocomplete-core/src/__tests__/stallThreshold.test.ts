@@ -28,24 +28,27 @@ describe('stallThreshold', () => {
 
     userEvent.type(inputElement, 'a');
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({ status: 'loading' }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ status: 'loading' }),
+      })
+    );
 
     await defer(() => {}, 300);
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({ status: 'stalled' }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ status: 'stalled' }),
+      })
+    );
 
     await defer(() => {}, 200);
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({ status: 'idle' }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ status: 'idle' }),
+      })
+    );
   });
 
   test('allows custom stall threshold', async () => {
@@ -73,30 +76,34 @@ describe('stallThreshold', () => {
 
     userEvent.type(inputElement, 'a');
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({ status: 'loading' }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ status: 'loading' }),
+      })
+    );
 
     await defer(() => {}, 300);
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({ status: 'loading' }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ status: 'loading' }),
+      })
+    );
 
     await defer(() => {}, 100);
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({ status: 'stalled' }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ status: 'stalled' }),
+      })
+    );
 
     await defer(() => {}, 100);
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({ status: 'idle' }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ status: 'idle' }),
+      })
+    );
   });
 });
