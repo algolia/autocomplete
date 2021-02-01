@@ -1,6 +1,10 @@
 import userEvent from '@testing-library/user-event';
 
-import { createSource, createPlayground } from '../../../../test/utils';
+import {
+  createSource,
+  createPlayground,
+  runAllMicroTasks,
+} from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 describe('getSources', () => {
@@ -37,7 +41,89 @@ describe('getSources', () => {
     });
   });
 
-  test.todo('provides default source implementations');
+  test('provides a default source implementations', async () => {
+    const onStateChange = jest.fn();
+    const { inputElement } = createPlayground(createAutocomplete, {
+      getSources: () => {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item() {},
+            },
+          },
+        ];
+      },
+      onStateChange,
+    });
 
-  test.todo('concat getSources from plugins');
+    inputElement.focus();
+    userEvent.type(inputElement, 'a');
+
+    await runAllMicroTasks();
+
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          collections: expect.arrayContaining([
+            expect.objectContaining({
+              source: {
+                getItemInputValue: expect.any(Function),
+                getItemUrl: expect.any(Function),
+                getItems: expect.any(Function),
+                onActive: expect.any(Function),
+                onSelect: expect.any(Function),
+                templates: expect.objectContaining({
+                  item: expect.any(Function),
+                }),
+              },
+            }),
+          ]),
+        }),
+      })
+    );
+  });
+
+  test('concat getSources from plugins', async () => {
+    const onStateChange = jest.fn();
+    const plugin = {
+      getSources: () => {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item() {},
+            },
+          },
+        ];
+      },
+    };
+    const { inputElement } = createPlayground(createAutocomplete, {
+      onStateChange,
+      getSources: () => {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item() {},
+            },
+          },
+        ];
+      },
+      plugins: [plugin],
+    });
+
+    inputElement.focus();
+    userEvent.type(inputElement, 'a');
+
+    await runAllMicroTasks();
+
+    expect(onStateChange.mock.calls.pop()[0].state.collections).toHaveLength(2);
+  });
 });

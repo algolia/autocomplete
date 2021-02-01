@@ -11,19 +11,16 @@
     "stylelint-prettier/recommended"
   ],
   "rules": {
+    "order/properties-alphabetical-order": true,
+    "no-descending-specificity": null,
     "selector-class-pattern": ["^aa-[A-Za-z0-9-]*$"],
     "prettier/prettier": true,
-    "max-nesting-depth": [
-      2,
-      {
-        "ignore": ["pseudo-classes"],
-        "ignoreAtRules": ["media"]
-      }
-    ],
+    "max-nesting-depth": null,
     "rule-empty-line-before": [
       "always",
       { "ignore": ["after-comment", "first-nested", "inside-block"] }
     ],
+    "selector-max-compound-selectors": null,
     "plugin/no-unsupported-browser-features": [
       null,
       {

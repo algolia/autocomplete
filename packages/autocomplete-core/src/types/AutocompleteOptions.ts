@@ -33,6 +33,12 @@ export type InternalGetSources<TItem extends BaseItem> = (
   params: GetSourcesParams<TItem>
 ) => Promise<Array<InternalAutocompleteSource<TItem>>>;
 
+interface OnStateChangeProps<TItem extends BaseItem>
+  extends AutocompleteScopeApi<TItem> {
+  state: AutocompleteState<TItem>;
+  prevState: AutocompleteState<TItem>;
+}
+
 export interface AutocompleteOptions<TItem extends BaseItem> {
   /**
    * Whether to consider the experience in debug mode.
@@ -54,10 +60,7 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
   /**
    * Function called when the internal state changes.
    */
-  onStateChange?(props: {
-    state: AutocompleteState<TItem>;
-    prevState: AutocompleteState<TItem>;
-  }): void;
+  onStateChange?(props: OnStateChangeProps<TItem>): void;
   /**
    * The text that appears in the search box input when there is no query.
    */
@@ -137,10 +140,7 @@ export interface InternalAutocompleteOptions<TItem extends BaseItem>
   extends AutocompleteOptions<TItem> {
   debug: boolean;
   id: string;
-  onStateChange(props: {
-    state: AutocompleteState<TItem>;
-    prevState: AutocompleteState<TItem>;
-  }): void;
+  onStateChange(props: OnStateChangeProps<TItem>): void;
   placeholder: string;
   autoFocus: boolean;
   defaultActiveItemId: number | null;

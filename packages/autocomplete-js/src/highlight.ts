@@ -11,7 +11,7 @@ import { AutocompleteRenderer } from './types';
 
 type HighlightItemParams<TItem> = {
   hit: TItem;
-  attribute: keyof TItem;
+  attribute: keyof TItem | string[];
   tagName?: string;
   createElement?: AutocompleteRenderer['createElement'];
 };
