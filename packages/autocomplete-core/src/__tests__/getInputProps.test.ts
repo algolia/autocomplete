@@ -336,7 +336,7 @@ describe('getInputProps', () => {
 
       userEvent.type(inputElement, '');
 
-      expect(onStateChange).not.toHaveBeenLastCalledWith(
+      expect(onStateChange).not.toHaveBeenCalledWith(
         expect.objectContaining({
           state: expect.objectContaining({
             status: 'loading',
