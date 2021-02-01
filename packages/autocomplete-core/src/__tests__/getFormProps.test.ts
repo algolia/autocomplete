@@ -120,12 +120,13 @@ describe('getFormProps', () => {
 
       formProps.onSubmit(new Event('submit'));
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          isOpen: false,
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            isOpen: false,
+          }),
+        })
+      );
     });
 
     test('sets the activeItemId to null', () => {
@@ -143,12 +144,13 @@ describe('getFormProps', () => {
 
       formProps.onSubmit(new Event('submit'));
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          activeItemId: null,
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            activeItemId: null,
+          }),
+        })
+      );
     });
 
     test('sets the status to idle', () => {
@@ -166,12 +168,13 @@ describe('getFormProps', () => {
 
       formProps.onSubmit(new Event('submit'));
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          status: 'idle',
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            status: 'idle',
+          }),
+        })
+      );
     });
   });
 
@@ -232,12 +235,13 @@ describe('getFormProps', () => {
 
       formProps.onReset(new Event('reset'));
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          isOpen: false,
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            isOpen: false,
+          }),
+        })
+      );
     });
 
     test('opens the panel with openOnFocus', () => {
@@ -256,12 +260,13 @@ describe('getFormProps', () => {
 
       formProps.onReset(new Event('reset'));
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          isOpen: true,
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            isOpen: true,
+          }),
+        })
+      );
     });
 
     test('sets the activeItemId to null without openOnFocus', () => {
@@ -279,12 +284,13 @@ describe('getFormProps', () => {
 
       formProps.onReset(new Event('reset'));
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          activeItemId: null,
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            activeItemId: null,
+          }),
+        })
+      );
     });
 
     test('sets the activeItemId to defaultActiveItemId with openOnFocus', () => {
@@ -304,12 +310,13 @@ describe('getFormProps', () => {
 
       formProps.onReset(new Event('reset'));
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          activeItemId: 0,
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            activeItemId: 0,
+          }),
+        })
+      );
     });
 
     test('sets the status to idle', () => {
@@ -327,12 +334,13 @@ describe('getFormProps', () => {
 
       formProps.onReset(new Event('reset'));
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          status: 'idle',
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            status: 'idle',
+          }),
+        })
+      );
     });
 
     test('resets the query', () => {
@@ -350,12 +358,13 @@ describe('getFormProps', () => {
 
       formProps.onReset(new Event('reset'));
 
-      expect(onStateChange).toHaveBeenLastCalledWith({
-        prevState: expect.anything(),
-        state: expect.objectContaining({
-          query: '',
-        }),
-      });
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            query: '',
+          }),
+        })
+      );
     });
   });
 });

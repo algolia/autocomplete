@@ -137,7 +137,7 @@ export function createAlgoliaInsightsPlugin({
           item,
           insightsEvents: [
             {
-              eventName: 'Item Highlighted',
+              eventName: 'Item Active',
               ...createClickedEvent({ item, items: previousItems.current }),
             },
           ],

@@ -1,4 +1,5 @@
 import {
+  AutocompleteScopeApi,
   AutocompleteOptions as AutocompleteCoreOptions,
   BaseItem,
   GetSourcesParams,
@@ -11,6 +12,12 @@ import { AutocompleteRender } from './AutocompleteRender';
 import { AutocompleteRenderer } from './AutocompleteRenderer';
 import { AutocompleteSource } from './AutocompleteSource';
 import { AutocompleteState } from './AutocompleteState';
+
+export interface OnStateChangeProps<TItem extends BaseItem>
+  extends AutocompleteScopeApi<TItem> {
+  state: AutocompleteState<TItem>;
+  prevState: AutocompleteState<TItem>;
+}
 
 export interface AutocompleteOptions<TItem extends BaseItem>
   extends AutocompleteCoreOptions<TItem>,
@@ -59,10 +66,7 @@ export interface AutocompleteOptions<TItem extends BaseItem>
   render?: AutocompleteRender<TItem>;
   renderEmpty?: AutocompleteRender<TItem>;
   initialState?: Partial<AutocompleteState<TItem>>;
-  onStateChange?(props: {
-    state: AutocompleteState<TItem>;
-    prevState: AutocompleteState<TItem>;
-  }): void;
+  onStateChange?(props: OnStateChangeProps<TItem>): void;
   /**
    * Custom renderer.
    */

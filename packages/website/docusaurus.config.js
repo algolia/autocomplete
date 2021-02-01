@@ -28,7 +28,11 @@ module.exports = {
         {
           label: 'Playground',
           to:
+<<<<<<< HEAD
             'https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.ts',
+=======
+            'https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.tsx',
+>>>>>>> d869f075c26862672a96b07093587424216cfe23
           position: 'right',
         },
         {

@@ -141,11 +141,6 @@ export function onInput<TItem extends BaseItem>({
             });
           }
         })
-        .catch((error) => {
-          setStatus('error');
-
-          throw error;
-        })
         .finally(() => {
           if (lastStalledId) {
             props.environment.clearTimeout(lastStalledId);

@@ -1,54 +1,13 @@
 import {
-  MultipleQueriesResponse,
-  SearchResponse,
-} from '@algolia/client-search';
-
+  createMultiSearchResponse,
+  createSearchClient,
+} from '../../../../../test/utils';
 import { version } from '../../version';
 import { getAlgoliaHits } from '../getAlgoliaHits';
 import { getAlgoliaResults } from '../getAlgoliaResults';
 
-function createSingleSearchResponse<THit>(
-  partialResponse: Partial<SearchResponse<THit>> = {}
-): SearchResponse<THit> {
-  const {
-    query = '',
-    page = 0,
-    hitsPerPage = 20,
-    hits = [],
-    nbHits = hits.length,
-    nbPages = Math.ceil(nbHits / hitsPerPage),
-    params = '',
-    exhaustiveNbHits = true,
-    exhaustiveFacetsCount = true,
-    processingTimeMS = 0,
-    ...rest
-  } = partialResponse;
-
-  return {
-    page,
-    hitsPerPage,
-    nbHits,
-    nbPages,
-    processingTimeMS,
-    hits,
-    query,
-    params,
-    exhaustiveNbHits,
-    exhaustiveFacetsCount,
-    ...rest,
-  };
-}
-
-function createMultiSearchResponse<THit>(
-  ...partialReponses: Array<Partial<SearchResponse<THit>>>
-): MultipleQueriesResponse<THit> {
-  return {
-    results: partialReponses.map(createSingleSearchResponse),
-  };
-}
-
-function createSearchClient(): any {
-  return {
+function createTestSearchClient() {
+  return createSearchClient({
     search: jest.fn(() =>
       Promise.resolve(
         createMultiSearchResponse<{ label: string }>(
@@ -57,12 +16,12 @@ function createSearchClient(): any {
         )
       )
     ),
-  };
+  });
 }
 
 describe('getAlgoliaResults', () => {
   test('with default options', async () => {
-    const searchClient = createSearchClient();
+    const searchClient = createTestSearchClient();
 
     const results = await getAlgoliaResults({
       searchClient,
@@ -93,7 +52,7 @@ describe('getAlgoliaResults', () => {
   });
 
   test('with custom search parameters', async () => {
-    const searchClient = createSearchClient();
+    const searchClient = createTestSearchClient();
 
     const results = await getAlgoliaResults({
       searchClient,
@@ -130,9 +89,8 @@ describe('getAlgoliaResults', () => {
     ]);
   });
 
-  test('attaches Algolia agent', async () => {
-    const searchClient = createSearchClient();
-    searchClient.addAlgoliaAgent = jest.fn();
+  test('attaches default Algolia agent', async () => {
+    const searchClient = createTestSearchClient();
 
     await getAlgoliaResults({
       searchClient,
@@ -156,11 +114,33 @@ describe('getAlgoliaResults', () => {
       version
     );
   });
+
+  test('allows custom user agents', async () => {
+    const searchClient = createTestSearchClient();
+
+    await getAlgoliaResults({
+      searchClient,
+      queries: [],
+      userAgents: [{ segment: 'custom-ua', version: '1.0.0' }],
+    });
+
+    expect(searchClient.addAlgoliaAgent).toHaveBeenCalledTimes(2);
+    expect(searchClient.addAlgoliaAgent).toHaveBeenNthCalledWith(
+      1,
+      'autocomplete-core',
+      version
+    );
+    expect(searchClient.addAlgoliaAgent).toHaveBeenNthCalledWith(
+      2,
+      'custom-ua',
+      '1.0.0'
+    );
+  });
 });
 
 describe('getAlgoliaHits', () => {
   test('with default options', async () => {
-    const searchClient = createSearchClient();
+    const searchClient = createTestSearchClient();
 
     const hits = await getAlgoliaHits({
       searchClient,
@@ -191,7 +171,7 @@ describe('getAlgoliaHits', () => {
   });
 
   test('with custom search parameters', async () => {
-    const searchClient = createSearchClient();
+    const searchClient = createTestSearchClient();
 
     const hits = await getAlgoliaHits({
       searchClient,
@@ -229,8 +209,7 @@ describe('getAlgoliaHits', () => {
   });
 
   test('attaches Algolia agent', async () => {
-    const searchClient = createSearchClient();
-    searchClient.addAlgoliaAgent = jest.fn();
+    const searchClient = createTestSearchClient();
 
     await getAlgoliaHits({
       searchClient,
@@ -252,6 +231,28 @@ describe('getAlgoliaHits', () => {
     expect(searchClient.addAlgoliaAgent).toHaveBeenCalledWith(
       'autocomplete-core',
       version
+    );
+  });
+
+  test('allows custom user agents', async () => {
+    const searchClient = createTestSearchClient();
+
+    await getAlgoliaHits({
+      searchClient,
+      queries: [],
+      userAgents: [{ segment: 'custom-ua', version: '1.0.0' }],
+    });
+
+    expect(searchClient.addAlgoliaAgent).toHaveBeenCalledTimes(2);
+    expect(searchClient.addAlgoliaAgent).toHaveBeenNthCalledWith(
+      1,
+      'autocomplete-core',
+      version
+    );
+    expect(searchClient.addAlgoliaAgent).toHaveBeenNthCalledWith(
+      2,
+      'custom-ua',
+      '1.0.0'
     );
   });
 });

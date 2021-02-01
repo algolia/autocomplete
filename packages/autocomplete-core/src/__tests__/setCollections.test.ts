@@ -25,22 +25,23 @@ describe('setCollections', () => {
     setCollections([createCollection([{ label: 'hi' }])]);
 
     expect(onStateChange).toHaveBeenCalledTimes(1);
-    expect(onStateChange).toHaveBeenCalledWith({
-      prevState: expect.any(Object),
-      state: expect.objectContaining({
-        collections: [
-          {
-            items: [
-              {
-                label: 'hi',
-                __autocomplete_id: 0,
-              },
-            ],
-            source: expect.any(Object),
-          },
-        ],
-      }),
-    });
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          collections: [
+            {
+              items: [
+                {
+                  label: 'hi',
+                  __autocomplete_id: 0,
+                },
+              ],
+              source: expect.any(Object),
+            },
+          ],
+        }),
+      })
+    );
   });
 
   test('flattens the collections', () => {
@@ -52,15 +53,16 @@ describe('setCollections', () => {
 
     setCollections([createCollection([[{ label: 'hi' }]])]);
 
-    expect(onStateChange).toHaveBeenCalledWith({
-      prevState: expect.any(Object),
-      state: expect.objectContaining({
-        collections: [
-          expect.objectContaining({
-            items: [{ label: 'hi', __autocomplete_id: 0 }],
-          }),
-        ],
-      }),
-    });
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          collections: [
+            expect.objectContaining({
+              items: [{ label: 'hi', __autocomplete_id: 0 }],
+            }),
+          ],
+        }),
+      })
+    );
   });
 });

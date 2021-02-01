@@ -1,12 +1,11 @@
-import { BaseItem } from './AutocompleteApi';
+import { AutocompleteScopeApi, BaseItem } from './AutocompleteApi';
 import { AutocompleteOptions } from './AutocompleteOptions';
-import { AutocompleteSetters } from './AutocompleteSetters';
 import { OnSelectParams, OnHighlightParams } from './AutocompleteSource';
 
 type PluginSubscriber<TParams> = (params: TParams) => void;
 
 interface PluginSubscribeParams<TItem extends BaseItem>
-  extends AutocompleteSetters<TItem> {
+  extends AutocompleteScopeApi<TItem> {
   onSelect(fn: PluginSubscriber<OnSelectParams<TItem>>): void;
   onActive(fn: PluginSubscriber<OnHighlightParams<TItem>>): void;
 }

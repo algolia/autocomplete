@@ -4,14 +4,27 @@ import { SearchClient } from 'algoliasearch/lite';
 import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from '../constants';
 import { version } from '../version';
 
+type UserAgent = { segment: string; version?: string };
 export interface SearchParams {
   searchClient: SearchClient;
   queries: MultipleQueriesQuery[];
+  userAgents?: UserAgent[];
 }
 
-export function search<TRecord>({ searchClient, queries }: SearchParams) {
+export function search<TRecord>({
+  searchClient,
+  queries,
+  userAgents = [],
+}: SearchParams) {
   if (typeof searchClient.addAlgoliaAgent === 'function') {
-    searchClient.addAlgoliaAgent('autocomplete-core', version);
+    const algoliaAgents: UserAgent[] = [
+      { segment: 'autocomplete-core', version },
+      ...userAgents,
+    ];
+
+    algoliaAgents.forEach(({ segment, version }) => {
+      searchClient.addAlgoliaAgent(segment, version);
+    });
   }
 
   return searchClient.search<TRecord>(
