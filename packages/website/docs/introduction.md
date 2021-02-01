@@ -3,9 +3,8 @@ id: introduction
 title: What is Autocomplete?
 ---
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
-import { AutocompleteItem } from '@site/src/components/AutocompleteExample';
+import { AutocompleteItem } from '@site/src/components/AutocompleteItem';
 import { getAlgoliaHits } from '@algolia/autocomplete-js';
-import { html } from "htm/preact";
 import algoliasearch from 'algoliasearch/lite';
 const searchClient = algoliasearch(
   'BH4D9OD16A',
@@ -41,17 +40,14 @@ For example, try typing the letter "s" in the search box below.
         },
         templates: {
           item({ item }) {
-            return html`<a href=${item.url} className="aa-ItemLink">
-              <div className="aa-ItemContent">
-                <div className="aa-ItemTitle">${item.hierarchy[item.type]}</div>
-                <div className="aa-ItemContentSubtitle">
-                  ${Object.values(item.hierarchy)
-                    .filter(Boolean)
-                    .slice(0, -1)
-                    .join(" • ")}
-                </div>
-              </div>
-            </a>`;
+            return (
+              <AutocompleteItem
+                hit={item}
+                breadcrumb={Object.values(item.hierarchy)
+                  .filter(Boolean)
+                  .slice(0, -1)}
+              />
+            );
           }
         },
       },
