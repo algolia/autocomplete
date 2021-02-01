@@ -29,7 +29,7 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
           </div>
           <div className="aa-ItemContent">
             <div className="aa-ItemContentTitle">
-              {reverseHighlightHit<any>({
+              {reverseHighlightHit<QuerySuggestionsHit>({
                 hit: item,
                 attribute: 'query',
               })}
