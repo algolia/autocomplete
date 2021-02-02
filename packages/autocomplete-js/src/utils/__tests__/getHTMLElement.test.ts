@@ -1,7 +1,27 @@
+import { getHTMLElement } from '../getHTMLElement';
+
 describe('getHTMLElement', () => {
-  test.todo('with element returns the element');
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
 
-  test.todo('with a string returns the element if exists');
+  test('with element returns the element', () => {
+    const element = document.createElement('div');
+    document.body.appendChild(element);
 
-  test.todo('with a string throws invariant if does not exist');
+    expect(getHTMLElement(element)).toEqual(element);
+  });
+
+  test('with a string returns the element if exists', () => {
+    const element = document.createElement('div');
+    document.body.appendChild(element);
+
+    expect(getHTMLElement('div')).toEqual(element);
+  });
+
+  test('with a string throws invariant if does not exist', () => {
+    expect(() => {
+      getHTMLElement('div');
+    }).toThrow('The element "div" is not in the document.');
+  });
 });
