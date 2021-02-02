@@ -1,4 +1,5 @@
 import { BaseItem } from '@algolia/autocomplete-core';
+import { invariant } from '@algolia/autocomplete-shared';
 import {
   createElement as preactCreateElement,
   Fragment as PreactFragment,
@@ -72,13 +73,20 @@ export function getDefaultOptions<TItem extends BaseItem>(
     ...core
   } = options;
 
+  const containerElement = getHTMLElement(container);
+
+  invariant(
+    containerElement.tagName !== 'INPUT',
+    'The `container` option does not support `input` elements. You need to change the container to a `div`.'
+  );
+
   return {
     renderer: {
       classNames: mergeClassNames(
         defaultClassNames,
         classNames ?? {}
       ) as AutocompleteClassNames,
-      container: getHTMLElement(container),
+      container: containerElement,
       getEnvironmentProps: getEnvironmentProps ?? (({ props }) => props),
       getFormProps: getFormProps ?? (({ props }) => props),
       getInputProps: getInputProps ?? (({ props }) => props),

@@ -7,7 +7,6 @@ import {
   createRef,
   debounce,
   getItemsCount,
-  invariant,
 } from '@algolia/autocomplete-shared';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
@@ -199,10 +198,6 @@ export function autocomplete<TItem extends BaseItem>(
 
   runEffect(() => {
     const containerElement = props.value.renderer.container;
-    invariant(
-      containerElement.tagName !== 'INPUT',
-      'The `container` option does not support `input` elements. You need to change the container to a `div`.'
-    );
     containerElement.appendChild(dom.value.root);
 
     return () => {
