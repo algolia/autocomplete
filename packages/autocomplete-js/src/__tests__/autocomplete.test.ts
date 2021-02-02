@@ -92,8 +92,8 @@ describe('autocomplete-js', () => {
                     stroke-dasharray="164.93361431346415 56.97787143782138"
                     stroke-width="6"
                   >
-                    
-        
+
+
                     <animatetransform
                       attributeName="transform"
                       dur="1s"
@@ -102,7 +102,7 @@ describe('autocomplete-js', () => {
                       type="rotate"
                       values="0 50 50;90 50 50;180 50 50;360 50 50"
                     />
-                    
+
 
                   </circle>
                 </svg>
@@ -136,18 +136,15 @@ describe('autocomplete-js', () => {
               >
                 <svg
                   class="aa-ResetIcon"
+                  fill="currentColor"
                   height="20"
                   viewBox="0 0 20 20"
                   width="20"
                 >
                   <path
-                    d="M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z"
-                    fill="none"
+                    clip-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                     fill-rule="evenodd"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.4"
                   />
                 </svg>
               </button>
@@ -166,6 +163,7 @@ describe('autocomplete-js', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
+      openOnFocus: true,
       getSources() {
         return [
           {
@@ -192,12 +190,86 @@ describe('autocomplete-js', () => {
     await waitFor(() => {
       expect(
         panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
+      ).toHaveTextContent('No results template');
+    });
+  });
+
+  test("doesn't render empty template on no query when openOnFocus is false", async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      openOnFocus: false,
+      getSources() {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+              empty() {
+                return 'No results template';
+              },
+            },
+          },
+        ];
+      },
     });
 
-    expect(
-      panelContainer.querySelector<HTMLElement>('.aa-Panel')
-    ).toHaveTextContent('No results template');
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: '' } });
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  test('render empty template on query when openOnFocus is false', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      openOnFocus: true,
+      getSources() {
+        return [
+          {
+            getItems() {
+              return [];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+              empty() {
+                return 'No results template';
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'Query' } });
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toHaveTextContent('No results template');
+    });
   });
 
   test('calls renderEmpty without empty template on no results', async () => {
@@ -214,6 +286,7 @@ describe('autocomplete-js', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
+      openOnFocus: true,
       getSources() {
         return [
           {
@@ -238,7 +311,7 @@ describe('autocomplete-js', () => {
     await waitFor(() => {
       expect(
         panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
+      ).toHaveTextContent('No results render');
     });
 
     expect(renderEmpty).toHaveBeenCalledWith(
@@ -251,10 +324,6 @@ describe('autocomplete-js', () => {
       },
       expect.any(HTMLElement)
     );
-
-    expect(
-      panelContainer.querySelector<HTMLElement>('.aa-Panel')
-    ).toHaveTextContent('No results render');
   });
 
   test('renders empty template over renderEmpty method on no results', async () => {
@@ -265,6 +334,7 @@ describe('autocomplete-js', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
+      openOnFocus: true,
       getSources() {
         return [
           {
@@ -297,12 +367,8 @@ describe('autocomplete-js', () => {
     await waitFor(() => {
       expect(
         panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
+      ).toHaveTextContent('No results template');
     });
-
-    expect(
-      panelContainer.querySelector<HTMLElement>('.aa-Panel')
-    ).toHaveTextContent('No results template');
   });
 
   test('allows user-provided shouldPanelShow', () => {

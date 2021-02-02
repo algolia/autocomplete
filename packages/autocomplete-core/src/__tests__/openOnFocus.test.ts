@@ -28,12 +28,13 @@ describe('openOnFocus', () => {
 
     formElement.reset();
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        isOpen: true,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          isOpen: true,
+        }),
+      })
+    );
   });
 
   test('sets defaultActiveItemId on reset', () => {
@@ -45,12 +46,13 @@ describe('openOnFocus', () => {
 
     formElement.reset();
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        activeItemId: 1,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          activeItemId: 1,
+        }),
+      })
+    );
   });
 
   test('triggers a search on focus without query', () => {
@@ -59,12 +61,13 @@ describe('openOnFocus', () => {
 
     inputElement.focus();
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        query: '',
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          query: '',
+        }),
+      })
+    );
   });
 
   test('calls getSources without query', () => {
@@ -85,11 +88,12 @@ describe('openOnFocus', () => {
 
     inputElement.focus();
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        isOpen: true,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          isOpen: true,
+        }),
+      })
+    );
   });
 });

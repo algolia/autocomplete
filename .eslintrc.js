@@ -16,6 +16,7 @@ module.exports = {
     },
   },
   rules: {
+    curly: 2,
     'no-param-reassign': 0,
     'valid-jsdoc': 0,
     'no-shadow': 0,

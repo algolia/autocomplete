@@ -24,7 +24,7 @@ export function createAutocomplete<
 
   const subscribers: AutocompleteSubscribers<TItem> = [];
   const props = getDefaultProps(options, subscribers);
-  const store = createStore(stateReducer, props);
+  const store = createStore(stateReducer, props, onStoreStateChange);
 
   const setters = getAutocompleteSetters({ store });
   const propGetters = getPropGetters<
@@ -33,6 +33,10 @@ export function createAutocomplete<
     TMouseEvent,
     TKeyboardEvent
   >({ props, refresh, store, ...setters });
+
+  function onStoreStateChange({ prevState, state }) {
+    props.onStateChange({ prevState, state, refresh, ...setters });
+  }
 
   function refresh() {
     return onInput({
@@ -49,6 +53,7 @@ export function createAutocomplete<
   props.plugins.forEach((plugin) =>
     plugin.subscribe?.({
       ...setters,
+      refresh,
       onSelect(fn) {
         subscribers.push({ onSelect: fn });
       },

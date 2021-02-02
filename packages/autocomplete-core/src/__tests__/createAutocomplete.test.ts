@@ -25,18 +25,19 @@ describe('createAutocomplete', () => {
 
   test('subscribes all plugins', () => {
     const plugin = { subscribe: jest.fn() };
-    createAutocomplete({ plugins: [plugin] });
+    const autocomplete = createAutocomplete({ plugins: [plugin] });
 
     expect(plugin.subscribe).toHaveBeenCalledTimes(1);
     expect(plugin.subscribe).toHaveBeenLastCalledWith({
       onActive: expect.any(Function),
       onSelect: expect.any(Function),
-      setCollections: expect.any(Function),
-      setContext: expect.any(Function),
-      setIsOpen: expect.any(Function),
-      setQuery: expect.any(Function),
-      setActiveItemId: expect.any(Function),
-      setStatus: expect.any(Function),
+      refresh: autocomplete.refresh,
+      setCollections: autocomplete.setCollections,
+      setContext: autocomplete.setContext,
+      setIsOpen: autocomplete.setIsOpen,
+      setQuery: autocomplete.setQuery,
+      setActiveItemId: autocomplete.setActiveItemId,
+      setStatus: autocomplete.setStatus,
     });
   });
 });

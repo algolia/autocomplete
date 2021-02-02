@@ -15,6 +15,10 @@ module.exports = (api) => {
     presets: [
       '@babel/preset-typescript',
       [
+        '@babel/preset-react',
+        { pragma: 'createElement', pragmaFrag: 'Fragment' },
+      ],
+      [
         '@babel/preset-env',
         {
           modules,

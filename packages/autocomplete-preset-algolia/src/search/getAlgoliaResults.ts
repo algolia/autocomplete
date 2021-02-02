@@ -5,8 +5,11 @@ import { search, SearchParams } from './search';
 export function getAlgoliaResults<TRecord>({
   searchClient,
   queries,
+  userAgents,
 }: SearchParams): Promise<Array<SearchResponse<TRecord>>> {
-  return search<TRecord>({ searchClient, queries }).then((response) => {
-    return response.results;
-  });
+  return search<TRecord>({ searchClient, queries, userAgents }).then(
+    (response) => {
+      return response.results;
+    }
+  );
 }

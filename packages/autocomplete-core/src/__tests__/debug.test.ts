@@ -25,9 +25,10 @@ describe('debug', () => {
     inputElement.focus();
     inputElement.blur();
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({ isOpen: true }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ isOpen: true }),
+      })
+    );
   });
 });

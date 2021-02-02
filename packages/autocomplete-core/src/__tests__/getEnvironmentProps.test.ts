@@ -2,12 +2,116 @@ import { createPlayground } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 describe('getEnvironmentProps', () => {
-  test.todo('forwards the remaining props');
+  test('forwards the remaining props', () => {
+    const { getEnvironmentProps, formElement, inputElement } = createPlayground(
+      createAutocomplete,
+      {}
+    );
+    const panelElement = document.createElement('div');
+
+    const environmentProps = getEnvironmentProps({
+      inputElement,
+      formElement,
+      panelElement,
+      customProps: {},
+    });
+
+    expect(environmentProps).toEqual(
+      expect.objectContaining({ customProps: {} })
+    );
+  });
 
   describe('onTouchStart', () => {
-    test.todo('is a noop when panel is not open');
-    test.todo('is a noop when the event target is the input element');
-    test.todo('blurs input if the target is outside Autocomplete');
+    test('is a noop when panel is not open', () => {
+      const {
+        getEnvironmentProps,
+        inputElement,
+        formElement,
+      } = createPlayground(createAutocomplete, {});
+      const panelElement = document.createElement('div');
+
+      const { onTouchStart } = getEnvironmentProps({
+        inputElement,
+        formElement,
+        panelElement,
+      });
+      window.addEventListener('touchstart', onTouchStart);
+
+      // Focus input (with the panel closed)
+      inputElement.focus();
+
+      // Dispatch TouchStart event on window
+      const customEvent = new CustomEvent('touchstart', {
+        bubbles: true,
+      });
+      window.dispatchEvent(customEvent);
+
+      expect(document.activeElement).toBe(inputElement);
+    });
+
+    test('is a noop when the event target is the input element', () => {
+      const {
+        getEnvironmentProps,
+        inputElement,
+        formElement,
+      } = createPlayground(createAutocomplete, {
+        openOnFocus: true,
+      });
+      const panelElement = document.createElement('div');
+
+      const { onTouchStart } = getEnvironmentProps({
+        inputElement,
+        formElement,
+        panelElement,
+      });
+      window.addEventListener('touchstart', onTouchStart);
+
+      // Focus input (opens the panel)
+      inputElement.focus();
+
+      // Dispatch TouchStart event on the input (bubbles to window)
+      const customEvent = new CustomEvent('touchstart', {
+        bubbles: true,
+      });
+      inputElement.dispatchEvent(customEvent);
+
+      expect(document.activeElement).toBe(inputElement);
+    });
+
+    test('closes panel if the target is outside Autocomplete', () => {
+      const onStateChange = jest.fn();
+      const {
+        getEnvironmentProps,
+        inputElement,
+        formElement,
+      } = createPlayground(createAutocomplete, {
+        onStateChange,
+        initialState: { isOpen: true },
+      });
+      const panelElement = document.createElement('div');
+
+      const { onTouchStart } = getEnvironmentProps({
+        inputElement,
+        formElement,
+        panelElement,
+      });
+      window.addEventListener('touchstart', onTouchStart);
+
+      // Dispatch TouchStart event on window (so, outside of Autocomplete)
+      const customEvent = new CustomEvent('touchstart', {
+        bubbles: true,
+      });
+      window.document.dispatchEvent(customEvent);
+
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            activeItemId: null,
+            isOpen: false,
+          }),
+        })
+      );
+    });
   });
 
   describe('onTouchMove', () => {
@@ -18,8 +122,6 @@ describe('getEnvironmentProps', () => {
         formElement,
       } = createPlayground(createAutocomplete, {});
       const panelElement = document.createElement('div');
-
-      jest.spyOn(inputElement, 'blur');
 
       const { onTouchMove } = getEnvironmentProps({
         inputElement,
@@ -37,7 +139,7 @@ describe('getEnvironmentProps', () => {
       });
       window.dispatchEvent(customEvent);
 
-      expect(inputElement.blur).toHaveBeenCalledTimes(0);
+      expect(document.activeElement).toBe(inputElement);
     });
 
     test('is a noop when the event target is the input element', () => {
@@ -49,8 +151,6 @@ describe('getEnvironmentProps', () => {
         openOnFocus: true,
       });
       const panelElement = document.createElement('div');
-
-      jest.spyOn(inputElement, 'blur');
 
       const { onTouchMove } = getEnvironmentProps({
         inputElement,
@@ -68,7 +168,7 @@ describe('getEnvironmentProps', () => {
       });
       inputElement.dispatchEvent(customEvent);
 
-      expect(inputElement.blur).toHaveBeenCalledTimes(0);
+      expect(document.activeElement).toBe(inputElement);
     });
 
     test('is a noop when input is not the active element', () => {
@@ -80,8 +180,8 @@ describe('getEnvironmentProps', () => {
         initialState: { isOpen: true },
       });
       const panelElement = document.createElement('div');
-
-      jest.spyOn(inputElement, 'blur');
+      const dummyInputElement = document.createElement('input');
+      document.body.appendChild(dummyInputElement);
 
       const { onTouchMove } = getEnvironmentProps({
         inputElement,
@@ -90,8 +190,8 @@ describe('getEnvironmentProps', () => {
       });
       window.addEventListener('touchmove', onTouchMove);
 
-      // Focus the form (with the panel open)
-      formElement.focus();
+      // Focus a dummy input element (with the panel open)
+      dummyInputElement.focus();
 
       // Dispatch TouchMove event on window
       const customEvent = new CustomEvent('touchmove', {
@@ -99,7 +199,7 @@ describe('getEnvironmentProps', () => {
       });
       window.dispatchEvent(customEvent);
 
-      expect(inputElement.blur).toHaveBeenCalledTimes(0);
+      expect(document.activeElement).toBe(dummyInputElement);
     });
 
     test('blurs input otherwise', () => {
@@ -111,8 +211,6 @@ describe('getEnvironmentProps', () => {
         openOnFocus: true,
       });
       const panelElement = document.createElement('div');
-
-      jest.spyOn(inputElement, 'blur');
 
       const { onTouchMove } = getEnvironmentProps({
         inputElement,
@@ -130,7 +228,7 @@ describe('getEnvironmentProps', () => {
       });
       window.dispatchEvent(customEvent);
 
-      expect(inputElement.blur).toHaveBeenCalledTimes(1);
+      expect(document.activeElement).not.toBe(inputElement);
     });
   });
 });

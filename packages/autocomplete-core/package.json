@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-core",
   "description": "Core primitives for building autocomplete experiences.",
-  "version": "1.0.0-alpha.38",
+  "version": "1.0.0-alpha.39",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete.js",
   "repository": "algolia/autocomplete.js",
@@ -31,6 +31,6 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@algolia/autocomplete-shared": "1.0.0-alpha.38"
+    "@algolia/autocomplete-shared": "1.0.0-alpha.39"
   }
 }
