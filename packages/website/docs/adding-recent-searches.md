@@ -45,20 +45,18 @@ The  Autocomplete library provides the `createLocalStorageRecentSearchesPlugin` 
 
 The `key` can be any string and is required to differentiate search histories if you have multiple autocompletes on one page. The `limit` defines the maximum number of recent searches to display.
 
-```diff
+```js
 import { autocomplete } from '@algolia/autocomplete-js';
-+ import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
-+
-+ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
-+  key: 'RECENT_SEARCH',
-+  limit: 5,
-+});
-+
-// Instantiate the autocomplete instance
+ import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+
+ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+  key: 'RECENT_SEARCH',
+  limit: 5,
+});
+
 autocomplete({
   container: '#autocomplete',
--  plugins: [],
-+  plugins: [recentSearchesPlugin],
+  plugins: [recentSearchesPlugin],
   openOnFocus: true,
 });
 ```
