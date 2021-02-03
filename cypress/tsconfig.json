@@ -1,0 +1,6 @@
+{
+  "extends": "../tsconfig",
+  "compilerOptions": {
+    "types": ["cypress"]
+  }
+}
