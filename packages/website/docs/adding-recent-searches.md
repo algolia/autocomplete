@@ -21,8 +21,6 @@ This tutorial assumes that you have:
 
 **Using this plugin doesn't require an Algolia application.** If you plan on including other sections in your autocomplete such as [Query Suggestions](using-query-suggestions-plugin), you _do_ need an [Algolia](https://www.algolia.com/) application with the Query Suggestions feature enabled.
 
-To follow along with the tutorial, start with the markup and style sheets from the [complete example on GitHub](https://github.com/algolia/doc-code-samples/tree/autocomplete-v1/Autocomplete/multi-source). The tutorial includes code snippets of the JavaScript necessary to add recent searches.
-
 ## Getting started
 
 First, begin with some boilerplate for the autocomplete implementation. Create a file called `index.js` in your `src` directory, and add the boilerplate below:
@@ -74,4 +72,4 @@ Since the `recentSearchesPlugin` reads from [`localStorage`](https://developer.m
 
 ## Next steps
 
-This tutorial focuses on creating and adding recent searches to an autocomplete menu. Most autocomplete menus include recent searches in addition to suggested searches and possibly other items. You can find an example including [Query Suggestions](using-query-suggestions-plugin), [static predefined items](sources#using-static-sources) on [GitHub](https://github.com/algolia/doc-code-samples/tree/autocomplete-v1/Autocomplete/multi-source).  To learn how to display multiple sections in one autocomplete, read the [guide on creating multi-source autocompletes](creating-multi-source-autocompletes).
+This tutorial focuses on creating and adding recent searches to an autocomplete menu. Most autocomplete menus include recent searches in addition to suggested searches and possibly other items. Check out the guides on adding [Query Suggestions](using-query-suggestions-plugin) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on creating multi-source autocompletes](creating-multi-source-autocompletes).
