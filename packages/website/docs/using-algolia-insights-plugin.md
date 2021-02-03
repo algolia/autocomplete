@@ -3,7 +3,7 @@ id: using-algolia-insights-plugin
 title: Using the Algolia Insights plugin
 ---
 
-Learn how to include automatically send Algolia Insights events from your autocomplete menu.
+Learn how to automatically send Algolia Insights events from your autocomplete menu.
 
 :::note
 
@@ -11,7 +11,7 @@ Using this plugin requires an [Algolia](https://www.algolia.com/) application wi
 
 :::
 
-If you're using [Algolia indices](https://www.algolia.com/doc/faq/basics/what-is-an-index/) as [sources](sources) in your autocomplete, Algolia provides [Search Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/) out-of-the-box. Search Analytics includes metrics like [top searches, top searches with no results, overall search counts, etc.](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/#what-do-search-analytics-measure)
+If you're using [Algolia indices](https://www.algolia.com/doc/faq/basics/what-is-an-index/) as [sources](sources) in your autocomplete, Algolia provides [Search Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/) out-of-the-box. Search Analytics includes metrics like [top searches, top searches with no results, overall search counts, etc.](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/#what-do-search-analytics-measure) It is a great feature to better understand your user's behavior, what they need from your app and ultimately to drive your business.
 
 You may also want to capture [Click and Conversion Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/). Click and Conversion Analytics takes Algolia’s out-of-the-box Search Analytics further by providing insights into actions users take after performing a search. They also form the basis for more advanced features like [A/B testing](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/), [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/ai-optimizations/re-ranking/), and [Personalization](https://www.algolia.com/doc/guides/personalization/what-is-personalization/).
 
@@ -66,8 +66,6 @@ autocomplete({
                 query,
                 params: {
                   clickAnalytics: true,
-                  attributesToSnippet: ["name:10", "description:35"],
-                  snippetEllipsisText: "…"
                 }
               }
             ]
@@ -118,7 +116,7 @@ The autocomplete searches into an [Algolia index](https://www.algolia.com/doc/fa
 
 :::note
 
-You must set the [`clickAnalytics`](https://www.algolia.com/doc/api-reference/api-parameters/clickAnalytics/) query parameter to `true` to properly send click and conversion events from your autocomplete .
+You must set the [`clickAnalytics`](https://www.algolia.com/doc/api-reference/api-parameters/clickAnalytics/) query parameter to `true` to properly send click and conversion events from your autocomplete.
 
 :::
 
