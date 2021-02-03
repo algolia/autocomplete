@@ -1,6 +1,6 @@
 ---
 id: creating-multi-source-autocompletes
-title: Creating multi-source autocompletes
+title: Creating mulitple category autocompletes
 ---
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
