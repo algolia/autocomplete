@@ -28,7 +28,7 @@ type DocSearchItem = {
 type DocSearchHit = Hit<DocSearchItem>;
 type AutocompleteItemProps = { hit: DocSearchHit; breadcrumb: string[] };
 
-export function AutocompleteItem({ hit, breadcrumb }: AutocompleteItemProps) {
+export function AutocompleteDocSearchItem({ hit, breadcrumb }: AutocompleteItemProps) {
   return (
     <a href={hit.url} className="aa-ItemLink">
       <div className="aa-ItemContent">

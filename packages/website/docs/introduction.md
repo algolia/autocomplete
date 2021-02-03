@@ -3,7 +3,7 @@ id: introduction
 title: What is Autocomplete?
 ---
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
-import { AutocompleteItem } from '@site/src/components/AutocompleteItem';
+import { AutocompleteDocSearchItem } from '@site/src/components/AutocompleteDocSearchItem';
 import { getAlgoliaHits } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch/lite';
 const searchClient = algoliasearch(
@@ -41,7 +41,7 @@ For example, try typing the letter "s" in the search box below.
         templates: {
           item({ item }) {
             return (
-              <AutocompleteItem
+              <AutocompleteDocSearchItem
                 hit={item}
                 breadcrumb={Object.values(item.hierarchy)
                   .filter(Boolean)
