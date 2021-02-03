@@ -1,6 +1,6 @@
 ---
-id: using-recent-searches-plugin
-title: Using the Recent Searches plugin
+id: adding-recent-searches
+title: Adding recent searches
 ---
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
