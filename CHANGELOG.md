@@ -1,3 +1,28 @@
+# [](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.39...v) (2021-02-03)
+
+
+### Bug Fixes
+
+* **core:** forward props in `getEnvironmentProps` ([af49483](https://github.com/algolia/autocomplete.js/commit/af4948304f5b95fdc8c642882609b87d39562f83))
+* **core:** remove error handler when fetching results ([#416](https://github.com/algolia/autocomplete.js/issues/416)) ([eb98af6](https://github.com/algolia/autocomplete.js/commit/eb98af611ecd91b07d161d68ce1c81abf84bbf70))
+* **insights:** rename event to "Item Active" ([03059b6](https://github.com/algolia/autocomplete.js/commit/03059b6b2942f114ea48a304d964480cb43b02c5))
+* **js:** ignore empty template with no query and `openOnFocus` ([#407](https://github.com/algolia/autocomplete.js/issues/407)) ([92eeb3e](https://github.com/algolia/autocomplete.js/commit/92eeb3e523e4c1b1c87c4108d903029052472387))
+* **js:** update panel markup ([1eecc65](https://github.com/algolia/autocomplete.js/commit/1eecc65fa86cb490dc2987dedaedbbc7812fac10))
+* **mergeClassNames:** prevent classes with the same name being merged ([#413](https://github.com/algolia/autocomplete.js/issues/413)) ([9651481](https://github.com/algolia/autocomplete.js/commit/9651481a9e903605bbb26c28b1426fa7088416e5))
+
+
+### Features
+
+* **core:** pass scoped API to lifecycle hooks ([#422](https://github.com/algolia/autocomplete.js/issues/422)) ([049b343](https://github.com/algolia/autocomplete.js/commit/049b3430f9bd6fe53536c346f287dab06652b7cf))
+* **highlighting:** support array syntax for nested attributes ([#418](https://github.com/algolia/autocomplete.js/issues/418)) ([4ad4e41](https://github.com/algolia/autocomplete.js/commit/4ad4e411d5c5ff6f6a8374b567fb9afa725bfd30))
+* **js:** add JS user agent to Algolia requests ([#420](https://github.com/algolia/autocomplete.js/issues/420)) ([fab2d57](https://github.com/algolia/autocomplete.js/commit/fab2d57c3d0c08ab2e46fad80224fe9f740988eb))
+* **js:** update reset icon ([2c953f6](https://github.com/algolia/autocomplete.js/commit/2c953f6ae8473b2fc5bd63b01b32470024e125bc))
+* **query-suggestions:** remove `getAlgoliaHits` param ([efa4c93](https://github.com/algolia/autocomplete.js/commit/efa4c938f8a1c885a38e8130be44c9ab17fba146))
+* **recent-searches:** update remove icon ([b828171](https://github.com/algolia/autocomplete.js/commit/b82817171718eab9041f41146d8accbd7d0cf909))
+* **theme:** introduce Autocomplete Classic Theme ([#409](https://github.com/algolia/autocomplete.js/issues/409)) ([226fc54](https://github.com/algolia/autocomplete.js/commit/226fc549e07e957b7b6177e0f3d592bc509b0089))
+
+
+
 # [1.0.0-alpha.39](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.38...v1.0.0-alpha.39) (2021-01-22)
 
 This is a big release that changes the rendering implementation from plain HTML to Virtual DOM (see [#381](https://github.com/algolia/autocomplete.js/issues/381)).
