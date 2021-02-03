@@ -14,7 +14,7 @@ module.exports = {
       'plugins',
     ],
     Guides: [
-      'using-query-suggestions-plugin',
+      'adding-suggested-searches',
       'using-recent-searches-plugin',
       'using-algolia-insights-plugin',
       'creating-multi-source-autocompletes',

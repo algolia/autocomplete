@@ -1,6 +1,6 @@
 ---
-id: using-query-suggestions-plugin
-title: Using the Query Suggestions plugin
+id: adding-suggested-searches
+title: Adding suggested searches
 ---
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
