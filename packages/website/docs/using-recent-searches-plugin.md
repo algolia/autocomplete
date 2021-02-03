@@ -30,7 +30,6 @@ First, begin with some boilerplate for the autocomplete implementation. Create a
 ```js
 import { autocomplete } from '@algolia/autocomplete-js';
 
-// Instantiate the autocomplete instance
 autocomplete({
   container: '#autocomplete',
   plugins: [],
@@ -38,7 +37,7 @@ autocomplete({
 });
 ```
 
-This boilerplate assumes you want to insert the autocomplete into a DOM element with `autocomplete` as an [id](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id). You should change the [`container`](autocomplete-js/#container) to [match your markup](basic-options). Setting [`openOnFocus`](autocomplete-js/#openonfocus) to `true` ensures that the dropdown appears as soon as a user clicks on the input.
+This boilerplate assumes you want to insert the autocomplete into a DOM element with `autocomplete` as an [id](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id). You should change the [`container`](autocomplete-js/#container) to [match your markup](basic-options). Setting [`openOnFocus`](autocomplete-js/#openonfocus) to `true` ensures that the dropdown appears as soon as a user focuses the input.
 
 For now, `plugins` is an empty array, but you'll learn how to add the Recent Searches plugin next.
 
@@ -46,7 +45,7 @@ For now, `plugins` is an empty array, but you'll learn how to add the Recent Sea
 
 The  Autocomplete library provides the `createLocalStorageRecentSearchesPlugin` function for creating a `recentSearchesPlugin`  out-of-the-box. To use it, you need to provide a `key` and `limit`.
 
-The `key` can be any string and is useful to differentiate search histories if you have multiple autocompletes on one page. The `limit` defines the maximum number of recent searches to display.
+The `key` can be any string and is required to differentiate search histories if you have multiple autocompletes on one page. The `limit` defines the maximum number of recent searches to display.
 
 ```diff
 import { autocomplete } from '@algolia/autocomplete-js';
@@ -76,4 +75,3 @@ Since the `recentSearchesPlugin` reads from [`localStorage`](https://developer.m
 ## Next steps
 
 This tutorial focuses on creating and adding recent searches to an autocomplete menu. Most autocomplete menus include recent searches in addition to suggested searches and possibly other items. You can find an example including [Query Suggestions](using-query-suggestions-plugin), [static predefined items](sources#using-static-sources) on [GitHub](https://github.com/algolia/doc-code-samples/tree/autocomplete-v1/Autocomplete/multi-source).  To learn how to display multiple sections in one autocomplete, read the [guide on creating multi-source autocompletes](creating-multi-source-autocompletes).
-
