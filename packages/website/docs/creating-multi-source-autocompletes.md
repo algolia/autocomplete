@@ -2,6 +2,68 @@
 id: creating-multi-source-autocompletes
 title: Creating multi-source autocompletes
 ---
+import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
+import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
+import algoliasearch from 'algoliasearch/lite';
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
+const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+  key: 'RECENT_SEARCH',
+  limit: 5,
+});
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  searchClient,
+  indexName: 'yourQuerySuggestionsIndexName',
+  getSearchParams() {
+    return recentSearchesPlugin.data.getAlgoliaSearchParams({
+      hitsPerPage: 5,
+    });
+  },
+});
+const predefinedItems = [
+  {
+    label: 'Documentation',
+    url: 'https://autocomplete.algolia.com/',
+  },
+  {
+    label: 'GitHub',
+    url: 'https://github.com/algolia/autocomplete.js/tree/next',
+  },
+]
+const predefinedItemsPlugin = {
+  getSources() {
+    return [
+      {
+        getItems({ query }) {
+          return predefinedItems.filter(
+            (item) =>
+              !query || item.label.toLowerCase().includes(query.toLowerCase())
+          );
+        },
+        getItemUrl({ item }) {
+          return item.url;
+        },
+        templates: {
+          item({ item}) {
+              return (
+                <a href={item.url} className="aa-ItemContent aa-ItemLink aa-PredefinedItem">
+                  <div className="aa-ItemSourceIcon">
+                    <svg style="width:20px;height:20px" viewBox="0 0 24 24">
+                       <path fill="currentColor" d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
+                     </svg>
+                  </div>
+                  <div className="'aa-ItemTitle">{item.label}</div>
+                </a>
+              )
+        },
+        },
+      },
+    ];
+  },
+};
 
 Learn how to show different types of results in one autocomplete.
 
@@ -110,10 +172,6 @@ The [`getItemUrl`](sources/#getitemurl) function defines how to get the URL of a
 [Templates](templates) define how to display each section of the autocomplete, including the [`header`](templates#header), [`footer`](templates#footer), and each [`item`](templates#item). You can provide either a string, or as the example below shows, a function for how to manipulate the DOM.
 
 ```diff
-+ const icon = `<svg style="width:20px;height:20px" viewBox="0 0 24 24">
-+      <path fill="currentColor" d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
-+  </svg>`;
-
   const predefinedItems = [
   {
     label: 'Documentation',
@@ -138,19 +196,17 @@ export const predefinedItemsPlugin = {
           return item.url;
         },
         templates: {
-+          item({ item, root }) {
-+            const content = document.createElement('a');
-+            content.href = item.url;
-+            content.className = 'aa-ItemContent aa-ItemLink aa-PredefinedItem';
-+            const icon = document.createElement('div');
-+            icon.className = 'aa-ItemSourceIcon';
-+            icon.innerHTML = linkIcon;
-+            const title = document.createElement('div');
-+            title.innerText = item.label;
-+            title.className = 'aa-ItemTitle';
-+            content.appendChild(icon);
-+            content.appendChild(title);
-+            root.appendChild(content);
++          item({ item}) {
++              return (
++                <a href={item.url} className="aa-ItemContent aa-ItemLink aa-PredefinedItem">
++                  <div className="aa-ItemSourceIcon">
++                    <svg style="width:20px;height:20px" viewBox="0 0 24 24">
++                       <path fill="currentColor" d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
++                     </svg>
++                  </div>
++                  <div className="'aa-ItemTitle">{item.label}</div>
++                </a>
++              )
 +        },
         },
       },
@@ -191,6 +247,11 @@ autocomplete({
 ```
 
 Now, as soon as a user clicks on the search bar, these predefined items appear. Once they begin typing, only predefined items that contain the query remain.
+
+<AutocompleteExample
+  plugins={[predefinedItemsPlugin]}
+  openOnFocus={true}
+/>
 
 ## Adding recent searches and Query Suggestions
 
@@ -305,7 +366,10 @@ autocomplete({
 
 This creates a basic multi-source autocomplete. Try it out below:
 
-<input placeholder="This is just a placeholder"></input>
+<AutocompleteExample
+  plugins={[predefinedItemsPlugin, recentSearchesPlugin, querySuggestionsPlugin]}
+  openOnFocus={true}
+/>
 
 ## Next steps
 
