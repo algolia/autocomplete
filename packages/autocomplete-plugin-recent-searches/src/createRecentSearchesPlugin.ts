@@ -21,14 +21,12 @@ export type RecentSearchesPluginData = {
 export type CreateRecentSearchesPluginParams<
   TItem extends RecentSearchesItem
 > = {
-  sourceId: string;
   storage: RecentSearchesStorage<TItem>;
   getTemplates?(params: GetTemplatesParams): SourceTemplates<TItem>;
 };
 
 export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
   storage,
-  sourceId,
   getTemplates = defaultGetTemplates,
 }: CreateRecentSearchesPluginParams<TItem>): AutocompletePlugin<
   TItem,
@@ -70,7 +68,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
 
         return [
           {
-            sourceId,
+            sourceId: 'recentSearchesPlugin',
             getItemInputValue({ item }) {
               return item.query;
             },

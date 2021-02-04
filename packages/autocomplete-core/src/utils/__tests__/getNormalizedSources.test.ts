@@ -70,7 +70,7 @@ describe('getNormalizedSources', () => {
     );
   });
 
-  test('with missing sourceId triggers invariant', async () => {
+  test('with missing `sourceId` triggers invariant', async () => {
     const getSources = () => [
       {
         getItems() {
@@ -89,9 +89,31 @@ describe('getNormalizedSources', () => {
 
     // @ts-expect-error
     await expect(getNormalizedSources(getSources, params)).rejects.toEqual(
-      new Error(
-        '[Autocomplete] The `getSources` function must return a `sourceId` string but returned type "undefined":\n\nundefined'
-      )
+      new Error('[Autocomplete] A source must provide a `sourceId` string.')
+    );
+  });
+
+  test('with wrong `sourceId` type triggers invariant', async () => {
+    const getSources = () => [
+      {
+        sourceId: ['testSource'],
+        getItems() {
+          return [];
+        },
+        templates: {
+          item() {},
+        },
+      },
+    ];
+    const params = {
+      query: '',
+      state: createState({}),
+      ...createScopeApi(),
+    };
+
+    // @ts-expect-error
+    await expect(getNormalizedSources(getSources, params)).rejects.toEqual(
+      new Error('[Autocomplete] A source must provide a `sourceId` string.')
     );
   });
 

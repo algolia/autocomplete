@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import { defer } from '../../../../test/utils';
+import { createSource, defer } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 describe('stallThreshold', () => {
@@ -11,12 +11,11 @@ describe('stallThreshold', () => {
       getSources() {
         return defer(() => {
           return [
-            {
-              sourceId: 'testSource',
+            createSource({
               getItems() {
                 return [{ label: '1' }, { label: 2 }];
               },
-            },
+            }),
           ];
         }, 500);
       },
@@ -60,12 +59,11 @@ describe('stallThreshold', () => {
       getSources() {
         return defer(() => {
           return [
-            {
-              sourceId: 'testSource',
+            createSource({
               getItems() {
                 return [{ label: '1' }, { label: 2 }];
               },
-            },
+            }),
           ];
         }, 500);
       },

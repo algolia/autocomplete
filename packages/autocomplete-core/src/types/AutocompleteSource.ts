@@ -59,7 +59,7 @@ export interface AutocompleteSource<TItem extends BaseItem> {
    */
   onActive?(params: OnHighlightParams<TItem>): void;
   /**
-   * Applied to data-autocomplete-source-id on the section source container
+   * Identifier for the source.
    */
   sourceId: string;
 }

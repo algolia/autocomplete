@@ -33,10 +33,8 @@ export function getNormalizedSources<TItem extends BaseItem>(
         )
         .map((source) => {
           invariant(
-            source.sourceId !== undefined,
-            `The \`getSources\` function must return a \`sourceId\` string but returned type ${JSON.stringify(
-              typeof source.sourceId
-            )}:\n\n${JSON.stringify(source.sourceId, null, 2)}`
+            typeof source.sourceId === 'string',
+            'A source must provide a `sourceId` string.'
           );
 
           const normalizedSource: InternalAutocompleteSource<TItem> = {

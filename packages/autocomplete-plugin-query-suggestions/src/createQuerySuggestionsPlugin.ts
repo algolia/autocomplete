@@ -17,7 +17,6 @@ export type CreateQuerySuggestionsPluginParams<
 > = {
   searchClient: SearchClient;
   indexName: string;
-  sourceId: string;
   getSearchParams?(params: { state: AutocompleteState<TItem> }): SearchOptions;
   getTemplates?(params: GetTemplatesParams<TItem>): SourceTemplates<TItem>;
 };
@@ -27,7 +26,6 @@ export function createQuerySuggestionsPlugin<
 >({
   searchClient,
   indexName,
-  sourceId,
   getSearchParams = () => ({}),
   getTemplates = defaultGetTemplates,
 }: CreateQuerySuggestionsPluginParams<TItem>): AutocompletePlugin<
@@ -38,7 +36,7 @@ export function createQuerySuggestionsPlugin<
     getSources({ query, setQuery, refresh, state }) {
       return [
         {
-          sourceId,
+          sourceId: 'querySuggestionsPlugin',
           getItemInputValue({ item }) {
             return item.query;
           },
