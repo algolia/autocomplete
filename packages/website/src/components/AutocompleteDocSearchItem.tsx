@@ -32,10 +32,12 @@ export function AutocompleteDocSearchItem({
   hit,
   breadcrumb,
 }: AutocompleteItemProps) {
+  const title = hit.type === 'content' ? hit.content : hit.hierarchy[hit.type];
+
   return (
     <a href={hit.url} className="aa-ItemLink">
       <div className="aa-ItemContent">
-        <div className="aa-ItemTitle">{hit.hierarchy[hit.type]}</div>
+        <div className="aa-ItemTitle">{title}</div>
         <div className="aa-ItemContentSubtitle">{breadcrumb.join(' • ')}</div>
       </div>
     </a>
