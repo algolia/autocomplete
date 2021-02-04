@@ -11,9 +11,11 @@ Using this plugin requires an [Algolia](https://www.algolia.com/) application wi
 
 :::
 
-If you're using [Algolia indices](https://www.algolia.com/doc/faq/basics/what-is-an-index/) as [sources](sources) in your autocomplete, Algolia provides [Search Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/) out-of-the-box. Search Analytics includes metrics like [top searches, top searches with no results, overall search counts, etc.](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/#what-do-search-analytics-measure) It is a great feature to better understand your user's behavior, what they need from your app and ultimately to drive your business.
+If you're using [Algolia indices](https://www.algolia.com/doc/faq/basics/what-is-an-index/) as [sources](sources) in your autocomplete, Algolia provides [Search Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/) out-of-the-box. Search Analytics includes metrics like [top searches, top searches with no results, overall search counts, etc.](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/#what-do-search-analytics-measure).
 
-You may also want to capture [Click and Conversion Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/). Click and Conversion Analytics takes Algolia’s out-of-the-box Search Analytics further by providing insights into actions users take after performing a search. They also form the basis for more advanced features like [A/B testing](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/), [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/ai-optimizations/re-ranking/), and [Personalization](https://www.algolia.com/doc/guides/personalization/what-is-personalization/).
+You may also want to capture [Click and Conversion Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/). Click and Conversion Analytics takes Algolia’s out-of-the-box Search Analytics further by providing insights into actions users take after performing a search.  These analytics are useful to better understand your user's behavior and what they need from your app to drive your business.
+
+[Click and Conversion Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/) also form the basis for more advanced features like [A/B testing](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/), [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/ai-optimizations/re-ranking/), and [Personalization](https://www.algolia.com/doc/guides/personalization/what-is-personalization/).
 
 Capturing these analytics requires [sending events to Algolia](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/capturing-user-behavior-as-events/) when your users view, click, or convert on results. This tutorial explains how to automatically send events from your autocomplete using the [`autocomplete-plugin-algolia-insights`](createAlgoliaInsightsPlugin) package.
 ## Prerequisites
@@ -38,7 +40,7 @@ First, begin with some boilerplate for the autocomplete implementation—create 
 import {
   autocomplete,
   getAlgoliaHits,
-  snippetHit
+  highlightHit
 } from "@algolia/autocomplete-js";
 import algoliasearch from "algoliasearch";
 import { h, Fragment } from "preact";
@@ -90,10 +92,10 @@ function ProductItem({ hit }) {
       </div>
       <div className="aa-ItemContent">
         <div className="aa-ItemContentTitle">
-          {snippetHit({ hit, attribute: "name" })}
+          {highlightHit({ hit, attribute: "name" })}
         </div>
         <div className="aa-ItemContentDescription">
-          {snippetHit({ hit, attribute: "description" })}
+          {highlightHit({ hit, attribute: "description" })}
         </div>
       </div>
       <button
@@ -132,29 +134,28 @@ It requires an [Algolia Insights client](https://www.algolia.com/doc/guides/gett
 import {
   autocomplete,
   getAlgoliaHits,
-  snippetHit
+  highlightHit
 } from "@algolia/autocomplete-js";
 import algoliasearch from "algoliasearch";
 import { h, Fragment } from "preact";
-+ import { createAlgoliaInsightsPlugin } from "@algolia/autocomplete-plugin-algolia-insights";
-+ import insightsClient from "search-insights";
-+
+import { createAlgoliaInsightsPlugin } from "@algolia/autocomplete-plugin-algolia-insights";
+import insightsClient from "search-insights";
+
 // Instantiate Algolia search client
 const appId = "latency";
 const apiKey = "6be0576ff61c053d5f9a3225e2a90f76";
 const searchClient = algoliasearch(appId, apiKey);
-+
-+ // Instantiate Algolia Insights client and Insights plugin
-+ insightsClient("init", { appId, apiKey });
-+ const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
-+
+
+// Instantiate Algolia Insights client and Insights plugin
+insightsClient("init", { appId, apiKey });
+const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
 // Instantiate the autocomplete instance
 autocomplete({
   container: "#autocomplete",
   placeholder: "Search products",
   openOnFocus: true,
--  plugins: [],
-+  plugins: [algoliaInsightsPlugin],
+  plugins: [algoliaInsightsPlugin],
   getSources({ query }) {
     return [
       {
@@ -192,10 +193,10 @@ function ProductItem({ hit }) {
       </div>
       <div className="aa-ItemContent">
         <div className="aa-ItemContentTitle">
-          {snippetHit({ hit, attribute: "name" })}
+          {highlightHit({ hit, attribute: "name" })}
         </div>
         <div className="aa-ItemContentDescription">
-          {snippetHit({ hit, attribute: "description" })}
+          {highlightHit({ hit, attribute: "description" })}
         </div>
       </div>
       <button
@@ -226,8 +227,14 @@ insightsClient("init", { appId, apiKey });
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
   insightsClient,
-  onSelect: {/***/}
-});
+  onSelect({ insights, insightsEvents }) {
+    const events = insightsEvents.map((insightsEvent) => ({
+      ...insightsEvent,
+      eventName: 'Product Selected from Autocomplete',
+    }));
+    insights.clickedObjectIDsAfterSearch(...events);
+  },
+})
 ```
 
 ## Validating events
