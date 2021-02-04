@@ -37,18 +37,17 @@ This tutorial assumes that you have:
 
 :::note
 
-If you don't have a Query Suggestions index yet, follow the guide on [creating a Query Suggestions index](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/how-to/creating-a-query-suggestions-index/js/).
+If you don't have a Query Suggestions index yet, follow the guide on [creating a Query Suggestions index](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/how-to/creating-a-query-suggestions-index/js/). For learning purposes, you can use the demo application credentials and index name provided in this tutorial.
 
 :::
 
 ## Getting started
 
-First, begin with some boilerplate for the autocomplete implementation—create a file called `index.js` in your `src` directory, and add the boilerplate below:
+First, begin with some boilerplate for the autocomplete implementation. Create a file called `index.js` in your `src` directory, and add the boilerplate below:
 
-```js
+```js title="index.js"
 import { autocomplete } from '@algolia/autocomplete-js';
 
-// Instantiate the autocomplete instance
 autocomplete({
   container: '#autocomplete',
   plugins: [],
@@ -58,26 +57,25 @@ autocomplete({
 
 This boilerplate assumes you want to insert the autocomplete into a DOM element with `autocomplete` as an [`id`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id). You should change the [`container`](autocomplete-js/#container) to [match your markup](basic-options). Setting [`openOnFocus`](autocomplete-js/#openonfocus) to `true` ensures that the dropdown appears as soon as a user focuses the input.
 
-For now, `plugins` is an empty array, but you'll learn how to add the Query Suggestions plugin next.
+For now, `plugins` is an empty array, but you'll learn how to add the Query Suggestions [plugin](plugins) next.
 
 ## Adding Query Suggestions
 
-The [`autocomplete-plugin-query-suggestions`](createQuerySuggestionsPlugin) package provides the [`createQuerySuggestionsPlugin`](createQuerySuggestionsPlugin) function for creating a Query Suggestions plugin out-of-the-box.
+The [`autocomplete-plugin-query-suggestions`](createQuerySuggestionsPlugin) package provides the [`createQuerySuggestionsPlugin`](createQuerySuggestionsPlugin) function for creating a Query Suggestions [plugin](plugins) out-of-the-box.
 
-It requires an [Algolia search client](https://www.algolia.com/doc/api-client/getting-started/install/javascript/) initialized with an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id) and an `indexName`. The `indexName` is the name of your [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) index. **You must have a populated [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/#implementing-query-suggestions) index to use this plugin.**
+It requires an [Algolia search client](https://www.algolia.com/doc/api-client/getting-started/install/javascript/) initialized with an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id) and an `indexName`. The `indexName` is the name of your [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) index.
 
-```js
+```js title="index.js"
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 
-const searchClient = algoliasearch(
-  'YOUR_APP_ID',
-  'YOUR_SEARCH_API_KEY'
-);
+const appId = 'latency';
+const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
+const searchClient = algoliasearch(appId, apiKey);
 
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
-  indexName: 'YOUR_QUERY_SUGGESTIONS_INDEX_NAME',
+  indexName: 'instant_search_demo_query_suggestions',
 });
 
 autocomplete({
@@ -87,20 +85,21 @@ autocomplete({
 });
 ```
 
-You can optionally pass a `getSearchParams` function to apply [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) to the suggestions returned from the plugin. For example, you may choose to display ten Query Suggestions if the user hasn't typed anything yet, but only five if they have. You may want to do this if you are [displaying other sources](creating-multi-source-autocompletes) along with Query Suggestions.
+You can optionally pass a `getSearchParams` function to apply [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) to the suggestions returned from the plugin.
 
-```js
+For example, you may choose to display ten Query Suggestions if the user hasn't typed anything yet, but only five if they have:
+
+```js title="index.js"
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 
-const searchClient = algoliasearch(
-  'YOUR_APP_ID',
-  'YOUR_SEARCH_API_KEY'
-);
+const appId = 'latency';
+const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
+const searchClient = algoliasearch(appId, apiKey);
 
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
-  indexName: 'YOUR_QUERY_SUGGESTIONS_INDEX_NAME',
+  indexName: 'instant_search_demo_query_suggestions',
   getSearchParams({ state }) {
     return { hitsPerPage: state.query ? 5 : 10 };
   },
@@ -112,6 +111,8 @@ autocomplete({
   openOnFocus: true,
 });
 ```
+This option can be especially useful if you are [displaying other sources](adding-multiple-categories) along with Query Suggestions and want to always show the same total number of items.
+
 This creates a basic Query Suggestions implementation. Try it out below:
 
 <AutocompleteExample
@@ -127,5 +128,5 @@ These suggestions are based on a [public dataset of BestBuy products](https://gi
 
 ## Next steps
 
-This tutorial focuses on adding Query Suggestions to an autocomplete menu. Many autocomplete menus also include recent searches and possibly other items. Check out the guides on adding [recent searches](using-recent-searches-plugin) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on creating multi-source autocompletes](creating-multi-source-autocompletes).
+This tutorial focuses on adding Query Suggestions to an autocomplete menu. Many autocomplete menus also include recent searches and possibly other items. Check out the guides on adding [recent searches](adding-recent-searches) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on creating multi-source autocompletes](adding-multiple-categories).
 

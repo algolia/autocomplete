@@ -73,15 +73,15 @@ Following this tutorial requires an [Algolia](https://www.algolia.com/) applicat
 
 :::
 
-While autocompletes with suggested searches is a ubiquitous search experience, rich multi-category autocompletes are becoming more and more popular.
+While autocompletes with [suggested searches](adding-suggested-searches) is a ubiquitous search experience, rich multi-category autocompletes are becoming more and more popular.
 
 For example, if you search for something in your email inbox, your results could contain not just email threads, but also contacts, attachments, and more. Ecommerce stores often show suggested searches, products, blog posts, brands, and categories all in one autocomplete.
 
 It's best to display different results types in different sections. This implicitly gives users a better understanding of what the items are, and what will happen if they select an item.
 
-The Autocomplete library lets you mix different item types in one autocomplete and customize their display. To do so you need to return multiple [sources](sources#source) in the  [`getSources`](sources) option. This tutorial outlines how to combine [static predefined items](sources/#using-static-sources), [recent searches](using-recent-searches-plugin)] and [Query Suggestions](using-query-suggestions-plugin) in one autocomplete.
+The Autocomplete library lets you mix different item types in one autocomplete and customize their display. To do so you need to return multiple [sources](sources#source) in the  [`getSources`](sources) option. This tutorial outlines how to combine [static predefined items](sources/#using-static-sources), [recent searches](adding-recent-searches)] and [Query Suggestions](adding-suggested-searches) in one autocomplete.
 
-Though it's not necessary, it uses plugins for each source. You could also add different sources directly in [`getSources`](sources). However, it's recommend to encapsulate [source](sources) logic in a plugin since this makes it modular, reusable and sharable.
+Though it's not necessary, it uses [plugins](plugins) for each [source](source). Instead, you could add different sources directly in [`getSources`](sources). However, it's recommend to encapsulate [source](sources) logic in a plugin since this makes it modular, reusable, and sharable.
 
 ## Prerequisites
 
@@ -92,9 +92,9 @@ This tutorial assumes that you have:
 
 ## Getting started
 
-First, begin with some boilerplate for the autocomplete implementation—create a file called `index.js` in your `src` directory, and add the boilerplate below:
+First, begin with some boilerplate for the autocomplete implementation. Create a file called `index.js` in your `src` directory, and add the boilerplate below:
 
-```js
+```js title="index.js"
 import { autocomplete } from '@algolia/autocomplete-js';
 
 autocomplete({
@@ -104,9 +104,9 @@ autocomplete({
 });
 ```
 
-This boilerplate assumes you want to insert the autocomplete into a DOM element with `autocomplete` as an [id](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id). You should change the [`container`](autocomplete-js/#container) to [match your markup](basic-options). Setting [`openOnFocus`](autocomplete-js/#openonfocus) to `true` ensures that the dropdown appears as soon as a user focuses the input.
+This boilerplate assumes you want to insert the autocomplete into a DOM element with `autocomplete` as an [`id`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id). You should change the [`container`](autocomplete-js/#container) to [match your markup](basic-options). Setting [`openOnFocus`](autocomplete-js/#openonfocus) to `true` ensures that the dropdown appears as soon as a user focuses the input.
 
-For now, `plugins` is an empty array, but you'll learn how to create and add plugins for predefined items, recent searches, and Query Suggestions next.
+For now, `plugins` is an empty array, but you'll learn how to create and add [plugins](plugins) for predefined items, recent searches, and Query Suggestions next.
 
 ## Adding predefined items
 
@@ -118,7 +118,7 @@ This tutorial describes how to create a [plugin](plugins) to show static, predef
 
 Begin by creating a `predefinedItemsPlugin.js` file in your `src` directory, with the following code:
 
-```js
+```js title="predefinedItemsPlugin.js"
 const predefinedItems = [
   {
     label: 'Documentation',
@@ -165,7 +165,7 @@ The [`getItemUrl`](sources/#getitemurl) function defines how to get the URL of a
 
 [Templates](templates) define how to display each section of the autocomplete, including the [`header`](templates#header), [`footer`](templates#footer), and each [`item`](templates#item). You can provide either a string, or as the example below shows, a function for how to manipulate the DOM.
 
-```js
+```js title="predefinedItemsPlugin.js"
   const predefinedItems = [
   {
     label: 'Documentation',
@@ -192,7 +192,7 @@ export const predefinedItemsPlugin = {
         templates: {
           item({ item}) {
               return (
-                <a href={item.url} className="aa-ItemContent aa-ItemLink aa-PredefinedItem">
+                <a href={item.url} className="aa-ItemContent aa-PredefinedItem">
                   <div className="aa-ItemSourceIcon">
                     <svg viewBox="0 0 24 24" width="20" height="20">
                        <path fill="currentColor" d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
@@ -201,7 +201,7 @@ export const predefinedItemsPlugin = {
                   <div className="'aa-ItemTitle">{item.label}</div>
                 </a>
               )
-        },
+          },
         },
       },
     ];
@@ -213,7 +213,7 @@ export const predefinedItemsPlugin = {
 
 All that's left is to import the newly created `predefinedItemsPlugin` and add it to`plugins` in `index.js`. Once you've done that, the file should look like this:
 
-```js
+```js title="index.js"
 import { autocomplete } from '@algolia/autocomplete-js';
 import { predefinedItemsPlugin } from './predefinedItemsPlugin';
 
@@ -233,13 +233,13 @@ Now, as soon as a user clicks on the search bar, these predefined items appear. 
 
 ## Adding recent searches and Query Suggestions
 
-You can add recent searches and Query Suggestions using out-of-the-box plugins. Refer to the guides on [adding recent searches](using-recent-searches-plugin) and [Query Suggestions](using-query-suggestions-plugin) for more detailed explanations.
+You can add recent searches and Query Suggestions using out-of-the-box plugins. Refer to the guides on [adding recent searches](adding-recent-searches) and [Query Suggestions](adding-suggested-searches) for more detailed explanations.
 
 ### Creating a recent searches plugin
 
 Use the out-of-the-box [`createLocalStorageRecentSearchesPlugin`](createlocalstoragerecentsearchesplugin) function to create a recent searches plugin:
 
-```js
+```js title="JavaScript"
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
@@ -261,7 +261,7 @@ If you don't have a Query Suggestions index yet, follow the guide on [creating a
 
 Use the out-of-the-box [`createQuerySuggestionsPlugin`](createQuerySuggestionsPlugin) function to create a Query Suggestions plugin. It requires an [Algolia search client](https://www.algolia.com/doc/api-client/getting-started/install/javascript/) initialized with an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id) and an `indexName`. The `indexName` is the name of your [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) index.
 
-```js
+```js title="Javascript"
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 
 const appId = 'latency';
@@ -276,9 +276,9 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 
 ### Aligning Query Suggestions to items from different sources
 
-When instantiating your Query Suggestions plugin, you can optionally pass a [`getSearchParams`](createquerysuggestionsplugin/#getsearchparams) function to apply [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) to the suggestions returned from the plugin. This is particularly useful if you need to align your Query Suggestions with other sections displayed in the autocomplete, like [recent searches](using-recent-searches-plugin).
+When instantiating your Query Suggestions plugin, you can optionally pass a [`getSearchParams`](createquerysuggestionsplugin/#getsearchparams) function to apply [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) to the suggestions returned from the plugin. This is particularly useful if you need to align your Query Suggestions with other sections displayed in the autocomplete, like [recent searches](adding-recent-searches).
 
-```js
+```js title="index.js"
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
@@ -311,7 +311,7 @@ autocomplete({
 
 All that's left to do is add all of your plugins to your autocomplete instance:
 
-```js
+```js title="index.js"
 import { autocomplete } from '@algolia/autocomplete-js';
 import { predefinedItemsPlugin } from './predefinedItemsPlugin';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';

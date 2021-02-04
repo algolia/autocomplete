@@ -15,7 +15,7 @@ Get started with Autocomplete by building an Algolia search experience.
 
 This documentation offers a few ways to learn about the Autocomplete library:
   - Read the [**Core Concepts**](basic-options) to learn more about underlying principles, like [**Sources**](sources) and [**State**](state).
-  - Follow the [**Guides**](using-query-suggestions-plugin) to understand how to build common UX patterns.
+  - Follow the [**Guides**](adding-suggested-searches) to understand how to build common UX patterns.
   - Refer to [**API reference**](api) for a comprehensive list of parameters and options.
   - Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.ts) where you can fork a basic implementation and play around.
 
@@ -328,4 +328,4 @@ Now give it a try: navigate to one of the items using your keyboard and hitting 
 
 ## Next steps
 
-This outlines a basic autocomplete implementation. There's a lot more you can do, like [adding multiple sources](creating-multi-source-autocompletes), using [templates for headers, footers](templates#rendering-a-header-and-footer), or when there's [no results](templates#rendering-an-empty-state). To learn about customization options, read the [**Core Concepts**](basic-options) or follow one of the [**Guides**](using-query-suggestions-plugin).
+This outlines a basic autocomplete implementation. There's a lot more you can do, like [adding multiple sources](adding-multiple-categories), using [templates for headers, footers](templates#rendering-a-header-and-footer), or when there's [no results](templates#rendering-an-empty-state). To learn about customization options, read the [**Core Concepts**](basic-options) or follow one of the [**Guides**](adding-suggested-searches).
