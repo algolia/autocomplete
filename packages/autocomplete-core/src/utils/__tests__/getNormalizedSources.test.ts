@@ -7,7 +7,7 @@ import { getNormalizedSources } from '../getNormalizedSources';
 
 describe('getNormalizedSources', () => {
   test('returns a promise of sources', async () => {
-    const getSources = () => [{ getItems: () => [] }];
+    const getSources = () => [{ sourceId: 'testSource', getItems: () => [] }];
     const params = {
       query: '',
       state: createState({
@@ -23,12 +23,17 @@ describe('getNormalizedSources', () => {
         getItems: expect.any(Function),
         onActive: expect.any(Function),
         onSelect: expect.any(Function),
+        sourceId: 'testSource',
       },
     ]);
   });
 
   test('filters out falsy sources', async () => {
-    const getSources = () => [{ getItems: () => [] }, false, undefined];
+    const getSources = () => [
+      { sourceId: 'testSource', getItems: () => [] },
+      false,
+      undefined,
+    ];
     const params = {
       query: '',
       state: createState({
@@ -44,6 +49,7 @@ describe('getNormalizedSources', () => {
         getItems: expect.any(Function),
         onActive: expect.any(Function),
         onSelect: expect.any(Function),
+        sourceId: 'testSource',
       },
     ]);
   });
@@ -64,8 +70,33 @@ describe('getNormalizedSources', () => {
     );
   });
 
+  test('with with missing sourceId triggers invariant', async () => {
+    const getSources = () => [
+      {
+        getItems() {
+          return [];
+        },
+        templates: {
+          item() {},
+        },
+      },
+    ];
+    const params = {
+      query: '',
+      state: createState({}),
+      ...createScopeApi(),
+    };
+
+    // @ts-expect-error
+    await expect(getNormalizedSources(getSources, params)).rejects.toEqual(
+      new Error(
+        '[Autocomplete] The `getSources` function must return a `sourceId` string but returned type "undefined":\n\nundefined'
+      )
+    );
+  });
+
   test('provides a default implementation for getItemInputValue which returns the query', async () => {
-    const getSources = () => [{ getItems: () => [] }];
+    const getSources = () => [{ sourceId: 'testSource', getItems: () => [] }];
     const params = {
       query: '',
       state: createState({
@@ -82,7 +113,7 @@ describe('getNormalizedSources', () => {
   });
 
   test('provides a default implementation for getItemUrl', async () => {
-    const getSources = () => [{ getItems: () => [] }];
+    const getSources = () => [{ sourceId: 'testSource', getItems: () => [] }];
     const params = {
       query: '',
       state: createState({}),
@@ -97,7 +128,7 @@ describe('getNormalizedSources', () => {
   });
 
   test('provides a default implementation for onSelect', async () => {
-    const getSources = () => [{ getItems: () => [] }];
+    const getSources = () => [{ sourceId: 'testSource', getItems: () => [] }];
     const params = {
       query: '',
       state: createState({}),
@@ -119,7 +150,7 @@ describe('getNormalizedSources', () => {
   });
 
   test('provides a default implementation for onActive', async () => {
-    const getSources = () => [{ getItems: () => [] }];
+    const getSources = () => [{ sourceId: 'testSource', getItems: () => [] }];
     const params = {
       query: '',
       state: createState({}),

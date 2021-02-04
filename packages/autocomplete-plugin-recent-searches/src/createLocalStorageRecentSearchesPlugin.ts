@@ -34,6 +34,10 @@ export type CreateRecentSearchesLocalStorageOptions<
    * Function to search in the recent items.
    */
   search?(params: SearchParams<TItem>): Array<Highlighted<TItem>>;
+  /**
+   * Applied to data-autocomplete-source-id on the section source container
+   */
+  sourceId: string;
 };
 
 type LocalStorageRecentSearchesPluginOptions<
@@ -48,6 +52,7 @@ export function createLocalStorageRecentSearchesPlugin<
   limit = 5,
   getTemplates,
   search = defaultSearch,
+  sourceId,
 }: LocalStorageRecentSearchesPluginOptions<TItem>): AutocompletePlugin<
   TItem,
   RecentSearchesPluginData
@@ -56,10 +61,12 @@ export function createLocalStorageRecentSearchesPlugin<
     key: [LOCAL_STORAGE_KEY, key].join(':'),
     limit,
     search,
+    sourceId,
   });
 
   return createRecentSearchesPlugin({
     getTemplates,
     storage,
+    sourceId,
   });
 }

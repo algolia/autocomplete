@@ -57,6 +57,7 @@ export type AutocompleteSource<TItem extends BaseItem> = WithTemplates<
   AutocompleteCoreSource<TItem>,
   TItem
 >;
+
 export type InternalAutocompleteSource<TItem extends BaseItem> = WithTemplates<
   InternalAutocompleteCoreSource<TItem>,
   TItem

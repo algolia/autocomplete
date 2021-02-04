@@ -47,6 +47,7 @@ describe('getSources', () => {
       getSources: () => {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [];
             },
@@ -78,6 +79,7 @@ describe('getSources', () => {
                 templates: expect.objectContaining({
                   item: expect.any(Function),
                 }),
+                sourceId: expect.any(String),
               },
             }),
           ]),
@@ -92,6 +94,7 @@ describe('getSources', () => {
       getSources: () => {
         return [
           {
+            sourceId: 'pluginSource',
             getItems() {
               return [];
             },
@@ -107,6 +110,7 @@ describe('getSources', () => {
       getSources: () => {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [];
             },

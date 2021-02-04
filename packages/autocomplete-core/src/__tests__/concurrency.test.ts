@@ -15,6 +15,7 @@ describe.skip('concurrency', () => {
       return defer(() => {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [{ label: query }];
             },

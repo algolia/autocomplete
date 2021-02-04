@@ -12,6 +12,7 @@ describe('stallThreshold', () => {
         return defer(() => {
           return [
             {
+              sourceId: 'testSource',
               getItems() {
                 return [{ label: '1' }, { label: 2 }];
               },
@@ -60,6 +61,7 @@ describe('stallThreshold', () => {
         return defer(() => {
           return [
             {
+              sourceId: 'testSource',
               getItems() {
                 return [{ label: '1' }, { label: 2 }];
               },

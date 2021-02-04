@@ -58,6 +58,10 @@ export interface AutocompleteSource<TItem extends BaseItem> {
    * You can trigger different behaviors based on the event `type`.
    */
   onActive?(params: OnHighlightParams<TItem>): void;
+  /**
+   * Applied to data-autocomplete-source-id on the section source container
+   */
+  sourceId: string;
 }
 
 export type InternalAutocompleteSource<TItem extends BaseItem> = {

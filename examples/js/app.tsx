@@ -30,11 +30,13 @@ insightsClient('init', { appId, apiKey });
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+  sourceId: 'recentSearchesPlugin',
   key: 'search',
   limit: 3,
 });
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
+  sourceId: 'querySuggestionsPlugin',
   indexName: 'instant_search_demo_query_suggestions',
   getSearchParams({ state }) {
     return recentSearchesPlugin.data.getAlgoliaSearchParams({
@@ -62,6 +64,7 @@ autocomplete({
 
     return [
       {
+        sourceId: 'algoliaHits',
         getItems() {
           return getAlgoliaHits<Product>({
             searchClient,

@@ -32,6 +32,13 @@ export function getNormalizedSources<TItem extends BaseItem>(
           Boolean(maybeSource)
         )
         .map((source) => {
+          invariant(
+            source.sourceId !== undefined,
+            `The \`getSources\` function must return a \`sourceId\` string but returned type ${JSON.stringify(
+              typeof source.sourceId
+            )}:\n\n${JSON.stringify(source.sourceId, null, 2)}`
+          );
+
           const normalizedSource: InternalAutocompleteSource<TItem> = {
             getItemInputValue({ state }) {
               return state.query;

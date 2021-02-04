@@ -11,6 +11,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [
                 { label: 'Item 1' },
@@ -167,6 +168,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [];
             },
@@ -206,6 +208,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [];
             },
@@ -245,6 +248,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [];
             },
@@ -290,6 +294,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [];
             },
@@ -338,6 +343,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [];
             },
@@ -383,6 +389,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [
                 { label: 'Item 1' },
@@ -418,6 +425,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [
                 { label: 'Item 1' },
@@ -449,6 +457,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [
                 { label: 'Item 1' },
@@ -482,6 +491,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [
                 { label: 'Item 1' },
@@ -512,6 +522,7 @@ describe('autocomplete-js', () => {
       getSources() {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [
                 { label: 'Item 1' },
