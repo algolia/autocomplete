@@ -2,6 +2,14 @@
 id: getting-started
 title: Getting Started
 ---
+import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
+import { AutocompleteDocSearchItem } from '@site/src/components/AutocompleteDocSearchItem';
+import { getAlgoliaHits } from '@algolia/autocomplete-js';
+import algoliasearch from 'algoliasearch/lite';
+const searchClient = algoliasearch(
+  'BH4D9OD16A',
+  'a5c3ccfd361b8bcb9708e679c43ae0e5'
+);
 
 Get started with Autocomplete by building an Algolia search experience.
 
@@ -205,9 +213,42 @@ This is what the JSON record looks like:
 
 Check out how the template displays items by searching in the input below:
 
-<input placeholder="This is just a placeholder"></input>
+<AutocompleteExample
+  getSources={({ query }) => {
+    return [
+      {
+        getItems() {
+          return getAlgoliaHits({
+            searchClient,
+            queries: [
+              {
+                indexName: 'autocomplete',
+                query,
+                params: {
+                  hitsPerPage: 5
+                }
+              }
+            ]
+          });
+        },
+        templates: {
+          item({ item }) {
+            return (
+              <AutocompleteDocSearchItem
+                hit={item}
+                breadcrumb={Object.values(item.hierarchy)
+                  .filter(Boolean)
+                  .slice(0, -1)}
+              />
+            );
+          }
+        },
+      },
+    ];
+  }}
+/>
 
-This is all you need for a basic implementation. To go even further, you can use the [`getItemUrl`](sources#getitemurl) to add [keyboard accessibility](keyboard-navigation) features. It lets users open items directly from the autocomplete menu.
+This is all you need for a basic implementation. To go further, you can use the [`getItemUrl`](sources#getitemurl) to add [keyboard accessibility](keyboard-navigation) features. It lets users open items directly from the autocomplete menu.
 
 ```jsx title="JSX"
 /** @jsx h */
@@ -245,10 +286,46 @@ autocomplete({
   },
 });
 ```
-Now give it a try:
+Now give it a try: navigate to one of the items using your keyboard and hitting <kbd>Enter</kbd>.
 
-<input placeholder="This is just another placeholder"></input>
+<AutocompleteExample
+  getSources={({ query }) => {
+    return [
+      {
+        getItems() {
+          return getAlgoliaHits({
+            searchClient,
+            queries: [
+              {
+                indexName: 'autocomplete',
+                query,
+                params: {
+                  hitsPerPage: 5
+                }
+              }
+            ]
+          });
+        },
+        getItemUrl({ item }) {
+          return item.url;
+        },
+        templates: {
+          item({ item }) {
+            return (
+              <AutocompleteDocSearchItem
+                hit={item}
+                breadcrumb={Object.values(item.hierarchy)
+                  .filter(Boolean)
+                  .slice(0, -1)}
+              />
+            );
+          }
+        },
+      },
+    ];
+  }}
+/>
 
-## Going further
+## Next steps
 
-This outlines a basic autocomplete implementation. There's a lot more you can do, like [adding multiple sources](creating-multi-source-autocompletes), using [templates for headers, footers](templates#rendering-a-header-and-footer), or when there's [no results](templates#rendering-an-empty-state), or even add a [plugin](plugins). To learn about customization options, read the [**Core Concepts**](basic-options) or follow one of the [**Guides**](using-query-suggestions-plugin).
+This outlines a basic autocomplete implementation. There's a lot more you can do, like [adding multiple sources](creating-multi-source-autocompletes), using [templates for headers, footers](templates#rendering-a-header-and-footer), or when there's [no results](templates#rendering-an-empty-state). To learn about customization options, read the [**Core Concepts**](basic-options) or follow one of the [**Guides**](using-query-suggestions-plugin).
