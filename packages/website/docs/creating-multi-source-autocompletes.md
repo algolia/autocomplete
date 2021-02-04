@@ -274,9 +274,11 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 });
 ```
 
-### Aligning Query Suggestions to items from different sources
+### Coordinating Query Suggestions with other sources
 
-When instantiating your Query Suggestions plugin, you can optionally pass a [`getSearchParams`](createquerysuggestionsplugin/#getsearchparams) function to apply [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) to the suggestions returned from the plugin. This is particularly useful if you need to align your Query Suggestions with other sections displayed in the autocomplete, like [recent searches](adding-recent-searches).
+When instantiating your Query Suggestions plugin, you can optionally pass a [`getSearchParams`](createquerysuggestionsplugin/#getsearchparams) function to apply [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) to the suggestions returned from the plugin. This is particularly useful if you need to coordinate your Query Suggestions with other sections displayed in the autocomplete, like [recent searches](adding-recent-searches).
+
+For example, if you'd like to show a combined total of ten search terms (recent searches plus Query Suggestions), you can indicate this:
 
 ```js title="index.js"
 import { autocomplete } from '@algolia/autocomplete-js';
@@ -297,7 +299,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   indexName: 'instant_search_demo_query_suggestions',
   getSearchParams() {
   return recentSearchesPlugin.data.getAlgoliaSearchParams({
-    hitsPerPage: 5,
+    hitsPerPage: 10,
   });
   },
 });
@@ -306,6 +308,8 @@ autocomplete({
   // ...
 });
 ```
+
+This shows up to five recent searches (set by the [`limit`](createLocalStorageRecentSearchesPlugin#limit) parameter) and up to ten total search terms. If there's only one recent search in local storage, the autocomplete displays nine Query Suggestions, assuming that there are nine relevant suggestions.
 
 ## Putting it all together
 
@@ -331,7 +335,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   indexName: 'instant_search_demo_query_suggestions',
   getSearchParams() {
     return recentSearchesPlugin.data.getAlgoliaSearchParams({
-      hitsPerPage: 5,
+      hitsPerPage: 10,
     });
   },
 });
@@ -352,4 +356,6 @@ This creates a basic multi-source autocomplete. Try it out below:
 
 ## Next steps
 
-This tutorial combined three sources in one autocomplete. Depending on your use case, you might want to add more or different ones than the ones included here. Regardless of what you use for your sources, the method is the same. You may also choose to style your multi-source autocomplete differently by creating a horizontal layout or further differentiating how to display each source type.
+This tutorial combined three sources in one autocomplete. Depending on your use case, you might want to add more or different ones than the ones included here. Regardless of what you use for your sections, the method is the same: provide a different a [source](sources) for each.
+
+You may also choose to style your multi-source autocomplete differently by creating a horizontal layout or further differentiating how to display each source type.
