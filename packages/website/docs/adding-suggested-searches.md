@@ -22,11 +22,13 @@ Using this plugin requires an [Algolia](https://www.algolia.com/) application wi
 
 :::
 
-The most common autocomplete UX is one that displays a list of possible queries, or "query suggestions," that your users can select from as they type. **Query Suggestions help users find queries that are guaranteed to return results.** They help users type less and find what they are looking for faster.
+The most common autocomplete UX is one that displays a list of suggested searches that your users can select from as they type. **Suggested searches help users find queries that are guaranteed to return results.** They help users type less and find what they are looking for faster.
+
+[Algolia](https://www.algolia.com/) provides a [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) feature that generates suggested search terms [based on your what your users are searching for and the results within your dataset](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/#how-query-suggestions-works).
 
 The term “Query Suggestions” refers to the textual suggestions themselves. Query Suggestions are different from search results. Query Suggestions are only suggestions of better queries. When typing “smartphone”, a user may receive a suggestion to pick a more precise query, such as “smartphone apple” or “smartphone iphone xs”, which would retrieve more specific results.
 
-[Algolia](https://www.algolia.com/) provides a [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) feature that generates suggestions [based on your what your users are searching for and the results within your dataset](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/#how-query-suggestions-works). This tutorial explains how to integrate [Algolia Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) into an autocomplete menu using the [`autocomplete-plugin-query-suggestions`](createQuerySuggestionsPlugin) package.
+This tutorial explains how to integrate [Algolia Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) into an autocomplete menu using the [`autocomplete-plugin-query-suggestions`](createQuerySuggestionsPlugin) package.
 
 ## Prerequisites
 
@@ -37,7 +39,7 @@ This tutorial assumes that you have:
 
 :::note
 
-If you don't have a Query Suggestions index yet, follow the guide on [creating a Query Suggestions index](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/how-to/creating-a-query-suggestions-index/js/). For learning purposes, you can use the demo application credentials and index name provided in this tutorial.
+If you don't have a Query Suggestions index yet, follow the guide on [creating a Query Suggestions index](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/how-to/creating-a-query-suggestions-index/js/). For learning purposes, you can use the demo application credentials and index provided in this tutorial.
 
 :::
 
@@ -111,7 +113,7 @@ autocomplete({
   openOnFocus: true,
 });
 ```
-This option can be especially useful if you are [displaying other sources](adding-multiple-categories) along with Query Suggestions and want to always show the same total number of items.
+This option can be especially useful if you are [displaying other sources](adding-multiple-categories) along with Query Suggestions and want to always show the same total number of items or otherwise align your query parameters.
 
 This creates a basic Query Suggestions implementation. Try it out below:
 
@@ -128,5 +130,5 @@ These suggestions are based on a [public dataset of BestBuy products](https://gi
 
 ## Next steps
 
-This tutorial focuses on adding Query Suggestions to an autocomplete menu. Many autocomplete menus also include recent searches and possibly other items. Check out the guides on adding [recent searches](adding-recent-searches) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on creating multi-source autocompletes](adding-multiple-categories).
+This tutorial focuses on adding Query Suggestions to an autocomplete menu. Many autocomplete menus also include recent searches and possibly other items. Check out the guides on adding [recent searches](adding-recent-searches) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on adding mulitple categories in one autocomplete](adding-multiple-categories).
 
