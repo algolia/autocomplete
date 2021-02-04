@@ -70,7 +70,7 @@ describe('getNormalizedSources', () => {
     );
   });
 
-  test('with with missing sourceId triggers invariant', async () => {
+  test('with missing sourceId triggers invariant', async () => {
     const getSources = () => [
       {
         getItems() {
