@@ -16,7 +16,7 @@ export interface OnSelectParams<TItem extends BaseItem>
   source: InternalAutocompleteSource<TItem>;
 }
 
-export type OnHighlightParams<TItem extends BaseItem> = OnSelectParams<TItem>;
+export type OnActiveParams<TItem extends BaseItem> = OnSelectParams<TItem>;
 
 export interface AutocompleteSource<TItem extends BaseItem> {
   // This allows flavors to pass other keys to their source.
@@ -57,7 +57,7 @@ export interface AutocompleteSource<TItem extends BaseItem> {
    * An item is highlighted either via keyboard navigation or via mouse over.
    * You can trigger different behaviors based on the event `type`.
    */
-  onActive?(params: OnHighlightParams<TItem>): void;
+  onActive?(params: OnActiveParams<TItem>): void;
 }
 
 export type InternalAutocompleteSource<TItem extends BaseItem> = {
