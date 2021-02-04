@@ -2,5 +2,6 @@
   "extends": "../tsconfig",
   "compilerOptions": {
     "types": ["cypress"]
-  }
+  },
+  "exclude": []
 }
