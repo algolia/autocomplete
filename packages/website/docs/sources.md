@@ -16,6 +16,7 @@ const autocomplete = createAutocomplete({
   getSources() {
     return [
       {
+        sourceId: 'staticSource',
         getItems() {
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
@@ -40,6 +41,7 @@ const autocomplete = createAutocomplete({
   getSources() {
     return [
       {
+        sourceId: 'staticSource',
         getItems({ query }) {
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
@@ -71,6 +73,7 @@ const autocomplete = createAutocomplete({
   getSources() {
     return [
       {
+        sourceId: 'algoliaHits',
         getItems({ query }) {
           return getAlgoliaHits({
             searchClient,
@@ -112,6 +115,7 @@ const autocomplete = createAutocomplete({
     if (!query) {
       [
         {
+          sourceId: 'staticSource',
           getItems() {
             return [
               { label: 'Twitter', url: 'https://twitter.com' },
@@ -127,6 +131,7 @@ const autocomplete = createAutocomplete({
 
     return [
       {
+        sourceId: 'algoliaHits',
         getItems() {
           return getAlgoliaHits({
             searchClient,
@@ -184,12 +189,14 @@ const autocomplete = createAutocomplete({
 
       return [
         {
+          sourceId: 'querySuggestionsSource',
           getItems() {
             return querySuggestions.hits;
           },
           getItemInputValue: ({ item }) => item.query,
         },
         {
+          sourceId: 'algoliaHits',
           getItems() {
             return products.hits;
           },
@@ -283,6 +290,12 @@ Called when an item is active.
 
 You can trigger different behaviors if the item is active following a mouse event or a keyboard event based on the `event` param.
 
+### `sourceId`
+
+> `string`
+
+Applied to `data-autocomplete-source-id` on the `section` source container
+
 ### `templates` (specific to `@algolia/autocomplete-js`)
 
 > `SourceTemplate`
@@ -336,6 +349,7 @@ const autocompleteSearch = autocomplete({
   getSources() {
     return [
       {
+        sourceId: 'querySuggestionsSource',
         getItemInputValue({ item }) {
           return item.query;
         },
