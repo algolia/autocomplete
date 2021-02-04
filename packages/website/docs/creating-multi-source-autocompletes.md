@@ -86,17 +86,9 @@ Though it's not necessary, it uses plugins for each source. You could also add d
 ## Prerequisites
 
 This tutorial assumes that you have:
-- a populated [Query Suggestions Algolia index](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/how-to/creating-a-query-suggestions-index/js/)
+- a populated [Query Suggestions Algolia index](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/how-to/creating-a-query-suggestions-index/js/) (or you can use the demo application credentials)
 - existing markup containing an input element where you want to implement the autocomplete dropdown
 - front-end development proficiency with HTML, CSS, and JavaScript
-
-:::note
-
-If you don't have a Query Suggestions index yet, follow the guide on [creating a Query Suggestions index](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/how-to/creating-a-query-suggestions-index/js/).
-
-:::
-
-To follow along with the tutorial, you can start with the markup and style sheets from the [complete example on GitHub](https://github.com/algolia/doc-code-samples/tree/autocomplete-v1/Autocomplete/multi-source).
 
 ## Getting started
 
@@ -225,7 +217,6 @@ All that's left is to import the newly created `predefinedItemsPlugin` and add i
 import { autocomplete } from '@algolia/autocomplete-js';
 import { predefinedItemsPlugin } from './predefinedItemsPlugin';
 
-// Instantiate the autocomplete instance
 autocomplete({
   container: '#autocomplete',
   plugins: [predefinedItemsPlugin],
@@ -264,7 +255,7 @@ The `key` can be any string and is required to differentiate search histories if
 
 :::note
 
-**You must have a populated [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/#implementing-query-suggestions) index to use this plugin.** If you don't have a Query Suggestions index yet, follow the guide on [creating a Query Suggestions index](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/how-to/creating-a-query-suggestions-index/js/).
+If you don't have a Query Suggestions index yet, follow the guide on [creating a Query Suggestions index](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/how-to/creating-a-query-suggestions-index/js/). You can also use the demo application credentials and index name provided in this tutorial.
 
 :::
 
@@ -273,15 +264,13 @@ Use the out-of-the-box [`createQuerySuggestionsPlugin`](createQuerySuggestionsPl
 ```js
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 
-const searchClient = algoliasearch(
-  'yourAppID',
-  'yourSearchApiKey'
-);
+const appId = 'latency';
+const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
+const searchClient = algoliasearch(appId, apiKey);
 
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
-  indexName: 'yourQuerySuggestionsIndexName',
-  },
+  indexName: 'instant_search_demo_query_suggestions',
 });
 ```
 
@@ -299,14 +288,13 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   limit: 5,
 });
 
-const searchClient = algoliasearch(
-  'yourAppID',
-  'yourSearchApiKey'
-);
+const appId = 'latency';
+const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
+const searchClient = algoliasearch(appId, apiKey);
 
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
-  indexName: 'yourQuerySuggestionsIndexName',
+  indexName: 'instant_search_demo_query_suggestions',
   getSearchParams() {
   return recentSearchesPlugin.data.getAlgoliaSearchParams({
     hitsPerPage: 5,
@@ -334,14 +322,13 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   limit: 5,
 });
 
-const searchClient = algoliasearch(
-  'yourAppID',
-  'yourSearchApiKey'
-);
+const appId = 'latency';
+const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
+const searchClient = algoliasearch(appId, apiKey);
 
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
-  indexName: 'yourQuerySuggestionsIndexName',
+  indexName: 'instant_search_demo_query_suggestions',
   getSearchParams() {
     return recentSearchesPlugin.data.getAlgoliaSearchParams({
       hitsPerPage: 5,
