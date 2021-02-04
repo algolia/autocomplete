@@ -1,6 +1,6 @@
 ---
-id: creating-multi-source-autocompletes
-title: Creating mulitple category autocompletes
+id: adding-multiple-categories
+title: Adding mulitple categories
 ---
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
@@ -146,7 +146,7 @@ export const predefinedItemsPlugin = {
           if (!query) {
             return predefinedItems;
           }
-          
+
           return predefinedItems.filter(
             (item) =>
               item.label.toLowerCase().includes(query.toLowerCase())
