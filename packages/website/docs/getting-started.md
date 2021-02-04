@@ -41,7 +41,7 @@ If you don't want to use a package manager, you can use a standalone endpoint:
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js@alpha"></script>
 ```
 
-We recommend using jsDeliver but [`autocomplete-js`](autocomplete-js) is also available through [unpkg](https://unpkg.com/@algolia/autocomplete-js@1.0.0-alpha.39).
+We recommend using jsDeliver but [`autocomplete-js`](autocomplete-js) is also available through [unpkg](https://unpkg.com/@algolia/autocomplete-js@alpha).
 
 :::note
 
@@ -84,7 +84,7 @@ Autocomplete is now plugged in. But you won't see anything appear until you defi
 
 [Sources](sources) define where to retrieve the items to display in your autocomplete dropdown. You define your sources in the [`getSources`](sources#getsources) function by returning an array of [source objects](sources#source). Each source object needs to include a [`getItems`](sources#getitems) function that returns the items to display. Sources can be static or dynamic.
 
-This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) that's [powering the documentation search](https://docsearch.algolia.com/) on this site as a source. The [`autocomplete-js`](autocomplete-js) library provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
+This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) [powering the documentation search](https://docsearch.algolia.com/) on this site as a source. The [`autocomplete-js`](autocomplete-js) package provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
 
 ```js title="JavaScript"
 import algoliasearch from 'algoliasearch/lite';
@@ -122,7 +122,7 @@ autocomplete({
 });
 ```
 
-The `searchClient` requires an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id). It lets you search into your Algolia index using an array of `queries`, which defines the queries you want to make to the index.
+The preset requires an [Algolia search client](https://www.algolia.com/doc/api-client/getting-started/install/javascript/) initialized with an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id). It lets you search into your Algolia index using an array of `queries`, which defines one or more queries to send to the index.
 
 This example makes just one query to the "autocomplete" index using the `query` from [`getSources`](sources#getsources). It passes one additional parameter, [`hitsPerPage`](https://www.algolia.com/doc/api-reference/api-parameters/hitsPerPage/) to define how many items to display, but you could pass any other [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/).
 
