@@ -68,6 +68,30 @@ Since the `recentSearchesPlugin` reads from [`localStorage`](https://developer.m
   openOnFocus={true}
 />
 
+## Using your own storage
+
+In some cases, you may not want to use [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) for your recent search data. You may want to use [session storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage) or handle recent searches on your back end. If so, you can use the [`createRecentSearchesPlugin`](createRecentSearchesPlugin) to implement your own storage:
+
+```js title="index.js"
+import { autocomplete } from '@algolia/autocomplete-js';
+import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+
+const recentSearchesPlugin = createRecentSearchesPlugin({
+  // Implement your own storage
+  storage: {
+    getAll() {},
+    onAdd() {},
+    onRemove() {},
+  },
+});
+
+autocomplete({
+  container: '#autocomplete',
+  openOnFocus: true,
+  plugins: [recentSearchesPlugin],
+});
+```
+
 ## Next steps
 
 This tutorial focuses on creating and adding recent searches to an autocomplete menu. Most autocomplete menus include recent searches in addition to suggested searches and possibly other items. Check out the guides on adding [suggested searches](adding-suggested-searches) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on adding mulitple categories in one autocomplete](adding-multiple-categories).
