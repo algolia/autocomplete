@@ -81,7 +81,7 @@ Different results types are separated into different sections. This implicitly g
 
 The Autocomplete library lets you mix different item types in one autocomplete. To do so you need to return multiple [sources](sources#source) in the  [`getSources`](sources) option. This tutorial outlines how to combine [static predefined items](sources/#using-static-sources), [recent searches](using-recent-searches-plugin)] and [Query Suggestions](using-query-suggestions-plugin) in one autocomplete.
 
-Though it's not necessary, it uses plugins for each source. You can just as easily add different sources directly in [`getSources`](sources). However, it's recommend to encapsulate [source](sources) logic in a plugins since this makes it modular, reusable and sharable.
+Though it's not necessary, it uses plugins for each source. You can just as easily add different sources directly in [`getSources`](sources). However, it's recommend to encapsulate [source](sources) logic in a plugin since this makes it modular, reusable and sharable.
 
 ## Prerequisites
 
@@ -105,7 +105,6 @@ First, begin with some boilerplate for the autocomplete implementation—create 
 ```js
 import { autocomplete } from '@algolia/autocomplete-js';
 
-// Instantiate the autocomplete instance
 autocomplete({
   container: '#autocomplete',
   plugins: [],
@@ -113,7 +112,7 @@ autocomplete({
 });
 ```
 
-This boilerplate assumes you want to insert the autocomplete into a DOM element with `autocomplete` as an [id](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id). You should change the [`container`](autocomplete-js/#container) to [match your markup](basic-options). Setting [`openOnFocus`](autocomplete-js/#openonfocus) to `true` ensures that the dropdown appears as soon as a user clicks on the input.
+This boilerplate assumes you want to insert the autocomplete into a DOM element with `autocomplete` as an [id](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id). You should change the [`container`](autocomplete-js/#container) to [match your markup](basic-options). Setting [`openOnFocus`](autocomplete-js/#openonfocus) to `true` ensures that the dropdown appears as soon as a user focuses the input.
 
 For now, `plugins` is an empty array, but you'll learn how to create and add plugins for predefined items, recent searches, and Query Suggestions next.
 
@@ -144,9 +143,13 @@ export const predefinedItemsPlugin = {
     return [
       {
         getItems({ query }) {
+          if (!query) {
+            return predefinedItems;
+          }
+          
           return predefinedItems.filter(
             (item) =>
-              !query || item.label.toLowerCase().includes(query.toLowerCase())
+              item.label.toLowerCase().includes(query.toLowerCase())
           );
         },
         getItemUrl({ item }) {
@@ -154,7 +157,6 @@ export const predefinedItemsPlugin = {
         },
         templates: {
           // ...
-        },
         },
       },
     ];
@@ -167,7 +169,7 @@ Notice that `predefinedItemsPlugin` has a similar signature as any other autocom
 
 In this example, [`getItems`](sources/#getitems) returns a filtered array of `predefinedItems`. The code filters the array to return items that match the query, if it exists. If it doesn't, it returns the entire array. **You can return whatever predefined items you like and format them accordingly.** For example, suppose you want to show trending search items instead of helpful links. Then, you can use [`getItems`](sources/#getitems) to retrieve them from another source, [including an asynchronous API](sources#using-dynamic-sources).
 
-The [`getItemUrl`](sources/#getitemurl) function defines how to get the URL of an item. In this case, since it's an attribute on each object in the `predefinedItems` array, you can simply return the attribute. You can use [`getItemUrl`](sources/#getitemurl) to add [keyboard navigation](keyboard-navigation) to the autocomplete menu. Users can scroll through items in the autocomplete menu with the arrow up and down keys. When they hit enter on one of the `predefinedItems` (or any source that includes[`getItemUrl`](sources/#getitemurl)), it opens the URL retrieved from [`getItemUrl`](sources/#getitemurl).
+The [`getItemUrl`](sources/#getitemurl) function defines how to get the URL of an item. In this case, since it's an attribute on each object in the `predefinedItems` array, you can simply return the attribute. You can use [`getItemUrl`](sources/#getitemurl) to add [keyboard navigation](keyboard-navigation) to the autocomplete menu. Users can scroll through items in the autocomplete menu with the arrow up and down keys. When they hit <kbd>Enter</kbd> on one of the `predefinedItems` (or any source that includes[`getItemUrl`](sources/#getitemurl)), it opens the URL retrieved from [`getItemUrl`](sources/#getitemurl).
 
 [Templates](templates) define how to display each section of the autocomplete, including the [`header`](templates#header), [`footer`](templates#footer), and each [`item`](templates#item). You can provide either a string, or as the example below shows, a function for how to manipulate the DOM.
 
@@ -200,7 +202,7 @@ export const predefinedItemsPlugin = {
 +              return (
 +                <a href={item.url} className="aa-ItemContent aa-ItemLink aa-PredefinedItem">
 +                  <div className="aa-ItemSourceIcon">
-+                    <svg style="width:20px;height:20px" viewBox="0 0 24 24">
++                    <svg viewBox="0 0 24 24" width="20" height="20">
 +                       <path fill="currentColor" d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
 +                     </svg>
 +                  </div>
@@ -271,7 +273,7 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
 
 ```
 
-The `key` can be any string and is useful to differentiate search histories if you have multiple autocompletes on one page. The `limit` defines the maximum number of recent searches to display.
+The `key` can be any string and is required to differentiate search histories if you have multiple autocompletes on one page. The `limit` defines the maximum number of recent searches to display.
 
 ### Creating a Query Suggestions plugin
 
@@ -322,7 +324,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 });
 
 autocomplete({
-  /***/
+  // ...
 });
 ```
 
