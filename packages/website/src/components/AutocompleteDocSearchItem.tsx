@@ -1,4 +1,4 @@
-import { Hit } from "@algolia/client-search";
+import { Hit } from '@algolia/client-search';
 import React from 'react';
 
 type DocSearchItem = {
@@ -6,14 +6,14 @@ type DocSearchItem = {
   url: string;
   url_without_anchor: string;
   type:
-    | "content"
-    | "lvl0"
-    | "lvl1"
-    | "lvl2"
-    | "lvl3"
-    | "lvl4"
-    | "lvl5"
-    | "lvl6";
+    | 'content'
+    | 'lvl0'
+    | 'lvl1'
+    | 'lvl2'
+    | 'lvl3'
+    | 'lvl4'
+    | 'lvl5'
+    | 'lvl6';
   anchor: string | null;
   hierarchy: {
     lvl0: string;
@@ -28,14 +28,16 @@ type DocSearchItem = {
 type DocSearchHit = Hit<DocSearchItem>;
 type AutocompleteItemProps = { hit: DocSearchHit; breadcrumb: string[] };
 
-export function AutocompleteDocSearchItem({ hit, breadcrumb }: AutocompleteItemProps) {
+export function AutocompleteDocSearchItem({
+  hit,
+  breadcrumb,
+}: AutocompleteItemProps) {
   return (
     <a href={hit.url} className="aa-ItemLink">
       <div className="aa-ItemContent">
         <div className="aa-ItemTitle">{hit.hierarchy[hit.type]}</div>
-        <div className="aa-ItemContentSubtitle">{breadcrumb.join(" • ")}</div>
+        <div className="aa-ItemContentSubtitle">{breadcrumb.join(' • ')}</div>
       </div>
     </a>
   );
 }
-
