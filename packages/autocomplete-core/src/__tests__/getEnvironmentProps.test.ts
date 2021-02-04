@@ -140,7 +140,11 @@ describe('getEnvironmentProps', () => {
       window.dispatchEvent(customEvent);
 
       expect(document.activeElement).toBe(inputElement);
+    });
+
+    test('is a noop when the event target is the input element', () => {
       const {
+        getEnvironmentProps,
         inputElement,
         formElement,
       } = createPlayground(createAutocomplete, {
