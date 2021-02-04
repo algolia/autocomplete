@@ -86,7 +86,7 @@ Though it's not necessary, it uses [plugins](plugins) for each [source](source).
 ## Prerequisites
 
 This tutorial assumes that you have:
-- a populated [Query Suggestions Algolia index](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/how-to/creating-a-query-suggestions-index/js/) (or you can use the demo application credentials)
+- a populated [Query Suggestions Algolia index](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/how-to/creating-a-query-suggestions-index/js/)
 - existing markup containing an input element where you want to implement the autocomplete dropdown
 - front-end development proficiency with HTML, CSS, and JavaScript
 

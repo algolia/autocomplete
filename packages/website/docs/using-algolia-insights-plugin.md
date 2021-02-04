@@ -3,7 +3,7 @@ id: sending-algolia-insights-events
 title: Sending Algolia Insights events
 ---
 
-Learn how to automatically send Algolia Insights events from your autocomplete menu.
+Learn how to send Algolia Insights events from your autocomplete menu.
 
 :::note
 
@@ -13,21 +13,18 @@ Using this plugin requires an [Algolia](https://www.algolia.com/) application wi
 
 If you're using [Algolia indices](https://www.algolia.com/doc/faq/basics/what-is-an-index/) as [sources](sources) in your autocomplete, Algolia provides [Search Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/) out-of-the-box. Search Analytics includes metrics like [top searches, top searches with no results, overall search counts, etc.](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/#what-do-search-analytics-measure).
 
-You may also want to capture [Click and Conversion Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/). Click and Conversion Analytics takes Algolia’s out-of-the-box [Search Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/) further by providing insights into actions users take after performing a search. These analytics are useful to better understand your user's behavior and what they need from your app to drive your business.
-
-[Click and Conversion Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/) also form the basis for more advanced features like [A/B testing](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/), [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/ai-optimizations/re-ranking/), and [Personalization](https://www.algolia.com/doc/guides/personalization/what-is-personalization/).
+You may also want to capture [Click and Conversion Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/). These analytics take Algolia’s out-of-the-box [Search Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/) further by providing insights into actions users take after performing a search. They're useful to better understand your user's behavior and what they need from your app. This information can ultimately drive your business.
 
 Capturing these analytics requires [sending events to Algolia](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/capturing-user-behavior-as-events/) when your users view, click, or convert on results. This tutorial explains how to automatically send events from your autocomplete using the [`autocomplete-plugin-algolia-insights`](createAlgoliaInsightsPlugin) package.
 ## Prerequisites
 
 This tutorial assumes that you have:
-- implemented an autocomplete using one or more [Algolia indices](https://www.algolia.com/doc/faq/basics/what-is-an-index/) for your [sources](sources)
+- an autocomplete using one or more [Algolia indices](https://www.algolia.com/doc/faq/basics/what-is-an-index/) for your [sources](sources)
 - front-end development proficiency with HTML, CSS, and JavaScript
 
 :::note
 
-If you haven't implemented an autocomplete using Algolia as a source yet, follow the [Getting Started guide](getting-started) first.
-
+If you haven't implemented an autocomplete using Algolia as a source yet, follow the [Getting Started guide](getting-started) first. For learning purposes, you can use the demo application credentials and index provided in this tutorial.
 :::
 
 ## Getting started
@@ -112,7 +109,7 @@ The autocomplete searches into an [Algolia index](https://www.algolia.com/doc/fa
 
 :::note
 
-You must set the [`clickAnalytics`](https://www.algolia.com/doc/api-reference/api-parameters/clickAnalytics/) query parameter to `true` to properly send click and conversion events from your autocomplete.
+You must set the [`clickAnalytics`](https://www.algolia.com/doc/api-reference/api-parameters/clickAnalytics/) query parameter to `true` to send click and conversion events from your autocomplete.
 
 :::
 
@@ -148,65 +145,20 @@ autocomplete({
   openOnFocus: true,
   plugins: [algoliaInsightsPlugin],
   getSources({ query }) {
-    return [
-      {
-        getItems() {
-          return getAlgoliaHits({
-            searchClient,
-            queries: [
-              {
-                indexName: "instant_search",
-                query,
-                params: {
-                  clickAnalytics: true,
-                  attributesToSnippet: ["name:10", "description:35"],
-                  snippetEllipsisText: "…"
-                }
-              }
-            ]
-          });
-        },
-        templates: {
-          item({ item }) {
-            return <ProductItem hit={item} />;
-          }
-        }
-      }
-    ];
+    // ...
   }
 });
 
 function ProductItem({ hit }) {
-  return (
-    <Fragment>
-      <div className="aa-ItemIcon">
-        <img src={hit.image} alt={hit.name} width="40" height="40" />
-      </div>
-      <div className="aa-ItemContent">
-        <div className="aa-ItemContentTitle">
-          {highlightHit({ hit, attribute: "name" })}
-        </div>
-        <div className="aa-ItemContentDescription">
-          {highlightHit({ hit, attribute: "description" })}
-        </div>
-      </div>
-      <button
-        className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
-        type="button"
-        title="Select"
-      >
-        <svg fill="currentColor" viewBox="0 0 24 24" width="20" height="20">
-          <path d="M18.984 6.984h2.016v6h-15.188l3.609 3.609-1.406 1.406-6-6 6-6 1.406 1.406-3.609 3.609h13.172v-4.031z"></path>
-        </svg>
-      </button>
-    </Fragment>
-  );
+    // ...
 }
 ```
 
 Now, whenever the autocomplete shows products in the dropdown, the plugin sends [view events](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/capturing-user-behavior-as-events/#view) with the [`eventName`](https://www.algolia.com/doc/api-reference/api-methods/viewed-object-ids/#method-param-eventname) "Items Viewed" for these products. If a user clicks a product, the plugin sends a [click event](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/capturing-user-behavior-as-events/#click), with the [`eventName`](https://www.algolia.com/doc/api-reference/api-methods/clicked-object-ids-after-search/#method-param-eventname) "Item Selected" for that product. By default, the plugin doesn't send any [conversion events](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/capturing-user-behavior-as-events/#conversion).
 
-You can change any of the plugin's default behavior by using the [`onItemsChange`](createAlgoliaInsightsPlugin#onitemschange), [`onSelect`](createAlgoliaInsightsPlugin#onselect), or [`onActive`](createAlgoliaInsightsPlugin#onactive) hooks. For example, you may want to customize the `eventName` to match your [naming convetions](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/best-practices-for-sending-events/#naming-events-consistently) or send a different events on these actions.
+## Customizing events
+
+You can change any of the plugin's default behavior by using the [`onItemsChange`](createAlgoliaInsightsPlugin#onitemschange), [`onSelect`](createAlgoliaInsightsPlugin#onselect), or [`onActive`](createAlgoliaInsightsPlugin#onactive) hooks. For example, you may want to customize the `eventName` to match your [naming conventions](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/best-practices-for-sending-events/#naming-events-consistently) or send a different events on these actions.
 
 This snippet shows how to instantiate a plugin that sends a click event with "Product Selected from Autocomplete" as the `eventName` whenever a user selects an item.
 
@@ -226,6 +178,44 @@ const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
     insights.clickedObjectIDsAfterSearch(...events);
   },
 })
+```
+
+If you're [using multiple different Algolia indices in the same autocomplete](adding-multiple-categories), for example one for products and one for suggestions, you may want to use different `eventNames` for each section. You can do this conditionally based on the index name:
+
+```js title="index.js"
+const appId = "latency";
+const apiKey = "6be0576ff61c053d5f9a3225e2a90f76";
+const searchClient = algoliasearch(appId, apiKey);
+insightsClient("init", { appId, apiKey });
+
+const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
+  insightsClient,
+  onSelect({ insights, insightsEvents }) {
+    const events = insightsEvents.map((insightsEvent) => {
+      switch (insightsEvent.index) {
+        case 'instant_search_demo_query_suggestions': {
+          return {
+            ...insightsEvent,
+            eventName: 'Suggestion Selected from Autocomplete',
+          };
+        }
+        case 'instant_search': {
+          return {
+            ...insightsEvent,
+            eventName: 'Product Selected from Autocomplete',
+          };
+        }
+        default: {
+          return {
+            ...insightsEvent,
+            eventName: 'Item Selected from Autocomplete',
+          };
+        }
+      }
+    });
+    insights.clickedObjectIDsAfterSearch(...events);
+  },
+});
 ```
 
 ## Validating events
