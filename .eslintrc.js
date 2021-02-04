@@ -16,6 +16,7 @@ module.exports = {
     },
   },
   rules: {
+    curly: 2,
     'no-param-reassign': 0,
     'valid-jsdoc': 0,
     'no-shadow': 0,
@@ -66,6 +67,12 @@ module.exports = {
       files: ['packages/autocomplete-js/**/*/setProperties.ts'],
       rules: {
         'eslint-comments/no-unlimited-disable': 0,
+      },
+    },
+    {
+      files: ['packages/website/**/*'],
+      rules: {
+        'import/no-extraneous-dependencies': 0,
       },
     },
     {

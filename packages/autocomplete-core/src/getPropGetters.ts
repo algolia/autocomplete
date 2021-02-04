@@ -28,7 +28,9 @@ export function getPropGetters<
   TMouseEvent,
   TKeyboardEvent
 >({ props, refresh, store, ...setters }: GetPropGettersOptions<TItem>) {
-  const getEnvironmentProps: GetEnvironmentProps = (getterProps) => {
+  const getEnvironmentProps: GetEnvironmentProps = (providedProps) => {
+    const { inputElement, formElement, panelElement, ...rest } = providedProps;
+
     return {
       // On touch devices, we do not rely on the native `blur` event of the
       // input to close the panel, but rather on a custom `touchstart` event
@@ -38,25 +40,24 @@ export function getPropGetters<
       onTouchStart(event) {
         if (
           store.getState().isOpen === false ||
-          event.target === getterProps.inputElement
+          event.target === inputElement
         ) {
           return;
         }
 
         // @TODO: support cases where there are multiple Autocomplete instances.
         // Right now, a second instance makes this computation return false.
-        const isTargetWithinAutocomplete = [
-          getterProps.formElement,
-          getterProps.panelElement,
-        ].some((contextNode) => {
-          return (
-            isOrContainsNode(contextNode, event.target as Node) ||
-            isOrContainsNode(
-              contextNode,
-              props.environment.document.activeElement!
-            )
-          );
-        });
+        const isTargetWithinAutocomplete = [formElement, panelElement].some(
+          (contextNode) => {
+            return (
+              isOrContainsNode(contextNode, event.target as Node) ||
+              isOrContainsNode(
+                contextNode,
+                props.environment.document.activeElement!
+              )
+            );
+          }
+        );
 
         if (isTargetWithinAutocomplete === false) {
           store.dispatch('blur', null);
@@ -69,15 +70,15 @@ export function getPropGetters<
       onTouchMove(event: TouchEvent) {
         if (
           store.getState().isOpen === false ||
-          getterProps.inputElement !==
-            props.environment.document.activeElement ||
-          event.target === getterProps.inputElement
+          inputElement !== props.environment.document.activeElement ||
+          event.target === inputElement
         ) {
           return;
         }
 
-        getterProps.inputElement.blur();
+        inputElement.blur();
       },
+      ...rest,
     };
   };
 

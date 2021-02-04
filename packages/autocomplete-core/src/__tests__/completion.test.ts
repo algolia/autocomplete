@@ -26,30 +26,33 @@ describe('completion', () => {
     inputElement.focus();
     userEvent.type(inputElement, '{arrowdown}');
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        completion: '1',
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          completion: '1',
+        }),
+      })
+    );
 
     userEvent.type(inputElement, '{arrowdown}');
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        completion: '2',
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          completion: '2',
+        }),
+      })
+    );
 
     userEvent.type(inputElement, '{arrowdown}');
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        completion: null,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          completion: null,
+        }),
+      })
+    );
   });
 
   test('does not set completion when panel is closed', () => {
@@ -74,12 +77,13 @@ describe('completion', () => {
     inputElement.focus();
     userEvent.type(inputElement, '{esc}{arrowdown}');
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        completion: null,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          completion: null,
+        }),
+      })
+    );
   });
 
   test('does not set completion when no activeItemId', () => {
@@ -92,12 +96,13 @@ describe('completion', () => {
     inputElement.focus();
     userEvent.type(inputElement, '{arrowdown}');
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        completion: null,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          completion: null,
+        }),
+      })
+    );
   });
 
   test('does not set completion without itemInputValue', () => {
@@ -117,11 +122,12 @@ describe('completion', () => {
     inputElement.focus();
     userEvent.type(inputElement, '{arrowdown}');
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        completion: null,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          completion: null,
+        }),
+      })
+    );
   });
 });

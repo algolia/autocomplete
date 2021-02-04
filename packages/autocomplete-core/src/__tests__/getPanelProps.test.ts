@@ -32,11 +32,12 @@ describe('getPanelProps', () => {
 
     panelProps.onMouseLeave();
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        activeItemId: 0,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          activeItemId: 0,
+        }),
+      })
+    );
   });
 });

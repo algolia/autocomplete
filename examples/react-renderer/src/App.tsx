@@ -6,7 +6,7 @@ import './App.css';
 export function App() {
   return (
     <div className="container">
-      <Autocomplete openOnFocus={true} />
+      <Autocomplete openOnFocus={true} debug={true} />
     </div>
   );
 }

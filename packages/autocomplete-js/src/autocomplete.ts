@@ -52,6 +52,11 @@ export function autocomplete<TItem extends BaseItem>(
         optionsRef.current.shouldPanelShow ||
         (({ state }) => {
           const hasItems = getItemsCount(state) > 0;
+
+          if (!props.value.core.openOnFocus && !state.query) {
+            return hasItems;
+          }
+
           const hasEmptyTemplate = Boolean(
             hasEmptySourceTemplateRef.current ||
               props.value.renderer.renderEmpty
@@ -139,6 +144,16 @@ export function autocomplete<TItem extends BaseItem>(
       propGetters,
       state: lastStateRef.current,
     };
+    const render =
+      (!getItemsCount(state) &&
+        !hasEmptySourceTemplateRef.current &&
+        props.value.renderer.renderEmpty) ||
+      props.value.renderer.render;
+
+    hasEmptySourceTemplateRef.current = renderProps.state.collections.some(
+      (collection) => collection.source.templates.empty
+    );
+
     const render =
       (!getItemsCount(state) &&
         !hasEmptySourceTemplateRef.current &&

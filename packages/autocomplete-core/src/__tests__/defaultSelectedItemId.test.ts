@@ -17,12 +17,13 @@ describe('defaultActiveItemId', () => {
 
     userEvent.type(inputElement, 'a');
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        activeItemId: null,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          activeItemId: null,
+        }),
+      })
+    );
   });
 
   test('selects provided defaultActiveItemId on open (onInput)', () => {
@@ -39,12 +40,13 @@ describe('defaultActiveItemId', () => {
 
     inputElement.focus();
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        activeItemId: 0,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          activeItemId: 0,
+        }),
+      })
+    );
   });
 
   test('selects defaultActiveItemId with openOnFocus on reset', () => {
@@ -66,12 +68,13 @@ describe('defaultActiveItemId', () => {
     autocomplete.setActiveItemId(null);
     formElement.reset();
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        activeItemId: 0,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          activeItemId: 0,
+        }),
+      })
+    );
   });
 
   test('selects defaultActiveItemId on focus', () => {
@@ -88,12 +91,13 @@ describe('defaultActiveItemId', () => {
 
     inputElement.focus();
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        activeItemId: 0,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          activeItemId: 0,
+        }),
+      })
+    );
   });
 
   test('selects defaultActiveItemId when ArrowDown on the last', () => {
@@ -114,12 +118,13 @@ describe('defaultActiveItemId', () => {
 
     userEvent.type(inputElement, '{arrowdown}');
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        activeItemId: 0,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          activeItemId: 0,
+        }),
+      })
+    );
   });
 
   test('selects defaultActiveItemId when ArrowUp on the first', () => {
@@ -140,11 +145,12 @@ describe('defaultActiveItemId', () => {
 
     userEvent.type(inputElement, '{arrowup}');
 
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        activeItemId: 0,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          activeItemId: 0,
+        }),
+      })
+    );
   });
 });

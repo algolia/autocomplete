@@ -1,24 +1,11 @@
 import userEvent from '@testing-library/user-event';
 
-import { createCollection, createPlayground } from '../../../../test/utils';
+import {
+  createCollection,
+  createNavigator,
+  createPlayground,
+} from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
-
-type AutocompleteNavigator = {
-  navigate(...args: any[]): void;
-  navigateNewTab(...args: any[]): void;
-  navigateNewWindow(...args: any[]): void;
-};
-
-function createNavigator(
-  navigator?: AutocompleteNavigator
-): AutocompleteNavigator {
-  return {
-    navigate: jest.fn(),
-    navigateNewTab: jest.fn(),
-    navigateNewWindow: jest.fn(),
-    ...navigator,
-  };
-}
 
 describe('navigator', () => {
   describe('default navigator', () => {

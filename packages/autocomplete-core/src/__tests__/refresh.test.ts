@@ -22,12 +22,13 @@ describe('refresh', () => {
     refresh();
 
     expect(getSources).toHaveBeenCalledTimes(1);
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        query: 'a',
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          query: 'a',
+        }),
+      })
+    );
   });
 
   test('leaves the next open state as provided', () => {
@@ -45,11 +46,12 @@ describe('refresh', () => {
     refresh();
 
     expect(getSources).toHaveBeenCalledTimes(1);
-    expect(onStateChange).toHaveBeenLastCalledWith({
-      prevState: expect.anything(),
-      state: expect.objectContaining({
-        isOpen: true,
-      }),
-    });
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          isOpen: true,
+        }),
+      })
+    );
   });
 });

@@ -11,18 +11,19 @@ describe('initialState', () => {
 
     inputElement.focus();
 
-    expect(onStateChange).toHaveBeenCalledWith({
-      prevState: {
-        activeItemId: null,
-        query: '',
-        completion: null,
-        collections: [],
-        isOpen: false,
-        status: 'idle',
-        context: {},
-      },
-      state: expect.anything(),
-    });
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        prevState: {
+          activeItemId: null,
+          query: '',
+          completion: null,
+          collections: [],
+          isOpen: false,
+          status: 'idle',
+          context: {},
+        },
+      })
+    );
   });
 
   test('sets the initial state', () => {
@@ -46,9 +47,10 @@ describe('initialState', () => {
 
     inputElement.focus();
 
-    expect(onStateChange).toHaveBeenCalledWith({
-      prevState: initialState,
-      state: expect.anything(),
-    });
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        prevState: initialState,
+      })
+    );
   });
 });
