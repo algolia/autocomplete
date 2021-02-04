@@ -1,5 +1,6 @@
 import { autocomplete, AutocompleteOptions } from '@algolia/autocomplete-js';
-import React, { useEffect, useRef } from 'react';
+import React, { createElement, Fragment, useEffect, useRef } from 'react';
+import { render } from 'react-dom';
 
 import '@algolia/autocomplete-theme-classic';
 
@@ -15,6 +16,10 @@ export function AutocompleteExample<TItem extends {}>(
 
     autocomplete({
       container: containerRef.current,
+      renderer: { createElement, Fragment },
+      render({ children }, root) {
+        render(children as any, root);
+      },
       ...props,
     });
   }, [props]);
