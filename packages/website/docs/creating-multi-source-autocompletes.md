@@ -77,11 +77,11 @@ While autocompletes with suggested searches is a ubiquitous search experience, r
 
 For example, if you search for something in your email inbox, your results could contain not just email threads, but also contacts, attachments, and more. Ecommerce stores often show suggested searches, products, blog posts, brands, and categories all in one autocomplete.
 
-Different results types are separated into different sections. This implicitly gives users a better understanding of what the items are, and what will happen if they select an item.
+It's best to display different results types in different sections. This implicitly gives users a better understanding of what the items are, and what will happen if they select an item.
 
-The Autocomplete library lets you mix different item types in one autocomplete. To do so you need to return multiple [sources](sources#source) in the  [`getSources`](sources) option. This tutorial outlines how to combine [static predefined items](sources/#using-static-sources), [recent searches](using-recent-searches-plugin)] and [Query Suggestions](using-query-suggestions-plugin) in one autocomplete.
+The Autocomplete library lets you mix different item types in one autocomplete and customize their display. To do so you need to return multiple [sources](sources#source) in the  [`getSources`](sources) option. This tutorial outlines how to combine [static predefined items](sources/#using-static-sources), [recent searches](using-recent-searches-plugin)] and [Query Suggestions](using-query-suggestions-plugin) in one autocomplete.
 
-Though it's not necessary, it uses plugins for each source. You can just as easily add different sources directly in [`getSources`](sources). However, it's recommend to encapsulate [source](sources) logic in a plugin since this makes it modular, reusable and sharable.
+Though it's not necessary, it uses plugins for each source. You could also add different sources directly in [`getSources`](sources). However, it's recommend to encapsulate [source](sources) logic in a plugin since this makes it modular, reusable and sharable.
 
 ## Prerequisites
 
@@ -120,7 +120,7 @@ For now, `plugins` is an empty array, but you'll learn how to create and add plu
 
 A popular search pattern for autocomplete menus shows predefined search terms as soon as a user clicks on the search bar and before they begin typing anything. This UX provides a guided experience and exposes users to helpful resources or other content you want them to see.
 
-This tutorial describes how to create a plugin to show static, predefined items. In particular, it exposes helpful links the user may want to refer to.
+This tutorial describes how to create a [plugin](plugins) to show static, predefined items. In particular, it exposes helpful links the user may want to refer to.
 
 ### Creating a predefined items plugin
 
@@ -165,7 +165,7 @@ export const predefinedItemsPlugin = {
 
 ```
 
-Notice that `predefinedItemsPlugin` has a similar signature as any other autocomplete implementation: it uses the [`getSources`](autocomplete-js/#getsources) option to return an array of items to display. Each object in the array defines where to get items using [`getItems`](sources/#getitems).
+Notice that `predefinedItemsPlugin` has a similar signature as any other autocomplete implementation: it uses the [`getSources`](autocomplete-js/#getsources) option to return an array of items to display. Each object in the array defines where to get items using [`getItems`](sources/#getitems). An Autocomplete plugin is an object that implements the `AutocompletePlugin` interface. To learn more, check out the documentation on [building your own plugin](plugins#building-your-own-plugin).
 
 In this example, [`getItems`](sources/#getitems) returns a filtered array of `predefinedItems`. The code filters the array to return items that match the query, if it exists. If it doesn't, it returns the entire array. **You can return whatever predefined items you like and format them accordingly.** For example, suppose you want to show trending search items instead of helpful links. Then, you can use [`getItems`](sources/#getitems) to retrieve them from another source, [including an asynchronous API](sources#using-dynamic-sources).
 
@@ -173,7 +173,7 @@ The [`getItemUrl`](sources/#getitemurl) function defines how to get the URL of a
 
 [Templates](templates) define how to display each section of the autocomplete, including the [`header`](templates#header), [`footer`](templates#footer), and each [`item`](templates#item). You can provide either a string, or as the example below shows, a function for how to manipulate the DOM.
 
-```diff
+```js
   const predefinedItems = [
   {
     label: 'Documentation',
@@ -198,18 +198,18 @@ export const predefinedItemsPlugin = {
           return item.url;
         },
         templates: {
-+          item({ item}) {
-+              return (
-+                <a href={item.url} className="aa-ItemContent aa-ItemLink aa-PredefinedItem">
-+                  <div className="aa-ItemSourceIcon">
-+                    <svg viewBox="0 0 24 24" width="20" height="20">
-+                       <path fill="currentColor" d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
-+                     </svg>
-+                  </div>
-+                  <div className="'aa-ItemTitle">{item.label}</div>
-+                </a>
-+              )
-+        },
+          item({ item}) {
+              return (
+                <a href={item.url} className="aa-ItemContent aa-ItemLink aa-PredefinedItem">
+                  <div className="aa-ItemSourceIcon">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                       <path fill="currentColor" d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
+                     </svg>
+                  </div>
+                  <div className="'aa-ItemTitle">{item.label}</div>
+                </a>
+              )
+        },
         },
       },
     ];
@@ -217,33 +217,18 @@ export const predefinedItemsPlugin = {
 };
 ```
 
-### Adding CSS for the predefined items
-
-To style the predefined links, create a `predefinedItemsPlugin.css` file in your `src` directory, and add this CSS to it:
-
-```css
-.aa-ItemLink {
-  color: inherit;
-  text-decoration: none;
-}
-
-```
-
-Don't forget to include this style sheet in your markup.
-
 ### Adding the predefined items plugin to the autocomplete
 
 All that's left is to import the newly created `predefinedItemsPlugin` and add it to`plugins` in `index.js`. Once you've done that, the file should look like this:
 
-```diff
+```js
 import { autocomplete } from '@algolia/autocomplete-js';
-+ import { predefinedItemsPlugin } from './predefinedItemsPlugin';
-+
+import { predefinedItemsPlugin } from './predefinedItemsPlugin';
+
 // Instantiate the autocomplete instance
 autocomplete({
   container: '#autocomplete',
--  plugins: [],
-+  plugins: [predefinedItemsPlugin],
+  plugins: [predefinedItemsPlugin],
   openOnFocus: true,
 });
 ```
@@ -304,9 +289,15 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 
 When instantiating your Query Suggestions plugin, you can optionally pass a [`getSearchParams`](createquerysuggestionsplugin/#getsearchparams) function to apply [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) to the suggestions returned from the plugin. This is particularly useful if you need to align your Query Suggestions with other sections displayed in the autocomplete, like [recent searches](using-recent-searches-plugin).
 
-```diff
+```js
 import { autocomplete } from '@algolia/autocomplete-js';
+import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
+
+const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+  key: 'RECENT_SEARCH',
+  limit: 5,
+});
 
 const searchClient = algoliasearch(
   'yourAppID',
@@ -316,10 +307,10 @@ const searchClient = algoliasearch(
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'yourQuerySuggestionsIndexName',
-+ getSearchParams() {
-+   return recentSearchesPlugin.data.getAlgoliaSearchParams({
-+     hitsPerPage: 5,
-+   });
+  getSearchParams() {
+  return recentSearchesPlugin.data.getAlgoliaSearchParams({
+    hitsPerPage: 5,
+  });
   },
 });
 
@@ -332,7 +323,7 @@ autocomplete({
 
 All that's left to do is add all of your plugins to your autocomplete instance:
 
-```diff
+```js
 import { autocomplete } from '@algolia/autocomplete-js';
 import { predefinedItemsPlugin } from './predefinedItemsPlugin';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
@@ -360,8 +351,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 
 autocomplete({
   container: '#autocomplete',
--  plugins: [predefinedItemsPlugin],
-+  plugins: [predefinedItemsPlugin, recentSearchesPlugin, querySuggestionsPlugin],
+  plugins: [predefinedItemsPlugin, recentSearchesPlugin, querySuggestionsPlugin],
   openOnFocus: true,
 });
 ```
