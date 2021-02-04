@@ -56,7 +56,7 @@ autocomplete({
 });
 ```
 
-This boilerplate assumes you want to insert the autocomplete into a DOM element with `autocomplete` as an [id](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id). You should change the [`container`](autocomplete-js/#container) to [match your markup](basic-options). Setting [`openOnFocus`](autocomplete-js/#openonfocus) to `true` ensures that the dropdown appears as soon as a user focuses the input.
+This boilerplate assumes you want to insert the autocomplete into a DOM element with `autocomplete` as an [`id`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id). You should change the [`container`](autocomplete-js/#container) to [match your markup](basic-options). Setting [`openOnFocus`](autocomplete-js/#openonfocus) to `true` ensures that the dropdown appears as soon as a user focuses the input.
 
 For now, `plugins` is an empty array, but you'll learn how to add the Query Suggestions plugin next.
 
@@ -78,7 +78,6 @@ const searchClient = algoliasearch(
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'YOUR_QUERY_SUGGESTIONS_INDEX_NAME',
-  },
 });
 
 autocomplete({
@@ -88,7 +87,7 @@ autocomplete({
 });
 ```
 
-You can optionally pass a `getSearchParams` function to apply [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) to the suggestions returned from the plugin. For example, you may choose to display ten Query Suggestions if the user hasn't typed anything yet, but only five if they have. You may want to do this if you are [displaying other categories](creating-multi-source-autocompletes) along with Query Suggestions.
+You can optionally pass a `getSearchParams` function to apply [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) to the suggestions returned from the plugin. For example, you may choose to display ten Query Suggestions if the user hasn't typed anything yet, but only five if they have. You may want to do this if you are [displaying other sources](creating-multi-source-autocompletes) along with Query Suggestions.
 
 ```js
 import { autocomplete } from '@algolia/autocomplete-js';
@@ -129,5 +128,4 @@ These suggestions are based on a [public dataset of BestBuy products](https://gi
 ## Next steps
 
 This tutorial focuses on adding Query Suggestions to an autocomplete menu. Many autocomplete menus also include recent searches and possibly other items. Check out the guides on adding [recent searches](using-recent-searches-plugin) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on creating multi-source autocompletes](creating-multi-source-autocompletes).
-
 
