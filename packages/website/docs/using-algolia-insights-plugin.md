@@ -1,6 +1,6 @@
 ---
-id: using-algolia-insights-plugin
-title: Using the Algolia Insights plugin
+id: sending-algolia-insights-events
+title: Sending Algolia Insights events
 ---
 
 Learn how to automatically send Algolia Insights events from your autocomplete menu.
