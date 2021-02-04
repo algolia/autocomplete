@@ -17,7 +17,7 @@ module.exports = {
       'adding-suggested-searches',
       'adding-recent-searches',
       'sending-algolia-insights-events',
-      'creating-multi-source-autocompletes',
+      'adding-multiple-categories',
       'using-dynamic-sources-based-on-query',
       'creating-a-renderer',
       'upgrading',
