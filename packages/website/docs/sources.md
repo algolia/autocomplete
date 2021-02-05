@@ -294,7 +294,7 @@ You can trigger different behaviors if the item is active following a mouse even
 
 > `string`
 
-Applied to `data-autocomplete-source-id` on the `section` source container
+Identifier for the source. It is used as value for the `data-autocomplete-source-id` attribute of the source `section` container.
 
 ### `templates` (specific to `@algolia/autocomplete-js`)
 
