@@ -120,7 +120,9 @@ export function onInput<TItem extends BaseItem>({
           setCollections(collections as any);
           setIsOpen(
             nextState.isOpen ??
-              ((!query && props.openOnFocus) ||
+              ((props.openOnFocus &&
+                !query &&
+                props.shouldPanelShow({ state: store.getState() })) ||
                 props.shouldPanelShow({ state: store.getState() }))
           );
 

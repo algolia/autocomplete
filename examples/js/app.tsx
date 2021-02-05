@@ -55,6 +55,7 @@ autocomplete({
 
     return [
       {
+        sourceId: 'products',
         getItems() {
           return getAlgoliaHits<Product>({
             searchClient,

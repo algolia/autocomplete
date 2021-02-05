@@ -21,6 +21,7 @@ autocomplete({
   getSources() {
     return [
       {
+        sourceId: 'staticSource',
         getItems() {
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
@@ -49,6 +50,7 @@ autocomplete({
   getSources() {
     return [
       {
+        sourceId: 'staticSource',
         getItems({ query }) {
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
@@ -144,6 +146,7 @@ autocomplete({
   getSources() {
     return [
       {
+        sourceId: 'algoliaHits',
         getItems({ query }) {
           return getAlgoliaHits({
             searchClient,
@@ -191,6 +194,7 @@ autocomplete({
     if (!query) {
       return [
         {
+          sourceId: 'staticSource',
           getItems() {
             return [
               { label: 'Twitter', url: 'https://twitter.com' },
@@ -206,6 +210,7 @@ autocomplete({
 
     return [
       {
+        sourceId: 'algoliaHits',
         getItems() {
           return getAlgoliaHits({
             searchClient,
@@ -298,6 +303,7 @@ autocomplete({
 
       return [
         {
+          sourceId: 'querySuggestionsSource',
           getItems() {
             return suggestions.hits;
           },
@@ -306,6 +312,7 @@ autocomplete({
           },
         },
         {
+          sourceId: 'algoliaHits',
           getItems() {
             return products.hits;
           },
@@ -326,6 +333,12 @@ You can use the official [`autocomplete-plugin-query-suggestions`](createQuerySu
 :::
 
 ## Sources
+
+### `sourceId`
+
+> `string`
+
+Identifier for the source. It is used as value for the `data-autocomplete-source-id` attribute of the source `section` container.
 
 ### `getSources`
 

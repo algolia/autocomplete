@@ -32,6 +32,7 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
               {reverseHighlightHit<QuerySuggestionsHit>({
                 hit: item,
                 attribute: 'query',
+                createElement,
               })}
             </div>
           </div>

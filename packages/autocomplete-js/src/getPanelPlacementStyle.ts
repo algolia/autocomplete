@@ -1,6 +1,6 @@
 import { AutocompleteOptions } from './types';
 
-type GetPanelPositionStyleParams = Pick<
+type GetPanelPlacementStyleParams = Pick<
   AutocompleteOptions<any>,
   'panelPlacement' | 'environment'
 > & {
@@ -8,12 +8,12 @@ type GetPanelPositionStyleParams = Pick<
   form: HTMLElement;
 };
 
-export function getPanelPositionStyle({
+export function getPanelPlacementStyle({
   panelPlacement,
   container,
   form,
   environment = window,
-}: GetPanelPositionStyleParams) {
+}: GetPanelPlacementStyleParams) {
   const containerRect = container.getBoundingClientRect();
   const top = container.offsetTop + containerRect.height;
 
@@ -60,7 +60,9 @@ export function getPanelPositionStyle({
 
     default: {
       throw new Error(
-        `The \`panelPlacement\` value "${panelPlacement}" is not valid.`
+        `The \`panelPlacement\` value ${JSON.stringify(
+          panelPlacement
+        )} is not valid.`
       );
     }
   }

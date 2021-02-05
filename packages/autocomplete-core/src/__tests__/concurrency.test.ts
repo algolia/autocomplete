@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import { defer } from '../../../../test/utils';
+import { createSource, defer } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 describe.skip('concurrency', () => {
@@ -14,11 +14,11 @@ describe.skip('concurrency', () => {
 
       return defer(() => {
         return [
-          {
+          createSource({
             getItems() {
               return [{ label: query }];
             },
-          },
+          }),
         ];
       }, delays[deferCount]);
     };

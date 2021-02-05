@@ -53,10 +53,20 @@ type WithTemplates<TType, TItem extends BaseItem> = TType & {
   templates: SourceTemplates<TItem>;
 };
 
+export interface AutocompleteCoreSourceWithDocs<TItem extends BaseItem>
+  extends AutocompleteCoreSource<TItem> {
+  /**
+   * Identifier for the source.
+   * It is used as value for the `data-autocomplete-source-id` attribute of the source `section` container.
+   */
+  sourceId: string;
+}
+
 export type AutocompleteSource<TItem extends BaseItem> = WithTemplates<
-  AutocompleteCoreSource<TItem>,
+  AutocompleteCoreSourceWithDocs<TItem>,
   TItem
 >;
+
 export type InternalAutocompleteSource<TItem extends BaseItem> = WithTemplates<
   InternalAutocompleteCoreSource<TItem>,
   TItem

@@ -11,17 +11,23 @@ export function AutocompleteExample<TItem extends {}>(
 
   useEffect(() => {
     if (!containerRef.current) {
-      return;
+      return undefined;
     }
 
-    autocomplete({
+    const search = autocomplete({
       container: containerRef.current,
+      debug: process.env.NODE_ENV === 'development',
+      placeholder: 'Search',
       renderer: { createElement, Fragment },
       render({ children }, root) {
         render(children as any, root);
       },
       ...props,
     });
+
+    return () => {
+      search.destroy();
+    };
   }, [props]);
 
   return <div ref={containerRef} style={{ padding: '1rem 0' }} />;

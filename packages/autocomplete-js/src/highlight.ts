@@ -26,7 +26,9 @@ export function highlightHit<TItem extends Hit<{}>>({
   createElement = preactCreateElement,
 }: HighlightItemParams<TItem>) {
   return parseAlgoliaHitHighlight<TItem>({ hit, attribute }).map((x) =>
-    x.isHighlighted ? createElement(tagName, { children: x.value }) : x.value
+    x.isHighlighted
+      ? createElement(tagName, { key: x.value, children: x.value })
+      : x.value
   );
 }
 
@@ -42,7 +44,9 @@ export function reverseHighlightHit<TItem extends Hit<{}>>({
   createElement = preactCreateElement,
 }: HighlightItemParams<TItem>) {
   return parseAlgoliaHitReverseHighlight<TItem>({ hit, attribute }).map((x) =>
-    x.isHighlighted ? createElement(tagName, { children: x.value }) : x.value
+    x.isHighlighted
+      ? createElement(tagName, { key: x.value, children: x.value })
+      : x.value
   );
 }
 
@@ -56,7 +60,9 @@ export function snippetHit<TItem extends Hit<{}>>({
   createElement = preactCreateElement,
 }: HighlightItemParams<TItem>) {
   return parseAlgoliaHitSnippet<TItem>({ hit, attribute }).map((x) =>
-    x.isHighlighted ? createElement(tagName, { children: x.value }) : x.value
+    x.isHighlighted
+      ? createElement(tagName, { key: x.value, children: x.value })
+      : x.value
   );
 }
 
@@ -72,6 +78,8 @@ export function reverseSnippetHit<TItem extends Hit<{}>>({
   createElement = preactCreateElement,
 }: HighlightItemParams<TItem>) {
   return parseAlgoliaHitReverseSnippet<TItem>({ hit, attribute }).map((x) =>
-    x.isHighlighted ? createElement(tagName, { children: x.value }) : x.value
+    x.isHighlighted
+      ? createElement(tagName, { key: x.value, children: x.value })
+      : x.value
   );
 }

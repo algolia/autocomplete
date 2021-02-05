@@ -68,6 +68,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
 
         return [
           {
+            sourceId: 'recentSearchesPlugin',
             getItemInputValue({ item }) {
               return item.query;
             },
