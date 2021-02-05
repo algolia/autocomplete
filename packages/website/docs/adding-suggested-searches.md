@@ -22,9 +22,7 @@ Using this plugin requires an [Algolia](https://www.algolia.com/) application wi
 
 :::
 
-The most common autocomplete UX is one that displays a list of suggested searches that your users can select from as they type. **Suggested searches help users find queries that are guaranteed to return results.** They help users type less and find what they are looking for faster.
-
-[Algolia](https://www.algolia.com/) provides a [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) feature that generates suggested search terms [based on your what your users are searching for and the results within your dataset](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/#how-query-suggestions-works).
+The most common autocomplete UX is one that displays a list of suggested searches that your users can select from as they type. [Algolia](https://www.algolia.com/) provides a [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) feature that generates suggested search terms [based on your what your users are searching for and the results within your dataset](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/#how-query-suggestions-works).
 
 The term “Query Suggestions” refers to the textual suggestions themselves. Query Suggestions are different from search results. Query Suggestions are only suggestions of better queries. When typing “smartphone”, a user may receive a suggestion to pick a more precise query, such as “smartphone apple” or “smartphone iphone xs”, which would retrieve more specific results.
 
