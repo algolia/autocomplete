@@ -7,7 +7,7 @@ import { getNormalizedSources } from '../getNormalizedSources';
 
 describe('getNormalizedSources', () => {
   test('returns a promise of sources', async () => {
-    const getSources = () => [{ sourceId: 'testSource', getItems: () => [] }];
+    const getSources = () => [createSource()];
     const params = {
       query: '',
       state: createState({
@@ -23,17 +23,13 @@ describe('getNormalizedSources', () => {
         getItems: expect.any(Function),
         onActive: expect.any(Function),
         onSelect: expect.any(Function),
-        sourceId: 'testSource',
+        sourceId: expect.any(String),
       },
     ]);
   });
 
   test('filters out falsy sources', async () => {
-    const getSources = () => [
-      { sourceId: 'testSource', getItems: () => [] },
-      false,
-      undefined,
-    ];
+    const getSources = () => [createSource(), false, undefined];
     const params = {
       query: '',
       state: createState({
@@ -49,7 +45,7 @@ describe('getNormalizedSources', () => {
         getItems: expect.any(Function),
         onActive: expect.any(Function),
         onSelect: expect.any(Function),
-        sourceId: 'testSource',
+        sourceId: expect.any(String),
       },
     ]);
   });
@@ -111,7 +107,6 @@ describe('getNormalizedSources', () => {
       ...createScopeApi(),
     };
 
-    // @ts-expect-error
     await expect(getNormalizedSources(getSources, params)).rejects.toEqual(
       new Error('[Autocomplete] A source must provide a `sourceId` string.')
     );

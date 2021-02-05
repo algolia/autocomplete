@@ -92,33 +92,13 @@ describe('getSources', () => {
     const onStateChange = jest.fn();
     const plugin = {
       getSources: () => {
-        return [
-          {
-            sourceId: 'pluginSource',
-            getItems() {
-              return [];
-            },
-            templates: {
-              item() {},
-            },
-          },
-        ];
+        return [createSource()];
       },
     };
     const { inputElement } = createPlayground(createAutocomplete, {
       onStateChange,
       getSources: () => {
-        return [
-          {
-            sourceId: 'testSource',
-            getItems() {
-              return [];
-            },
-            templates: {
-              item() {},
-            },
-          },
-        ];
+        return [createSource()];
       },
       plugins: [plugin],
     });

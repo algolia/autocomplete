@@ -23,6 +23,10 @@ export interface AutocompleteSource<TItem extends BaseItem> {
   // Example: `templates` in the JavaScript API
   // [key: string]: unknown;
   /**
+   * Identifier for the source.
+   */
+  sourceId: string;
+  /**
    * Get the string value of the item. The value is used to fill the search box.
    */
   getItemInputValue?({
@@ -58,10 +62,6 @@ export interface AutocompleteSource<TItem extends BaseItem> {
    * You can trigger different behaviors based on the event `type`.
    */
   onActive?(params: OnActiveParams<TItem>): void;
-  /**
-   * Identifier for the source.
-   */
-  sourceId: string;
 }
 
 export type InternalAutocompleteSource<TItem extends BaseItem> = {
