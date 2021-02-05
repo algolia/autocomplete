@@ -18,7 +18,7 @@ module.exports = {
       'adding-recent-searches',
       'sending-algolia-insights-events',
       'adding-multiple-categories',
-      'using-dynamic-sources-based-on-query',
+      'changing-behavior-based-on-query',
       'creating-a-renderer',
       'upgrading',
       'debugging',
