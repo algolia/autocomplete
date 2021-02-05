@@ -144,10 +144,6 @@ export function autocomplete<TItem extends BaseItem>(
       state: lastStateRef.current,
     };
 
-    hasEmptySourceTemplateRef.current = renderProps.state.collections.some(
-      (collection) => collection.source.templates.empty
-    );
-
     const render =
       (!getItemsCount(state) &&
         !hasEmptySourceTemplateRef.current &&
