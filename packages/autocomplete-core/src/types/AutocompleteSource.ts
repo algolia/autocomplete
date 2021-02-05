@@ -16,7 +16,7 @@ export interface OnSelectParams<TItem extends BaseItem>
   source: InternalAutocompleteSource<TItem>;
 }
 
-export type OnHighlightParams<TItem extends BaseItem> = OnSelectParams<TItem>;
+export type OnActiveParams<TItem extends BaseItem> = OnSelectParams<TItem>;
 
 export interface AutocompleteSource<TItem extends BaseItem> {
   // This allows flavors to pass other keys to their source.

@@ -1,9 +1,9 @@
 import { BaseItem } from './AutocompleteApi';
-import { OnHighlightParams, OnSelectParams } from './AutocompleteSource';
+import { OnActiveParams, OnSelectParams } from './AutocompleteSource';
 
 export type AutocompleteSubscriber<TItem extends BaseItem> = {
   onSelect(params: OnSelectParams<TItem>): void;
-  onActive(params: OnHighlightParams<TItem>): void;
+  onActive(params: OnActiveParams<TItem>): void;
 };
 
 export type AutocompleteSubscribers<TItem extends BaseItem> = Array<
