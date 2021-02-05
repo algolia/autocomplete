@@ -63,7 +63,7 @@ Learn how to use conditional sources depending on the query.
 
 You may want to change which [sources](sources) you use depending on the query. A typical pattern is to display a different source when the query is empty and switch once the user starts typing.
 
-This tutorial explains how to show [static predefined items](sources/#using-static-sources) when the query is empty,and results from an [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) when it isn't.
+This tutorial explains how to show [static predefined items](sources/#using-static-sources) when the query is empty, and results from an [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) when it isn't.
 
 ## Prerequisites
 
@@ -117,6 +117,7 @@ autocomplete({
         },
       ];
     }
+
     return [
       {
         getItems() {
@@ -139,16 +140,15 @@ autocomplete({
 });
 ```
 
-The [`getSources`](#getsources) function provides access to the current `query`, which you can use to return sources conditionally. You can use this pattern to display predefined items like these, [recent searches](adding-recent-searches), and / or [suggested searches](adding-suggested-searches) when the query is empty. When the user begins to type, you can show search results.
+The [`getSources`](#getsources) function provides access to the current `query`, which you can use to return sources conditionally. You can use this pattern to display predefined items like these, [recent searches](adding-recent-searches), and [suggested searches](adding-suggested-searches) when the query is empty. When the user begins to type, you can show search results.
 
-When there isn't a query, this autocomplete instance returns links to Twitter and Github. When there is, it searches an Algolia index. For more information on using Algolia as a source, follow the [Getting Started guide](getting-started).
+When there isn't a query, this autocomplete instance returns links to Twitter and GitHub. When there is, it searches an Algolia index. For more information on using Algolia as a source, follow the [Getting Started guide](getting-started).
 
 Try it out:
 
 <AutocompleteExample
-  debug={true}
   openOnFocus={true}
   plugins={[dynamicPlugin]}
 />
 
-Note that you have access to the [full autocomplete state](state), not only the query. It lets you compute sources based on [various aspects](state#state), such as the query, but also the autocomplete status, whether the autocomplete is open or not, the context, etc.
+Note that you have access to the [full autocomplete state](state), not only the query. It lets you compute sources based on [various parameters](state#state), such as the query, but also the autocomplete status, whether the autocomplete is open or not, the [context](context), etc.
