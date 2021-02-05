@@ -14,6 +14,7 @@ export const shortcutsPlugin: AutocompletePlugin<DarkModeItem> = {
 
     return [
       {
+        sourceId: 'shortcutsPlugin',
         getItems() {
           return [
             {

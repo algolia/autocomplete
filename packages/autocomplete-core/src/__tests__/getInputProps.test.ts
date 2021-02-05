@@ -1049,6 +1049,7 @@ describe('getInputProps', () => {
                     { label: '2', url: '#2' },
                   ],
                   source: {
+                    sourceId: expect.any(String),
                     getItemInputValue: expect.any(Function),
                     getItemUrl: expect.any(Function),
                     getItems: expect.any(Function),

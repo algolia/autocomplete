@@ -36,6 +36,7 @@ export function createQuerySuggestionsPlugin<
     getSources({ query, setQuery, refresh, state }) {
       return [
         {
+          sourceId: 'querySuggestionsPlugin',
           getItemInputValue({ item }) {
             return item.query;
           },

@@ -44,6 +44,10 @@ function Autocomplete() {
         return [
           // (3) Use an Algolia index source.
           {
+            sourceId: 'querySuggestionsSource',
+            getItemInputValue({ item }) {
+              return item.query;
+            },
             getItems({ query }) {
               return getAlgoliaHits({
                 searchClient,

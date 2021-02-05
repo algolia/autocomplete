@@ -92,7 +92,11 @@ export function renderPanel<TItem extends BaseItem>(
   dom.panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');
 
   const sections = state.collections.map(({ source, items }, sourceIndex) => (
-    <section key={sourceIndex} className={classNames.source}>
+    <section
+      key={sourceIndex}
+      className={classNames.source}
+      data-autocomplete-source-id={source.sourceId}
+    >
       {source.templates.header && (
         <div className={classNames.sourceHeader}>
           {source.templates.header({

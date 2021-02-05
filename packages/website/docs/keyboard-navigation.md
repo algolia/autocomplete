@@ -24,6 +24,7 @@ const autocomplete = createAutocomplete({
   getSources() {
     return [
       {
+        sourceId: 'mySource',
         getItemUrl({ item }) {
           return item.url;
         },
