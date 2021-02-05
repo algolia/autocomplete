@@ -4,6 +4,7 @@ title: Changing behavior based on the query
 ---
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
 import { AutocompleteProduct } from '@site/src/components/AutocompleteProduct';
+import { AutocompleteStaticItem } from '@site/src/components/AutocompleteStaticItem';
 import { getAlgoliaHits } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch/lite';
 const searchClient = algoliasearch(
@@ -26,7 +27,7 @@ const dynamicPlugin = {
           },
           templates: {
             item({item}){
-              return item.label
+              return <AutocompleteStaticItem hit={item} />;
             }
           }
         },
@@ -145,6 +146,7 @@ When there isn't a query, this autocomplete instance returns links to Twitter an
 Try it out:
 
 <AutocompleteExample
+  debug={true}
   openOnFocus={true}
   plugins={[dynamicPlugin]}
 />
