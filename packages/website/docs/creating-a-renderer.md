@@ -34,44 +34,46 @@ const searchClient = algoliasearch(
 function Autocomplete() {
   // (1) Create a React state.
   const [autocompleteState, setAutocompleteState] = React.useState({});
-  const autocomplete = React.useRef(
-    createAutocomplete({
-      onStateChange({ state }) {
-        // (2) Synchronize the Autocomplete state with the React state.
-        setAutocompleteState(state);
-      },
-      getSources() {
-        return [
-          // (3) Use an Algolia index source.
-          {
-            sourceId: 'querySuggestionsSource',
-            getItemInputValue({ item }) {
-              return item.query;
-            },
-            getItems({ query }) {
-              return getAlgoliaHits({
-                searchClient,
-                queries: [
-                  {
-                    indexName: 'instant_search',
-                    query,
-                    params: {
-                      hitsPerPage: 4,
-                      highlightPreTag: '<mark>',
-                      highlightPostTag: '</mark>',
+  const autocomplete = React.useMemo(
+    () =>
+      createAutocomplete({
+        onStateChange({ state }) {
+          // (2) Synchronize the Autocomplete state with the React state.
+          setAutocompleteState(state);
+        },
+        getSources() {
+          return [
+            // (3) Use an Algolia index source.
+            {
+              sourceId: 'querySuggestionsSource',
+              getItemInputValue({ item }) {
+                return item.query;
+              },
+              getItems({ query }) {
+                return getAlgoliaHits({
+                  searchClient,
+                  queries: [
+                    {
+                      indexName: 'instant_search',
+                      query,
+                      params: {
+                        hitsPerPage: 4,
+                        highlightPreTag: '<mark>',
+                        highlightPostTag: '</mark>',
+                      },
                     },
-                  },
-                ],
-              });
+                  ],
+                });
+              },
+              getItemUrl({ item }) {
+                return item.url;
+              },
             },
-            getItemUrl({ item }) {
-              return item.url;
-            },
-          },
-        ];
-      },
-    })
-  ).current;
+          ];
+        },
+      }),
+    []
+  );
 
   // ...
 }
