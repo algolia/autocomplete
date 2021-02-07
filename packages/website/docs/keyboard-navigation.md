@@ -25,6 +25,7 @@ autocomplete({
   getSources() {
     return [
       {
+        sourceId: 'mySource',
         getItemUrl({ item }) {
           return item.url;
         },

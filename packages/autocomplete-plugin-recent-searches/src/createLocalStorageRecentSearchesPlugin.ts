@@ -38,7 +38,7 @@ export type CreateRecentSearchesLocalStorageOptions<
 
 type LocalStorageRecentSearchesPluginOptions<
   TItem extends RecentSearchesItem
-> = Pick<CreateRecentSearchesPluginParams<TItem>, 'getTemplates'> &
+> = Pick<CreateRecentSearchesPluginParams<TItem>, 'transformSource'> &
   CreateRecentSearchesLocalStorageOptions<TItem>;
 
 export function createLocalStorageRecentSearchesPlugin<
@@ -46,7 +46,7 @@ export function createLocalStorageRecentSearchesPlugin<
 >({
   key,
   limit = 5,
-  getTemplates,
+  transformSource,
   search = defaultSearch,
 }: LocalStorageRecentSearchesPluginOptions<TItem>): AutocompletePlugin<
   TItem,
@@ -59,7 +59,7 @@ export function createLocalStorageRecentSearchesPlugin<
   });
 
   return createRecentSearchesPlugin({
-    getTemplates,
+    transformSource,
     storage,
   });
 }

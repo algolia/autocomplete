@@ -44,6 +44,7 @@ function Autocomplete() {
         return [
           // (3) Use an Algolia index source.
           {
+            sourceId: 'querySuggestionsSource',
             getItemInputValue({ item }) {
               return item.query;
             },
@@ -52,14 +53,19 @@ function Autocomplete() {
                 searchClient,
                 queries: [
                   {
-                    indexName: 'instant_search_demo_query_suggestions',
+                    indexName: 'instant_search',
                     query,
                     params: {
                       hitsPerPage: 4,
+                      highlightPreTag: '<mark>',
+                      highlightPostTag: '</mark>',
                     },
                   },
                 ],
               });
+            },
+            getItemUrl({ item }) {
+              return item.url;
             },
           },
         ];
@@ -108,7 +114,7 @@ function Autocomplete() {
                           source,
                         })}
                       >
-                        {item.query}
+                        {item.name}
                       </li>
                     ))}
                   </ul>
@@ -166,10 +172,12 @@ function Autocomplete() {
         className="aa-Form"
         {...autocomplete.getFormProps({ inputElement: inputRef.current })}
       >
-        <div className="aa-InputWrapper">
+        <div className="aa-InputWrapperPrefix">
           <label className="aa-Label" {...autocomplete.getLabelProps({})}>
             Search
           </label>
+        </div>
+        <div className="aa-InputWrapper">
           <input
             className="aa-Input"
             ref={inputRef}
@@ -195,15 +203,19 @@ function Autocomplete() {
         className="aa-Form"
         {...autocomplete.getFormProps({ inputElement: inputRef.current })}
       >
-        <div className="aa-InputWrapper">
+        <div className="aa-InputWrapperPrefix">
           <label className="aa-Label" {...autocomplete.getLabelProps({})}>
             Search
           </label>
+        </div>
+        <div className="aa-InputWrapper">
           <input
             className="aa-Input"
             ref={inputRef}
             {...autocomplete.getInputProps({})}
           />
+        </div>
+        <div className="aa-InputWrapperSuffix">
           <button className="aa-ResetButton" type="reset">
             ｘ
           </button>

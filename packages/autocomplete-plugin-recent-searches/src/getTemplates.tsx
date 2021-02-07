@@ -25,6 +25,7 @@ export function getTemplates<TItem extends RecentSearchesItem>({
               {reverseHighlightHit<any>({
                 hit: item,
                 attribute: 'query',
+                createElement,
               })}
             </div>
           </div>

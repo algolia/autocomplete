@@ -7,14 +7,13 @@ import {
   createRef,
   debounce,
   getItemsCount,
-  invariant,
 } from '@algolia/autocomplete-shared';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
 import { createEffectWrapper } from './createEffectWrapper';
 import { createReactiveWrapper } from './createReactiveWrapper';
 import { getDefaultOptions } from './getDefaultOptions';
-import { getPanelPositionStyle } from './getPanelPositionStyle';
+import { getPanelPlacementStyle } from './getPanelPlacementStyle';
 import { renderPanel, renderSearchBox } from './render';
 import {
   AutocompleteApi,
@@ -117,7 +116,7 @@ export function autocomplete<TItem extends BaseItem>(
     setProperties(dom.value.panel, {
       style: isTouch.value
         ? {}
-        : getPanelPositionStyle({
+        : getPanelPlacementStyle({
             panelPlacement: props.value.renderer.panelPlacement,
             container: dom.value.root,
             form: dom.value.form,
@@ -144,10 +143,6 @@ export function autocomplete<TItem extends BaseItem>(
       propGetters,
       state: lastStateRef.current,
     };
-
-    hasEmptySourceTemplateRef.current = renderProps.state.collections.some(
-      (collection) => collection.source.templates.empty
-    );
 
     const render =
       (!getItemsCount(state) &&
@@ -204,10 +199,6 @@ export function autocomplete<TItem extends BaseItem>(
 
   runEffect(() => {
     const containerElement = props.value.renderer.container;
-    invariant(
-      containerElement.tagName !== 'INPUT',
-      'The `container` option does not support `input` elements. You need to change the container to a `div`.'
-    );
     containerElement.appendChild(dom.value.root);
 
     return () => {

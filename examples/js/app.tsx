@@ -2,19 +2,25 @@
 import {
   autocomplete,
   getAlgoliaHits,
-  highlightHit,
+  snippetHit,
 } from '@algolia/autocomplete-js';
 import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch';
-import { h } from 'preact';
+import { h, Fragment } from 'preact';
 import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
 
-type Product = { name: string; image: string };
+import { shortcutsPlugin } from './shortcutsPlugin';
+
+type Product = {
+  name: string;
+  image: string;
+  description: string;
+};
 type ProductHit = Hit<Product>;
 
 const appId = 'latency';
@@ -44,6 +50,7 @@ autocomplete({
   debug: true,
   openOnFocus: true,
   plugins: [
+    shortcutsPlugin,
     algoliaInsightsPlugin,
     recentSearchesPlugin,
     querySuggestionsPlugin,
@@ -55,19 +62,42 @@ autocomplete({
 
     return [
       {
+        sourceId: 'products',
         getItems() {
           return getAlgoliaHits<Product>({
             searchClient,
-            queries: [{ indexName: 'instant_search', query }],
+            queries: [
+              {
+                indexName: 'instant_search',
+                query,
+                params: {
+                  clickAnalytics: true,
+                  attributesToSnippet: ['name:10', 'description:35'],
+                  snippetEllipsisText: '…',
+                },
+              },
+            ],
           });
         },
         templates: {
+          header() {
+            return (
+              <Fragment>
+                <span className="aa-SourceHeaderTitle">Products</span>
+                <div className="aa-SourceHeaderLine"></div>
+              </Fragment>
+            );
+          },
           item({ item }) {
             return <ProductItem hit={item} />;
           },
           empty() {
             return (
-              <div className="aa-ItemContent">No results for this query.</div>
+              <div className="aa-ItemContent">
+                <div className="aa-ItemContentTitle">
+                  No products for this query.
+                </div>
+              </div>
             );
           },
         },
@@ -82,14 +112,27 @@ type ProductItemProps = {
 
 function ProductItem({ hit }: ProductItemProps) {
   return (
-    <div className="aa-ItemContent">
-      <div className="aa-ItemSourceIcon">
-        <img src={hit.image} alt={hit.name} width="20" height="20" />
+    <Fragment>
+      <div className="aa-ItemIcon">
+        <img src={hit.image} alt={hit.name} width="40" height="40" />
       </div>
-
-      <div className="aa-ItemTitle">
-        {highlightHit<ProductHit>({ hit, attribute: 'name' })}
+      <div className="aa-ItemContent">
+        <div className="aa-ItemContentTitle">
+          {snippetHit<ProductHit>({ hit, attribute: 'name' })}
+        </div>
+        <div className="aa-ItemContentDescription">
+          {snippetHit<ProductHit>({ hit, attribute: 'description' })}
+        </div>
       </div>
-    </div>
+      <button
+        className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
+        type="button"
+        title="Select"
+      >
+        <svg fill="currentColor" viewBox="0 0 24 24" width="20" height="20">
+          <path d="M18.984 6.984h2.016v6h-15.188l3.609 3.609-1.406 1.406-6-6 6-6 1.406 1.406-3.609 3.609h13.172v-4.031z"></path>
+        </svg>
+      </button>
+    </Fragment>
   );
 }

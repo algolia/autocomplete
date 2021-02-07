@@ -1,5 +1,6 @@
+import { snippetHit } from '@algolia/autocomplete-js';
 import { Hit } from '@algolia/client-search';
-import React from 'react';
+import React, { createElement } from 'react';
 
 type DocSearchItem = {
   content: string | null;
@@ -25,14 +26,20 @@ type DocSearchItem = {
     lvl6: string | null;
   };
 };
-type DocSearchHit = Hit<DocSearchItem>;
-type AutocompleteItemProps = { hit: DocSearchHit; breadcrumb: string[] };
+type AutocompleteItemProps = {
+  hit: Hit<DocSearchItem>;
+  breadcrumb: string[];
+};
 
 export function AutocompleteDocSearchItem({
   hit,
   breadcrumb,
 }: AutocompleteItemProps) {
-  const title = hit.type === 'content' ? hit.content : hit.hierarchy[hit.type];
+  const title = snippetHit({
+    hit,
+    attribute: hit.type === 'content' ? 'content' : ['hierarchy', hit.type],
+    createElement,
+  });
 
   return (
     <a href={hit.url} className="aa-ItemLink">

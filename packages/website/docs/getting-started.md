@@ -217,6 +217,7 @@ Check out how the template displays items by searching in the input below:
   getSources={({ query }) => {
     return [
       {
+        sourceId: 'docsearch',
         getItems() {
           return getAlgoliaHits({
             searchClient,
@@ -292,6 +293,7 @@ Now give it a try: navigate to one of the items using your keyboard and hitting 
   getSources={({ query }) => {
     return [
       {
+        sourceId: 'docsearch',
         getItems() {
           return getAlgoliaHits({
             searchClient,
