@@ -1,8 +1,9 @@
+import { BaseItem } from '@algolia/autocomplete-core';
 import { autocomplete, AutocompleteOptions } from '@algolia/autocomplete-js';
 import React, { createElement, Fragment, useEffect, useRef } from 'react';
 import { render } from 'react-dom';
 
-export function AutocompleteExample<TItem extends {}>(
+export function AutocompleteExample<TItem extends BaseItem>(
   props: Omit<AutocompleteOptions<TItem>, 'container'>
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -28,5 +29,10 @@ export function AutocompleteExample<TItem extends {}>(
     };
   }, [props]);
 
-  return <div ref={containerRef} style={{ padding: '1rem 0' }} />;
+  return (
+    <div
+      ref={containerRef}
+      style={{ marginBottom: 'var(--ifm-paragraph-margin-bottom)' }}
+    />
+  );
 }

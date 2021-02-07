@@ -21,6 +21,7 @@ For example, try typing the letter "s" in the search box below.
   getSources={({ query }) => {
     return [
       {
+        sourceId: 'docsearch',
         getItems() {
           return getAlgoliaHits({
             searchClient,
@@ -29,10 +30,21 @@ For example, try typing the letter "s" in the search box below.
                 indexName: 'autocomplete',
                 query,
                 params: {
-                  hitsPerPage: 5
-                }
-              }
-            ]
+                  hitsPerPage: 5,
+                  attributesToSnippet: [
+                    'content:10',
+                    'hierarchy.lvl0:10',
+                    'hierarchy.lvl1:10',
+                    'hierarchy.lvl2:10',
+                    'hierarchy.lvl3:10',
+                    'hierarchy.lvl4:10',
+                    'hierarchy.lvl5:10',
+                    'hierarchy.lvl6:10',
+                  ],
+                  snippetEllipsisText: '…',
+                },
+              },
+            ],
           });
         },
         getItemUrl({ item }) {
@@ -48,7 +60,7 @@ For example, try typing the letter "s" in the search box below.
                   .slice(0, -1)}
               />
             );
-          }
+          },
         },
       },
     ];
