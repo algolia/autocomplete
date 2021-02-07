@@ -1,18 +1,11 @@
 import { AutocompletePlugin } from '@algolia/autocomplete-core';
-import { SourceTemplates } from '@algolia/autocomplete-js';
-import { MaybePromise, warn } from '@algolia/autocomplete-shared';
+import { AutocompleteSource } from '@algolia/autocomplete-js';
+import { createRef, MaybePromise, warn } from '@algolia/autocomplete-shared';
 import { SearchOptions } from '@algolia/client-search';
 
 import { createStore, RecentSearchesStorage } from './createStore';
-import {
-  getTemplates as defaultGetTemplates,
-  GetTemplatesParams,
-} from './getTemplates';
+import { getTemplates } from './getTemplates';
 import { RecentSearchesItem } from './types';
-
-type Ref<TType> = {
-  current: TType;
-};
 
 export type RecentSearchesPluginData = {
   getAlgoliaSearchParams(params?: SearchOptions): SearchOptions;
@@ -22,18 +15,21 @@ export type CreateRecentSearchesPluginParams<
   TItem extends RecentSearchesItem
 > = {
   storage: RecentSearchesStorage<TItem>;
-  getTemplates?(params: GetTemplatesParams): SourceTemplates<TItem>;
+  transformSource?(params: {
+    source: AutocompleteSource<TItem>;
+    onRemove(id: string): void;
+  }): AutocompleteSource<TItem>;
 };
 
 export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
   storage,
-  getTemplates = defaultGetTemplates,
+  transformSource = ({ source }) => source,
 }: CreateRecentSearchesPluginParams<TItem>): AutocompletePlugin<
   TItem,
   RecentSearchesPluginData
 > {
-  const store = createStore<TItem>(storage);
-  const lastItemsRef: Ref<MaybePromise<TItem[]>> = { current: [] };
+  const store = createStore(storage);
+  const lastItemsRef = createRef<MaybePromise<TItem[]>>([]);
 
   return {
     subscribe({ onSelect }) {
@@ -44,7 +40,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
           store.add({
             id: inputValue,
             query: inputValue,
-          } as TItem);
+          } as any);
         }
       });
     },
@@ -55,11 +51,18 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
         store.add({
           id: query,
           query,
-        } as TItem);
+        } as any);
       }
     },
     getSources({ query, refresh }) {
       lastItemsRef.current = store.getAll(query);
+
+      function onRemove(id: string) {
+        store.remove(id);
+        refresh();
+      }
+
+      const templates = getTemplates<any>({ onRemove });
 
       return Promise.resolve(lastItemsRef.current).then((items) => {
         if (items.length === 0) {
@@ -67,21 +70,19 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
         }
 
         return [
-          {
-            sourceId: 'recentSearchesPlugin',
-            getItemInputValue({ item }) {
-              return item.query;
-            },
-            getItems() {
-              return items;
-            },
-            templates: getTemplates({
-              onRemove(id) {
-                store.remove(id);
-                refresh();
+          transformSource({
+            source: {
+              sourceId: 'recentSearchesPlugin',
+              getItemInputValue({ item }) {
+                return item.query;
               },
-            }),
-          },
+              getItems() {
+                return items;
+              },
+              templates,
+            },
+            onRemove,
+          }),
         ];
       });
     },

@@ -83,6 +83,58 @@ type RecentSearchesStorage<TItem extends RecentSearchesItem> = {
 };
 ```
 
+### `transformSource`
+
+> `(params: { source: AutocompleteSource, onRemove: () => void })`
+
+#### Example
+
+Keeping the panel open on select:
+
+```tsx
+const recentSearchesPlugin = createRecentSearchesPlugin({
+  storage,
+  transformSource({ source, onRemove }) {
+    return {
+      ...source,
+      onSelect({ setIsOpen }) {
+        setIsOpen(true);
+      },
+    };
+  },
+});
+```
+
+Opening a link:
+
+```tsx
+const recentSearchesPlugin = createRecentSearchesPlugin({
+  storage,
+  transformSource({ source, onRemove }) {
+    return {
+      ...source,
+      getItemUrl({ item }) {
+        return `https://google.com?q=${item.query}`;
+      },
+      templates: {
+        ...source.templates,
+        item(params) {
+          const { item } = params;
+          return (
+            <a
+              className="aa-ItemLink"
+              href={`https://google.com?q=${item.query}`}
+            >
+              {source.templates.item(params)}
+            </a>
+          );
+        },
+      },
+    };
+  },
+});
+```
+
 ## Returns
 
 ### `data`

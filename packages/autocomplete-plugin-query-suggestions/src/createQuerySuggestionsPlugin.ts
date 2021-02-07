@@ -2,14 +2,11 @@ import {
   AutocompletePlugin,
   AutocompleteState,
 } from '@algolia/autocomplete-core';
-import { getAlgoliaHits, SourceTemplates } from '@algolia/autocomplete-js';
+import { AutocompleteSource, getAlgoliaHits } from '@algolia/autocomplete-js';
 import { SearchOptions } from '@algolia/client-search';
 import { SearchClient } from 'algoliasearch/lite';
 
-import {
-  getTemplates as defaultGetTemplates,
-  GetTemplatesParams,
-} from './getTemplates';
+import { getTemplates } from './getTemplates';
 import { QuerySuggestionsHit } from './types';
 
 export type CreateQuerySuggestionsPluginParams<
@@ -18,7 +15,10 @@ export type CreateQuerySuggestionsPluginParams<
   searchClient: SearchClient;
   indexName: string;
   getSearchParams?(params: { state: AutocompleteState<TItem> }): SearchOptions;
-  getTemplates?(params: GetTemplatesParams<TItem>): SourceTemplates<TItem>;
+  transformSource?(params: {
+    source: AutocompleteSource<TItem>;
+    onTapAhead(item: TItem): void;
+  }): AutocompleteSource<TItem>;
 };
 
 export function createQuerySuggestionsPlugin<
@@ -27,38 +27,43 @@ export function createQuerySuggestionsPlugin<
   searchClient,
   indexName,
   getSearchParams = () => ({}),
-  getTemplates = defaultGetTemplates,
+  transformSource = ({ source }) => source,
 }: CreateQuerySuggestionsPluginParams<TItem>): AutocompletePlugin<
   TItem,
   undefined
 > {
   return {
     getSources({ query, setQuery, refresh, state }) {
+      function onTapAhead(item: TItem) {
+        setQuery(item.query);
+        refresh();
+      }
+
+      const templates = getTemplates({ onTapAhead });
+
       return [
-        {
-          sourceId: 'querySuggestionsPlugin',
-          getItemInputValue({ item }) {
-            return item.query;
-          },
-          getItems() {
-            return getAlgoliaHits<TItem>({
-              searchClient,
-              queries: [
-                {
-                  indexName,
-                  query,
-                  params: getSearchParams({ state }),
-                },
-              ],
-            });
-          },
-          templates: getTemplates({
-            onTapAhead(item) {
-              setQuery(item.query);
-              refresh();
+        transformSource({
+          source: {
+            sourceId: 'querySuggestionsPlugin',
+            getItemInputValue({ item }) {
+              return item.query;
             },
-          }),
-        },
+            getItems() {
+              return getAlgoliaHits<TItem>({
+                searchClient,
+                queries: [
+                  {
+                    indexName,
+                    query,
+                    params: getSearchParams({ state }),
+                  },
+                ],
+              });
+            },
+            templates,
+          },
+          onTapAhead,
+        }),
       ];
     },
   };

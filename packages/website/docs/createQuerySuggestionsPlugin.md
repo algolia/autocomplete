@@ -73,3 +73,57 @@ import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query
 ### `getSearchParams`
 
 > [`() => SearchParameters`](https://www.algolia.com/doc/api-reference/search-api-parameters/)
+
+### `transformSource`
+
+> `(params: { source: AutocompleteSource, onTapAhead: () => void })`
+
+#### Example
+
+Keeping the panel open on select:
+
+```tsx
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  searchClient,
+  indexName: 'instant_search_demo_query_suggestions',
+  transformSource({ source, onTapAhead }) {
+    return {
+      ...source,
+      onSelect({ setIsOpen }) {
+        setIsOpen(true);
+      },
+    };
+  },
+});
+```
+
+Opening a link:
+
+```tsx
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  searchClient,
+  indexName: 'instant_search_demo_query_suggestions',
+  transformSource({ source, onTapAhead }) {
+    return {
+      ...source,
+      getItemUrl({ item }) {
+        return `https://google.com?q=${item.query}`;
+      },
+      templates: {
+        ...source.templates,
+        item(params) {
+          const { item } = params;
+          return (
+            <a
+              className="aa-ItemLink"
+              href={`https://google.com?q=${item.query}`}
+            >
+              {source.templates.item(params)}
+            </a>
+          );
+        },
+      },
+    };
+  },
+});
+```
