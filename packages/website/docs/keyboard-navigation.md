@@ -1,25 +1,26 @@
 ---
 id: keyboard-navigation
-title: Keyboard Navigation
+title: Integrating keyboard navigation
 ---
 
-The Navigator API is used to redirect users when a suggestion link is opened programmatically using keyboard navigation.
+The Navigator API redirects users when opening a suggestion using their keyboard.
 
-This API defines how a URL should be opened with different key modifiers:
+**Keyboard navigation is essential to a satisfying autocomplete experience.** This is one of the most important aspects of web accessibility: users should be able to interact with an autocomplete without using a mouse or trackpad.
 
-- **In the current tab** triggered on <kbd>Enter</kbd>
-- **In a new tab** triggered on <kbd>⌘ Cmd</kbd>+<kbd>Enter</kbd> or <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
-- **In a new window** triggered on <kbd>⇧ Shift</kbd>+<kbd>Enter</kbd>
+Autocomplete provides keyboard accessibility out of the box and lets you define how to navigate to results without leaving the keyboard.
 
-<!-- prettier-ignore -->
-:::important
-To activate keyboard navigation, use [`getItemUrl`](createAutocomplete#getitemurl) in your source to provide the value to process as a URL. This indicates the navigator API which links to open on <kbd>Enter</kbd>.
-:::
+The Navigator API defines three navigation schemes based on key combinations:
 
-## Example
+- **In the current tab** when hitting <kbd>Enter</kbd>
+- **In a new tab** when hitting <kbd>⌘ Cmd</kbd>+<kbd>Enter</kbd> or <kbd>Ctrl</kbd>+<kbd>Enter</kbd>
+- **In a new window** when hitting <kbd>⇧ Shift</kbd>+<kbd>Enter</kbd>
+
+## Usage
+
+To activate keyboard navigation, you need to implement a [`getItemUrl`](createAutocomplete#getitemurl) function in each of your [sources](/docs/sources) to provide the URL to navigate to. It tells the Navigator API which link to open on <kbd>Enter</kbd>.
 
 ```js {6-8}
-const autocomplete = createAutocomplete({
+autocomplete({
   // ...
   getSources() {
     return [
@@ -34,7 +35,7 @@ const autocomplete = createAutocomplete({
       },
     ];
   },
-  // Default navigator values
+  // Default Navigator API implementation
   navigator: {
     navigate({ itemUrl }) {
       window.location.assign(itemUrl);
@@ -53,12 +54,16 @@ const autocomplete = createAutocomplete({
 });
 ```
 
-If you use autocomplete in a [Gatsby](https://www.gatsbyjs.org/) website, you can leverage their [`navigate`](https://www.gatsbyjs.org/docs/gatsby-link/) API to avoid hard refreshes.
+By default, the Navigator API uses the [`Location`](https://developer.mozilla.org/en-US/docs/Web/API/Location) API (see default implementation above). If you're relying on native document-based routing, this should work out of the box. If you're using custom client-side routing, you can use the Navigator API to connect your autocomplete with it.
+
+For example, if you're using Autocomplete in a [Gatsby](https://www.gatsbyjs.org/) website, you can leverage their [`navigate`](https://www.gatsbyjs.org/docs/gatsby-link/) helper to navigate to internal pages without refreshing the page.
 
 ```js
 import { navigate } from 'gatsby';
+import { autocomplete } from '@algolia/autocomplete-js';
 
-const autocomplete = createAutocomplete({
+autocomplete({
+  // ...
   navigator: {
     navigate({ itemUrl }) {
       navigate(itemUrl);
@@ -67,15 +72,15 @@ const autocomplete = createAutocomplete({
 });
 ```
 
-## Params
+## Reference
 
-The provided params get merged with the default configuration so that you don't have to rewrite all methods.
+Autocomplete merges the provided parameters with the default configuration, so you can only rewrite what you need.
 
 ### `navigate`
 
 > `(params: { itemUrl: string, item: TItem, state: AutocompleteState<TItem> }) => void`
 
-Function called when a URL should be open in the current page.
+The function called when a URL should open in the current page.
 
 This is triggered on <kbd>Enter</kbd>.
 
@@ -83,7 +88,7 @@ This is triggered on <kbd>Enter</kbd>.
 
 > `(params: { itemUrl: string, item: TItem, state: AutocompleteState<TItem> }) => void`
 
-Function called when a URL should be open in a new tab.
+The function called when a URL should open in a new tab.
 
 This is triggered on <kbd>⌘ Cmd</kbd>+<kbd>Enter</kbd> or <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
 
@@ -91,6 +96,6 @@ This is triggered on <kbd>⌘ Cmd</kbd>+<kbd>Enter</kbd> or <kbd>Ctrl</kbd>+<kbd
 
 > `(params: { itemUrl: string, item: TItem, state: AutocompleteState<TItem> }) => void`
 
-Function called when a URL should be open in a new window.
+The function called when a URL should open in a new window.
 
 This is triggered on <kbd>⇧ Shift</kbd>+<kbd>Enter</kbd>.

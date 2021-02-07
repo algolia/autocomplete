@@ -1,4 +1,8 @@
 ---
 id: api
-title: API
+title: Introduction
 ---
+
+import Draft from './partials/draft.md'
+
+<Draft />

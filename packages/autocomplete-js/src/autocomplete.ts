@@ -143,6 +143,7 @@ export function autocomplete<TItem extends BaseItem>(
       propGetters,
       state: lastStateRef.current,
     };
+
     const render =
       (!getItemsCount(state) &&
         !hasEmptySourceTemplateRef.current &&

@@ -3,7 +3,6 @@ id: upgrading
 title: Upgrading
 ---
 
-<!-- prettier-ignore -->
-:::caution
-This page is incomplete.
-:::
+import Draft from './partials/draft.md'
+
+<Draft />
