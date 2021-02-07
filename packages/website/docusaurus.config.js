@@ -107,7 +107,10 @@ module.exports = {
             'https://github.com/algolia/autocomplete.js/edit/next/packages/website/',
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: [
+            require.resolve('./src/css/custom.css'),
+            require.resolve('@algolia/autocomplete-theme-classic'),
+          ],
         },
       },
     ],
