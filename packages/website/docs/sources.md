@@ -260,7 +260,7 @@ You can use the official [`autocomplete-plugin-query-suggestions`](createQuerySu
 
 :::
 
-For more information, check out the guide on [adding multiple sources to one autocomplete](adding-multiple-categories).
+For more information, check out the guide on [adding multiple sources to one autocomplete](adding-multiple-result-types).
 
 ## Sources
 

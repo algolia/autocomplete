@@ -328,4 +328,4 @@ Now give it a try: navigate to one of the items using your keyboard and hitting 
 
 ## Next steps
 
-This outlines a basic autocomplete implementation. There's a lot more you can do, like [adding multiple sources](adding-multiple-categories), using [templates for headers, footers](templates#rendering-a-header-and-footer), or when there's [no results](templates#rendering-an-empty-state). To learn about customization options, read the [**Core Concepts**](basic-options) or follow one of the [**Guides**](adding-suggested-searches).
+This outlines a basic autocomplete implementation. There's a lot more you can do, like [adding multiple sources](adding-multiple-result-types), using [templates for headers, footers](templates#rendering-a-header-and-footer), or when there's [no results](templates#rendering-an-empty-state). To learn about customization options, read the [**Core Concepts**](basic-options) or follow one of the [**Guides**](adding-suggested-searches).

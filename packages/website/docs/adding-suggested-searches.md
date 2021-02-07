@@ -111,7 +111,7 @@ autocomplete({
   openOnFocus: true,
 });
 ```
-This option can be especially useful if you are [displaying other sources](adding-multiple-categories) along with Query Suggestions and want to always show the same total number of items or otherwise align your query parameters.
+This option can be especially useful if you are [displaying other sources](adding-multiple-result-types) along with Query Suggestions and want to always show the same total number of items or otherwise align your query parameters.
 
 This creates a basic Query Suggestions implementation. Try it out below:
 
@@ -128,5 +128,5 @@ These suggestions are based on a [public dataset of BestBuy products](https://gi
 
 ## Next steps
 
-This tutorial focuses on adding Query Suggestions to an autocomplete menu. Many autocomplete menus also include recent searches and possibly other items. Check out the guides on adding [recent searches](adding-recent-searches) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on adding mulitple categories in one autocomplete](adding-multiple-categories).
+This tutorial focuses on adding Query Suggestions to an autocomplete menu. Many autocomplete menus also include recent searches and possibly other items. Check out the guides on adding [recent searches](adding-recent-searches) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on adding mulitple categories in one autocomplete](adding-multiple-result-types).
 

@@ -180,7 +180,7 @@ const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
 })
 ```
 
-If you're [using multiple different Algolia indices in the same autocomplete](adding-multiple-categories), for example one for products and one for suggestions, you may want to use different `eventNames` for each section. You can do this conditionally based on the index name:
+If you're [using multiple different Algolia indices in the same autocomplete](adding-multiple-result-types), for example one for products and one for suggestions, you may want to use different `eventNames` for each section. You can do this conditionally based on the index name:
 
 ```js title="index.js"
 const appId = "latency";

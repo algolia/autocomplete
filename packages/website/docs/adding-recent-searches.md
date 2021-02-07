@@ -94,4 +94,4 @@ autocomplete({
 
 ## Next steps
 
-This tutorial focuses on creating and adding recent searches to an autocomplete menu. Most autocomplete menus include recent searches in addition to suggested searches and possibly other items. Check out the guides on adding [suggested searches](adding-suggested-searches) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on adding mulitple categories in one autocomplete](adding-multiple-categories).
+This tutorial focuses on creating and adding recent searches to an autocomplete menu. Most autocomplete menus include recent searches in addition to suggested searches and possibly other items. Check out the guides on adding [suggested searches](adding-suggested-searches) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on adding mulitple categories in one autocomplete](adding-multiple-result-types).

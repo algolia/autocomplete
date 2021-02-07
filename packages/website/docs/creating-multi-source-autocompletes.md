@@ -1,6 +1,6 @@
 ---
-id: adding-multiple-categories
-title: Adding multiple categories
+id: adding-multiple-result-types
+title: Adding multiple result types
 ---
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
