@@ -72,7 +72,7 @@ function Autocomplete() {
           ];
         },
       }),
-    [props]
+    []
   );
 
   // ...
