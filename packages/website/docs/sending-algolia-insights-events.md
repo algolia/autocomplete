@@ -222,7 +222,7 @@ const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
 });
 ```
 
-#### Sending custom events from templates
+### Sending custom events from templates
 
 Though the default Insights plugin doesn't send any conversion events, you may want to. For example, you may have created a [template](templates) with an "Add to cart" button.
 
@@ -292,6 +292,7 @@ function ProductItem({ hit, insights }) {
 }
 ```
 
+This is possible since the Insights client is stored in [Context](context). Using it, you can build sending events into a [template](templates). For more information on the methods and event types you can send using the Insights client, consult the [Algolia Insights documenation](https://www.algolia.com/doc/api-client/methods/insights/).
 ## Validating events
 
 To ensure that you're sending events as you expect, you can check your [Algolia Insights logs](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/validating-events/#insights-api-logs) or work with the [Insights Validator Chrome extension](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/validating-events/#insights-validator-chrome-extension). Check out the [guide on validating events](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/validating-events/) for more details.
