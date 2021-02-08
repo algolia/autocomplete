@@ -410,6 +410,9 @@ body {
     }
   }
   // secondary click action
+  .aa-ItemActions {
+    display: flex;
+  }
   .aa-ItemActionButton {
     align-items: center;
     background: none;
