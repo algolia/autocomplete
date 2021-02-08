@@ -224,7 +224,11 @@ const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
 
 #### Sending custom events from templates
 
-Though the default Insights plugin doesn't send any conversion events, you may want to. For example, you may have created a [template](templates) with an "Add to cart" button. If a user adds an item to their shopping cart directly from the autocomplete, you can send a conversion event directly from your template.
+Though the default Insights plugin doesn't send any conversion events, you may want to. For example, you may have created a [template](templates) with an "Add to cart" button.
+
+<img src="/static/img/add-to-cart.jpg" alt="Autocomplete with add to cart button"></img>
+
+If a user adds an item to their shopping cart directly from the autocomplete, you can send a conversion event directly from your template:
 
 
 
