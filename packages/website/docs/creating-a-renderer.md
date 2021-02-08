@@ -45,7 +45,7 @@ function Autocomplete() {
           return [
             // (3) Use an Algolia index source.
             {
-              sourceId: 'querySuggestionsSource',
+              sourceId: 'products',
               getItemInputValue({ item }) {
                 return item.query;
               },
@@ -72,7 +72,7 @@ function Autocomplete() {
           ];
         },
       }),
-    []
+    [props]
   );
 
   // ...
