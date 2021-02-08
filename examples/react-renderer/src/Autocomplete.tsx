@@ -52,6 +52,7 @@ export function Autocomplete(
         getSources() {
           return [
             {
+              sourceId: 'products',
               getItems({ query }) {
                 return getAlgoliaHits({
                   searchClient,
