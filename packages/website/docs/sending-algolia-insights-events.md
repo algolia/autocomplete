@@ -226,11 +226,71 @@ const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
 
 Though the default Insights plugin doesn't send any conversion events, you may want to. For example, you may have created a [template](templates) with an "Add to cart" button.
 
-<img src="/static/img/add-to-cart.jpg" alt="Autocomplete with add to cart button"></img>
+![Autocomplete with add to cart button](/img/add-to-cart.jpg)
 
 If a user adds an item to their shopping cart directly from the autocomplete, you can send a conversion event directly from your template:
 
+```jsx title="ProductItem.jsx"
+function ProductItem({ hit, insights }) {
+  return (
+    <Fragment>
+      <div className="aa-ItemIcon">
+        <img src={hit.image} alt={hit.name} width="40" height="40" />
+      </div>
+      <div className="aa-ItemContent">
+        <div className="aa-ItemContentTitle">
+          {snippetHit<ProductHit>({ hit, attribute: 'name' })}
+        </div>
+        <div className="aa-ItemContentDescription">
+          {snippetHit<ProductHit>({ hit, attribute: 'description' })}
+        </div>
+      </div>
+      <div className="aa-ItemActions">
+        <button
+          className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
+          type="button"
+          title="Select"
+        >
+          <svg fill="currentColor" viewBox="0 0 24 24" width="20" height="20">
+            <path d="M18.984 6.984h2.016v6h-15.188l3.609 3.609-1.406 1.406-6-6 6-6 1.406 1.406-3.609 3.609h13.172v-4.031z"></path>
+          </svg>
+        </button>
+        <button
+          className="aa-ItemActionButton"
+          type="button"
+          title="Add to cart"
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
 
+            insights.convertedObjectIDsAfterSearch({
+              eventName: 'Added to cart',
+              index: hit.__autocomplete_indexName,
+              objectIDs: [hit.objectID],
+              queryID: hit.__autocomplete_queryID,
+            });
+          }}
+        >
+          <svg
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            width="20"
+            height="20"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+        </button>
+      </div>
+    </Fragment>
+  );
+}
+```
 
 ## Validating events
 
