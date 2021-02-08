@@ -47,7 +47,7 @@ The `key` can be any string and is required to differentiate search histories if
 
 ```js title="index.js"
 import { autocomplete } from '@algolia/autocomplete-js';
- import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 
  const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'RECENT_SEARCH',
@@ -94,4 +94,4 @@ autocomplete({
 
 ## Next steps
 
-This tutorial focuses on creating and adding recent searches to an autocomplete menu. Most autocomplete menus include recent searches in addition to suggested searches and possibly other items. Check out the guides on adding [suggested searches](adding-suggested-searches) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on adding mulitple categories in one autocomplete](adding-multiple-result-types).
+This tutorial focuses on creating and adding recent searches to an autocomplete menu. Most autocomplete menus include recent searches in addition to suggested searches and possibly other items. Check out the guides on adding [suggested searches](adding-suggested-searches) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on adding multiple categories in one autocomplete](adding-multiple-result-types).

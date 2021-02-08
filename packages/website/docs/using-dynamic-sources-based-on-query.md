@@ -16,6 +16,7 @@ const dynamicPlugin = {
     if (!query) {
       return [
         {
+          sourceId: 'links',
           getItems() {
             return [
               { label: 'Twitter', url: 'https://twitter.com' },
@@ -35,6 +36,7 @@ const dynamicPlugin = {
     }
     return [
       {
+        sourceId: 'products',
         getItems() {
           return getAlgoliaHits({
             searchClient,

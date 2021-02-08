@@ -11,7 +11,7 @@ Using this plugin requires an [Algolia](https://www.algolia.com/) application wi
 
 :::
 
-If you're using [Algolia indices](https://www.algolia.com/doc/faq/basics/what-is-an-index/) as [sources](sources) in your autocomplete, Algolia provides [Search Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/) out-of-the-box. Search Analytics includes metrics like [top searches, top searches with no results, overall search counts, etc.](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/#what-do-search-analytics-measure).
+If you're using [Algolia indices](https://www.algolia.com/doc/faq/basics/what-is-an-index/) as [sources](sources) in your autocomplete, Algolia provides [Search Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/) out-of-the-box. Search Analytics includes metrics like [top searches, top searches with no results, overall search counts](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/#what-do-search-analytics-measure), etc.
 
 You may also want to capture [Click and Conversion Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/). These analytics take Algolia’s out-of-the-box [Search Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/) further by providing insights into actions users take after performing a search. They're useful to better understand your user's behavior and what they need from your app. This information can ultimately drive your business.
 
@@ -105,7 +105,7 @@ function ProductItem({ hit }) {
 
 This boilerplate assumes you want to insert the autocomplete into a DOM element with `autocomplete` as an [`id`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id). You should change the [`container`](autocomplete-js/#container) to [match your markup](basic-options). Setting [`openOnFocus`](autocomplete-js/#openonfocus) to `true` ensures that the dropdown appears as soon as a user focuses the input.
 
-The autocomplete searches into an [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) of [BestBuy products](https://github.com/algolia/datasets/tree/master/ecommerce) using the [`getAlgoliaHits`](getAlgoliaHits) function. Refer to the example in the [Getting Started guide](getting-started) for more information.
+The autocomplete searches into an [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) of [e-commerce products](https://github.com/algolia/datasets/tree/master/ecommerce) using the [`getAlgoliaHits`](getAlgoliaHits) function. Refer to the example in the [Getting Started guide](getting-started) for more information.
 
 :::note
 
@@ -180,7 +180,7 @@ const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
 })
 ```
 
-If you're [using multiple different Algolia indices in the same autocomplete](adding-multiple-result-types), for example one for products and one for suggestions, you may want to use different `eventNames` for each section. You can do this conditionally based on the index name:
+If you're [using multiple different Algolia indices in the same autocomplete](adding-multiple-result-types), for example one for products and one for suggestions, you may want to use different `eventName`s for each section. You can do this conditionally based on the index name:
 
 ```js title="index.js"
 const appId = "latency";
