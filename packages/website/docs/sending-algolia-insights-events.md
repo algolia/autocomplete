@@ -222,7 +222,7 @@ const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
 });
 ```
 
-### Sending custom events from templates
+## Sending events from templates
 
 Though the default Insights plugin doesn't send any conversion events, you may want to. For example, you may have created a [template](templates) with an "Add to cart" button.
 

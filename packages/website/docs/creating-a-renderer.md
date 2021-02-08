@@ -3,7 +3,7 @@ id: creating-a-renderer
 title: Creating a Renderer
 ---
 
-In this guide, you'll learn how to build an autocomplete UI using React.
+Learn how to build a autocomplete UI using React.
 
 The `@algolia/autocomplete-core` package provides all the primitives to build an autocomplete experience, but you remain in charge of the UI output. This page will teach you how to leverage all the autocomplete capacities to build an accessible autocomplete, both for desktop and mobile.
 

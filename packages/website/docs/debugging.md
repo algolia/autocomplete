@@ -3,7 +3,7 @@ id: debugging
 title: Debugging
 ---
 
-This page is a list of debugging strategies for Autocomplete.
+Learn about browser-based debugging strategies for Autocomplete.
 
 ## Debug option to inspect panel elements
 

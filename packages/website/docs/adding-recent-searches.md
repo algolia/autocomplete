@@ -9,7 +9,7 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   limit: 5,
 });
 
-Learn how you can include recent searches using the Recent Searches plugin.
+Learn how to include recent searches using the Recent Searches plugin.
 
 Most autocomplete menus include [suggested searches](adding-suggested-searches). You can make the experience more user-friendly by adding *recent searches* a user has made. This UX lets users easily recall their past searches in case they want to search for them again.
 

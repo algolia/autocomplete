@@ -61,7 +61,7 @@ const dynamicPlugin = {
   }
 }
 
-Learn how to use conditional sources depending on the query.
+Learn how to show different results depending on the query.
 
 You may want to change which [sources](sources) you use depending on the query. A typical pattern is to display a different source when the query is empty and switch once the user starts typing.
 

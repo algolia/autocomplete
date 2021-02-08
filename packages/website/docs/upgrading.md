@@ -3,6 +3,4 @@ id: upgrading
 title: Upgrading
 ---
 
-import Draft from './partials/draft.md'
-
-<Draft />
+Learn about the changes from the library's previous version.
