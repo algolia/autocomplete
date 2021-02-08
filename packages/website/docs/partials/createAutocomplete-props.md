@@ -92,13 +92,13 @@ The function called when the Autocomplete form is reset.
 
 ### `onInput`
 
-> `(params: {query: string, state: AutocompleteState, ...setters }) => void`
+> `(params: { query: string, state: AutocompleteState, ...setters }) => void`
 
 The function called when the input changes.
 
 This turns the experience in controlled mode, leaving you in charge of updating the state.
 
-## `debug`
+### `debug`
 
 > `boolean` | defaults to `false`
 
