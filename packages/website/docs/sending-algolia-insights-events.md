@@ -160,7 +160,9 @@ Now, whenever the autocomplete shows products in the dropdown, the plugin sends 
 
 You can change any of the plugin's default behavior by using the [`onItemsChange`](createAlgoliaInsightsPlugin#onitemschange), [`onSelect`](createAlgoliaInsightsPlugin#onselect), or [`onActive`](createAlgoliaInsightsPlugin#onactive) hooks. For example, you may want to customize the `eventName` to match your [naming conventions](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/best-practices-for-sending-events/#naming-events-consistently) or send a different events on these actions.
 
-This snippet shows how to instantiate a plugin that sends a click event with "Product Selected from Autocomplete" as the `eventName` whenever a user selects an item.
+### Changing the `eventName`
+
+This snippet shows how to instantiate a plugin that sends a click event with "Product Selected from Autocomplete" as the `eventName` whenever a user selects an item. You may want to do this to differentiate between click events sent from your Autocomplete vs. other parts of your search implementation.
 
 ```js title="index.js"
 const appId = "latency";
@@ -180,7 +182,9 @@ const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
 })
 ```
 
-If you're [using multiple different Algolia indices in the same autocomplete](combining-multiple-result-types), for example one for products and one for suggestions, you may want to use different `eventName`s for each section. You can do this conditionally based on the index name:
+### Sending different events for different result types
+
+If you're [using multiple different Algolia indices in the same autocomplete](combining-multiple-result-types), for example one for products and one for suggestions, you may want to use different `eventName`s for each section. You can change this (and other parts of the event) conditionally based on the source index name:
 
 ```js title="index.js"
 const appId = "latency";
@@ -217,6 +221,8 @@ const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
   },
 });
 ```
+
+#### Sending custom events
 
 ## Validating events
 
