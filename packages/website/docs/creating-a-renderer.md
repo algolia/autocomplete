@@ -3,17 +3,17 @@ id: creating-a-renderer
 title: Creating a Renderer
 ---
 
-Learn how to build a autocomplete UI using React.
+Learn how to build an autocomplete UI using React.
 
-The `@algolia/autocomplete-core` package provides all the primitives to build an autocomplete experience, but you remain in charge of the UI output. This page will teach you how to leverage all the autocomplete capacities to build an accessible autocomplete, both for desktop and mobile.
+The [`autocomplete-js`](autocomplete-js) package includes everything you need to render a JavaScript autocomplete experience that you can bind to [your own framework](autocomplete-js#renderer). If you want to build a custom UI that differs from the `autocomplete-js` output, for example in [React](https://reactjs.org/docs/getting-started.html) or another front-end framework, the [`autocomplete-core`](createAutocomplete) package provides all the primitives to build it.
 
-You can find the final result in [this sandbox](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/react-renderer?file=/src/Autocomplete.tsx).
+This guide shows how to leverage all the autocomplete capacities to build an accessible autocomplete, both for desktop and mobile, with React. You can find the final result in [this sandbox](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/react-renderer?file=/src/Autocomplete.tsx).
 
 ## Importing the package
 
-We'll import [`createAutocomplete`](createAutocomplete) from the core package and [`getAlgoliaHits`](getAlgoliaHits) from the Algolia preset which is a utility function to retrieve suggestions from an Algolia index.
+Begin by importing [`createAutocomplete`](createAutocomplete) from the [core package](createAutocomplete) and [`getAlgoliaHits`](getAlgoliaHits) from the [Algolia preset](getAlgoliaHits). The preset—[`autocomplete-preset-algolia`](autocomplete-js)—is a utility function to retrieve items from an Algolia index.
 
-```js
+```js title="Autocomplete.jsx"
 import algoliasearch from 'algoliasearch/lite';
 import { createAutocomplete } from '@algolia/autocomplete-core';
 import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
@@ -25,7 +25,7 @@ import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
 
 The Autocomplete entry point is the [`createAutocomplete`](createAutocomplete) function, which returns the methods to create the autocomplete experience.
 
-```js
+```js title="Autocomplete.jsx"
 const searchClient = algoliasearch(
   'latency',
   '6be0576ff61c053d5f9a3225e2a90f76'
@@ -77,19 +77,20 @@ function Autocomplete() {
 }
 ```
 
-- (1) We leverage a React state for our component to re-render when the [Autocomplete state](state) changes.
+Note the following commented portions:
+- (1) You can leverage a React state for the autocomplete component to re-render when the [Autocomplete state](state) changes.
+- (2) You can listen to all Autocomplete state changes to synchronize them with the React state.
+- (3) This example uses an Algolia index as a [source](sources).
 
-- (2) We listen to all Autocomplete state changes to synchronize them with the React state.
+This setup gives you access to all the methods you may want to use in the `autocomplete` variable in your React components. Next, you can start building the UI.
 
-- (3) We use an Algolia index as a [source](sources).
+## Using prop getters
 
-We now have access to all the methods to use in our React components in the `autocomplete` variable. We can start building the UI.
+[Prop getters](prop-getters) are methods that return props to use in your components. These props contain accessibility features, event handlers, etc. You don't have to know exactly what they're doing. Their responsibility is to create a complete experience without exposing the underlying technical elements.
 
-## Using Prop Getters
+This following snippet shows how you can use the [`getRootProps()`, `getInputProps()`, `getPanelProps()`, `getListProps()`, and `getItemProps()` prop getters](createAutocomplete#returns) in the appropriate elements.
 
-[Prop getters](prop-getters) are methods that return props to use in your components. These props contain accessibility features, event handlers, etc. You do not have to know exactly what they're doing, since their responsibility is to create a complete experience without understanding the complex technical parts.
-
-```jsx
+```jsx title="Autocomplete.jsx"
 function Autocomplete() {
   // ...
 
@@ -128,17 +129,17 @@ function Autocomplete() {
 }
 ```
 
-The above code demonstrates that you do not need to worry about keyboard events, or tracking which item is highlighted, Autocomplete handles it with its prop getters.
+The above code demonstrates that you don't need to worry about keyboard events, or tracking which item is active. Autocomplete handles this under the hood with its prop getters.
 
 At this point, you should already have a usable autocomplete input:
 
 ![Image](https://user-images.githubusercontent.com/6137112/83744493-7f3b0d80-a65c-11ea-9daf-ff14888f6028.png)
 
-## Improving the input accessibility
+## Improving input accessibility
 
-To improve the `input` control, we can wrap it in a `form` and apply the form props given by Autocomplete:
+To improve the `input` control, you can wrap it in a `form` and apply the form props given by Autocomplete:
 
-```js
+```jsx title="Autocomplete.jsx"
 function Autocomplete() {
   // ...
   const inputRef = React.useRef(null);
@@ -157,11 +158,11 @@ function Autocomplete() {
 }
 ```
 
-`getFormProps` will handle submit and reset events and will respectively blur and focus the input when these events happen. You need to pass the `inputElement` to `getFormProps` to leverage this functionality.
+The `getFormProps` prop getter handles submit and reset events. It also respectively blurs and focuses the input when these events happen. You need to pass the `inputElement` when calling `getFormProps` to leverage this functionality.
 
-You can add a label that represents the input:
+You can also add a label that represents the input and use the `getLabelProps` prop getter:
 
-```js
+```jsx title="Autocomplete.jsx"
 function Autocomplete() {
   // ...
   const inputRef = React.useRef(null);
@@ -191,9 +192,9 @@ function Autocomplete() {
 }
 ```
 
-A good practice for search inputs is to display a reset button. You can conditionally display it based on if there's a query.
+Another good practice for search inputs is to display a reset button. You can conditionally display it based on if there's a query.
 
-```js
+```jsx title="Autocomplete.jsx"
 function Autocomplete() {
   // ...
 
@@ -229,9 +230,9 @@ function Autocomplete() {
 
 ## Reacting to the network
 
-You can display UI hints when the network is unstable, which can help users understand why results are not updating in real time.
+Displaying UI hints when the network is unstable helps users understand why results are not updating in real time. You can rely on the [`status`](state/#status) to determine this:
 
-```js
+```jsx title="Autocomplete.jsx"
 function Autocomplete() {
   // ...
 
@@ -258,21 +259,21 @@ function Autocomplete() {
 }
 ```
 
-You could for example create a `.aa-Panel--stalled` CSS class that lowers the opacity to hint users that the search is currently stuck.
+You could, for example, create a `.aa-Panel--stalled` CSS class that lowers items' opacity. This convention hints that search is currently stuck or unavailable.
 
 ![Image](https://user-images.githubusercontent.com/6137112/83759558-034cbf80-a674-11ea-86ca-6728b4c2d6f7.png)
 
-You can learn more about what's available in the [state](state).
+You can learn more about other state properties in the [state documentation](state).
 
-## Enabling a native mobile experience
+## Mirroring a native mobile experience
 
-Native platforms offer better primitive for mobile search experiences than the web. Autocomplete aims at providing this extra layer for the web mobile experience to be as close as the native mobile experience.
+Native platforms offer better primitives for mobile search experiences. Autocomplete aims at providing these capabilities so that the web mobile experience is closer to the the native mobile experience.
 
-A common feature in mobile native experiences is to close the virtual keyboard when the user starts scrolling. This makes the results more discoverable, without the user having to manually close the keyboard
+A common feature in mobile native experiences is to close the virtual keyboard when the user starts scrolling. This makes the results more discoverable without the user having to manually close the keyboard.
 
-The `getEnvironmentProps` method returns event handlers that let you create this experience.
+The `getEnvironmentProps` method returns event handlers that let you create this experience:
 
-```js
+```jsx title="Autocomplete.jsx"
 function Autocomplete() {
   // ...
 
@@ -331,8 +332,8 @@ function Autocomplete() {
 }
 ```
 
-Users will now feel a little bit closer to what they're used to on mobile apps.
+This way, users feel a bit closer to what they're used to on mobile apps.
 
----
+## Help and discussion
 
-You now have enough knowledge to build your own experience based on Autocomplete. If you feel like some topics weren't covered in this page, feel free to [open an issue](https://github.com/algolia/autocomplete.js/issues/new).
+You now have enough knowledge to build your own experience based on Autocomplete. If you find that some topics weren't covered, feel free to [open an issue](https://github.com/algolia/autocomplete.js/issues/new).
