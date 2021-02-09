@@ -228,7 +228,26 @@ Though the default Insights plugin doesn't send any conversion events, you may w
 
 ![Autocomplete with add to cart button](/img/add-to-cart.jpg)
 
-If a user adds an item to their shopping cart directly from the autocomplete, you can send a conversion event from your template:
+If a user adds an item to their shopping cart directly from the autocomplete, you can send a conversion event from your template. This is possible since the Insights plugin stores the Insights client in [context](context). You can pass it to your templates like this:
+
+```js title="index.js"
+autocomplete({
+  // ...
+  plugins: [algoliaInsightsPlugin],
+  templates: {
+    item({ item, state }) {
+      return (
+        <ProductItem
+          hit={item}
+          insights={state.context.algoliaInsightsPlugin.insights}
+        />
+      );
+    },
+  },
+});
+```
+
+Once available to your templates, you can use it to send events using [Insights client methods](https://www.algolia.com/doc/api-client/methods/insights/). In this example, clicking the "Add to cart button" fires the [`convertedObjectIDsAfterSearch`](https://www.algolia.com/doc/api-reference/api-methods/converted-object-ids-after-search/) method, sending a conversion event.
 
 ```jsx title="ProductItem.jsx"
 function ProductItem({ hit, insights }) {
@@ -282,7 +301,7 @@ function ProductItem({ hit, insights }) {
 }
 ```
 
-This is possible since the plugin stores the Insights API in [Context](context). Using it, you can send events from a [template](templates). For more information on the methods and event types you can send using the Insights API, consult the [Algolia Insights documentation](https://www.algolia.com/doc/api-client/methods/insights/).
+For more information on the methods and event types you can send using the Insights API, consult the [Algolia Insights documentation](https://www.algolia.com/doc/api-client/methods/insights/).
 ## Validating events
 
 To ensure that you're sending events as you expect, you can check your [Algolia Insights logs](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/validating-events/#insights-api-logs) or work with the [Insights Validator Chrome extension](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/validating-events/#insights-validator-chrome-extension). Check out the [guide on validating events](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/validating-events/) for more details.
