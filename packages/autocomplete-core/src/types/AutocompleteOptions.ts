@@ -123,13 +123,6 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    */
   onReset?(params: OnResetParams<TItem>): void;
   /**
-   * The function called when the input changes.
-   *
-   * This turns the experience in controlled mode, leaving you in charge of
-   * updating the state.
-   */
-  onInput?(params: OnInputParams<TItem>): void;
-  /**
    * The array of plugins.
    */
   plugins?: Array<AutocompletePlugin<TItem, unknown>>;
