@@ -5,7 +5,7 @@ title: Creating a Renderer
 
 Learn how to build an autocomplete UI using React.
 
-The [`autocomplete-js`](autocomplete-js) package includes everything you need to render a vanilla JavaScript autocomplete experience. If you want to build a custom renderer, say in [React](https://reactjs.org/docs/getting-started.html) or another front-end framework, the [`autocomplete-core`](createAutocomplete) package provides all the primitives to build it.
+The [`autocomplete-js`](autocomplete-js) package includes everything you need to render a JavaScript autocomplete experience that you can bind to [your own framework](autocomplete-js#renderer). If you want to build a custom UI that differs from the `autocomplete-js` output, for example in [React](https://reactjs.org/docs/getting-started.html) or another front-end framework, the [`autocomplete-core`](createAutocomplete) package provides all the primitives to build it.
 
 This guide shows how to leverage all the autocomplete capacities to build an accessible autocomplete, both for desktop and mobile, with React. You can find the final result in [this sandbox](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/react-renderer?file=/src/Autocomplete.tsx).
 
@@ -129,7 +129,7 @@ function Autocomplete() {
 }
 ```
 
-The above code demonstrates that you don't need to worry about keyboard events, or tracking which item is highlighted. Autocomplete handles this under the hood with its prop getters.
+The above code demonstrates that you don't need to worry about keyboard events, or tracking which item is active. Autocomplete handles this under the hood with its prop getters.
 
 At this point, you should already have a usable autocomplete input:
 
