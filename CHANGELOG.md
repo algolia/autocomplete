@@ -1,3 +1,14 @@
+# [1.0.0-alpha.42](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.41...v1.0.0-alpha.42) (2021-02-09)
+
+### Bug Fixes
+
+- **core:** rename `shouldPanelShow` to `shouldPanelOpen` ([c442884](https://github.com/algolia/autocomplete.js/commit/c442884c99535939acef1309a6eff99d3358399b))
+- **js:** change highlighted element `key` to index ([d4d0348](https://github.com/algolia/autocomplete.js/commit/d4d03486fb72397644abd66e16dff879767f2a8d))
+
+### Features
+
+- **core:** remove `onInput` option ([#437](https://github.com/algolia/autocomplete.js/issues/437)) ([3827605](https://github.com/algolia/autocomplete.js/commit/38276059f30c9e99a09be5764ba90cd79f9963da))
+
 # [1.0.0-alpha.41](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.40...v1.0.0-alpha.41) (2021-02-09)
 
 ### Bug Fixes

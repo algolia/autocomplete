@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-plugin-query-suggestions",
   "description": "A plugin to add query suggestions to Algolia Autocomplete.",
-  "version": "1.0.0-alpha.41",
+  "version": "1.0.0-alpha.42",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete.js",
   "repository": "algolia/autocomplete.js",
@@ -31,9 +31,9 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@algolia/autocomplete-core": "1.0.0-alpha.41",
-    "@algolia/autocomplete-js": "1.0.0-alpha.41",
-    "@algolia/autocomplete-preset-algolia": "1.0.0-alpha.41"
+    "@algolia/autocomplete-core": "1.0.0-alpha.42",
+    "@algolia/autocomplete-js": "1.0.0-alpha.42",
+    "@algolia/autocomplete-preset-algolia": "1.0.0-alpha.42"
   },
   "devDependencies": {
     "@algolia/client-search": "4.8.3",
