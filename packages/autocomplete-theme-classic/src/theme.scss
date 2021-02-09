@@ -300,12 +300,15 @@ body {
     }
   }
   // wrap hit with url but we don't need to see it
+  .aa-ItemWrapper,
   .aa-ItemLink {
     align-items: center;
-    color: inherit;
     display: flex;
-    text-decoration: none;
     width: 100%;
+  }
+  .aa-ItemLink {
+    color: inherit;
+    text-decoration: none;
   }
   // the result type icon inlined svg or img
   .aa-ItemIcon {
