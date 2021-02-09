@@ -154,6 +154,18 @@ export function renderPanel<TItem extends BaseItem>(
           })}
         </ul>
       )}
+
+      {source.templates.footer && (
+        <div className={classNames.sourceFooter}>
+          {source.templates.footer({
+            createElement,
+            Fragment,
+            items,
+            source,
+            state,
+          })}
+        </div>
+      )}
     </section>
   ));
 
