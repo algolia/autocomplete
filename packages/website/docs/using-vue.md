@@ -12,7 +12,7 @@ This guide shows how to embed an autocomplete with [recent searches](adding-rece
 ## Prerequisites
 
 This tutorial assumes that you have:
-- an existing [Vue application](https://v3.vuejs.org/) where you want to implement the autocomplete dropdown
+- an existing [Vue (v3) application](https://v3.vuejs.org/) where you want to implement the autocomplete dropdown
 - familiarity with the [basic Autocomplete configuration options](basic-options)
 
 ## Getting started
