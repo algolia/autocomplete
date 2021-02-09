@@ -7,6 +7,7 @@ import {
 import { MaybePromise } from '@algolia/autocomplete-shared';
 
 import { AutocompleteClassNames } from './AutocompleteClassNames';
+import { AutocompletePlugin } from './AutocompletePlugin';
 import { AutocompletePropGetters } from './AutocompletePropGetters';
 import { AutocompleteRender } from './AutocompleteRender';
 import { AutocompleteRenderer } from './AutocompleteRenderer';
@@ -71,4 +72,5 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * Custom renderer.
    */
   renderer?: AutocompleteRenderer;
+  plugins?: Array<AutocompletePlugin<TItem, unknown>>;
 }
