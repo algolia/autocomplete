@@ -228,7 +228,7 @@ Though the default Insights plugin doesn't send any conversion events, you may w
 
 ![Autocomplete with add to cart button](/img/add-to-cart.jpg)
 
-If a user adds an item to their shopping cart directly from the autocomplete, you can send a conversion event directly from your template:
+If a user adds an item to their shopping cart directly from the autocomplete, you can send a conversion event from your template:
 
 ```jsx title="ProductItem.jsx"
 function ProductItem({ hit, insights }) {
@@ -239,22 +239,13 @@ function ProductItem({ hit, insights }) {
       </div>
       <div className="aa-ItemContent">
         <div className="aa-ItemContentTitle">
-          {snippetHit<ProductHit>({ hit, attribute: 'name' })}
+          {snippetHit({ hit, attribute: 'name' })}
         </div>
         <div className="aa-ItemContentDescription">
-          {snippetHit<ProductHit>({ hit, attribute: 'description' })}
+          {snippetHit({ hit, attribute: 'description' })}
         </div>
       </div>
       <div className="aa-ItemActions">
-        <button
-          className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
-          type="button"
-          title="Select"
-        >
-          <svg fill="currentColor" viewBox="0 0 24 24" width="20" height="20">
-            <path d="M18.984 6.984h2.016v6h-15.188l3.609 3.609-1.406 1.406-6-6 6-6 1.406 1.406-3.609 3.609h13.172v-4.031z"></path>
-          </svg>
-        </button>
         <button
           className="aa-ItemActionButton"
           type="button"
@@ -262,7 +253,6 @@ function ProductItem({ hit, insights }) {
           onClick={(event) => {
             event.preventDefault();
             event.stopPropagation();
-
             insights.convertedObjectIDsAfterSearch({
               eventName: 'Added to cart',
               index: hit.__autocomplete_indexName,
@@ -272,17 +262,17 @@ function ProductItem({ hit, insights }) {
           }}
         >
           <svg
-            fill="none"
             viewBox="0 0 24 24"
-            stroke="currentColor"
             width="20"
             height="20"
+            fill="none"
+            stroke="currentColor"
           >
             <path
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
-              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
             />
           </svg>
         </button>
@@ -292,7 +282,7 @@ function ProductItem({ hit, insights }) {
 }
 ```
 
-This is possible since the Insights client is stored in [Context](context). Using it, you can build sending events into a [template](templates). For more information on the methods and event types you can send using the Insights client, consult the [Algolia Insights documenation](https://www.algolia.com/doc/api-client/methods/insights/).
+This is possible since the plugin stores the Insights API in [Context](context). Using it, you can send events from a [template](templates). For more information on the methods and event types you can send using the Insights API, consult the [Algolia Insights documentation](https://www.algolia.com/doc/api-client/methods/insights/).
 ## Validating events
 
 To ensure that you're sending events as you expect, you can check your [Algolia Insights logs](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/validating-events/#insights-api-logs) or work with the [Insights Validator Chrome extension](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/validating-events/#insights-validator-chrome-extension). Check out the [guide on validating events](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/validating-events/) for more details.
