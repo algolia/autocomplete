@@ -7,7 +7,7 @@ Learn about browser-based debugging strategies for Autocomplete.
 
 ## Using `debug` mode to inspect panel elements
 
-Setting the [`debug`](autocomplete-js/#debug) option to `true` keeps the panel open when inspecting elements in your browser DevTools. This option defaults to `false`, meaning that the autocomplete panel closes when the [blur event ](https://developer.mozilla.org/en-US/docs/Web/API/Element/blur_event)occurs. You should only use this option during development.
+Setting the [`debug`](autocomplete-js/#debug) option to `true` keeps the panel open when inspecting elements in your browser DevTools. This option defaults to `false`, meaning that the autocomplete panel closes when the [blur event](https://developer.mozilla.org/en-US/docs/Web/API/Element/blur_event) occurs. You should only use this option during development.
 
 ## Emulating a focused page in Chrome DevTools
 
