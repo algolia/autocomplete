@@ -36,17 +36,6 @@ export function onInput<TItem extends BaseItem>({
   store,
   ...setters
 }: OnInputParams<TItem>): Promise<void> {
-  if (props.onInput) {
-    return Promise.resolve(
-      props.onInput({
-        query,
-        refresh,
-        state: store.getState(),
-        ...setters,
-      })
-    );
-  }
-
   if (lastStalledId) {
     props.environment.clearTimeout(lastStalledId);
   }
