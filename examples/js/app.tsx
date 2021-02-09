@@ -52,8 +52,9 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
-  debug: true,
+  //debug: true,
   openOnFocus: true,
+  touchMediaQuery: '(max-width: 500px)',
   plugins: [
     shortcutsPlugin,
     algoliaInsightsPlugin,
