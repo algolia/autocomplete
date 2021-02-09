@@ -211,12 +211,13 @@ body {
       box-shadow: var(--aa-panel-shadow);
       margin-top: var(--aa-spacing-half);
       border-radius: 3px;
-      overflow-x: hidden;
-      overflow-y: scroll;
+      overflow-y: auto;
       height: 100%;
       max-height: 500px;
+
       .aa-PanelLayoutResults {
-        overflow-y: scroll;
+        overflow-x: hidden;
+        overflow-y: auto;
         width: 50%;
       }
       .aa-PanelLayoutPreview {
@@ -371,7 +372,7 @@ body {
     .aa-ItemContentTitle {
       display: inline-block;
       max-width: 100%;
-      overflow-x: hidden;
+      overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
@@ -487,7 +488,8 @@ body {
   background: var(--aa-background-color);
   bottom: 0;
   left: 0;
-  padding: var(--aa-spacing-half) 0 var(--aa-spacing-half) var(--aa-spacing-half);
+  padding: var(--aa-spacing-half) 0 var(--aa-spacing-half)
+    var(--aa-spacing-half);
   position: fixed;
   right: 0;
   top: 0;
