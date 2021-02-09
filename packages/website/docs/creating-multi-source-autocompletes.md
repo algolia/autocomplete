@@ -1,6 +1,6 @@
 ---
-id: combining-multiple-result-types
-title: Combining multiple result types
+id: including-multiple-result-types
+title: Including multiple result types
 ---
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';

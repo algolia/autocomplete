@@ -184,7 +184,7 @@ const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
 
 ### Sending different events for different result types
 
-If you're [using multiple different Algolia indices in the same autocomplete](combining-multiple-result-types), for example one for products and one for suggestions, you may want to use different `eventName`s for each section. You can change this (and other parts of the event) conditionally based on the source index name:
+If you're [using multiple different Algolia indices in the same autocomplete](including-multiple-result-types), for example one for products and one for suggestions, you may want to use different `eventName`s for each section. You can change this (and other parts of the event) conditionally based on the source index name:
 
 ```js title="index.js"
 const appId = "latency";

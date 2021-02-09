@@ -16,7 +16,7 @@ module.exports = {
     Guides: [
       'adding-suggested-searches',
       'adding-recent-searches',
-      'combining-multiple-result-types',
+      'including-multiple-result-types',
       'changing-behavior-based-on-query',
       'sending-algolia-insights-events',
       'creating-a-renderer',
