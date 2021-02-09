@@ -47,8 +47,8 @@ export function autocomplete<TItem extends BaseItem>(
         onStateChangeRef.current?.(options as any);
         props.value.core.onStateChange?.(options as any);
       },
-      shouldPanelShow:
-        optionsRef.current.shouldPanelShow ||
+      shouldPanelOpen:
+        optionsRef.current.shouldPanelOpen ||
         (({ state }) => {
           const hasItems = getItemsCount(state) > 0;
 

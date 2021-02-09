@@ -70,7 +70,7 @@ Navigator API to redirect the user when a link should be opened.
 
 Learn more on the [Navigator API](/docs/keyboard-navigation) documentation.
 
-### `shouldPanelShow`
+### `shouldPanelOpen`
 
 > `(params: { state: AutocompleteState }) => boolean`
 

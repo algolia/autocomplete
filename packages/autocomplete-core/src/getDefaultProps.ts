@@ -26,7 +26,7 @@ export function getDefaultProps<TItem extends BaseItem>(
     defaultActiveItemId: null,
     stallThreshold: 300,
     environment,
-    shouldPanelShow: ({ state }) => getItemsCount(state) > 0,
+    shouldPanelOpen: ({ state }) => getItemsCount(state) > 0,
     ...props,
     // Since `generateAutocompleteId` triggers a side effect (it increments
     // and internal counter), we don't want to execute it if unnecessary.

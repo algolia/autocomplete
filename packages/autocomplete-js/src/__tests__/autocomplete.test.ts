@@ -377,7 +377,7 @@ describe('autocomplete-js', () => {
     });
   });
 
-  test('allows user-provided shouldPanelShow', () => {
+  test('allows user-provided shouldPanelOpen', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -385,7 +385,7 @@ describe('autocomplete-js', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
-      shouldPanelShow: () => false,
+      shouldPanelOpen: () => false,
       getSources() {
         return [
           {

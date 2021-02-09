@@ -60,7 +60,7 @@ export function onInput<TItem extends BaseItem>({
       }))
     );
     setIsOpen(
-      nextState.isOpen ?? props.shouldPanelShow({ state: store.getState() })
+      nextState.isOpen ?? props.shouldPanelOpen({ state: store.getState() })
     );
 
     return Promise.resolve();
@@ -107,12 +107,12 @@ export function onInput<TItem extends BaseItem>({
         .then((collections) => {
           setStatus('idle');
           setCollections(collections as any);
+          const isPanelOpen = props.shouldPanelOpen({
+            state: store.getState(),
+          });
           setIsOpen(
             nextState.isOpen ??
-              ((props.openOnFocus &&
-                !query &&
-                props.shouldPanelShow({ state: store.getState() })) ||
-                props.shouldPanelShow({ state: store.getState() }))
+              ((props.openOnFocus && !query && isPanelOpen) || isPanelOpen)
           );
 
           const highlightedItem = getActiveItem(store.getState());
