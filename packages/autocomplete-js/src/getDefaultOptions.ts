@@ -15,6 +15,12 @@ import {
 import { getHTMLElement, mergeClassNames } from './utils';
 
 const defaultClassNames: AutocompleteClassNames = {
+  detachedCancelButton: 'aa-TouchCancelButton',
+  detachedFormContainer: 'aa-TouchFormContainer',
+  detachedOverlay: 'aa-TouchOverlay',
+  detachedSearchButton: 'aa-TouchSearchButton',
+  detachedSearchButtonIcon: 'aa-TouchSearchButtonIcon',
+  detachedSearchButtonPlaceholder: 'aa-TouchSearchButtonPlaceholder',
   form: 'aa-Form',
   input: 'aa-Input',
   inputWrapper: 'aa-InputWrapper',
@@ -33,12 +39,6 @@ const defaultClassNames: AutocompleteClassNames = {
   sourceHeader: 'aa-SourceHeader',
   sourceEmpty: 'aa-SourceEmpty',
   submitButton: 'aa-SubmitButton',
-  touchCancelButton: 'aa-TouchCancelButton',
-  touchFormContainer: 'aa-TouchFormContainer',
-  touchOverlay: 'aa-TouchOverlay',
-  touchSearchButton: 'aa-TouchSearchButton',
-  touchSearchButtonIcon: 'aa-TouchSearchButtonIcon',
-  touchSearchButtonPlaceholder: 'aa-TouchSearchButtonPlaceholder',
 };
 
 const defaultRender: AutocompleteRender<any> = ({ children }, root) => {
@@ -69,7 +69,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
     render,
     renderEmpty,
     renderer,
-    touchMediaQuery,
+    detachedMediaQuery,
     ...core
   } = options;
 
@@ -102,7 +102,8 @@ export function getDefaultOptions<TItem extends BaseItem>(
       render: render ?? defaultRender,
       renderEmpty,
       renderer: renderer ?? defaultRenderer,
-      touchMediaQuery: touchMediaQuery ?? '(hover: none) and (pointer: coarse)',
+      detachedMediaQuery:
+        detachedMediaQuery ?? '(hover: none) and (pointer: coarse)',
     },
     core,
   };

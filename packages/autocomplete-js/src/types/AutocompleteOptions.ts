@@ -38,12 +38,12 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    */
   panelContainer?: string | HTMLElement;
   /**
-   * The Media Query to turn Autocomplete into a touch experience.
+   * The Media Query to turn Autocomplete into a detached experience.
    *
    * @default "(hover: none) and (pointer: coarse)"
    * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries
    */
-  touchMediaQuery?: string;
+  detachedMediaQuery?: string;
   getSources?: (
     params: GetSourcesParams<TItem>
   ) => MaybePromise<Array<AutocompleteSource<TItem>>>;

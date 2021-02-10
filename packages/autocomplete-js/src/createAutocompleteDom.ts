@@ -18,29 +18,30 @@ type CreateDomProps<TItem extends BaseItem> = {
   autocomplete: AutocompleteCoreApi<TItem>;
   autocompleteScopeApi: AutocompleteScopeApi<TItem>;
   classNames: AutocompleteClassNames;
-  isTouch: boolean;
+  isDetached: boolean;
   placeholder?: string;
   propGetters: AutocompletePropGetters<TItem>;
   state: AutocompleteState<TItem>;
 };
 
 type CreateAutocompleteDomReturn = AutocompleteDom & {
-  openTouchOverlay(): void;
+  openDetachedOverlay(): void;
 };
 
 export function createAutocompleteDom<TItem extends BaseItem>({
   autocomplete,
   autocompleteScopeApi,
   classNames,
-  isTouch,
+  isDetached,
   placeholder = 'Search',
   propGetters,
   state,
 }: CreateDomProps<TItem>): CreateAutocompleteDomReturn {
-  function onTouchOverlayClose() {
+  function onDetachedOverlayClose() {
     autocomplete.setQuery('');
     autocomplete.setIsOpen(false);
     autocomplete.refresh();
+    document.body.classList.remove('aa-Detached');
   }
 
   const rootProps = propGetters.getRootProps({
@@ -52,8 +53,8 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     class: classNames.root,
     ...rootProps,
   });
-  const touchOverlay = createDomElement('div', {
-    class: classNames.touchOverlay,
+  const detachedOverlay = createDomElement('div', {
+    class: classNames.detachedOverlay,
   });
 
   const labelProps = propGetters.getLabelProps({
@@ -87,10 +88,10 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     getInputProps: propGetters.getInputProps,
     getInputPropsCore: autocomplete.getInputProps,
     autocompleteScopeApi,
-    onTouchEscape: isTouch
+    onDetachedEscape: isDetached
       ? () => {
-          document.body.removeChild(touchOverlay);
-          onTouchOverlayClose();
+          document.body.removeChild(detachedOverlay);
+          onDetachedOverlayClose();
         }
       : undefined,
   });
@@ -134,51 +135,51 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     });
   }
 
-  function openTouchOverlay() {
-    document.body.appendChild(touchOverlay);
+  function openDetachedOverlay() {
+    document.body.appendChild(detachedOverlay);
+    document.body.classList.add('aa-Detached');
     input.focus();
   }
 
-  if (isTouch) {
-    const touchSearchButtonIcon = createDomElement('div', {
-      class: classNames.touchSearchButtonIcon,
+  if (isDetached) {
+    const detachedSearchButtonIcon = createDomElement('div', {
+      class: classNames.detachedSearchButtonIcon,
       children: [SearchIcon({})],
     });
-    const touchSearchButtonPlaceholder = createDomElement('div', {
-      class: classNames.touchSearchButtonPlaceholder,
+    const detachedSearchButtonPlaceholder = createDomElement('div', {
+      class: classNames.detachedSearchButtonPlaceholder,
       textContent: placeholder,
     });
-    const touchSearchButton = createDomElement('button', {
-      class: classNames.touchSearchButton,
+    const detachedSearchButton = createDomElement('button', {
+      class: classNames.detachedSearchButton,
       onClick(event: MouseEvent) {
         event.preventDefault();
-        document.body.appendChild(touchOverlay);
-        input.focus();
+        openDetachedOverlay();
       },
-      children: [touchSearchButtonIcon, touchSearchButtonPlaceholder],
+      children: [detachedSearchButtonIcon, detachedSearchButtonPlaceholder],
     });
-    const touchCancelButton = createDomElement('button', {
-      class: classNames.touchCancelButton,
+    const detachedCancelButton = createDomElement('button', {
+      class: classNames.detachedCancelButton,
       textContent: 'Cancel',
       onClick() {
-        document.body.removeChild(touchOverlay);
-        onTouchOverlayClose();
+        document.body.removeChild(detachedOverlay);
+        onDetachedOverlayClose();
       },
     });
-    const touchFormContainer = createDomElement('div', {
-      class: classNames.touchFormContainer,
-      children: [form, touchCancelButton],
+    const detachedFormContainer = createDomElement('div', {
+      class: classNames.detachedFormContainer,
+      children: [form, detachedCancelButton],
     });
 
-    touchOverlay.appendChild(touchFormContainer);
-    root.appendChild(touchSearchButton);
+    detachedOverlay.appendChild(detachedFormContainer);
+    root.appendChild(detachedSearchButton);
   } else {
     root.appendChild(form);
   }
 
   return {
-    openTouchOverlay,
-    touchOverlay,
+    openDetachedOverlay,
+    detachedOverlay,
     inputWrapper,
     input,
     root,
