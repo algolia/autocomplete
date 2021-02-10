@@ -19,7 +19,7 @@ This tutorial assumes that you have:
 
 Begin by adding a container for your autocomplete menu. This example adds a `div` with `autocomplete` as an [`id`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id).
 
-```vue title="App.vue"
+```html title="App.vue"
 <template>
   <div className="app-container">
     <h1>Vue Application</h1>

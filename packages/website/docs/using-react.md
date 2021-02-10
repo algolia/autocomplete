@@ -3,14 +3,14 @@ id: using-react
 title: Using Autocomplete with React
 ---
 
-Learn how to create and use an React Autocomplete component.
+Learn how to create and use a React Autocomplete component.
 
 This guide shows how to create a React Autocomplete component. It uses the [`useRef`](https://reactjs.org/docs/hooks-reference.html#useref) and [`useEffect`](https://reactjs.org/docs/hooks-reference.html#useeffect) hooks to create and mount the component. It doesn't define specific [sources](sources). Rather, you can pass [sources](sources) and other [options](basic-options) as [props](https://reactjs.org/docs/components-and-props.html).
 
 ## Prerequisites
 
 This tutorial assumes that you have:
-- an existing [React (v 16.8+) application](https://reactjs.org/docs/getting-started.html) where you want to implement the autocomplete dropdown
+- an existing [React (v16.8+) application](https://reactjs.org/docs/getting-started.html) where you want to implement the autocomplete dropdown
 - familiarity with the [basic Autocomplete configuration options](basic-options)
 
 ## Creating the component
@@ -63,7 +63,6 @@ export function Autocomplete(props) {
 
     const search = autocomplete({
       container: containerRef.current,
-      placeholder: 'Search',
       renderer: { createElement, Fragment },
       render({ children }, root) {
         render(children, root);
@@ -96,9 +95,9 @@ The  Autocomplete library provides the [`createLocalStorageRecentSearchesPlugin`
 
 The `key` can be any string and is required to differentiate search histories if you have multiple autocompletes on one page. The `limit` defines the maximum number of recent searches to display.
 
-```js title=App.js"
+```jsx title=App.jsx"
 import React from 'react';
-import { Autocomplete } from '/components/Autocomplete';
+import { Autocomplete } from './components/Autocomplete';
 import { createLocalStorageRecentSearchesPlugin } from 'autocomplete-plugin-recent-searches';
 
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
