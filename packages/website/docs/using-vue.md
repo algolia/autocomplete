@@ -5,14 +5,14 @@ title: Using Autocomplete with Vue
 
 Learn how to embed Autocomplete into a Vue application.
 
-You can integrate an autocomplete instance into a Vue application using [Vue's Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html#why-composition-api). Specifically you can instantiate an Autocomplete instance in the [`onMounted`](https://v3.vuejs.org/api/composition-api.html#lifecycle-hooks) lifecycle hook in the [`setup`](https://v3.vuejs.org/guide/composition-api-setup.html) function.
+You can integrate an Autocomplete instance into a Vue application using [Vue's Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html#why-composition-api). Specifically you can instantiate an Autocomplete instance in the [`onMounted`](https://v3.vuejs.org/api/composition-api.html#lifecycle-hooks) lifecycle hook in the [`setup`](https://v3.vuejs.org/guide/composition-api-setup.html) function.
 
 This guide shows how to embed an autocomplete with [recent searches](adding-recent-searches) into a Vue application. Though it uses the [recent searches plugin](adding-recent-searches) for the [source](sources) of items, you could use any other source or sources you like.
 
 ## Prerequisites
 
 This tutorial assumes that you have:
-- an existing [Vue (v3) application](https://v3.vuejs.org/) where you want to implement the autocomplete dropdown
+- an existing [Vue (v3) application](https://v3.vuejs.org/) where you want to implement the autocomplete menu
 - familiarity with the [basic Autocomplete configuration options](basic-options)
 
 ## Getting started
@@ -85,7 +85,7 @@ export default {
 
 ## Mounting the autocomplete
 
-Now that your [source](sources) is ready, you can instantiate and mount your autocomplete instance. Doing so requires passing the `renderer` and `render` parameters.
+Now that your [source](sources) is ready, you can instantiate and mount your Autocomplete instance. Doing so requires passing the `renderer` and `render` parameters.
 
 ```vue title="App.vue"
 <template>
