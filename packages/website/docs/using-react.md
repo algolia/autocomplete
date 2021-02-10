@@ -42,9 +42,11 @@ export function Autocomplete(props) {
 
 ### Mounting the autocomplete
 
-Now that you have access to the DOM through the `containerRef` object, you can create and mount the Autocomplete instance.
+Now that you have access to the DOM through the `containerRef` object, you can create and mount the Autocomplete instance. Upon instantiation, you can include any desired [Autocomplete options](basic-options) and rely on `props` to pass any options you want to remain configurable.
 
-You can use the same [Autocomplete options](basic-options), but you must also pass the `renderer` and `render` parameters. You can rely on `props` to pass any Autocomplete options you want to remain configurable.
+The example component below sets only the [`container`](autocomplete-js/#container) option. It specifies where to mount your Autocomplete component, but lets all other [options](basic-options) get configured through props.
+
+**You must also pass the `renderer` and `render` parameters.** This is because the default Autocomplete implementation uses [Preact's](https://preactjs.com/) version of `createElement`, `Fragment` and `render`. Without providing React's version of these, the Autocomplete instance won't render the views properly.
 
 Don't forget to [clean up the effect](https://reactjs.org/docs/hooks-reference.html#cleaning-up-an-effect) by returning a function that destroys the Autocomplete instance.
 
@@ -87,9 +89,9 @@ export function Autocomplete(props) {
 
 Now that you've created an `<Autocomplete/>` component, you can use it in your React application.
 
-The example component sets only the [`container`](autocomplete-js/#container) option. It specifies where to mount your Autocomplete component, but lets all other [options](basic-options) get configured through props.
+As previously state, the example component sets only the [`container`](autocomplete-js/#container) option, but lets all other [options](basic-options) get configured through props.
 
-The example below sets [`openOnFocus`](autocomplete-js#openonfocus) and [sources](sources) through props. This example uses an [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) as a [source](sources), but you could use anything else you want, including [plugins](plugins). For more information on using Algolia as a source, check out the [Getting Started guide](getting-started).
+The usage below sets [`openOnFocus`](autocomplete-js#openonfocus) and [sources](sources) through props. This example uses an [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) as a [source](sources), but you could use anything else you want, including [plugins](plugins). For more information on using Algolia as a source, check out the [Getting Started guide](getting-started).
 
 
 ```jsx title=App.jsx"
