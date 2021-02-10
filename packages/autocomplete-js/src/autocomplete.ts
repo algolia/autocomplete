@@ -36,6 +36,24 @@ export function autocomplete<TItem extends BaseItem>(
     AutocompleteOptions<TItem>['onStateChange']
   >(undefined);
   const props = reactive(() => getDefaultOptions(optionsRef.current));
+  const isTouch = reactive(
+    () => window.matchMedia(props.value.renderer.touchMediaQuery).matches
+  );
+  const shouldPanelOpen =
+    optionsRef.current.shouldPanelOpen ||
+    (({ state }) => {
+      const hasItems = getItemsCount(state) > 0;
+
+      if (!props.value.core.openOnFocus && !state.query) {
+        return hasItems;
+      }
+
+      const hasEmptyTemplate = Boolean(
+        hasEmptySourceTemplateRef.current || props.value.renderer.renderEmpty
+      );
+
+      return (!hasItems && hasEmptyTemplate) || hasItems;
+    });
   const autocomplete = reactive(() =>
     createAutocomplete<TItem>({
       ...props.value.core,
@@ -47,22 +65,7 @@ export function autocomplete<TItem extends BaseItem>(
         onStateChangeRef.current?.(options as any);
         props.value.core.onStateChange?.(options as any);
       },
-      shouldPanelOpen:
-        optionsRef.current.shouldPanelOpen ||
-        (({ state }) => {
-          const hasItems = getItemsCount(state) > 0;
-
-          if (!props.value.core.openOnFocus && !state.query) {
-            return hasItems;
-          }
-
-          const hasEmptyTemplate = Boolean(
-            hasEmptySourceTemplateRef.current ||
-              props.value.renderer.renderEmpty
-          );
-
-          return (!hasItems && hasEmptyTemplate) || hasItems;
-        }),
+      shouldPanelOpen: isTouch ? () => true : shouldPanelOpen,
     })
   );
   const lastStateRef = createRef<AutocompleteState<TItem>>({
@@ -75,10 +78,6 @@ export function autocomplete<TItem extends BaseItem>(
     status: 'idle',
     ...props.value.core.initialState,
   });
-
-  const isTouch = reactive(
-    () => window.matchMedia(props.value.renderer.touchMediaQuery).matches
-  );
 
   const propGetters: AutocompletePropGetters<TItem> = {
     getEnvironmentProps: props.value.renderer.getEnvironmentProps,
