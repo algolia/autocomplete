@@ -466,9 +466,10 @@ body {
   padding: 0 var(--aa-spacing-half);
   position: relative;
   text-align: left;
+  width: 100%;
   .aa-DetachedSearchButtonIcon {
     align-items: center;
-    color: var(--aa-icon-color);
+    color: var(--aa-primary-color);
     cursor: initial;
     display: flex;
     height: 100%;
