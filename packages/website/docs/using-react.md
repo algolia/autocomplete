@@ -89,7 +89,7 @@ Now that you've created an `<Autocomplete/>` component, you can use it in your R
 
 The example component sets only the [`container`](autocomplete-js/#container) option. It specifies where to mount your Autocomplete component, but lets all other [options](basic-options) get configured through props.
 
-The example below sets [`openOnFocus`](autocomplete-js#openonfocus) and [sources](sources) through props. This example uses an Algolia index as a [source](sources), but you could use anything else you want.
+The example below sets [`openOnFocus`](autocomplete-js#openonfocus) and [sources](sources) through props. This example uses an [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) as a [source](sources), but you could use anything else you want, including [plugins](plugins). For more information on using Algolia as a source, check out the [Getting Started guide](getting-started).
 
 
 ```jsx title=App.jsx"
@@ -141,7 +141,7 @@ export default App;
 
 ### Creating templates
 
-The example above passes `<ProductItem />`, another React component, for the `item` [template](templates). If you're using the highlighting and snippeting utilities, there's one thing to keep in mind: you must pass them React's `createElement` function. Without doing this, the utilities default to `preact.createElement` and won't work properly.
+The example above passes `<ProductItem />`, another React component, for the `item` [template](templates). When creating templates, there's one thing to keep in mind. If you're using the highlighting and snippeting utilities, you must pass them React's `createElement` function. Without doing this, the utilities default to `preact.createElement` and won't work properly.
 
 The highlighting and snippeting utilities are:
 - [`highlightHit`](highlighthit)
