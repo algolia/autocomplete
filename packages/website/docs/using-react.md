@@ -141,9 +141,15 @@ export default App;
 
 ### Creating templates
 
-The example above passes `<ProductItem />`, another React component, for the `item` [template](templates).  If you're using the highlighting and snippeting utilities ([`snippetHit`](snippethit) and [`highlightHit`](highlighthit)), you must pass them React's `createElement` function. Without doing this, the utilities refault to `preact.createElement`.
+The example above passes `<ProductItem />`, another React component, for the `item` [template](templates). If you're using the highlighting and snippeting utilities, there's one thing to keep in mind: you must pass them React's `createElement` function. Without doing this, the utilities default to `preact.createElement` and won't work properly.
 
-Here's an example of an  `item` template using [`HighlightHit`](highlighthit):
+The highlighting and snippeting utilities are:
+- [`highlightHit`](highlighthit)
+- [`snippetHit`](snippethit)
+- [`reverseHighlightHit`](reversehighlighthit)
+- [`reverseSnippetHit`](reversesnippethit)
+
+Here's an example using [`highlightHit`](highlighthit):
 
 ```jsx title="ProductItem.jsx"
 import { highlightHit } from '@algolia/autocomplete-js';

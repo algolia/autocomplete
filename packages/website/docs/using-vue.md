@@ -131,9 +131,13 @@ export default {
 
 ## Customizing templates
 
-This guide uses the recent searches plugin, which takes care of the display [templates](templates). If you want to define your own templates there are two things to keep in mind:
-- You must use Vue JSX syntax.
-- If you're using the highlighting and snippeting utilities ([`snippetHit`](snippethit) and [`highlightHit`](highlighthit)), you must pass them `createElement`.
+This guide uses the recent searches plugin, which takes care of the display [templates](templates). If you're using the highlighting and snippeting utilities, there's one thing to keep in mind: you must pass them Vue's `createElement` function. Without doing this, the utilities default to `preact.createElement` and won't work properly.
+
+The highlighting and snippeting utilities are:
+- [`highlightHit`](highlighthit)
+- [`snippetHit`](snippethit)
+- [`reverseHighlightHit`](reversehighlighthit)
+- [`reverseSnippetHit`](reversesnippethit)
 
 Here's an example of a custom `item` template using [`snippetHit`](snippethit):
 
@@ -192,6 +196,8 @@ export default {
 };
 </script>
 ```
+
+Keep in mind that you should use JSX syntax for your templates.
 
 ## Further UI customization
 
