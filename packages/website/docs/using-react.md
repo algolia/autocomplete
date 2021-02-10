@@ -87,7 +87,7 @@ export function Autocomplete(props) {
 
 Now that you've created an `<Autocomplete/>` component, you can use it in your React application.
 
-The example component sets the [`placeholder`](autocomplete-js#placeholder) and [`container`](autocomplete-js/#container) options, but lets everything else get configured through props.
+The example component sets only the [`container`](autocomplete-js/#container) option. It specifies where to mount your Autocomplete component, but lets all other [options](basic-options) get configured through props.
 
 The example below sets [`openOnFocus`](autocomplete-js#openonfocus) and [sources](sources) (via [`plugins`](plugins)) through props. This example uses [recent searches](adding-recent-searches) as a [source](sources), but you could use anything else you want.
 
