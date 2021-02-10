@@ -477,7 +477,6 @@ body {
 }
 
 .aa-TouchOverlay {
-  //backdrop-filter: blur(16px);
   background: var(--aa-background-color);
   bottom: 0;
   left: 0;
@@ -506,7 +505,7 @@ body {
   }
   .aa-Panel {
     background-color: var(--aa-background-color);
-    height: calc(100vh); // todo: compute with js
+    height: 100vh; // TODO: compute with js
     left: var(--aa-spacing-half);
     overflow-y: auto;
     padding-bottom: var(--aa-spacing);
@@ -540,6 +539,6 @@ body {
 
 @media (hover: none) and (pointer: coarse) {
   .aa-TouchOnly {
-    display: none;
+    display: none !important; // TODO: fix specificity issue
   }
 }
