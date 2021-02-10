@@ -73,6 +73,7 @@ module.exports = {
           'parseAlgoliaHitReverseSnippet',
         ],
       },
+      'autocomplete-theme-classic',
     ],
   },
 };
