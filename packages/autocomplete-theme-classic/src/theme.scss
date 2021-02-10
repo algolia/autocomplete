@@ -503,18 +503,18 @@ body {
     }
   }
   .aa-Panel {
+    background-color: var(--aa-background-color);
     height: calc(100vh); // todo: compute with js
-    right: 0;
     left: var(--aa-spacing-half);
     overflow-y: auto;
     padding-bottom: var(--aa-spacing);
     padding-right: var(--aa-spacing-half);
     padding-top: var(--aa-spacing-half);
-    background-color: var(--aa-background-color);
+    right: 0;
     .aa-PanelLayout {
       box-shadow: none;
-      max-height: none;
       margin: 0;
+      max-height: none;
       padding: 0;
     }
     .aa-Item {
