@@ -96,10 +96,10 @@ The usage below sets [`openOnFocus`](autocomplete-js#openonfocus) and [sources](
 
 ```jsx title=App.jsx"
 import React, { createElement } from 'react';
-import { Autocomplete } from './components/Autocomplete';
-import { ProductItem } from './components/ProductItem';
 import { getAlgoliaHits } from 'autocomplete-js';
 import algoliasearch from "algoliasearch";
+import { Autocomplete } from './components/Autocomplete';
+import { ProductItem } from './components/ProductItem';
 
 const appId = "latency";
 const apiKey = "6be0576ff61c053d5f9a3225e2a90f76";
