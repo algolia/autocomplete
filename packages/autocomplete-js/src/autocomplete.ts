@@ -36,8 +36,8 @@ export function autocomplete<TItem extends BaseItem>(
     AutocompleteOptions<TItem>['onStateChange']
   >(undefined);
   const props = reactive(() => getDefaultOptions(optionsRef.current));
-  const isTouch = reactive(
-    () => window.matchMedia(props.value.renderer.touchMediaQuery).matches
+  const isDetached = reactive(
+    () => window.matchMedia(props.value.renderer.detachedMediaQuery).matches
   );
   const shouldPanelOpen =
     optionsRef.current.shouldPanelOpen ||
@@ -65,7 +65,7 @@ export function autocomplete<TItem extends BaseItem>(
         onStateChangeRef.current?.(options as any);
         props.value.core.onStateChange?.(options as any);
       },
-      shouldPanelOpen: isTouch ? () => true : shouldPanelOpen,
+      shouldPanelOpen: isDetached ? () => true : shouldPanelOpen,
     })
   );
   const lastStateRef = createRef<AutocompleteState<TItem>>({
@@ -104,7 +104,7 @@ export function autocomplete<TItem extends BaseItem>(
       autocomplete: autocomplete.value,
       autocompleteScopeApi,
       classNames: props.value.renderer.classNames,
-      isTouch: isTouch.value,
+      isDetached: isDetached.value,
       placeholder: props.value.core.placeholder,
       propGetters,
       state: lastStateRef.current,
@@ -113,7 +113,7 @@ export function autocomplete<TItem extends BaseItem>(
 
   function setPanelPosition() {
     setProperties(dom.value.panel, {
-      style: isTouch.value
+      style: isDetached.value
         ? {}
         : getPanelPlacementStyle({
             panelPlacement: props.value.renderer.panelPlacement,
@@ -135,9 +135,8 @@ export function autocomplete<TItem extends BaseItem>(
       createElement: props.value.renderer.renderer.createElement,
       dom: dom.value,
       Fragment: props.value.renderer.renderer.Fragment,
-      isTouch: isTouch.value,
-      panelContainer: isTouch.value
-        ? dom.value.touchOverlay
+      panelContainer: isDetached.value
+        ? dom.value.detachedOverlay
         : props.value.renderer.panelContainer,
       propGetters,
       state: lastStateRef.current,
@@ -176,15 +175,15 @@ export function autocomplete<TItem extends BaseItem>(
   });
 
   runEffect(() => {
-    const panelContainerElement = isTouch.value
+    const panelContainerElement = isDetached.value
       ? document.body
       : props.value.renderer.panelContainer;
-    const panelElement = isTouch.value
-      ? dom.value.touchOverlay
+    const panelElement = isDetached.value
+      ? dom.value.detachedOverlay
       : dom.value.panel;
 
-    if (isTouch.value && lastStateRef.current.isOpen) {
-      dom.value.openTouchOverlay();
+    if (isDetached.value && lastStateRef.current.isOpen) {
+      dom.value.openDetachedOverlay();
     }
 
     scheduleRender(lastStateRef.current);
@@ -231,12 +230,12 @@ export function autocomplete<TItem extends BaseItem>(
 
   runEffect(() => {
     const onResize = debounce<Event>(() => {
-      const previousIsTouch = isTouch.value;
-      isTouch.value = window.matchMedia(
-        props.value.renderer.touchMediaQuery
+      const previousisDetached = isDetached.value;
+      isDetached.value = window.matchMedia(
+        props.value.renderer.detachedMediaQuery
       ).matches;
 
-      if (previousIsTouch !== isTouch.value) {
+      if (previousisDetached !== isDetached.value) {
         update({});
       } else {
         requestAnimationFrame(setPanelPosition);
