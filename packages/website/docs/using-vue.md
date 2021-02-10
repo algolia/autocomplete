@@ -32,7 +32,7 @@ Then, import the necessary packages for a basic implementation. Since the exampl
 
 Include some boilerplate to insert the autocomplete into:
 
-```vue title="App.vue"
+```html title="App.vue"
 <template>
   <div className="app-container">
     <h1>Application title</h1>
@@ -58,7 +58,7 @@ The  Autocomplete library provides the [`createLocalStorageRecentSearchesPlugin`
 
 The `key` can be any string and is required to differentiate search histories if you have multiple autocompletes on one page. The `limit` defines the maximum number of recent searches to display.
 
-```vue title="App.vue"
+```html title="App.vue"
 <template>
   <div className="app-container">
     <h1>Application title</h1>
@@ -87,7 +87,7 @@ export default {
 
 Now that your [source](sources) is ready, you can instantiate and mount your Autocomplete instance. Doing so requires passing the `renderer` and `render` parameters.
 
-```vue title="App.vue"
+```html title="App.vue"
 <template>
   <div className="container">
     <h1>Autocomplete with Vue</h1>
@@ -137,7 +137,7 @@ This guide uses the recent searches plugin, which takes care of the display [tem
 
 Here's an example of a custom `item` template using [`snippetHit`](snippethit):
 
-```vue title="App.vue"
+```html title="App.vue"
 <script>
 import { h, Fragment, render, onMounted } from "vue";
 import { autocomplete, snippetHit } from "@algolia/autocomplete-js";
