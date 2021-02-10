@@ -93,8 +93,13 @@ The example below sets [`openOnFocus`](autocomplete-js#openonfocus) and [sources
 
 
 ```jsx title=App.jsx"
-import React from 'react';
-import { Autocomplete } from './components/Autocomplete';
+import React, { createElement } from 'react';
+import { Autocomplete, getAlgoliaHits } from './components/Autocomplete';
+import algoliasearch from "algoliasearch";
+
+const appId = "latency";
+const apiKey = "6be0576ff61c053d5f9a3225e2a90f76";
+const searchClient = algoliasearch(appId, apiKey);
 
 function App() {
   return (
@@ -102,6 +107,28 @@ function App() {
       <h1>React Application</h1>
       <Autocomplete
         openOnFocus={true}
+          getSources={({ query }) =>
+            [
+              {
+                getItems() {
+                  return getAlgoliaHits({
+                    searchClient,
+                    queries: [
+                      {
+                        indexName: "instant_search",
+                        query,
+                      }
+                    ]
+                  });
+                },
+                templates: {
+                  item({ item }) {
+                    return <ProductItem hit={item} />;
+                  }
+                }
+              }
+            ];
+          }
       />
     </div>
   );
