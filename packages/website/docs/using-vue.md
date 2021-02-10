@@ -22,7 +22,7 @@ Begin by adding a container for your autocomplete menu. This example adds a `div
 ```vue title="App.vue"
 <template>
   <div className="app-container">
-    <h1>Application title</h1>
+    <h1>Vue Application</h1>
     <div id="autocomplete" />
   </div>
 </template>
