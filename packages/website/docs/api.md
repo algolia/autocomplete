@@ -14,7 +14,7 @@ import Draft from './partials/draft.md'
 - the api ref explains the raw params, but go to the guides for more comprehensive info, etc.
 - package namings, core, recents, presets which provides utils, plugins which are, theme, layouts, etc. -->
 
-This API references how to import and use the Autocomplete APIs without guidance. Make sure to read the [**Core concepts**](basic-options) first. To learn more about Autocomplete patterns, head over to the [**Guides**](adding-suggested-searches).
+This API references how to import and use the Autocomplete APIs without guidance. Make sure to read the [**Core concepts**](basic-options) first. To learn more about Autocomplete patterns, head over to the [**Guides**](#todo).
 
 Autocomplete contains several kind of packages:
 
