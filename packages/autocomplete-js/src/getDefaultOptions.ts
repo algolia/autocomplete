@@ -15,12 +15,12 @@ import {
 import { getHTMLElement, mergeClassNames } from './utils';
 
 const defaultClassNames: AutocompleteClassNames = {
-  detachedCancelButton: 'aa-TouchCancelButton',
-  detachedFormContainer: 'aa-TouchFormContainer',
-  detachedOverlay: 'aa-TouchOverlay',
-  detachedSearchButton: 'aa-TouchSearchButton',
-  detachedSearchButtonIcon: 'aa-TouchSearchButtonIcon',
-  detachedSearchButtonPlaceholder: 'aa-TouchSearchButtonPlaceholder',
+  detachedCancelButton: 'aa-DetachedCancelButton',
+  detachedFormContainer: 'aa-DetachedFormContainer',
+  detachedOverlay: 'aa-DetachedOverlay',
+  detachedSearchButton: 'aa-DetachedSearchButton',
+  detachedSearchButtonIcon: 'aa-DetachedSearchButtonIcon',
+  detachedSearchButtonPlaceholder: 'aa-DetachedSearchButtonPlaceholder',
   form: 'aa-Form',
   input: 'aa-Input',
   inputWrapper: 'aa-InputWrapper',

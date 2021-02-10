@@ -47,7 +47,7 @@ body {
 // Autocomplete
 // ----------------
 .aa-Autocomplete,
-.aa-TouchFormContainer {
+.aa-DetachedFormContainer {
   font-size: var(--aa-font-size);
   line-height: 1em;
   text-align: left;
@@ -451,9 +451,9 @@ body {
 }
 
 //----------------
-// Touch
+// Detached
 //----------------
-.aa-TouchSearchButton {
+.aa-DetachedSearchButton {
   align-items: center;
   background-color: var(--aa-background-color);
   border: 1px solid var(--aa-muted-color);
@@ -466,9 +466,16 @@ body {
   padding: 0 var(--aa-spacing-half);
   position: relative;
   text-align: left;
-  .aa-TouchSearchButtonIcon {
+  width: 100%;
+  &:focus {
+    border-color: var(--aa-primary-color);
+    box-shadow: var(--aa-selected-color) 0 0 0 3px,
+      inset var(--aa-selected-color) 0 0 0 2px;
+    outline: currentColor none medium;
+  }
+  .aa-DetachedSearchButtonIcon {
     align-items: center;
-    color: var(--aa-icon-color);
+    color: var(--aa-primary-color);
     cursor: initial;
     display: flex;
     height: 100%;
@@ -476,7 +483,7 @@ body {
   }
 }
 
-.aa-TouchOverlay {
+.aa-DetachedOverlay {
   background: var(--aa-background-color);
   bottom: 0;
   left: 0;
@@ -485,7 +492,7 @@ body {
   position: fixed;
   right: 0;
   top: 0;
-  .aa-TouchFormContainer {
+  .aa-DetachedFormContainer {
     border-bottom: solid 1px var(--aa-selected-color);
     display: flex;
     justify-content: space-between;
@@ -494,7 +501,7 @@ body {
     .aa-Form {
       padding: 0 var(--aa-spacing-half) 0 0;
     }
-    .aa-TouchCancelButton {
+    .aa-DetachedCancelButton {
       background: none;
       border: 0;
       color: inherit;
