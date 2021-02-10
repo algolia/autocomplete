@@ -41,6 +41,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     autocomplete.setQuery('');
     autocomplete.setIsOpen(false);
     autocomplete.refresh();
+    document.body.classList.remove('aa-Detached');
   }
 
   const rootProps = propGetters.getRootProps({
@@ -136,6 +137,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
 
   function openDetachedOverlay() {
     document.body.appendChild(detachedOverlay);
+    document.body.classList.add('aa-Detached');
     input.focus();
   }
 
