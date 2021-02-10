@@ -89,28 +89,18 @@ Now that you've created an `<Autocomplete/>` component, you can use it in your R
 
 The example component sets only the [`container`](autocomplete-js/#container) option. It specifies where to mount your Autocomplete component, but lets all other [options](basic-options) get configured through props.
 
-The example below sets [`openOnFocus`](autocomplete-js#openonfocus) and [sources](sources) (via [`plugins`](plugins)) through props. This example uses [recent searches](adding-recent-searches) as a [source](sources), but you could use anything else you want.
+The example below sets [`openOnFocus`](autocomplete-js#openonfocus) and [sources](sources) through props. This example uses an Algolia index as a [source](sources), but you could use anything else you want.
 
-The  Autocomplete library provides the [`createLocalStorageRecentSearchesPlugin`](createlocalstoragerecentsearchesplugin) function for creating a recent searches [plugin](plugins) out-of-the-box. To use it, you need to provide a `key` and `limit`.
-
-The `key` can be any string and is required to differentiate search histories if you have multiple autocompletes on one page. The `limit` defines the maximum number of recent searches to display.
 
 ```jsx title=App.jsx"
 import React from 'react';
 import { Autocomplete } from './components/Autocomplete';
-import { createLocalStorageRecentSearchesPlugin } from 'autocomplete-plugin-recent-searches';
-
-const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
-  key: 'RECENT_SEARCH',
-  limit: 5,
-});
 
 function App() {
   return (
     <div className="app-container">
       <h1>React Application</h1>
       <Autocomplete
-        plugins={[recentSearchesPlugin]}
         openOnFocus={true}
       />
     </div>
