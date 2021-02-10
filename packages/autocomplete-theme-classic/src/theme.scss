@@ -485,22 +485,22 @@ body {
 
 .aa-DetachedOverlay {
   background: var(--aa-background-color);
-  padding: 0;
-  position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
-  top: 0;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  left: 0;
+  overflow: hidden;
+  padding: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
 
   .aa-DetachedFormContainer {
     border-bottom: solid 1px var(--aa-selected-color);
-    justify-content: space-between;
-    padding: var(--aa-spacing-half);
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    padding: var(--aa-spacing-half);
     .aa-Form {
       padding: 0 var(--aa-spacing-half) 0 0;
     }
@@ -514,19 +514,19 @@ body {
     }
   }
   .aa-Panel {
-    position: relative;
     background-color: var(--aa-background-color);
-    padding: 0 var(--aa-spacing-half);
     overflow: hidden;
+    padding: 0 var(--aa-spacing-half);
+    position: relative;
 
     .aa-PanelLayout {
-      height: 100%;
-      width: 100%;
-      overflow-y: auto;
       box-shadow: none;
+      height: 100%;
       margin: 0;
       max-height: none;
+      overflow-y: auto;
       padding: 0;
+      width: 100%;
     }
     .aa-Item {
       border-radius: 3px;
