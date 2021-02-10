@@ -89,8 +89,6 @@ export function Autocomplete(props) {
 
 Now that you've created an `<Autocomplete />` component, you can use it in your React application.
 
-As previously stated, the example component sets only the [`container`](autocomplete-js/#container) option, but lets all other [options](basic-options) get configured through props.
-
 The usage below sets [`openOnFocus`](autocomplete-js#openonfocus) and [sources](sources) through props. This example uses an [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) as a [source](sources), but you could use anything else you want, including [plugins](plugins). For more information on using Algolia as a source, check out the [Getting Started guide](getting-started).
 
 
