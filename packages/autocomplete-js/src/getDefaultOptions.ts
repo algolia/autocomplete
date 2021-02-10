@@ -102,7 +102,11 @@ export function getDefaultOptions<TItem extends BaseItem>(
       render: render ?? defaultRender,
       renderEmpty,
       renderer: renderer ?? defaultRenderer,
-      detachedMediaQuery: detachedMediaQuery ?? '(max-width: 500px)',
+      detachedMediaQuery:
+        detachedMediaQuery ??
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--aa-detached-media-query'
+        ),
     },
     core,
   };

@@ -19,6 +19,8 @@
   --aa-background-color-alpha-0: rgba(255, 255, 255, 0);
   --aa-panel-shadow: 0 0 0 1px rgba(35, 38, 59, 0.1),
     0 6px 16px -4px rgba(35, 38, 59, 0.15);
+  --aa-panel-max-height: 500px;
+  --aa-detached-media-query: (max-width: 500px);
 }
 
 // ----------------
@@ -197,7 +199,7 @@ body {
     box-shadow: var(--aa-panel-shadow);
     height: 100%;
     margin-top: var(--aa-spacing-half);
-    max-height: 500px;
+    max-height: var(--aa-panel-max-height);
     overflow-y: auto;
     padding-bottom: var(--aa-spacing-half);
     padding-top: var(--aa-spacing-half);
@@ -498,7 +500,7 @@ body {
       border: 0;
       color: inherit;
       cursor: pointer;
-      font-size: inherit;
+      font: inherit;
       padding: 0 0 0 var(--aa-spacing-half);
     }
   }
