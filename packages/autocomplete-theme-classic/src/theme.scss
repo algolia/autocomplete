@@ -162,6 +162,7 @@ body {
 // ----------------
 // Panel
 // ----------------
+
 .aa-Panel {
   position: absolute;
   // reset
@@ -175,59 +176,47 @@ body {
     background: none;
     border: 0;
   }
-  &.aa-Panel--desktop {
-    &::before {
-      z-index: 99;
-      content: '';
-      position: absolute;
-      top: 8px;
-      height: 16px;
-      width: 100%;
-      background-image: linear-gradient(
-        var(--aa-background-color),
-        var(--aa-background-color-alpha-0)
-      );
-      border-radius: 3px;
-    }
-    &::after {
-      z-index: 99;
-      content: '';
-      position: absolute;
-      bottom: 0;
-      height: 16px;
-      width: 100%;
-      background-image: linear-gradient(
-        var(--aa-background-color-alpha-0),
-        var(--aa-background-color)
-      );
-      border-radius: 3px;
-    }
-    .aa-PanelLayout {
-      padding-bottom: var(--aa-spacing-half);
-      padding-top: var(--aa-spacing-half);
-      text-align: left;
-      background-color: var(--aa-background-color);
-      position: relative;
-      box-shadow: var(--aa-panel-shadow);
-      margin-top: var(--aa-spacing-half);
-      border-radius: 3px;
-      overflow-y: auto;
-      height: 100%;
-      max-height: 500px;
 
-      .aa-PanelLayoutResults {
-        overflow-x: hidden;
-        overflow-y: auto;
-        width: 50%;
-      }
-      .aa-PanelLayoutPreview {
-        border-left: solid 1px var(--aa-selected-color);
-        flex-shrink: 1;
-        max-width: 50%;
-        overflow: hidden;
-      }
+  &::after {
+    background-image: linear-gradient(
+      var(--aa-background-color-alpha-0),
+      var(--aa-background-color)
+    );
+    border-radius: 3px;
+    bottom: 0;
+    content: '';
+    height: 0.75em;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    z-index: 99;
+  }
+  .aa-PanelLayout {
+    background-color: var(--aa-background-color);
+    border-radius: 3px;
+    box-shadow: var(--aa-panel-shadow);
+    height: 100%;
+    margin-top: var(--aa-spacing-half);
+    max-height: 500px;
+    overflow-y: auto;
+    padding-bottom: var(--aa-spacing-half);
+    padding-top: var(--aa-spacing-half);
+    position: relative;
+    text-align: left;
+
+    .aa-PanelLayoutResults {
+      overflow-x: hidden;
+      overflow-y: auto;
+      width: 50%;
+    }
+    .aa-PanelLayoutPreview {
+      border-left: solid 1px var(--aa-selected-color);
+      flex-shrink: 1;
+      max-width: 50%;
+      overflow: hidden;
     }
   }
+
   // when a query isn't resolved yet
   &.aa-Panel--stalled {
     filter: grayscale(1);
@@ -243,6 +232,7 @@ body {
 // Each source can be styled independently
 // ----------------
 .aa-Source {
+  position: relative;
   width: 100%;
   // source title
   .aa-SourceHeader {
@@ -287,6 +277,7 @@ body {
     list-style: none;
     margin: 0;
     padding: 0;
+    position: relative;
   }
 }
 
@@ -327,8 +318,8 @@ body {
   }
   // the result type icon inlined svg or img
   .aa-ItemIcon {
-    align-self: flex-start;
     align-items: center;
+    align-self: flex-start;
     background: #fff;
     border-radius: 3px;
     box-shadow: inset 0 0 0 1px var(--aa-selected-color);
@@ -494,10 +485,11 @@ body {
   right: 0;
   top: 0;
   .aa-TouchFormContainer {
+    border-bottom: solid 1px var(--aa-selected-color);
     display: flex;
     justify-content: space-between;
+    margin-right: var(--aa-spacing-half);
     padding-bottom: var(--aa-spacing-half);
-    border-bottom: solid 1px var(--aa-selected-color);
     .aa-Form {
       padding: 0 var(--aa-spacing-half) 0 0;
     }
@@ -507,34 +499,23 @@ body {
       color: inherit;
       cursor: pointer;
       font-size: inherit;
-      padding: 0 var(--aa-spacing-half);
+      padding: 0 0 0 var(--aa-spacing-half);
     }
   }
-  &::after {
-    z-index: 99;
-    content: '';
-    position: absolute;
-    bottom: 0;
-    height: 36px;
-    left: 0;
-    right: 0;
-    width: 100%;
-    background-image: linear-gradient(
-      var(--aa-background-color-alpha-0),
-      var(--aa-background-color)
-    );
-  }
   .aa-Panel {
-    left: var(--aa-spacing-half);
-    padding-top: var(--aa-spacing-half);
-    padding-right: var(--aa-spacing-half);
-    padding-bottom: var(--aa-spacing);
+    height: calc(100vh); // todo: compute with js
     right: 0;
+    left: var(--aa-spacing-half);
     overflow-y: auto;
-    height: calc(100vh - (var(--aa-spacing) * 4));
+    padding-bottom: var(--aa-spacing);
+    padding-right: var(--aa-spacing-half);
+    padding-top: var(--aa-spacing-half);
     background-color: var(--aa-background-color);
-    .aa-TouchOnly {
-      display: none;
+    .aa-PanelLayout {
+      box-shadow: none;
+      max-height: none;
+      margin: 0;
+      padding: 0;
     }
     .aa-Item {
       border-radius: 3px;
@@ -544,9 +525,19 @@ body {
       margin: var(--aa-spacing-half) 0 var(--aa-spacing-half) 2px;
     }
   }
+  &::after {
+    height: 32px;
+  }
 }
 
-body.aa-Detached {
+// remove scroll for body
+.aa-Detached {
   height: 100vh;
   overflow: hidden;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .aa-TouchOnly {
+    display: none;
+  }
 }
