@@ -102,8 +102,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
       render: render ?? defaultRender,
       renderEmpty,
       renderer: renderer ?? defaultRenderer,
-      detachedMediaQuery:
-        detachedMediaQuery ?? '(hover: none) and (pointer: coarse)',
+      detachedMediaQuery: detachedMediaQuery ?? '(max-width: 500px)',
     },
     core,
   };
