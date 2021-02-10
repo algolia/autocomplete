@@ -467,6 +467,12 @@ body {
   position: relative;
   text-align: left;
   width: 100%;
+  &:focus {
+    border-color: var(--aa-primary-color);
+    box-shadow: var(--aa-selected-color) 0 0 0 3px,
+      inset var(--aa-selected-color) 0 0 0 2px;
+    outline: currentColor none medium;
+  }
   .aa-DetachedSearchButtonIcon {
     align-items: center;
     color: var(--aa-primary-color);
