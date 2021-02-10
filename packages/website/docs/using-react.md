@@ -94,7 +94,8 @@ The example below sets [`openOnFocus`](autocomplete-js#openonfocus) and [sources
 
 ```jsx title=App.jsx"
 import React, { createElement } from 'react';
-import { Autocomplete, getAlgoliaHits } from './components/Autocomplete';
+import { Autocomplete } from './components/Autocomplete';
+import { getAlgoliaHits } from 'autocomplete-js';
 import algoliasearch from "algoliasearch";
 
 const appId = "latency";
