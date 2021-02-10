@@ -95,6 +95,7 @@ The example below sets [`openOnFocus`](autocomplete-js#openonfocus) and [sources
 ```jsx title=App.jsx"
 import React, { createElement } from 'react';
 import { Autocomplete } from './components/Autocomplete';
+import { ProductItem } from './components/ProductItem';
 import { getAlgoliaHits } from 'autocomplete-js';
 import algoliasearch from "algoliasearch";
 
@@ -137,6 +138,32 @@ function App() {
 
 export default App;
 ```
+
+### Creating templates
+
+The example above passes `<ProductItem />`, another React component, for the `item` [template](templates).  If you're using the highlighting and snippeting utilities ([`snippetHit`](snippethit) and [`highlightHit`](highlighthit)), you must pass them React's `createElement` function. Without doing this, the utilities refault to `preact.createElement`.
+
+Here's an example of an  `item` template using [`HighlightHit`](highlighthit):
+
+```jsx title="ProductItem.jsx"
+import { highlightHit } from '@algolia/autocomplete-js';
+import React, { createElement } from 'react';
+
+export function AutocompleteItem({ hit }) {
+  return (
+    <a href={hit.url} className="aa-ItemLink">
+      <div className="aa-ItemContent">
+        <div className="aa-ItemTitle">
+          {highlightHit({
+            hit,
+            attribute: 'name',
+            createElement,
+          })}
+        </div>
+      </div>
+    </a>
+  )
+  ```
 
 
 ## Further UI customization
