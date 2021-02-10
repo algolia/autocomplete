@@ -111,28 +111,28 @@ function App() {
       <h1>React Application</h1>
       <Autocomplete
         openOnFocus={true}
-          getSources={({ query }) =>
-            [
-              {
-                getItems() {
-                  return getAlgoliaHits({
-                    searchClient,
-                    queries: [
-                      {
-                        indexName: "instant_search",
-                        query,
-                      }
-                    ]
-                  });
-                },
-                templates: {
-                  item({ item }) {
-                    return <ProductItem hit={item} />;
-                  }
+        getSources={({ query }) =>
+          [
+            {
+              getItems() {
+                return getAlgoliaHits({
+                  searchClient,
+                  queries: [
+                    {
+                      indexName: "instant_search",
+                      query,
+                    }
+                  ]
+                });
+              },
+              templates: {
+                item({ item }) {
+                  return <ProductItem hit={item} />;
                 }
               }
-            ];
-          }
+            }
+          ];
+        }
       />
     </div>
   );
