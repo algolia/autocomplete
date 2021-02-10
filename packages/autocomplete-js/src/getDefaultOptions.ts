@@ -103,7 +103,10 @@ export function getDefaultOptions<TItem extends BaseItem>(
       renderEmpty,
       renderer: renderer ?? defaultRenderer,
       detachedMediaQuery:
-        detachedMediaQuery ?? '(hover: none) and (pointer: coarse)',
+        detachedMediaQuery ??
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--aa-detached-media-query'
+        ),
     },
     core,
   };
