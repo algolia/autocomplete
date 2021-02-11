@@ -533,8 +533,7 @@ body {
       overflow-y: auto;
       padding: 0;
       width: 100%;
-      padding: 0 var(--aa-spacing-half);
-      padding-bottom: 80px;
+      padding: 6px var(--aa-spacing-half) 80px;
     }
 
     .aa-Item {
@@ -577,7 +576,6 @@ body {
   .aa-DetachedOverlay {
     position: absolute;
     max-width: 500px;
-    max-height: 500px;
     height: auto;
     margin: 0 auto;
     border-radius: 6px;
