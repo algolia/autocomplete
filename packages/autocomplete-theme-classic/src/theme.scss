@@ -270,6 +270,10 @@ body {
       display: none;
     }
   }
+  // todo: rename to SourceNoResults
+  .aa-SourceEmpty {
+    padding: var(--aa-spacing);
+  }
   &:empty {
     // hide empty section
     display: none;
