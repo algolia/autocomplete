@@ -321,7 +321,6 @@ body {
   // the result type icon inlined svg or img
   .aa-ItemIcon {
     align-items: center;
-    align-self: flex-start;
     background: #fff;
     border-radius: 3px;
     box-shadow: inset 0 0 0 1px var(--aa-selected-color);
@@ -335,6 +334,9 @@ body {
     stroke-width: var(--aa-icon-stroke-width);
     text-align: center;
     width: calc(var(--aa-icon-size) + var(--aa-spacing));
+    &.aa-ItemIcon--align-top {
+      align-self: flex-start;
+    }
     &.aa-ItemIcon--no-border {
       background: none;
       box-shadow: none;
@@ -365,6 +367,7 @@ body {
     .aa-ItemContentTitle {
       display: inline-block;
       max-width: 100%;
+      line-height: 1.25em;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
