@@ -103,11 +103,7 @@ autocomplete({
           },
           empty() {
             return (
-              <div className="aa-ItemContent">
-                <div className="aa-ItemContentTitle">
-                  No products for this query.
-                </div>
-              </div>
+              <div className="aa-ItemContent">No products for this query.</div>
             );
           },
         },
