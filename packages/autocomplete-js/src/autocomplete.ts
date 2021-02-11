@@ -39,21 +39,6 @@ export function autocomplete<TItem extends BaseItem>(
   const isDetached = reactive(
     () => window.matchMedia(props.value.renderer.detachedMediaQuery).matches
   );
-  const shouldPanelOpen =
-    optionsRef.current.shouldPanelOpen ||
-    (({ state }) => {
-      const hasItems = getItemsCount(state) > 0;
-
-      if (!props.value.core.openOnFocus && !state.query) {
-        return hasItems;
-      }
-
-      const hasEmptyTemplate = Boolean(
-        hasEmptySourceTemplateRef.current || props.value.renderer.renderEmpty
-      );
-
-      return (!hasItems && hasEmptyTemplate) || hasItems;
-    });
   const autocomplete = reactive(() =>
     createAutocomplete<TItem>({
       ...props.value.core,
@@ -65,7 +50,22 @@ export function autocomplete<TItem extends BaseItem>(
         onStateChangeRef.current?.(options as any);
         props.value.core.onStateChange?.(options as any);
       },
-      shouldPanelOpen: isDetached ? () => true : shouldPanelOpen,
+      shouldPanelOpen:
+        optionsRef.current.shouldPanelOpen ||
+        (({ state }) => {
+          const hasItems = getItemsCount(state) > 0;
+
+          if (!props.value.core.openOnFocus && !state.query) {
+            return hasItems;
+          }
+
+          const hasEmptyTemplate = Boolean(
+            hasEmptySourceTemplateRef.current ||
+              props.value.renderer.renderEmpty
+          );
+
+          return (!hasItems && hasEmptyTemplate) || hasItems;
+        }),
     })
   );
   const lastStateRef = createRef<AutocompleteState<TItem>>({

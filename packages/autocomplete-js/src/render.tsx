@@ -105,7 +105,7 @@ export function renderPanel<TItem extends BaseItem>(
         </div>
       )}
 
-      {items.length === 0 && source.templates.empty ? (
+      {items.length === 0 && source.templates.empty && state.query ? (
         <div className={classNames.sourceEmpty}>
           {source.templates.empty({
             createElement,
