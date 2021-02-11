@@ -370,8 +370,8 @@ body {
     }
     .aa-ItemContentTitle {
       display: inline-block;
-      max-width: 100%;
       line-height: 1.25em;
+      max-width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -491,7 +491,6 @@ body {
 }
 
 .aa-DetachedOverlay {
-  z-index: 1000;
   background: var(--aa-background-color);
   bottom: 0;
   display: flex;
@@ -502,6 +501,7 @@ body {
   position: fixed;
   right: 0;
   top: 0;
+  z-index: 1000;
 
   .aa-DetachedFormContainer {
     border-bottom: solid 1px var(--aa-selected-color);
@@ -532,8 +532,8 @@ body {
       max-height: none;
       overflow-y: auto;
       padding: 0;
-      width: 100%;
       padding: 6px var(--aa-spacing-half) 80px;
+      width: 100%;
     }
 
     .aa-Item {
@@ -554,15 +554,15 @@ body {
   height: 100vh;
   overflow: hidden;
   &::after {
-    z-index: 999;
-    content: '';
     background-color: var(--aa-muted-color);
+    content: '';
+    height: 100vh;
+    left: 0;
     opacity: 0.75;
     position: fixed;
-    top: 0;
-    left: 0;
     right: 0;
-    height: 100vh;
+    top: 0;
+    z-index: 999;
   }
 }
 
@@ -574,17 +574,17 @@ body {
 
 @media (min-width: 500px) {
   .aa-DetachedOverlay {
-    position: absolute;
-    max-width: 500px;
+    border-radius: 6px;
+    bottom: inherit;
     height: auto;
     margin: 0 auto;
-    border-radius: 6px;
+    max-width: 500px;
+    position: absolute;
     top: 3%;
-    bottom: inherit;
     .aa-Panel {
       .aa-PanelLayout {
-        padding-bottom: var(--aa-spacing-half);
         max-height: 500px;
+        padding-bottom: var(--aa-spacing-half);
       }
     }
   }
