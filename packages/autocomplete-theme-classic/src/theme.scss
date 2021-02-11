@@ -491,6 +491,7 @@ body {
 }
 
 .aa-DetachedOverlay {
+  z-index: 1000;
   background: var(--aa-background-color);
   bottom: 0;
   display: flex;
@@ -523,9 +524,7 @@ body {
   .aa-Panel {
     background-color: var(--aa-background-color);
     overflow: hidden;
-    padding: 0 var(--aa-spacing-half);
     position: relative;
-
     .aa-PanelLayout {
       box-shadow: none;
       height: 100%;
@@ -534,8 +533,10 @@ body {
       overflow-y: auto;
       padding: 0;
       width: 100%;
+      padding: 0 var(--aa-spacing-half);
       padding-bottom: 80px;
     }
+
     .aa-Item {
       border-radius: 3px;
       padding: 0;
@@ -553,10 +554,40 @@ body {
 .aa-Detached {
   height: 100vh;
   overflow: hidden;
+  &::after {
+    z-index: 999;
+    content: '';
+    background-color: var(--aa-muted-color);
+    opacity: 0.75;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+  }
 }
 
 @media (hover: none) and (pointer: coarse) {
   .aa-TouchOnly {
     display: none !important; // TODO: fix specificity issue
+  }
+}
+
+@media (min-width: 500px) {
+  .aa-DetachedOverlay {
+    position: absolute;
+    max-width: 500px;
+    max-height: 500px;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 6px;
+    top: 3%;
+    bottom: inherit;
+    .aa-Panel {
+      .aa-PanelLayout {
+        padding-bottom: var(--aa-spacing-half);
+        max-height: 500px;
+      }
+    }
   }
 }
