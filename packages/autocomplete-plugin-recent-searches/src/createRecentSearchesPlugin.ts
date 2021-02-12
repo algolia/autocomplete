@@ -36,10 +36,11 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
       onSelect(({ item, state, source }) => {
         const inputValue = source.getItemInputValue({ item, state });
 
-        if (inputValue) {
+        if (source.sourceId === 'querySuggestionsPlugin' && inputValue) {
           store.add({
-            id: inputValue,
+            objectID: inputValue,
             query: inputValue,
+            category: (item as any).__autocomplete_qsCategory,
           } as any);
         }
       });
@@ -49,7 +50,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
 
       if (query) {
         store.add({
-          id: query,
+          objectID: query,
           query,
         } as any);
       }
@@ -61,8 +62,6 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
         store.remove(id);
         refresh();
       }
-
-      const templates = getTemplates<any>({ onRemove });
 
       return Promise.resolve(lastItemsRef.current).then((items) => {
         if (items.length === 0) {
@@ -79,7 +78,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
               getItems() {
                 return items;
               },
-              templates,
+              templates: getTemplates({ onRemove }),
             },
             onRemove,
           }),

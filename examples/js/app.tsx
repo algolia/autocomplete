@@ -47,6 +47,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
       hitsPerPage: state.query ? 5 : 10,
     });
   },
+  categoryAttribute: 'categories',
 });
 
 autocomplete({

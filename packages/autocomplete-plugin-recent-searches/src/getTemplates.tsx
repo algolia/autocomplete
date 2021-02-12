@@ -21,12 +21,16 @@ export function getTemplates<TItem extends RecentSearchesItem>({
           </div>
           <div className="aa-ItemContent">
             <div className="aa-ItemContentTitle">
-              {reverseHighlightHit<any>({
+              {reverseHighlightHit<RecentSearchesItem>({
                 hit: item,
                 attribute: 'query',
                 createElement,
               })}
             </div>
+
+            {item.category && (
+              <div className="aa-ItemContentSubtitle">– in {item.category}</div>
+            )}
           </div>
           <div className="aa-ItemActions">
             <button
@@ -34,7 +38,7 @@ export function getTemplates<TItem extends RecentSearchesItem>({
               title="Remove this search"
               onClick={(event) => {
                 event.stopPropagation();
-                onRemove(item.id);
+                onRemove(item.objectID);
               }}
             >
               <svg
