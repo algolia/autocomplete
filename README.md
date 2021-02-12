@@ -112,6 +112,12 @@ See the awesome experiences people built with Autocomplete:
 | --- | --- |
 | <div align="center"><a href="https://docsearch.algolia.com">DocSearch</a></div> | <div align="center"><a href="https://algolia.com/doc">Algolia Documentation</a></div> |
 
+## Sandboxes
+
+Check out [sandboxes](https://codesandbox.io/search?refinementList%5Bnpm_dependencies.dependency%5D%5B0%5D=%40algolia%2Fautocomplete-core) using Autocomplete:
+
+[![Sandboxes](./.github/sandboxes.png)](https://codesandbox.io/search?refinementList%5Bnpm_dependencies.dependency%5D%5B0%5D=%40algolia%2Fautocomplete-core)
+
 ## License
 
 [MIT](LICENSE)
