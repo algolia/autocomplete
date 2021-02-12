@@ -18,6 +18,7 @@ export type CreateRecentSearchesPluginParams<
   transformSource?(params: {
     source: AutocompleteSource<TItem>;
     onRemove(id: string): void;
+    onTapAhead(item: TItem): void;
   }): AutocompleteSource<TItem>;
 };
 
@@ -55,11 +56,16 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
         } as any);
       }
     },
-    getSources({ query, refresh }) {
+    getSources({ query, setQuery, refresh }) {
       lastItemsRef.current = store.getAll(query);
 
       function onRemove(id: string) {
         store.remove(id);
+        refresh();
+      }
+
+      function onTapAhead(item: TItem) {
+        setQuery(item.query);
         refresh();
       }
 
@@ -78,9 +84,10 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
               getItems() {
                 return items;
               },
-              templates: getTemplates({ onRemove }),
+              templates: getTemplates({ onRemove, onTapAhead }),
             },
             onRemove,
+            onTapAhead,
           }),
         ];
       });
