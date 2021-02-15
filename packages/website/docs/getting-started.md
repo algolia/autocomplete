@@ -43,6 +43,29 @@ If you don't want to use a package manager, you can use a standalone endpoint:
 
 We recommend using jsDeliver but [`autocomplete-js`](autocomplete-js) is also available through [unpkg](https://unpkg.com/@algolia/autocomplete-js@alpha).
 
+### Installing the Autocomplete Theme
+
+The Autocomplete library provides the [`autocomplete-theme-classic`](autocomplete-theme-classic) package so that you can have sleek styling out of the box.
+
+If you want a custom theme, you can use this classic theme and customize it with CSS variables. You can also create a new theme entirely using the classic theme as a starting point. This example uses the out of the box classic theme.
+
+You can import it like any other Autocomplete package.
+
+```bash
+yarn add @algolia/autocomplete-theme-classic
+# or
+npm install @algolia/autocomplete-theme-classic
+```
+
+If you don't want to use a package manager, you can add it as a stylesheet:
+
+```html
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-theme-classic@alpha"
+/>
+```
+
 :::note
 
 We don't provide support regarding third party services like jsDeliver or other CDNs.
@@ -63,6 +86,8 @@ Make sure to provide a container (e.g., a `div`), not an `input`. Autocomplete g
 
 ```js title="JavaScript"
 import { autocomplete } from '@algolia/autocomplete-js';
+
+import '@algolia/autocomplete-theme-classic';
 
 autocomplete({
   container: '#autocomplete',
@@ -86,6 +111,8 @@ This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/wha
 ```js title="JavaScript"
 import algoliasearch from 'algoliasearch/lite';
 import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
+
+import '@algolia/autocomplete-theme-classic';
 
 const searchClient = algoliasearch(
   'latency',
@@ -135,6 +162,8 @@ The `ProductItem` component uses the [`snippetHit`](snippetHit) function to only
 import { autocomplete, getAlgoliaHits, snippetHit } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
 import { h, Fragment } from 'preact';
+
+import '@algolia/autocomplete-theme-classic';
 
 const searchClient = algoliasearch(
   'latency',
@@ -270,6 +299,8 @@ This is all you need for a basic implementation. To go further, you can use the 
 import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
 import { h } from 'preact';
+
+import '@algolia/autocomplete-theme-classic';
 
 const searchClient = algoliasearch(
   'latency',
