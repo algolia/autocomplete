@@ -67,16 +67,13 @@ import { autocomplete } from '@algolia/autocomplete-js';
 autocomplete({
   container: '#autocomplete',
   placeholder: 'Search for products',
-  openOnFocus: true,
   getSources() {
     return [];
   },
 });
 ```
 
-You may have noticed three new options: [`placeholder`](autocomplete-js#placeholder), [`openOnFocus`](autocomplete-js#openonfocus), and [`getSources`](sources#getsources).
-
-The [`placeholder`](autocomplete-js#placeholder) option defines the placeholder text to show until the user starts typing in the input, while the [`openOnFocus`](autocomplete-js#openonfocus) option determines whether to open the panel on [focus](https://developer.mozilla.org/en-US/docs/Web/API/Window/focus_event) or not, even when there's no query. It defaults to `false`, so you need to set it to `true` if you want the dropdown to appear as soon as a user clicks on it.
+You may have noticed two new options: [`placeholder`](autocomplete-js#placeholder) and [`getSources`](sources#getsources). The [`placeholder`](autocomplete-js#placeholder) option defines the placeholder text to show until the user starts typing in the input.
 
 Autocomplete is now plugged in. But you won't see anything appear until you define your [sources](sources).
 
@@ -98,7 +95,6 @@ const searchClient = algoliasearch(
 autocomplete({
   container: '#autocomplete',
   placeholder: 'Search for products',
-  openOnFocus: true,
   getSources({ query }) {
     return [
       {
@@ -148,7 +144,6 @@ const searchClient = algoliasearch(
 autocomplete({
   container: '#autocomplete',
   placeholder: 'Search for products',
-  openOnFocus: true,
   getSources({ query }) {
     return [
       {
@@ -284,7 +279,6 @@ const searchClient = algoliasearch(
 autocomplete({
   container: '#autocomplete',
   placeholder: 'Search for products',
-  openOnFocus: true,
   getSources({ query }) {
     return [
       {
