@@ -9,6 +9,10 @@
 
 </div>
 
+> 🚧 Autocomplete v1 is in an alpha phase and early feedback is welcome.
+>
+> **If you're looking for Autocomplete v0, which has been the production-ready version for the last years, [head over to the `master` branch](https://github.com/algolia/autocomplete.js/tree/master).**
+
 All you need to get started is:
 
 - A container to inject the experience into
