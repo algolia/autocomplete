@@ -1,10 +1,11 @@
 import { getItemsCount } from '@algolia/autocomplete-shared';
 
 import {
+  AutocompleteEnvironment,
   AutocompleteOptions,
+  AutocompleteSubscribers,
   BaseItem,
   InternalAutocompleteOptions,
-  AutocompleteSubscribers,
 } from './types';
 import { generateAutocompleteId, getNormalizedSources, flatten } from './utils';
 
@@ -12,8 +13,7 @@ export function getDefaultProps<TItem extends BaseItem>(
   props: AutocompleteOptions<TItem>,
   pluginSubscribers: AutocompleteSubscribers<TItem>
 ): InternalAutocompleteOptions<TItem> {
-  const environment: InternalAutocompleteOptions<TItem>['environment'] = (typeof window !==
-  'undefined'
+  const environment: AutocompleteEnvironment = (typeof window !== 'undefined'
     ? window
     : {}) as typeof window;
   const plugins = props.plugins || [];

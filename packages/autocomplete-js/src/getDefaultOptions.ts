@@ -108,6 +108,11 @@ export function getDefaultOptions<TItem extends BaseItem>(
           '--aa-detached-media-query'
         ),
     },
-    core,
+    core: {
+      ...core,
+      environment: (typeof window !== 'undefined'
+        ? window
+        : {}) as typeof window,
+    },
   };
 }
