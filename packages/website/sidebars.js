@@ -19,6 +19,8 @@ module.exports = {
       'including-multiple-result-types',
       'changing-behavior-based-on-query',
       'sending-algolia-insights-events',
+      'using-react',
+      'using-vue',
       'creating-a-renderer',
       'upgrading',
       'debugging',
