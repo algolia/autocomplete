@@ -116,7 +116,11 @@ See the awesome experiences people built with Autocomplete:
 
 Check out [sandboxes](https://codesandbox.io/search?refinementList%5Bnpm_dependencies.dependency%5D%5B0%5D=%40algolia%2Fautocomplete-core) using Autocomplete:
 
+<div align="center">
+
 [![Sandboxes](./.github/sandboxes.png)](https://codesandbox.io/search?refinementList%5Bnpm_dependencies.dependency%5D%5B0%5D=%40algolia%2Fautocomplete-core)
+
+</div>
 
 ## License
 
