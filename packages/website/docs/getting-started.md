@@ -3,12 +3,12 @@ id: getting-started
 title: Getting Started
 ---
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
-import { AutocompleteDocSearchItem } from '@site/src/components/AutocompleteDocSearchItem';
+import { ProductItem } from '@site/src/components/ProductItem';
 import { getAlgoliaHits } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch/lite';
 const searchClient = algoliasearch(
-  'BH4D9OD16A',
-  'a5c3ccfd361b8bcb9708e679c43ae0e5'
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
 Get started with Autocomplete by building an Algolia search experience.
@@ -66,7 +66,7 @@ import { autocomplete } from '@algolia/autocomplete-js';
 
 autocomplete({
   container: '#autocomplete',
-  placeholder: 'Search the autocomplete documentation',
+  placeholder: 'Search for products',
   openOnFocus: true,
   getSources() {
     return [];
@@ -84,20 +84,20 @@ Autocomplete is now plugged in. But you won't see anything appear until you defi
 
 [Sources](sources) define where to retrieve the items to display in your autocomplete dropdown. You define your sources in the [`getSources`](sources#getsources) function by returning an array of [source objects](sources#source). Each source object needs to include a [`getItems`](sources#getitems) function that returns the items to display. Sources can be static or dynamic.
 
-This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) [powering the documentation search](https://docsearch.algolia.com/) on this site as a source. The [`autocomplete-js`](autocomplete-js) package provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
+This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) of [e-commerce products](https://github.com/algolia/datasets/tree/master/ecommerce) as a source. The [`autocomplete-js`](autocomplete-js) package provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
 
 ```js title="JavaScript"
 import algoliasearch from 'algoliasearch/lite';
 import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
 
 const searchClient = algoliasearch(
-  'BH4D9OD16A',
-  'a5c3ccfd361b8bcb9708e679c43ae0e5'
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
 autocomplete({
   container: '#autocomplete',
-  placeholder: 'Search documentation',
+  placeholder: 'Search for products',
   openOnFocus: true,
   getSources({ query }) {
     return [
@@ -107,7 +107,7 @@ autocomplete({
             searchClient,
             queries: [
               {
-                indexName: 'autocomplete',
+                indexName: 'instant_search',
                 query,
                 params: {
                   hitsPerPage: 10
@@ -130,33 +130,24 @@ Although you've now declared what items display using [`getSources`](sources#get
 
 ## Defining how to display items
 
-[Sources](sources) also define how to display items in your Autocomplete using [`templates`](templates).  Templates can return a string or anything that's a valid Virtual DOM element. The example creates a [Preact](https://preactjs.com/) component called `AutocompleteItem` as the template for each item to display.
+[Sources](sources) also define how to display items in your Autocomplete using [`templates`](templates).  Templates can return a string or anything that's a valid Virtual DOM element. The example creates a [Preact](https://preactjs.com/) component called `ProductItem` to use as the template for each item.
+
+The `ProductItem` component uses the [`snippetHit`](snippetHit) function to only display part of the item's name and description, if they go beyond a certain length. Each attribute's allowed length and the characters to show when truncated are defined in the [`attributesToSnippet`](https://www.algolia.com/doc/api-reference/api-parameters/attributesToSnippet/) and [`snippetEllipsisText`](https://www.algolia.com/doc/api-reference/api-parameters/snippetEllipsisText/) [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) in `params`.
 
 ```jsx title="JSX"
 /** @jsx h */
-import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
+import { autocomplete, getAlgoliaHits, snippetHit } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
-import { h } from 'preact';
+import { h, Fragment } from 'preact';
 
 const searchClient = algoliasearch(
-  'BH4D9OD16A',
-  'a5c3ccfd361b8bcb9708e679c43ae0e5'
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
 );
-
-function AutocompleteItem({ hit, breadcrumb }) {
-  return (
-    <a href={hit.url} className="aa-ItemLink">
-      <div className="aa-ItemContent">
-        <div className="aa-ItemTitle">{hit.hierarchy[hit.type]}</div>
-        <div className="aa-ItemContentSubtitle">{breadcrumb.join(' • ')}</div>
-      </div>
-    </a>
-  );
-}
 
 autocomplete({
   container: '#autocomplete',
-  placeholder: 'Search documentation',
+  placeholder: 'Search for products',
   openOnFocus: true,
   getSources({ query }) {
     return [
@@ -166,10 +157,12 @@ autocomplete({
             searchClient,
             queries: [
               {
-                indexName: 'autocomplete',
+                indexName: 'instant_search',
                 query,
                 params: {
                   hitsPerPage: 10,
+                  attributesToSnippet: ['name:10', 'description:35'],
+                  snippetEllipsisText: '…',
                 },
               },
             ],
@@ -177,37 +170,66 @@ autocomplete({
         },
         templates: {
           item({ item }) {
-            return AutocompleteItem({
-              hit: item,
-              breadcrumb: Object.values(item.hierarchy)
-                .filter(Boolean)
-                .slice(0, -1),
-            });
+            return (
+              <ProductItem
+                hit={item}
+              />
+            );
           },
         },
       },
     ];
   },
 });
+
+function ProductItem({ hit }) {
+  return (
+    <Fragment>
+      <div className="aa-ItemIcon">
+        <img src={hit.image} alt={hit.name} width="40" height="40" />
+      </div>
+      <div className="aa-ItemContent">
+        <div className="aa-ItemContentTitle">
+          {snippetHit<ProductHit>({ hit, attribute: 'name' })}
+        </div>
+        <div className="aa-ItemContentDescription">
+          {snippetHit<ProductHit>({ hit, attribute: 'description' })}
+        </div>
+      </div>
+      <div className="aa-ItemActions">
+        <button
+          className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
+          type="button"
+          title="Select"
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M18.984 6.984h2.016v6h-15.188l3.609 3.609-1.406 1.406-6-6 6-6 1.406 1.406-3.609 3.609h13.172v-4.031z" />
+          </svg>
+        </button>
+        <button
+          className="aa-ItemActionButton"
+          type="button"
+          title="Add to cart"
+        >
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M19 5h-14l1.5-2h11zM21.794 5.392l-2.994-3.992c-0.196-0.261-0.494-0.399-0.8-0.4h-12c-0.326 0-0.616 0.156-0.8 0.4l-2.994 3.992c-0.043 0.056-0.081 0.117-0.111 0.182-0.065 0.137-0.096 0.283-0.095 0.426v14c0 0.828 0.337 1.58 0.879 2.121s1.293 0.879 2.121 0.879h14c0.828 0 1.58-0.337 2.121-0.879s0.879-1.293 0.879-2.121v-14c0-0.219-0.071-0.422-0.189-0.585-0.004-0.005-0.007-0.010-0.011-0.015zM4 7h16v13c0 0.276-0.111 0.525-0.293 0.707s-0.431 0.293-0.707 0.293h-14c-0.276 0-0.525-0.111-0.707-0.293s-0.293-0.431-0.293-0.707zM15 10c0 0.829-0.335 1.577-0.879 2.121s-1.292 0.879-2.121 0.879-1.577-0.335-2.121-0.879-0.879-1.292-0.879-2.121c0-0.552-0.448-1-1-1s-1 0.448-1 1c0 1.38 0.561 2.632 1.464 3.536s2.156 1.464 3.536 1.464 2.632-0.561 3.536-1.464 1.464-2.156 1.464-3.536c0-0.552-0.448-1-1-1s-1 0.448-1 1z" />
+          </svg>
+        </button>
+      </div>
+    </Fragment>
+  );
+}
 ```
 
-The template displays the section name from the deepest level of `item.hierachy`. Beneath that, it displays a breadcrumb from all the higher levels in `item.hierarchy`.
-
-This is what the JSON record looks like:
+This is what the truncated JSON record looks like:
 
 ```json title="JSON record"
 {
-  "hierarchy": {
-    "lvl0": "The Basics",
-    "lvl1": "Getting Started",
-    "lvl2": "Defining how to display items",
-    "lvl3": null,
-    "lvl4": null,
-    "lvl5": null,
-    "lvl6": null
-  },
-  "type": "lvl2",
-  "url": "https://autocomplete.algolia.com/docs/getting-started/"
+  "name": "Apple - MacBook Air® (Latest Model) - 13.3\" Display - Intel Core i5 - 4GB Memory - 128GB Flash Storage - Silver",
+  "description": "MacBook Air features fifth-generation Intel Core processors with stunning graphics, all-day battery life*, ultrafast flash storage, and great built-in apps. It's thin, light and durable enough to take everywhere you go &#8212; and powerful enough to do everything once you get there.",
+  "image": "https://cdn-demo.algolia.com/bestbuy/1581921_sb.jpg",
+  "url": "http://www.bestbuy.com/site/apple-macbook-air-latest-model-13-3-display-intel-core-i5-4gb-memory-128gb-flash-storage-silver/1581921.p?id=1219056464137&skuId=1581921&cmp=RMX&ky=1uWSHMdQqBeVJB9cXgEke60s5EjfS6M1W",
+  "objectID": "1581921"
 }
 ```
 
@@ -223,7 +245,7 @@ Check out how the template displays items by searching in the input below:
             searchClient,
             queries: [
               {
-                indexName: 'autocomplete',
+                indexName: 'instant_search',
                 query,
                 params: {
                   hitsPerPage: 5
@@ -235,14 +257,11 @@ Check out how the template displays items by searching in the input below:
         templates: {
           item({ item }) {
             return (
-              <AutocompleteDocSearchItem
+              <ProductItem
                 hit={item}
-                breadcrumb={Object.values(item.hierarchy)
-                  .filter(Boolean)
-                  .slice(0, -1)}
               />
             );
-          }
+          },
         },
       },
     ];
@@ -258,17 +277,13 @@ import algoliasearch from 'algoliasearch';
 import { h } from 'preact';
 
 const searchClient = algoliasearch(
-  'BH4D9OD16A',
-  'a5c3ccfd361b8bcb9708e679c43ae0e5'
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
 );
-
-function AutocompleteItem({ hit, breadcrumb }) {
-  // ...
-}
 
 autocomplete({
   container: '#autocomplete',
-  placeholder: 'Search documentation',
+  placeholder: 'Search for products',
   openOnFocus: true,
   getSources({ query }) {
     return [
@@ -286,6 +301,10 @@ autocomplete({
     ];
   },
 });
+
+function ProductItem({ hit, breadcrumb }) {
+  // ...
+}
 ```
 Now give it a try: navigate to one of the items using your keyboard and hitting <kbd>Enter</kbd>.
 
@@ -299,7 +318,7 @@ Now give it a try: navigate to one of the items using your keyboard and hitting 
             searchClient,
             queries: [
               {
-                indexName: 'autocomplete',
+                indexName: 'instant_search',
                 query,
                 params: {
                   hitsPerPage: 5
@@ -314,14 +333,11 @@ Now give it a try: navigate to one of the items using your keyboard and hitting 
         templates: {
           item({ item }) {
             return (
-              <AutocompleteDocSearchItem
+              <ProductItem
                 hit={item}
-                breadcrumb={Object.values(item.hierarchy)
-                  .filter(Boolean)
-                  .slice(0, -1)}
               />
             );
-          }
+          },
         },
       },
     ];
