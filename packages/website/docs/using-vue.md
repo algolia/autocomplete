@@ -87,6 +87,8 @@ export default {
 
 Now that your [source](sources) is ready, you can instantiate and mount your Autocomplete instance. Doing so requires passing the `renderer` and `render` parameters.
 
+This is because the default Autocomplete implementation uses [Preact's](https://preactjs.com/) version of `createElement`, `Fragment` and `render`. Without providing Vue's version of these, the Autocomplete instance won't render the views properly.
+
 ```html title="App.vue"
 <template>
   <div className="container">
