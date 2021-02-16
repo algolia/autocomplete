@@ -377,14 +377,18 @@ body {
       white-space: nowrap;
     }
     .aa-ItemContentSubtitle {
-      color: var(--aa-muted-color);
+      color: var(--aa-content-text-color);
       display: inline-block;
-      font-size: 0.75em;
+      font-size: 0.92em;
       margin-top: -2px;
       max-width: 100%;
       overflow-x: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      &::before {
+        content: ' ';
+        white-space: pre;
+      }
       &:empty {
         display: none;
       }

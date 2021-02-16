@@ -37,23 +37,11 @@ export function autocomplete<TItem extends BaseItem>(
   >(undefined);
   const props = reactive(() => getDefaultOptions(optionsRef.current));
   const isDetached = reactive(
-    () => window.matchMedia(props.value.renderer.detachedMediaQuery).matches
+    () =>
+      props.value.core.environment.matchMedia(
+        props.value.renderer.detachedMediaQuery
+      ).matches
   );
-  const shouldPanelOpen =
-    optionsRef.current.shouldPanelOpen ||
-    (({ state }) => {
-      const hasItems = getItemsCount(state) > 0;
-
-      if (!props.value.core.openOnFocus && !state.query) {
-        return hasItems;
-      }
-
-      const hasEmptyTemplate = Boolean(
-        hasEmptySourceTemplateRef.current || props.value.renderer.renderEmpty
-      );
-
-      return (!hasItems && hasEmptyTemplate) || hasItems;
-    });
   const autocomplete = reactive(() =>
     createAutocomplete<TItem>({
       ...props.value.core,
@@ -65,7 +53,22 @@ export function autocomplete<TItem extends BaseItem>(
         onStateChangeRef.current?.(options as any);
         props.value.core.onStateChange?.(options as any);
       },
-      shouldPanelOpen: isDetached ? () => true : shouldPanelOpen,
+      shouldPanelOpen:
+        optionsRef.current.shouldPanelOpen ||
+        (({ state }) => {
+          const hasItems = getItemsCount(state) > 0;
+
+          if (!props.value.core.openOnFocus && !state.query) {
+            return hasItems;
+          }
+
+          const hasEmptyTemplate = Boolean(
+            hasEmptySourceTemplateRef.current ||
+              props.value.renderer.renderEmpty
+          );
+
+          return (!hasItems && hasEmptyTemplate) || hasItems;
+        }),
     })
   );
   const lastStateRef = createRef<AutocompleteState<TItem>>({
@@ -159,11 +162,11 @@ export function autocomplete<TItem extends BaseItem>(
       inputElement: dom.value.input,
     });
 
-    setProperties(window as any, environmentProps);
+    setProperties(props.value.core.environment as any, environmentProps);
 
     return () => {
       setProperties(
-        window as any,
+        props.value.core.environment as any,
         Object.keys(environmentProps).reduce((acc, key) => {
           return {
             ...acc,
@@ -231,7 +234,7 @@ export function autocomplete<TItem extends BaseItem>(
   runEffect(() => {
     const onResize = debounce<Event>(() => {
       const previousisDetached = isDetached.value;
-      isDetached.value = window.matchMedia(
+      isDetached.value = props.value.core.environment.matchMedia(
         props.value.renderer.detachedMediaQuery
       ).matches;
 
@@ -241,10 +244,10 @@ export function autocomplete<TItem extends BaseItem>(
         requestAnimationFrame(setPanelPosition);
       }
     }, 20);
-    window.addEventListener('resize', onResize);
+    props.value.core.environment.addEventListener('resize', onResize);
 
     return () => {
-      window.removeEventListener('resize', onResize);
+      props.value.core.environment.removeEventListener('resize', onResize);
     };
   });
 
