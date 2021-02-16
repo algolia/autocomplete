@@ -43,7 +43,7 @@ If you don't want to use a package manager, you can use a standalone endpoint:
 
 We recommend using jsDeliver but [`autocomplete-js`](autocomplete-js) is also available through [unpkg](https://unpkg.com/@algolia/autocomplete-js@alpha).
 
-### Installing the Autocomplete Theme
+### Installing the Autocomplete classic theme
 
 The Autocomplete library provides the [`autocomplete-theme-classic`](autocomplete-theme-classic) package so that you can have sleek styling out of the box.
 
