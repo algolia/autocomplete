@@ -155,7 +155,7 @@ Although you've now declared what items display using [`getSources`](sources#get
 
 [Sources](sources) also define how to display items in your Autocomplete using [`templates`](templates).  Templates can return a string or anything that's a valid Virtual DOM element. The example creates a [Preact](https://preactjs.com/) component called `ProductItem` to use as the template for each item.
 
-The `ProductItem` component uses the [`snippetHit`](snippetHit) function to only display part of the item's name and description, if they go beyond a certain length. Each attribute's allowed length and the characters to show when truncated are defined in the [`attributesToSnippet`](https://www.algolia.com/doc/api-reference/api-parameters/attributesToSnippet/) and [`snippetEllipsisText`](https://www.algolia.com/doc/api-reference/api-parameters/snippetEllipsisText/) [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) in `params`.
+The given `classNames` correspond to the [classic theme](autocomplete-theme-classic) imported earlier.
 
 ```jsx title="JSX"
 /** @jsx h */
@@ -244,6 +244,8 @@ function ProductItem({ hit }) {
   );
 }
 ```
+
+The `ProductItem` component uses the [`snippetHit`](snippetHit) function to only display part of the item's name and description, if they go beyond a certain length. Each attribute's allowed length and the characters to show when truncated are defined in the [`attributesToSnippet`](https://www.algolia.com/doc/api-reference/api-parameters/attributesToSnippet/) and [`snippetEllipsisText`](https://www.algolia.com/doc/api-reference/api-parameters/snippetEllipsisText/) [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) in `params`.
 
 This is what the truncated JSON record looks like:
 
