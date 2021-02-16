@@ -98,6 +98,7 @@ The class names to inject in each created DOM element. It it useful to design wi
 type ClassNames = Partial<{
   detachedCancelButton: string;
   detachedFormContainer: string;
+  detachedContainer: string;
   detachedOverlay: string;
   detachedSearchButton: string;
   detachedSearchButtonIcon: string;

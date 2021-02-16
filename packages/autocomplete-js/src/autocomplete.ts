@@ -139,7 +139,7 @@ export function autocomplete<TItem extends BaseItem>(
       dom: dom.value,
       Fragment: props.value.renderer.renderer.Fragment,
       panelContainer: isDetached.value
-        ? dom.value.detachedOverlay
+        ? dom.value.detachedContainer
         : props.value.renderer.panelContainer,
       propGetters,
       state: lastStateRef.current,
@@ -182,7 +182,7 @@ export function autocomplete<TItem extends BaseItem>(
       ? props.value.core.environment.document.body
       : props.value.renderer.panelContainer;
     const panelElement = isDetached.value
-      ? dom.value.detachedOverlay
+      ? dom.value.detachedContainer
       : dom.value.panel;
 
     if (isDetached.value && lastStateRef.current.isOpen) {
@@ -257,8 +257,8 @@ export function autocomplete<TItem extends BaseItem>(
     }
 
     function toggleModalClassname(isActive: boolean) {
-      dom.value.detachedOverlay.classList.toggle(
-        'aa-DetachedOverlay--Modal',
+      dom.value.detachedContainer.classList.toggle(
+        'aa-DetachedContainer--Modal',
         isActive
       );
     }

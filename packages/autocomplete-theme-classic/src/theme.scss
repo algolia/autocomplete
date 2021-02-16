@@ -495,7 +495,7 @@ body {
   }
 }
 
-.aa-DetachedOverlay {
+.aa-DetachedContainer {
   background: var(--aa-background-color);
   bottom: 0;
   display: flex;
@@ -553,7 +553,7 @@ body {
     height: 32px;
   }
 
-  &.aa-DetachedOverlay--Modal {
+  &.aa-DetachedContainer--Modal {
     border-radius: 6px;
     bottom: inherit;
     height: auto;
@@ -574,17 +574,16 @@ body {
 .aa-Detached {
   height: 100vh;
   overflow: hidden;
-  &::after {
-    background-color: var(--aa-muted-color);
-    content: '';
-    height: 100vh;
-    left: 0;
-    opacity: 0.75;
-    position: fixed;
-    right: 0;
-    top: 0;
-    z-index: 999;
-  }
+}
+
+.aa-DetachedOverlay {
+  background-color: var(--aa-muted-color);
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 999;
 }
 
 @media (hover: none) and (pointer: coarse) {

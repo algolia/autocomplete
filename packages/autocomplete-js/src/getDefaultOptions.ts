@@ -17,6 +17,7 @@ import { getHTMLElement, mergeClassNames } from './utils';
 const defaultClassNames: AutocompleteClassNames = {
   detachedCancelButton: 'aa-DetachedCancelButton',
   detachedFormContainer: 'aa-DetachedFormContainer',
+  detachedContainer: 'aa-DetachedContainer',
   detachedOverlay: 'aa-DetachedOverlay',
   detachedSearchButton: 'aa-DetachedSearchButton',
   detachedSearchButtonIcon: 'aa-DetachedSearchButtonIcon',
