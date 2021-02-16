@@ -179,7 +179,7 @@ export function autocomplete<TItem extends BaseItem>(
 
   runEffect(() => {
     const panelContainerElement = isDetached.value
-      ? document.body
+      ? props.value.core.environment.document.body
       : props.value.renderer.panelContainer;
     const panelElement = isDetached.value
       ? dom.value.detachedOverlay
@@ -248,6 +248,37 @@ export function autocomplete<TItem extends BaseItem>(
 
     return () => {
       props.value.core.environment.removeEventListener('resize', onResize);
+    };
+  });
+
+  runEffect(() => {
+    if (!isDetached.value) {
+      return () => {};
+    }
+
+    function toggleModalClassname(isActive: boolean) {
+      dom.value.detachedOverlay.classList.toggle(
+        'aa-DetachedOverlay--Modal',
+        isActive
+      );
+    }
+
+    function onChange(event: MediaQueryListEvent) {
+      toggleModalClassname(event.matches);
+    }
+
+    const isModalDetachedMql = window.matchMedia(
+      getComputedStyle(
+        props.value.core.environment.document.documentElement
+      ).getPropertyValue('--aa-detached-modal-media-query')
+    );
+
+    toggleModalClassname(isModalDetachedMql.matches);
+
+    isModalDetachedMql.addEventListener('change', onChange);
+
+    return () => {
+      isModalDetachedMql.removeEventListener('change', onChange);
     };
   });
 

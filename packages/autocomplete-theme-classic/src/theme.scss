@@ -21,6 +21,7 @@
     0 6px 16px -4px rgba(35, 38, 59, 0.15);
   --aa-panel-max-height: 500px;
   --aa-detached-media-query: (max-width: 500px);
+  --aa-detached-modal-media-query: (min-width: 500px);
 }
 
 // ----------------
@@ -551,6 +552,22 @@ body {
   &::after {
     height: 32px;
   }
+
+  &.aa-DetachedOverlay--Modal {
+    border-radius: 6px;
+    bottom: inherit;
+    height: auto;
+    margin: 0 auto;
+    max-width: 500px;
+    position: absolute;
+    top: 3%;
+    .aa-Panel {
+      .aa-PanelLayout {
+        max-height: 500px;
+        padding-bottom: var(--aa-spacing-half);
+      }
+    }
+  }
 }
 
 // remove scroll for body
@@ -573,23 +590,5 @@ body {
 @media (hover: none) and (pointer: coarse) {
   .aa-TouchOnly {
     display: none !important; // TODO: fix specificity issue
-  }
-}
-
-@media (min-width: 500px) {
-  .aa-DetachedOverlay {
-    border-radius: 6px;
-    bottom: inherit;
-    height: auto;
-    margin: 0 auto;
-    max-width: 500px;
-    position: absolute;
-    top: 3%;
-    .aa-Panel {
-      .aa-PanelLayout {
-        max-height: 500px;
-        padding-bottom: var(--aa-spacing-half);
-      }
-    }
   }
 }
