@@ -41,9 +41,9 @@ If you don't want to use a package manager, you can use a standalone endpoint:
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js@alpha"></script>
 ```
 
-We recommend using jsDeliver but [`autocomplete-js`](autocomplete-js) is also available through [unpkg](https://unpkg.com/@algolia/autocomplete-js@alpha).
+We recommend using [jsDelivr](https://www.jsdelivr.com) but [`autocomplete-js`](autocomplete-js) is also available through [unpkg](https://unpkg.com/@algolia/autocomplete-js@alpha).
 
-### Installing the Autocomplete classic theme
+### Installing the Autocomplete Classic Theme
 
 The Autocomplete library provides the [`autocomplete-theme-classic`](autocomplete-theme-classic) package so that you can have sleek styling out of the box.
 
@@ -52,9 +52,9 @@ If you want a custom theme, you can use this classic theme and customize it with
 This example uses the out of the box classic theme. You can import it like any other Autocomplete package.
 
 ```bash
-yarn add @algolia/autocomplete-theme-classic
+yarn add @algolia/autocomplete-theme-classic@alpha
 # or
-npm install @algolia/autocomplete-theme-classic
+npm install @algolia/autocomplete-theme-classic@alpha
 ```
 
 If you don't want to use a package manager, you can add it as a stylesheet in your markup:
@@ -153,7 +153,7 @@ Although you've now declared what items display using [`getSources`](sources#get
 
 ## Defining how to display items
 
-[Sources](sources) also define how to display items in your Autocomplete using [`templates`](templates).  Templates can return a string or anything that's a valid Virtual DOM element. The example creates a [Preact](https://preactjs.com/) component called `ProductItem` to use as the template for each item.
+[Sources](sources) also define how to display items in your Autocomplete using [`templates`](templates). Templates can return a string or anything that's a valid Virtual DOM element. The example creates a [Preact](https://preactjs.com/) component called `ProductItem` to use as the template for each item.
 
 The given `classNames` correspond to the [classic theme](autocomplete-theme-classic) imported earlier.
 
