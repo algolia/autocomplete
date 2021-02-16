@@ -17,7 +17,7 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
 });
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
-  indexName: 'yourQuerySuggestionsIndexName',
+  indexName: 'instant_search_demo_query_suggestions',
   getSearchParams() {
     return recentSearchesPlugin.data.getAlgoliaSearchParams({
       hitsPerPage: 5,
