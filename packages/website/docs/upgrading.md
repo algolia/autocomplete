@@ -3,13 +3,9 @@ id: upgrading
 title: Upgrading
 ---
 
-Upgrade from Autocomplete v0 to Autocomplete v1.
+Learn how tp upgrade from Autocomplete v0 to Autocomplete v1.
 
-import Draft from './partials/draft.md'
-
-<Draft />
-
-Autocomplete v1 offers a lot of new features that are explained in [**Core concepts**](basic-options).
+Autocomplete v1 offers many new features that are explained in [**Core concepts**](basic-options). Please read this documentation to understand the new capabilities.
 
 ## Import
 
@@ -21,27 +17,29 @@ import autocomplete from 'autocomplete.js';
 import { autocomplete } from '@algolia/autocomplete-js';
 ```
 
-## Params
+Read more about your [installation options](getting-started#installation) in the [guide on getting started](getting-started).
 
-Here's a list of params that will help you upgrade to from [Autocomplete v0](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#global-options) to v1:
+## Parameters
 
-- `autocomplete('#autocomplete', /* ... */)` → `autocomplete({ container: '#autocomplete', /* ... */ })`
-- `autoselect: true` → `defaultSelectedItemId: 0`
-- `autoselectOnBlur` is not needed anymore
-- `tabAutocomplete` is not supported because we implement the ARIA 1.1 form of the [combobox design pattern](https://www.w3.org/TR/wai-aria-practices/#combobox)
-- `hint` is not supported
-- `clearOnSelected` is now local to the [source](sources): `getItemInputValue: () => ''`
-- `dropdownMenuContainer` → `panelContainer`
-- `templates` (top-level) → `render` and `renderEmpty`
-- `cssClasses` → `classNames` where properties have changed
-- `keyboardShortcuts` is not supported as an option
-- `minLength` is replaced by only `openOnFocus` (which sets the minimum query length to either 0 or 1)
+These parameters and how you use them have changed from [Autocomplete v0](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#global-options):
+
+| v0 | v1 |
+| ----------- | ----------- |
+| [`autocomplete('#autocomplete', /* ... */)`](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#global-options) | [`autocomplete({ container: '#autocomplete', /* ... */ })`](autocomplete-js/#container) |
+| [`autoselect: true`](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#global-options) | `defaultSelectedItemId: 0` |
+| [`autoselectOnBlur: true`](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#global-options) | No longer needed; this is the default behavior |
+| [`tabAutocomplete: true`](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#global-options) | No longer supported; v1 implements the ARIA 1.1 form of the [combobox design pattern](https://www.w3.org/TR/wai-aria-practices/#combobox) |
+| [`hint`](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#global-options) | No longer supported |
+| [`clearOnSelected`](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#global-options) | This is now now local to the [source](sources): [`getItemInputValue: () => ''`](sources/#getiteminputvalue)|
+| [`dropdownMenuContainer`](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#global-options) | [`panelContainer`](autocomplete-js/#panelcontainer) |
+| [`templates`](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#global-options) (top-level) | [`render`](autocomplete-js/#render) and [`renderEmpty`](autocomplete-js/#renderempty) |
+| [`cssClasses`](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#global-options) | [`classNames`](autocomplete-js/#classnames) where properties have changed |
+| [`keyboardShortcuts`](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#global-options) | No longer supported as an option; check out the [keyboard navigation docs](keyboard-navigation) |
+| [`minLength : 0`](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#global-options) | [`openOnFocus : true`](autocomplete-js/#openonfocus)  |
 
 ## Datasets
 
-[Datasets](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#datasets) are replaced by the `getSources` function.
-
-Learn more about [**Sources**](sources).
+[Datasets](https://github.com/algolia/autocomplete.js/blob/45fa32d008620cf52bf4a90530be338543dfba7f/README.md#datasets) are replaced by the [`getSources`](autocomplete-js/#getsources) function. Learn more about [**Sources** concept](sources).
 
 ## Sources
 
@@ -49,9 +47,7 @@ Learn more about [**Sources**](sources).
 
 ## Templates
 
-The `suggestion` template is renamed [`item`](templates#item).
-
-Learn more about [**Templates**](templates).
+The `suggestion` template is renamed [`item`](templates#item). Learn more about [**Templates** concept](templates).
 
 ## Top-level API
 
