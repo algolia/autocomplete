@@ -382,7 +382,7 @@ Now give it a try: navigate to one of the items using your keyboard and hit <kbd
 
 This outlines a basic autocomplete implementation. There's a lot more you can do like:
 -  define [templates for headers, footers](templates#rendering-a-header-and-footer), or when there's [no results](templates#rendering-an-empty-state)
-- [add multiple sources](creating-multi-source-autocompletes), including [suggested searches](using-query-suggestions-plugin) and [recent searches](using-recent-searches-plugin)
-- [send Algolia Insights events](using-algolia-insights-plugin) when a user clicks on an item or adds it to their cart
+- [add multiple sources](including-multiple-result-types), including [suggested searches](adding-suggested-searches) and [recent searches](adding-recent-searches)
+- [send Algolia Insights events](sending-algolia-insights-events) when a user clicks on an item or adds it to their cart
 
 To learn about customization options, read the [**Core Concepts**](basic-options) or follow one of the [**Guides**](using-query-suggestions-plugin).
