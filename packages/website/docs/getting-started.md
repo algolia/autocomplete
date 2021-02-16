@@ -76,7 +76,7 @@ We don't provide support regarding third party services like jsDeliver or other 
 
 To get started, you need a container for your autocomplete to go in. If you don't have one already, you can insert one into your markup:
 
-```js title="HTML"
+```js title="index.html"
 <div id="autocomplete"></div>
 ```
 
@@ -84,7 +84,7 @@ Then, insert your autocomplete into it by calling the [`autocomplete`](autocompl
 
 Make sure to provide a container (e.g., a `div`), not an `input`. Autocomplete generates a fully accessible search box for you.
 
-```js title="JavaScript"
+```js title="app.js"
 import { autocomplete } from '@algolia/autocomplete-js';
 
 import '@algolia/autocomplete-theme-classic';
@@ -110,7 +110,7 @@ Each source object needs to include a [`sourceId`](sources/#sourceid) and a [`ge
 
 This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) of [e-commerce products](https://github.com/algolia/datasets/tree/master/ecommerce) as a source. The [`autocomplete-js`](autocomplete-js) package provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
 
-```js title="JavaScript"
+```js title="app.js"
 import algoliasearch from 'algoliasearch/lite';
 import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
 
@@ -161,7 +161,7 @@ Although you've now declared what items to display using [`getSources`](sources#
 
 The given `classNames` correspond to the [classic theme](autocomplete-theme-classic) imported earlier.
 
-```jsx title="JSX"
+```jsx title="app.jsx"
 /** @jsx h */
 import { autocomplete, getAlgoliaHits, snippetHit } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
@@ -270,7 +270,7 @@ Check out how the template displays items by searching in the input below:
   getSources={({ query }) => {
     return [
       {
-        sourceId: 'docsearch',
+        sourceId: 'products',
         getItems() {
           return getAlgoliaHits({
             searchClient,
@@ -303,7 +303,7 @@ Check out how the template displays items by searching in the input below:
 
 This is all you need for a basic implementation. To go further, you can use the [`getItemUrl`](sources#getitemurl) to add [keyboard accessibility](keyboard-navigation) features. It lets users open items directly from the autocomplete menu.
 
-```jsx title="JSX"
+```jsx title="app.jsx"
 /** @jsx h */
 import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
@@ -347,7 +347,7 @@ Now give it a try: navigate to one of the items using your keyboard and hit <kbd
   getSources={({ query }) => {
     return [
       {
-        sourceId: 'docsearch',
+        sourceId: 'products',
         getItems() {
           return getAlgoliaHits({
             searchClient,
