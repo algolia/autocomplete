@@ -2,10 +2,11 @@
 id: including-multiple-result-types
 title: Including multiple result types
 ---
-import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import algoliasearch from 'algoliasearch/lite';
+import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
+import { AutocompleteStaticItem } from '@site/src/components/AutocompleteStaticItem';
 const searchClient = algoliasearch(
   'latency',
   '6be0576ff61c053d5f9a3225e2a90f76'
@@ -47,18 +48,13 @@ const predefinedItemsPlugin = {
           return item.url;
         },
         templates: {
-          item({ item}) {
-              return (
-                <a href={item.url} className="aa-ItemContent aa-ItemLink aa-PredefinedItem">
-                  <div className="aa-ItemSourceIcon">
-                    <svg style="width:20px;height:20px" viewBox="0 0 24 24">
-                       <path fill="currentColor" d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
-                     </svg>
-                  </div>
-                  <div className="'aa-ItemTitle">{item.label}</div>
-                </a>
-              )
-        },
+          item({ item }) {
+            return (
+              <AutocompleteStaticItem
+                hit={item}
+              />
+            );
+          },
         },
       },
     ];
