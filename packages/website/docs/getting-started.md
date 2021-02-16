@@ -47,9 +47,9 @@ We recommend using jsDeliver but [`autocomplete-js`](autocomplete-js) is also av
 
 The Autocomplete library provides the [`autocomplete-theme-classic`](autocomplete-theme-classic) package so that you can have sleek styling out of the box.
 
-If you want a custom theme, you can use this classic theme and customize it with CSS variables. You can also create a new theme entirely using the classic theme as a starting point. This example uses the out of the box classic theme.
+If you want a custom theme, you can use this classic theme and customize it with CSS variables. You can also create a new theme entirely using the classic theme as a starting point.
 
-You can import it like any other Autocomplete package.
+This example uses the out of the box classic theme. You can import it like any other Autocomplete package.
 
 ```bash
 yarn add @algolia/autocomplete-theme-classic
@@ -57,7 +57,7 @@ yarn add @algolia/autocomplete-theme-classic
 npm install @algolia/autocomplete-theme-classic
 ```
 
-If you don't want to use a package manager, you can add it as a stylesheet:
+If you don't want to use a package manager, you can add it as a stylesheet in your markup:
 
 ```html
 <link
@@ -294,6 +294,8 @@ Check out how the template displays items by searching in the input below:
   }}
 />
 
+## Going further
+
 This is all you need for a basic implementation. To go further, you can use the [`getItemUrl`](sources#getitemurl) to add [keyboard accessibility](keyboard-navigation) features. It lets users open items directly from the autocomplete menu.
 
 ```jsx title="JSX"
@@ -333,7 +335,7 @@ function ProductItem({ hit, breadcrumb }) {
   // ...
 }
 ```
-Now give it a try: navigate to one of the items using your keyboard and hitting <kbd>Enter</kbd>.
+Now give it a try: navigate to one of the items using your keyboard and hit <kbd>Enter</kbd>. This brings you to the product detail page on [bestbuy.com](https://www.bestbuy.com/).
 
 <AutocompleteExample
   getSources={({ query }) => {
@@ -371,6 +373,10 @@ Now give it a try: navigate to one of the items using your keyboard and hitting 
   }}
 />
 
-## Next steps
 
-This outlines a basic autocomplete implementation. There's a lot more you can do, like [adding multiple sources](creating-multi-source-autocompletes), using [templates for headers, footers](templates#rendering-a-header-and-footer), or when there's [no results](templates#rendering-an-empty-state). To learn about customization options, read the [**Core Concepts**](basic-options) or follow one of the [**Guides**](using-query-suggestions-plugin).
+This outlines a basic autocomplete implementation. There's a lot more you can do like:
+-  define [templates for headers, footers](templates#rendering-a-header-and-footer), or when there's [no results](templates#rendering-an-empty-state)
+- [add multiple sources](creating-multi-source-autocompletes), including [suggested searches](using-query-suggestions-plugin) and [recent searches](using-recent-searches-plugin)
+- [send Algolia Insights events](using-algolia-insights-plugin) when a user clicks on an item or adds it to their cart
+
+To learn about customization options, read the [**Core Concepts**](basic-options) or follow one of the [**Guides**](using-query-suggestions-plugin).
