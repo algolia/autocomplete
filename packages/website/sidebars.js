@@ -12,6 +12,7 @@ module.exports = {
       'keyboard-navigation',
       // 'prop-getters',
       'plugins',
+      'detached-mode',
     ],
     Guides: [
       'using-query-suggestions-plugin',
