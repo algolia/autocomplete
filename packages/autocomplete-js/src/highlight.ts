@@ -25,10 +25,8 @@ export function highlightHit<TItem extends Hit<{}>>({
   tagName = 'mark',
   createElement = preactCreateElement,
 }: HighlightItemParams<TItem>) {
-  return parseAlgoliaHitHighlight<TItem>({ hit, attribute }).map((x) =>
-    x.isHighlighted
-      ? createElement(tagName, { key: x.value, children: x.value })
-      : x.value
+  return parseAlgoliaHitHighlight<TItem>({ hit, attribute }).map((x, index) =>
+    x.isHighlighted ? createElement(tagName, { key: index }, x.value) : x.value
   );
 }
 
@@ -43,10 +41,11 @@ export function reverseHighlightHit<TItem extends Hit<{}>>({
   tagName = 'mark',
   createElement = preactCreateElement,
 }: HighlightItemParams<TItem>) {
-  return parseAlgoliaHitReverseHighlight<TItem>({ hit, attribute }).map((x) =>
-    x.isHighlighted
-      ? createElement(tagName, { key: x.value, children: x.value })
-      : x.value
+  return parseAlgoliaHitReverseHighlight<TItem>({
+    hit,
+    attribute,
+  }).map((x, index) =>
+    x.isHighlighted ? createElement(tagName, { key: index }, x.value) : x.value
   );
 }
 
@@ -59,10 +58,8 @@ export function snippetHit<TItem extends Hit<{}>>({
   tagName = 'mark',
   createElement = preactCreateElement,
 }: HighlightItemParams<TItem>) {
-  return parseAlgoliaHitSnippet<TItem>({ hit, attribute }).map((x) =>
-    x.isHighlighted
-      ? createElement(tagName, { key: x.value, children: x.value })
-      : x.value
+  return parseAlgoliaHitSnippet<TItem>({ hit, attribute }).map((x, index) =>
+    x.isHighlighted ? createElement(tagName, { key: index }, x.value) : x.value
   );
 }
 
@@ -77,9 +74,10 @@ export function reverseSnippetHit<TItem extends Hit<{}>>({
   tagName = 'mark',
   createElement = preactCreateElement,
 }: HighlightItemParams<TItem>) {
-  return parseAlgoliaHitReverseSnippet<TItem>({ hit, attribute }).map((x) =>
-    x.isHighlighted
-      ? createElement(tagName, { key: x.value, children: x.value })
-      : x.value
+  return parseAlgoliaHitReverseSnippet<TItem>({
+    hit,
+    attribute,
+  }).map((x, index) =>
+    x.isHighlighted ? createElement(tagName, { key: index }, x.value) : x.value
   );
 }

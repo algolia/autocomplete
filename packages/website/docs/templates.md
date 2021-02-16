@@ -147,7 +147,7 @@ autocomplete({
         // ...
         templates: {
           item({ item }) {
-            return html`<div>${item.name}</div>`
+            return html`<div>${item.name}</div>`;
           },
         },
       },
@@ -228,7 +228,7 @@ autocomplete({
         // ...
         templates: {
           item({ item }) {
-            return <li class="list-group-item">{item.name}</li>;
+            return <div class="list-group-item-action">{item.name}</div>;
           },
         },
       },
@@ -255,9 +255,9 @@ autocomplete({
         templates: {
           item({ item }) {
             return (
-              <li class="py-2 px-4 rounded-sm border border-gray-200">
+              <div class="py-2 px-4 rounded-sm border border-gray-200">
                 {item.name}
-              </li>
+              </div>
             );
           },
         },

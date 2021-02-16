@@ -16,8 +16,11 @@
   --aa-text-color: rgb(38, 38, 39);
   --aa-content-text-color: rgb(38, 38, 39, 0.7);
   --aa-background-color: rgb(255, 255, 255);
+  --aa-background-color-alpha-0: rgba(255, 255, 255, 0);
   --aa-panel-shadow: 0 0 0 1px rgba(35, 38, 59, 0.1),
     0 6px 16px -4px rgba(35, 38, 59, 0.15);
+  --aa-panel-max-height: 500px;
+  --aa-detached-media-query: (max-width: 500px);
 }
 
 // ----------------
@@ -44,7 +47,7 @@ body {
 // Autocomplete
 // ----------------
 .aa-Autocomplete,
-.aa-TouchFormContainer {
+.aa-DetachedFormContainer {
   font-size: var(--aa-font-size);
   line-height: 1em;
   text-align: left;
@@ -61,7 +64,6 @@ body {
     border: 1px solid var(--aa-muted-color);
     border-radius: 3px;
     display: flex;
-    line-height: 1em;
     padding: 0 var(--aa-spacing) 0 var(--aa-spacing-half);
     position: relative;
     width: 100%;
@@ -162,6 +164,7 @@ body {
 // ----------------
 // Panel
 // ----------------
+
 .aa-Panel {
   position: absolute;
   // reset
@@ -175,44 +178,47 @@ body {
     background: none;
     border: 0;
   }
-  &.aa-Panel--desktop {
-    .aa-PanelLayout {
-      background-color: var(--aa-background-color);
-      border-radius: 3px;
-      box-shadow: var(--aa-panel-shadow);
-      margin-top: var(--aa-spacing-half);
-      overflow: hidden;
-      padding-bottom: var(--aa-spacing-half);
-      padding-top: var(--aa-spacing-half);
-      text-align: left;
-      .aa-PanelLayoutResults {
-        overflow-y: scroll;
-        width: 50%;
-      }
-      .aa-PanelLayoutPreview {
-        border-left: solid 1px var(--aa-selected-color);
-        flex-shrink: 1;
-        max-width: 50%;
-        overflow: hidden;
-      }
-    }
-  }
-  &.aa-Panel--touch {
-    left: var(--aa-spacing-half);
-    padding-top: var(--aa-spacing-half);
-    right: var(--aa-spacing-half);
 
-    .aa-TouchOnly {
-      display: none;
+  &::after {
+    background-image: linear-gradient(
+      var(--aa-background-color-alpha-0),
+      var(--aa-background-color)
+    );
+    border-radius: 3px;
+    bottom: 0;
+    content: '';
+    height: 0.75em;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    z-index: 99;
+  }
+  .aa-PanelLayout {
+    background-color: var(--aa-background-color);
+    border-radius: 3px;
+    box-shadow: var(--aa-panel-shadow);
+    height: 100%;
+    margin-top: var(--aa-spacing-half);
+    max-height: var(--aa-panel-max-height);
+    overflow-y: auto;
+    padding-bottom: var(--aa-spacing-half);
+    padding-top: var(--aa-spacing-half);
+    position: relative;
+    text-align: left;
+
+    .aa-PanelLayoutResults {
+      overflow-x: hidden;
+      overflow-y: auto;
+      width: 50%;
     }
-    .aa-Item {
-      border-radius: 3px;
-      padding: 0;
-    }
-    .aa-SourceHeader {
-      margin: var(--aa-spacing-half) 0 var(--aa-spacing-half) 2px;
+    .aa-PanelLayoutPreview {
+      border-left: solid 1px var(--aa-selected-color);
+      flex-shrink: 1;
+      max-width: 50%;
+      overflow: hidden;
     }
   }
+
   // when a query isn't resolved yet
   &.aa-Panel--stalled {
     filter: grayscale(1);
@@ -228,6 +234,7 @@ body {
 // Each source can be styled independently
 // ----------------
 .aa-Source {
+  position: relative;
   width: 100%;
   // source title
   .aa-SourceHeader {
@@ -272,6 +279,7 @@ body {
     list-style: none;
     margin: 0;
     padding: 0;
+    position: relative;
   }
 }
 
@@ -283,23 +291,22 @@ body {
   color: var(--aa-text-color);
   cursor: pointer;
   display: flex;
-  height: 100%;
+  //height: 100%;
   line-height: 1.1em;
   padding: 0 var(--aa-spacing-half);
-
   .aa-ActiveOnly {
     visibility: hidden;
   }
   // when the result is active
   &[aria-selected='true'] {
     background-color: var(--aa-selected-color);
-
     .aa-ItemActionButton,
     .aa-ActiveOnly {
       visibility: visible;
     }
   }
   // wrap hit with url but we don't need to see it
+  .aa-ItemWrapper,
   .aa-ItemLink {
     align-items: center;
     color: inherit;
@@ -307,9 +314,14 @@ body {
     text-decoration: none;
     width: 100%;
   }
+  .aa-ItemLink {
+    color: inherit;
+    text-decoration: none;
+  }
   // the result type icon inlined svg or img
   .aa-ItemIcon {
     align-items: center;
+    align-self: flex-start;
     background: #fff;
     border-radius: 3px;
     box-shadow: inset 0 0 0 1px var(--aa-selected-color);
@@ -353,19 +365,23 @@ body {
     .aa-ItemContentTitle {
       display: inline-block;
       max-width: 100%;
-      overflow-x: hidden;
+      overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
     .aa-ItemContentSubtitle {
-      color: var(--aa-muted-color);
+      color: var(--aa-content-text-color);
       display: inline-block;
-      font-size: 0.75em;
+      font-size: 0.92em;
       margin-top: -2px;
       max-width: 100%;
       overflow-x: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      &::before {
+        content: ' ';
+        white-space: pre;
+      }
       &:empty {
         display: none;
       }
@@ -410,6 +426,9 @@ body {
     }
   }
   // secondary click action
+  .aa-ItemActions {
+    display: flex;
+  }
   .aa-ItemActionButton {
     align-items: center;
     background: none;
@@ -436,9 +455,9 @@ body {
 }
 
 //----------------
-// Touch
+// Detached
 //----------------
-.aa-TouchSearchButton {
+.aa-DetachedSearchButton {
   align-items: center;
   background-color: var(--aa-background-color);
   border: 1px solid var(--aa-muted-color);
@@ -451,9 +470,16 @@ body {
   padding: 0 var(--aa-spacing-half);
   position: relative;
   text-align: left;
-  .aa-TouchSearchButtonIcon {
+  width: 100%;
+  &:focus {
+    border-color: var(--aa-primary-color);
+    box-shadow: var(--aa-selected-color) 0 0 0 3px,
+      inset var(--aa-selected-color) 0 0 0 2px;
+    outline: currentColor none medium;
+  }
+  .aa-DetachedSearchButtonIcon {
     align-items: center;
-    color: var(--aa-icon-color);
+    color: var(--aa-primary-color);
     cursor: initial;
     display: flex;
     height: 100%;
@@ -461,26 +487,72 @@ body {
   }
 }
 
-.aa-TouchOverlay {
-  backdrop-filter: blur(16px);
+.aa-DetachedOverlay {
   background: var(--aa-background-color);
   bottom: 0;
+  display: flex;
+  flex-direction: column;
   left: 0;
-  padding: var(--aa-spacing-half);
+  overflow: hidden;
+  padding: 0;
   position: fixed;
   right: 0;
   top: 0;
-  .aa-TouchFormContainer {
+
+  .aa-DetachedFormContainer {
+    border-bottom: solid 1px var(--aa-selected-color);
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    padding: var(--aa-spacing-half);
+    .aa-Form {
+      padding: 0 var(--aa-spacing-half) 0 0;
+    }
+    .aa-DetachedCancelButton {
+      background: none;
+      border: 0;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      padding: 0 0 0 var(--aa-spacing-half);
+    }
   }
-  .aa-TouchCancelButton {
-    background: none;
-    border: 0;
-    color: inherit;
-    cursor: pointer;
-    font-size: inherit;
-    padding: 0;
-    padding-left: var(--aa-spacing-half);
+  .aa-Panel {
+    background-color: var(--aa-background-color);
+    overflow: hidden;
+    padding: 0 var(--aa-spacing-half);
+    position: relative;
+
+    .aa-PanelLayout {
+      box-shadow: none;
+      height: 100%;
+      margin: 0;
+      max-height: none;
+      overflow-y: auto;
+      padding: 0;
+      width: 100%;
+    }
+    .aa-Item {
+      border-radius: 3px;
+      padding: 0;
+    }
+    .aa-SourceHeader {
+      margin: var(--aa-spacing-half) 0 var(--aa-spacing-half) 2px;
+    }
+  }
+  &::after {
+    height: 32px;
+  }
+}
+
+// remove scroll for body
+.aa-Detached {
+  height: 100vh;
+  overflow: hidden;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .aa-TouchOnly {
+    display: none !important; // TODO: fix specificity issue
   }
 }

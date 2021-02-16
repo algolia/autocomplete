@@ -1,9 +1,9 @@
-import { InsightsApi } from './types';
+import { AutocompleteInsightsApi } from './types';
 
 declare module '@algolia/autocomplete-core' {
   export interface AutocompleteContext {
     algoliaInsightsPlugin: {
-      insights: InsightsApi;
+      insights: AutocompleteInsightsApi;
     };
   }
 }

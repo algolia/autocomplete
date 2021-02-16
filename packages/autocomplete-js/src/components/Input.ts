@@ -12,7 +12,7 @@ type InputProps = {
   autocompleteScopeApi: AutocompleteScopeApi<any>;
   getInputProps: AutocompletePropGetters<any>['getInputProps'];
   getInputPropsCore: AutocompleteCoreApi<any>['getInputProps'];
-  onTouchEscape?(): void;
+  onDetachedEscape?(): void;
   state: AutocompleteState<any>;
 };
 
@@ -21,7 +21,7 @@ export const Input: Component<InputProps, HTMLInputElement> = ({
   classNames,
   getInputProps,
   getInputPropsCore,
-  onTouchEscape,
+  onDetachedEscape,
   state,
   ...props
 }) => {
@@ -36,8 +36,8 @@ export const Input: Component<InputProps, HTMLInputElement> = ({
   setProperties(element, {
     ...inputProps,
     onKeyDown(event: KeyboardEvent) {
-      if (onTouchEscape && event.key === 'Escape') {
-        onTouchEscape();
+      if (onDetachedEscape && event.key === 'Escape') {
+        onDetachedEscape();
         return;
       }
 

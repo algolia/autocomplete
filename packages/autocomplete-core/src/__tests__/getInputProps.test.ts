@@ -1068,9 +1068,14 @@ describe('getInputProps', () => {
           });
         });
 
-        test('calls onInput and onSelect without item URL', async () => {
+        test('calls getSources and onSelect without item URL', async () => {
           const onSelect = jest.fn();
-          const onInput = jest.fn();
+          const getSources = jest.fn(() => [
+            createSource({
+              onSelect,
+              getItems: () => [{ label: '1' }, { label: '2' }],
+            }),
+          ]);
           const navigator = createNavigator();
           const {
             inputElement,
@@ -1082,30 +1087,26 @@ describe('getInputProps', () => {
             setActiveItemId,
             setStatus,
           } = createPlayground(createAutocomplete, {
-            onInput,
             navigator,
             defaultActiveItemId: 0,
-            initialState: {
-              isOpen: true,
-              collections: [
-                createCollection({
-                  source: { onSelect },
-                  items: [{ label: '1' }, { label: '2' }],
-                }),
-              ],
-            },
+            getSources,
           });
 
           inputElement.focus();
-          userEvent.type(inputElement, '{enter}');
-
-          expect(onInput).toHaveBeenCalledTimes(1);
+          userEvent.type(inputElement, 'a');
           await runAllMicroTasks();
+
+          expect(getSources).toHaveBeenCalledTimes(1);
+
+          userEvent.type(inputElement, '{enter}');
+          await runAllMicroTasks();
+
+          expect(getSources).toHaveBeenCalledTimes(2);
           expect(onSelect).toHaveBeenCalledTimes(1);
           expect(onSelect).toHaveBeenCalledWith({
             event: expect.any(KeyboardEvent),
-            item: { label: '1' },
-            itemInputValue: '',
+            item: expect.objectContaining({ label: '1' }),
+            itemInputValue: 'a',
             itemUrl: undefined,
             refresh,
             setCollections,
@@ -1118,14 +1119,17 @@ describe('getInputProps', () => {
             state: {
               collections: [
                 {
-                  items: [{ label: '1' }, { label: '2' }],
+                  items: [
+                    expect.objectContaining({ label: '1' }),
+                    expect.objectContaining({ label: '2' }),
+                  ],
                   source: expect.any(Object),
                 },
               ],
               completion: null,
               context: {},
               isOpen: false,
-              query: '',
+              query: 'a',
               activeItemId: 0,
               status: 'idle',
             },

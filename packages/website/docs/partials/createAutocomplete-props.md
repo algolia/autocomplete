@@ -70,7 +70,7 @@ Navigator API to redirect the user when a link should be opened.
 
 Learn more on the [Navigator API](/docs/keyboard-navigation) documentation.
 
-### `shouldPanelShow`
+### `shouldPanelOpen`
 
 > `(params: { state: AutocompleteState }) => boolean`
 
@@ -90,15 +90,7 @@ The function called when the Autocomplete form is submitted.
 
 The function called when the Autocomplete form is reset.
 
-### `onInput`
-
-> `(params: {query: string, state: AutocompleteState, ...setters }) => void`
-
-The function called when the input changes.
-
-This turns the experience in controlled mode, leaving you in charge of updating the state.
-
-## `debug`
+### `debug`
 
 > `boolean` | defaults to `false`
 

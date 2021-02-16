@@ -1,4 +1,5 @@
 export type RecentSearchesItem = {
-  id: string;
+  objectID: string;
   query: string;
+  category?: string;
 };

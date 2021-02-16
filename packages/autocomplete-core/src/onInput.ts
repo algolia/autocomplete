@@ -36,17 +36,6 @@ export function onInput<TItem extends BaseItem>({
   store,
   ...setters
 }: OnInputParams<TItem>): Promise<void> {
-  if (props.onInput) {
-    return Promise.resolve(
-      props.onInput({
-        query,
-        refresh,
-        state: store.getState(),
-        ...setters,
-      })
-    );
-  }
-
   if (lastStalledId) {
     props.environment.clearTimeout(lastStalledId);
   }
@@ -71,7 +60,7 @@ export function onInput<TItem extends BaseItem>({
       }))
     );
     setIsOpen(
-      nextState.isOpen ?? props.shouldPanelShow({ state: store.getState() })
+      nextState.isOpen ?? props.shouldPanelOpen({ state: store.getState() })
     );
 
     return Promise.resolve();
@@ -118,12 +107,12 @@ export function onInput<TItem extends BaseItem>({
         .then((collections) => {
           setStatus('idle');
           setCollections(collections as any);
+          const isPanelOpen = props.shouldPanelOpen({
+            state: store.getState(),
+          });
           setIsOpen(
             nextState.isOpen ??
-              ((props.openOnFocus &&
-                !query &&
-                props.shouldPanelShow({ state: store.getState() })) ||
-                props.shouldPanelShow({ state: store.getState() }))
+              ((props.openOnFocus && !query && isPanelOpen) || isPanelOpen)
           );
 
           const highlightedItem = getActiveItem(store.getState());

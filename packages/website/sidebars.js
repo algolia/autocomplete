@@ -47,18 +47,6 @@ module.exports = {
       },
       {
         type: 'category',
-        label: 'autocomplete-preset-algolia',
-        items: [
-          'getAlgoliaHits',
-          'getAlgoliaResults',
-          'parseAlgoliaHitHighlight',
-          'parseAlgoliaHitReverseHighlight',
-          'parseAlgoliaHitSnippet',
-          'parseAlgoliaHitReverseSnippet',
-        ],
-      },
-      {
-        type: 'category',
         label: 'autocomplete-plugin-recent-searches',
         items: [
           'createLocalStorageRecentSearchesPlugin',
@@ -75,6 +63,19 @@ module.exports = {
         label: 'autocomplete-plugin-algolia-insights',
         items: ['createAlgoliaInsightsPlugin'],
       },
+      {
+        type: 'category',
+        label: 'autocomplete-preset-algolia',
+        items: [
+          'getAlgoliaHits',
+          'getAlgoliaResults',
+          'parseAlgoliaHitHighlight',
+          'parseAlgoliaHitReverseHighlight',
+          'parseAlgoliaHitSnippet',
+          'parseAlgoliaHitReverseSnippet',
+        ],
+      },
+      'autocomplete-theme-classic',
     ],
   },
 };

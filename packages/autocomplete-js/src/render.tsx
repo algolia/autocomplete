@@ -23,7 +23,6 @@ type RenderProps<TItem extends BaseItem> = {
   createElement: Pragma;
   dom: AutocompleteDom;
   Fragment: PragmaFrag;
-  isTouch: boolean;
   panelContainer: HTMLElement;
   propGetters: AutocompletePropGetters<TItem>;
   state: AutocompleteState<TItem>;
@@ -67,7 +66,6 @@ export function renderPanel<TItem extends BaseItem>(
     createElement,
     dom,
     Fragment,
-    isTouch,
     panelContainer,
     propGetters,
     state,
@@ -87,8 +85,6 @@ export function renderPanel<TItem extends BaseItem>(
     panelContainer.appendChild(dom.panel);
   }
 
-  dom.panel.classList.toggle('aa-Panel--desktop', !isTouch);
-  dom.panel.classList.toggle('aa-Panel--touch', isTouch);
   dom.panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');
 
   const sections = state.collections.map(({ source, items }, sourceIndex) => (
@@ -109,7 +105,7 @@ export function renderPanel<TItem extends BaseItem>(
         </div>
       )}
 
-      {items.length === 0 && source.templates.empty ? (
+      {items.length === 0 && source.templates.empty && state.query ? (
         <div className={classNames.sourceEmpty}>
           {source.templates.empty({
             createElement,
@@ -153,6 +149,18 @@ export function renderPanel<TItem extends BaseItem>(
             );
           })}
         </ul>
+      )}
+
+      {source.templates.footer && (
+        <div className={classNames.sourceFooter}>
+          {source.templates.footer({
+            createElement,
+            Fragment,
+            items,
+            source,
+            state,
+          })}
+        </div>
       )}
     </section>
   ));

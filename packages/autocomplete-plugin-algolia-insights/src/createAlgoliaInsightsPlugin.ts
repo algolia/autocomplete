@@ -10,7 +10,7 @@ import { createViewedEvents } from './createViewedEvents';
 import { isAlgoliaInsightsHit } from './isAlgoliaInsightsHit';
 import {
   AlgoliaInsightsHit,
-  InsightsApi,
+  AutocompleteInsightsApi,
   InsightsClient,
   OnActiveParams,
   OnItemsChangeParams,
@@ -22,7 +22,7 @@ const VIEW_EVENT_DELAY = 400;
 type SendViewedObjectIDsParams = {
   onItemsChange(params: OnItemsChangeParams): void;
   items: AlgoliaInsightsHit[];
-  insights: InsightsApi;
+  insights: AutocompleteInsightsApi;
   state: AutocompleteState<any>;
 };
 

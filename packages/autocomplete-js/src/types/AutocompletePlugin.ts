@@ -5,8 +5,8 @@ import {
 
 import { AutocompleteOptions } from './AutocompleteOptions';
 
-export type AutocompletePlugin<TItem extends BaseItem> = Omit<
-  AutocompleteCorePlugin<TItem>,
+export type AutocompletePlugin<TItem extends BaseItem, TData> = Omit<
+  AutocompleteCorePlugin<TItem, TData>,
   'getSources'
 > & {
   getSources: AutocompleteOptions<TItem>['getSources'];
