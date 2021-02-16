@@ -104,7 +104,9 @@ Autocomplete is now plugged in. But you won't see anything appear until you defi
 
 ## Defining what items to display
 
-[Sources](sources) define where to retrieve the items to display in your autocomplete dropdown. You define your sources in the [`getSources`](sources#getsources) function by returning an array of [source objects](sources#source). Each source object needs to include a [`getItems`](sources#getitems) function that returns the items to display. Sources can be static or dynamic.
+[Sources](sources) define where to retrieve the items to display in your autocomplete dropdown. You define your sources in the [`getSources`](sources#getsources) function by returning an array of [source objects](sources#source).
+
+Each source object needs to include a [`sourceId`](sources/#sourceid) and a [`getItems`](sources#getitems) function that returns the items to display. Sources can be static or dynamic.
 
 This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) of [e-commerce products](https://github.com/algolia/datasets/tree/master/ecommerce) as a source. The [`autocomplete-js`](autocomplete-js) package provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
 
@@ -125,6 +127,7 @@ autocomplete({
   getSources({ query }) {
     return [
       {
+        sourceId: 'products',
         getItems() {
           return getAlgoliaHits({
             searchClient,
@@ -148,9 +151,9 @@ autocomplete({
 
 The [`getAlgoliaHits`](getAlgoliaHits) function requires an [Algolia search client](https://www.algolia.com/doc/api-client/getting-started/install/javascript/) initialized with an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id). It lets you search into your Algolia index using an array of `queries`, which defines one or more queries to send to the index.
 
-This example makes just one query to the "autocomplete" index using the `query` from [`getSources`](sources#getsources). It passes one additional parameter, [`hitsPerPage`](https://www.algolia.com/doc/api-reference/api-parameters/hitsPerPage/) to define how many items to display, but you could pass any other [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/).
+This example makes just one query to the "autocomplete" index using the `query` from [`getSources`](sources#getsources). For now, it passes one additional parameter, [`hitsPerPage`](https://www.algolia.com/doc/api-reference/api-parameters/hitsPerPage/) to define how many items to display, but you could pass any other [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/).
 
-Although you've now declared what items display using [`getSources`](sources#getsources), you still won't see anything until you've defined _how_ to display the items you've retrieved.
+Although you've now declared what items to display using [`getSources`](sources#getsources), you still won't see anything until you've defined _how_ to display the items you've retrieved.
 
 ## Defining how to display items
 
@@ -175,8 +178,9 @@ autocomplete({
   container: '#autocomplete',
   placeholder: 'Search for products',
   getSources({ query }) {
-    return [
+        return [
       {
+        sourceId: 'products',
         getItems() {
           return getAlgoliaHits({
             searchClient,
@@ -316,8 +320,9 @@ autocomplete({
   container: '#autocomplete',
   placeholder: 'Search for products',
   getSources({ query }) {
-    return [
+        return [
       {
+        sourceId: 'products',
         getItems() {
           // ...
         },
