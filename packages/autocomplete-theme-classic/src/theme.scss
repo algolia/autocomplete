@@ -22,6 +22,8 @@
   --aa-panel-max-height: 500px;
   --aa-detached-media-query: (max-width: 500px);
   --aa-detached-modal-media-query: (min-width: 500px);
+  --aa-detached-modal-max-width: 500px;
+  --aa-detached-modal-max-height: 500px;
 }
 
 // ----------------
@@ -558,12 +560,12 @@ body {
     bottom: inherit;
     height: auto;
     margin: 0 auto;
-    max-width: 500px;
+    max-width: var(--aa-detached-modal-max-width);
     position: absolute;
     top: 3%;
     .aa-Panel {
       .aa-PanelLayout {
-        max-height: 500px;
+        max-height: var(--aa-detached-modal-max-height);
         padding-bottom: var(--aa-spacing-half);
       }
     }
