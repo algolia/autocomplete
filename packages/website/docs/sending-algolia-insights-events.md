@@ -16,15 +16,18 @@ If you're using [Algolia indices](https://www.algolia.com/doc/faq/basics/what-is
 You may also want to capture [Click and Conversion Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/). These analytics take Algolia’s out-of-the-box [Search Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/out-of-the-box-analytics/) further by providing insights into actions users take after performing a search. They're useful to better understand your user's behavior and what they need from your app. This information can ultimately drive your business.
 
 Capturing these analytics requires [sending events to Algolia](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/capturing-user-behavior-as-events/) when your users view, click, or convert on results. This tutorial explains how to automatically send events from your autocomplete using the [`autocomplete-plugin-algolia-insights`](createAlgoliaInsightsPlugin) package.
+
 ## Prerequisites
 
 This tutorial assumes that you have:
+
 - an autocomplete using one or more [Algolia indices](https://www.algolia.com/doc/faq/basics/what-is-an-index/) for your [sources](sources)
 - front-end development proficiency with HTML, CSS, and JavaScript
 
 :::note
 
 If you haven't implemented an autocomplete using Algolia as a source yet, follow the [Getting Started guide](getting-started) first. For learning purposes, you can use the demo application credentials and index provided in this tutorial.
+
 :::
 
 ## Getting started
@@ -35,17 +38,17 @@ First, begin with some boilerplate for the autocomplete implementation. Create a
 import {
   autocomplete,
   getAlgoliaHits,
-  highlightHit
-} from "@algolia/autocomplete-js";
-import algoliasearch from "algoliasearch";
-import { h, Fragment } from "preact";
+  highlightHit,
+} from '@algolia/autocomplete-js';
+import algoliasearch from 'algoliasearch';
+import { h, Fragment } from 'preact';
 
-const appId = "latency";
-const apiKey = "6be0576ff61c053d5f9a3225e2a90f76";
+const appId = 'latency';
+const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
 
 autocomplete({
-  container: "#autocomplete",
+  container: '#autocomplete',
   openOnFocus: true,
   plugins: [],
   getSources({ query }) {
@@ -56,23 +59,23 @@ autocomplete({
             searchClient,
             queries: [
               {
-                indexName: "instant_search",
+                indexName: 'instant_search',
                 query,
                 params: {
                   clickAnalytics: true,
-                }
-              }
-            ]
+                },
+              },
+            ],
           });
         },
         templates: {
           item({ item }) {
             return <ProductItem hit={item} />;
-          }
-        }
-      }
+          },
+        },
+      },
     ];
-  }
+  },
 });
 
 function ProductItem({ hit }) {
@@ -83,10 +86,10 @@ function ProductItem({ hit }) {
       </div>
       <div className="aa-ItemContent">
         <div className="aa-ItemContentTitle">
-          {highlightHit({ hit, attribute: "name" })}
+          {highlightHit({ hit, attribute: 'name' })}
         </div>
         <div className="aa-ItemContentDescription">
-          {highlightHit({ hit, attribute: "description" })}
+          {highlightHit({ hit, attribute: 'description' })}
         </div>
       </div>
       <button
@@ -125,32 +128,32 @@ It requires an [Algolia Insights client](https://www.algolia.com/doc/guides/gett
 import {
   autocomplete,
   getAlgoliaHits,
-  highlightHit
-} from "@algolia/autocomplete-js";
-import algoliasearch from "algoliasearch";
-import { h, Fragment } from "preact";
-import { createAlgoliaInsightsPlugin } from "@algolia/autocomplete-plugin-algolia-insights";
-import insightsClient from "search-insights";
+  highlightHit,
+} from '@algolia/autocomplete-js';
+import algoliasearch from 'algoliasearch';
+import { h, Fragment } from 'preact';
+import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
+import insightsClient from 'search-insights';
 
-const appId = "latency";
-const apiKey = "6be0576ff61c053d5f9a3225e2a90f76";
+const appId = 'latency';
+const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
 
-insightsClient("init", { appId, apiKey });
+insightsClient('init', { appId, apiKey });
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
 
 autocomplete({
-  container: "#autocomplete",
-  placeholder: "Search products",
+  container: '#autocomplete',
+  placeholder: 'Search products',
   openOnFocus: true,
   plugins: [algoliaInsightsPlugin],
   getSources({ query }) {
     // ...
-  }
+  },
 });
 
 function ProductItem({ hit }) {
-    // ...
+  // ...
 }
 ```
 
@@ -165,10 +168,10 @@ You can change any of the plugin's default behavior by using the [`onItemsChange
 This snippet shows how to instantiate a plugin that sends a click event with "Product Selected from Autocomplete" as the `eventName` whenever a user selects an item. You may want to do this to differentiate between click events sent from your Autocomplete vs. other parts of your search implementation.
 
 ```js title="index.js"
-const appId = "latency";
-const apiKey = "6be0576ff61c053d5f9a3225e2a90f76";
+const appId = 'latency';
+const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
-insightsClient("init", { appId, apiKey });
+insightsClient('init', { appId, apiKey });
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
   insightsClient,
@@ -179,7 +182,7 @@ const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
     }));
     insights.clickedObjectIDsAfterSearch(...events);
   },
-})
+});
 ```
 
 ### Sending different events for different result types
@@ -187,10 +190,10 @@ const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
 If you're [using multiple different Algolia indices in the same autocomplete](including-multiple-result-types), for example one for products and one for suggestions, you may want to use different `eventName`s for each section. You can change this (and other parts of the event) conditionally based on the source index name:
 
 ```js title="index.js"
-const appId = "latency";
-const apiKey = "6be0576ff61c053d5f9a3225e2a90f76";
+const appId = 'latency';
+const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
-insightsClient("init", { appId, apiKey });
+insightsClient('init', { appId, apiKey });
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
   insightsClient,
@@ -226,7 +229,7 @@ const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
 
 Though the default Insights plugin doesn't send any conversion events, you may want to. For example, you may have created a [template](templates) with an "Add to cart" button.
 
-![Autocomplete with add to cart button](/img/add-to-cart.jpg)
+![Autocomplete with add to cart button](/img/add-to-cart.png)
 
 If a user adds an item to their shopping cart directly from the autocomplete, you can send a conversion event from your template. This is possible since the Insights plugin stores the Insights client in [context](context). You can pass it to your templates like this:
 
@@ -302,6 +305,7 @@ function ProductItem({ hit, insights }) {
 ```
 
 For more information on the methods and event types you can send using the Insights API, consult the [Algolia Insights documentation](https://www.algolia.com/doc/api-client/methods/insights/).
+
 ## Validating events
 
 To ensure that you're sending events as you expect, you can check your [Algolia Insights logs](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/validating-events/#insights-api-logs) or work with the [Insights Validator Chrome extension](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/validating-events/#insights-validator-chrome-extension). Check out the [guide on validating events](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/in-depth/validating-events/) for more details.
