@@ -1,5 +1,5 @@
 <div align="center">
-	<a href="https://autocomplete.algolia.com"><img src="./.github/illu.png" alt="Autocomplete" width="200" height="200"></a>
+	<a href="https://autocomplete.algolia.com"><img src="./media/illustration.png" alt="Autocomplete" width="200" height="200"></a>
 	<h1>Autocomplete</h1>
 	<p>
 		<strong>A JavaScript library that lets you quickly build autocomplete experiences</strong>
@@ -17,21 +17,19 @@ All you need to get started is:
 
 - A container to inject the experience into
 - Data to fill the autocomplete with
+- Any Virtual DOM solution (JavaScript, Preact, React, Vue, etc.)
 
 The data that populates the autocomplete results are called [sources](https://autocomplete.algolia.com/docs/sources). You can use whatever you want in your sources: a static set of searches terms, search results from an external source like an [Algolia](<[Algolia](https://www.algolia.com/doc/guides/getting-started/what-is-algolia/)>) index, recent searches, and more.
 
 By configuring just those two required parameters ([`container`](https://autocomplete.algolia.com/docs/autocomplete-js/#container) and [`getSources`](https://autocomplete.algolia.com/docs/autocomplete-js/#getsources)) you can have an interactive autocomplete experience. **The library creates an input and provides the interactivity and accessibility attributes, but you're in full control of the DOM elements to output**.
 
-Autocomplete is compatible with any Virtual DOM implementation (JavaScript, Preact, React, Vue, etc.).
-
 <p align="center">
   <a href="https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.tsx">
-    <img src="./.github/screenshot.png" alt="Screenshot">
+    <img src="./media/screenshot.png" alt="Screenshot">
   </a>
   <br>
   <br>
   <strong>
-  <a href="https://autocomplete.algolia.com">Website</a> •
   <a href="https://autocomplete.algolia.com/docs/introduction">Documentation</a> •
   <a href="https://autocomplete.algolia.com/docs/api">API</a> •
   <a href="https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.tsx">Playground</a>
@@ -112,7 +110,7 @@ You can find more on the [documentation](https://autocomplete.algolia.com).
 
 See the awesome experiences people built with Autocomplete:
 
-| [![DocSearch](./.github/showcase/docsearch.png)](https://docsearch.algolia.com) | [![Algolia Documentation](./.github/showcase/algolia-documentation.png)](https://algolia.com/doc) |
+| [![DocSearch](./media/showcase/docsearch.png)](https://docsearch.algolia.com) | [![Algolia Documentation](./media/showcase/algolia-documentation.png)](https://algolia.com/doc) |
 | --- | --- |
 | <div align="center"><a href="https://docsearch.algolia.com">DocSearch</a></div> | <div align="center"><a href="https://algolia.com/doc">Algolia Documentation</a></div> |
 
@@ -122,7 +120,7 @@ Check out [sandboxes](https://codesandbox.io/search?refinementList%5Bnpm_depende
 
 <div align="center">
 
-[![Sandboxes](./.github/sandboxes.png)](https://codesandbox.io/search?refinementList%5Bnpm_dependencies.dependency%5D%5B0%5D=%40algolia%2Fautocomplete-core)
+[![Sandboxes](./media/sandboxes.png)](https://codesandbox.io/search?refinementList%5Bnpm_dependencies.dependency%5D%5B0%5D=%40algolia%2Fautocomplete-core)
 
 </div>
 
