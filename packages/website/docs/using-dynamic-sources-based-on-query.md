@@ -11,7 +11,7 @@ const searchClient = algoliasearch(
   'latency',
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
-const dynamicPlugin = {
+const linksPlugin = {
   getSources ({ query }) {
     if (!query) {
       return [
@@ -107,6 +107,7 @@ autocomplete({
     if (!query) {
       return [
         {
+          sourceId: 'links',
           getItems() {
             return [
               { label: 'Twitter', url: 'https://twitter.com' },
@@ -116,12 +117,18 @@ autocomplete({
           getItemUrl({ item }) {
             return item.url;
           },
+          templates: {
+            item({ item }) {
+              return item.label;
+            },
+          },
         },
       ];
     }
 
     return [
       {
+        sourceId: 'products',
         getItems() {
           return getAlgoliaHits({
             searchClient,
@@ -135,6 +142,11 @@ autocomplete({
         },
         getItemUrl({ item }) {
           return item.url;
+        },
+        templates: {
+          item({ item }) {
+            return item.name;
+          },
         },
       },
     ];
@@ -150,7 +162,7 @@ Try it out:
 
 <AutocompleteExample
   openOnFocus={true}
-  plugins={[dynamicPlugin]}
+  plugins={[linksPlugin]}
 />
 
 Note that you have access to the [full autocomplete state](state), not only the query. It lets you compute sources based on [various parameters](state#state), such as the query, but also the autocomplete status, whether the autocomplete is open or not, the [context](context), etc.

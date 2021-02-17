@@ -1,22 +1,23 @@
-import { Hit } from '@algolia/client-search';
 import { snippetHit } from '@algolia/autocomplete-js';
+import { Hit } from '@algolia/client-search';
 import React from 'react';
 
 type Product = {
   name: string;
   image: string;
   description: string;
+  url: string;
 };
 
 type ProductHit = Hit<Product>;
 
-type ProductItemProps = {
+type AutocompleteProductProps = {
   hit: ProductHit;
 };
 
-export function AutocompleteProduct({ hit }: ProductItemProps) {
+export function AutocompleteProduct({ hit }: AutocompleteProductProps) {
   return (
-    <>
+    <a className="aa-ItemLink" href={hit.url}>
       <div className="aa-ItemIcon">
         <img src={hit.image} alt={hit.name} width="40" height="40" />
       </div>
@@ -37,6 +38,6 @@ export function AutocompleteProduct({ hit }: ProductItemProps) {
           <path d="M18.984 6.984h2.016v6h-15.188l3.609 3.609-1.406 1.406-6-6 6-6 1.406 1.406-3.609 3.609h13.172v-4.031z"></path>
         </svg>
       </button>
-    </>
+    </a>
   );
 }
