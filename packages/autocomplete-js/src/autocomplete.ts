@@ -182,7 +182,7 @@ export function autocomplete<TItem extends BaseItem>(
       ? props.value.core.environment.document.body
       : props.value.renderer.panelContainer;
     const panelElement = isDetached.value
-      ? dom.value.detachedContainer
+      ? dom.value.detachedOverlay
       : dom.value.panel;
 
     if (isDetached.value && lastStateRef.current.isOpen) {

@@ -191,6 +191,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   return {
     openDetachedOverlay,
     detachedContainer,
+    detachedOverlay,
     inputWrapper,
     input,
     root,

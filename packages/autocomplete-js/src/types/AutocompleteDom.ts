@@ -9,4 +9,5 @@ export type AutocompleteDom = {
   loadingIndicator: HTMLDivElement;
   panel: HTMLDivElement;
   detachedContainer: HTMLDivElement;
+  detachedOverlay: HTMLDivElement;
 };
