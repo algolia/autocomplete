@@ -38,6 +38,7 @@ const predefinedItemsPlugin = {
   getSources() {
     return [
       {
+        sourceId: 'predefinedItemsPlugin',
         getItems({ query }) {
           return predefinedItems.filter(
             (item) =>
@@ -50,9 +51,7 @@ const predefinedItemsPlugin = {
         templates: {
           item({ item }) {
             return (
-              <AutocompleteStaticItem
-                hit={item}
-              />
+              <AutocompleteStaticItem hit={item} />
             );
           },
         },
@@ -130,14 +129,11 @@ export const predefinedItemsPlugin = {
   getSources() {
     return [
       {
+        sourceId: 'predefinedItemsPlugin',
         getItems({ query }) {
-          if (!query) {
-            return predefinedItems;
-          }
-
           return predefinedItems.filter(
             (item) =>
-              item.label.toLowerCase().includes(query.toLowerCase())
+              !query || item.label.toLowerCase().includes(query.toLowerCase())
           );
         },
         getItemUrl({ item }) {
@@ -176,6 +172,7 @@ export const predefinedItemsPlugin = {
   getSources() {
     return [
       {
+        sourceId: 'predefinedItemsPlugin',
         getItems({ query }) {
           return predefinedItems.filter(
             (item) =>
@@ -186,17 +183,31 @@ export const predefinedItemsPlugin = {
           return item.url;
         },
         templates: {
-          item({ item}) {
-              return (
-                <a href={item.url} className="aa-ItemContent aa-PredefinedItem">
-                  <div className="aa-ItemSourceIcon">
-                    <svg viewBox="0 0 24 24" width="20" height="20">
-                       <path fill="currentColor" d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
-                     </svg>
-                  </div>
-                  <div className="'aa-ItemTitle">{item.label}</div>
-                </a>
-              )
+          item({ item }) {
+            return (
+              <a className="aa-ItemLink" href={item.url}>
+                <div className="aa-ItemIcon aa-ItemIcon--no-border">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </div>
+
+                <div className="aa-ItemContent">
+                  <div className="aa-ItemContentTitle">{item.label}</div>
+                </div>
+              </a>
+            )
           },
         },
       },
@@ -296,8 +307,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   getSearchParams() {
   return recentSearchesPlugin.data.getAlgoliaSearchParams({
     hitsPerPage: 10,
-  });
-  },
+  }),
 });
 
 autocomplete({
