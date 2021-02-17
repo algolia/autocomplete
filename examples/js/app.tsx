@@ -54,7 +54,6 @@ autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
   debug: true,
-  detachedMediaQuery: '',
   openOnFocus: true,
   plugins: [
     shortcutsPlugin,
