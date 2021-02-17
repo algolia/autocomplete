@@ -9,8 +9,6 @@ import Draft from './partials/draft.md'
 
 <Draft />
 
-<!-- When the [`detachedMediaQuery`](autocomplete-js#detachedMediaQuery) value is met, Autocomplete turns into detached mode. This mode replaces the regular dropdown for a fully immersive experience, as seen on native devices. -->
-
 ## What is Detached
 
 Autocomplete Detached aims at reproducing native experiences on the device you're using. It doesn't display a native input with results in a dropdown, but a search button with results in a modal. This allows a more immersive experience where the full viewport is used to display results.
@@ -33,6 +31,10 @@ Once you're Detached, you can choose to enable the modal design, which shows the
 
 ![Modal](/img/screenshot-detached-modal.png)
 
-## Bailing out of Detached Mode
+## Always enable Detached Mode
 
-To disable Detached Mode, you can pass `detachedMediaQuery: ''`.
+To always enable Detached Mode, you can pass `detachedMediaQuery: ''`.
+
+## Always disable Detached Mode
+
+To always disable Detached Mode, you can pass `detachedMediaQuery: 'none'`.
