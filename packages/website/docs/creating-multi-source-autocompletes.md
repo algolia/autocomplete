@@ -12,8 +12,27 @@ const searchClient = algoliasearch(
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
-  key: 'RECENT_SEARCH',
+  key: 'including-multiple-result-types',
   limit: 5,
+  transformSource({ source }) {
+    return {
+      ...source,
+      templates: {
+        ...source.templates,
+        header({ items }) {
+          if (items.length === 0) {
+            return null
+          }
+          return (
+            <>
+              <span className="aa-SourceHeaderTitle">Recent</span>
+              <div className="aa-SourceHeaderLine" />
+            </>
+          )
+        },
+      },
+    };
+  },
 });
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
@@ -23,6 +42,25 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
       hitsPerPage: 5,
     });
   },
+  transformSource({ source }) {
+    return {
+      ...source,
+      templates: {
+        ...source.templates,
+        header({ items }) {
+          if (items.length === 0) {
+            return null
+          }
+          return (
+            <>
+              <span className="aa-SourceHeaderTitle">Suggestions</span>
+              <div className="aa-SourceHeaderLine" />
+            </>
+          )
+        },
+      },
+    }
+  }
 });
 const predefinedItems = [
   {
@@ -40,15 +78,29 @@ const predefinedItemsPlugin = {
       {
         sourceId: 'predefinedItemsPlugin',
         getItems({ query }) {
+          if (!query) {
+            return predefinedItems;
+          }
           return predefinedItems.filter(
             (item) =>
-              !query || item.label.toLowerCase().includes(query.toLowerCase())
+              item.label.toLowerCase().includes(query.toLowerCase())
           );
         },
         getItemUrl({ item }) {
           return item.url;
         },
         templates: {
+          header({ items }) {
+            if (items.length === 0) {
+              return null
+            }
+            return (
+              <>
+                <span className="aa-SourceHeaderTitle">Links</span>
+                <div className="aa-SourceHeaderLine" />
+              </>
+            );
+          },
           item({ item }) {
             return (
               <AutocompleteStaticItem hit={item} />
@@ -131,9 +183,12 @@ export const predefinedItemsPlugin = {
       {
         sourceId: 'predefinedItemsPlugin',
         getItems({ query }) {
+          if (!query) {
+            return predefinedItems;
+          }
           return predefinedItems.filter(
             (item) =>
-              !query || item.label.toLowerCase().includes(query.toLowerCase())
+              item.label.toLowerCase().includes(query.toLowerCase())
           );
         },
         getItemUrl({ item }) {
@@ -155,10 +210,10 @@ In this example, [`getItems`](sources/#getitems) returns a filtered array of `pr
 
 The [`getItemUrl`](sources/#getitemurl) function defines how to get the URL of an item. In this case, since it's an attribute on each object in the `predefinedItems` array, you can simply return the attribute. You can use [`getItemUrl`](sources/#getitemurl) to add [keyboard navigation](keyboard-navigation) to the autocomplete menu. Users can scroll through items in the autocomplete menu with the arrow up and down keys. When they hit <kbd>Enter</kbd> on one of the `predefinedItems` (or any source that includes[`getItemUrl`](sources/#getitemurl)), it opens the URL retrieved from [`getItemUrl`](sources/#getitemurl).
 
-[Templates](templates) define how to display each section of the autocomplete, including the [`header`](templates#header), [`footer`](templates#footer), and each [`item`](templates#item). You can provide either a string, or as the example below shows, a function for how to manipulate the DOM.
+[Templates](templates) define how to display each section of the autocomplete, including the [`header`](templates#header), [`footer`](templates#footer), and each [`item`](templates#item). You can return anything from each template as long as they're valid virtual DOM elements (VNodes).
 
 ```js title="predefinedItemsPlugin.js"
-  const predefinedItems = [
+const predefinedItems = [
   {
     label: 'Documentation',
     url: 'https://autocomplete.algolia.com/',
@@ -168,21 +223,36 @@ The [`getItemUrl`](sources/#getitemurl) function defines how to get the URL of a
     url: 'https://github.com/algolia/autocomplete.js/tree/next',
   },
 ]
+
 export const predefinedItemsPlugin = {
   getSources() {
     return [
       {
         sourceId: 'predefinedItemsPlugin',
         getItems({ query }) {
+          if (!query) {
+            return predefinedItems;
+          }
           return predefinedItems.filter(
             (item) =>
-              !query || item.label.toLowerCase().includes(query.toLowerCase())
+              item.label.toLowerCase().includes(query.toLowerCase())
           );
         },
         getItemUrl({ item }) {
           return item.url;
         },
         templates: {
+          header({ items }) {
+            if (items.length === 0) {
+              return null
+            }
+            return (
+              <>
+                <span className="aa-SourceHeaderTitle">Links</span>
+                <div className="aa-SourceHeaderLine" />
+              </>
+            );
+          },
           item({ item }) {
             return (
               <a className="aa-ItemLink" href={item.url}>
@@ -317,6 +387,67 @@ autocomplete({
 
 This shows up to five recent searches (set by the [`limit`](createLocalStorageRecentSearchesPlugin#limit) parameter) and up to ten total search terms. If there's only one recent search in local storage, the autocomplete displays nine Query Suggestions, assuming that there are nine relevant suggestions.
 
+### Separating result types
+
+We recommend separating different result types with headers when using sources other than just Recent Searches and Query Suggestions. We can use the `transformSource` option of the plugins.
+
+```js title="index.js"
+import { autocomplete } from '@algolia/autocomplete-js';
+import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
+
+// ...
+
+const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+  // ...
+  transformSource({ source }) {
+    return {
+      ...source,
+      templates: {
+        ...source.templates,
+        header({ items }) {
+          if (items.length === 0) {
+            return null
+          }
+          return (
+            <>
+              <span className="aa-SourceHeaderTitle">Recent</span>
+              <div className="aa-SourceHeaderLine" />
+            </>
+          )
+        },
+      },
+    };
+  },
+});
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  // ...
+  transformSource({ source }) {
+    return {
+      ...source,
+      templates: {
+        ...source.templates,
+        header({ items }) {
+          if (items.length === 0) {
+            return null
+          }
+          return (
+            <>
+              <span className="aa-SourceHeaderTitle">Suggestions</span>
+              <div className="aa-SourceHeaderLine" />
+            </>
+          )
+        },
+      },
+    }
+  }
+});
+
+autocomplete({
+  // ...
+});
+```
+
 ## Putting it all together
 
 All that's left to do is add all of your plugins to your autocomplete instance:
@@ -348,7 +479,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 
 autocomplete({
   container: '#autocomplete',
-  plugins: [predefinedItemsPlugin, recentSearchesPlugin, querySuggestionsPlugin],
+  plugins: [recentSearchesPlugin, querySuggestionsPlugin, predefinedItemsPlugin],
   openOnFocus: true,
 });
 ```
@@ -356,7 +487,7 @@ autocomplete({
 This creates a basic multi-source autocomplete. Try it out below:
 
 <AutocompleteExample
-  plugins={[predefinedItemsPlugin, recentSearchesPlugin, querySuggestionsPlugin]}
+  plugins={[recentSearchesPlugin, querySuggestionsPlugin, predefinedItemsPlugin]}
   openOnFocus={true}
 />
 
