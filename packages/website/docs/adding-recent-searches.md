@@ -49,7 +49,7 @@ The `key` can be any string and is required to differentiate search histories if
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 
- const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'RECENT_SEARCH',
   limit: 5,
 });
@@ -67,6 +67,51 @@ Since the `recentSearchesPlugin` reads from [`localStorage`](https://developer.m
   plugins={[recentSearchesPlugin]}
   openOnFocus={true}
 />
+
+## Transforming recent searches
+
+If you use Autocomplete as an entry point to a search page, you can turn recent searches into links:
+
+```js
+const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+  // ...
+  transformSource({ source }) {
+    return {
+      ...source,
+      getItemUrl({ item }) {
+        return `/search?q=${item.query}`;
+      },
+      templates: {
+        item(params) {
+          const { item } = params;
+          return (
+            <a className="aa-ItemLink" href={`/search?q=${item.query}`}>
+              {source.templates.item(params)}
+            </a>
+          );
+        },
+      },
+    };
+  },
+});
+```
+
+If you use Autocomplete on your instant search page, you can plug some logic with `onSelect`:
+
+```js
+const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+  // ...
+  transformSource({ source }) {
+    return {
+      ...source,
+      onSelect({ item }) {
+        // Assuming the refine function updates the search page state.
+        refine(item.query);
+      }
+    };
+  },
+});
+```
 
 ## Using your own storage
 

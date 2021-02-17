@@ -126,6 +126,51 @@ These suggestions are based on a [public dataset of BestBuy products](https://gi
 
 :::
 
+## Transforming Query Suggestions
+
+If you use Autocomplete as an entry point to a search page, you can turn Query Suggestions into links:
+
+```js
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  // ...
+  transformSource({ source }) {
+    return {
+      ...source,
+      getItemUrl({ item }) {
+        return `/search?q=${item.query}`;
+      },
+      templates: {
+        item(params) {
+          const { item } = params;
+          return (
+            <a className="aa-ItemLink" href={`/search?q=${item.query}`}>
+              {source.templates.item(params)}
+            </a>
+          );
+        },
+      },
+    };
+  },
+});
+```
+
+If you use Autocomplete on your instant search page, you can plug some logic with `onSelect`:
+
+```js
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  // ...
+  transformSource({ source }) {
+    return {
+      ...source,
+      onSelect({ item }) {
+        // Assuming the refine function updates the search page state.
+        refine(item.query);
+      }
+    };
+  },
+});
+```
+
 ## Next steps
 
 This tutorial focuses on adding Query Suggestions to an autocomplete menu. Many autocomplete menus also include recent searches and possibly other items. Check out the guides on adding [recent searches](adding-recent-searches) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on adding mulitple categories in one autocomplete](including-multiple-result-types).
