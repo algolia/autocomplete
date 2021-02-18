@@ -98,7 +98,7 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
 });
 ```
 
-If you use Autocomplete on your instant search page, you can plug some logic with `onSelect`:
+If you use Autocomplete on the same page as your main search and want to avoid reloading the full page when an item is selected, you can modify your search query state when a user selects an item with [`onSelect`](sources/#onselect):
 
 ```js
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
