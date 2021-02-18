@@ -289,7 +289,7 @@ Each source implements the following interface:
 
 ### `getItems`
 
-> `(params: { query: string, state: AutocompleteState, ...setters }) => Suggestion[] | Promise<Suggestion[]>` | **required**
+> `(params: { query: string, state: AutocompleteState, ...setters }) => Item[] | Promise<Item[]>` | **required**
 
 Called when the input changes. You can use this function to filter the items based on the query.
 

@@ -30,7 +30,7 @@ export function autocomplete<TItem extends BaseItem>(
   const { runEffect, cleanupEffects, runEffects } = createEffectWrapper();
   const { reactive, runReactives } = createReactiveWrapper();
 
-  const hasEmptySourceTemplateRef = createRef(false);
+  const hasNoResultsSourceTemplateRef = createRef(false);
   const optionsRef = createRef(options);
   const onStateChangeRef = createRef<
     AutocompleteOptions<TItem>['onStateChange']
@@ -46,9 +46,9 @@ export function autocomplete<TItem extends BaseItem>(
     createAutocomplete<TItem>({
       ...props.value.core,
       onStateChange(options) {
-        hasEmptySourceTemplateRef.current = options.state.collections.some(
+        hasNoResultsSourceTemplateRef.current = options.state.collections.some(
           (collection) =>
-            (collection.source as AutocompleteSource<TItem>).templates.empty
+            (collection.source as AutocompleteSource<TItem>).templates.noResults
         );
         onStateChangeRef.current?.(options as any);
         props.value.core.onStateChange?.(options as any);
@@ -62,12 +62,12 @@ export function autocomplete<TItem extends BaseItem>(
             return hasItems;
           }
 
-          const hasEmptyTemplate = Boolean(
-            hasEmptySourceTemplateRef.current ||
-              props.value.renderer.renderEmpty
+          const hasNoResultsTemplate = Boolean(
+            hasNoResultsSourceTemplateRef.current ||
+              props.value.renderer.renderNoResults
           );
 
-          return (!hasItems && hasEmptyTemplate) || hasItems;
+          return (!hasItems && hasNoResultsTemplate) || hasItems;
         }),
     })
   );
@@ -139,7 +139,7 @@ export function autocomplete<TItem extends BaseItem>(
       dom: dom.value,
       Fragment: props.value.renderer.renderer.Fragment,
       panelContainer: isDetached.value
-        ? dom.value.detachedOverlay
+        ? dom.value.detachedContainer
         : props.value.renderer.panelContainer,
       propGetters,
       state: lastStateRef.current,
@@ -147,8 +147,8 @@ export function autocomplete<TItem extends BaseItem>(
 
     const render =
       (!getItemsCount(state) &&
-        !hasEmptySourceTemplateRef.current &&
-        props.value.renderer.renderEmpty) ||
+        !hasNoResultsSourceTemplateRef.current &&
+        props.value.renderer.renderNoResults) ||
       props.value.renderer.render;
 
     renderSearchBox(renderProps);
@@ -179,7 +179,7 @@ export function autocomplete<TItem extends BaseItem>(
 
   runEffect(() => {
     const panelContainerElement = isDetached.value
-      ? document.body
+      ? props.value.core.environment.document.body
       : props.value.renderer.panelContainer;
     const panelElement = isDetached.value
       ? dom.value.detachedOverlay
@@ -248,6 +248,37 @@ export function autocomplete<TItem extends BaseItem>(
 
     return () => {
       props.value.core.environment.removeEventListener('resize', onResize);
+    };
+  });
+
+  runEffect(() => {
+    if (!isDetached.value) {
+      return () => {};
+    }
+
+    function toggleModalClassname(isActive: boolean) {
+      dom.value.detachedContainer.classList.toggle(
+        'aa-DetachedContainer--Modal',
+        isActive
+      );
+    }
+
+    function onChange(event: MediaQueryListEvent) {
+      toggleModalClassname(event.matches);
+    }
+
+    const isModalDetachedMql = window.matchMedia(
+      getComputedStyle(
+        props.value.core.environment.document.documentElement
+      ).getPropertyValue('--aa-detached-modal-media-query')
+    );
+
+    toggleModalClassname(isModalDetachedMql.matches);
+
+    isModalDetachedMql.addEventListener('change', onChange);
+
+    return () => {
+      isModalDetachedMql.removeEventListener('change', onChange);
     };
   });
 

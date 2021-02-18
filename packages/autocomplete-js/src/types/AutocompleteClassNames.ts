@@ -1,6 +1,7 @@
 export type AutocompleteClassNames = {
   detachedCancelButton: string;
   detachedFormContainer: string;
+  detachedContainer: string;
   detachedOverlay: string;
   detachedSearchButton: string;
   detachedSearchButtonIcon: string;
@@ -19,8 +20,8 @@ export type AutocompleteClassNames = {
   resetButton: string;
   root: string;
   source: string;
-  sourceEmpty: string;
   sourceFooter: string;
   sourceHeader: string;
+  sourceNoResults: string;
   submitButton: string;
 };

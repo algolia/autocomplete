@@ -149,7 +149,7 @@ describe('autocomplete-js', () => {
     `);
   });
 
-  test('renders empty template on no results', async () => {
+  test('renders noResults template on no results', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -169,7 +169,7 @@ describe('autocomplete-js', () => {
               item({ item }) {
                 return item.label;
               },
-              empty() {
+              noResults() {
                 return 'No results template';
               },
             },
@@ -189,7 +189,7 @@ describe('autocomplete-js', () => {
     });
   });
 
-  test("doesn't render empty template on no query when openOnFocus is false", async () => {
+  test("doesn't render noResults template on no query when openOnFocus is false", async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -209,7 +209,7 @@ describe('autocomplete-js', () => {
               item({ item }) {
                 return item.label;
               },
-              empty() {
+              noResults() {
                 return 'No results template';
               },
             },
@@ -229,7 +229,7 @@ describe('autocomplete-js', () => {
     });
   });
 
-  test('render empty template on query when openOnFocus is false', async () => {
+  test('render noResults template on query when openOnFocus is false', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -249,7 +249,7 @@ describe('autocomplete-js', () => {
               item({ item }) {
                 return item.label;
               },
-              empty() {
+              noResults() {
                 return 'No results template';
               },
             },
@@ -269,10 +269,10 @@ describe('autocomplete-js', () => {
     });
   });
 
-  test('calls renderEmpty without empty template on no results', async () => {
+  test('calls renderNoResults without noResults template on no results', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
-    const renderEmpty = jest.fn((_params, root) => {
+    const renderNoResults = jest.fn((_params, root) => {
       const div = document.createElement('div');
       div.innerHTML = 'No results render';
 
@@ -299,7 +299,7 @@ describe('autocomplete-js', () => {
           },
         ];
       },
-      renderEmpty,
+      renderNoResults,
     });
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
@@ -312,7 +312,7 @@ describe('autocomplete-js', () => {
       ).toHaveTextContent('No results render');
     });
 
-    expect(renderEmpty).toHaveBeenCalledWith(
+    expect(renderNoResults).toHaveBeenCalledWith(
       {
         state: expect.anything(),
         children: expect.anything(),
@@ -324,7 +324,7 @@ describe('autocomplete-js', () => {
     );
   });
 
-  test('renders empty template over renderEmpty method on no results', async () => {
+  test('renders noResults template over renderNoResults method on no results', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -344,14 +344,14 @@ describe('autocomplete-js', () => {
               item({ item }) {
                 return item.label;
               },
-              empty() {
+              noResults() {
                 return 'No results template';
               },
             },
           },
         ];
       },
-      renderEmpty(_params, root) {
+      renderNoResults(_params, root) {
         const div = document.createElement('div');
         div.innerHTML = 'No results render';
 

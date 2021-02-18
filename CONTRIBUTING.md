@@ -2,21 +2,21 @@
 
 Welcome to the contributing guide for Autocomplete!
 
-If this guide does not contain what you are looking for and thus prevents you from contributing, don't hesitate to [open an issue](https://github.com/algolia/autocomplete.js/issues).
+If this guide does not contain what you are looking for and thus prevents you from contributing, don't hesitate to [open an issue](https:// /algolia/autocomplete.js/issues).
 
 ## Reporting an issue
 
 Opening an issue is very effective way to contribute because many users might also be impacted. We'll make sure to fix it quickly if it's technically feasible and doesn't have important side effects for other users.
 
-Before reporting an issue, first check that there is not an already open issue for the same topic using the [issues page](https://github.com/algolia/autocomplete.js/issues). Don't hesitate to thumb up an issue that corresponds to the problem you have.
+Before reporting an issue, first check that there is not an already open issue for the same topic using the [issues page](https://github.com/algolia/autocomplete/issues). Don't hesitate to thumb up an issue that corresponds to the problem you have.
 
-Another element that will help us go faster at solving the issue is to provide a reproducible test case. We recommend to [use this CodeSandbox template](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js).
+Another element that will help us go faster at solving the issue is to provide a reproducible test case. We recommend to [use this CodeSandbox template](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx).
 
 ## Code contribution
 
 For any code contribution, you need to:
 
-- Make sure that the code change has been discussed in [Issues](https://github.com/algolia/autocomplete.js/issues) or [Discussions](https://github.com/algolia/autocomplete.js/discussions)
+- Make sure that the code change has been discussed in [Issues](https://github.com/algolia/autocomplete/issues) or [Discussions](https://github.com/algolia/autocomplete/discussions)
 - Fork and clone the project
 - Create a new branch for what you want to solve ("fix/<u>issue-number</u>", "feat/<u>name-of-the-feature</u>")
 - Make your changes
@@ -37,7 +37,7 @@ This project follows the [conventional changelog](https://conventionalcommits.or
 type(scope): description
 ```
 
-This convention is used to generate the [changelog](https://github.com/algolia/autocomplete.js/tree/next/CHANGELOG.md).
+This convention is used to generate the [changelog](https://github.com/algolia/autocomplete/tree/next/CHANGELOG.md).
 
 In most cases, we use the following types:
 

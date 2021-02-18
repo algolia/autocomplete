@@ -184,9 +184,9 @@ autocomplete({
 });
 ```
 
-### Rendering an empty state
+### Rendering a no results state
 
-When there are no results, you might want to display a message to inform users or let them know what to do next. You can do this with the [`empty`](#empty) template.
+When there are no results, you might want to display a message to inform users or let them know what to do next. You can do this with the [`noResults`](#noresults) template.
 
 ```js
 autocomplete({
@@ -197,7 +197,7 @@ autocomplete({
         // ...
         templates: {
           // ...
-          empty() {
+          noResults() {
             return 'No results.';
           },
         },
@@ -299,7 +299,7 @@ A function that returns the template for each item of the source.
 
 A function that returns the template for the footer (after the list of items).
 
-### `empty`
+### `noResults`
 
 > `(params: { state: AutocompleteState<TItem>, source: AutocompleteSource<TItem>, createElement: Pragma, Fragment: PragmaFrag }) => VNode | string`
 

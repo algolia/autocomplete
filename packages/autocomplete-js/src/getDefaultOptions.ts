@@ -17,6 +17,7 @@ import { getHTMLElement, mergeClassNames } from './utils';
 const defaultClassNames: AutocompleteClassNames = {
   detachedCancelButton: 'aa-DetachedCancelButton',
   detachedFormContainer: 'aa-DetachedFormContainer',
+  detachedContainer: 'aa-DetachedContainer',
   detachedOverlay: 'aa-DetachedOverlay',
   detachedSearchButton: 'aa-DetachedSearchButton',
   detachedSearchButtonIcon: 'aa-DetachedSearchButtonIcon',
@@ -37,7 +38,7 @@ const defaultClassNames: AutocompleteClassNames = {
   source: 'aa-Source',
   sourceFooter: 'aa-SourceFooter',
   sourceHeader: 'aa-SourceHeader',
-  sourceEmpty: 'aa-SourceEmpty',
+  sourceNoResults: 'aa-SourceNoResults',
   submitButton: 'aa-SubmitButton',
 };
 
@@ -67,7 +68,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
     panelContainer,
     panelPlacement,
     render,
-    renderEmpty,
+    renderNoResults,
     renderer,
     detachedMediaQuery,
     ...core
@@ -79,6 +80,10 @@ export function getDefaultOptions<TItem extends BaseItem>(
     containerElement.tagName !== 'INPUT',
     'The `container` option does not support `input` elements. You need to change the container to a `div`.'
   );
+
+  const environment = (typeof window !== 'undefined'
+    ? window
+    : {}) as typeof window;
 
   return {
     renderer: {
@@ -100,19 +105,17 @@ export function getDefaultOptions<TItem extends BaseItem>(
         : document.body,
       panelPlacement: panelPlacement ?? 'input-wrapper-width',
       render: render ?? defaultRender,
-      renderEmpty,
+      renderNoResults,
       renderer: renderer ?? defaultRenderer,
       detachedMediaQuery:
         detachedMediaQuery ??
-        getComputedStyle(document.documentElement).getPropertyValue(
+        getComputedStyle(environment.document.documentElement).getPropertyValue(
           '--aa-detached-media-query'
         ),
     },
     core: {
       ...core,
-      environment: (typeof window !== 'undefined'
-        ? window
-        : {}) as typeof window,
+      environment,
     },
   };
 }
