@@ -116,13 +116,54 @@ See the awesome experiences people built with Autocomplete:
 
 ## Sandboxes
 
-Check out [sandboxes](https://codesandbox.io/search?refinementList%5Bnpm_dependencies.dependency%5D%5B0%5D=%40algolia%2Fautocomplete-core) using Autocomplete:
+Check out sandboxes using Autocomplete:
 
-<div align="center">
+<table>
+  <thead>
+    <tr>
+      <th align="center">
+        <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx">
+          <img src="./media/screenshot.png" alt="E-commerce" width="460">
+        </a>
+      </th>
+      <th align="center">
+        <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/react-renderer?file=/src/Autocomplete.tsx">
+          <img src="./media/sandboxes/react-renderer.png" alt="React renderer" width="460">
+        </a>
+      </th>
+    </tr>
+  </thead>
 
-[![Sandboxes](./media/sandboxes.png)](https://codesandbox.io/search?refinementList%5Bnpm_dependencies.dependency%5D%5B0%5D=%40algolia%2Fautocomplete-core)
+  <tbody>
+    <tr>
+      <td align="center">
+        <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx">
+          E-commerce
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/react-renderer?file=/src/Autocomplete.tsx">
+          React renderer
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://img.shields.io/badge/Recent_Searches-green" alt="Recent Searches">
+        <img src="https://img.shields.io/badge/Query_Suggestions-blueviolet" alt="Query Suggestions">
+        <img src="https://img.shields.io/badge/Algolia_index-blue" alt="Algolia Index">
+        <img src="https://img.shields.io/badge/Algolia_Insights-red" alt="Algolia Insights">
+        <img src="https://img.shields.io/badge/Preact-cyan" alt="Preact">
+      </td>
+      <td align="center">
+        <img src="https://img.shields.io/badge/Algolia_index-blue" alt="Algolia Index">
+        <img src="https://img.shields.io/badge/React-lightblue" alt="React">
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-</div>
+You can [find more sandboxes on CodeSandbox](https://codesandbox.io/search?refinementList%5Bnpm_dependencies.dependency%5D%5B0%5D=%40algolia%2Fautocomplete-core).
 
 ## License
 
