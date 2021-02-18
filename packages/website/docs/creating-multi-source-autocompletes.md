@@ -210,7 +210,9 @@ In this example, [`getItems`](sources/#getitems) returns a filtered array of `pr
 
 The [`getItemUrl`](sources/#getitemurl) function defines how to get the URL of an item. In this case, since it's an attribute on each object in the `predefinedItems` array, you can simply return the attribute. You can use [`getItemUrl`](sources/#getitemurl) to add [keyboard navigation](keyboard-navigation) to the autocomplete menu. Users can scroll through items in the autocomplete menu with the arrow up and down keys. When they hit <kbd>Enter</kbd> on one of the `predefinedItems` (or any source that includes[`getItemUrl`](sources/#getitemurl)), it opens the URL retrieved from [`getItemUrl`](sources/#getitemurl).
 
-[Templates](templates) define how to display each section of the autocomplete, including the [`header`](templates#header), [`footer`](templates#footer), and each [`item`](templates#item). You can return anything from each template as long as they're valid virtual DOM elements (VNodes).
+[Templates](templates) define how to display each section of the autocomplete, including the [`header`](templates#header), [`footer`](templates#footer), and each [`item`](templates#item). Templates can return anything that is a valid virtual DOM element (VNode).
+
+This example defines how to display each predefined item with the [`item`](templates#item) template and gives a [`header`](templates#header) for the entire section.
 
 ```js title="predefinedItemsPlugin.js"
 const predefinedItems = [
@@ -389,7 +391,7 @@ This shows up to five recent searches (set by the [`limit`](createLocalStorageRe
 
 ### Separating result types
 
-We recommend separating different result types with headers when using sources other than just Recent Searches and Query Suggestions. We can use the `transformSource` option of the plugins.
+When using sources other than just recent and suggested searches, it's best to label the different result types with [`headers`](templates/#header). For the `createLocalStorageRecentSearchesPlugin` and `createQuerySuggestionsPlugin` plugins, you can use the [`transformSource`](createquerysuggestionsplugin/#transformsource) option to do this.
 
 ```js title="index.js"
 import { autocomplete } from '@algolia/autocomplete-js';
