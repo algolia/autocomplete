@@ -68,9 +68,11 @@ Since the `recentSearchesPlugin` reads from [`localStorage`](https://developer.m
   openOnFocus={true}
 />
 
-## Transforming recent searches
+## Customizing recent searches
 
-If you use Autocomplete as an entry point to a search page, you can turn recent searches into links:
+The [`createLocalStorageRecentSearchesPlugin`](createLocalStorageRecentSearchesPlugin) creates a functional plugin out of the box. You may want to customize some aspects of it, depending on your use case. To change [`templates`](templates) or other [source](sources) configuration options, you can use [`transformSource`](createLocalStorageRecentSearchesPlugin/#transformsource). The function includes the original `source`, which you should return along with any options you want to add or overwrite.
+
+For example, if you use Autocomplete as an entry point to a search results page, you can turn recent searches into links by modifying [`getItemUrl`](sources/#getitemurl) and the [`item`](templates#item) template.
 
 ```js
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
