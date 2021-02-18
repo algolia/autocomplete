@@ -17,6 +17,7 @@ import { getHTMLElement, mergeClassNames } from './utils';
 const defaultClassNames: AutocompleteClassNames = {
   detachedCancelButton: 'aa-DetachedCancelButton',
   detachedFormContainer: 'aa-DetachedFormContainer',
+  detachedContainer: 'aa-DetachedContainer',
   detachedOverlay: 'aa-DetachedOverlay',
   detachedSearchButton: 'aa-DetachedSearchButton',
   detachedSearchButtonIcon: 'aa-DetachedSearchButtonIcon',
@@ -80,6 +81,10 @@ export function getDefaultOptions<TItem extends BaseItem>(
     'The `container` option does not support `input` elements. You need to change the container to a `div`.'
   );
 
+  const environment = (typeof window !== 'undefined'
+    ? window
+    : {}) as typeof window;
+
   return {
     renderer: {
       classNames: mergeClassNames(
@@ -104,15 +109,13 @@ export function getDefaultOptions<TItem extends BaseItem>(
       renderer: renderer ?? defaultRenderer,
       detachedMediaQuery:
         detachedMediaQuery ??
-        getComputedStyle(document.documentElement).getPropertyValue(
+        getComputedStyle(environment.document.documentElement).getPropertyValue(
           '--aa-detached-media-query'
         ),
     },
     core: {
       ...core,
-      environment: (typeof window !== 'undefined'
-        ? window
-        : {}) as typeof window,
+      environment,
     },
   };
 }

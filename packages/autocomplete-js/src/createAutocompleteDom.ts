@@ -53,8 +53,19 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     class: classNames.root,
     ...rootProps,
   });
+  const detachedContainer = createDomElement('div', {
+    class: classNames.detachedContainer,
+    onMouseDown(event: MouseEvent) {
+      event.stopPropagation();
+    },
+  });
   const detachedOverlay = createDomElement('div', {
     class: classNames.detachedOverlay,
+    children: [detachedContainer],
+    onMouseDown() {
+      document.body.removeChild(detachedOverlay);
+      onDetachedOverlayClose();
+    },
   });
 
   const labelProps = propGetters.getLabelProps({
@@ -171,7 +182,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
       children: [form, detachedCancelButton],
     });
 
-    detachedOverlay.appendChild(detachedFormContainer);
+    detachedContainer.appendChild(detachedFormContainer);
     root.appendChild(detachedSearchButton);
   } else {
     root.appendChild(form);
@@ -179,6 +190,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
 
   return {
     openDetachedOverlay,
+    detachedContainer,
     detachedOverlay,
     inputWrapper,
     input,
