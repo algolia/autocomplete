@@ -38,6 +38,7 @@ module.exports = {
           'autocomplete-js',
           'getAlgoliaHits-js',
           'getAlgoliaResults-js',
+          'getAlgoliaFacetHits-js',
           'highlightHit',
           'reverseHighlightHit',
           'snippetHit',
@@ -68,6 +69,7 @@ module.exports = {
         items: [
           'getAlgoliaHits',
           'getAlgoliaResults',
+          'getAlgoliaFacetHits',
           'parseAlgoliaHitHighlight',
           'parseAlgoliaHitReverseHighlight',
           'parseAlgoliaHitSnippet',

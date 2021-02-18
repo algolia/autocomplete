@@ -17,6 +17,7 @@ import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
 
+import { createCategoriesPlugin } from './categoriesPlugin';
 import { shortcutsPlugin } from './shortcutsPlugin';
 
 type Product = {
@@ -49,6 +50,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   },
   categoryAttribute: 'categories',
 });
+const categoriesPlugin = createCategoriesPlugin({ searchClient });
 
 autocomplete({
   container: '#autocomplete',
@@ -60,6 +62,7 @@ autocomplete({
     algoliaInsightsPlugin,
     recentSearchesPlugin,
     querySuggestionsPlugin,
+    categoriesPlugin,
   ],
   getSources({ query, state }) {
     if (!query) {
