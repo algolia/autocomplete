@@ -151,7 +151,7 @@ autocomplete({
 ## CSS modifier classes
 
 - `.aa-ItemIcon--no-border`: removes the border of the icon
-- `.aa-ItemIcon--align-top`: aligns the icon to the top
+- `.aa-ItemIcon--align-top`: aligns the icon to the top (recommended when the template is more than 3 lines)
 
 ## CSS utility classes
 
