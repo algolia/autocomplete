@@ -49,7 +49,7 @@ The `key` can be any string and is required to differentiate search histories if
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 
- const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'RECENT_SEARCH',
   limit: 5,
 });
@@ -67,6 +67,53 @@ Since the `recentSearchesPlugin` reads from [`localStorage`](https://developer.m
   plugins={[recentSearchesPlugin]}
   openOnFocus={true}
 />
+
+## Customizing recent searches
+
+The [`createLocalStorageRecentSearchesPlugin`](createLocalStorageRecentSearchesPlugin) creates a functional plugin out of the box. You may want to customize some aspects of it, depending on your use case. To change [`templates`](templates) or other [source](sources) configuration options, you can use [`transformSource`](createLocalStorageRecentSearchesPlugin/#transformsource). The function includes the original `source`, which you should return along with any options you want to add or overwrite.
+
+For example, if you use Autocomplete as an entry point to a search results page, you can turn recent searches into links by modifying [`getItemUrl`](sources/#getitemurl) and the [`item`](templates#item) template.
+
+```js
+const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+  // ...
+  transformSource({ source }) {
+    return {
+      ...source,
+      getItemUrl({ item }) {
+        return `/search?q=${item.query}`;
+      },
+      templates: {
+        item(params) {
+          const { item } = params;
+          return (
+            <a className="aa-ItemLink" href={`/search?q=${item.query}`}>
+              {source.templates.item(params)}
+            </a>
+          );
+        },
+      },
+    };
+  },
+});
+```
+
+If you use Autocomplete on the same page as your main search and want to avoid reloading the full page when an item is selected, you can modify your search query state when a user selects an item with [`onSelect`](sources/#onselect):
+
+```js
+const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+  // ...
+  transformSource({ source }) {
+    return {
+      ...source,
+      onSelect({ item }) {
+        // Assuming the refine function updates the search page state.
+        refine(item.query);
+      }
+    };
+  },
+});
+```
 
 ## Using your own storage
 

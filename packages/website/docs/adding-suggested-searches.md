@@ -126,7 +126,53 @@ These suggestions are based on a [public dataset of BestBuy products](https://gi
 
 :::
 
+## Customizing Query Suggestions
+
+The [`createQuerySuggestionsPlugin`](createQuerySuggestionsPlugin) creates a functional plugin out of the box. You may want to customize some aspects of it, depending on your use case. To change [`templates`](templates) or other [source](sources) configuration options, you can use [`transformSource`](createQuerySuggestionsPlugin/#transformsource). The function includes the original `source`, which you should return along with any options you want to add or overwrite.
+
+For example, if you use Autocomplete as an entry point to a search results page, you can turn Query Suggestions into links by modifying [`getItemUrl`](sources/#getitemurl) and the [`item`](templates#item) template.
+
+```js
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  // ...
+  transformSource({ source }) {
+    return {
+      ...source,
+      getItemUrl({ item }) {
+        return `/search?q=${item.query}`;
+      },
+      templates: {
+        item(params) {
+          const { item } = params;
+          return (
+            <a className="aa-ItemLink" href={`/search?q=${item.query}`}>
+              {source.templates.item(params)}
+            </a>
+          );
+        },
+      },
+    };
+  },
+});
+```
+
+If you use Autocomplete on the same page as your main search and want to avoid reloading the full page when an item is selected, you can modify your search query state when a user selects an item with [`onSelect`](sources/#onselect):
+
+```js
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  // ...
+  transformSource({ source }) {
+    return {
+      ...source,
+      onSelect({ item }) {
+        // Assuming the refine function updates the search page state.
+        refine(item.query);
+      }
+    };
+  },
+});
+```
+
 ## Next steps
 
 This tutorial focuses on adding Query Suggestions to an autocomplete menu. Many autocomplete menus also include recent searches and possibly other items. Check out the guides on adding [recent searches](adding-recent-searches) and [static predefined items](sources#using-static-sources) for more information. To learn how to display multiple sections in one autocomplete, read the [guide on adding mulitple categories in one autocomplete](including-multiple-result-types).
-
