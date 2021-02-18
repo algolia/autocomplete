@@ -11,7 +11,7 @@
 
 > 🚧 Autocomplete v1 is in an alpha phase and early feedback is welcome.
 >
-> **If you're looking for Autocomplete v0, which has been the production-ready version for the last years, [head over to the `master` branch](https://github.com/algolia/autocomplete.js/tree/master).**
+> **If you're looking for Autocomplete v0, which has been the production-ready version for the last years, [head over to the `master` branch](https://github.com/algolia/autocomplete/tree/master).**
 
 All you need to get started is:
 
@@ -92,7 +92,7 @@ You can find more on the [documentation](https://autocomplete.algolia.com).
 
 ## Support
 
-- [GitHub Discussions](https://github.com/algolia/autocomplete.js/discussions)
+- [GitHub Discussions](https://github.com/algolia/autocomplete/discussions)
 
 ## Packages
 

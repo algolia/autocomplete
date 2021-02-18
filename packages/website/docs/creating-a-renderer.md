@@ -337,4 +337,4 @@ Users will now feel a little bit closer to what they're used to on mobile apps.
 
 ---
 
-You now have enough knowledge to build your own experience based on Autocomplete. If you feel like some topics weren't covered in this page, feel free to [open an issue](https://github.com/algolia/autocomplete.js/issues/new).
+You now have enough knowledge to build your own experience based on Autocomplete. If you feel like some topics weren't covered in this page, feel free to [open an issue](https://github.com/algolia/autocomplete/issues/new).
