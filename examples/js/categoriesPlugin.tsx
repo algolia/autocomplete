@@ -40,7 +40,11 @@ export function createCategoriesPlugin({
             });
           },
           templates: {
-            header() {
+            header({ items }) {
+              if (items.length === 0) {
+                return null;
+              }
+
               return (
                 <Fragment>
                   <span className="aa-SourceHeaderTitle">Categories</span>
