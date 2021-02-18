@@ -15,6 +15,12 @@ This tutorial assumes that you have:
 - an existing [Vue (v3) application](https://v3.vuejs.org/) where you want to implement the autocomplete menu
 - familiarity with the [basic Autocomplete configuration options](basic-options)
 
+:::note
+
+Since [Vue's Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html#why-composition-api) is available starting in Vue 3, you can only use this guide for Vue 3 applications.
+
+:::
+
 ## Getting started
 
 Begin by adding a container for your autocomplete menu. This example adds a `div` with `autocomplete` as an [`id`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id).
