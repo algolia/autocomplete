@@ -385,4 +385,4 @@ This outlines a basic autocomplete implementation. There's a lot more you can do
 - [add multiple sources](including-multiple-result-types), including [suggested searches](adding-suggested-searches) and [recent searches](adding-recent-searches)
 - [send Algolia Insights events](sending-algolia-insights-events) when a user clicks on an item or adds it to their cart
 
-To learn about customization options, read the [**Core Concepts**](basic-options) or follow one of the [**Guides**](using-query-suggestions-plugin).
+To learn about customization options, read the [**Core Concepts**](basic-options) or follow one of the [**Guides**](adding-suggested-searches).

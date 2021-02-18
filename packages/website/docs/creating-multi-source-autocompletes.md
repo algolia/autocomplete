@@ -76,7 +76,7 @@ It's best to display different results types in different sections. This implici
 
 The Autocomplete library lets you mix different item types in one autocomplete and customize their display. To do so you need to return multiple [sources](sources#source) in the  [`getSources`](sources) option. This tutorial outlines how to combine [static predefined items](sources/#using-static-sources), [recent searches](adding-recent-searches)] and [Query Suggestions](adding-suggested-searches) in one autocomplete.
 
-Though it's not necessary, it uses [plugins](plugins) for each [source](source). Instead, you could add different sources directly in [`getSources`](sources). However, it's recommend to encapsulate [source](sources) logic in a plugin since this makes it modular, reusable, and sharable.
+Though it's not necessary, it uses [plugins](plugins) for each [source](sources#source). Instead, you could add different sources directly in [`getSources`](sources). However, it's recommend to encapsulate [source](sources) logic in a plugin since this makes it modular, reusable, and sharable.
 
 ## Prerequisites
 

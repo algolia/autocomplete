@@ -86,7 +86,7 @@ Continue reading our [**Getting Started**](https://autocomplete.algolia.com/docs
 The [documentation](https://autocomplete.algolia.com) offers a few ways to learn about the Autocomplete library:
 
 - Read the [**Core Concepts**](https://autocomplete.algolia.com/docs/basic-options) to learn more about underlying principles, like [**Sources**](https://autocomplete.algolia.com/docs/sources) and [**State**](https://autocomplete.algolia.com/docs/state).
-- Follow the [**Guides**](https://autocomplete.algolia.com/docs/using-query-suggestions-plugin) to understand how to build common UX patterns.
+- Follow the [**Guides**](https://autocomplete.algolia.com/docs/adding-suggested-searches) to understand how to build common UX patterns.
 - Refer to [**API reference**](https://autocomplete.algolia.com/docs/api) for a comprehensive list of parameters and options.
 - Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.tsx) where you can fork a basic implementation and play around.
 
