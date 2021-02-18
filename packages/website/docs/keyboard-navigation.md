@@ -3,7 +3,7 @@ id: keyboard-navigation
 title: Integrating keyboard navigation
 ---
 
-The Navigator API redirects users when opening a suggestion using their keyboard.
+The Navigator API redirects users when opening an item using their keyboard.
 
 **Keyboard navigation is essential to a satisfying autocomplete experience.** This is one of the most important aspects of web accessibility: users should be able to interact with an autocomplete without using a mouse or trackpad.
 

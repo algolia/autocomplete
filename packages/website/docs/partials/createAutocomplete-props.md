@@ -34,7 +34,7 @@ Whether to focus the search box when the page is loaded.
 
 The default item index to pre-select.
 
-We recommend using `0` when the query typed aims at opening suggestion links, without triggering an actual search.
+We recommend using `0` when the query typed aims at opening item links, without triggering an actual search.
 
 ### `openOnFocus`
 
