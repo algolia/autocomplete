@@ -28,11 +28,11 @@ module.exports = {
         {
           label: 'Playground',
           to:
-            'https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.tsx',
+            'https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx',
           position: 'right',
         },
         {
-          href: 'https://github.com/algolia/autocomplete.js/tree/next',
+          href: 'https://github.com/algolia/autocomplete',
           'aria-label': 'GitHub repository',
           position: 'right',
           className: 'navbar-github-link',
@@ -60,7 +60,7 @@ module.exports = {
           items: [
             {
               label: 'Issues',
-              to: 'https://github.com/algolia/autocomplete.js/issues',
+              to: 'https://github.com/algolia/autocomplete/issues',
             },
             {
               label: 'Forum',
@@ -81,7 +81,7 @@ module.exports = {
             },
             {
               label: 'GitHub',
-              href: 'https://github.com/algolia/autocomplete.js/tree/next',
+              href: 'https://github.com/algolia/autocomplete',
             },
             {
               label: 'Twitter',
@@ -104,7 +104,7 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
-            'https://github.com/algolia/autocomplete.js/edit/next/packages/website/',
+            'https://github.com/algolia/autocomplete/edit/next/packages/website/',
         },
         theme: {
           customCss: [

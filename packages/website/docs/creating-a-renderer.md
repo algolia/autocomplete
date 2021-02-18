@@ -7,7 +7,7 @@ In this guide, you'll learn how to build an autocomplete UI using React.
 
 The `@algolia/autocomplete-core` package provides all the primitives to build an autocomplete experience, but you remain in charge of the UI output. This page will teach you how to leverage all the autocomplete capacities to build an accessible autocomplete, both for desktop and mobile.
 
-You can find the final result in [this sandbox](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/react-renderer?file=/src/Autocomplete.tsx).
+You can find the final result in [this sandbox](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/react-renderer?file=/src/Autocomplete.tsx).
 
 ## Importing the package
 
@@ -337,4 +337,4 @@ Users will now feel a little bit closer to what they're used to on mobile apps.
 
 ---
 
-You now have enough knowledge to build your own experience based on Autocomplete. If you feel like some topics weren't covered in this page, feel free to [open an issue](https://github.com/algolia/autocomplete.js/issues/new).
+You now have enough knowledge to build your own experience based on Autocomplete. If you feel like some topics weren't covered in this page, feel free to [open an issue](https://github.com/algolia/autocomplete/issues/new).

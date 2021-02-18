@@ -11,7 +11,7 @@
 
 > 🚧 Autocomplete v1 is in an alpha phase and early feedback is welcome.
 >
-> **If you're looking for Autocomplete v0, which has been the production-ready version for the last years, [head over to the `master` branch](https://github.com/algolia/autocomplete.js/tree/master).**
+> **If you're looking for Autocomplete v0, which has been the production-ready version for the last years, [head over to the `master` branch](https://github.com/algolia/autocomplete/tree/master).**
 
 All you need to get started is:
 
@@ -24,7 +24,7 @@ The data that populates the autocomplete results are called [sources](https://au
 By configuring just those two required parameters ([`container`](https://autocomplete.algolia.com/docs/autocomplete-js/#container) and [`getSources`](https://autocomplete.algolia.com/docs/autocomplete-js/#getsources)) you can have an interactive autocomplete experience. **The library creates an input and provides the interactivity and accessibility attributes, but you're in full control of the DOM elements to output**.
 
 <p align="center">
-  <a href="https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.tsx">
+  <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx">
     <img src="./media/screenshot.png" alt="Screenshot">
   </a>
   <br>
@@ -32,7 +32,7 @@ By configuring just those two required parameters ([`container`](https://autocom
   <strong>
   <a href="https://autocomplete.algolia.com/docs/introduction">Documentation</a> •
   <a href="https://autocomplete.algolia.com/docs/api">API</a> •
-  <a href="https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.tsx">Playground</a>
+  <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx">Playground</a>
   </strong>
 </p>
 
@@ -86,13 +86,13 @@ The [documentation](https://autocomplete.algolia.com) offers a few ways to learn
 - Read the [**Core Concepts**](https://autocomplete.algolia.com/docs/basic-options) to learn more about underlying principles, like [**Sources**](https://autocomplete.algolia.com/docs/sources) and [**State**](https://autocomplete.algolia.com/docs/state).
 - Follow the [**Guides**](https://autocomplete.algolia.com/docs/using-query-suggestions-plugin) to understand how to build common UX patterns.
 - Refer to [**API reference**](https://autocomplete.algolia.com/docs/api) for a comprehensive list of parameters and options.
-- Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.tsx) where you can fork a basic implementation and play around.
+- Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx) where you can fork a basic implementation and play around.
 
 You can find more on the [documentation](https://autocomplete.algolia.com).
 
 ## Support
 
-- [GitHub Discussions](https://github.com/algolia/autocomplete.js/discussions)
+- [GitHub Discussions](https://github.com/algolia/autocomplete/discussions)
 
 ## Packages
 

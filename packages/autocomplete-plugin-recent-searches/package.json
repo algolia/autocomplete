@@ -3,7 +3,7 @@
   "description": "A plugin to add recent searches to Algolia Autocomplete.",
   "version": "1.0.0-alpha.42",
   "license": "MIT",
-  "homepage": "https://github.com/algolia/autocomplete.js",
+  "homepage": "https://github.com/algolia/autocomplete",
   "repository": "algolia/autocomplete.js",
   "author": {
     "name": "Algolia, Inc.",
