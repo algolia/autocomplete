@@ -2,7 +2,7 @@
 
 Welcome to the contributing guide for Autocomplete!
 
-If this guide does not contain what you are looking for and thus prevents you from contributing, don't hesitate to [open an issue](https://github.com/algolia/autocomplete.js/issues).
+If this guide does not contain what you are looking for and thus prevents you from contributing, don't hesitate to [open an issue](https:// /algolia/autocomplete.js/issues).
 
 ## Reporting an issue
 
@@ -10,7 +10,7 @@ Opening an issue is very effective way to contribute because many users might al
 
 Before reporting an issue, first check that there is not an already open issue for the same topic using the [issues page](https://github.com/algolia/autocomplete.js/issues). Don't hesitate to thumb up an issue that corresponds to the problem you have.
 
-Another element that will help us go faster at solving the issue is to provide a reproducible test case. We recommend to [use this CodeSandbox template](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js).
+Another element that will help us go faster at solving the issue is to provide a reproducible test case. We recommend to [use this CodeSandbox template](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx).
 
 ## Code contribution
 

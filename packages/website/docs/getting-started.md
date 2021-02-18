@@ -2,22 +2,17 @@
 id: getting-started
 title: Getting Started
 ---
-import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
-import { ProductItem } from '@site/src/components/ProductItem';
-import { getAlgoliaHits } from '@algolia/autocomplete-js';
-import algoliasearch from 'algoliasearch/lite';
-const searchClient = algoliasearch(
-  'latency',
-  '6be0576ff61c053d5f9a3225e2a90f76'
-);
+
+import { AutocompleteExample } from '@site/src/components/AutocompleteExample'; import { ProductItem } from '@site/src/components/ProductItem'; import { getAlgoliaHits } from '@algolia/autocomplete-js'; import algoliasearch from 'algoliasearch/lite'; const searchClient = algoliasearch( 'latency', '6be0576ff61c053d5f9a3225e2a90f76' );
 
 Get started with Autocomplete by building an Algolia search experience.
 
 This documentation offers a few ways to learn about the Autocomplete library:
-  - Read the [**Core Concepts**](basic-options) to learn more about underlying principles, like [**Sources**](sources) and [**State**](state).
-  - Follow the [**Guides**](using-query-suggestions-plugin) to understand how to build common UX patterns.
-  - Refer to [**API reference**](api) for a comprehensive list of parameters and options.
-  - Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.tsx) where you can fork a basic implementation and play around.
+
+- Read the [**Core Concepts**](basic-options) to learn more about underlying principles, like [**Sources**](sources) and [**State**](state).
+- Follow the [**Guides**](using-query-suggestions-plugin) to understand how to build common UX patterns.
+- Refer to [**API reference**](api) for a comprehensive list of parameters and options.
+- Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx) where you can fork a basic implementation and play around.
 
 Keep reading to see how to install Autocomplete and build a basic implementation with Algolia.
 
@@ -136,16 +131,16 @@ autocomplete({
                 indexName: 'instant_search',
                 query,
                 params: {
-                  hitsPerPage: 10
-                }
-              }
-            ]
+                  hitsPerPage: 10,
+                },
+              },
+            ],
           });
         },
         // ...
-      }
+      },
     ];
-  }
+  },
 });
 ```
 
@@ -163,7 +158,11 @@ The given `classNames` correspond to the [classic theme](autocomplete-theme-clas
 
 ```jsx title="app.jsx"
 /** @jsx h */
-import { autocomplete, getAlgoliaHits, snippetHit } from '@algolia/autocomplete-js';
+import {
+  autocomplete,
+  getAlgoliaHits,
+  snippetHit,
+} from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
 import { h, Fragment } from 'preact';
 
@@ -178,7 +177,7 @@ autocomplete({
   container: '#autocomplete',
   placeholder: 'Search for products',
   getSources({ query }) {
-        return [
+    return [
       {
         sourceId: 'products',
         getItems() {
@@ -199,11 +198,7 @@ autocomplete({
         },
         templates: {
           item({ item }) {
-            return (
-              <ProductItem
-                hit={item}
-              />
-            );
+            return <ProductItem hit={item} />;
           },
         },
       },
@@ -219,10 +214,10 @@ function ProductItem({ hit }) {
       </div>
       <div className="aa-ItemContent">
         <div className="aa-ItemContentTitle">
-          {snippetHit<ProductHit>({ hit, attribute: 'name' })}
+          {snippetHit < ProductHit > { hit, attribute: 'name' }}
         </div>
         <div className="aa-ItemContentDescription">
-          {snippetHit<ProductHit>({ hit, attribute: 'description' })}
+          {snippetHit < ProductHit > { hit, attribute: 'description' }}
         </div>
       </div>
       <div className="aa-ItemActions">
@@ -266,38 +261,9 @@ This is what the truncated JSON record looks like:
 
 Check out how the template displays items by searching in the input below:
 
-<AutocompleteExample
-  getSources={({ query }) => {
-    return [
-      {
-        sourceId: 'products',
-        getItems() {
-          return getAlgoliaHits({
-            searchClient,
-            queries: [
-              {
-                indexName: 'instant_search',
-                query,
-                params: {
-                  hitsPerPage: 5
-                }
-              }
-            ]
-          });
-        },
-        templates: {
-          item({ item }) {
-            return (
-              <ProductItem
+<AutocompleteExample getSources={({ query }) => { return [ { sourceId: 'products', getItems() { return getAlgoliaHits({ searchClient, queries: [ { indexName: 'instant_search', query, params: { hitsPerPage: 5 } } ] }); }, templates: { item({ item }) { return ( <ProductItem
                 hit={item}
-              />
-            );
-          },
-        },
-      },
-    ];
-  }}
-/>
+              /> ); }, }, }, ]; }} />
 
 ## Going further
 
@@ -320,7 +286,7 @@ autocomplete({
   container: '#autocomplete',
   placeholder: 'Search for products',
   getSources({ query }) {
-        return [
+    return [
       {
         sourceId: 'products',
         getItems() {
@@ -341,47 +307,16 @@ function ProductItem({ hit, breadcrumb }) {
   // ...
 }
 ```
+
 Now give it a try: navigate to one of the items using your keyboard and hit <kbd>Enter</kbd>. This brings you to the product detail page on [bestbuy.com](https://www.bestbuy.com/).
 
-<AutocompleteExample
-  getSources={({ query }) => {
-    return [
-      {
-        sourceId: 'products',
-        getItems() {
-          return getAlgoliaHits({
-            searchClient,
-            queries: [
-              {
-                indexName: 'instant_search',
-                query,
-                params: {
-                  hitsPerPage: 5
-                }
-              }
-            ]
-          });
-        },
-        getItemUrl({ item }) {
-          return item.url;
-        },
-        templates: {
-          item({ item }) {
-            return (
-              <ProductItem
+<AutocompleteExample getSources={({ query }) => { return [ { sourceId: 'products', getItems() { return getAlgoliaHits({ searchClient, queries: [ { indexName: 'instant_search', query, params: { hitsPerPage: 5 } } ] }); }, getItemUrl({ item }) { return item.url; }, templates: { item({ item }) { return ( <ProductItem
                 hit={item}
-              />
-            );
-          },
-        },
-      },
-    ];
-  }}
-/>
-
+              /> ); }, }, }, ]; }} />
 
 This outlines a basic autocomplete implementation. There's a lot more you can do like:
--  define [templates for headers, footers](templates#rendering-a-header-and-footer), or when there's [no results](templates#rendering-an-empty-state)
+
+- define [templates for headers, footers](templates#rendering-a-header-and-footer), or when there's [no results](templates#rendering-an-empty-state)
 - [add multiple sources](creating-multi-source-autocompletes), including [suggested searches](using-query-suggestions-plugin) and [recent searches](using-recent-searches-plugin)
 - [send Algolia Insights events](using-algolia-insights-plugin) when a user clicks on an item or adds it to their cart
 
