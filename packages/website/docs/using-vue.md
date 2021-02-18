@@ -34,7 +34,9 @@ Begin by adding a container for your autocomplete menu. This example adds a `div
 </template>
 ```
 
-Then, import the necessary packages for a basic implementation. Since the example queries an Algolia index, it imports the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) package and `autocomplete` and [`getAlgoliaHits`](getAlgoliaHits) from the [`autocomplete-js`](autocomplete-js) package. Depending on your desired [sources](sources) you may need to import other packages including [plugins](plugins).
+Then, import the necessary packages for a basic implementation. Since the example queries an Algolia index, it imports the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) package and [`autocomplete`](autocomplete-js) and [`getAlgoliaHits`](getAlgoliaHits-js) from the [`autocomplete-js`](autocomplete-js) package. Finally it imports [`autocomplete-theme-classic`](autocomplete-theme-classic) package for some out of the box styling.
+
+Depending on your desired [sources](sources) you may need to import other packages including [plugins](plugins).
 
 Include some boilerplate to insert the autocomplete into:
 
@@ -50,6 +52,8 @@ Include some boilerplate to insert the autocomplete into:
 import { h, Fragment, render, onMounted } from "vue";
 import algoliasearch from 'algoliasearch/lite';
 import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
+
+import "@algolia/autocomplete-theme-classic";
 
 export default {
   name: "App",

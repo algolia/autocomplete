@@ -102,7 +102,7 @@ Autocomplete is now plugged in. But you won't see anything appear until you defi
 
 Each source object needs to include a [`sourceId`](sources/#sourceid) and a [`getItems`](sources#getitems) function that returns the items to display. Sources can be static or dynamic.
 
-This example uses an [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) of [e-commerce products](https://github.com/algolia/datasets/tree/master/ecommerce) as a source. The [`autocomplete-js`](autocomplete-js) package provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
+This example uses an [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) of [e-commerce products](https://github.com/algolia/datasets/tree/master/ecommerce) as a source. The [`autocomplete-js`](autocomplete-js) package provides a built-in [`getAlgoliaHits`](getAlgoliaHits-js) function for just this purpose.
 
 ```js title="app.js"
 import algoliasearch from 'algoliasearch/lite';
@@ -143,7 +143,7 @@ autocomplete({
 });
 ```
 
-The [`getAlgoliaHits`](getAlgoliaHits) function requires an [Algolia search client](https://www.algolia.com/doc/api-client/getting-started/install/javascript/) initialized with an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id). It lets you search into your Algolia index using an array of `queries`, which defines one or more queries to send to the index.
+The [`getAlgoliaHits`](getAlgoliaHits-js) function requires an [Algolia search client](https://www.algolia.com/doc/api-client/getting-started/install/javascript/) initialized with an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id). It lets you search into your Algolia index using an array of `queries`, which defines one or more queries to send to the index.
 
 This example makes just one query to the "autocomplete" index using the `query` from [`getSources`](sources#getsources). For now, it passes one additional parameter, [`hitsPerPage`](https://www.algolia.com/doc/api-reference/api-parameters/hitsPerPage/) to define how many items to display, but you could pass any other [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/).
 
