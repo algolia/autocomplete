@@ -102,7 +102,7 @@ autocomplete({
               />
             );
           },
-          empty() {
+          noResults() {
             return (
               <div className="aa-ItemContent">No products for this query.</div>
             );

@@ -38,7 +38,7 @@ const defaultClassNames: AutocompleteClassNames = {
   source: 'aa-Source',
   sourceFooter: 'aa-SourceFooter',
   sourceHeader: 'aa-SourceHeader',
-  sourceEmpty: 'aa-SourceEmpty',
+  sourceNoResults: 'aa-SourceNoResults',
   submitButton: 'aa-SubmitButton',
 };
 
@@ -68,7 +68,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
     panelContainer,
     panelPlacement,
     render,
-    renderEmpty,
+    renderNoResults,
     renderer,
     detachedMediaQuery,
     ...core
@@ -105,7 +105,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
         : document.body,
       panelPlacement: panelPlacement ?? 'input-wrapper-width',
       render: render ?? defaultRender,
-      renderEmpty,
+      renderNoResults,
       renderer: renderer ?? defaultRenderer,
       detachedMediaQuery:
         detachedMediaQuery ??

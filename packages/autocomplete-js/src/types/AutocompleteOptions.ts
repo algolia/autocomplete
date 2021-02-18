@@ -65,7 +65,7 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * The default implementation appends all the sections to the root.
    */
   render?: AutocompleteRender<TItem>;
-  renderEmpty?: AutocompleteRender<TItem>;
+  renderNoResults?: AutocompleteRender<TItem>;
   initialState?: Partial<AutocompleteState<TItem>>;
   onStateChange?(props: OnStateChangeProps<TItem>): void;
   /**

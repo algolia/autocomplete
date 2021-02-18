@@ -273,8 +273,7 @@ body {
       display: none;
     }
   }
-  // todo: rename to SourceNoResults
-  .aa-SourceEmpty {
+  .aa-SourceNoResults {
     padding: var(--aa-spacing);
   }
   &:empty {

@@ -142,24 +142,24 @@ autocomplete({
 });
 ```
 
-### `renderEmpty`
+### `renderNoResults`
 
-> `(params: { root: HTMLElement, state: AutocompleteState<TItem>, sections: VNode[], createElement: Pragma, Fragment: PragmaFrag }) => void`
+> `(params: { children: VNode, state: AutocompleteState<TItem>, sections: VNode[], createElement: Pragma, Fragment: PragmaFrag }) => void`
 
-Function called to render an empty section when no hits are returned. It is useful for letting the user know that the query returned no results.
+Function called to render a no results section when no hits are returned. It is useful for letting the user know that the query returned no results.
 
 There is no default implementation, which closes the panel when there's no results.
 
-````js
+```js
+import { render } from 'preact';
+
 autocomplete({
   // ...
-  renderEmpty(_params, root) {
-    const div = document.createElement('div');
-
-    div.innerHTML = 'Your query returned no results';
-    root.appendChild(div);
+  renderNoResults({ state }, root) {
+    render(`No results for "${state.query}".`, root);
   },
 });
+```
 
 ### `renderer`
 
@@ -187,7 +187,7 @@ const {
   setContext,
   refresh,
 } = autocomplete(options);
-````
+```
 
 `autocomplete` returns all the [state setters](state#setters) and `refresh` method that updates the UI state.
 

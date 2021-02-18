@@ -37,6 +37,7 @@ autocomplete({
   plugins: [algoliaInsightsPlugin],
 });
 ```
+
 :::note
 
 Plugins execute sequentially, in the order you define them.
@@ -74,7 +75,7 @@ const gitHubReposPlugin = {
 
             return `${item.name} (${stars} stars)`;
           },
-          empty() {
+          noResults() {
             return 'No results.';
           },
         },
@@ -125,7 +126,7 @@ export function createGitHubReposPlugin(options) {
 
                   return `${item.full_name} (${stars} stars)`;
                 },
-                empty() {
+                noResults() {
                   return 'No results.';
                 },
               },
