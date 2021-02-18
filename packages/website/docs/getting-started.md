@@ -102,7 +102,7 @@ Autocomplete is now plugged in. But you won't see anything appear until you defi
 
 Each source object needs to include a [`sourceId`](sources/#sourceid) and a [`getItems`](sources#getitems) function that returns the items to display. Sources can be static or dynamic.
 
-This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) of [e-commerce products](https://github.com/algolia/datasets/tree/master/ecommerce) as a source. The [`autocomplete-js`](autocomplete-js) package provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
+This example uses an [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) of [e-commerce products](https://github.com/algolia/datasets/tree/master/ecommerce) as a source. The [`autocomplete-js`](autocomplete-js) package provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
 
 ```js title="app.js"
 import algoliasearch from 'algoliasearch/lite';
