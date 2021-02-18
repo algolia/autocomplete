@@ -41,9 +41,9 @@ export type SourceTemplates<TItem extends BaseItem> = {
     items: TItem[];
   }>;
   /**
-   * The template for the empty section.
+   * The template for the no results section.
    */
-  empty?: Template<{
+  noResults?: Template<{
     state: AutocompleteState<TItem>;
     source: AutocompleteSource<TItem>;
   }>;

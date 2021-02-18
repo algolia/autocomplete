@@ -134,13 +134,13 @@ autocomplete({
 });
 ```
 
-### Empty
+### No Results
 
 ```jsx
 autocomplete({
   // ...
   templates: {
-    empty() {
+    noResults() {
       return <div className="aa-ItemContent">No results for this query.</div>;
     },
     // ...

@@ -20,8 +20,8 @@ export type AutocompleteClassNames = {
   resetButton: string;
   root: string;
   source: string;
-  sourceEmpty: string;
   sourceFooter: string;
   sourceHeader: string;
+  sourceNoResults: string;
   submitButton: string;
 };

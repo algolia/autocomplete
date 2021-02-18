@@ -30,7 +30,7 @@ export function autocomplete<TItem extends BaseItem>(
   const { runEffect, cleanupEffects, runEffects } = createEffectWrapper();
   const { reactive, runReactives } = createReactiveWrapper();
 
-  const hasEmptySourceTemplateRef = createRef(false);
+  const hasNoResultsSourceTemplateRef = createRef(false);
   const optionsRef = createRef(options);
   const onStateChangeRef = createRef<
     AutocompleteOptions<TItem>['onStateChange']
@@ -46,9 +46,9 @@ export function autocomplete<TItem extends BaseItem>(
     createAutocomplete<TItem>({
       ...props.value.core,
       onStateChange(options) {
-        hasEmptySourceTemplateRef.current = options.state.collections.some(
+        hasNoResultsSourceTemplateRef.current = options.state.collections.some(
           (collection) =>
-            (collection.source as AutocompleteSource<TItem>).templates.empty
+            (collection.source as AutocompleteSource<TItem>).templates.noResults
         );
         onStateChangeRef.current?.(options as any);
         props.value.core.onStateChange?.(options as any);
@@ -62,12 +62,12 @@ export function autocomplete<TItem extends BaseItem>(
             return hasItems;
           }
 
-          const hasEmptyTemplate = Boolean(
-            hasEmptySourceTemplateRef.current ||
-              props.value.renderer.renderEmpty
+          const hasNoResultsTemplate = Boolean(
+            hasNoResultsSourceTemplateRef.current ||
+              props.value.renderer.renderNoResults
           );
 
-          return (!hasItems && hasEmptyTemplate) || hasItems;
+          return (!hasItems && hasNoResultsTemplate) || hasItems;
         }),
     })
   );
@@ -147,8 +147,8 @@ export function autocomplete<TItem extends BaseItem>(
 
     const render =
       (!getItemsCount(state) &&
-        !hasEmptySourceTemplateRef.current &&
-        props.value.renderer.renderEmpty) ||
+        !hasNoResultsSourceTemplateRef.current &&
+        props.value.renderer.renderNoResults) ||
       props.value.renderer.render;
 
     renderSearchBox(renderProps);
