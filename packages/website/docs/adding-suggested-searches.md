@@ -13,6 +13,13 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'instant_search_demo_query_suggestions',
 });
+const querySuggestionsPluginWithCategories = createQuerySuggestionsPlugin({
+  searchClient,
+  indexName: 'instant_search_demo_query_suggestions',
+  categoryAttribute: 'instant_search.facets.exact_matches.categories.value',
+  categoriesLimit: 2,
+  categoriesPerItem: 3
+});
 
 Learn how to include suggested searches using the Query Suggestions plugin.
 
@@ -125,6 +132,46 @@ This creates a basic Query Suggestions implementation. Try it out below:
 These suggestions are based on a [public dataset of BestBuy products](https://github.com/algolia/datasets/tree/master/ecommerce).
 
 :::
+
+## Adding categories
+
+Displaying relevant categories, along with suggestions, is helpful since it lets users limit their search scope. When a user selects a suggestion with a category, you can use both the suggestion and the associated category to show only the most relevant results. This UX allows the user to skip the additional task of selecting a category once they're on the results page. By including categories in your suggestions, you enable users to land on the most relevant set of results with as little friction as possible.
+
+With [some configuration](https://www.algolia.com/doc/guides/getting-insights-and-analytics/leveraging-analytics-data/query-suggestions/how-to/adding-category-suggestions/), the Algolia [Query Suggestions](https://www.algolia.com/doc/guides/getting-insights-and-analytics/leveraging-analytics-data/query-suggestions/) feature adds relevant categories to suggestion records. In this example, the category data is stored in the nested attribute `instant_search.facets.exact_matches.categories`. Please refer to the [index schema](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/how-to/adding-category-suggestions/js/#suggestions-with-categories-index-schema) to see how the feature stores category information on each suggestion record.
+
+To display categories with the suggestions, you need to define the attribute to retrieve category information from, using the `categoryAttribute` option when instantiating your plugin. You can also set the number of items to display categories for using `categoriesLimit` and the maximum number of categories to display per item using `categoriesPerItem`. Both default to `1`.
+
+```js title="index.js"
+import { autocomplete } from '@algolia/autocomplete-js';
+import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
+
+const appId = 'latency';
+const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
+const searchClient = algoliasearch(appId, apiKey);
+
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  searchClient,
+  indexName: 'instant_search_demo_query_suggestions',
+  getSearchParams({ state }) {
+    return { hitsPerPage: state.query ? 5 : 10 };
+  },
+  categoryAttribute: 'instant_search.facets.exact_matches.categories.value',
+  categoriesLimit: 2,
+  categoriesPerItem: 3
+});
+
+autocomplete({
+  container: '#autocomplete',
+  plugins: [querySuggestionsPlugin],
+  openOnFocus: true,
+});
+```
+
+<AutocompleteExample
+  plugins={[querySuggestionsPluginWithCategories]}
+  openOnFocus={true}
+/>
+
 
 ## Customizing Query Suggestions
 
