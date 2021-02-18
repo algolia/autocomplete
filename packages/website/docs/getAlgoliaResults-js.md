@@ -3,7 +3,7 @@ id: getAlgoliaResults-js
 title: getAlgoliaResults
 ---
 
-Retrieves Algolia results from one or multiple indices.
+Retrieves Algolia results from multiple indices.
 
 ## Example
 

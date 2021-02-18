@@ -1,4 +1,7 @@
-import { MultipleQueriesQuery } from '@algolia/client-search';
+import {
+  SearchForFacetValuesQueryParams,
+  SearchOptions,
+} from '@algolia/client-search';
 import { SearchClient } from 'algoliasearch/lite';
 
 import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from '../constants';
@@ -6,17 +9,21 @@ import { version } from '../version';
 
 import { UserAgent } from './UserAgent';
 
-export interface SearchParams {
+type FacetQuery = {
+  indexName: string;
+  params: SearchForFacetValuesQueryParams & SearchOptions;
+};
+export interface SearchForFacetValuesParams {
   searchClient: SearchClient;
-  queries: MultipleQueriesQuery[];
+  queries: FacetQuery[];
   userAgents?: UserAgent[];
 }
 
-export function search<TRecord>({
+export function searchForFacetValues({
   searchClient,
   queries,
   userAgents = [],
-}: SearchParams) {
+}: SearchForFacetValuesParams) {
   if (typeof searchClient.addAlgoliaAgent === 'function') {
     const algoliaAgents: UserAgent[] = [
       { segment: 'autocomplete-core', version },
@@ -28,15 +35,13 @@ export function search<TRecord>({
     });
   }
 
-  return searchClient.search<TRecord>(
+  return searchClient.searchForFacetValues(
     queries.map((searchParameters) => {
-      const { indexName, query, params } = searchParameters;
+      const { indexName, params } = searchParameters;
 
       return {
         indexName,
-        query,
         params: {
-          hitsPerPage: 5,
           highlightPreTag: HIGHLIGHT_PRE_TAG,
           highlightPostTag: HIGHLIGHT_POST_TAG,
           ...params,
