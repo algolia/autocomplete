@@ -34,7 +34,10 @@ describe('openOnFocus', () => {
 
   test('opens panel on reset', () => {
     const onStateChange = jest.fn();
-    const { formElement } = setupTest({ onStateChange });
+    const { formElement } = setupTest({
+      onStateChange,
+      shouldPanelOpen: () => true,
+    });
 
     formElement.reset();
 
@@ -94,7 +97,10 @@ describe('openOnFocus', () => {
 
   test('opens panel without query', () => {
     const onStateChange = jest.fn();
-    const { inputElement } = setupTest({ onStateChange });
+    const { inputElement } = setupTest({
+      onStateChange,
+      shouldPanelOpen: () => true,
+    });
 
     inputElement.focus();
 
