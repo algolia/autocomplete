@@ -1,5 +1,6 @@
 /** @jsx createElement */
 import { reverseHighlightHit, SourceTemplates } from '@algolia/autocomplete-js';
+import { HighlightedHit } from '@algolia/autocomplete-preset-algolia';
 
 import { RecentSearchesItem } from './types';
 
@@ -23,7 +24,7 @@ export function getTemplates<TItem extends RecentSearchesItem>({
           </div>
           <div className="aa-ItemContent">
             <div className="aa-ItemContentTitle">
-              {reverseHighlightHit<RecentSearchesItem>({
+              {reverseHighlightHit<HighlightedHit<RecentSearchesItem>>({
                 hit: item,
                 attribute: 'query',
                 createElement,

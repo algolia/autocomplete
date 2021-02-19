@@ -4,7 +4,6 @@ import {
   getAlgoliaFacetHits,
   highlightHit,
 } from '@algolia/autocomplete-js';
-import { Hit } from '@algolia/client-search';
 import { SearchClient } from 'algoliasearch/lite';
 import { h, Fragment } from 'preact';
 
@@ -70,8 +69,8 @@ export function createCategoriesPlugin({
                   </div>
                   <div className="aa-ItemContent">
                     <div className="aa-ItemContentTitle">
-                      {highlightHit<Hit<CategoryItem>>({
-                        hit: item as any,
+                      {highlightHit<CategoryItem>({
+                        hit: item,
                         attribute: 'label',
                       })}
                     </div>

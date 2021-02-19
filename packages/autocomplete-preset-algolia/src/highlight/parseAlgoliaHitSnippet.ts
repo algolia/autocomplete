@@ -1,12 +1,12 @@
 import { warn } from '@algolia/autocomplete-shared';
-import { Hit } from '@algolia/client-search';
 
 import { getAttributeValueByPath } from './getAttributeValueByPath';
 import { ParseAlgoliaHitParams } from './ParseAlgoliaHitParams';
 import { parseAttribute } from './parseAttribute';
 import { ParsedAttribute } from './ParsedAttribute';
+import { SnippetedHit } from './SnippetedHit';
 
-export function parseAlgoliaHitSnippet<THit extends Hit<{}>>({
+export function parseAlgoliaHitSnippet<THit extends SnippetedHit<unknown>>({
   hit,
   attribute,
 }: ParseAlgoliaHitParams<THit>): ParsedAttribute[] {
