@@ -133,7 +133,9 @@ export const stateReducer: Reducer = (state, action) => {
       return {
         ...state,
         activeItemId: action.props.defaultActiveItemId,
-        isOpen: action.props.openOnFocus || Boolean(state.query),
+        isOpen:
+          (action.props.openOnFocus || Boolean(state.query)) &&
+          action.props.shouldPanelOpen({ state }),
       };
     }
 

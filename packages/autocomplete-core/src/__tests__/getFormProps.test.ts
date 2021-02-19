@@ -251,6 +251,7 @@ describe('getFormProps', () => {
         {
           onStateChange,
           openOnFocus: true,
+          shouldPanelOpen: () => true,
           initialState: {
             isOpen: true,
           },
