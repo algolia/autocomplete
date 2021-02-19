@@ -223,6 +223,17 @@ export function autocomplete<TItem extends BaseItem>(
         setPanelPosition();
       }
 
+      // We scroll to the top of the panel whenever the query changes (i.e. new
+      // results come in) so that users don't have to.
+      const scrollablePanel = document.querySelector('.aa-Panel--Scrollable');
+      if (
+        scrollablePanel &&
+        scrollablePanel.scrollTop !== 0 &&
+        state.query !== prevState.query
+      ) {
+        scrollablePanel.scrollTop = 0;
+      }
+
       debouncedRender({ state });
     };
 

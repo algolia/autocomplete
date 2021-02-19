@@ -203,7 +203,6 @@ body {
     height: 100%;
     margin-top: var(--aa-spacing-half);
     max-height: var(--aa-panel-max-height);
-    overflow-y: auto;
     padding-bottom: var(--aa-spacing-half);
     padding-top: var(--aa-spacing-half);
     position: relative;
@@ -220,6 +219,9 @@ body {
       max-width: 50%;
       overflow: hidden;
     }
+  }
+  .aa-Panel--Scrollable {
+    overflow-y: auto;
   }
 
   // when a query isn't resolved yet
