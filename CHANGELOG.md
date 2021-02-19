@@ -1,30 +1,26 @@
-# [](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.42...v) (2021-02-19)
-
+# [1.0.0-alpha.43](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.42...v1.0.0-alpha.43) (2021-02-19)
 
 ### Bug Fixes
 
-* **js:** display `empty` template only with a query ([7c2f9a3](https://github.com/algolia/autocomplete.js/commit/7c2f9a35ae8935793f0e9838369225a4fedad37e))
-* **js:** rely on `environment` instead of `window` ([0bc15e9](https://github.com/algolia/autocomplete.js/commit/0bc15e9c354cacafe5f54fd91ece651dcc51cc58))
-* **theme:** update icons and Detached mode design ([#443](https://github.com/algolia/autocomplete.js/issues/443)) ([af43a37](https://github.com/algolia/autocomplete.js/commit/af43a379215376cab811adfd512bc7fb60965803))
-
+- **js:** display `empty` template only with a query ([7c2f9a3](https://github.com/algolia/autocomplete.js/commit/7c2f9a35ae8935793f0e9838369225a4fedad37e))
+- **js:** rely on `environment` instead of `window` ([0bc15e9](https://github.com/algolia/autocomplete.js/commit/0bc15e9c354cacafe5f54fd91ece651dcc51cc58))
+- **theme:** update icons and Detached mode design ([#443](https://github.com/algolia/autocomplete.js/issues/443)) ([af43a37](https://github.com/algolia/autocomplete.js/commit/af43a379215376cab811adfd512bc7fb60965803))
 
 ### Features
 
-* **algolia:** add `getAlgoliaFacetHits` preset ([#451](https://github.com/algolia/autocomplete.js/issues/451)) ([8876fd3](https://github.com/algolia/autocomplete.js/commit/8876fd3283e846be3bf9a6b8929efa5b09600d61))
-* **algolia:** fix highlighting hit type ([#452](https://github.com/algolia/autocomplete.js/issues/452)) ([0f92710](https://github.com/algolia/autocomplete.js/commit/0f927100e353adc0f6aac81bcad7c5fcc4c5862b))
-* **css:** support Detached mode ([#438](https://github.com/algolia/autocomplete.js/issues/438)) ([82747d5](https://github.com/algolia/autocomplete.js/commit/82747d58a9e53036f1cfb31efd79bb9a409d45f9))
-* **js:** add `aa-Detached` CSS class on Detached mode ([8a50e90](https://github.com/algolia/autocomplete.js/commit/8a50e90693ada6f876faf153e23fbc85300207a8))
-* **js:** always keep panel open on detached mode ([9014a41](https://github.com/algolia/autocomplete.js/commit/9014a4168c76dcc736c5895af614c970d4c0c2c0))
-* **js:** rename `detachedMediaQuery` ([46d30f5](https://github.com/algolia/autocomplete.js/commit/46d30f5178f7467b01a572cbea492ad63a5942ca))
-* **js:** rename `empty` to `noResults` ([#450](https://github.com/algolia/autocomplete.js/issues/450)) ([71ea2d0](https://github.com/algolia/autocomplete.js/commit/71ea2d010f7a370c03fbdcb01e155244f4ea8bb2))
-* **js:** rename classnames to Detached ([dadec26](https://github.com/algolia/autocomplete.js/commit/dadec26300b3f4bed3c8f704d2decf5211d6d3f0))
-* **plugins:** add categories to Query Suggestions and Recent Searches ([54ef36c](https://github.com/algolia/autocomplete.js/commit/54ef36c366e8328d99c6741cce839748f4914d89))
-* **recent-searches:** display tap-ahead button ([b3670c9](https://github.com/algolia/autocomplete.js/commit/b3670c95ebf5a8d6570e169351956360a18ac1f5))
-* **theme:** design search button focus state ([e284771](https://github.com/algolia/autocomplete.js/commit/e284771d6f2c5057a015912fbda0c50896a4c603))
-* **theme:** support modal design on Detached Mode ([#445](https://github.com/algolia/autocomplete.js/issues/445)) ([5043d27](https://github.com/algolia/autocomplete.js/commit/5043d27eb04ef550415d9235c60c40344abe8603))
-* **theme:** update search button design ([818a1d9](https://github.com/algolia/autocomplete.js/commit/818a1d9adc2df54ca289dd983bc8e77b5676029c))
-
-
+- **algolia:** add `getAlgoliaFacetHits` preset ([#451](https://github.com/algolia/autocomplete.js/issues/451)) ([8876fd3](https://github.com/algolia/autocomplete.js/commit/8876fd3283e846be3bf9a6b8929efa5b09600d61))
+- **algolia:** fix highlighting hit type ([#452](https://github.com/algolia/autocomplete.js/issues/452)) ([0f92710](https://github.com/algolia/autocomplete.js/commit/0f927100e353adc0f6aac81bcad7c5fcc4c5862b))
+- **css:** support Detached mode ([#438](https://github.com/algolia/autocomplete.js/issues/438)) ([82747d5](https://github.com/algolia/autocomplete.js/commit/82747d58a9e53036f1cfb31efd79bb9a409d45f9))
+- **js:** add `aa-Detached` CSS class on Detached mode ([8a50e90](https://github.com/algolia/autocomplete.js/commit/8a50e90693ada6f876faf153e23fbc85300207a8))
+- **js:** always keep panel open on detached mode ([9014a41](https://github.com/algolia/autocomplete.js/commit/9014a4168c76dcc736c5895af614c970d4c0c2c0))
+- **js:** rename `detachedMediaQuery` ([46d30f5](https://github.com/algolia/autocomplete.js/commit/46d30f5178f7467b01a572cbea492ad63a5942ca))
+- **js:** rename `empty` to `noResults` ([#450](https://github.com/algolia/autocomplete.js/issues/450)) ([71ea2d0](https://github.com/algolia/autocomplete.js/commit/71ea2d010f7a370c03fbdcb01e155244f4ea8bb2))
+- **js:** rename classnames to Detached ([dadec26](https://github.com/algolia/autocomplete.js/commit/dadec26300b3f4bed3c8f704d2decf5211d6d3f0))
+- **plugins:** add categories to Query Suggestions and Recent Searches ([54ef36c](https://github.com/algolia/autocomplete.js/commit/54ef36c366e8328d99c6741cce839748f4914d89))
+- **recent-searches:** display tap-ahead button ([b3670c9](https://github.com/algolia/autocomplete.js/commit/b3670c95ebf5a8d6570e169351956360a18ac1f5))
+- **theme:** design search button focus state ([e284771](https://github.com/algolia/autocomplete.js/commit/e284771d6f2c5057a015912fbda0c50896a4c603))
+- **theme:** support modal design on Detached Mode ([#445](https://github.com/algolia/autocomplete.js/issues/445)) ([5043d27](https://github.com/algolia/autocomplete.js/commit/5043d27eb04ef550415d9235c60c40344abe8603))
+- **theme:** update search button design ([818a1d9](https://github.com/algolia/autocomplete.js/commit/818a1d9adc2df54ca289dd983bc8e77b5676029c))
 
 # [1.0.0-alpha.42](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.41...v1.0.0-alpha.42) (2021-02-09)
 
