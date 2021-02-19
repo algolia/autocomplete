@@ -155,8 +155,9 @@ autocomplete({
 
 ## CSS utility classes
 
-- `aa-ActiveOnly`: displays an element only when the item is active
-- `aa-TouchOnly`: displays an element only on touch devices.
+- `.aa-Panel--Scrollable`: declares the scrollable container of the panel
+- `.aa-ActiveOnly`: displays an element only when the item is active
+- `.aa-TouchOnly`: displays an element only on touch devices.
 
 ## Dark mode
 
