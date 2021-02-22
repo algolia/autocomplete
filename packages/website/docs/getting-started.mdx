@@ -4,13 +4,14 @@ title: Getting Started
 ---
 
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
-import { ProductItem } from '@site/src/components/ProductItem';
-import { getAlgoliaHits } from '@algolia/autocomplete-js';
-import algoliasearch from 'algoliasearch/lite';
-const searchClient = algoliasearch(
-  'latency',
-  '6be0576ff61c053d5f9a3225e2a90f76'
-);
+import { createProductsPlugin } from '@site/src/components/productsPlugin';
+const productsPluginWithoutKeyboardNavigation = createProductsPlugin({
+  transformSource(source) {
+    const { getItemUrl, ...rest } = source;
+    return rest;
+  },
+});
+const productsPlugin = createProductsPlugin();
 
 Get started with Autocomplete by building an Algolia search experience.
 
@@ -138,7 +139,7 @@ autocomplete({
                 indexName: 'instant_search',
                 query,
                 params: {
-                  hitsPerPage: 10,
+                  hitsPerPage: 5,
                 },
               },
             ],
@@ -195,7 +196,7 @@ autocomplete({
                 indexName: 'instant_search',
                 query,
                 params: {
-                  hitsPerPage: 10,
+                  hitsPerPage: 5,
                   attributesToSnippet: ['name:10', 'description:35'],
                   snippetEllipsisText: '…',
                 },
@@ -213,10 +214,10 @@ autocomplete({
   },
 });
 
-function ProductItem({ hit }) {
+function ProductItem({ hit }: ProductItemProps) {
   return (
     <Fragment>
-      <div className="aa-ItemIcon">
+      <div className="aa-ItemIcon aa-ItemIcon--align-top">
         <img src={hit.image} alt={hit.name} width="40" height="40" />
       </div>
       <div className="aa-ItemContent">
@@ -268,36 +269,7 @@ This is what the truncated JSON record looks like:
 
 Check out how the template displays items by searching in the input below:
 
-<AutocompleteExample
-  getSources={({ query }) => {
-    return [
-      {
-        sourceId: 'products',
-        getItems() {
-          return getAlgoliaHits({
-            searchClient,
-            queries: [
-              {
-                indexName: 'instant_search',
-                query,
-                params: {
-                  hitsPerPage: 5,
-                  attributesToSnippet: ['name:10', 'description:35'],
-                  snippetEllipsisText: '…',
-                },
-              },
-            ],
-          });
-        },
-        templates: {
-          item({ item }) {
-            return <ProductItem hit={item} />;
-          },
-        },
-      },
-    ];
-  }}
-/>
+<AutocompleteExample plugins={[productsPluginWithoutKeyboardNavigation]} />
 
 ## Going further
 
@@ -344,39 +316,7 @@ function ProductItem({ hit, breadcrumb }) {
 
 Now give it a try: navigate to one of the items using your keyboard and hit <kbd>Enter</kbd>. This brings you to the product detail page on [bestbuy.com](https://www.bestbuy.com/).
 
-<AutocompleteExample
-  getSources={({ query }) => {
-    return [
-      {
-        sourceId: 'products',
-        getItems() {
-          return getAlgoliaHits({
-            searchClient,
-            queries: [
-              {
-                indexName: 'instant_search',
-                query,
-                params: {
-                  hitsPerPage: 5,
-                  attributesToSnippet: ['name:10', 'description:35'],
-                  snippetEllipsisText: '…',
-                },
-              },
-            ],
-          });
-        },
-        getItemUrl({ item }) {
-          return item.url;
-        },
-        templates: {
-          item({ item }) {
-            return <ProductItem hit={item} />;
-          },
-        },
-      },
-    ];
-  }}
-/>
+<AutocompleteExample plugins={[productsPlugin]} />
 
 This outlines a basic autocomplete implementation. There's a lot more you can do like:
 

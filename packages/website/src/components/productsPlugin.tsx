@@ -1,13 +1,72 @@
-import { snippetHit } from '@algolia/autocomplete-js';
+import {
+  AutocompletePlugin,
+  AutocompleteSource,
+  getAlgoliaHits,
+  snippetHit,
+} from '@algolia/autocomplete-js';
 import { Hit } from '@algolia/client-search';
+import algoliasearch from 'algoliasearch/lite';
 import React, { createElement, Fragment } from 'react';
+
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
+
+type Item = {
+  objectID: string;
+  name: string;
+  image: string;
+  description: string;
+  url: string;
+};
+
+export function createProductsPlugin({
+  transformSource = (x: AutocompleteSource<Item>) => x,
+} = {}): AutocompletePlugin<Item, undefined> {
+  return {
+    getSources({ query }) {
+      if (!query) {
+        return [];
+      }
+
+      return [
+        transformSource({
+          sourceId: 'products',
+          getItems() {
+            return getAlgoliaHits({
+              searchClient,
+              queries: [
+                {
+                  indexName: 'instant_search',
+                  query,
+                  params: {
+                    hitsPerPage: 5,
+                    attributesToSnippet: ['name:10', 'description:35'],
+                    snippetEllipsisText: '…',
+                  },
+                },
+              ],
+            });
+          },
+          getItemUrl({ item }) {
+            return item.url;
+          },
+          templates: {
+            item({ item }) {
+              return <ProductItem hit={item} />;
+            },
+          },
+        }),
+      ];
+    },
+  };
+}
 
 type Product = {
   name: string;
   image: string;
   description: string;
-  __autocomplete_indexName: string;
-  __autocomplete_queryID: string;
 };
 type ProductHit = Hit<Product>;
 
@@ -15,7 +74,7 @@ type ProductItemProps = {
   hit: ProductHit;
 };
 
-export function ProductItem({ hit }: ProductItemProps) {
+function ProductItem({ hit }: ProductItemProps) {
   return (
     <Fragment>
       <div className="aa-ItemIcon aa-ItemIcon--align-top">

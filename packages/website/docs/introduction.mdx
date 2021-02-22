@@ -4,75 +4,64 @@ title: What is Autocomplete?
 ---
 
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
-import { AutocompleteDocSearchItem } from '@site/src/components/AutocompleteDocSearchItem';
-import { getAlgoliaHits } from '@algolia/autocomplete-js';
+import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import algoliasearch from 'algoliasearch/lite';
+import { createProductsPlugin } from '@site/src/components/productsPlugin';
 const searchClient = algoliasearch(
-  'BH4D9OD16A',
-  'a5c3ccfd361b8bcb9708e679c43ae0e5'
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
 );
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  searchClient,
+  indexName: 'instant_search_demo_query_suggestions',
+  getSearchParams() {
+    return {
+      hitsPerPage: 3,
+    };
+  },
+  categoryAttribute: 'categories',
+  categoriesLimit: 2,
+});
+const productsPlugin = createProductsPlugin();
+const productsPluginWithHeader = createProductsPlugin({
+  transformSource(source) {
+    return {
+      ...source,
+      templates: {
+        ...source.templates,
+        header() {
+          return (
+            <>
+              <span className="aa-SourceHeaderTitle">Products</span>
+              <div className="aa-SourceHeaderLine" />
+            </>
+          );
+        },
+      },
+    };
+  },
+});
 
 Autocomplete is an open-source, production-ready JavaScript library for building autocomplete experiences.
 
 A user types into an input, and the autocomplete "completes" their thought by providing full terms or results: this is the very base of an autocomplete experience.
 
-For example, try typing the letter "s" in the search box below.
+For example, try typing the letter "m" in the search box below.
 
-<AutocompleteExample
-  getSources={({ query }) => {
-    return [
-      {
-        sourceId: 'docsearch',
-        getItems() {
-          return getAlgoliaHits({
-            searchClient,
-            queries: [
-              {
-                indexName: 'autocomplete',
-                query,
-                params: {
-                  hitsPerPage: 5,
-                  attributesToSnippet: [
-                    'content:10',
-                    'hierarchy.lvl0:10',
-                    'hierarchy.lvl1:10',
-                    'hierarchy.lvl2:10',
-                    'hierarchy.lvl3:10',
-                    'hierarchy.lvl4:10',
-                    'hierarchy.lvl5:10',
-                    'hierarchy.lvl6:10',
-                  ],
-                  snippetEllipsisText: '…',
-                },
-              },
-            ],
-          });
-        },
-        getItemUrl({ item }) {
-          return item.url;
-        },
-        templates: {
-          item({ item }) {
-            return (
-              <AutocompleteDocSearchItem
-                hit={item}
-                breadcrumb={Object.values(item.hierarchy)
-                  .filter(Boolean)
-                  .slice(0, -1)}
-              />
-            );
-          },
-        },
-      },
-    ];
-  }}
-/>
+<AutocompleteExample plugins={[querySuggestionsPlugin]} />
 
-You can directly navigate to documentation on concepts like "<strong><u>s</u></strong>ources" and "<strong><u>s</u></strong>tate". If you continue typing, say "st", the results update. You see pages having to do with "<strong><u>st</u></strong>ate," "getting <strong><u>st</u></strong>arted," and "<strong><u>st</u></strong>atic sources."
+You can select suggestions like "m**acbook**" and "m**obile**". If you continue typing, say "mi", the results update. You see suggestions like "mi**crophone**," "mi**crosft**," and "mi**croscopes**."
 
 **Autocomplete is now a ubiquitous part of most search experiences.** Search providers like Google, e-commerce sites like Amazon, and messaging apps like Slack all offer autocomplete experiences on mobile and desktop.
 
-While the search experience on this site displays links to pages, autocomplete experiences frequently show completed search terms. If you start a search by typing the letter "j" into Google, it suggests search terms like "javascript", "jest", "jsonlines", etc. Selecting one of these lands you on the search results page for the term.
+While the search experience above displays [completed search terms](adding-suggested-searches), autocomplete experiences frequently show search results.
+
+For example, try typing the letter "m" again in the search box below.
+
+<AutocompleteExample
+  openOnFocus={true}
+  plugins={[querySuggestionsPlugin, productsPluginWithHeader]}
+/>
 
 This experience minimizes typing, which is particularly impactful on mobile. It enables users to find what they're looking for quicker. It also exposes them to searches, products, or pages they may not have thought of but are interested in anyway.
 
