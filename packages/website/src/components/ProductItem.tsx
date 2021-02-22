@@ -1,6 +1,6 @@
 import { snippetHit } from '@algolia/autocomplete-js';
 import { Hit } from '@algolia/client-search';
-import React, { Fragment } from 'react';
+import React, { createElement, Fragment } from 'react';
 
 type Product = {
   name: string;
@@ -18,15 +18,23 @@ type ProductItemProps = {
 export function ProductItem({ hit }: ProductItemProps) {
   return (
     <Fragment>
-      <div className="aa-ItemIcon">
+      <div className="aa-ItemIcon aa-ItemIcon--align-top">
         <img src={hit.image} alt={hit.name} width="40" height="40" />
       </div>
       <div className="aa-ItemContent">
         <div className="aa-ItemContentTitle">
-          {snippetHit<ProductHit>({ hit, attribute: 'name' })}
+          {snippetHit<ProductHit>({
+            hit,
+            attribute: 'name',
+            createElement,
+          })}
         </div>
         <div className="aa-ItemContentDescription">
-          {snippetHit<ProductHit>({ hit, attribute: 'description' })}
+          {snippetHit<ProductHit>({
+            hit,
+            attribute: 'description',
+            createElement,
+          })}
         </div>
       </div>
       <div className="aa-ItemActions">
