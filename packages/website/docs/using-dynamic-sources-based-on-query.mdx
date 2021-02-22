@@ -2,6 +2,7 @@
 id: changing-behavior-based-on-query
 title: Changing behavior based on the query
 ---
+
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
 import { AutocompleteProduct } from '@site/src/components/AutocompleteProduct';
 import { AutocompleteStaticItem } from '@site/src/components/AutocompleteStaticItem';
@@ -12,7 +13,7 @@ const searchClient = algoliasearch(
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 const linksPlugin = {
-  getSources ({ query }) {
+  getSources({ query }) {
     if (!query) {
       return [
         {
@@ -27,10 +28,10 @@ const linksPlugin = {
             return item.url;
           },
           templates: {
-            item({item}){
+            item({ item }) {
               return <AutocompleteStaticItem hit={item} />;
-            }
-          }
+            },
+          },
         },
       ];
     }
@@ -52,14 +53,14 @@ const linksPlugin = {
           return item.url;
         },
         templates: {
-          item({item}){
+          item({ item }) {
             return <AutocompleteProduct hit={item} />;
-          }
-        }
+          },
+        },
       },
     ];
-  }
-}
+  },
+};
 
 Learn how to show different results depending on the query.
 
@@ -70,6 +71,7 @@ This tutorial explains how to show [static predefined items](sources/#using-stat
 ## Prerequisites
 
 This tutorial assumes that you have:
+
 - existing markup containing an input element where you want to implement the autocomplete dropdown
 - front-end development proficiency with HTML, CSS, and JavaScript
 
@@ -89,7 +91,6 @@ autocomplete({
 This boilerplate assumes you want to insert the autocomplete into a DOM element with `autocomplete` as an [`id`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id). You should change the [`container`](autocomplete-js/#container) to [match your markup](basic-options). Setting [`openOnFocus`](autocomplete-js/#openonfocus) to `true` ensures that the dropdown appears as soon as a user focuses the input.
 
 ## Adding conditional sources
-
 
 ```js title="index.js"
 import algoliasearch from 'algoliasearch/lite';
@@ -160,9 +161,6 @@ When there isn't a query, this autocomplete instance returns links to Twitter an
 
 Try it out:
 
-<AutocompleteExample
-  openOnFocus={true}
-  plugins={[linksPlugin]}
-/>
+<AutocompleteExample openOnFocus={true} plugins={[linksPlugin]} />
 
 Note that you have access to the [full autocomplete state](state), not only the query. It lets you compute sources based on [various parameters](state#state), such as the query, but also the autocomplete status, whether the autocomplete is open or not, the [context](context), etc.
