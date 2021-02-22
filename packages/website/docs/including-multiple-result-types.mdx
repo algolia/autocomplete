@@ -2,6 +2,7 @@
 id: including-multiple-result-types
 title: Including multiple result types
 ---
+
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import algoliasearch from 'algoliasearch/lite';
@@ -21,14 +22,14 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
         ...source.templates,
         header({ items }) {
           if (items.length === 0) {
-            return null
+            return null;
           }
           return (
             <>
               <span className="aa-SourceHeaderTitle">Recent</span>
               <div className="aa-SourceHeaderLine" />
             </>
-          )
+          );
         },
       },
     };
@@ -49,18 +50,18 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
         ...source.templates,
         header({ items }) {
           if (items.length === 0) {
-            return null
+            return null;
           }
           return (
             <>
               <span className="aa-SourceHeaderTitle">Suggestions</span>
               <div className="aa-SourceHeaderLine" />
             </>
-          )
+          );
         },
       },
-    }
-  }
+    };
+  },
 });
 const predefinedItems = [
   {
@@ -71,7 +72,7 @@ const predefinedItems = [
     label: 'GitHub',
     url: 'https://github.com/algolia/autocomplete.js/tree/next',
   },
-]
+];
 const predefinedItemsPlugin = {
   getSources() {
     return [
@@ -81,9 +82,8 @@ const predefinedItemsPlugin = {
           if (!query) {
             return predefinedItems;
           }
-          return predefinedItems.filter(
-            (item) =>
-              item.label.toLowerCase().includes(query.toLowerCase())
+          return predefinedItems.filter((item) =>
+            item.label.toLowerCase().includes(query.toLowerCase())
           );
         },
         getItemUrl({ item }) {
@@ -92,7 +92,7 @@ const predefinedItemsPlugin = {
         templates: {
           header({ items }) {
             if (items.length === 0) {
-              return null
+              return null;
             }
             return (
               <>
@@ -102,9 +102,7 @@ const predefinedItemsPlugin = {
             );
           },
           item({ item }) {
-            return (
-              <AutocompleteStaticItem hit={item} />
-            );
+            return <AutocompleteStaticItem hit={item} />;
           },
         },
       },
@@ -126,13 +124,14 @@ For example, if you search for something in your email inbox, your results could
 
 It's best to display different results types in different sections. This implicitly gives users a better understanding of what the items are, and what will happen if they select an item.
 
-The Autocomplete library lets you mix different item types in one autocomplete and customize their display. To do so you need to return multiple [sources](sources#source) in the  [`getSources`](sources) option. This tutorial outlines how to combine [static predefined items](sources/#using-static-sources), [recent searches](adding-recent-searches)] and [Query Suggestions](adding-suggested-searches) in one autocomplete.
+The Autocomplete library lets you mix different item types in one autocomplete and customize their display. To do so you need to return multiple [sources](sources#source) in the [`getSources`](sources) option. This tutorial outlines how to combine [static predefined items](sources/#using-static-sources), [recent searches](adding-recent-searches)] and [Query Suggestions](adding-suggested-searches) in one autocomplete.
 
 Though it's not necessary, it uses [plugins](plugins) for each [source](sources#source). Instead, you could add different sources directly in [`getSources`](sources). However, it's recommend to encapsulate [source](sources) logic in a plugin since this makes it modular, reusable, and sharable.
 
 ## Prerequisites
 
 This tutorial assumes that you have:
+
 - a populated [Query Suggestions index](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/how-to/creating-a-query-suggestions-index/js/)
 - existing markup containing an input element where you want to implement the autocomplete dropdown
 - front-end development proficiency with HTML, CSS, and JavaScript
@@ -175,7 +174,7 @@ const predefinedItems = [
     label: 'GitHub',
     url: 'https://github.com/algolia/autocomplete.js/tree/next',
   },
-]
+];
 
 export const predefinedItemsPlugin = {
   getSources() {
@@ -186,9 +185,8 @@ export const predefinedItemsPlugin = {
           if (!query) {
             return predefinedItems;
           }
-          return predefinedItems.filter(
-            (item) =>
-              item.label.toLowerCase().includes(query.toLowerCase())
+          return predefinedItems.filter((item) =>
+            item.label.toLowerCase().includes(query.toLowerCase())
           );
         },
         getItemUrl({ item }) {
@@ -201,7 +199,6 @@ export const predefinedItemsPlugin = {
     ];
   },
 };
-
 ```
 
 Notice that `predefinedItemsPlugin` has a similar signature as any other autocomplete implementation: it uses the [`getSources`](autocomplete-js/#getsources) option to return an array of items to display. Each object in the array defines where to get items using [`getItems`](sources/#getitems). An Autocomplete plugin is an object that implements the `AutocompletePlugin` interface. To learn more, check out the documentation on [building your own plugin](plugins#building-your-own-plugin).
@@ -224,7 +221,7 @@ const predefinedItems = [
     label: 'GitHub',
     url: 'https://github.com/algolia/autocomplete.js/tree/next',
   },
-]
+];
 
 export const predefinedItemsPlugin = {
   getSources() {
@@ -235,9 +232,8 @@ export const predefinedItemsPlugin = {
           if (!query) {
             return predefinedItems;
           }
-          return predefinedItems.filter(
-            (item) =>
-              item.label.toLowerCase().includes(query.toLowerCase())
+          return predefinedItems.filter((item) =>
+            item.label.toLowerCase().includes(query.toLowerCase())
           );
         },
         getItemUrl({ item }) {
@@ -246,7 +242,7 @@ export const predefinedItemsPlugin = {
         templates: {
           header({ items }) {
             if (items.length === 0) {
-              return null
+              return null;
             }
             return (
               <>
@@ -279,7 +275,7 @@ export const predefinedItemsPlugin = {
                   <div className="aa-ItemContentTitle">{item.label}</div>
                 </div>
               </a>
-            )
+            );
           },
         },
       },
@@ -305,10 +301,7 @@ autocomplete({
 
 Now, as soon as a user clicks on the search bar, these predefined items appear. Once they begin typing, only predefined items that contain the query remain.
 
-<AutocompleteExample
-  plugins={[predefinedItemsPlugin]}
-  openOnFocus={true}
-/>
+<AutocompleteExample plugins={[predefinedItemsPlugin]} openOnFocus={true} />
 
 ## Adding recent searches and Query Suggestions
 
@@ -325,7 +318,6 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'RECENT_SEARCH',
   limit: 5,
 });
-
 ```
 
 The `key` can be any string and is required to differentiate search histories if you have multiple autocompletes on one page. The `limit` defines the maximum number of recent searches to display.
@@ -409,14 +401,14 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
         ...source.templates,
         header({ items }) {
           if (items.length === 0) {
-            return null
+            return null;
           }
           return (
             <>
               <span className="aa-SourceHeaderTitle">Recent</span>
               <div className="aa-SourceHeaderLine" />
             </>
-          )
+          );
         },
       },
     };
@@ -431,18 +423,18 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
         ...source.templates,
         header({ items }) {
           if (items.length === 0) {
-            return null
+            return null;
           }
           return (
             <>
               <span className="aa-SourceHeaderTitle">Suggestions</span>
               <div className="aa-SourceHeaderLine" />
             </>
-          )
+          );
         },
       },
-    }
-  }
+    };
+  },
 });
 
 autocomplete({
@@ -481,7 +473,11 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 
 autocomplete({
   container: '#autocomplete',
-  plugins: [recentSearchesPlugin, querySuggestionsPlugin, predefinedItemsPlugin],
+  plugins: [
+    recentSearchesPlugin,
+    querySuggestionsPlugin,
+    predefinedItemsPlugin,
+  ],
   openOnFocus: true,
 });
 ```
@@ -489,7 +485,11 @@ autocomplete({
 This creates a basic multi-source autocomplete. Try it out below:
 
 <AutocompleteExample
-  plugins={[recentSearchesPlugin, querySuggestionsPlugin, predefinedItemsPlugin]}
+  plugins={[
+    recentSearchesPlugin,
+    querySuggestionsPlugin,
+    predefinedItemsPlugin,
+  ]}
   openOnFocus={true}
 />
 
