@@ -2,6 +2,7 @@
 id: adding-suggested-searches
 title: Adding suggested searches
 ---
+
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import algoliasearch from 'algoliasearch/lite';
@@ -18,7 +19,7 @@ const querySuggestionsPluginWithCategories = createQuerySuggestionsPlugin({
   indexName: 'instant_search_demo_query_suggestions',
   categoryAttribute: 'categories',
   categoriesLimit: 2,
-  categoriesPerItem: 3
+  categoriesPerItem: 2,
 });
 
 Learn how to include suggested searches using the Query Suggestions plugin.
@@ -38,6 +39,7 @@ This tutorial explains how to integrate [Algolia Query Suggestions](https://www.
 ## Prerequisites
 
 This tutorial assumes that you have:
+
 - a populated [Query Suggestions index](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/how-to/creating-a-query-suggestions-index/js/)
 - existing markup containing an input element where you want to implement the autocomplete dropdown
 - front-end development proficiency with HTML, CSS, and JavaScript
@@ -118,14 +120,12 @@ autocomplete({
   openOnFocus: true,
 });
 ```
+
 This option can be especially useful if you are [displaying other sources](including-multiple-result-types) along with Query Suggestions and want to always show the same total number of items or otherwise align your query parameters.
 
 This creates a basic Query Suggestions implementation. Try it out below:
 
-<AutocompleteExample
-  plugins={[querySuggestionsPlugin]}
-  openOnFocus={true}
-/>
+<AutocompleteExample openOnFocus={true} plugins={[querySuggestionsPlugin]} />
 
 :::note
 
@@ -161,7 +161,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   },
   categoryAttribute: 'categories',
   categoriesLimit: 2,
-  categoriesPerItem: 3
+  categoriesPerItem: 2,
 });
 
 autocomplete({
@@ -172,8 +172,8 @@ autocomplete({
 ```
 
 <AutocompleteExample
-  plugins={[querySuggestionsPluginWithCategories]}
   openOnFocus={true}
+  plugins={[querySuggestionsPluginWithCategories]}
 />
 
 ### Applying categories
@@ -218,7 +218,7 @@ autocomplete({
 
 If your autocomplete links to a separate search results page and you'd like to apply selected categories there, you can modify the results page URL with query parameters.
 
-This example writes a `createUrl` function within [`transformSource`](createQuerySuggestionsPlugin/#transformsource) to do so. It uses an item's `.__autocomplete_qsCategory` property to construct the appropriate query parameters. It then uses the function within the [`item` template](templates#item) and in [`getItemUrl`](sources/#getitemurl). This way, whether the user clicks on a link, or uses keyboard navigation, they land on a search results page with categories applied.
+This example writes a `createUrl` function within [`transformSource`](createQuerySuggestionsPlugin/#transformsource) to do so. It uses an item's `__autocomplete_qsCategory` property to construct the appropriate query parameters. It then uses the function within the [`item` template](templates#item) and in [`getItemUrl`](sources/#getitemurl). This way, whether the user clicks on a link, or uses keyboard navigation, they land on a search results page with categories applied.
 
 ```js title="index.js"
 import { autocomplete } from '@algolia/autocomplete-js';
@@ -311,7 +311,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
       onSelect({ item }) {
         // Assuming the refine function updates the search page state.
         refine(item.query);
-      }
+      },
     };
   },
 });
