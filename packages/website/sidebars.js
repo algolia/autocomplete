@@ -23,6 +23,7 @@ module.exports = {
       'using-react',
       'using-vue',
       'creating-a-renderer',
+      'with-instantsearch',
       'upgrading',
       'debugging',
     ],
