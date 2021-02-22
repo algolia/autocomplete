@@ -126,7 +126,7 @@ describe('autocomplete-js', () => {
               class="aa-InputWrapperSuffix"
             >
               <button
-                class="aa-ResetButton"
+                class="aa-ClearButton"
                 hidden=""
                 type="reset"
               >

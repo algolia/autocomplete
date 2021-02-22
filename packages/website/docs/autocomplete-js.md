@@ -114,7 +114,7 @@ type ClassNames = Partial<{
   loadingIndicator: string;
   panel: string;
   panelLayout: string;
-  resetButton: string;
+  clearButton: string;
   root: string;
   source: string;
   sourceFooter: string;

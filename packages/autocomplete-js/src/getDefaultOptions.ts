@@ -15,9 +15,10 @@ import {
 import { getHTMLElement, mergeClassNames } from './utils';
 
 const defaultClassNames: AutocompleteClassNames = {
+  clearButton: 'aa-ClearButton',
   detachedCancelButton: 'aa-DetachedCancelButton',
-  detachedFormContainer: 'aa-DetachedFormContainer',
   detachedContainer: 'aa-DetachedContainer',
+  detachedFormContainer: 'aa-DetachedFormContainer',
   detachedOverlay: 'aa-DetachedOverlay',
   detachedSearchButton: 'aa-DetachedSearchButton',
   detachedSearchButtonIcon: 'aa-DetachedSearchButtonIcon',
@@ -33,7 +34,6 @@ const defaultClassNames: AutocompleteClassNames = {
   loadingIndicator: 'aa-LoadingIndicator',
   panel: 'aa-Panel',
   panelLayout: 'aa-PanelLayout',
-  resetButton: 'aa-ResetButton',
   root: 'aa-Autocomplete',
   source: 'aa-Source',
   sourceFooter: 'aa-SourceFooter',

@@ -1,6 +1,6 @@
 import { Component } from '../types/Component';
 
-export const ResetIcon: Component<{}, SVGSVGElement> = () => {
+export const ClearIcon: Component<{}, SVGSVGElement> = () => {
   const element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   element.setAttribute('class', 'aa-ResetIcon');
   element.setAttribute('viewBox', '0 0 24 24');

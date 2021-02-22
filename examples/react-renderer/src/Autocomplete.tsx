@@ -8,7 +8,7 @@ import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch/lite';
 import React from 'react';
 
-import { ResetIcon } from './ResetIcon';
+import { ClearIcon } from './ClearIcon';
 import { SearchIcon } from './SearchIcon';
 
 const searchClient = algoliasearch(
@@ -126,8 +126,8 @@ export function Autocomplete(
           />
         </div>
         <div className="aa-InputWrapperSuffix">
-          <button className="aa-ResetButton" type="reset">
-            <ResetIcon />
+          <button className="aa-ClearButton" title="Clear" type="reset">
+            <ClearIcon />
           </button>
         </div>
       </form>

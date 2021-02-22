@@ -4,7 +4,7 @@ import {
   BaseItem,
 } from '@algolia/autocomplete-core';
 
-import { Input, LoadingIcon, ResetIcon, SearchIcon } from './components';
+import { ClearIcon, Input, LoadingIcon, SearchIcon } from './components';
 import { createDomElement } from './createDomElement';
 import {
   AutocompleteClassNames,
@@ -83,10 +83,10 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     children: [submitButton],
     ...labelProps,
   });
-  const resetButton = createDomElement('button', {
-    class: classNames.resetButton,
+  const clearButton = createDomElement('button', {
+    class: classNames.clearButton,
     type: 'reset',
-    children: [ResetIcon({})],
+    children: [ClearIcon({})],
   });
   const loadingIndicator = createDomElement('div', {
     class: classNames.loadingIndicator,
@@ -113,7 +113,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   });
   const inputWrapperSuffix = createDomElement('div', {
     class: classNames.inputWrapperSuffix,
-    children: [resetButton],
+    children: [clearButton],
   });
   const inputWrapper = createDomElement('div', {
     class: classNames.inputWrapper,
@@ -198,7 +198,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     form,
     label,
     submitButton,
-    resetButton,
+    clearButton,
     loadingIndicator,
     panel,
   };

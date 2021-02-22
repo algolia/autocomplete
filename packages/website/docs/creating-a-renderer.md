@@ -218,7 +218,7 @@ function Autocomplete() {
           />
         </div>
         <div className="aa-InputWrapperSuffix">
-          <button className="aa-ResetButton" type="reset">
+          <button className="aa-ClearButton" title="Clear" type="reset">
             ｘ
           </button>
         </div>

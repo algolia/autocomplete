@@ -5,7 +5,7 @@ export type AutocompleteDom = {
   form: HTMLFormElement;
   label: HTMLLabelElement;
   submitButton: HTMLButtonElement;
-  resetButton: HTMLButtonElement;
+  clearButton: HTMLButtonElement;
   loadingIndicator: HTMLDivElement;
   panel: HTMLDivElement;
   detachedContainer: HTMLDivElement;
