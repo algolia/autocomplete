@@ -2,6 +2,7 @@
 id: adding-recent-searches
 title: Adding recent searches
 ---
+
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
@@ -11,11 +12,12 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
 
 Learn how to include recent searches using the Recent Searches plugin.
 
-Most autocomplete menus include [suggested searches](adding-suggested-searches). You can make the experience more user-friendly by adding *recent searches* a user has made. This UX lets users easily recall their past searches in case they want to search for them again.
+Most autocomplete menus include [suggested searches](adding-suggested-searches). You can make the experience more user-friendly by adding _recent searches_ a user has made. This UX lets users easily recall their past searches in case they want to search for them again.
 
 ## Prerequisites
 
 This tutorial assumes that you have:
+
 - existing markup containing an input element where you want to implement the autocomplete dropdown
 - front-end development proficiency with HTML, CSS, and JavaScript
 
@@ -41,7 +43,7 @@ For now, `plugins` is an empty array, but you'll learn how to add the Recent Sea
 
 ## Adding recent searches
 
-The  Autocomplete library provides the [`createLocalStorageRecentSearchesPlugin`](createlocalstoragerecentsearchesplugin) function for creating a recent searches [plugin](plugins) out-of-the-box. To use it, you need to provide a `key` and `limit`.
+The Autocomplete library provides the [`createLocalStorageRecentSearchesPlugin`](createlocalstoragerecentsearchesplugin) function for creating a recent searches [plugin](plugins) out-of-the-box. To use it, you need to provide a `key` and `limit`.
 
 The `key` can be any string and is required to differentiate search histories if you have multiple autocompletes on one page. The `limit` defines the maximum number of recent searches to display.
 
@@ -61,12 +63,9 @@ autocomplete({
 });
 ```
 
-Since the `recentSearchesPlugin` reads from [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage), you won't see any recent searches in your implementation until you've made some searches. To submit a search, be sure to press enter on the query. Once you do, you'll see it appear as a recent search. Try it out here:
+Since the `recentSearchesPlugin` reads from [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage), you won't see any recent searches in your implementation until you've made some searches. To submit a search, be sure to press <kbd>Enter</kbd> on the query. Once you do, you'll see it appear as a recent search. Try it out here:
 
-<AutocompleteExample
-  plugins={[recentSearchesPlugin]}
-  openOnFocus={true}
-/>
+<AutocompleteExample openOnFocus={true} plugins={[recentSearchesPlugin]} />
 
 ## Customizing recent searches
 
@@ -109,7 +108,7 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
       onSelect({ item }) {
         // Assuming the refine function updates the search page state.
         refine(item.query);
-      }
+      },
     };
   },
 });
