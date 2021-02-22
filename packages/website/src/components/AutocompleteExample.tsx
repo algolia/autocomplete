@@ -32,7 +32,11 @@ export function AutocompleteExample<TItem extends BaseItem>(
   return (
     <div
       ref={containerRef}
-      style={{ marginBottom: 'var(--ifm-paragraph-margin-bottom)' }}
+      style={{
+        margin: 'auto',
+        marginBottom: 'var(--ifm-paragraph-margin-bottom)',
+        maxWidth: 540,
+      }}
     />
   );
 }

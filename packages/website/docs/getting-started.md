@@ -8,11 +8,10 @@ import { AutocompleteExample } from '@site/src/components/AutocompleteExample'; 
 Get started with Autocomplete by building an Algolia search experience.
 
 This documentation offers a few ways to learn about the Autocomplete library:
-
-- Read the [**Core Concepts**](basic-options) to learn more about underlying principles, like [**Sources**](sources) and [**State**](state).
-- Follow the [**Guides**](using-query-suggestions-plugin) to understand how to build common UX patterns.
-- Refer to [**API reference**](api) for a comprehensive list of parameters and options.
-- Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx) where you can fork a basic implementation and play around.
+  - Read the [**Core Concepts**](basic-options) to learn more about underlying principles, like [**Sources**](sources) and [**State**](state).
+  - Follow the [**Guides**](adding-suggested-searches) to understand how to build common UX patterns.
+  - Refer to [**API reference**](api) for a comprehensive list of parameters and options.
+  - Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.tsx) where you can fork a basic implementation and play around.
 
 Keep reading to see how to install Autocomplete and build a basic implementation with Algolia.
 
@@ -103,7 +102,7 @@ Autocomplete is now plugged in. But you won't see anything appear until you defi
 
 Each source object needs to include a [`sourceId`](sources/#sourceid) and a [`getItems`](sources#getitems) function that returns the items to display. Sources can be static or dynamic.
 
-This example uses the [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) of [e-commerce products](https://github.com/algolia/datasets/tree/master/ecommerce) as a source. The [`autocomplete-js`](autocomplete-js) package provides a built-in [`getAlgoliaHits`](getAlgoliaHits) function for just this purpose.
+This example uses an [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) of [e-commerce products](https://github.com/algolia/datasets/tree/master/ecommerce) as a source. The [`autocomplete-js`](autocomplete-js) package provides a built-in [`getAlgoliaHits`](getAlgoliaHits-js) function for just this purpose.
 
 ```js title="app.js"
 import algoliasearch from 'algoliasearch/lite';
@@ -144,7 +143,7 @@ autocomplete({
 });
 ```
 
-The [`getAlgoliaHits`](getAlgoliaHits) function requires an [Algolia search client](https://www.algolia.com/doc/api-client/getting-started/install/javascript/) initialized with an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id). It lets you search into your Algolia index using an array of `queries`, which defines one or more queries to send to the index.
+The [`getAlgoliaHits`](getAlgoliaHits-js) function requires an [Algolia search client](https://www.algolia.com/doc/api-client/getting-started/install/javascript/) initialized with an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id). It lets you search into your Algolia index using an array of `queries`, which defines one or more queries to send to the index.
 
 This example makes just one query to the "autocomplete" index using the `query` from [`getSources`](sources#getsources). For now, it passes one additional parameter, [`hitsPerPage`](https://www.algolia.com/doc/api-reference/api-parameters/hitsPerPage/) to define how many items to display, but you could pass any other [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/).
 
@@ -315,9 +314,8 @@ Now give it a try: navigate to one of the items using your keyboard and hit <kbd
               /> ); }, }, }, ]; }} />
 
 This outlines a basic autocomplete implementation. There's a lot more you can do like:
+-  define [templates for headers, footers](templates#rendering-a-header-and-footer), or when there's [no results](templates#rendering-an-empty-state)
+- [add multiple sources](including-multiple-result-types), including [suggested searches](adding-suggested-searches) and [recent searches](adding-recent-searches)
+- [send Algolia Insights events](sending-algolia-insights-events) when a user clicks on an item or adds it to their cart
 
-- define [templates for headers, footers](templates#rendering-a-header-and-footer), or when there's [no results](templates#rendering-an-empty-state)
-- [add multiple sources](creating-multi-source-autocompletes), including [suggested searches](using-query-suggestions-plugin) and [recent searches](using-recent-searches-plugin)
-- [send Algolia Insights events](using-algolia-insights-plugin) when a user clicks on an item or adds it to their cart
-
-To learn about customization options, read the [**Core Concepts**](basic-options) or follow one of the [**Guides**](using-query-suggestions-plugin).
+To learn about customization options, read the [**Core Concepts**](basic-options) or follow one of the [**Guides**](adding-suggested-searches).
