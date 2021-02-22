@@ -76,6 +76,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   const submitButton = createDomElement('button', {
     class: classNames.submitButton,
     type: 'submit',
+    title: 'Submit',
     children: [SearchIcon({})],
   });
   const label = createDomElement('label', {
@@ -86,6 +87,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   const clearButton = createDomElement('button', {
     class: classNames.clearButton,
     type: 'reset',
+    title: 'Clear',
     children: [ClearIcon({})],
   });
   const loadingIndicator = createDomElement('div', {

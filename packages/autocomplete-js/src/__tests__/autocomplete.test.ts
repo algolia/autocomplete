@@ -54,6 +54,7 @@ describe('autocomplete-js', () => {
               >
                 <button
                   class="aa-SubmitButton"
+                  title="Submit"
                   type="submit"
                 >
                   <svg
@@ -128,6 +129,7 @@ describe('autocomplete-js', () => {
               <button
                 class="aa-ClearButton"
                 hidden=""
+                title="Clear"
                 type="reset"
               >
                 <svg
