@@ -4,7 +4,7 @@
   "version": "1.0.0-alpha.43",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete",
-  "repository": "algolia/autocomplete.js",
+  "repository": "algolia/autocomplete",
   "author": {
     "name": "Algolia, Inc.",
     "url": "https://www.algolia.com"

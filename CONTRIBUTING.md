@@ -2,7 +2,7 @@
 
 Welcome to the contributing guide for Autocomplete!
 
-If this guide does not contain what you are looking for and thus prevents you from contributing, don't hesitate to [open an issue](https:// /algolia/autocomplete.js/issues).
+If this guide does not contain what you are looking for and thus prevents you from contributing, don't hesitate to [open an discussion](https://github.com/algolia/autocomplete/discussions).
 
 ## Reporting an issue
 
