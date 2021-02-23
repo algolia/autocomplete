@@ -2,6 +2,10 @@
   "packages": ["packages/autocomplete-*"],
   "buildCommand": false,
   "^": "buildCommand is false because `yarn prepare` is going to build packages anyway.",
-  "sandboxes": ["/examples/js", "/examples/react-renderer"],
+  "sandboxes": [
+    "/examples/js",
+    "/examples/react-renderer",
+    "/examples/query-suggestions-with-recent-searches/"
+  ],
   "node": "14"
 }
