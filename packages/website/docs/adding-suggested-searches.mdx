@@ -141,7 +141,7 @@ With [some configuration](https://www.algolia.com/doc/guides/getting-insights-an
 
 To display categories with the suggestions, you need to define the attribute to retrieve category information from, using the `categoryAttribute` option when instantiating the plugin.
 
-In this example, the category data is stored in the nested attribute `instant_search.facets.exact_matches.categories`. With this structure, you only need to provide `categories` as the `categoryAttribute`.
+In this example, the category data is stored in the nested attribute `instant_search.facets.exact_matches.categories`. With this structure, you only need to provide `"categories"` as the `categoryAttribute`.
 
 You can also set the number of items to display categories for using `categoriesLimit` and the maximum number of categories to display per item using `categoriesPerItem`. Both default to `1`.
 
@@ -198,7 +198,8 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
     return {
       ...source,
       onSelect({ item }) {
-        refine({
+        // Assuming the `setSearchState` function updates the search page state.
+        setSearchState({
           query: item.query,
           category: item.__autocomplete_qsCategory,
         });
@@ -309,8 +310,8 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
     return {
       ...source,
       onSelect({ item }) {
-        // Assuming the refine function updates the search page state.
-        refine(item.query);
+        // Assuming the `setSearchState` function updates the search page state.
+        setSearchState({ query: item.query });
       },
     };
   },
