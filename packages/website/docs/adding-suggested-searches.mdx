@@ -233,16 +233,13 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   // ...
   transformSource({ source }) {
     function createUrl(item) {
-      return (
-        '/search?' +
-        [
-          `q=${item.query}`,
-          item.__autocomplete_qsCategory &&
-            `category=${item.__autocomplete_qsCategory}`,
-        ]
-          .filter(Boolean)
-          .join('&')
-      );
+      const urlParams = new URLSearchParams();
+      urlParams.set('q', item.query);
+      if (item.__autocomplete_qsCategory) {
+        urlParams.set('category', item.__autocomplete_qsCategory);
+      }
+
+      return `/search?${urlParams.toString()}`;
     }
 
     return {
