@@ -1,24 +1,7 @@
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { createAutocomplete } from '@algolia/autocomplete-core';
 
+import { createCollection } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
-import {
-  createAutocomplete,
-  AutocompleteCollection,
-} from '@algolia/autocomplete-core';
-
-function createCollection(items) {
-  return {
-    source: {
-      getItemInputValue: ({ item }) => item.label,
-      getItemUrl: () => undefined,
-      onActive: () => {},
-      onSelect: () => {},
-      getItems: () => items,
-      templates: {},
-    },
-    items,
-  };
-}
 
 describe('api', () => {
   describe('setActiveItemId', () => {
@@ -26,7 +9,6 @@ describe('api', () => {
       const onStateChange = jest.fn();
       const container = document.createElement('div');
       const { setActiveItemId } = autocomplete<{ label: string }>({
-        id: 'autocomplete',
         container,
         onStateChange,
       });
@@ -56,7 +38,6 @@ describe('api', () => {
       const onStateChange = jest.fn();
       const container = document.createElement('div');
       const { setQuery } = autocomplete<{ label: string }>({
-        id: 'autocomplete',
         container,
         onStateChange,
       });
@@ -77,12 +58,24 @@ describe('api', () => {
       const onStateChange = jest.fn();
       const container = document.createElement('div');
       const { setCollections } = autocomplete<{ label: string }>({
-        id: 'autocomplete',
         container,
         onStateChange,
       });
 
-      setCollections([createCollection([{ label: 'hi' }])]);
+      const items = [{ label: 'hi' }];
+      const collection = createCollection({
+        source: {
+          getItemInputValue: ({ item }) => item.label,
+          getItemUrl: () => undefined,
+          onActive: () => {},
+          onSelect: () => {},
+          getItems: () => items,
+          templates: {},
+        },
+        items,
+      });
+
+      setCollections([collection]);
 
       expect(onStateChange).toHaveBeenCalledTimes(1);
       expect(onStateChange).toHaveBeenCalledWith(
@@ -111,7 +104,20 @@ describe('api', () => {
         onStateChange,
       });
 
-      setCollections([createCollection([[{ label: 'hi' }]])]);
+      const items = [{ label: 'hi' }];
+      const collection = createCollection({
+        source: {
+          getItemInputValue: ({ item }) => item.label,
+          getItemUrl: () => undefined,
+          onActive: () => {},
+          onSelect: () => {},
+          getItems: () => items,
+          templates: {},
+        },
+        items,
+      });
+
+      setCollections([collection]);
 
       expect(onStateChange).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -132,7 +138,6 @@ describe('api', () => {
       const onStateChange = jest.fn();
       const container = document.createElement('div');
       const { setIsOpen } = autocomplete<{ label: string }>({
-        id: 'autocomplete',
         container,
         onStateChange,
       });
@@ -162,7 +167,6 @@ describe('api', () => {
       const onStateChange = jest.fn();
       const container = document.createElement('div');
       const { setStatus } = autocomplete<{ label: string }>({
-        id: 'autocomplete',
         container,
         onStateChange,
       });
@@ -183,7 +187,6 @@ describe('api', () => {
       const onStateChange = jest.fn();
       const container = document.createElement('div');
       const { setContext } = autocomplete<{ label: string }>({
-        id: 'autocomplete',
         container,
         onStateChange,
       });
@@ -216,7 +219,6 @@ describe('api', () => {
       const container = document.createElement('div');
       document.body.appendChild(container);
       const { update } = autocomplete<{ label: string }>({
-        id: 'autocomplete',
         container,
         onStateChange,
       });
@@ -261,7 +263,6 @@ describe('api', () => {
       );
       const container = document.createElement('div');
       const { destroy } = autocomplete<{ label: string }>({
-        id: 'autocomplete',
         container,
       });
 

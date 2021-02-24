@@ -43,8 +43,13 @@ describe('classNames', () => {
     });
 
     await waitFor(() => {
-      expect(document.querySelector('.aa-Form')).toBeInTheDocument();
-      expect(document.querySelector('.aa-Input')).toBeInTheDocument();
+      const form = document.querySelector('.aa-Form');
+      const input = document.querySelector('.aa-Input');
+
+      expect(form).toBeInTheDocument();
+      expect(form.className).toEqual('aa-Form');
+      expect(input).toBeInTheDocument();
+      expect(input.className).toEqual('aa-Input');
     });
   });
 });

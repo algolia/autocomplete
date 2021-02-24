@@ -3,22 +3,14 @@ import { waitFor } from '@testing-library/dom';
 import { autocomplete } from '../autocomplete';
 
 describe('panelContainer', () => {
-  let container;
-  let panelContainer;
-
-  beforeEach(() => {
-    container = document.createElement('div');
-    panelContainer = document.createElement('div');
-    panelContainer.className = 'customPanelContainer';
-    document.body.appendChild(container);
-    document.body.appendChild(panelContainer);
-  });
-
   afterEach(() => {
     document.body.innerHTML = '';
   });
 
   test('default value is `document.body`', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+
     autocomplete({
       container,
       initialState: {
@@ -32,6 +24,11 @@ describe('panelContainer', () => {
   });
 
   test('create panel in the specified element', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+    document.body.appendChild(container);
+    document.body.appendChild(panelContainer);
+
     autocomplete({
       container,
       panelContainer,
@@ -48,6 +45,12 @@ describe('panelContainer', () => {
   });
 
   test('create panel in the element targeted by the selector', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+    panelContainer.className = 'customPanelContainer';
+    document.body.appendChild(container);
+    document.body.appendChild(panelContainer);
+
     autocomplete({
       container,
       panelContainer: '.customPanelContainer',
