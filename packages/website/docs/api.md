@@ -8,7 +8,7 @@ import PluginsList from './partials/plugins-list.md'
 
 The API reference contains technical information on all Autocomplete packages.
 
-This API references how to import and use the Autocomplete APIs without guidance. Make sure to read the [**Core concepts**](basic-options) first. To learn more about Autocomplete patterns, head over to the [**Guides**](#todo).
+This API references how to import and use the Autocomplete APIs without guidance. Make sure to read the [**Core concepts**](basic-options) first. To learn more about Autocomplete patterns, head over to the [**Guides**](#).
 
 Autocomplete provides an ecosystem of companion libraries you can use for various purposes.
 
