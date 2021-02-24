@@ -63,7 +63,7 @@ describe('panelPlacement', () => {
   });
 
   describe('with `input-wrapper-width` value', () => {
-    test('places the panel bellow the input and takes the input width', async () => {
+    test('places the panel below the input and takes the input width', async () => {
       autocomplete({
         container,
         panelPlacement: 'input-wrapper-width',
@@ -93,7 +93,7 @@ describe('panelPlacement', () => {
   });
 
   describe('with `start` value', () => {
-    test('places the panel bellow the input and align it with the input left side', async () => {
+    test('places the panel below the input and aligns it with the input left side', async () => {
       autocomplete({
         container,
         panelPlacement: 'start',
@@ -120,7 +120,7 @@ describe('panelPlacement', () => {
   });
 
   describe('with `end` value', () => {
-    test('places the panel bellow the input and align it with the input right side', async () => {
+    test('places the panel below the input and aligns it with the input right side', async () => {
       autocomplete({
         container,
         panelPlacement: 'end',
@@ -147,7 +147,7 @@ describe('panelPlacement', () => {
   });
 
   describe('with `full-width` value', () => {
-    test('places the panel bellow the input and takes the full page width', async () => {
+    test('places the panel below the input and takes the full page width', async () => {
       autocomplete({
         container,
         panelPlacement: 'full-width',

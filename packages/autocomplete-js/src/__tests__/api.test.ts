@@ -179,7 +179,7 @@ describe('api', () => {
   });
 
   describe('setContext', () => {
-    test('aggregate `context` values in the state', () => {
+    test('aggregates `context` values in the state', () => {
       const onStateChange = jest.fn();
       const container = document.createElement('div');
       const { setContext } = autocomplete<{ label: string }>({
@@ -210,7 +210,7 @@ describe('api', () => {
   });
 
   describe('update', () => {
-    test('merge new options with original ones', () => {
+    test('merges new options with original ones', () => {
       let inputElement: HTMLInputElement;
       const onStateChange = jest.fn();
       const container = document.createElement('div');
@@ -253,7 +253,7 @@ describe('api', () => {
   });
 
   describe('destroy', () => {
-    test('clear all effects', () => {
+    test('clears all effects', () => {
       const windowAddEventListenerSpy = jest.spyOn(window, 'addEventListener');
       const windowRemoveEventListenerSpy = jest.spyOn(
         window,
