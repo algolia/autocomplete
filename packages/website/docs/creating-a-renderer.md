@@ -1,13 +1,13 @@
 ---
 id: creating-a-renderer
-title: Creating a Renderer
+title: Creating a custom Renderer
 ---
 
-Learn how to build an autocomplete UI from the ground up, focusing React.
+Learn how to build a full autocomplete UI from the ground up.
 
-:::info
+:::info You might not need a custom renderer
 
-This is an advanced guide that leverages the [`autocomplete-core`](createAutocomplete) package. You shouldn't need to use it if you haven't reached limitations with [`autocomplete-js`](autocomplete-js).
+Building a custom renderer is an advanced pattern that leverages the [`autocomplete-core`](createAutocomplete) package to fully control the rendered experience. You shouldn't need to use it unless you've reached limitations with [`autocomplete-js`](autocomplete-js) and it's templating capabilities.
 
 :::
 
