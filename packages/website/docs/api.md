@@ -22,7 +22,7 @@ You likely don't need to use this package directly unless you're building a [ren
 
 Renderers [provide a UI](creating-a-renderer) to headless autocomplete experiences built with [`autocomplete-core`](createAutocomplete). For example, [`autocomplete-js`](autocomplete-js) is an agnostic virtual DOM renderer. You can use it in JavaScript, Preact, React, or Vue projects.
 
-**Renderers are an advanced pattern that you should only use when hitting the limits of [`autocomplete-js`](autocomplete-js).** For instance, you might need a custom renderer when working with a JavaScript library that doesn't use a virtual DOM or when the layout structure of [`autocomplete-js`](autocomplete-js) is too constraining for your use case.
+**Custom renderers are an advanced pattern that you should only use when hitting the limits of [`autocomplete-js`](autocomplete-js).** For instance, you might need your own renderer when working with a JavaScript library that doesn't use a virtual DOM or when the layout structure of [`autocomplete-js`](autocomplete-js) is too constraining for your use case.
 
 ## Plugins
 
@@ -32,7 +32,7 @@ We provide a few official plugins:
 
 <PluginsList />
 
-You can [build your own plugin](plugins#building-your-own-plugin) by implementing the [`AutocompletePlugin` interface](https://github.com/algolia/autocomplete/blob/next/packages/autocomplete-core/src/types/AutocompletePlugin.ts).
+You can [build your own plugin](plugins#building-your-own-plugin) by implementing the [`AutocompletePlugin` interface](https://github.com/algolia/autocomplete/blob/next/packages/autocomplete-js/src/types/AutocompletePlugin.ts).
 
 ## Presets
 
