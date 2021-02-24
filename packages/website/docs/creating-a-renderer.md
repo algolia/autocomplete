@@ -3,7 +3,13 @@ id: creating-a-renderer
 title: Creating a Renderer
 ---
 
-Learn how to build an autocomplete UI using React.
+Learn how to build an autocomplete UI from the ground up, focusing React.
+
+:::info
+
+This is an advanced guide that leverages the [`autocomplete-core`](createAutocomplete) package. You shouldn't need to use it if you haven't reached limitations with [`autocomplete-js`](autocomplete-js).
+
+:::
 
 The [`autocomplete-js`](autocomplete-js) package includes everything you need to render a JavaScript autocomplete experience that you can bind to [your own framework](autocomplete-js#renderer). If you want to build a custom UI that differs from the `autocomplete-js` output, for example in [React](https://reactjs.org/docs/getting-started.html) or another front-end framework, the [`autocomplete-core`](createAutocomplete) package provides all the primitives to build it.
 
@@ -80,6 +86,7 @@ function Autocomplete() {
 ```
 
 Note the following commented portions:
+
 - (1) You can leverage a React state for the autocomplete component to re-render when the [Autocomplete state](state) changes.
 - (2) You can listen to all Autocomplete state changes to synchronize them with the React state.
 - (3) This example uses an Algolia index as a [source](sources).
