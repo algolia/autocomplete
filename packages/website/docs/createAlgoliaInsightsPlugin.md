@@ -2,9 +2,35 @@
 id: createAlgoliaInsightsPlugin
 ---
 
+The Algolia Insights plugin automatically sends click and conversion events to the [Algolia Insights API](https://www.algolia.com/doc/rest-api/insights/) whenever a user interacts with the autocomplete.
+
+## Installation
+
+First, you need to install the plugin.
+
+```bash
+yarn add @algolia/autocomplete-plugin-algolia-insights
+# or
+npm install @algolia/autocomplete-plugin-algolia-insights
+```
+
+Then import it in your project:
+
+```js
+import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
+```
+
+If you don't use a package manager, you can use a standalone endpoint:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-algolia-insights"></script>
+```
+
 ## Example
 
-```ts
+Here's a working example. It uses the plugin within [`autocomplete-js`](autocomplete-js), along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client and [Search Insights](https://www.npmjs.com/package/search-insights) library.
+
+```js
 import algoliasearch from 'algoliasearch/lite';
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
@@ -23,13 +49,7 @@ autocomplete({
 });
 ```
 
-## Import
-
-```ts
-import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
-```
-
-## Params
+## Parameters
 
 ### `insightsClient`
 
@@ -41,9 +61,9 @@ The initialized Search Insights client.
 
 > `(params: OnItemsChangeParams) => void`
 
-Hook to send an Insights event when the items change.
+Hook to send an Insights event whenever the items change.
 
-This hook is debounced every 400ms to better reflect when items are acknowledged by the user.
+In as-you-type experiences, items change as the user types. This hook is debounced every 400ms to reflect actual items that users notice and avoid generating too many events for items matching "in progress" queries.
 
 ```ts
 type OnItemsChangeParams = {
@@ -57,7 +77,7 @@ type OnItemsChangeParams = {
 
 > `(params: OnSelectParams) => void`
 
-Hook to send an Insights event when an item is selected.
+Hook to send an Insights event whenever an item is selected.
 
 ```ts
 type OnSelectParams = {
@@ -73,7 +93,7 @@ type OnSelectParams = {
 
 > `(params: OnActiveParams) => void`
 
-Hook to send an Insights event when an item is active.
+Hook to send an Insights event whenever an item is active.
 
 ```ts
 type OnActiveParams = {
