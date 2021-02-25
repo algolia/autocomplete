@@ -2,9 +2,37 @@
 id: createRecentSearchesPlugin
 ---
 
+The Recent Searches plugin displays a list of the latest searches the user made on your autocomplete's empty screen.
+
+The `createRecentSearchesPlugin` plugin lets you implement your own storage. To connect with the user's [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage), check [`createLocalStorageRecentSearchesPlugin`](createLocalStorageRecentSearchesPlugin).
+
+## Installation
+
+First, you need to install the plugin.
+
+```bash
+yarn add @algolia/autocomplete-plugin-recent-searches
+# or
+npm install @algolia/autocomplete-plugin-recent-searches
+```
+
+Then import it in your project:
+
+```js
+import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+```
+
+If you don't use a package manager, you can use a standalone endpoint:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-recent-searches"></script>
+```
+
 ## Example
 
-```ts
+Here's a working example. It uses the plugin within [`autocomplete-js`](autocomplete-js). You're in charge of implementing the storage to fetch and save recent searches.
+
+```js
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 
@@ -24,9 +52,45 @@ autocomplete({
 });
 ```
 
-With [Query Suggestions](createQuerySuggestionsPlugin):
+For example, you can plug it to a MongoDB database using [mongoose](https://mongoosejs.com/).
 
-```ts
+```js
+import mongoose from 'mongoose';
+import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+import { search } from '@algolia/autocomplete-plugin-recent-searches/usecases/localStorage';
+
+mongoose.connect('mongodb://localhost:27017/myapp', { useNewUrlParser: true });
+
+const schema = new mongoose.Schema({
+  objectID: String,
+  query: String,
+  category: {
+    type: String,
+    default: undefined,
+  },
+});
+const RecentSearchesItem = mongoose.model('RecentSearchesItem', schema);
+
+const recentSearchesPlugin = createRecentSearchesPlugin({
+  storage: {
+    async getAll(query) {
+      const items = await RecentSearchesItem.find({});
+
+      return search({ query, items, limit: 5 });
+    },
+    onAdd(item) {
+      RecentSearchesItem.create(item);
+    },
+    onRemove(objectID) {
+      RecentSearchesItem.deleteOne({ objectID });
+    },
+  },
+});
+```
+
+You can combine this plugin with the [Query Suggestions](createQuerySuggestionsPlugin) plugin to leverage the empty screen with popular and recent queries.
+
+```js
 import algoliasearch from 'algoliasearch/lite';
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
@@ -59,17 +123,13 @@ autocomplete({
 });
 ```
 
-## Import
-
-```ts
-import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
-```
-
-## Params
+## Parameters
 
 ### `storage`
 
 > `RecentSearchesStorage` | required
+
+The storage to fetch from and save recent searches into.
 
 ```ts
 type RecentSearchesItem = {
@@ -87,7 +147,9 @@ type RecentSearchesStorage<TItem extends RecentSearchesItem> = {
 
 > `(params: { source: AutocompleteSource, onRemove: () => void })`
 
-#### Example
+A function to transform the source based on the Autocomplete state.
+
+#### Examples
 
 Keeping the panel open on select:
 
@@ -142,3 +204,5 @@ const recentSearchesPlugin = createRecentSearchesPlugin({
 #### `getAlgoliaSearchParams`
 
 > `SearchParameters => SearchParameters`
+
+Optimized [Algolia search parameters](https://www.algolia.com/doc/api-reference/search-api-parameters/). This is useful when using the plugin along with the [Query Suggestions](createQuerySuggestionsPlugin) plugin.
