@@ -1,3 +1,79 @@
+# [1.0.0-alpha.43](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.42...v1.0.0-alpha.43) (2021-02-19)
+
+### Bug Fixes
+
+- **js:** display `empty` template only with a query ([7c2f9a3](https://github.com/algolia/autocomplete.js/commit/7c2f9a35ae8935793f0e9838369225a4fedad37e))
+- **js:** rely on `environment` instead of `window` ([0bc15e9](https://github.com/algolia/autocomplete.js/commit/0bc15e9c354cacafe5f54fd91ece651dcc51cc58))
+- **theme:** update icons and Detached mode design ([#443](https://github.com/algolia/autocomplete.js/issues/443)) ([af43a37](https://github.com/algolia/autocomplete.js/commit/af43a379215376cab811adfd512bc7fb60965803))
+
+### Features
+
+- **algolia:** add `getAlgoliaFacetHits` preset ([#451](https://github.com/algolia/autocomplete.js/issues/451)) ([8876fd3](https://github.com/algolia/autocomplete.js/commit/8876fd3283e846be3bf9a6b8929efa5b09600d61))
+- **algolia:** fix highlighting hit type ([#452](https://github.com/algolia/autocomplete.js/issues/452)) ([0f92710](https://github.com/algolia/autocomplete.js/commit/0f927100e353adc0f6aac81bcad7c5fcc4c5862b))
+- **css:** support Detached mode ([#438](https://github.com/algolia/autocomplete.js/issues/438)) ([82747d5](https://github.com/algolia/autocomplete.js/commit/82747d58a9e53036f1cfb31efd79bb9a409d45f9))
+- **js:** add `aa-Detached` CSS class on Detached mode ([8a50e90](https://github.com/algolia/autocomplete.js/commit/8a50e90693ada6f876faf153e23fbc85300207a8))
+- **js:** always keep panel open on detached mode ([9014a41](https://github.com/algolia/autocomplete.js/commit/9014a4168c76dcc736c5895af614c970d4c0c2c0))
+- **js:** rename `detachedMediaQuery` ([46d30f5](https://github.com/algolia/autocomplete.js/commit/46d30f5178f7467b01a572cbea492ad63a5942ca))
+- **js:** rename `empty` to `noResults` ([#450](https://github.com/algolia/autocomplete.js/issues/450)) ([71ea2d0](https://github.com/algolia/autocomplete.js/commit/71ea2d010f7a370c03fbdcb01e155244f4ea8bb2))
+- **js:** rename classnames to Detached ([dadec26](https://github.com/algolia/autocomplete.js/commit/dadec26300b3f4bed3c8f704d2decf5211d6d3f0))
+- **plugins:** add categories to Query Suggestions and Recent Searches ([54ef36c](https://github.com/algolia/autocomplete.js/commit/54ef36c366e8328d99c6741cce839748f4914d89))
+- **recent-searches:** display tap-ahead button ([b3670c9](https://github.com/algolia/autocomplete.js/commit/b3670c95ebf5a8d6570e169351956360a18ac1f5))
+- **theme:** design search button focus state ([e284771](https://github.com/algolia/autocomplete.js/commit/e284771d6f2c5057a015912fbda0c50896a4c603))
+- **theme:** support modal design on Detached Mode ([#445](https://github.com/algolia/autocomplete.js/issues/445)) ([5043d27](https://github.com/algolia/autocomplete.js/commit/5043d27eb04ef550415d9235c60c40344abe8603))
+- **theme:** update search button design ([818a1d9](https://github.com/algolia/autocomplete.js/commit/818a1d9adc2df54ca289dd983bc8e77b5676029c))
+
+# [1.0.0-alpha.42](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.41...v1.0.0-alpha.42) (2021-02-09)
+
+### Bug Fixes
+
+- **core:** rename `shouldPanelShow` to `shouldPanelOpen` ([c442884](https://github.com/algolia/autocomplete.js/commit/c442884c99535939acef1309a6eff99d3358399b))
+- **js:** change highlighted element `key` to index ([d4d0348](https://github.com/algolia/autocomplete.js/commit/d4d03486fb72397644abd66e16dff879767f2a8d))
+
+### Features
+
+- **core:** remove `onInput` option ([#437](https://github.com/algolia/autocomplete.js/issues/437)) ([3827605](https://github.com/algolia/autocomplete.js/commit/38276059f30c9e99a09be5764ba90cd79f9963da))
+
+# [1.0.0-alpha.41](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.40...v1.0.0-alpha.41) (2021-02-09)
+
+### Bug Fixes
+
+- **core:** don't open panel with `openOnFocus` without items ([fde8b8a](https://github.com/algolia/autocomplete.js/commit/fde8b8abe7f459ac797e5a45b0b6e5f8b201fed0))
+- **core:** rename `OnHighlightParams` to `OnActiveParams` ([2d7762d](https://github.com/algolia/autocomplete.js/commit/2d7762df555782c0ff622e69faa86d5868e773a3))
+- **js:** add `footer` template ([b2223d5](https://github.com/algolia/autocomplete.js/commit/b2223d5a707846ac8efbe109d95cc97af0ad6b86))
+- **js:** add `key` props to highlight children ([11e5667](https://github.com/algolia/autocomplete.js/commit/11e566778bdc056f1ce048380ed16f04a75928d8))
+- **js:** forward `TData` type to `AutocompletePlugin` ([f62cb36](https://github.com/algolia/autocomplete.js/commit/f62cb36fcce6e2912269f9e456d0e68d73214a13))
+- **js:** use `AutocompletePlugin` type from JS ([ba3cda5](https://github.com/algolia/autocomplete.js/commit/ba3cda54b6d9088a938339f9d4d585915fe9a7bb))
+- **plugins:** pass `createElement` to highlight utils ([11f4cb7](https://github.com/algolia/autocomplete.js/commit/11f4cb7a5d47bce75ef830ff455bc9fe7f4b9f13))
+
+### Features
+
+- **emptyStates:** implements empty source template and renderEmpty method ([#395](https://github.com/algolia/autocomplete.js/issues/395)) ([fbfca35](https://github.com/algolia/autocomplete.js/commit/fbfca35e99002c27d3b79f79aa91a10fde2bdf27))
+- **js:** wrap item action buttons in container ([#434](https://github.com/algolia/autocomplete.js/issues/434)) ([0032f38](https://github.com/algolia/autocomplete.js/commit/0032f389eefdc752352d424ab427235608e50467))
+- **plugin:** add `transformSource` API ([fbd9e72](https://github.com/algolia/autocomplete.js/commit/fbd9e72ee20b225e574aa32e16e24e0252339f41))
+- **sourceId:** add `sourceId` to provide `data-autocomplete-source-id` on `section` source container ([#429](https://github.com/algolia/autocomplete.js/issues/429)) ([ce35fea](https://github.com/algolia/autocomplete.js/commit/ce35fea95a3d408064eba698d47ac0c57bd58349))
+- **theme:** add `aa-ItemWrapper` CSS class ([a56c9d4](https://github.com/algolia/autocomplete.js/commit/a56c9d4da87ca2b8b32c373da99f6f9fee0170fe))
+
+# [1.0.0-alpha.40](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.39...v1.0.0-alpha.40) (2021-02-03)
+
+### Bug Fixes
+
+- **core:** forward props in `getEnvironmentProps` ([af49483](https://github.com/algolia/autocomplete.js/commit/af4948304f5b95fdc8c642882609b87d39562f83))
+- **core:** remove error handler when fetching results ([#416](https://github.com/algolia/autocomplete.js/issues/416)) ([eb98af6](https://github.com/algolia/autocomplete.js/commit/eb98af611ecd91b07d161d68ce1c81abf84bbf70))
+- **insights:** rename event to "Item Active" ([03059b6](https://github.com/algolia/autocomplete.js/commit/03059b6b2942f114ea48a304d964480cb43b02c5))
+- **js:** ignore empty template with no query and `openOnFocus` ([#407](https://github.com/algolia/autocomplete.js/issues/407)) ([92eeb3e](https://github.com/algolia/autocomplete.js/commit/92eeb3e523e4c1b1c87c4108d903029052472387))
+- **js:** update panel markup ([1eecc65](https://github.com/algolia/autocomplete.js/commit/1eecc65fa86cb490dc2987dedaedbbc7812fac10))
+- **mergeClassNames:** prevent classes with the same name being merged ([#413](https://github.com/algolia/autocomplete.js/issues/413)) ([9651481](https://github.com/algolia/autocomplete.js/commit/9651481a9e903605bbb26c28b1426fa7088416e5))
+
+### Features
+
+- **core:** pass scoped API to lifecycle hooks ([#422](https://github.com/algolia/autocomplete.js/issues/422)) ([049b343](https://github.com/algolia/autocomplete.js/commit/049b3430f9bd6fe53536c346f287dab06652b7cf))
+- **highlighting:** support array syntax for nested attributes ([#418](https://github.com/algolia/autocomplete.js/issues/418)) ([4ad4e41](https://github.com/algolia/autocomplete.js/commit/4ad4e411d5c5ff6f6a8374b567fb9afa725bfd30))
+- **js:** add JS user agent to Algolia requests ([#420](https://github.com/algolia/autocomplete.js/issues/420)) ([fab2d57](https://github.com/algolia/autocomplete.js/commit/fab2d57c3d0c08ab2e46fad80224fe9f740988eb))
+- **js:** update reset icon ([2c953f6](https://github.com/algolia/autocomplete.js/commit/2c953f6ae8473b2fc5bd63b01b32470024e125bc))
+- **query-suggestions:** remove `getAlgoliaHits` param ([efa4c93](https://github.com/algolia/autocomplete.js/commit/efa4c938f8a1c885a38e8130be44c9ab17fba146))
+- **recent-searches:** update remove icon ([b828171](https://github.com/algolia/autocomplete.js/commit/b82817171718eab9041f41146d8accbd7d0cf909))
+- **theme:** introduce Autocomplete Classic Theme ([#409](https://github.com/algolia/autocomplete.js/issues/409)) ([226fc54](https://github.com/algolia/autocomplete.js/commit/226fc549e07e957b7b6177e0f3d592bc509b0089))
+
 # [1.0.0-alpha.39](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.38...v1.0.0-alpha.39) (2021-01-22)
 
 This is a big release that changes the rendering implementation from plain HTML to Virtual DOM (see [#381](https://github.com/algolia/autocomplete.js/issues/381)).
@@ -10,7 +86,7 @@ This is a big release that changes the rendering implementation from plain HTML 
 
 - **core:** rename highlight to active ([1c1b951](https://github.com/algolia/autocomplete.js/commit/1c1b9512cd834c2bd2c48525df535d7039c14058))
 - **emptyStates:** add `empty` source template and `renderEmpty` method ([#395](https://github.com/algolia/autocomplete.js/issues/395)) ([8bd35e6](https://github.com/algolia/autocomplete.js/commit/8bd35e6c186f1a4398108abd76dbd006c2b734b2))
-- **js:** change renderer implementation to virtual DOM ([#381](https://github.com/algolia/autocomplete.js/issues/381)) ([5a1efc2](https://github.com/algolia/autocomplete.js/commit/5a1efc2cccd968b9f359ebd9ea26812743122d4c))
+- **js:** ([#381](https://github.com/algolia/autocomplete.js/issues/381)) ([5a1efc2](https://github.com/algolia/autocomplete.js/commit/5a1efc2cccd968b9f359ebd9ea26812743122d4c))
 - **reverseHighlight/reverseSnippet:** implement sibling strategy from InstantSearch.js ([#388](https://github.com/algolia/autocomplete.js/issues/388)) ([d86a33a](https://github.com/algolia/autocomplete.js/commit/d86a33a50adefa3b6996e80e1d3b407f0dab59be))
 
 # [1.0.0-alpha.38](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.37...v1.0.0-alpha.38) (2020-12-12)

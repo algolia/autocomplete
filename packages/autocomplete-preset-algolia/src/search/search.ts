@@ -4,7 +4,8 @@ import { SearchClient } from 'algoliasearch/lite';
 import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from '../constants';
 import { version } from '../version';
 
-type UserAgent = { segment: string; version?: string };
+import { UserAgent } from './UserAgent';
+
 export interface SearchParams {
   searchClient: SearchClient;
   queries: MultipleQueriesQuery[];

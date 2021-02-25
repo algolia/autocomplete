@@ -1,10 +1,10 @@
 {
   "name": "@algolia/autocomplete-preset-algolia",
   "description": "Presets for building autocomplete experiences with Algolia.",
-  "version": "1.0.0-alpha.39",
+  "version": "1.0.0-alpha.43",
   "license": "MIT",
-  "homepage": "https://github.com/algolia/autocomplete.js",
-  "repository": "algolia/autocomplete.js",
+  "homepage": "https://github.com/algolia/autocomplete",
+  "repository": "algolia/autocomplete",
   "author": {
     "name": "Algolia, Inc.",
     "url": "https://www.algolia.com"
@@ -31,7 +31,7 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@algolia/autocomplete-shared": "1.0.0-alpha.39"
+    "@algolia/autocomplete-shared": "1.0.0-alpha.43"
   },
   "devDependencies": {
     "@algolia/client-search": "4.8.3",

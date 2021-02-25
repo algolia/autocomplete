@@ -3,22 +3,22 @@ import { AutocompleteState } from '@algolia/autocomplete-core';
 import {
   ClickedObjectIDsAfterSearchParams,
   ViewedObjectIDsParams,
-} from './InsightsApi';
+} from './AutocompleteInsightsApi';
 
-import { AlgoliaInsightsHit, InsightsApi } from '.';
+import { AlgoliaInsightsHit, AutocompleteInsightsApi } from '.';
 
 export type OnSelectParams = {
-  insights: InsightsApi;
+  insights: AutocompleteInsightsApi;
   insightsEvents: ClickedObjectIDsAfterSearchParams[];
   item: AlgoliaInsightsHit;
   state: AutocompleteState<any>;
   event: any;
 };
 
-export type OnHighlightParams = OnSelectParams;
+export type OnActiveParams = OnSelectParams;
 
 export type OnItemsChangeParams = {
-  insights: InsightsApi;
+  insights: AutocompleteInsightsApi;
   insightsEvents: ViewedObjectIDsParams[];
   state: AutocompleteState<any>;
 };

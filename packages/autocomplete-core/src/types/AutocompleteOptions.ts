@@ -113,7 +113,7 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
   /**
    * The function called to determine whether the panel should open.
    */
-  shouldPanelShow?(params: { state: AutocompleteState<TItem> }): boolean;
+  shouldPanelOpen?(params: { state: AutocompleteState<TItem> }): boolean;
   /**
    * The function called when the Autocomplete form is submitted.
    */
@@ -122,13 +122,6 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    * The function called when the Autocomplete form is reset.
    */
   onReset?(params: OnResetParams<TItem>): void;
-  /**
-   * The function called when the input changes.
-   *
-   * This turns the experience in controlled mode, leaving you in charge of
-   * updating the state.
-   */
-  onInput?(params: OnInputParams<TItem>): void;
   /**
    * The array of plugins.
    */
@@ -151,7 +144,7 @@ export interface InternalAutocompleteOptions<TItem extends BaseItem>
   environment: AutocompleteEnvironment;
   navigator: AutocompleteNavigator<TItem>;
   plugins: Array<AutocompletePlugin<TItem, unknown>>;
-  shouldPanelShow(params: { state: AutocompleteState<TItem> }): boolean;
+  shouldPanelOpen(params: { state: AutocompleteState<TItem> }): boolean;
   onSubmit(params: OnSubmitParams<TItem>): void;
   onReset(params: OnResetParams<TItem>): void;
   onInput?(params: OnInputParams<TItem>): void | Promise<any>;

@@ -1,18 +1,11 @@
 import { AutocompletePlugin } from '@algolia/autocomplete-core';
-import { SourceTemplates } from '@algolia/autocomplete-js';
-import { MaybePromise, warn } from '@algolia/autocomplete-shared';
+import { AutocompleteSource } from '@algolia/autocomplete-js';
+import { createRef, MaybePromise, warn } from '@algolia/autocomplete-shared';
 import { SearchOptions } from '@algolia/client-search';
 
 import { createStore, RecentSearchesStorage } from './createStore';
-import {
-  getTemplates as defaultGetTemplates,
-  GetTemplatesParams,
-} from './getTemplates';
+import { getTemplates } from './getTemplates';
 import { RecentSearchesItem } from './types';
-
-type Ref<TType> = {
-  current: TType;
-};
 
 export type RecentSearchesPluginData = {
   getAlgoliaSearchParams(params?: SearchOptions): SearchOptions;
@@ -22,29 +15,34 @@ export type CreateRecentSearchesPluginParams<
   TItem extends RecentSearchesItem
 > = {
   storage: RecentSearchesStorage<TItem>;
-  getTemplates?(params: GetTemplatesParams): SourceTemplates<TItem>;
+  transformSource?(params: {
+    source: AutocompleteSource<TItem>;
+    onRemove(id: string): void;
+    onTapAhead(item: TItem): void;
+  }): AutocompleteSource<TItem>;
 };
 
 export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
   storage,
-  getTemplates = defaultGetTemplates,
+  transformSource = ({ source }) => source,
 }: CreateRecentSearchesPluginParams<TItem>): AutocompletePlugin<
   TItem,
   RecentSearchesPluginData
 > {
-  const store = createStore<TItem>(storage);
-  const lastItemsRef: Ref<MaybePromise<TItem[]>> = { current: [] };
+  const store = createStore(storage);
+  const lastItemsRef = createRef<MaybePromise<TItem[]>>([]);
 
   return {
     subscribe({ onSelect }) {
       onSelect(({ item, state, source }) => {
         const inputValue = source.getItemInputValue({ item, state });
 
-        if (inputValue) {
+        if (source.sourceId === 'querySuggestionsPlugin' && inputValue) {
           store.add({
-            id: inputValue,
+            objectID: inputValue,
             query: inputValue,
-          } as TItem);
+            category: (item as any).__autocomplete_qsCategory,
+          } as any);
         }
       });
     },
@@ -53,13 +51,23 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
 
       if (query) {
         store.add({
-          id: query,
+          objectID: query,
           query,
-        } as TItem);
+        } as any);
       }
     },
-    getSources({ query, refresh }) {
+    getSources({ query, setQuery, refresh }) {
       lastItemsRef.current = store.getAll(query);
+
+      function onRemove(id: string) {
+        store.remove(id);
+        refresh();
+      }
+
+      function onTapAhead(item: TItem) {
+        setQuery(item.query);
+        refresh();
+      }
 
       return Promise.resolve(lastItemsRef.current).then((items) => {
         if (items.length === 0) {
@@ -67,20 +75,20 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
         }
 
         return [
-          {
-            getItemInputValue({ item }) {
-              return item.query;
-            },
-            getItems() {
-              return items;
-            },
-            templates: getTemplates({
-              onRemove(id) {
-                store.remove(id);
-                refresh();
+          transformSource({
+            source: {
+              sourceId: 'recentSearchesPlugin',
+              getItemInputValue({ item }) {
+                return item.query;
               },
-            }),
-          },
+              getItems() {
+                return items;
+              },
+              templates: getTemplates({ onRemove, onTapAhead }),
+            },
+            onRemove,
+            onTapAhead,
+          }),
         ];
       });
     },

@@ -1,4 +1,4 @@
 export * from './AlgoliaInsightsHit';
-export * from './InsightsApi';
-export * from './InsightsClient';
+export * from './AutocompleteInsightsApi';
 export * from './EventParams';
+export * from './InsightsClient';

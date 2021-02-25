@@ -1,6 +1,8 @@
 import { createSearchInsightsApi } from '../createSearchInsightsApi';
 
-export type InsightsApi = ReturnType<typeof createSearchInsightsApi>;
+export type AutocompleteInsightsApi = ReturnType<
+  typeof createSearchInsightsApi
+>;
 
 export type ClickedObjectIDsAfterSearchParams = {
   eventName: string;

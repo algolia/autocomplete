@@ -4,10 +4,11 @@ import {
   createAutocomplete,
 } from '@algolia/autocomplete-core';
 import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
+import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch/lite';
 import React from 'react';
 
-import { ResetIcon } from './ResetIcon';
+import { ClearIcon } from './ClearIcon';
 import { SearchIcon } from './SearchIcon';
 
 const searchClient = algoliasearch(
@@ -15,15 +16,13 @@ const searchClient = algoliasearch(
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
-type AutocompleteItem = {
+type AutocompleteItem = Hit<{
   objectID: string;
-  query: string;
-  _highlightResult: {
-    query: {
-      value: string;
-    };
-  };
-};
+  name: string;
+  description: string;
+  image: string;
+  url: string;
+}>;
 
 export function Autocomplete(
   props: Partial<AutocompleteOptions<AutocompleteItem>>
@@ -53,24 +52,27 @@ export function Autocomplete(
         getSources() {
           return [
             {
-              getItemInputValue({ item }) {
-                return item.query;
-              },
+              sourceId: 'products',
               getItems({ query }) {
                 return getAlgoliaHits({
                   searchClient,
                   queries: [
                     {
-                      indexName: 'instant_search_demo_query_suggestions',
+                      indexName: 'instant_search',
                       query,
                       params: {
                         hitsPerPage: 5,
                         highlightPreTag: '<mark>',
                         highlightPostTag: '</mark>',
+                        attributesToSnippet: ['name:10', 'description:35'],
+                        snippetEllipsisText: '…',
                       },
                     },
                   ],
                 });
+              },
+              getItemUrl({ item }) {
+                return item.url;
               },
             },
           ];
@@ -79,9 +81,9 @@ export function Autocomplete(
       }),
     [props]
   );
-  const inputRef = React.useRef<HTMLInputElement | null>(null);
-  const formRef = React.useRef<HTMLFormElement | null>(null);
-  const panelRef = React.useRef<HTMLDivElement | null>(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const formRef = React.useRef<HTMLFormElement>(null);
+  const panelRef = React.useRef<HTMLDivElement>(null);
   const { getEnvironmentProps } = autocomplete;
 
   React.useEffect(() => {
@@ -124,8 +126,8 @@ export function Autocomplete(
           />
         </div>
         <div className="aa-InputWrapperSuffix">
-          <button className="aa-ResetButton" type="reset">
-            <ResetIcon />
+          <button className="aa-ClearButton" title="Clear" type="reset">
+            <ClearIcon />
           </button>
         </div>
       </form>
@@ -157,17 +159,43 @@ export function Autocomplete(
                             className="aa-Item"
                             {...autocomplete.getItemProps({ item, source })}
                           >
-                            <div className="aa-ItemIcon aa-ItemIcon--no-border">
-                              <SearchIcon />
+                            <div className="aa-ItemIcon">
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                width="40"
+                                height="40"
+                              />
                             </div>
                             <div className="aa-ItemContent">
                               <div
                                 className="aa-ItemContentTitle"
                                 dangerouslySetInnerHTML={{
-                                  __html: item._highlightResult.query.value,
+                                  __html: item._snippetResult!.name.value,
+                                }}
+                              />
+                              <div
+                                className="aa-ItemContentDescription"
+                                dangerouslySetInnerHTML={{
+                                  __html: item._snippetResult!.description
+                                    .value,
                                 }}
                               />
                             </div>
+                            <button
+                              className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
+                              type="button"
+                              title="Select"
+                            >
+                              <svg
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                                width="20"
+                                height="20"
+                              >
+                                <path d="M18.984 6.984h2.016v6h-15.188l3.609 3.609-1.406 1.406-6-6 6-6 1.406 1.406-3.609 3.609h13.172v-4.031z" />
+                              </svg>
+                            </button>
                           </li>
                         );
                       })}

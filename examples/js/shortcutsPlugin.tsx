@@ -6,7 +6,7 @@ type DarkModeItem = {
   label: string;
 };
 
-export const shortcutsPlugin: AutocompletePlugin<DarkModeItem> = {
+export const shortcutsPlugin: AutocompletePlugin<DarkModeItem, undefined> = {
   getSources({ query }) {
     if (query !== '/' && query !== 'dark' && query !== 'light') {
       return [];
@@ -14,6 +14,7 @@ export const shortcutsPlugin: AutocompletePlugin<DarkModeItem> = {
 
     return [
       {
+        sourceId: 'shortcutsPlugin',
         getItems() {
           return [
             {

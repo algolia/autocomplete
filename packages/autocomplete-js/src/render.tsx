@@ -23,7 +23,6 @@ type RenderProps<TItem extends BaseItem> = {
   createElement: Pragma;
   dom: AutocompleteDom;
   Fragment: PragmaFrag;
-  isTouch: boolean;
   panelContainer: HTMLElement;
   propGetters: AutocompletePropGetters<TItem>;
   state: AutocompleteState<TItem>;
@@ -55,7 +54,7 @@ export function renderSearchBox<TItem extends BaseItem>({
   );
   setProperties(dom.label, { hidden: state.status === 'stalled' });
   setProperties(dom.loadingIndicator, { hidden: state.status !== 'stalled' });
-  setProperties(dom.resetButton, { hidden: !state.query });
+  setProperties(dom.clearButton, { hidden: !state.query });
 }
 
 export function renderPanel<TItem extends BaseItem>(
@@ -67,7 +66,6 @@ export function renderPanel<TItem extends BaseItem>(
     createElement,
     dom,
     Fragment,
-    isTouch,
     panelContainer,
     propGetters,
     state,
@@ -87,12 +85,14 @@ export function renderPanel<TItem extends BaseItem>(
     panelContainer.appendChild(dom.panel);
   }
 
-  dom.panel.classList.toggle('aa-Panel--desktop', !isTouch);
-  dom.panel.classList.toggle('aa-Panel--touch', isTouch);
   dom.panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');
 
   const sections = state.collections.map(({ source, items }, sourceIndex) => (
-    <section key={sourceIndex} className={classNames.source}>
+    <section
+      key={sourceIndex}
+      className={classNames.source}
+      data-autocomplete-source-id={source.sourceId}
+    >
       {source.templates.header && (
         <div className={classNames.sourceHeader}>
           {source.templates.header({
@@ -105,9 +105,9 @@ export function renderPanel<TItem extends BaseItem>(
         </div>
       )}
 
-      {items.length === 0 && source.templates.empty ? (
-        <div className={classNames.sourceEmpty}>
-          {source.templates.empty({
+      {items.length === 0 && source.templates.noResults && state.query ? (
+        <div className={classNames.sourceNoResults}>
+          {source.templates.noResults({
             createElement,
             Fragment,
             source,
@@ -150,10 +150,24 @@ export function renderPanel<TItem extends BaseItem>(
           })}
         </ul>
       )}
+
+      {source.templates.footer && (
+        <div className={classNames.sourceFooter}>
+          {source.templates.footer({
+            createElement,
+            Fragment,
+            items,
+            source,
+            state,
+          })}
+        </div>
+      )}
     </section>
   ));
 
-  const children = <div className="aa-PanelLayout">{sections}</div>;
+  const children = (
+    <div className="aa-PanelLayout aa-Panel--Scrollable">{sections}</div>
+  );
 
   render({ children, state, sections, createElement, Fragment }, dom.panel);
 }

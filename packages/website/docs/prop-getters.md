@@ -1,6 +1,6 @@
 ---
 id: prop-getters
-title: Prop Getters
+title: Advanced customization with Prop Getters
 ---
 
 The prop getters are functions that returns attributes and event handlers to create accessible and interactive autocomplete experiences.

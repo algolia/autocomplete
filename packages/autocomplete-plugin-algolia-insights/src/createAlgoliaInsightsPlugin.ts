@@ -10,9 +10,9 @@ import { createViewedEvents } from './createViewedEvents';
 import { isAlgoliaInsightsHit } from './isAlgoliaInsightsHit';
 import {
   AlgoliaInsightsHit,
-  InsightsApi,
+  AutocompleteInsightsApi,
   InsightsClient,
-  OnHighlightParams,
+  OnActiveParams,
   OnItemsChangeParams,
   OnSelectParams,
 } from './types';
@@ -22,7 +22,7 @@ const VIEW_EVENT_DELAY = 400;
 type SendViewedObjectIDsParams = {
   onItemsChange(params: OnItemsChangeParams): void;
   items: AlgoliaInsightsHit[];
-  insights: InsightsApi;
+  insights: AutocompleteInsightsApi;
   state: AutocompleteState<any>;
 };
 
@@ -59,7 +59,7 @@ export type CreateAlgoliaInsightsPluginParams = {
   /**
    * Hook to send an Insights event when an item is active.
    */
-  onActive?(params: OnHighlightParams): void;
+  onActive?(params: OnActiveParams): void;
 };
 
 export function createAlgoliaInsightsPlugin({

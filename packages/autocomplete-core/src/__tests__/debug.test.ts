@@ -14,6 +14,7 @@ describe('debug', () => {
     const { getInputProps } = createAutocomplete({
       debug: true,
       openOnFocus: true,
+      shouldPanelOpen: () => true,
       onStateChange,
     });
     const inputElement = document.createElement('input');

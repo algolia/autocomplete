@@ -209,6 +209,7 @@ describe('getEnvironmentProps', () => {
         formElement,
       } = createPlayground(createAutocomplete, {
         openOnFocus: true,
+        shouldPanelOpen: () => true,
       });
       const panelElement = document.createElement('div');
 

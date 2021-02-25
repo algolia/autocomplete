@@ -30,25 +30,31 @@ export function autocomplete<TItem extends BaseItem>(
   const { runEffect, cleanupEffects, runEffects } = createEffectWrapper();
   const { reactive, runReactives } = createReactiveWrapper();
 
-  const hasEmptySourceTemplateRef = createRef(false);
+  const hasNoResultsSourceTemplateRef = createRef(false);
   const optionsRef = createRef(options);
   const onStateChangeRef = createRef<
     AutocompleteOptions<TItem>['onStateChange']
   >(undefined);
   const props = reactive(() => getDefaultOptions(optionsRef.current));
+  const isDetached = reactive(
+    () =>
+      props.value.core.environment.matchMedia(
+        props.value.renderer.detachedMediaQuery
+      ).matches
+  );
   const autocomplete = reactive(() =>
     createAutocomplete<TItem>({
       ...props.value.core,
       onStateChange(options) {
-        hasEmptySourceTemplateRef.current = options.state.collections.some(
+        hasNoResultsSourceTemplateRef.current = options.state.collections.some(
           (collection) =>
-            (collection.source as AutocompleteSource<TItem>).templates.empty
+            (collection.source as AutocompleteSource<TItem>).templates.noResults
         );
         onStateChangeRef.current?.(options as any);
         props.value.core.onStateChange?.(options as any);
       },
-      shouldPanelShow:
-        optionsRef.current.shouldPanelShow ||
+      shouldPanelOpen:
+        optionsRef.current.shouldPanelOpen ||
         (({ state }) => {
           const hasItems = getItemsCount(state) > 0;
 
@@ -56,12 +62,12 @@ export function autocomplete<TItem extends BaseItem>(
             return hasItems;
           }
 
-          const hasEmptyTemplate = Boolean(
-            hasEmptySourceTemplateRef.current ||
-              props.value.renderer.renderEmpty
+          const hasNoResultsTemplate = Boolean(
+            hasNoResultsSourceTemplateRef.current ||
+              props.value.renderer.renderNoResults
           );
 
-          return (!hasItems && hasEmptyTemplate) || hasItems;
+          return (!hasItems && hasNoResultsTemplate) || hasItems;
         }),
     })
   );
@@ -75,10 +81,6 @@ export function autocomplete<TItem extends BaseItem>(
     status: 'idle',
     ...props.value.core.initialState,
   });
-
-  const isTouch = reactive(
-    () => window.matchMedia(props.value.renderer.touchMediaQuery).matches
-  );
 
   const propGetters: AutocompletePropGetters<TItem> = {
     getEnvironmentProps: props.value.renderer.getEnvironmentProps,
@@ -105,7 +107,7 @@ export function autocomplete<TItem extends BaseItem>(
       autocomplete: autocomplete.value,
       autocompleteScopeApi,
       classNames: props.value.renderer.classNames,
-      isTouch: isTouch.value,
+      isDetached: isDetached.value,
       placeholder: props.value.core.placeholder,
       propGetters,
       state: lastStateRef.current,
@@ -114,7 +116,7 @@ export function autocomplete<TItem extends BaseItem>(
 
   function setPanelPosition() {
     setProperties(dom.value.panel, {
-      style: isTouch.value
+      style: isDetached.value
         ? {}
         : getPanelPlacementStyle({
             panelPlacement: props.value.renderer.panelPlacement,
@@ -136,17 +138,17 @@ export function autocomplete<TItem extends BaseItem>(
       createElement: props.value.renderer.renderer.createElement,
       dom: dom.value,
       Fragment: props.value.renderer.renderer.Fragment,
-      isTouch: isTouch.value,
-      panelContainer: isTouch.value
-        ? dom.value.touchOverlay
+      panelContainer: isDetached.value
+        ? dom.value.detachedContainer
         : props.value.renderer.panelContainer,
       propGetters,
       state: lastStateRef.current,
     };
+
     const render =
       (!getItemsCount(state) &&
-        !hasEmptySourceTemplateRef.current &&
-        props.value.renderer.renderEmpty) ||
+        !hasNoResultsSourceTemplateRef.current &&
+        props.value.renderer.renderNoResults) ||
       props.value.renderer.render;
 
     renderSearchBox(renderProps);
@@ -160,11 +162,11 @@ export function autocomplete<TItem extends BaseItem>(
       inputElement: dom.value.input,
     });
 
-    setProperties(window as any, environmentProps);
+    setProperties(props.value.core.environment as any, environmentProps);
 
     return () => {
       setProperties(
-        window as any,
+        props.value.core.environment as any,
         Object.keys(environmentProps).reduce((acc, key) => {
           return {
             ...acc,
@@ -176,15 +178,15 @@ export function autocomplete<TItem extends BaseItem>(
   });
 
   runEffect(() => {
-    const panelContainerElement = isTouch.value
-      ? document.body
+    const panelContainerElement = isDetached.value
+      ? props.value.core.environment.document.body
       : props.value.renderer.panelContainer;
-    const panelElement = isTouch.value
-      ? dom.value.touchOverlay
+    const panelElement = isDetached.value
+      ? dom.value.detachedOverlay
       : dom.value.panel;
 
-    if (isTouch.value && lastStateRef.current.isOpen) {
-      dom.value.openTouchOverlay();
+    if (isDetached.value && lastStateRef.current.isOpen) {
+      dom.value.openDetachedOverlay();
     }
 
     scheduleRender(lastStateRef.current);
@@ -221,6 +223,19 @@ export function autocomplete<TItem extends BaseItem>(
         setPanelPosition();
       }
 
+      // We scroll to the top of the panel whenever the query changes (i.e. new
+      // results come in) so that users don't have to.
+      if (state.query !== prevState.query) {
+        const scrollablePanels = document.querySelectorAll(
+          '.aa-Panel--Scrollable'
+        );
+        scrollablePanels.forEach((scrollablePanel) => {
+          if (scrollablePanel.scrollTop !== 0) {
+            scrollablePanel.scrollTop = 0;
+          }
+        });
+      }
+
       debouncedRender({ state });
     };
 
@@ -231,21 +246,52 @@ export function autocomplete<TItem extends BaseItem>(
 
   runEffect(() => {
     const onResize = debounce<Event>(() => {
-      const previousIsTouch = isTouch.value;
-      isTouch.value = window.matchMedia(
-        props.value.renderer.touchMediaQuery
+      const previousisDetached = isDetached.value;
+      isDetached.value = props.value.core.environment.matchMedia(
+        props.value.renderer.detachedMediaQuery
       ).matches;
 
-      if (previousIsTouch !== isTouch.value) {
+      if (previousisDetached !== isDetached.value) {
         update({});
       } else {
         requestAnimationFrame(setPanelPosition);
       }
     }, 20);
-    window.addEventListener('resize', onResize);
+    props.value.core.environment.addEventListener('resize', onResize);
 
     return () => {
-      window.removeEventListener('resize', onResize);
+      props.value.core.environment.removeEventListener('resize', onResize);
+    };
+  });
+
+  runEffect(() => {
+    if (!isDetached.value) {
+      return () => {};
+    }
+
+    function toggleModalClassname(isActive: boolean) {
+      dom.value.detachedContainer.classList.toggle(
+        'aa-DetachedContainer--Modal',
+        isActive
+      );
+    }
+
+    function onChange(event: MediaQueryListEvent) {
+      toggleModalClassname(event.matches);
+    }
+
+    const isModalDetachedMql = window.matchMedia(
+      getComputedStyle(
+        props.value.core.environment.document.documentElement
+      ).getPropertyValue('--aa-detached-modal-media-query')
+    );
+
+    toggleModalClassname(isModalDetachedMql.matches);
+
+    isModalDetachedMql.addEventListener('change', onChange);
+
+    return () => {
+      isModalDetachedMql.removeEventListener('change', onChange);
     };
   });
 

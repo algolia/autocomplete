@@ -1,10 +1,10 @@
 {
   "name": "@algolia/autocomplete-theme-classic",
   "description": "Classic theme for Algolia Autocomplete.",
-  "version": "1.0.0-alpha.39",
+  "version": "1.0.0-alpha.43",
   "license": "MIT",
-  "homepage": "https://github.com/algolia/autocomplete.js",
-  "repository": "algolia/autocomplete.js",
+  "homepage": "https://github.com/algolia/autocomplete",
+  "repository": "algolia/autocomplete",
   "author": {
     "name": "Algolia, Inc.",
     "url": "https://www.algolia.com"

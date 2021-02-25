@@ -20,6 +20,7 @@
     "cy:run:firefox": "yarn run cy:run --browser firefox",
     "cy:run": "start-server-and-test playground:start http://localhost:1234 cy:record",
     "cy:verify": "cypress verify",
+    "format": "prettier --write .",
     "lint:css": "stylelint packages/*/src/**/*.scss",
     "lint": "eslint --ext .js,.ts,.tsx .",
     "playground:start": "yarn workspace @algolia/js-example start",

@@ -23,7 +23,7 @@ export function createLocalStorage<TItem extends RecentSearchesItem>({
       storage.setItem([item, ...storage.getItem()]);
     },
     onRemove(id) {
-      storage.setItem(storage.getItem().filter((x) => x.id !== id));
+      storage.setItem(storage.getItem().filter((x) => x.objectID !== id));
     },
   };
 }

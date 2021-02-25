@@ -15,6 +15,14 @@ import {
 import { getHTMLElement, mergeClassNames } from './utils';
 
 const defaultClassNames: AutocompleteClassNames = {
+  clearButton: 'aa-ClearButton',
+  detachedCancelButton: 'aa-DetachedCancelButton',
+  detachedContainer: 'aa-DetachedContainer',
+  detachedFormContainer: 'aa-DetachedFormContainer',
+  detachedOverlay: 'aa-DetachedOverlay',
+  detachedSearchButton: 'aa-DetachedSearchButton',
+  detachedSearchButtonIcon: 'aa-DetachedSearchButtonIcon',
+  detachedSearchButtonPlaceholder: 'aa-DetachedSearchButtonPlaceholder',
   form: 'aa-Form',
   input: 'aa-Input',
   inputWrapper: 'aa-InputWrapper',
@@ -26,19 +34,12 @@ const defaultClassNames: AutocompleteClassNames = {
   loadingIndicator: 'aa-LoadingIndicator',
   panel: 'aa-Panel',
   panelLayout: 'aa-PanelLayout',
-  resetButton: 'aa-ResetButton',
   root: 'aa-Autocomplete',
   source: 'aa-Source',
   sourceFooter: 'aa-SourceFooter',
   sourceHeader: 'aa-SourceHeader',
-  sourceEmpty: 'aa-SourceEmpty',
+  sourceNoResults: 'aa-SourceNoResults',
   submitButton: 'aa-SubmitButton',
-  touchCancelButton: 'aa-TouchCancelButton',
-  touchFormContainer: 'aa-TouchFormContainer',
-  touchOverlay: 'aa-TouchOverlay',
-  touchSearchButton: 'aa-TouchSearchButton',
-  touchSearchButtonIcon: 'aa-TouchSearchButtonIcon',
-  touchSearchButtonPlaceholder: 'aa-TouchSearchButtonPlaceholder',
 };
 
 const defaultRender: AutocompleteRender<any> = ({ children }, root) => {
@@ -67,9 +68,9 @@ export function getDefaultOptions<TItem extends BaseItem>(
     panelContainer,
     panelPlacement,
     render,
-    renderEmpty,
+    renderNoResults,
     renderer,
-    touchMediaQuery,
+    detachedMediaQuery,
     ...core
   } = options;
 
@@ -79,6 +80,10 @@ export function getDefaultOptions<TItem extends BaseItem>(
     containerElement.tagName !== 'INPUT',
     'The `container` option does not support `input` elements. You need to change the container to a `div`.'
   );
+
+  const environment = (typeof window !== 'undefined'
+    ? window
+    : {}) as typeof window;
 
   return {
     renderer: {
@@ -100,10 +105,17 @@ export function getDefaultOptions<TItem extends BaseItem>(
         : document.body,
       panelPlacement: panelPlacement ?? 'input-wrapper-width',
       render: render ?? defaultRender,
-      renderEmpty,
+      renderNoResults,
       renderer: renderer ?? defaultRenderer,
-      touchMediaQuery: touchMediaQuery ?? '(hover: none) and (pointer: coarse)',
+      detachedMediaQuery:
+        detachedMediaQuery ??
+        getComputedStyle(environment.document.documentElement).getPropertyValue(
+          '--aa-detached-media-query'
+        ),
     },
-    core,
+    core: {
+      ...core,
+      environment,
+    },
   };
 }

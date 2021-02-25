@@ -35,6 +35,7 @@ const querySuggestionsFixturePlugin: AutocompletePlugin<
   getSources() {
     return [
       {
+        sourceId: 'testSource',
         getItems() {
           return querySuggestions;
         },

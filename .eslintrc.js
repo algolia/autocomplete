@@ -70,6 +70,12 @@ module.exports = {
       },
     },
     {
+      files: ['packages/website/**/*'],
+      rules: {
+        'import/no-extraneous-dependencies': 0,
+      },
+    },
+    {
       files: ['**/rollup.config.js', 'stories/**/*', '**/__tests__/**'],
       rules: {
         'import/no-extraneous-dependencies': 0,

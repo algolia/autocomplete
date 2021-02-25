@@ -47,6 +47,7 @@ describe('getSources', () => {
       getSources: () => {
         return [
           {
+            sourceId: 'testSource',
             getItems() {
               return [];
             },
@@ -78,6 +79,7 @@ describe('getSources', () => {
                 templates: expect.objectContaining({
                   item: expect.any(Function),
                 }),
+                sourceId: expect.any(String),
               },
             }),
           ]),
@@ -90,31 +92,13 @@ describe('getSources', () => {
     const onStateChange = jest.fn();
     const plugin = {
       getSources: () => {
-        return [
-          {
-            getItems() {
-              return [];
-            },
-            templates: {
-              item() {},
-            },
-          },
-        ];
+        return [createSource()];
       },
     };
     const { inputElement } = createPlayground(createAutocomplete, {
       onStateChange,
       getSources: () => {
-        return [
-          {
-            getItems() {
-              return [];
-            },
-            templates: {
-              item() {},
-            },
-          },
-        ];
+        return [createSource()];
       },
       plugins: [plugin],
     });

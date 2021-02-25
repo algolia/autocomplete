@@ -19,7 +19,7 @@ export function createStore<TItem extends RecentSearchesItem>(
 ): RecentSearchesStore<TItem> {
   return {
     add(item) {
-      storage.onRemove(item.id);
+      storage.onRemove(item.objectID);
       storage.onAdd(item);
     },
     remove(id) {

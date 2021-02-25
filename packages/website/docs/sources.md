@@ -1,21 +1,27 @@
 ---
 id: sources
-title: Sources
+title: Populating autocomplete with Sources
 ---
 
-Sources are data that describes the suggestions and their behavior.
+Sources define where to retrieve items from and their behavior.
 
-## Examples
+**The most important aspect of an autocomplete experience is the items you display.** Most of the time they're search results to a query, but you could imagine many different usages.
+
+Autocomplete gives you total freedom to return rich suggestions via the Sources API.
+
+## Usage
 
 ### Using static sources
 
-Static sources means that whatever the autocomplete state is, the same sources are always returned.
+The most straightforward way to provide items is to return static sources. Each source returns a collection of items.
 
-```ts
-const autocomplete = createAutocomplete({
+```js
+autocomplete({
+  // ...
   getSources() {
     return [
       {
+        sourceId: 'staticSource',
         getItems() {
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
@@ -25,29 +31,65 @@ const autocomplete = createAutocomplete({
         getItemUrl({ item }) {
           return item.url;
         },
+        // ...
       },
     ];
   },
 });
 ```
 
+Here, whatever the autocomplete state is, it always returns these two items.
+
 ### Searching in static sources
 
-You can search within your sources to update them as the user types:
+You can access the autocomplete state in your sources, meaning you can search within static sources to update them as the user types.
 
-```ts
-const autocomplete = createAutocomplete({
+```js
+autocomplete({
+  // ...
   getSources() {
     return [
       {
+        sourceId: 'staticSource',
         getItems({ query }) {
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
             { label: 'GitHub', url: 'https://github.com' },
-          ].filter((item) => item.toLowerCase().includes(query.toLowerCase()));
+          ].filter(({ label }) =>
+            label.toLowerCase().includes(query.toLowerCase())
+          );
         },
         getItemUrl({ item }) {
           return item.url;
+        },
+        // ...
+      },
+    ];
+  },
+});
+```
+
+Before moving on to more complex sources, let's take a closer look at the code.
+
+Notice that the [`getSources`](#getsources) function returns an array of sources. Each source implements a [`getItems`](#getitems) function to return the items to display. These items can be a simple static array, but you can also use a function to refine items based on the query. **The [`getItems`](#getitems) function is called whenever the input changes.**
+
+By default, autocomplete items are meant to be hyperlinks. To determine what URL to navigate to, you can implement a [`getItemURL`](#getitemurl) function. It enables the [keyboard accessibility](/docs/keyboard-navigation) feature, allowing users to open items in the current tab, a new tab, or a new window from their keyboard.
+
+### Customizing items with templates
+
+In addition to defining data sources for items, a source also lets you customize how to display items using [`templates`](#templates).
+
+```js
+autocomplete({
+  // ...
+  getSources({ query }) {
+    return [
+      {
+        // ...
+        templates: {
+          item({ item }) {
+            return `Result: ${item.name}`;
+          },
         },
       },
     ];
@@ -55,11 +97,43 @@ const autocomplete = createAutocomplete({
 });
 ```
 
-To bring more search capabilities, you can plug an Algolia index:
+You can also display header and footer elements around the list of items.
 
-```ts
+```js
+autocomplete({
+  // ...
+  getSources({ query }) {
+    return [
+      {
+        // ...
+        templates: {
+          header() {
+            return 'Suggestions';
+          },
+          item({ item }) {
+            return `Result: ${item.name}`;
+          },
+          footer() {
+            return 'Footer';
+          },
+        },
+      },
+    ];
+  },
+});
+```
+
+**Templates aren't limited to strings.** You can provide anything as long as they're a valid virtual DOM element (see more in [**Templates**](templates)).
+
+### Using dynamic sources
+
+Static sources can be useful, especially [when the user hasn't typed anything yet](changing-behavior-based-on-query). However, you might want more robust search capabilities beyond exact matches in strings.
+
+In this case, you could search into one or more Algolia indices using the built-in [`getAlgoliaHits`](getAlgoliaHits) function from the `autocomplete-preset-algolia` preset.
+
+```js
 import algoliasearch from 'algoliasearch/lite';
-import { createAutocomplete } from '@algolia/autocomplete-core';
+import { autocomplete } from '@algolia/autocomplete-js';
 import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
 
 const searchClient = algoliasearch(
@@ -67,10 +141,12 @@ const searchClient = algoliasearch(
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
-const autocomplete = createAutocomplete({
+autocomplete({
+  // ...
   getSources() {
     return [
       {
+        sourceId: 'algoliaHits',
         getItems({ query }) {
           return getAlgoliaHits({
             searchClient,
@@ -85,79 +161,54 @@ const autocomplete = createAutocomplete({
         getItemUrl({ item }) {
           return item.url;
         },
+        // ...
       },
     ];
   },
 });
 ```
-
-You can notice that `getItems` supports [promises](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise).
-
-### Using dynamic sources based on query
-
-A common pattern is to display a different source when the query is empty, and when the user started typing.
-
-```ts
-import algoliasearch from 'algoliasearch/lite';
-import { createAutocomplete } from '@algolia/autocomplete-core';
-import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
-
-const searchClient = algoliasearch(
-  'latency',
-  '6be0576ff61c053d5f9a3225e2a90f76'
-);
-
-const autocomplete = createAutocomplete({
-  getSources({ query }) {
-    if (!query) {
-      [
-        {
-          getItems() {
-            return [
-              { label: 'Twitter', url: 'https://twitter.com' },
-              { label: 'GitHub', url: 'https://github.com' },
-            ];
-          },
-          getItemUrl({ item }) {
-            return item.url;
-          },
-        },
-      ];
-    }
-
-    return [
-      {
-        getItems() {
-          return getAlgoliaHits({
-            searchClient,
-            queries: [
-              {
-                indexName: 'instant_search',
-                query,
-              },
-            ],
-          });
-        },
-        getItemUrl({ item }) {
-          return item.url;
-        },
-      },
-    ];
-  },
-});
-```
-
-You can notice that we can **get the `query` from the `getSources` function to conditionally return sources**.
-
-This pattern can be extended to display recent searches on empty query, and search results when a query is typed. You can compute dynamic sources based on the complete autocomplete state, not only the query.
 
 ### Using asynchronous sources
 
-`getSources` also supports promises, which means that you can fetch your sources from an asynchronous API:
+The [`getSources`](#getsources) function supports promises so that you can fetch sources from any asynchronous API. It can be Algolia or any third-party API you can query with an HTTP request.
 
-```ts
+For example, you could use the [Query Autocomplete](https://developers.google.com/places/web-service/query) service of the Google Places API to search for places and retrieve popular queries that map to actual points of interest.
+
+```js
+autocomplete({
+  // ...
+  getSources({ query }) {
+    return fetch(
+      `https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=${query}&key=YOUR_GOOGLE_PLACES_API_KEY`
+    )
+      .then((response) => response.json())
+      .then(({ predictions }) => {
+        return [
+          {
+            getItems() {
+              return predictions;
+            },
+            getItemInputValue({ item }) {
+              return item.description;
+            },
+          },
+        ];
+      });
+  },
+});
+```
+
+Note the usage of the [`getItemInputValue`](#getiteminputvalue) function to return the value of the item. It lets you fill the search box with a new value whenever the user selects an item, allowing them to refine their query and retrieve more relevant results.
+
+### Using multiple sources
+
+An autocomplete experience doesn't have to return only a single set of results. Autocomplete lets you fetch from different sources and display different types of results that serve different purposes.
+
+For example, you may want to display Algolia search results and [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) based on the current query to let users refine it and yield better results.
+
+```js
 import algoliasearch from 'algoliasearch/lite';
-import { createAutocomplete } from '@algolia/autocomplete-core';
+import { autocomplete } from '@algolia/autocomplete-js';
 import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
 
 const searchClient = algoliasearch(
@@ -165,9 +216,10 @@ const searchClient = algoliasearch(
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
-const autocomplete = createAutocomplete({
+autocomplete({
+  // ...
   getSources({ query }) {
-    return getAlgoliaResults({
+    return getAlgoliaHits({
       searchClient,
       queries: [
         {
@@ -180,16 +232,20 @@ const autocomplete = createAutocomplete({
         },
       ],
     }).then((results) => {
-      const [querySuggestions, products] = results;
+      const [suggestions, products] = results;
 
       return [
         {
+          sourceId: 'querySuggestionsSource',
           getItems() {
-            return querySuggestions.hits;
+            return suggestions.hits;
           },
-          getItemInputValue: ({ item }) => item.query,
+          getItemInputValue() {
+            return item.query;
+          },
         },
         {
+          sourceId: 'algoliaHits',
           getItems() {
             return products.hits;
           },
@@ -203,25 +259,41 @@ const autocomplete = createAutocomplete({
 });
 ```
 
-This pattern can be used to store data in the [context](context) before returning the sources.
+:::note
 
-## Reference
+You can use the official [`autocomplete-plugin-query-suggestions`](createQuerySuggestionsPlugin) plugin to retrieve [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) from Algolia.
+
+:::
+
+For more information, check out the guide on [adding multiple sources to one autocomplete](including-multiple-result-types).
+
+## Sources
+
+### `sourceId`
+
+> `string`
+
+Identifier for the source. It is used as value for the `data-autocomplete-source-id` attribute of the source `section` container.
 
 ### `getSources`
 
 > `(params: { query: string, state: AutocompleteState, ...setters: Autocomplete Setters }) => Array<AutocompleteSource> | Promise<Array<AutocompleteSource>>`
 
-The function to fetch the sources and their behaviors.
+The function to fetch sources and their behaviors.
 
-A source is described by the following properties:
+See [source](#source) for what to return.
+
+## Source
+
+Each source implements the following interface:
 
 ### `getItems`
 
-> `(params: { query: string, state: AutocompleteState, ...setters }) => Suggestion[] | Promise<Suggestion[]>` | **required**
+> `(params: { query: string, state: AutocompleteState, ...setters }) => Item[] | Promise<Item[]>` | **required**
 
-Called when the input changes. You can use this function to filter/search the items based on the query.
+Called when the input changes. You can use this function to filter the items based on the query.
 
-```ts
+```js
 const items = [{ value: 'Apple' }, { value: 'Banana' }];
 
 const source = {
@@ -238,13 +310,13 @@ const source = {
 
 Called to get the value of the item. The value is used to fill the search box.
 
-If you do not wish to update the input value when an item is selected, you can return `state.query`.
-
-```ts
+```js
 const items = [{ value: 'Apple' }, { value: 'Banana' }];
 
 const source = {
-  getItemInputValue: ({ item }) => item.value,
+  getItemInputValue({ item }) {
+    return item.value;
+  },
   // ...
 };
 ```
@@ -253,9 +325,9 @@ const source = {
 
 > `(params: { item: Item, state: AutocompleteState }) => string | undefined`
 
-Called to get the URL of the item. The value is used to add [keyboard accessibility](keyboard-navigation) features to allow to open items in the current tab, in a new tab or in a new window.
+Called to get the URL of the item. The value is used to add [keyboard accessibility](keyboard-navigation) features to let users open items in the current tab, a new tab, or a new window.
 
-```ts
+```js
 const items = [
   { value: 'Google', url: 'https://google.com' },
   { value: 'Amazon', url: 'https://amazon.com' },
@@ -273,102 +345,20 @@ const source = {
 
 > `(params: { state: AutocompleteState, ...setters, event: Event, item: TItem, itemInputValue: string, itemUrl: string, source: AutocompleteSource }) => void` | defaults to `({ setIsOpen }) => setIsOpen(false)`
 
-Called when an item is selected.
+Called whenever an item is selected.
 
 ### `onActive`
 
 > `(params: { state: AutocompleteState, ...setters, event: Event, item: TItem, itemInputValue: string, itemUrl: string, source: AutocompleteSource }) => void`
 
-Called when an item is active.
+Called whenever an item is active.
 
-You can trigger different behaviors if the item is active following a mouse event or a keyboard event based on the `event` param.
+You can trigger different behaviors if the item is active depending on the triggering event using the `event` parameter.
 
-### `templates` (specific to `@algolia/autocomplete-js`)
+### `templates`
 
-> `SourceTemplate`
+> `AutocompleteTemplates`
 
-The `@algolia/autocomplete-js` supports source templates.
+A set of templates to customize how items are displayed.
 
-A template can either return a string, or perform DOM mutations (manipulating DOM elements with JavaScript and attaching events) without returning a string.
-
-```ts title="SourceTemplate"
-type SourceTemplate = {
-  item: Template<{
-    root: HTMLElement;
-    item: TItem;
-    state: AutocompleteState<TItem>;
-  }>;
-  header?: Template<{
-    root: HTMLElement;
-    state: AutocompleteState<TItem>;
-    source: AutocompleteSource;
-    items: TItem[];
-  }>;
-  footer?: Template<{
-    root: HTMLElement;
-    state: AutocompleteState<TItem>;
-    source: AutocompleteSource;
-    items: TItem[];
-  }>;
-  empty?: Template<{
-    root: HTMLElement;
-    state: AutocompleteState<TItem>;
-    source: AutocompleteSource;
-  }>;
-};
-```
-
-```ts title="Example"
-import algoliasearch from 'algoliasearch/lite';
-import {
-  autocomplete,
-  getAlgoliaHits,
-  reverseHighlightHit,
-} from '@algolia/autocomplete-js';
-
-const searchClient = algoliasearch(
-  'latency',
-  '6be0576ff61c053d5f9a3225e2a90f76'
-);
-
-const autocompleteSearch = autocomplete({
-  container: '#autocomplete',
-  getSources() {
-    return [
-      {
-        getItemInputValue({ item }) {
-          return item.query;
-        },
-        getItems({ query }) {
-          return getAlgoliaHits({
-            searchClient,
-            queries: [
-              {
-                indexName: 'instant_search_demo_query_suggestions',
-                query,
-                params: {
-                  hitsPerPage: 4,
-                },
-              },
-            ],
-          });
-        },
-        templates: {
-          header() {
-            return 'Suggestions';
-          },
-          item({ item }) {
-            return reverseHighlightHit({ hit: item, attribute: 'query' });
-          },
-          footer() {
-            return 'Footer';
-          },
-          empty() {
-            return 'No results';
-          },
-        },
-      },
-    ];
-  },
-});
-```
+You can also provide templates for header and footer elements around the list of items.
