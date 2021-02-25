@@ -27,7 +27,7 @@ Begin by adding a container for your autocomplete menu. This example adds a `div
 
 ```html title="App.vue"
 <template>
-  <div className="app-container">
+  <div class="app-container">
     <h1>Vue Application</h1>
     <div id="autocomplete" />
   </div>
@@ -42,7 +42,7 @@ Include some boilerplate to insert the autocomplete into:
 
 ```html title="App.vue"
 <template>
-  <div className="app-container">
+  <div class="app-container">
     <h1>Application title</h1>
     <div id="autocomplete" />
   </div>
