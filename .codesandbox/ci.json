@@ -5,7 +5,8 @@
   "sandboxes": [
     "/examples/js",
     "/examples/react-renderer",
-    "/examples/query-suggestions-with-recent-searches/"
+    "/examples/query-suggestions-with-recent-searches",
+    "/examples/query-suggestions-with-inline-categories"
   ],
   "node": "14"
 }
