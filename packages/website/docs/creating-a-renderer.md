@@ -1,6 +1,6 @@
 ---
 id: creating-a-renderer
-title: Creating a custom Renderer
+title: Creating a custom renderer
 ---
 
 Learn how to build a full autocomplete UI from the ground up.
