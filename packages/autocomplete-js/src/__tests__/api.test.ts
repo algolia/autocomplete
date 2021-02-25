@@ -221,6 +221,7 @@ describe('api', () => {
       const { update } = autocomplete<{ label: string }>({
         container,
         onStateChange,
+        shouldPanelOpen: () => true,
       });
 
       // Focusing the input should do nothing (`openOnFocus` is false)
