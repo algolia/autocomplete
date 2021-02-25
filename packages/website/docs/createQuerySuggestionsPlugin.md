@@ -2,7 +2,7 @@
 id: createQuerySuggestionsPlugin
 ---
 
-The Algolia Query Suggestions plugin adds [Algolia Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) to your autocomplete.
+The Query Suggestions plugin adds [Algolia Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) to your autocomplete.
 
 ## Installation
 
