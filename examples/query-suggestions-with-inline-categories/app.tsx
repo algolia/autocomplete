@@ -18,7 +18,12 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
       hitsPerPage: 6,
     };
   },
-  categoryAttribute: 'categories',
+  categoryAttribute: [
+    'instant_search',
+    'facets',
+    'exact_matches',
+    'categories',
+  ],
   categoriesPerItem: 1,
   categoriesLimit: 2,
   transformSource: ({ source, onTapAhead }) => {
