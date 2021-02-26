@@ -2,7 +2,7 @@
 id: createRecentSearchesPlugin
 ---
 
-The Recent Searches plugin displays a list of the latest searches the user made on your autocomplete's empty screen.
+The Recent Searches plugin displays a list of the latest searches the user made.
 
 The `createRecentSearchesPlugin` plugin lets you implement your own storage. To connect with the user's [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage), check [`createLocalStorageRecentSearchesPlugin`](createLocalStorageRecentSearchesPlugin).
 
@@ -11,9 +11,9 @@ The `createRecentSearchesPlugin` plugin lets you implement your own storage. To 
 First, you need to install the plugin.
 
 ```bash
-yarn add @algolia/autocomplete-plugin-recent-searches
+yarn add @algolia/autocomplete-plugin-recent-searches@alpha
 # or
-npm install @algolia/autocomplete-plugin-recent-searches
+npm install @algolia/autocomplete-plugin-recent-searches@alpha
 ```
 
 Then import it in your project:
@@ -25,12 +25,12 @@ import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-
 If you don't use a package manager, you can use a standalone endpoint:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-recent-searches"></script>
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-recent-searches@alpha"></script>
 ```
 
 ## Example
 
-Here's a working example. It uses the plugin within [`autocomplete-js`](autocomplete-js). You're in charge of implementing the storage to fetch and save recent searches.
+This example uses the plugin within [`autocomplete-js`](autocomplete-js). You're in charge of implementing the storage to fetch and save recent searches.
 
 ```js
 import { autocomplete } from '@algolia/autocomplete-js';
@@ -88,7 +88,7 @@ const recentSearchesPlugin = createRecentSearchesPlugin({
 });
 ```
 
-You can combine this plugin with the [Query Suggestions](createQuerySuggestionsPlugin) plugin to leverage the empty screen with popular and recent queries.
+You can combine this plugin with the [Query Suggestions](createQuerySuggestionsPlugin) plugin to leverage the empty screen with recent and popular queries.
 
 ```js
 import algoliasearch from 'algoliasearch/lite';
@@ -145,7 +145,7 @@ type RecentSearchesStorage<TItem extends RecentSearchesItem> = {
 
 ### `transformSource`
 
-> `(params: { source: AutocompleteSource, onRemove: () => void })`
+> `(params: { source: AutocompleteSource, onRemove: () => void, onTapAhead: () => void })`
 
 A function to transform the source based on the Autocomplete state.
 
@@ -206,3 +206,8 @@ const recentSearchesPlugin = createRecentSearchesPlugin({
 > `SearchParameters => SearchParameters`
 
 Optimized [Algolia search parameters](https://www.algolia.com/doc/api-reference/search-api-parameters/). This is useful when using the plugin along with the [Query Suggestions](createQuerySuggestionsPlugin) plugin.
+
+This function enhances the provided search parameters by:
+
+- Excluding Query Suggestions that are already displayed in recent searches.
+- Using a shared `hitsPerPage` value to get a group limit of Query Suggestions and recent searches.
