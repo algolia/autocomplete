@@ -21,9 +21,9 @@ export type CreateQuerySuggestionsPluginParams<
     onTapAhead(item: TItem): void;
   }): AutocompleteSource<TItem>;
   /**
-   * The attribute to display categories.
-   * @example "instant_search.facets.exact_matches.categories"
-   * @example "instant_search.facets.exact_matches['hierarchicalCategories.lvl0']"
+   * The attribute or attribute path to display categories.
+   * @example ["instant_search", "facets", "exact_matches", "categories"]
+   * @example ["instant_search", "facets", "exact_matches", "hierarchicalCategories.lvl0"]
    */
   categoryAttribute?: string | string[];
   /**
