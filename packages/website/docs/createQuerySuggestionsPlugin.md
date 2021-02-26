@@ -157,3 +157,36 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   },
 });
 ```
+
+### `categoryAttribute`
+
+> `string | string[]`
+
+The attribute or attribute path to display categories for.
+
+#### Example
+
+```js
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  searchClient,
+  indexName: 'instant_search_demo_query_suggestions',
+  categoryAttribute: [
+    'instant_search',
+    'facets',
+    'exact_matches',
+    'hierarchicalCategories.lvl0',
+  ],
+});
+```
+
+### `categoriesLimit`
+
+> `number`
+
+The number of items to display categories for.
+
+### `categoriesPerItem`
+
+> `number`
+
+The number of categories to display per item.
