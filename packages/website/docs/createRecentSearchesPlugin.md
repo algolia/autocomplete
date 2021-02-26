@@ -147,7 +147,7 @@ type RecentSearchesStorage<TItem extends RecentSearchesItem> = {
 
 > `(params: { source: AutocompleteSource, onRemove: () => void, onTapAhead: () => void })`
 
-A function to transform the source based on the Autocomplete state.
+A function to transform the provided source.
 
 #### Examples
 
