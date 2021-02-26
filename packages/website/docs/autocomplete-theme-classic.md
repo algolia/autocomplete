@@ -100,7 +100,7 @@ autocomplete({
 });
 ```
 
-If your renderer doesn't support `Fragment's, you can use `div.aa-ItemWrapper`.
+If your renderer doesn't support `Fragment`s, you can use `div.aa-ItemWrapper`.
 
 ### Link item
 
@@ -166,7 +166,7 @@ The theme provides a set of optional classes for you to use in different context
 
 - `.aa-ItemIcon--no-border` removes the border of the icon
 - `.aa-ItemIcon--align-top` aligns the icon to the top (recommended when the template is longer than three lines)
-- `.aa-Panel--Scrollable` declares the scrollable container of the panel
+- `.aa-Panel--Scrollable` declares the scrollable container(s) of the panel
 
 ### Utilities
 
