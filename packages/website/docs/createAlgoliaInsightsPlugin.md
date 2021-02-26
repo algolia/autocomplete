@@ -110,3 +110,9 @@ type OnActiveParams = {
   event: any;
 };
 ```
+
+## Resources
+
+For a more comprehensive guide on how to best leverage Algolia Insights with Autocomplete, check the [Sending Algolia Insights events](sending-algolia-insights-events) guide.
+
+You can also learn more about [Click and Conversion Analytics](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/) on the Algolia documentation.
