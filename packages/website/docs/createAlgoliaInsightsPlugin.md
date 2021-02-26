@@ -26,7 +26,7 @@ If you don't use a package manager, you can use a standalone endpoint:
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-algolia-insights@alpha"></script>
 ```
 
-## Example
+## Examples
 
 This example uses the plugin within [`autocomplete-js`](autocomplete-js), along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client and [Search Insights](https://www.npmjs.com/package/search-insights) library.
 
@@ -48,6 +48,51 @@ autocomplete({
   plugins: [algoliaInsightsPlugin],
 });
 ```
+
+The plugin exposes hooks to let you inject custom logic in the lifecycle: [`onItemsChange`](#onitemschange), [`onSelect`](#onselect), and [`onActive`](#onactive). You can use them to either customize the events sent to Algolia, or plug additional behavior.
+
+For example, if you have several search experiences on your site, you can customize the event name to identify where the events came from:
+
+```js
+const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
+  insightsClient,
+  onItemsChange({ insights, insightsEvents }) {
+    const events = insightsEvents.map((insightsEvent) => ({
+      ...insightsEvent,
+      eventName: 'Product Viewed from Autocomplete',
+    }));
+    insights.viewedObjectIDs(...events);
+  },
+  onSelect({ insights, insightsEvents }) {
+    const events = insightsEvents.map((insightsEvent) => ({
+      ...insightsEvent,
+      eventName: 'Product Selected from Autocomplete',
+    }));
+    insights.clickedObjectIDsAfterSearch(...events);
+  },
+});
+```
+
+If you're using another analytics provider along with Algolia Insights, you can leverage these hooks to send them events as well. For example, you can send Segment events:
+
+```js
+const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
+  insightsClient,
+  onActive({ insights, insightsEvents }) {
+    insightsEvents.forEach((insightsEvent) => {
+      // Assuming you've initialized the Segment script
+      // and identified the current user already
+      analytics.track('Product Browsed from Autocomplete', insightsEvent);
+    });
+  },
+});
+```
+
+:::note
+
+If you send events to other analytics providers, it might make sense to [create a dedicated plugin](plugins/#building-your-own-plugin).
+
+:::
 
 ## Parameters
 
