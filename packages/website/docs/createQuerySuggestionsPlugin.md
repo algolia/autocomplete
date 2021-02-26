@@ -9,9 +9,9 @@ The Query Suggestions plugin adds [Algolia Query Suggestions](https://www.algoli
 First, you need to install the plugin.
 
 ```bash
-yarn add @algolia/autocomplete-plugin-query-suggestions
+yarn add @algolia/autocomplete-plugin-query-suggestions@alpha
 # or
-npm install @algolia/autocomplete-plugin-query-suggestions
+npm install @algolia/autocomplete-plugin-query-suggestions@alpha
 ```
 
 Then import it in your project:
@@ -23,12 +23,12 @@ import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query
 If you don't use a package manager, you can use a standalone endpoint:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-query-suggestions"></script>
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-query-suggestions@alpha"></script>
 ```
 
 ## Example
 
-Here's a working example. It uses the plugin within [`autocomplete-js`](autocomplete-js), along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client.
+This example uses the plugin within [`autocomplete-js`](autocomplete-js), along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client.
 
 ```js
 import algoliasearch from 'algoliasearch/lite';
@@ -50,7 +50,7 @@ autocomplete({
 });
 ```
 
-You can combine this plugin with the [Recent Searches](createLocalStorageRecentSearchesPlugin) plugin to leverage the empty screen with popular and recent queries.
+You can combine this plugin with the [Recent Searches](createLocalStorageRecentSearchesPlugin) plugin to leverage the empty screen with recent and popular queries.
 
 ```js
 import algoliasearch from 'algoliasearch/lite';
@@ -98,7 +98,7 @@ The index name.
 
 ### `getSearchParams`
 
-> `() => SearchParameters`
+> `(params: { state: AutocompleteState }) => SearchParameters`
 
 A function returning [Algolia search parameters](https://www.algolia.com/doc/api-reference/search-api-parameters/).
 
@@ -106,7 +106,7 @@ A function returning [Algolia search parameters](https://www.algolia.com/doc/api
 
 > `(params: { source: AutocompleteSource, onTapAhead: () => void })`
 
-A function to transform the source based on the Autocomplete state.
+A function to transform the provided source.
 
 #### Examples
 
