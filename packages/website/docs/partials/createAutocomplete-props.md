@@ -8,7 +8,7 @@ The [sources](/docs/sources) to get the collections from.
 
 > `string` | defaults to `"autocomplete-0"` (incremented for each instance)
 
-An ID for the autocomplete. This is necessary to create accessible attributes.
+An ID for the autocomplete to create accessible attributes.
 
 ### `onStateChange`
 
