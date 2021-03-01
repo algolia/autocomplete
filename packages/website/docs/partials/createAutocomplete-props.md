@@ -2,7 +2,7 @@
 
 > **required**
 
-The [sources](sources) to get the collections from.
+The [sources](/docs/sources) to get the collections from.
 
 ### `id`
 
@@ -46,7 +46,7 @@ Whether to open the panel on focus or not when there's no query.
 
 > `number` | defaults to `300`
 
-How many milliseconds must elapse before considering the autocomplete experience [stalled](state#status).
+How many milliseconds must elapse before considering the autocomplete experience [stalled](/docs/state#status).
 
 ### `initialState`
 
@@ -68,7 +68,7 @@ This is useful if you're using autocomplete in a different context than `window`
 
 An implementation of Autocomplete's Navigator API to redirect the user when opening a link.
 
-Learn more on the [**Navigator API**](keyboard-navigation) documentation.
+Learn more on the [**Navigator API**](/docs/keyboard-navigation) documentation.
 
 ### `shouldPanelOpen`
 
@@ -98,4 +98,4 @@ A flag to activate the debug mode.
 
 This is useful while developing because it keeps the panel open even when the blur event occurs. **Make sure to disable it in production.**
 
-See [**Debugging**](debugging) for more information.
+See [**Debugging**](/docs/debugging) for more information.
