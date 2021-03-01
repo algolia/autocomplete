@@ -133,7 +133,7 @@ describe('autocomplete-js', () => {
                 type="reset"
               >
                 <svg
-                  class="aa-ResetIcon"
+                  class="aa-ClearIcon"
                   fill="currentColor"
                   height="18"
                   viewBox="0 0 24 24"
