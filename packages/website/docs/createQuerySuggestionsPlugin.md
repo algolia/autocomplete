@@ -181,12 +181,12 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 
 ### `categoriesLimit`
 
-> `number`
+> `number` | defaults to `1`
 
 The number of items to display categories for.
 
 ### `categoriesPerItem`
 
-> `number`
+> `number` | defaults to `1`
 
 The number of categories to display per item.
