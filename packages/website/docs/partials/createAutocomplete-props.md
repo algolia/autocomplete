@@ -2,31 +2,31 @@
 
 > **required**
 
-The [sources](/docs/sources) to get the collections from.
+The [sources](sources) to get the collections from.
 
 ### `id`
 
 > `string` | defaults to `"autocomplete-0"` (incremented for each instance)
 
-The autocomplete ID to create accessible attributes.
+An ID for the autocomplete. This is necessary to create accessible attributes.
 
 ### `onStateChange`
 
 > `(params: { state: AutocompleteState<TItem> }) => void`
 
-Function called when the internal state changes.
+The function called when the internal state changes.
 
 ### `placeholder`
 
 > `string`
 
-The text that appears in the search box input when there is no query.
+The placeholder text to show in the search input when there's no query.
 
 ### `autoFocus`
 
 > `boolean` | defaults to `false`
 
-Whether to focus the search box when the page is loaded.
+Whether to focus the search input or not when the page is loaded.
 
 ### `defaultActiveItemId`
 
@@ -40,13 +40,13 @@ We recommend using `0` when the query typed aims at opening item links, without 
 
 > `boolean` | defaults to `false`
 
-Whether to open the panel on focus when there's no query.
+Whether to open the panel on focus or not when there's no query.
 
 ### `stallThreshold`
 
 > `number` | defaults to `300`
 
-The number of milliseconds that must elapse before the autocomplete experience is stalled.
+How many milliseconds must elapse before considering the autocomplete experience [stalled](state#status).
 
 ### `initialState`
 
@@ -58,44 +58,44 @@ The initial state to apply when autocomplete is created.
 
 > `typeof window` | defaults to `window`
 
-The environment from where your JavaScript is running.
+The environment in which your application is running.
 
-Useful if you're using autocomplete in a different context than `window`.
+This is useful if you're using autocomplete in a different context than `window`.
 
 ### `navigator`
 
 > `Navigator`
 
-Navigator API to redirect the user when a link should be opened.
+An implementation of Autocomplete's Navigator API to redirect the user when opening a link.
 
-Learn more on the [Navigator API](/docs/keyboard-navigation) documentation.
+Learn more on the [**Navigator API**](keyboard-navigation) documentation.
 
 ### `shouldPanelOpen`
 
 > `(params: { state: AutocompleteState }) => boolean`
 
-The function called to determine whether the panel should open.
+The function called to determine whether the panel should open or not.
 
-By default, it opens when there are items in the state.
+By default, the panel opens when there are items in the state.
 
 ### `onSubmit`
 
 > `(params: { state: AutocompleteState, event: Event, ...setters }) => void`
 
-The function called when the Autocomplete form is submitted.
+The function called when submitting the Autocomplete form.
 
 ### `onReset`
 
 > `(params: { state: AutocompleteState, event: Event, ...setters }) => void`
 
-The function called when the Autocomplete form is reset.
+The function called when resetting the Autocomplete form.
 
 ### `debug`
 
 > `boolean` | defaults to `false`
 
-Whether to consider the experience in debug mode.
+A flag to activate the debug mode.
 
-It is useful when developing because it doesn't close the panel when the blur event occurs. This option should only be used during development.
+This is useful while developing because it keeps the panel open even when the blur event occurs. **Make sure to disable it in production.**
 
-See "[Debugging](/docs/debugging)" for more information.
+See [**Debugging**](debugging) for more information.
