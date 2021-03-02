@@ -183,7 +183,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 
 > `number` | defaults to `1`
 
-The number of items to display categories for.
+How many items to display categories for.
 
 ### `categoriesPerItem`
 
