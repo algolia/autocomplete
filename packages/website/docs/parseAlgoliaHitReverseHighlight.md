@@ -88,13 +88,13 @@ const highlightedParts = parseAlgoliaHitReverseHighlight({
 
 > `AlgoliaHit` | required
 
-The Algolia hit whose attribute to retrieve the highlighted parts from.
+The Algolia hit whose attribute to retrieve the reverse highlighted parts from.
 
 ### `attribute`
 
 > `string | string[]` | required
 
-The attribute to retrieve the highlighted parts from. You can use the array syntax to reference nested attributes.
+The attribute to retrieve the reverse highlighted parts from. You can use the array syntax to reference nested attributes.
 
 ## Returns
 
