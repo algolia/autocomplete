@@ -46,7 +46,7 @@ const hit = {
     },
   },
 };
-const snippetParts = parseAlgoliaHitHighlight({
+const highlightedParts = parseAlgoliaHitHighlight({
   hit,
   attribute: 'name',
 });
@@ -72,7 +72,7 @@ const hit = {
     },
   },
 };
-const snippetParts = parseAlgoliaHitHighlight({
+const highlightedParts = parseAlgoliaHitHighlight({
   hit,
   attribute: ['name', 'type'],
 });
