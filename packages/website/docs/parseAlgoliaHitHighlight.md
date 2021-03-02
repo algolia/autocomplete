@@ -6,6 +6,8 @@ import PresetAlgoliaNote from './partials/preset-algolia/note.md'
 
 Returns the highlighted parts of an Algolia hit.
 
+The `parseAlgoliaHitHighlight` function lets you parse the highlighted parts of an Algolia hit.
+
 <PresetAlgoliaNote />
 
 ## Installation

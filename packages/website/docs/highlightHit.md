@@ -4,9 +4,13 @@ id: highlightHit
 
 Returns a virtual node with highlighted matching parts of an Algolia hit.
 
+The `highlightHit` function lets you turn an Algolia hit into a virtual node with highlighted matching parts for a given attribute.
+
 ## Examples
 
 ### With a single string
+
+To determine what attribute to parse, you can pass it as a string.
 
 ```js
 import { highlightHit } from '@algolia/autocomplete-js';
@@ -28,6 +32,8 @@ const highlightedValue = highlightHit({
 ```
 
 ### With nested attributes
+
+If you're referencing a nested attribute, you can use the array syntax.
 
 ```js
 import { highlightHit } from '@algolia/autocomplete-js';
