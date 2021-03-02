@@ -3,32 +3,15 @@ id: getAlgoliaHits-js
 title: getAlgoliaHits
 ---
 
-Retrieves Algolia hits from multiple indices into arrays of records.
+import PresetAlgoliaIntro from './partials/preset-algolia-intro.md'
+import PresetAlgoliaExample from './partials/preset-algolia-example.md'
+
+<PresetAlgoliaIntro />
 
 ## Example
 
-```js
-import { getAlgoliaHits } from '@algolia/autocomplete-js';
-import algoliasearch from 'algoliasearch/lite';
+<PresetAlgoliaExample />
 
-const searchClient = algoliasearch(APP_ID, SEARCH_API_KEY);
+## Parameters
 
-getAlgoliaHits({
-  searchClient,
-  queries: [
-    {
-      indexName: 'instant_search',
-      query,
-      params: {
-        hitsPerPage: 3,
-      },
-    },
-  ],
-}).then((hits) => {
-  console.log(hits);
-});
-```
-
-## Params
-
-See [`autocomplete-preset-algolia#getAlgoliaHits`](getAlgoliaHits#params).
+See [`autocomplete-preset-algolia#getAlgoliaHits`](getAlgoliaHits#parameters).

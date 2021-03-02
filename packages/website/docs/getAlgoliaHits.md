@@ -2,53 +2,67 @@
 id: getAlgoliaHits
 ---
 
-Retrieves Algolia hits from multiple indices into arrays of records.
+import PresetAlgoliaIntro from './partials/preset-algolia-intro.md'
+import PresetAlgoliaNote from './partials/preset-algolia-note.md'
+import PresetAlgoliaExample from './partials/preset-algolia-example.md'
 
-## Example
+<PresetAlgoliaIntro />
+
+<PresetAlgoliaNote />
+
+## Installation
+
+First, you need to install the plugin.
+
+```bash
+yarn add @algolia/autocomplete-preset-algolia@alpha
+# or
+npm install @algolia/autocomplete-preset-algolia@alpha
+```
+
+Then import it in your project:
 
 ```js
 import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
-import algoliasearch from 'algoliasearch/lite';
-
-const searchClient = algoliasearch(APP_ID, SEARCH_API_KEY);
-
-getAlgoliaHits({
-  searchClient,
-  queries: [
-    {
-      indexName: 'instant_search',
-      query,
-      params: {
-        hitsPerPage: 3,
-      },
-    },
-  ],
-}).then((hits) => {
-  console.log(hits);
-});
 ```
 
-## Params
+If you don't use a package manager, you can use a standalone endpoint:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-preset-algolia@alpha"></script>
+```
+
+## Example
+
+<PresetAlgoliaExample />
+
+## Parameters
 
 ### `searchClient`
 
 > `SearchClient` | required
 
-### `queries`
+The initialized Algolia search client.
 
-#### `indexName`
-
-> `string` | required
-
-#### `query`
+### `indexName`
 
 > `string` | required
 
-#### `params`
+The index name.
+
+### `query`
+
+> `string` | required
+
+The query to search for.
+
+### `params`
 
 > [`SearchParameters`](https://www.algolia.com/doc/api-reference/search-api-parameters/) | required
 
-Default search parameters:
+Algolia search parameters.
+
+These are the default search parameters. You can leave them as is and specify other parameters, or override them.
 
 ```json
 {
@@ -60,7 +74,7 @@ Default search parameters:
 
 ## Returns
 
-It returns a promise of the following schema:
+The function returns a promise that resolves to a response with the following schema:
 
 ```json
 [
