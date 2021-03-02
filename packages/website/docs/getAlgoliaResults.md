@@ -2,15 +2,44 @@
 id: getAlgoliaResults
 ---
 
-Retrieves Algolia results from multiple indices.
+import GetAlgoliaResultsIntro from './partials/preset-algolia/getAlgoliaResults/intro.md'
+
+<GetAlgoliaResultsIntro />
+
+## Installation
+
+First, you need to install the plugin.
+
+```bash
+yarn add @algolia/autocomplete-preset-algolia@alpha
+# or
+npm install @algolia/autocomplete-preset-algolia@alpha
+```
+
+Then import it in your project:
+
+```js
+import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
+```
+
+If you don't use a package manager, you can use a standalone endpoint:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-preset-algolia@alpha"></script>
+```
 
 ## Example
+
+This example uses the function along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client.
 
 ```js
 import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 import algoliasearch from 'algoliasearch/lite';
 
-const searchClient = algoliasearch(APP_ID, SEARCH_API_KEY);
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
 
 getAlgoliaResults({
   searchClient,
@@ -28,27 +57,33 @@ getAlgoliaResults({
 });
 ```
 
-## Params
+## Parameters
 
 ### `searchClient`
 
 > `SearchClient` | required
 
-### `queries`
+The initialized Algolia search client.
 
 #### `indexName`
 
 > `string` | required
 
+The index name.
+
 #### `query`
 
 > `string` | required
+
+The query to search for.
 
 #### `params`
 
 > [`SearchParameters`](https://www.algolia.com/doc/api-reference/search-api-parameters/) | required
 
-Default search parameters:
+Algolia search parameters.
+
+These are the default search parameters. You can leave them as is and specify other parameters, or override them.
 
 ```json
 {
@@ -60,7 +95,7 @@ Default search parameters:
 
 ## Returns
 
-It returns a promise of the following schema:
+The function returns a promise that resolves to a response with the following schema:
 
 ```json
 {
