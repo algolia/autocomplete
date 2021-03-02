@@ -3,11 +3,11 @@ id: getAlgoliaHits
 ---
 
 import GetAlgoliaHitsIntro from './partials/preset-algolia/getAlgoliaHits/intro.md'
-import GetAlgoliaHitsNote from './partials/preset-algolia/getAlgoliaHits/note.md'
+import PresetAlgoliaNote from './partials/preset-algolia/note.md'
 
 <GetAlgoliaHitsIntro />
 
-<GetAlgoliaHitsNote />
+<PresetAlgoliaNote />
 
 ## Installation
 
