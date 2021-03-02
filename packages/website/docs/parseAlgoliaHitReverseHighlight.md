@@ -12,7 +12,7 @@ The `parseAlgoliaHitReverseHighlight` function lets you parse the non-highlighte
 
 ## Installation
 
-First, you need to install the plugin.
+First, you need to install the preset.
 
 ```bash
 yarn add @algolia/autocomplete-preset-algolia@alpha
