@@ -11,7 +11,7 @@ import PresetAlgoliaNote from './partials/preset-algolia/note.md'
 
 ## Installation
 
-First, you need to install the plugin.
+First, you need to install the preset.
 
 ```bash
 yarn add @algolia/autocomplete-preset-algolia@alpha

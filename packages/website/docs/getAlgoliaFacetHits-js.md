@@ -37,4 +37,4 @@ getAlgoliaFacetHits({
 
 ## Parameters
 
-See [`autocomplete-preset-algolia#getAlgoliaFacetHits`](getAlgoliaFacetHits#params).
+See [`autocomplete-preset-algolia#getAlgoliaFacetHits`](getAlgoliaFacetHits#parameters).
