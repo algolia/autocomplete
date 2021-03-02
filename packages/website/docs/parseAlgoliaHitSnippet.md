@@ -12,7 +12,7 @@ The `parseAlgoliaHitSnippet` function lets you parse the highlighted parts of an
 
 ## Installation
 
-First, you need to install the plugin.
+First, you need to install the preset.
 
 ```bash
 yarn add @algolia/autocomplete-preset-algolia@alpha
