@@ -44,19 +44,19 @@ If you don't use a package manager, you can use a standalone endpoint:
 
 The initialized Algolia search client.
 
-### `indexName`
+#### `indexName`
 
 > `string` | required
 
 The index name.
 
-### `query`
+#### `query`
 
 > `string` | required
 
 The query to search for.
 
-### `params`
+#### `params`
 
 > [`SearchParameters`](https://www.algolia.com/doc/api-reference/search-api-parameters/) | required
 
