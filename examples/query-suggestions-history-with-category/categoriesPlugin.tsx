@@ -1,11 +1,11 @@
-/** @jsx h */
 import {
   AutocompletePlugin,
   getAlgoliaFacetHits,
   highlightHit,
 } from '@algolia/autocomplete-js';
 import { SearchClient } from 'algoliasearch/lite';
-import { h, Fragment } from 'preact';
+import { Fragment } from 'preact';
+import React from 'react';
 
 type CategoryItem = {
   label: string;

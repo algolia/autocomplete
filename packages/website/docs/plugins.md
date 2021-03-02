@@ -3,6 +3,8 @@ id: plugins
 title: Plugins
 ---
 
+import PluginsList from './partials/plugins-list.md'
+
 Plugins encapsulate and distribute custom Autocomplete behaviors.
 
 An autocomplete can be much more than a functional combo box. **Autocomplete lets you extend and encapsulate custom behavior with its Plugin API.**
@@ -200,9 +202,7 @@ function createGoogleAnalyticsPlugin({ trackingId, options }) {
 
 There are a few useful official plugins you can already use with Autocomplete.
 
-- [`recent-searches`](createRecentSearchesPlugin): display a list of the latest searches the user made. It comes with a [pre-implemented version](createLocalStorageRecentSearchesPlugin) that connects with the user's [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
-- [`query-suggestions`](createQuerySuggestionsPlugin): plug [Algolia Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) to your autocomplete.
-- [`algolia-insights`](createAlgoliaInsightsPlugin): automatically send click and conversion events to the [Algolia Insights API](https://www.algolia.com/doc/rest-api/insights/) whenever a user interacts with the autocomplete.
+<PluginsList />
 
 ## Reference
 

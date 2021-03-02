@@ -12,6 +12,7 @@ This example uses an [Algolia index](https://www.algolia.com/doc/faq/basics/what
 ## Prerequisites
 
 This tutorial assumes that you have:
+
 - an existing [Vue (v3) application](https://v3.vuejs.org/) where you want to implement the autocomplete menu
 - familiarity with the [basic Autocomplete configuration options](basic-options)
 
@@ -27,7 +28,7 @@ Begin by adding a container for your autocomplete menu. This example adds a `div
 
 ```html title="App.vue"
 <template>
-  <div className="app-container">
+  <div class="app-container">
     <h1>Vue Application</h1>
     <div id="autocomplete" />
   </div>
@@ -42,24 +43,23 @@ Include some boilerplate to insert the autocomplete into:
 
 ```html title="App.vue"
 <template>
-  <div className="app-container">
+  <div class="app-container">
     <h1>Application title</h1>
     <div id="autocomplete" />
   </div>
 </template>
 
 <script>
-import { h, Fragment, render, onMounted } from "vue";
-import algoliasearch from 'algoliasearch/lite';
-import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
+  import { h, Fragment, render, onMounted } from 'vue';
+  import algoliasearch from 'algoliasearch/lite';
+  import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
 
-import "@algolia/autocomplete-theme-classic";
+  import '@algolia/autocomplete-theme-classic';
 
-export default {
-  name: "App",
-};
+  export default {
+    name: 'App',
+  };
 </script>
-
 ```
 
 ## Adding an Algolia source
@@ -83,54 +83,54 @@ This is because the default Autocomplete implementation uses [Preact's](https://
 </template>
 
 <script>
-import { h, Fragment, render, onMounted } from "vue";
-import algoliasearch from 'algoliasearch/lite';
-import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
+  import { h, Fragment, render, onMounted } from 'vue';
+  import algoliasearch from 'algoliasearch/lite';
+  import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
 
-import "@algolia/autocomplete-theme-classic";
+  import '@algolia/autocomplete-theme-classic';
 
-export default {
-  name: "App",
-  setup() {
-    onMounted(() => {
-      autocomplete({
-        container: "#autocomplete",
-        openOnFocus: true,
-        getSources({ query }) {
-          return [
-            {
-              sourceId: 'products',
-              getItems() {
-                return getAlgoliaHits({
-                  searchClient,
-                  queries: [
-                    {
-                      indexName: 'instant_search',
-                      query,
-                      params: {
-                        hitsPerPage: 10,
-                        attributesToSnippet: ['name:10', 'description:35'],
-                        snippetEllipsisText: '…',
+  export default {
+    name: 'App',
+    setup() {
+      onMounted(() => {
+        autocomplete({
+          container: '#autocomplete',
+          openOnFocus: true,
+          getSources({ query }) {
+            return [
+              {
+                sourceId: 'products',
+                getItems() {
+                  return getAlgoliaHits({
+                    searchClient,
+                    queries: [
+                      {
+                        indexName: 'instant_search',
+                        query,
+                        params: {
+                          hitsPerPage: 10,
+                          attributesToSnippet: ['name:10', 'description:35'],
+                          snippetEllipsisText: '…',
+                        },
                       },
-                    },
-                  ],
-                });
+                    ],
+                  });
+                },
+                // ...
               },
-              // ...
-            },
-          ];
-        },
-        renderer: {
-          createElement: h,
-          Fragment,
-        },
-        render({ children }, root) {
-          render(children, root);
-        },
+            ];
+          },
+          renderer: {
+            createElement: h,
+            Fragment,
+          },
+          render({ children }, root) {
+            render(children, root);
+          },
+        });
       });
-    });
-  },
-};
+    },
+  };
 </script>
 ```
 
@@ -139,6 +139,7 @@ export default {
 Next, to display the results from Algolia, you need to define an [`item` template](templates). If you're using the highlighting and snippeting utilities, there's one thing to keep in mind: you must pass them Vue's `createElement` function. Without doing this, the utilities default to `preact.createElement` and won't work properly.
 
 The highlighting and snippeting utilities are:
+
 - [`highlightHit`](highlighthit)
 - [`snippetHit`](snippethit)
 - [`reverseHighlightHit`](reversehighlighthit)
@@ -148,60 +149,65 @@ Here's an example of a custom `item` template using [`snippetHit`](snippethit):
 
 ```html title="App.vue"
 <script>
-import { h, Fragment, render, onMounted } from "vue";
-import { autocomplete, snippetHit } from "@algolia/autocomplete-js";
+  import { h, Fragment, render, onMounted } from 'vue';
+  import { autocomplete, snippetHit } from '@algolia/autocomplete-js';
 
-export default {
-  name: "App",
-  setup() {
-    onMounted(() => {
-      autocomplete({
-        // ...
-        getSources({ query }) {
-          return [
-            {
-              // ...
-              templates: {
-                item({ item }) {
-                  return (
-                    <Fragment>
-                      <div className="aa-ItemIcon">
-                        <img src={hit.image} alt={hit.name} width="40" height="40" />
-                      </div>
-                      <div className="aa-ItemContent">
-                        <div className="aa-ItemContentTitle">
-                          {snippetHit({
-                            hit: item,
-                            attribute: "name",
-                            createElement: h,
-                          })}
+  export default {
+    name: 'App',
+    setup() {
+      onMounted(() => {
+        autocomplete({
+          // ...
+          getSources({ query }) {
+            return [
+              {
+                // ...
+                templates: {
+                  item({ item }) {
+                    return (
+                      <Fragment>
+                        <div className="aa-ItemIcon">
+                          <img
+                            src={hit.image}
+                            alt={hit.name}
+                            width="40"
+                            height="40"
+                          />
                         </div>
-                        <div className="aa-ItemContentDescription">
-                          {snippetHit({
-                            hit: item,
-                            attribute: "description",
-                            createElement: h,
-                          })}
+                        <div className="aa-ItemContent">
+                          <div className="aa-ItemContentTitle">
+                            {snippetHit({
+                              hit: item,
+                              attribute: 'name',
+                              createElement: h,
+                            })}
+                          </div>
+                          <div className="aa-ItemContentDescription">
+                            {snippetHit({
+                              hit: item,
+                              attribute: 'description',
+                              createElement: h,
+                            })}
+                          </div>
                         </div>
-                      </div>
-                    </Fragment>
-                  );
+                      </Fragment>
+                    );
+                  },
                 },
               },
-            },
-          ];
-        },
-        renderer: {
-          createElement: h,
-          Fragment,
-        },
-        render({ children }, root) {
-          render(children, root);
-        },
+            ];
+          },
+          renderer: {
+            createElement: h,
+            Fragment,
+          },
+          render({ children }, root) {
+            render(children, root);
+          },
+        });
       });
-    });
-  },
-};
+    },
+  };
 </script>
 ```
 

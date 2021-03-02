@@ -351,8 +351,10 @@ body {
       margin: 0 var(--aa-spacing-half) 0 2px;
     }
     img {
-      height: calc(var(--aa-icon-size) + var(--aa-spacing) - 8px);
-      width: calc(var(--aa-icon-size) + var(--aa-spacing) - 8px);
+      height: auto;
+      max-height: calc(var(--aa-icon-size) + var(--aa-spacing) - 8px);
+      max-width: calc(var(--aa-icon-size) + var(--aa-spacing) - 8px);
+      width: auto;
     }
     svg {
       height: var(--aa-icon-size);

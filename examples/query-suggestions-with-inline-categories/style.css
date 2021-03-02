@@ -16,19 +16,5 @@ body {
 .container {
   margin: 0 auto;
   max-width: 640px;
-
   width: 100%;
-}
-
-.content p {
-  line-height: 1.6;
-}
-
-.content img {
-  max-width: 100%;
-}
-
-body[data-theme='dark'] {
-  background-color: rgb(0, 0, 0);
-  color: rgb(183, 192, 199);
 }
