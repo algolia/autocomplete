@@ -4,9 +4,13 @@ id: reverseSnippetHit
 
 Returns a virtual node with highlighted non-matching matching parts of an Algolia hit's snippet.
 
+The `reverseSnippetHit` function lets you turn an Algolia hit's snippet into a virtual node with highlighted non-matching parts for a given attribute.
+
 ## Examples
 
 ### With a single string
+
+To determine what attribute to parse, you can pass it as a string.
 
 ```js
 import { reverseSnippetHit } from '@algolia/autocomplete-js';
@@ -28,6 +32,8 @@ const reverseSnippetedValue = reverseSnippetHit({
 ```
 
 ### With nested attributes
+
+If you're referencing a nested attribute, you can use the array syntax.
 
 ```js
 import { reverseSnippetHit } from '@algolia/autocomplete-js';

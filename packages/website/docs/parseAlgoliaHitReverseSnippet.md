@@ -6,7 +6,7 @@ import PresetAlgoliaNote from './partials/preset-algolia/note.md'
 
 Returns the non-matching parts of an Algolia hit snippet.
 
-This is a common pattern for Query Suggestions.
+The `parseAlgoliaHitReverseSnippet` function lets you parse the non-highlighted parts of an Algolia hit's snippet. This is a common pattern for [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/), where you want to highlight the differences between each suggestion.
 
 <PresetAlgoliaNote />
 
