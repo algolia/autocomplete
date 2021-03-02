@@ -13,7 +13,7 @@ import GetAlgoliaHitsNote from './partials/preset-algolia/getAlgoliaHits/note.md
 This example uses the function along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client.
 
 ```js
- import { getAlgoliaHits } from '@algolia/autocomplete-js';
+import { getAlgoliaHits } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch/lite';
 
 const searchClient = algoliasearch(
