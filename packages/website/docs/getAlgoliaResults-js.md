@@ -38,4 +38,4 @@ getAlgoliaResults({
 
 ## Parameters
 
-See [`autocomplete-preset-algolia#getAlgoliaResults`](getAlgoliaResults#params).
+See [`autocomplete-preset-algolia#getAlgoliaResults`](getAlgoliaResults#parameters).
