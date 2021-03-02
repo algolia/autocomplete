@@ -81,7 +81,7 @@ The index name.
 
 #### `params`
 
-> [`SearchForFacetValuesQueryParams` & `SearchOptions`](https://www.algolia.com/doc/api-reference/api-methods/search-for-facet-values/#parameters) | required
+> [`SearchForFacetValuesQueryParams` & `SearchOptions`](https://www.algolia.com/doc/api-reference/api-methods/search-for-facet-values/#parameters)
 
 Algolia search for facet values parameters.
 
