@@ -3,8 +3,11 @@ id: getAlgoliaFacetHits
 ---
 
 import GetAlgoliaFacetHitsIntro from './partials/preset-algolia/getAlgoliaFacetHits/intro.md'
+import PresetAlgoliaNote from './partials/preset-algolia/note.md'
 
 <GetAlgoliaFacetHitsIntro />
+
+<PresetAlgoliaNote />
 
 ## Installation
 
@@ -66,7 +69,7 @@ The initialized Algolia search client.
 
 ### `queries`
 
-> `MultipleQueriesQuery[]` | required
+> `FacetQuery[]` | required
 
 The queries to search for, with the following parameters:
 
@@ -78,11 +81,11 @@ The index name.
 
 #### `params`
 
-> [`SearchParameters`](https://www.algolia.com/doc/api-reference/search-api-parameters/) & [`Request Options`](https://www.algolia.com/doc/api-client/getting-started/request-options/) | required
+> [`SearchForFacetValuesQueryParams` & `SearchOptions`](https://www.algolia.com/doc/api-reference/api-methods/search-for-facet-values/#parameters) | required
 
-Algolia search parameters and request options.
+Algolia search for facet values parameters.
 
-These are the default search parameters. You can leave them as is and specify other parameters, or override them.
+These are the default parameters. You can leave them as is and specify other parameters, or override them.
 
 ```json
 {
