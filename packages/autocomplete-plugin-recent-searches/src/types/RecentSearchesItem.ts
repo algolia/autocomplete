@@ -1,5 +1,5 @@
-export type RecentSearchesItem = {
-  objectID: string;
-  query: string;
+import { HistoryItem } from './HistoryItem';
+
+export type RecentSearchesItem = HistoryItem & {
   category?: string;
 };

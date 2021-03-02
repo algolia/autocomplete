@@ -1,71 +1,85 @@
-import { AutocompletePlugin } from '@algolia/autocomplete-core';
+import {
+  AutocompletePlugin,
+  PluginSubscribeParams,
+} from '@algolia/autocomplete-core';
 import { AutocompleteSource } from '@algolia/autocomplete-js';
 import { createRef, MaybePromise, warn } from '@algolia/autocomplete-shared';
 import { SearchOptions } from '@algolia/client-search';
 
-import { createStore, RecentSearchesStorage } from './createStore';
+import { createStorageApi } from './createStorageApi';
 import { getTemplates } from './getTemplates';
-import { RecentSearchesItem } from './types';
+import { RecentSearchesItem, Storage, StorageApi } from './types';
 
-export type RecentSearchesPluginData = {
+export interface RecentSearchesPluginData<TItem extends RecentSearchesItem>
+  extends StorageApi<TItem> {
   getAlgoliaSearchParams(params?: SearchOptions): SearchOptions;
-};
+}
 
 export type CreateRecentSearchesPluginParams<
   TItem extends RecentSearchesItem
 > = {
-  storage: RecentSearchesStorage<TItem>;
+  storage: Storage<TItem>;
   transformSource?(params: {
     source: AutocompleteSource<TItem>;
     onRemove(id: string): void;
     onTapAhead(item: TItem): void;
   }): AutocompleteSource<TItem>;
+  subscribe?(params: PluginSubscribeParams<TItem>): void;
 };
+
+function getDefaultSubcribe<TItem extends RecentSearchesItem>(
+  store: StorageApi<TItem>
+) {
+  return function subscribe({ onSelect }: PluginSubscribeParams<TItem>) {
+    onSelect(({ item, state, source }) => {
+      const inputValue = source.getItemInputValue({ item, state });
+
+      if (source.sourceId === 'querySuggestionsPlugin' && inputValue) {
+        const recentItem: RecentSearchesItem = {
+          id: inputValue,
+          label: inputValue,
+          category: (item as any).__autocomplete_qsCategory,
+        };
+        store.addItem(recentItem as TItem);
+      }
+    });
+  };
+}
 
 export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
   storage,
   transformSource = ({ source }) => source,
+  subscribe,
 }: CreateRecentSearchesPluginParams<TItem>): AutocompletePlugin<
   TItem,
-  RecentSearchesPluginData
+  RecentSearchesPluginData<TItem>
 > {
-  const store = createStore(storage);
+  const store = createStorageApi<TItem>(storage);
   const lastItemsRef = createRef<MaybePromise<TItem[]>>([]);
 
   return {
-    subscribe({ onSelect }) {
-      onSelect(({ item, state, source }) => {
-        const inputValue = source.getItemInputValue({ item, state });
-
-        if (source.sourceId === 'querySuggestionsPlugin' && inputValue) {
-          store.add({
-            objectID: inputValue,
-            query: inputValue,
-            category: (item as any).__autocomplete_qsCategory,
-          } as any);
-        }
-      });
-    },
+    subscribe: subscribe ?? getDefaultSubcribe(store),
     onSubmit({ state }) {
       const { query } = state;
 
       if (query) {
-        store.add({
-          objectID: query,
-          query,
-        } as any);
+        const recentItem: RecentSearchesItem = {
+          id: query,
+          label: query,
+        };
+        store.addItem(recentItem as TItem);
       }
     },
     getSources({ query, setQuery, refresh }) {
       lastItemsRef.current = store.getAll(query);
 
       function onRemove(id: string) {
-        store.remove(id);
+        store.removeItem(id);
         refresh();
       }
 
       function onTapAhead(item: TItem) {
-        setQuery(item.query);
+        setQuery(item.label);
         refresh();
       }
 
@@ -79,7 +93,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
             source: {
               sourceId: 'recentSearchesPlugin',
               getItemInputValue({ item }) {
-                return item.query;
+                return item.label;
               },
               getItems() {
                 return items;
@@ -93,6 +107,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
       });
     },
     data: {
+      ...store,
       // @ts-ignore SearchOptions `facetFilters` is ReadonlyArray
       getAlgoliaSearchParams(params = {}) {
         // If the items returned by `store.getAll` are contained in a Promise,
@@ -101,7 +116,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
         if (!Array.isArray(lastItemsRef.current)) {
           warn(
             false,
-            'The `getAlgoliaQuerySuggestionsFacetFilters` function is not supported with storages that return promises in `getAll`.'
+            'The `getAlgoliaSearchParams` function is not supported with storages that return promises in `getAll`.'
           );
           return params;
         }
@@ -110,7 +125,10 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
           ...params,
           facetFilters: [
             ...(params.facetFilters ?? []),
-            ...lastItemsRef.current.map((item) => [`objectID:-${item.query}`]),
+            // @TODO: we need to base the filter on the `query` attribute, not
+            // `objectID`, because the Query Suggestions index cannot ensure
+            // that the `objectID` will always be equal to the query.
+            ...lastItemsRef.current.map((item) => [`objectID:-${item.label}`]),
           ],
           hitsPerPage: Math.max(
             1,
