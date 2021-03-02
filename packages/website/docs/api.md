@@ -3,47 +3,49 @@ id: api
 title: Introduction
 ---
 
-The API ref contains details on all the Autocomplete packages.
-
 import Draft from './partials/draft.md'
+import PluginsList from './partials/plugins-list.md'
 
-<Draft />
+The API reference contains technical information on all Autocomplete packages.
 
-<!-- - what each package does
-- using react or vue, use this
-- the api ref explains the raw params, but go to the guides for more comprehensive info, etc.
-- package namings, core, recents, presets which provides utils, plugins which are, theme, layouts, etc. -->
+This API references how to import and use the Autocomplete APIs without guidance. Make sure to read the [**Core concepts**](basic-options) first. To learn more about Autocomplete patterns, head over to the [**Guides**](adding-suggested-searches).
 
-This API references how to import and use the Autocomplete APIs without guidance. Make sure to read the [**Core concepts**](basic-options) first. To learn more about Autocomplete patterns, head over to the [**Guides**](#todo).
-
-Autocomplete contains several kind of packages:
+Autocomplete provides an ecosystem of companion libraries you can use for various purposes.
 
 ## Core
 
-[`autocomplete-core`](createAutocomplete) returns the methods to create an autocomplete experience.
+The [`autocomplete-core`](createAutocomplete) package is the foundation of Autocomplete. It exposes primitives to build an autocomplete experience.
+
+You likely don't need to use this package directly unless you're building a [renderer](#renderers).
 
 ## Renderers
 
-Renderers implement `autocomplete-core` to provide a UI. [`autocomplete-js`](autocomplete-js) is a virtual DOM renderer. You can use it in your JavaScript, Preact, React or Vue projects.
+Renderers [provide a UI](creating-a-renderer) to headless autocomplete experiences built with [`autocomplete-core`](createAutocomplete). For example, [`autocomplete-js`](autocomplete-js) is an agnostic virtual DOM renderer. You can use it in JavaScript, Preact, React, or Vue projects.
 
-Other examples of renderers are [DocSearch 3](https://docsearch.algolia.com) and the documentation search available on the [Algolia docs](https://www.algolia.com/doc).
+**Custom renderers are an advanced pattern that you should only use when hitting the limits of [`autocomplete-js`](autocomplete-js).** For instance, you might need your own renderer when working with a JavaScript library that doesn't use a virtual DOM or when the layout structure of [`autocomplete-js`](autocomplete-js) is too constraining for your use case.
 
 ## Plugins
 
-Plugins encapsulate and distribute custom Autocomplete behaviors. We provide a few plugins:
+Plugins encapsulate custom functionalities. They abstract common behaviors that you might want to use in your experience by hooking into the Autocomplete lifecycle.
 
-- [`autocomplete-plugin-recent-searches`](createLocalStorageRecentSearchesPlugin)
-- [`autocomplete-plugin-query-suggestions`](createQuerySuggestionsPlugin)
-- [`autocomplete-plugin-algolia-insights`](createAlgoliaInsightsPlugin)
+We provide a few official plugins:
+
+<PluginsList />
+
+You can [build your own plugin](plugins#building-your-own-plugin) by implementing the [`AutocompletePlugin` interface](https://github.com/algolia/autocomplete/blob/next/packages/autocomplete-js/src/types/AutocompletePlugin.ts).
 
 ## Presets
 
-Presets provides utilities to use in your Autocomplete experiences.
+Presets provide utilities to use in Autocomplete experiences. They facilitate integration with other tools or libraries by providing common helpers and sane defaults.
 
-[`autocomplete-preset-algolia`](getAlgoliaHits) provides the fetching and highlighting utils for Algolia.
+We currently provide a single preset:
+
+- [`autocomplete-preset-algolia`](getAlgoliaHits) provides fetching and highlighting utilities for usage with Algolia.
 
 ## Themes
 
-Themes are CSS packages that design the Autocomplete experience.
+Themes are CSS packages to style Autocomplete experiences. They work out of the box with the exposed class names from [`autocomplete-js`](autocomplete-js).
 
-[`autocomplete-theme-classic`](autocomplete-theme-classic) is the theme we provide.
+We currently provide a single theme:
+
+- [`autocomplete-theme-classic`](autocomplete-theme-classic) is the official Autocomplete theme.

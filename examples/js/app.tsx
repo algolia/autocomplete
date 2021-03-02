@@ -48,7 +48,12 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
       hitsPerPage: state.query ? 5 : 10,
     });
   },
-  categoryAttribute: 'categories',
+  categoryAttribute: [
+    'instant_search',
+    'facets',
+    'exact_matches',
+    'categories',
+  ],
 });
 const categoriesPlugin = createCategoriesPlugin({ searchClient });
 

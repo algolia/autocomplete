@@ -30,11 +30,6 @@ module.exports = {
       'api',
       {
         type: 'category',
-        label: 'autocomplete-core',
-        items: ['createAutocomplete'],
-      },
-      {
-        type: 'category',
         label: 'autocomplete-js',
         items: [
           'autocomplete-js',
@@ -46,6 +41,11 @@ module.exports = {
           'snippetHit',
           'reverseSnippetHit',
         ],
+      },
+      {
+        type: 'category',
+        label: 'autocomplete-core',
+        items: ['createAutocomplete'],
       },
       {
         type: 'category',

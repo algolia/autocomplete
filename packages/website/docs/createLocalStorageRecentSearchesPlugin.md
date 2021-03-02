@@ -2,9 +2,37 @@
 id: createLocalStorageRecentSearchesPlugin
 ---
 
+The Recent Searches plugin displays a list of the latest searches the user made.
+
+The `createLocalStorageRecentSearchesPlugin` plugin connects with the user's [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) to fetch and save recent searches. To plug your own storage, check [`createRecentSearchesPlugin`](createRecentSearchesPlugin).
+
+## Installation
+
+First, you need to install the plugin.
+
+```bash
+yarn add @algolia/autocomplete-plugin-recent-searches@alpha
+# or
+npm install @algolia/autocomplete-plugin-recent-searches@alpha
+```
+
+Then import it in your project:
+
+```js
+import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+```
+
+If you don't use a package manager, you can use a standalone endpoint:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-recent-searches@alpha"></script>
+```
+
 ## Example
 
-```ts
+This example uses the plugin within [`autocomplete-js`](autocomplete-js).
+
+```js
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 
@@ -19,9 +47,9 @@ autocomplete({
 });
 ```
 
-With [Query Suggestions](createQuerySuggestionsPlugin):
+You can combine this plugin with the [Query Suggestions](createQuerySuggestionsPlugin) plugin to leverage the empty screen with recent and popular queries.
 
-```ts
+```js
 import algoliasearch from 'algoliasearch/lite';
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
@@ -49,25 +77,23 @@ autocomplete({
 });
 ```
 
-## Import
+To see it in action, check [this demo on CodeSandbox](https://fzb4m.csb.app/).
 
-```ts
-import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
-```
-
-## Params
+## Parameters
 
 ### `key`
 
 > `string` | required
 
-The Local Storage key (prefixed by the plugin) to identify where to store and retrieve the recent searches.
+A local storage key to identify where to save and retrieve the recent searches.
 
-Examples:
+For example:
 
 - `"navbar"`
 - `"search"`
 - `"main"`
+
+The plugin namespaces all keys to avoid collisions.
 
 ### `limit`
 
@@ -78,6 +104,8 @@ The number of recent searches to display.
 ### `search`
 
 > `(params: { query: string; items: TItem[]; limit: number; }) => TItem[]`
+
+A search function to retrieve recent searches from. This function is called in [`storage.getAll`](createRecentSearchesPlugin#storage) to retrieve recent searches and is useful to filter and highlight recent searches when typing a query.
 
 #### Example
 
@@ -112,9 +140,11 @@ function search({ query, items, limit }) {
 
 ### `transformSource`
 
-> `(params: { source: AutocompleteSource, onRemove: () => void })`
+> `(params: { source: AutocompleteSource, onRemove: () => void, onTapAhead: () => void })`
 
-#### Example
+A function to transform the provided source.
+
+#### Examples
 
 Keeping the panel open on select:
 
@@ -169,3 +199,10 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
 #### `getAlgoliaSearchParams`
 
 > `SearchParameters => SearchParameters`
+
+Optimized [Algolia search parameters](https://www.algolia.com/doc/api-reference/search-api-parameters/). This is useful when using the plugin along with the [Query Suggestions](createQuerySuggestionsPlugin) plugin.
+
+This function enhances the provided search parameters by:
+
+- Excluding Query Suggestions that are already displayed in recent searches.
+- Using a shared `hitsPerPage` value to get a group limit of Query Suggestions and recent searches.
