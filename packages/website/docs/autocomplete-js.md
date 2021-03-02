@@ -3,13 +3,41 @@ id: autocomplete-js
 title: autocomplete
 ---
 
-This function creates a JavaScript autocomplete experience.
+Autocomplete JS creates a virtual DOM-based autocomplete experience.
+
+The `autocomplete` function creates an autocomplete experience and attaches it to an element of the DOM. By default, it uses [Preact 10](https://preactjs.com/guide/v10/whats-new/) to render templates.
+
+## Installation
+
+First, you need to install the package.
+
+```bash
+yarn add @algolia/autocomplete-js@alpha
+# or
+npm install @algolia/autocomplete-js@alpha
+```
+
+Then import it in your project:
+
+```js
+import { autocomplete } from '@algolia/autocomplete-js';
+```
+
+If you don't use a package manager, you can use a standalone endpoint:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js@alpha"></script>
+```
 
 ## Example
+
+Make sure to to define an empty container in your HTML where to inject your autocomplete.
 
 ```js title="HTML"
 <div id="autocomplete"></div>
 ```
+
+This example uses Autocomplete with an Algolia index, along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client. All Algolia utility functions to retrieve hits and parse results are available directly in the package.
 
 ```js title="JavaScript"
 import algoliasearch from 'algoliasearch/lite';
@@ -56,21 +84,15 @@ const autocompleteSearch = autocomplete({
 });
 ```
 
-## Import
+## Parameters
 
-```ts
-import { autocomplete } from '@algolia/autocomplete-js';
-```
-
-## Params
-
-`autocomplete` accepts all the props that [`createAutocomplete`](/docs/createAutocomplete#reference) supports.
+The `autocomplete` function accepts all the props that [`createAutocomplete`](/docs/createAutocomplete#reference) supports.
 
 ### `container`
 
 > `string | HTMLElement` | **required**
 
-The container for the Autocomplete search box. You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). The first element matching the provided selector will be used as container.
+The container for the Autocomplete search input. You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). If there are several containers matching the selector, Autocomplete picks up the first one.
 
 import CreateAutocompleteProps from './partials/createAutocomplete-props.md'
 
@@ -80,19 +102,19 @@ import CreateAutocompleteProps from './partials/createAutocomplete-props.md'
 
 > `string | HTMLElement`
 
-The container for the Autocomplete panel. You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). The first element matching the provided selector will be used as container.
+The container for the Autocomplete panel. You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). If there are several containers matching the selector, Autocomplete picks up the first one.
 
 ### `panelPlacement`
 
 > `"start" | "end" | "full-width" | "input-wrapper-width"` | defaults to `"input-wrapper-width"`
 
-The panel horizontal position.
+The panel's horizontal position.
 
 ### `classNames`
 
 > `ClassNames`
 
-The class names to inject in each created DOM element. It it useful to design with external CSS frameworks.
+Class names to inject for each created DOM element. This is useful to style your autocomplete with external CSS frameworks.
 
 ```ts
 type ClassNames = Partial<{
@@ -127,9 +149,9 @@ type ClassNames = Partial<{
 
 > `(params: { children: VNode, state: AutocompleteState<TItem>, sections: VNode[], createElement: Pragma, Fragment: PragmaFrag }) => void`
 
-Function called to render the autocomplete panel. It is useful for rendering sections in different row or column layouts.
+The function that renders the autocomplete panel. This is useful to customize the rendering, for example, using multi-row or multi-column layouts.
 
-Default implementation:
+This is the default implementation:
 
 ```js
 import { render } from 'preact';
@@ -146,9 +168,9 @@ autocomplete({
 
 > `(params: { children: VNode, state: AutocompleteState<TItem>, sections: VNode[], createElement: Pragma, Fragment: PragmaFrag }) => void`
 
-Function called to render a no results section when no hits are returned. It is useful for letting the user know that the query returned no results.
+The function that renders a no results section when there are no hits. This is useful to let the user know that the query returned no results.
 
-There is no default implementation, which closes the panel when there's no results.
+There's no default implementation. By default, Autocomplete closes the panel when there's no results. Here's how you can customize this behavior:
 
 ```js
 import { render } from 'preact';
@@ -167,15 +189,23 @@ autocomplete({
 
 > `(type: any, props: Record<string, any> | null, ...children: ComponentChildren[]) => VNode` | defaults to `preact.createElement`
 
-Function used to create elements.
+The function that create virtual nodes.
+
+It uses [Preact 10](https://preactjs.com/guide/v10/whats-new/)'s `createElement` by default, but you can provide your own implementation.
 
 #### `Fragment`
 
 > defaults to `preact.Fragment`
 
-Component used for fragments.
+The component to use to create fragments.
 
-## Returned props
+It uses [Preact 10](https://preactjs.com/guide/v10/whats-new/)'s `Fragment` by default, but you can provide your own implementation.
+
+## Returns
+
+The `autocomplete` function returns [state setters](state#setters) and a `refresh` method that updates the UI state.
+
+These setters are useful to control the autocomplete experience from external events.
 
 ```js
 const {
@@ -189,6 +219,3 @@ const {
 } = autocomplete(options);
 ```
 
-`autocomplete` returns all the [state setters](state#setters) and `refresh` method that updates the UI state.
-
-These setters are useful to control the autocomplete experience from external events.
