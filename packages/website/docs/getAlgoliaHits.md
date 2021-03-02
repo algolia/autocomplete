@@ -2,13 +2,13 @@
 id: getAlgoliaHits
 ---
 
-import PresetAlgoliaIntro from './partials/preset-algolia/getAlgoliaResults/intro.md'
-import PresetAlgoliaNote from './partials/preset-algolia/getAlgoliaResults/note.md'
-import PresetAlgoliaExample from './partials/preset-algolia/getAlgoliaResults/example.md'
+import GetAlgoliaResultsIntro from './partials/preset-algolia/getAlgoliaResults/intro.md'
+import GetAlgoliaResultsNote from './partials/preset-algolia/getAlgoliaResults/note.md'
+import GetAlgoliaResultsExample from './partials/preset-algolia/getAlgoliaResults/example.md'
 
-<PresetAlgoliaIntro />
+<GetAlgoliaResultsIntro />
 
-<PresetAlgoliaNote />
+<GetAlgoliaResultsNote />
 
 ## Installation
 
@@ -34,7 +34,7 @@ If you don't use a package manager, you can use a standalone endpoint:
 
 ## Example
 
-<PresetAlgoliaExample />
+<GetAlgoliaResultsExample />
 
 ## Parameters
 
