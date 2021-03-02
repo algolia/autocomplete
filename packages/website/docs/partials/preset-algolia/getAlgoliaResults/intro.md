@@ -1,1 +1,1 @@
-Retrieves Algolia results from multiple indices as arrays of records.
+Retrieves Algolia results from multiple indices.
