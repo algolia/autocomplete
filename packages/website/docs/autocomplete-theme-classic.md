@@ -2,56 +2,62 @@
 id: autocomplete-theme-classic
 ---
 
-The Classic theme provides a design for Autocomplete experiences.
+import InstallClassicTheme from './partials/install-classic-theme.md';
 
-import Draft from './partials/draft.md'
+The Classic theme provides styling for Autocomplete experiences.
 
-<Draft />
+The theme is designed as a neutral and clean starter. You can use it as a base and customize it with [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties).
 
-We recommend using the Classic theme and customizing it with CSS variables. If you want to work on your own theme, we recommend starting from this one.
+If you want to build your own theme, you can [start from the Classic theme](https://github.com/algolia/autocomplete/tree/next/packages/autocomplete-theme-classic) and adjust it.
 
-## Import
+## Installation
 
-Using HTML:
+First, you need to install the theme.
 
-```html
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-theme-classic@alpha"
-/>
-```
-
-Using JavaScript:
-
-```js
-import '@algolia/autocomplete-theme-classic';
-```
+<InstallClassicTheme />
 
 ## CSS variables
 
-- `--aa-base-unit`
-- `--aa-font-size`
-- `--aa-spacing-factor`
-- `--aa-spacing`
-- `--aa-spacing-half`
-- `--aa-icon-size`
-- `--aa-primary-color`
-- `--aa-muted-color`
-- `--aa-selected-color`
-- `--aa-icon-color`
-- `--aa-text-color`
-- `--aa-content-text-color`
-- `--aa-background-color`
-- `--aa-background-color-alpha-0`
-- `--aa-panel-shadow`
-- `--aa-panel-max-height`: the maximal height for the panel before showing a vertical scroll bar
-- `--aa-detached-media-query`: the media query
+The theme uses [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) that you can customize in your own CSS.
+
+- `--aa-base-unit` ([number](https://developer.mozilla.org/en-US/docs/Web/CSS/number)) the base value used to calculate font sizes and spacing
+- `--aa-font-size` ([length](https://developer.mozilla.org/en-US/docs/Web/CSS/length)) a fixed font size
+- `--aa-spacing-factor` ([number](https://developer.mozilla.org/en-US/docs/Web/CSS/number)) the base value used to calculate spacing increments
+- `--aa-spacing` ([length](https://developer.mozilla.org/en-US/docs/Web/CSS/length)) a fixed spacing value
+- `--aa-spacing-half` ([length](https://developer.mozilla.org/en-US/docs/Web/CSS/length)) a fixed half spacing value
+- `--aa-icon-size` ([length](https://developer.mozilla.org/en-US/docs/Web/CSS/length)) a fixed icon size value
+- `--aa-primary-color` ([color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)) the accent color
+- `--aa-muted-color` ([color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)) the muted color
+- `--aa-selected-color` ([color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)) the color for selected, active or focused elements
+- `--aa-icon-color` ([color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)) the color for the icon
+- `--aa-text-color` ([color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)) the global text color
+- `--aa-content-text-color` ([color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)) the text color for the content title and description
+- `--aa-background-color` ([color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)) the global background color
+- `--aa-background-color-alpha-0` ([color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)) the background color with a 0 alpha layer (useful for [gradients on Safari](https://css-tricks.com/thing-know-gradients-transparent-black/))
+- `--aa-panel-shadow` ([box-shadow](https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow)) the shadow for the panel
+- `--aa-panel-max-height` ([length](https://developer.mozilla.org/en-US/docs/Web/CSS/length)) the maximum height for the panel before showing a vertical scroll bar
+- `--aa-detached-media-query` ([media query](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries)) the media query to enable [detached mode](detached-mode) on smaller devices
+- `--aa-detached-modal-media-query` ([media query](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries)) the media query to enable [detached mode](detached-mode) on bigger devices
+- `--aa-detached-modal-max-width` ([length](https://developer.mozilla.org/en-US/docs/Web/CSS/length)) the maximum width of the modal in detached mode
+- `--aa-detached-modal-max-height` ([length](https://developer.mozilla.org/en-US/docs/Web/CSS/length)) the maximum height of the modal in detached mode
+
+To customize a value, you can create a custom stylesheet and override the variable.
+
+```css title="CSS"
+:root {
+  --aa-icon-size: 24px;
+}
+```
+
+Make sure to load these styles *after* the theme.
 
 ## Templates
 
+For the theme to work out of the box, you need to use a conventional CSS class set. All class names from the theme come with an `aa-` namespace to avoid interfering with your own styles.
+
 ### Item
 
-Here is an [`item`](templates#item) template markup.
+Here's the markup for an [`item`](templates#item) template.
 
 ```jsx
 autocomplete({
@@ -98,7 +104,7 @@ If your renderer doesn't support `Fragment`s, you can use `div.aa-ItemWrapper`.
 
 ### Link item
 
-To wrap an item with a link, use the `.aa-ItemLink` class.
+To wrap an item within a link, use the `.aa-ItemLink` class.
 
 ```jsx
 autocomplete({
@@ -117,6 +123,8 @@ autocomplete({
 
 ### Header
 
+Here's the markup for a [`header`](templates#header) template.
+
 ```jsx
 autocomplete({
   // ...
@@ -134,7 +142,9 @@ autocomplete({
 });
 ```
 
-### No Results
+### No results
+
+Here's the markup for a [`noResults`](templates#noresults) template.
 
 ```jsx
 autocomplete({
@@ -148,20 +158,24 @@ autocomplete({
 });
 ```
 
-## CSS modifier classes
+## Additional CSS classes
 
-- `.aa-ItemIcon--no-border`: removes the border of the icon
-- `.aa-ItemIcon--align-top`: aligns the icon to the top (recommended when the template is more than 3 lines)
+The theme provides a set of optional classes for you to use in different contexts.
 
-## CSS utility classes
+### Modifiers
 
-- `.aa-Panel--Scrollable`: declares the scrollable container of the panel
-- `.aa-ActiveOnly`: displays an element only when the item is active
-- `.aa-TouchOnly`: displays an element only on touch devices.
+- `.aa-ItemIcon--no-border` removes the border of the icon
+- `.aa-ItemIcon--align-top` aligns the icon to the top (recommended when the template is longer than three lines)
+- `.aa-Panel--Scrollable` declares the scrollable container(s) of the panel
+
+### Utilities
+
+- `.aa-ActiveOnly` displays an element only when the item is active
+- `.aa-TouchOnly` displays an element only on touch devices
 
 ## Dark mode
 
-The Autocomplete Classic theme supports dark mode in two ways:
+The theme supports dark mode. You can enable it on the `body` tag in two different ways:
 
 - `<body data-theme="dark" />`
 - `<body class="dark" />`

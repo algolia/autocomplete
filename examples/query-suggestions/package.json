@@ -1,6 +1,6 @@
 {
-  "name": "@algolia/qs-only",
-  "description": "Auto complete query suggestion Sandbox",
+  "name": "@algolia/query-suggestions",
+  "description": "Autocomplete Query Suggestions Sandbox",
   "version": "1.0.0-alpha.43",
   "private": true,
   "license": "MIT",
@@ -11,15 +11,10 @@
   },
   "dependencies": {
     "@algolia/autocomplete-js": "1.0.0-alpha.43",
-    "@algolia/autocomplete-plugin-algolia-insights": "1.0.0-alpha.43",
     "@algolia/autocomplete-plugin-query-suggestions": "1.0.0-alpha.43",
-    "@algolia/autocomplete-plugin-recent-searches": "1.0.0-alpha.43",
-    "@algolia/autocomplete-preset-algolia": "1.0.0-alpha.43",
     "@algolia/autocomplete-theme-classic": "1.0.0-alpha.43",
-    "@algolia/client-search": "4.8.3",
     "algoliasearch": "4.8.3",
-    "preact": "10.5.7",
-    "search-insights": "1.6.3"
+    "preact": "10.5.7"
   },
   "devDependencies": {
     "parcel-bundler": "1.12.4",

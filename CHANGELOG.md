@@ -1,3 +1,17 @@
+# [1.0.0-alpha.44](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.43...v1.0.0-alpha.44) (2021-03-01)
+
+### Bug Fixes
+
+- **core:** compute open state on focus with `shouldPanelOpen` ([#456](https://github.com/algolia/autocomplete/issues/456)) ([dd28098](https://github.com/algolia/autocomplete/commit/dd28098accb75b5e76bc02df716a37b273b3e58a))
+- **js:** provide `title`s to submit and clear button ([45944e4](https://github.com/algolia/autocomplete/commit/45944e4c9f4e695039ab18e41284ff3d621774b7)), closes [algolia/algoliasearch-netlify#203](https://github.com/algolia/algoliasearch-netlify/issues/203)
+- **js:** rename "Reset" button to "Clear" ([434c565](https://github.com/algolia/autocomplete/commit/434c56506f866c791553a79d2d3bbf325f8f11a6))
+- **theme:** keep item icon ratio ([b77921e](https://github.com/algolia/autocomplete/commit/b77921e857691dcda3d5d110a494425464899aab))
+
+### Features
+
+- **js:** scroll to top when query changes ([#457](https://github.com/algolia/autocomplete/issues/457)) ([706939c](https://github.com/algolia/autocomplete/commit/706939c4f45e781b9cf9ae886521a7eb99f16755))
+- **qs:** rename `category` to `categoryAttribute` ([5d8c5d4](https://github.com/algolia/autocomplete/commit/5d8c5d4f5e2ce6d5621033fd04bd8431c0b7b915))
+
 # [1.0.0-alpha.43](https://github.com/algolia/autocomplete.js/compare/v1.0.0-alpha.42...v1.0.0-alpha.43) (2021-02-19)
 
 ### Bug Fixes

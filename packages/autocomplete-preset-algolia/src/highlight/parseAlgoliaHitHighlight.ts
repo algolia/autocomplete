@@ -1,6 +1,5 @@
-import { warn } from '@algolia/autocomplete-shared';
+import { getAttributeValueByPath, warn } from '@algolia/autocomplete-shared';
 
-import { getAttributeValueByPath } from './getAttributeValueByPath';
 import { HighlightedHit } from './HighlightedHit';
 import { ParseAlgoliaHitParams } from './ParseAlgoliaHitParams';
 import { parseAttribute } from './parseAttribute';

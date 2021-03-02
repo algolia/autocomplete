@@ -2,7 +2,7 @@ import { Component } from '../types/Component';
 
 export const ClearIcon: Component<{}, SVGSVGElement> = () => {
   const element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  element.setAttribute('class', 'aa-ResetIcon');
+  element.setAttribute('class', 'aa-ClearIcon');
   element.setAttribute('viewBox', '0 0 24 24');
   element.setAttribute('width', '18');
   element.setAttribute('height', '18');

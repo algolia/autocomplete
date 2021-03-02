@@ -3,6 +3,7 @@ import {
   AutocompleteState,
 } from '@algolia/autocomplete-core';
 import { AutocompleteSource, getAlgoliaHits } from '@algolia/autocomplete-js';
+import { getAttributeValueByPath } from '@algolia/autocomplete-shared';
 import { SearchOptions } from '@algolia/client-search';
 import { SearchClient } from 'algoliasearch/lite';
 
@@ -20,9 +21,11 @@ export type CreateQuerySuggestionsPluginParams<
     onTapAhead(item: TItem): void;
   }): AutocompleteSource<TItem>;
   /**
-   * The attribute to display categories.
+   * The attribute or attribute path to display categories.
+   * @example ["instant_search", "facets", "exact_matches", "categories"]
+   * @example ["instant_search", "facets", "exact_matches", "hierarchicalCategories.lvl0"]
    */
-  categoryAttribute?: string;
+  categoryAttribute?: string | string[];
   /**
    * The number of items to display categories for.
    * @default 1
@@ -86,9 +89,12 @@ export function createQuerySuggestionsPlugin<
                   > = [current];
 
                   if (i <= categoriesPerItem - 1) {
-                    const categories = current.instant_search.facets.exact_matches[
-                      categoryAttribute
-                    ]
+                    const categories = getAttributeValueByPath(
+                      current,
+                      Array.isArray(categoryAttribute)
+                        ? categoryAttribute
+                        : [categoryAttribute]
+                    )
                       .map((x) => x.value)
                       .slice(0, categoriesLimit);
 
