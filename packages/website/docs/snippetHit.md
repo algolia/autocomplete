@@ -21,7 +21,7 @@ const hit = {
     },
   },
 };
-const snippetValue = snippetHit({
+const snippetedValue = snippetHit({
   hit,
   attribute: 'query',
 });
@@ -46,7 +46,7 @@ const hit = {
     },
   },
 };
-const snippetValue = snippetHit({
+const snippetedValue = snippetHit({
   hit,
   attribute: ['query', 'title'],
 });
