@@ -68,11 +68,17 @@ getAlgoliaHits({
 
 The initialized Algolia search client.
 
+### `queries`
+
+> `MultipleQueriesQuery[]` | required
+
+The queries to perform, with the following parameters:
+
 #### `indexName`
 
 > `string` | required
 
-The index name.
+The index name to search into.
 
 #### `query`
 
