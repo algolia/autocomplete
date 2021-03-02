@@ -4,9 +4,13 @@ id: reverseHighlightHit
 
 Returns a virtual node with highlighted non-matching parts of an Algolia hit.
 
+ The `reverseHighlightHit` function lets you turn an Algolia hit into a virtual node with highlighted non-matching parts for a given attribute.
+
 ## Examples
 
 ### With a single string
+
+To determine what attribute to parse, you can pass it as a string.
 
 ```js
 import { reverseHighlightHit } from '@algolia/autocomplete-js';
@@ -28,6 +32,8 @@ const reverseHighlightedValue = reverseHighlightHit({
 ```
 
 ### With nested attributes
+
+If you're referencing a nested attribute, you can use the array syntax.
 
 ```js
 import { reverseHighlightHit } from '@algolia/autocomplete-js';
