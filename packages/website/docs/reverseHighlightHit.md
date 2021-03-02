@@ -9,7 +9,7 @@ Returns a virtual node with highlighted non-matching parts of an Algolia hit.
 ### With a single string
 
 ```js
-import { highlightHit } from '@algolia/autocomplete-js';
+import { reverseHighlightHit } from '@algolia/autocomplete-js';
 
 // An Algolia hit for query "hello"
 const hit = {
@@ -21,7 +21,7 @@ const hit = {
     },
   },
 };
-const highlightedValue = reverseHighlightHit({
+const reverseHighlightedValue = reverseHighlightHit({
   hit,
   attribute: 'query',
 });
@@ -30,7 +30,7 @@ const highlightedValue = reverseHighlightHit({
 ### With nested attributes
 
 ```js
-import { highlightHit } from '@algolia/autocomplete-js';
+import { reverseHighlightHit } from '@algolia/autocomplete-js';
 
 // An Algolia hit for query "hello"
 const hit = {
@@ -46,7 +46,7 @@ const hit = {
     },
   },
 };
-const highlightedValue = highlightHit({
+const reverseHighlightedValue = reverseHighlightHit({
   hit,
   attribute: ['query', 'title'],
 });

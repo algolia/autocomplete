@@ -48,7 +48,7 @@ const hit = {
     },
   },
 };
-const snippetParts = parseAlgoliaHitReverseHighlight({
+const highlightedParts = parseAlgoliaHitReverseHighlight({
   hit,
   attribute: 'name',
 });
@@ -74,7 +74,7 @@ const hit = {
     },
   },
 };
-const snippetParts = parseAlgoliaHitReverseHighlight({
+const highlightedParts = parseAlgoliaHitReverseHighlight({
   hit,
   attribute: ['name', 'type'],
 });
