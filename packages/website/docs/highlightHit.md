@@ -4,12 +4,14 @@ id: highlightHit
 
 Returns a virtual node with highlighted matching parts of an Algolia hit.
 
-## Example with a single string
+## Examples
+
+### With a single string
 
 ```js
 import { highlightHit } from '@algolia/autocomplete-js';
 
-// fetch an Algolia hit
+// An Algolia hit for query "he"
 const hit = {
   query: 'Hello there',
   _highlightResult: {
@@ -25,12 +27,12 @@ const highlightedValue = highlightHit({
 });
 ```
 
-## Example with nested attributes
+### With nested attributes
 
 ```js
 import { highlightHit } from '@algolia/autocomplete-js';
 
-// fetch an Algolia hit
+// An Algolia hit for query "he"
 const hit = {
   query: {
     title: 'Hello there',
@@ -50,22 +52,28 @@ const highlightedValue = highlightHit({
 });
 ```
 
-## Params
+## Parameters
 
 ### `hit`
 
 > `AlgoliaHit` | required
 
-The Algolia hit to retrieve the attribute value from.
+The Algolia hit whose attribute to retrieve the highlighted parts from.
 
 ### `attribute`
 
 > `string | string[]` | required
 
-The attribute to retrieve the highlight value from. You can use the array syntax to reference the nested attributes.
+The attribute to retrieve the highlighted parts from. You can use the array syntax to reference nested attributes.
 
 ### `tagName`
 
 > `string` | defaults to `mark`
 
 The tag name of the virtual node.
+
+## Returns
+
+> `HighlightItemParams<THit>`
+
+A virtual node with the highlighted matching parts.
