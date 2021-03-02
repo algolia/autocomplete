@@ -82,13 +82,13 @@ The index name to search into.
 
 #### `query`
 
-> `string` | required
+> `string`
 
 The query to search for.
 
 #### `params`
 
-> [`SearchParameters`](https://www.algolia.com/doc/api-reference/search-api-parameters/) | required
+> [`SearchParameters`](https://www.algolia.com/doc/api-reference/search-api-parameters/)
 
 Algolia search parameters.
 
