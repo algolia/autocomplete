@@ -3,8 +3,11 @@ id: getAlgoliaResults
 ---
 
 import GetAlgoliaResultsIntro from './partials/preset-algolia/getAlgoliaResults/intro.md'
+import PresetAlgoliaNote from './partials/preset-algolia/note.md'
 
 <GetAlgoliaResultsIntro />
+
+<PresetAlgoliaNote />
 
 ## Installation
 
@@ -65,11 +68,17 @@ getAlgoliaResults({
 
 The initialized Algolia search client.
 
+### `queries`
+
+> `MultipleQueriesQuery[]` | required
+
+The queries to perform, with the following parameters:
+
 #### `indexName`
 
 > `string` | required
 
-The index name.
+The index name to search into.
 
 #### `query`
 
