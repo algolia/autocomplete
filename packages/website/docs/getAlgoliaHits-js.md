@@ -3,8 +3,8 @@ id: getAlgoliaHits-js
 title: getAlgoliaHits
 ---
 
-import PresetAlgoliaIntro from './partials/preset-algolia-intro.md'
-import PresetAlgoliaExample from './partials/preset-algolia-example.md'
+import PresetAlgoliaIntro from './partials/preset-algolia/getAlgoliaResults/intro.md'
+import PresetAlgoliaExample from './partials/preset-algolia/getAlgoliaResults/example.md'
 
 <PresetAlgoliaIntro />
 
