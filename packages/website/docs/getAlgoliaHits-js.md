@@ -3,14 +3,15 @@ id: getAlgoliaHits-js
 title: getAlgoliaHits
 ---
 
-import PresetAlgoliaIntro from './partials/preset-algolia/getAlgoliaResults/intro.md'
-import PresetAlgoliaExample from './partials/preset-algolia/getAlgoliaResults/example.md'
+import GetAlgoliaHitsIntro from './partials/preset-algolia/getAlgoliaHits/intro.md'
+import GetAlgoliaHitsNote from './partials/preset-algolia/getAlgoliaHits/note.md'
+import GetAlgoliaHitsExample from './partials/preset-algolia/getAlgoliaHits/example.md'
 
-<PresetAlgoliaIntro />
+<GetAlgoliaHitsIntro />
 
 ## Example
 
-<PresetAlgoliaExample />
+<GetAlgoliaHitsExample />
 
 ## Parameters
 
