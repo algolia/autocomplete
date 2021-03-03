@@ -1,5 +1,5 @@
 {
-  "name": "@algolia/query-suggestions",
+  "name": "@algolia/query-suggestions-example",
   "description": "Autocomplete Query Suggestions Sandbox",
   "version": "1.0.0-alpha.43",
   "private": true,
