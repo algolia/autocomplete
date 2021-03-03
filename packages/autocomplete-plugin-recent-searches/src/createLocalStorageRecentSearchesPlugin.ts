@@ -1,17 +1,14 @@
 import { AutocompletePlugin } from '@algolia/autocomplete-core';
 
+import { LOCAL_STORAGE_KEY } from './constants';
+import { createLocalStorage } from './createLocalStorage';
 import {
   createRecentSearchesPlugin,
   CreateRecentSearchesPluginParams,
   RecentSearchesPluginData,
 } from './createRecentSearchesPlugin';
+import { search as defaultSearch, SearchParams } from './search';
 import { Highlighted, RecentSearchesItem } from './types';
-import {
-  LOCAL_STORAGE_KEY,
-  createLocalStorage,
-  search as defaultSearch,
-  SearchParams,
-} from './usecases/localStorage';
 
 export type CreateRecentSearchesLocalStorageOptions<
   TItem extends RecentSearchesItem
@@ -38,7 +35,10 @@ export type CreateRecentSearchesLocalStorageOptions<
 
 type LocalStorageRecentSearchesPluginOptions<
   TItem extends RecentSearchesItem
-> = Pick<CreateRecentSearchesPluginParams<TItem>, 'transformSource'> &
+> = Pick<
+  CreateRecentSearchesPluginParams<TItem>,
+  'transformSource' | 'subscribe'
+> &
   CreateRecentSearchesLocalStorageOptions<TItem>;
 
 export function createLocalStorageRecentSearchesPlugin<
@@ -48,9 +48,10 @@ export function createLocalStorageRecentSearchesPlugin<
   limit = 5,
   transformSource,
   search = defaultSearch,
+  subscribe,
 }: LocalStorageRecentSearchesPluginOptions<TItem>): AutocompletePlugin<
   TItem,
-  RecentSearchesPluginData
+  RecentSearchesPluginData<TItem>
 > {
   const storage = createLocalStorage({
     key: [LOCAL_STORAGE_KEY, key].join(':'),
@@ -61,5 +62,6 @@ export function createLocalStorageRecentSearchesPlugin<
   return createRecentSearchesPlugin({
     transformSource,
     storage,
+    subscribe,
   });
 }
