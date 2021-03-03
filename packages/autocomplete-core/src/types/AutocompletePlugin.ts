@@ -4,7 +4,7 @@ import { OnSelectParams, OnActiveParams } from './AutocompleteSource';
 
 type PluginSubscriber<TParams> = (params: TParams) => void;
 
-interface PluginSubscribeParams<TItem extends BaseItem>
+export interface PluginSubscribeParams<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
   onSelect(fn: PluginSubscriber<OnSelectParams<TItem>>): void;
   onActive(fn: PluginSubscriber<OnActiveParams<TItem>>): void;
