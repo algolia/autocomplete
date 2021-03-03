@@ -1,6 +1,6 @@
 export type Highlighted<TItem> = TItem & {
   _highlightResult: {
-    query: {
+    label: {
       value: string;
     };
   };

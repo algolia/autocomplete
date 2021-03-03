@@ -3,6 +3,8 @@ id: getting-started
 title: Getting Started
 ---
 
+import InstallClassicTheme from './partials/install-classic-theme.md';
+
 import { AutocompleteExample } from '@site/src/components/AutocompleteExample';
 import { createProductsPlugin } from '@site/src/components/productsPlugin';
 const productsPluginWithoutKeyboardNavigation = createProductsPlugin({
@@ -54,20 +56,7 @@ If you want a custom theme, you can use this classic theme and customize it with
 
 This example uses the out of the box classic theme. You can import it like any other Autocomplete package.
 
-```bash
-yarn add @algolia/autocomplete-theme-classic@alpha
-# or
-npm install @algolia/autocomplete-theme-classic@alpha
-```
-
-If you don't want to use a package manager, you can add it as a stylesheet in your markup:
-
-```html
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-theme-classic@alpha"
-/>
-```
+<InstallClassicTheme />
 
 :::note
 
