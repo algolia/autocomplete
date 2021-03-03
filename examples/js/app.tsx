@@ -35,9 +35,33 @@ const searchClient = algoliasearch(appId, apiKey);
 insightsClient('init', { appId, apiKey });
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+// const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+//   key: 'search',
+//   limit: 3,
+// });
+
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+  // ...
   key: 'search',
   limit: 3,
+  transformSource({ source }) {
+    return {
+      ...source,
+      getItemUrl({ item }) {
+        return `/search?q=${item.query}`;
+      },
+      templates: {
+        item(params) {
+          const { item } = params;
+          return (
+            <a className="aa-ItemLink" href={`/search?q=${item.query}`}>
+              {source.templates.item(params)}
+            </a>
+          );
+        },
+      },
+    };
+  },
 });
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,

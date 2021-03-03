@@ -12,25 +12,24 @@ const searchClient = algoliasearch(appId, apiKey);
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'qs-with-rs-example',
   limit: 5,
+  category: 'categories',
 });
 
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'instant_search_demo_query_suggestions',
-  getSearchParams() {
+  getSearchParams({ state }) {
     return recentSearchesPlugin.data.getAlgoliaSearchParams({
-      hitsPerPage: 5,
+      clickAnalytics: true,
+      hitsPerPage: state.query ? 5 : 10,
     });
   },
+  categoryAttribute: ['categories'],
 });
-
-import { createCategoriesPlugin } from './categoriesPlugin';
-
-const categoriesPlugin = createCategoriesPlugin({ searchClient });
 
 autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
-  plugins: [recentSearchesPlugin, querySuggestionsPlugin, categoriesPlugin],
+  plugins: [recentSearchesPlugin, querySuggestionsPlugin],
 });

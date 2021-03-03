@@ -20,7 +20,8 @@
     "react": "^17.0.1"
   },
   "devDependencies": {
-    "parcel-bundler": "1.12.4"
+    "parcel-bundler": "1.12.4",
+    "typescript": "^4.2.2"
   },
   "keywords": [
     "algolia",
