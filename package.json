@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "examples/*"
+    "examples/*",
+    "cypress/test-apps/*"
   ],
   "scripts": {
     "build:clean": "lerna run build:clean --no-private",
@@ -18,7 +19,8 @@
     "cy:run:chrome": "yarn run cy:run --browser chrome",
     "cy:run:edge": "yarn run cy:run --browser edge",
     "cy:run:firefox": "yarn run cy:run --browser firefox",
-    "cy:run": "start-server-and-test playground:start http://localhost:1234 cy:record",
+    "cy:run": "start-server-and-test cy:start http://localhost:1234 cy:record",
+    "cy:start": "yarn workspace @algolia/test-apps-js start",
     "cy:verify": "cypress verify",
     "format": "prettier --write .",
     "lint:css": "stylelint packages/*/src/**/*.scss",

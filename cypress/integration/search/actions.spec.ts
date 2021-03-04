@@ -31,15 +31,15 @@ context('Search', () => {
   });
 
   it('Results are displayed after a Query', () => {
-    cy.get('.aa-Input').type('get');
+    cy.get('.aa-Input').type('apple');
     cy.get('.aa-SourceHeader').should('be.visible');
     cy.percySnapshot('search-results');
   });
 
   it('Query can be cleared', () => {
-    cy.get('.aa-Input').type('get');
-    cy.get('.aa-ResetButton').click();
-    cy.get('.aa-SourceHeader').should('not.to.exist');
+    cy.get('.aa-Input').type('apple');
+    cy.get('.aa-ClearButton').click();
+    cy.get('.aa-Input').should('be.empty');
   });
 
   it("No Results are displayed if query doesn't match", () => {
@@ -53,13 +53,14 @@ context('Recent searches', () => {
   beforeEach(() => {
     cy.visit(Cypress.config().baseUrl!);
     cy.get('.aa-Input').click();
-    cy.get('.aa-Input').type('get');
-    cy.get('.aa-Panel .aa-Item:first').click({ force: true });
+    cy.get('.aa-Input').type('apple');
+    cy.get('.aa-Item').first().click({ force: true });
   });
 
   it('Recent search is displayed after visiting a result', () => {
     cy.get('.aa-Input').click();
-    cy.get('#autocomplete-0-item-0')
+    cy.get('.aa-Item')
+      .first()
       .find('[title="Remove this search"]')
       .should('be.visible');
     cy.percySnapshot('recent-search');
@@ -67,10 +68,12 @@ context('Recent searches', () => {
 
   it('Recent search can be deleted', () => {
     cy.get('.aa-Input').click();
-    cy.get('#autocomplete-0-item-0')
+    cy.get('.aa-Item')
+      .first()
       .find('[title="Remove this search"]')
       .trigger('click');
-    cy.get('#autocomplete-0-item-0')
+    cy.get('.aa-Item')
+      .first()
       .find('[title="Remove this search"]')
       .should('not.to.exist');
   });

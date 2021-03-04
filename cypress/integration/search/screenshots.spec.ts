@@ -70,10 +70,13 @@ describe('Screenshots', () => {
             cy.viewport(size);
             cy.openPanel();
             cy.typeQueryMatching();
-            cy.get('.aa-Panel .aa-Item:first').click({ force: true });
+            cy.get('.aa-Item').first().click({
+              force: true,
+            });
             cy.wait(1000);
             cy.openPanel();
-            cy.get('#autocomplete-0-item-0')
+            cy.get('.aa-Item')
+              .first()
               .find('[title="Remove this search"]')
               .should('be.visible');
             cy.screenshot('recent-search__' + size + '__' + mode, {
