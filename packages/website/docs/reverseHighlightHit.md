@@ -2,7 +2,7 @@
 id: reverseHighlightHit
 ---
 
-Returns a virtual node with highlighted non-matching parts of an Algolia hit.
+Returns virtual nodes with highlighted non-matching parts of an Algolia hit.
 
  The `reverseHighlightHit` function lets you turn an Algolia hit into a virtual node with highlighted non-matching parts for a given attribute.
 
