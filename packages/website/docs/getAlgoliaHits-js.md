@@ -3,15 +3,22 @@ id: getAlgoliaHits-js
 title: getAlgoliaHits
 ---
 
-Retrieves Algolia hits from multiple indices into arrays of records.
+import GetAlgoliaHitsIntro from './partials/preset-algolia/getAlgoliaHits/intro.md'
+
+<GetAlgoliaHitsIntro />
 
 ## Example
+
+This example uses the function along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client.
 
 ```js
 import { getAlgoliaHits } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch/lite';
 
-const searchClient = algoliasearch(APP_ID, SEARCH_API_KEY);
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
 
 getAlgoliaHits({
   searchClient,
@@ -29,6 +36,6 @@ getAlgoliaHits({
 });
 ```
 
-## Params
+## Parameters
 
-See [`autocomplete-preset-algolia#getAlgoliaHits`](getAlgoliaHits#params).
+See [`autocomplete-preset-algolia#getAlgoliaHits`](getAlgoliaHits#parameters).
