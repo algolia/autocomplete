@@ -32,7 +32,6 @@ export function autocomplete<TItem extends BaseItem>(
   const { reactive, runReactives } = createReactiveWrapper();
 
   const id = options.id ?? generateAutocompleteId();
-
   const hasNoResultsSourceTemplateRef = createRef(false);
   const optionsRef = createRef(options);
   const onStateChangeRef = createRef<
