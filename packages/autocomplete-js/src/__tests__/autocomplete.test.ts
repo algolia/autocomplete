@@ -182,7 +182,62 @@ describe('autocomplete-js', () => {
     });
   });
 
-  test.todo('keeps the same id when toggling detached mode');
+  test("doesn't increment the id when toggling detached mode", async () => {
+    const container = document.createElement('div');
+
+    document.body.appendChild(container);
+    const { update } = autocomplete<{ label: string }>({
+      container,
+    });
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.aa-DetachedSearchButton')
+      ).not.toBeInTheDocument();
+      expect(
+        document.querySelector('#autocomplete-3-label')
+      ).toBeInTheDocument();
+    });
+
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn((query) => ({
+        matches: true,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      })),
+    });
+
+    update({ detachedMediaQuery: '' });
+
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn((query) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      })),
+    });
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.aa-DetachedSearchButton')
+      ).toBeInTheDocument();
+      expect(
+        document.querySelector('[aria-labelledby="autocomplete-3-label"]')
+      ).toBeInTheDocument();
+    });
+  });
 
   test('renders noResults template on no results', async () => {
     const container = document.createElement('div');
