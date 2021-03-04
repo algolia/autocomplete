@@ -15,13 +15,13 @@ To determine what attribute to parse, you can pass it as a string.
 ```js
 import { reverseHighlightHit } from '@algolia/autocomplete-js';
 
-// An Algolia hit for query "hello"
+// An Algolia hit for query "zelda"
 const hit = {
-  query: 'Hello there',
+  query: 'zelda switch',
   _highlightResult: {
     query: {
       value:
-        'Hello __aa-highlight__there__/aa-highlight__',
+        'zelda __aa-highlight__switch__/aa-highlight__',
     },
   },
 };
@@ -38,23 +38,23 @@ If you're referencing a nested attribute, you can use the array syntax.
 ```js
 import { reverseHighlightHit } from '@algolia/autocomplete-js';
 
-// An Algolia hit for query "hello"
+// An Algolia hit for query "video"
 const hit = {
-  query: {
-    title: 'Hello there',
+  hierarchicalCategories: {
+    lvl1: 'Video games',
   }
   _highlightResult: {
-    query: {
-      title: {
+    hierarchicalCategories: {
+      lvl1: {
         value:
-          'Hello __aa-highlight__there__/aa-highlight__',
+          'Video __aa-highlight__games__/aa-highlight__',
       },
     },
   },
 };
 const reverseHighlightedValue = reverseHighlightHit({
   hit,
-  attribute: ['query', 'title'],
+  attribute: ['hierarchicalCategories', 'lvl1'],
 });
 ```
 
