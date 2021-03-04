@@ -92,7 +92,7 @@ The `autocomplete` function accepts all the props that [`createAutocomplete`](/d
 
 > `string | HTMLElement` | **required**
 
-The container for the Autocomplete search input. You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). If there are several containers matching the selector, Autocomplete picks up the first one.
+The container for the Autocomplete search box. You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). If there are several containers matching the selector, Autocomplete picks up the first one.
 
 import CreateAutocompleteProps from './partials/createAutocomplete-props.md'
 
