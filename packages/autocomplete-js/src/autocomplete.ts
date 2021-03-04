@@ -7,6 +7,7 @@ import {
   createRef,
   debounce,
   getItemsCount,
+  generateAutocompleteId,
 } from '@algolia/autocomplete-shared';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
@@ -30,6 +31,8 @@ export function autocomplete<TItem extends BaseItem>(
   const { runEffect, cleanupEffects, runEffects } = createEffectWrapper();
   const { reactive, runReactives } = createReactiveWrapper();
 
+  const id = options.id ?? generateAutocompleteId();
+
   const hasNoResultsSourceTemplateRef = createRef(false);
   const optionsRef = createRef(options);
   const onStateChangeRef = createRef<
@@ -45,6 +48,7 @@ export function autocomplete<TItem extends BaseItem>(
   const autocomplete = reactive(() =>
     createAutocomplete<TItem>({
       ...props.value.core,
+      id,
       onStateChange(options) {
         hasNoResultsSourceTemplateRef.current = options.state.collections.some(
           (collection) =>
@@ -246,12 +250,12 @@ export function autocomplete<TItem extends BaseItem>(
 
   runEffect(() => {
     const onResize = debounce<Event>(() => {
-      const previousisDetached = isDetached.value;
+      const previousIsDetached = isDetached.value;
       isDetached.value = props.value.core.environment.matchMedia(
         props.value.renderer.detachedMediaQuery
       ).matches;
 
-      if (previousisDetached !== isDetached.value) {
+      if (previousIsDetached !== isDetached.value) {
         update({});
       } else {
         requestAnimationFrame(setPanelPosition);

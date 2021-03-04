@@ -3,6 +3,10 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import { autocomplete } from '../autocomplete';
 
 describe('autocomplete-js', () => {
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
   test('renders with default options', () => {
     const container = document.createElement('div');
     autocomplete<{ label: string }>({
@@ -150,6 +154,35 @@ describe('autocomplete-js', () => {
       </div>
     `);
   });
+
+  test("renders with an auto-incremented id if there's multiple instances", async () => {
+    const container = document.createElement('div');
+
+    document.body.appendChild(container);
+    autocomplete({
+      container,
+    });
+    autocomplete({
+      container,
+    });
+    autocomplete({
+      container,
+    });
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('#autocomplete-0-label')
+      ).toBeInTheDocument();
+      expect(
+        document.querySelector('#autocomplete-1-label')
+      ).toBeInTheDocument();
+      expect(
+        document.querySelector('#autocomplete-2-label')
+      ).toBeInTheDocument();
+    });
+  });
+
+  test.todo('keeps the same id when toggling detached mode');
 
   test('renders noResults template on no results', async () => {
     const container = document.createElement('div');
