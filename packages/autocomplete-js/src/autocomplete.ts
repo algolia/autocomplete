@@ -31,7 +31,7 @@ export function autocomplete<TItem extends BaseItem>(
   const { runEffect, cleanupEffects, runEffects } = createEffectWrapper();
   const { reactive, runReactives } = createReactiveWrapper();
 
-  const id = options.id ?? generateAutocompleteId();
+  const idRef = createRef(options.id ?? generateAutocompleteId());
   const hasNoResultsSourceTemplateRef = createRef(false);
   const optionsRef = createRef(options);
   const onStateChangeRef = createRef<
@@ -44,10 +44,11 @@ export function autocomplete<TItem extends BaseItem>(
         props.value.renderer.detachedMediaQuery
       ).matches
   );
+
   const autocomplete = reactive(() =>
     createAutocomplete<TItem>({
       ...props.value.core,
-      id,
+      id: idRef.current,
       onStateChange(options) {
         hasNoResultsSourceTemplateRef.current = options.state.collections.some(
           (collection) =>
@@ -310,6 +311,10 @@ export function autocomplete<TItem extends BaseItem>(
 
   function update(updatedOptions: Partial<AutocompleteOptions<TItem>> = {}) {
     cleanupEffects();
+
+    if (updatedOptions.id) {
+      idRef.current = updatedOptions.id;
+    }
 
     optionsRef.current = mergeDeep(
       props.value.renderer,
