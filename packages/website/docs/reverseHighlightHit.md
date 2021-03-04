@@ -82,4 +82,4 @@ The tag name of the virtual node.
 
 > `HighlightItemParams<THit>`
 
-A virtual node with the highlighted matching parts.
+Virtual nodes with the highlighted matching parts.

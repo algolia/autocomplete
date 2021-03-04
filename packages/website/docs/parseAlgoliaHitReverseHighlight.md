@@ -4,7 +4,7 @@ id: parseAlgoliaHitReverseHighlight
 
 import PresetAlgoliaNote from './partials/preset-algolia/note.md'
 
-Returns the highlighted parts of an Algolia hit.
+Returns the highlighted non-matching parts of an Algolia hit.
 
 The `parseAlgoliaHitReverseHighlight` function lets you parse the non-highlighted parts of an Algolia hit. This is a common pattern for [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/), where you want to highlight the differences between each suggestion.
 
