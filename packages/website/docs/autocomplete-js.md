@@ -31,7 +31,7 @@ If you don't use a package manager, you can use a standalone endpoint:
 
 ## Example
 
-Make sure to to define an empty container in your HTML where to inject your autocomplete.
+Make sure to define an empty container in your HTML where to inject your autocomplete.
 
 ```js title="HTML"
 <div id="autocomplete"></div>
@@ -218,4 +218,3 @@ const {
   refresh,
 } = autocomplete(options);
 ```
-
