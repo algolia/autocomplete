@@ -21,7 +21,7 @@ const hit = {
   _highlightResult: {
     query: {
       value:
-        'zelda __aa-highlight__switch__/aa-highlight__',
+        '__aa-highlight__zelda__/aa-highlight__ switch',
     },
   },
 };
@@ -47,7 +47,7 @@ const hit = {
     hierarchicalCategories: {
       lvl1: {
         value:
-          'Video __aa-highlight__games__/aa-highlight__',
+          '__aa-highlight__Video__/aa-highlight__ games',
       },
     },
   },
