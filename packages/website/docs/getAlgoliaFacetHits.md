@@ -87,6 +87,12 @@ Algolia search for facet values parameters.
 
 These are the default parameters. You can leave them as is and specify other parameters, or override them.
 
+:::info
+
+If you override `highlightPreTag` and `highlightPostTag`, you won't be able to use the built-in highlighting utilities such as [`highlightHit`](highlightHit).
+
+:::
+
 ```json
 {
   "highlightPreTag": "__aa-highlight__",
