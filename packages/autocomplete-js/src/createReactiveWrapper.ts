@@ -18,9 +18,10 @@ export function createReactiveWrapper() {
 
   return {
     reactive<TValue>(value: ReactiveValue<TValue>) {
+      const current = value();
       const reactive: Reactive<TValue> = {
         _fn: value,
-        _ref: { current: value() },
+        _ref: { current },
         get value() {
           return this._ref.current;
         },
@@ -30,8 +31,6 @@ export function createReactiveWrapper() {
       };
 
       reactives.push(reactive);
-
-      value();
 
       return reactive;
     },

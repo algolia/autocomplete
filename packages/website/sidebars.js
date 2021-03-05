@@ -51,8 +51,8 @@ module.exports = {
         type: 'category',
         label: 'autocomplete-plugin-recent-searches',
         items: [
-          'createLocalStorageRecentSearchesPlugin',
           'createRecentSearchesPlugin',
+          'createLocalStorageRecentSearchesPlugin',
         ],
       },
       {

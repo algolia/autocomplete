@@ -7,10 +7,14 @@ import {
 import { SearchClient } from 'algoliasearch/lite';
 import { h, Fragment } from 'preact';
 
-type CategoryItem = {
+import { Highlighted } from './types';
+
+type CategoryRecord = {
   label: string;
   count: number;
 };
+
+type CategoryHit = Highlighted<CategoryRecord>;
 
 type CreateCategoriesPluginProps = {
   searchClient: SearchClient;
@@ -18,7 +22,7 @@ type CreateCategoriesPluginProps = {
 
 export function createCategoriesPlugin({
   searchClient,
-}: CreateCategoriesPluginProps): AutocompletePlugin<CategoryItem, undefined> {
+}: CreateCategoriesPluginProps): AutocompletePlugin<CategoryHit, undefined> {
   return {
     getSources({ query }) {
       return [
@@ -73,7 +77,7 @@ export function createCategoriesPlugin({
                   </div>
                   <div className="aa-ItemContent">
                     <div className="aa-ItemContentTitle">
-                      {highlightHit<CategoryItem>({
+                      {highlightHit<CategoryHit>({
                         hit: item,
                         attribute: 'label',
                       })}

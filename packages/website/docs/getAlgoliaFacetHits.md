@@ -2,7 +2,34 @@
 id: getAlgoliaFacetHits
 ---
 
-Retrieves Algolia facet hits from multiple indices.
+import GetAlgoliaFacetHitsIntro from './partials/preset-algolia/getAlgoliaFacetHits/intro.md'
+import PresetAlgoliaNote from './partials/preset-algolia/note.md'
+
+<GetAlgoliaFacetHitsIntro />
+
+<PresetAlgoliaNote />
+
+## Installation
+
+First, you need to install the preset.
+
+```bash
+yarn add @algolia/autocomplete-preset-algolia@alpha
+# or
+npm install @algolia/autocomplete-preset-algolia@alpha
+```
+
+Then import it in your project:
+
+```js
+import { getAlgoliaFacetHits } from '@algolia/autocomplete-preset-algolia';
+```
+
+If you don't use a package manager, you can use a standalone endpoint:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-preset-algolia@alpha"></script>
+```
 
 ## Example
 
@@ -10,7 +37,10 @@ Retrieves Algolia facet hits from multiple indices.
 import { getAlgoliaFacetHits } from '@algolia/autocomplete-preset-algolia';
 import algoliasearch from 'algoliasearch/lite';
 
-const searchClient = algoliasearch(APP_ID, SEARCH_API_KEY);
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
 
 getAlgoliaFacetHits({
   searchClient,
@@ -29,23 +59,39 @@ getAlgoliaFacetHits({
 });
 ```
 
-## Params
+## Parameters
 
 ### `searchClient`
 
 > `SearchClient` | required
 
+The initialized Algolia search client.
+
 ### `queries`
+
+> `FacetQuery[]` | required
+
+The queries to search for, with the following parameters:
 
 #### `indexName`
 
 > `string` | required
 
+The index name.
+
 #### `params`
 
-> [`SearchParameters`](https://www.algolia.com/doc/api-reference/search-api-parameters/) & [`Request Options`](https://www.algolia.com/doc/api-client/getting-started/request-options/) | required
+> [`SearchForFacetValuesQueryParams` & `SearchOptions`](https://www.algolia.com/doc/api-reference/api-methods/search-for-facet-values/#parameters)
 
-Default search parameters:
+Algolia search for facet values parameters.
+
+These are the default parameters. You can leave them as is and specify other parameters, or override them.
+
+:::info
+
+If you override `highlightPreTag` and `highlightPostTag`, you won't be able to use the built-in highlighting utilities such as [`highlightHit`](highlightHit).
+
+:::
 
 ```json
 {
@@ -56,7 +102,7 @@ Default search parameters:
 
 ## Returns
 
-It returns a promise of the following schema:
+The function returns a promise that resolves to a response with the following schema:
 
 ```json
 [

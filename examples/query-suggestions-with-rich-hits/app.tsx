@@ -9,16 +9,25 @@ import {
   createAlgoliaInsightsPlugin,
 } from '@algolia/autocomplete-plugin-algolia-insights';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
-import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch';
 import { h, Fragment } from 'preact';
 import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
 
-import { createCategoriesPlugin } from './categoriesPlugin';
-import { shortcutsPlugin } from './shortcutsPlugin';
-import { ProductHit, ProductRecord } from './types';
+type Product = {
+  brand: string;
+  categories: string[];
+  description: string;
+  image: string;
+  name: string;
+  price: number;
+  rating: number;
+  __autocomplete_indexName: string;
+  __autocomplete_queryID: string;
+};
+type ProductHit = Hit<Product>;
 
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
@@ -26,40 +35,23 @@ const searchClient = algoliasearch(appId, apiKey);
 insightsClient('init', { appId, apiKey });
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
-const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
-  key: 'search',
-  limit: 3,
-});
+
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'instant_search_demo_query_suggestions',
-  getSearchParams({ state }) {
-    return recentSearchesPlugin.data.getAlgoliaSearchParams({
-      clickAnalytics: true,
-      hitsPerPage: state.query ? 5 : 10,
-    });
+  getSearchParams() {
+    return {
+      hitsPerPage: 5,
+    };
   },
-  categoryAttribute: [
-    'instant_search',
-    'facets',
-    'exact_matches',
-    'categories',
-  ],
 });
-const categoriesPlugin = createCategoriesPlugin({ searchClient });
 
 autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
   debug: true,
   openOnFocus: true,
-  plugins: [
-    shortcutsPlugin,
-    algoliaInsightsPlugin,
-    recentSearchesPlugin,
-    querySuggestionsPlugin,
-    categoriesPlugin,
-  ],
+  plugins: [algoliaInsightsPlugin, querySuggestionsPlugin],
   getSources({ query, state }) {
     if (!query) {
       return [];
@@ -69,7 +61,7 @@ autocomplete({
       {
         sourceId: 'products',
         getItems() {
-          return getAlgoliaHits<ProductRecord>({
+          return getAlgoliaHits<Product>({
             searchClient,
             queries: [
               {
@@ -77,7 +69,7 @@ autocomplete({
                 query,
                 params: {
                   clickAnalytics: true,
-                  attributesToSnippet: ['name:10', 'description:35'],
+                  attributesToSnippet: ['name:10'],
                   snippetEllipsisText: '…',
                 },
               },
@@ -128,7 +120,36 @@ function ProductItem({ hit, insights }: ProductItemProps) {
           {snippetHit<ProductHit>({ hit, attribute: 'name' })}
         </div>
         <div className="aa-ItemContentDescription">
-          {snippetHit<ProductHit>({ hit, attribute: 'description' })}
+          From <strong>{hit.brand}</strong> in{' '}
+          <strong>{hit.categories[0]}</strong>
+        </div>
+        {hit.rating > 0 && (
+          <div className="aa-ItemContentDescription">
+            <div style={{ display: 'flex', gap: 1, color: '#ffc107' }}>
+              {Array.from({ length: 5 }, (_value, index) => {
+                const isFilled = hit.rating >= index + 1;
+
+                return (
+                  <svg
+                    key={index}
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill={isFilled ? 'currentColor' : 'none'}
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                );
+              })}
+            </div>
+          </div>
+        )}
+        <div className="aa-ItemContentDescription" style={{ color: '#000' }}>
+          <strong>${hit.price.toLocaleString()}</strong>
         </div>
       </div>
       <div className="aa-ItemActions">
