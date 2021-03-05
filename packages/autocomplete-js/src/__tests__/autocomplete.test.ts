@@ -1,12 +1,19 @@
+import * as autocompleteShared from '@algolia/autocomplete-shared';
 import { fireEvent, waitFor } from '@testing-library/dom';
 
+import { castToJestMock } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
 
-describe('autocomplete-js', () => {
-  afterEach(() => {
-    document.body.innerHTML = '';
-  });
+jest.mock('@algolia/autocomplete-shared', () => {
+  const module = jest.requireActual('@algolia/autocomplete-shared');
 
+  return {
+    ...module,
+    generateAutocompleteId: jest.fn(() => `autocomplete-test`),
+  };
+});
+
+describe('autocomplete-js', () => {
   test('renders with default options', () => {
     const container = document.createElement('div');
     autocomplete<{ label: string }>({
@@ -155,34 +162,39 @@ describe('autocomplete-js', () => {
     `);
   });
 
-  test("renders with an auto-incremented id if there's multiple instances", async () => {
+  test("renders with an auto-incremented id if there's multiple instances", () => {
     const container = document.createElement('div');
+    const initialNbCalls = castToJestMock(
+      autocompleteShared.generateAutocompleteId
+    ).mock.calls.length;
 
     document.body.appendChild(container);
     autocomplete({
       container,
     });
-    autocomplete({
-      container,
-    });
+
+    expect(autocompleteShared.generateAutocompleteId).toHaveBeenCalledTimes(
+      initialNbCalls + 1
+    );
+
     autocomplete({
       container,
     });
 
-    await waitFor(() => {
-      expect(
-        document.querySelector('#autocomplete-0-label')
-      ).toBeInTheDocument();
-      expect(
-        document.querySelector('#autocomplete-1-label')
-      ).toBeInTheDocument();
-      expect(
-        document.querySelector('#autocomplete-2-label')
-      ).toBeInTheDocument();
+    expect(autocompleteShared.generateAutocompleteId).toHaveBeenCalledTimes(
+      initialNbCalls + 2
+    );
+
+    autocomplete({
+      container,
     });
+
+    expect(autocompleteShared.generateAutocompleteId).toHaveBeenCalledTimes(
+      initialNbCalls + 3
+    );
   });
 
-  test("doesn't increment the id when toggling detached mode", async () => {
+  test("doesn't increment the id when toggling detached mode", () => {
     const container = document.createElement('div');
 
     document.body.appendChild(container);
@@ -190,16 +202,15 @@ describe('autocomplete-js', () => {
       container,
     });
 
-    await waitFor(() => {
-      expect(
-        document.querySelector('.aa-DetachedSearchButton')
-      ).not.toBeInTheDocument();
-      expect(
-        document.querySelector('#autocomplete-3-label')
-      ).toBeInTheDocument();
-    });
+    const initialNbCalls = castToJestMock(
+      autocompleteShared.generateAutocompleteId
+    ).mock.calls.length;
 
-    const matchMedia = window.matchMedia;
+    expect(autocompleteShared.generateAutocompleteId).toHaveBeenCalledTimes(
+      initialNbCalls
+    );
+
+    const originalMatchMedia = window.matchMedia;
 
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -219,17 +230,12 @@ describe('autocomplete-js', () => {
 
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
-      value: matchMedia,
+      value: originalMatchMedia,
     });
 
-    await waitFor(() => {
-      expect(
-        document.querySelector('.aa-DetachedSearchButton')
-      ).toBeInTheDocument();
-      expect(
-        document.querySelector('[aria-labelledby="autocomplete-3-label"]')
-      ).toBeInTheDocument();
-    });
+    expect(autocompleteShared.generateAutocompleteId).toHaveBeenCalledTimes(
+      initialNbCalls
+    );
   });
 
   test('renders noResults template on no results', async () => {
