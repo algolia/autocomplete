@@ -42,7 +42,7 @@ import { reverseHighlightHit } from '@algolia/autocomplete-js';
 const hit = {
   hierarchicalCategories: {
     lvl1: 'Video games',
-  }
+  },
   _highlightResult: {
     hierarchicalCategories: {
       lvl1: {
