@@ -2,16 +2,44 @@
 id: parseAlgoliaHitReverseHighlight
 ---
 
-Returns the highlighted parts of an Algolia hit.
+import PresetAlgoliaNote from './partials/preset-algolia/note.md'
 
-This is a common pattern for Query Suggestions.
+Returns the highlighted non-matching parts of an Algolia hit.
 
-## Example with a single string
+The `parseAlgoliaHitReverseHighlight` function lets you parse the non-highlighted parts of an Algolia hit. This is a common pattern for [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/), where you want to highlight the differences between each suggestion.
+
+<PresetAlgoliaNote />
+
+## Installation
+
+First, you need to install the preset.
+
+```bash
+yarn add @algolia/autocomplete-preset-algolia@alpha
+# or
+npm install @algolia/autocomplete-preset-algolia@alpha
+```
+
+Then import it in your project:
+
+```js
+import { parseAlgoliaHitReverseHighlight } from '@algolia/autocomplete-preset-algolia';
+```
+
+If you don't use a package manager, you can use a standalone endpoint:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-preset-algolia@alpha"></script>
+```
+
+## Examples
+
+### With a single string
 
 ```js
 import { parseAlgoliaHitReverseHighlight } from '@algolia/autocomplete-preset-algolia';
 
-// Fetch an Algolia hit
+// An Algolia hit for query "lap"
 const hit = {
   name: 'Laptop',
   _highlightResult: {
@@ -20,20 +48,20 @@ const hit = {
     },
   },
 };
-const snippetParts = parseAlgoliaHitReverseHighlight({
+const reverseHighlightedParts = parseAlgoliaHitReverseHighlight({
   hit,
   attribute: 'name',
 });
 
-// => [{ value: 'Lap', isHighlighted: false }, { value: 'top', isHighlighted: true }]
+// [{ value: 'Lap', isHighlighted: false }, { value: 'top', isHighlighted: true }]
 ```
 
-## Example with nested attributes
+### With nested attributes
 
 ```js
 import { parseAlgoliaHitReverseHighlight } from '@algolia/autocomplete-preset-algolia';
 
-// Fetch an Algolia hit
+// An Algolia hit for query "lap"
 const hit = {
   name: {
     type: 'Laptop',
@@ -46,26 +74,30 @@ const hit = {
     },
   },
 };
-const snippetParts = parseAlgoliaHitReverseHighlight({
+const reverseHighlightedParts = parseAlgoliaHitReverseHighlight({
   hit,
   attribute: ['name', 'type'],
 });
 
-// => [{ value: 'Lap', isHighlighted: false }, { value: 'top', isHighlighted: true }]
+// [{ value: 'Lap', isHighlighted: false }, { value: 'top', isHighlighted: true }]
 ```
 
-# Reference
-
-## Params
+## Parameters
 
 ### `hit`
 
 > `AlgoliaHit` | required
 
-The Algolia hit to retrieve the attribute value from.
+The Algolia hit whose attribute to retrieve the reverse highlighted parts from.
 
 ### `attribute`
 
 > `string | string[]` | required
 
-The attribute to retrieve the highlight value from. You can use the array syntax to reference the nested attributes.
+The attribute to retrieve the reverse highlighted parts from. You can use the array syntax to reference nested attributes.
+
+## Returns
+
+> `ParsedAttribute[]`
+
+An array of the parsed attribute's parts.
