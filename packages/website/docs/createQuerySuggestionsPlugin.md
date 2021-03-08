@@ -179,7 +179,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 });
 ```
 
-### `categoriesLimit`
+### `itemsWithCategories`
 
 > `number` | defaults to `1`
 

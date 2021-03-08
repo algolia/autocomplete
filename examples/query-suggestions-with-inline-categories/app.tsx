@@ -24,8 +24,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
     'exact_matches',
     'categories',
   ],
-  categoriesPerItem: 1,
-  categoriesLimit: 2,
+  categoriesPerItem: 2,
   transformSource: ({ source, onTapAhead }) => {
     return {
       ...source,
