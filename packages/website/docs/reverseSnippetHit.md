@@ -15,13 +15,13 @@ To determine what attribute to parse, you can pass it as a string.
 ```js
 import { reverseSnippetHit } from '@algolia/autocomplete-js';
 
-// An Algolia hit for query "hello"
+// An Algolia hit for query "zelda"
 const hit = {
-  query: 'Hello there',
+  query: 'zelda switch',
   _snippetResult: {
     query: {
       value:
-        'Hello __aa-highlight__there__/aa-highlight__',
+        '__aa-highlight__zelda__/aa-highlight__ switch',
     },
   },
 };
@@ -40,21 +40,21 @@ import { reverseSnippetHit } from '@algolia/autocomplete-js';
 
 // An Algolia hit for query "hello"
 const hit = {
-  query: {
-    title: 'Hello there',
-  }
+  hierarchicalCategories: {
+    lvl1: 'Video games',
+  },
   _snippetResult: {
-    query: {
-      title: {
+    hierarchicalCategories: {
+      lvl1: {
         value:
-          'Hello __aa-highlight__there__/aa-highlight__',
+          '__aa-highlight__Video__/aa-highlight__ games',
       },
     },
   },
 };
 const reverseSnippetedValue = reverseSnippetHit({
   hit,
-  attribute: ['query', 'title'],
+  attribute: ['hierarchicalCategories', 'lvl1'],
 });
 ```
 
