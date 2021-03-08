@@ -79,6 +79,7 @@ module.exports = {
         ],
       },
       'autocomplete-theme-classic',
+      'autocomplete-layout-classic',
     ],
   },
 };

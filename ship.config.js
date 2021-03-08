@@ -9,6 +9,7 @@ module.exports = {
     packagesToPublish: [
       'packages/autocomplete-core',
       'packages/autocomplete-js',
+      'packages/autocomplete-layout-classic',
       'packages/autocomplete-plugin-algolia-insights',
       'packages/autocomplete-plugin-query-suggestions',
       'packages/autocomplete-plugin-recent-searches',
