@@ -406,6 +406,7 @@ describe('autocomplete-js', () => {
         state: expect.anything(),
         children: expect.anything(),
         sections: expect.any(Array),
+        elements: expect.any(Object),
         createElement: expect.anything(),
         Fragment: expect.anything(),
       },

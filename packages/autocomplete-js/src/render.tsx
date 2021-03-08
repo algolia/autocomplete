@@ -168,6 +168,13 @@ export function renderPanel<TItem extends BaseItem>(
   const children = (
     <div className="aa-PanelLayout aa-Panel--Scrollable">{sections}</div>
   );
+  const elements = sections.reduce((acc, current) => {
+    acc[current.props['data-autocomplete-source-id']] = current;
+    return acc;
+  }, {});
 
-  render({ children, state, sections, createElement, Fragment }, dom.panel);
+  render(
+    { children, state, sections, elements, createElement, Fragment },
+    dom.panel
+  );
 }
