@@ -2,7 +2,7 @@
 id: reverseSnippetHit
 ---
 
-Returns a virtual node with highlighted non-matching matching parts of an Algolia hit's snippet.
+Returns virtual nodes with highlighted non-matching matching parts of an Algolia hit's snippet.
 
 The `reverseSnippetHit` function lets you turn an Algolia hit's snippet into a virtual node with highlighted non-matching parts for a given attribute.
 
@@ -82,4 +82,4 @@ The tag name of the virtual node.
 
 > `HighlightItemParams<THit>`
 
-A virtual node with the snippet.
+Virtual nodes with the snippet.
