@@ -43,7 +43,7 @@ describe('render', () => {
     });
   });
 
-  test('accepts a custom render render method', async () => {
+  test('accepts a custom render method', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
