@@ -2,14 +2,44 @@
 id: parseAlgoliaHitSnippet
 ---
 
-Returns the snippeted parts of an Algolia hit.
+import PresetAlgoliaNote from './partials/preset-algolia/note.md'
 
-## Example with a single string
+Returns the highlighted parts of an Algolia hit's snippet.
+
+The `parseAlgoliaHitSnippet` function lets you parse the highlighted parts of an Algolia hit's snippet.
+
+<PresetAlgoliaNote />
+
+## Installation
+
+First, you need to install the preset.
+
+```bash
+yarn add @algolia/autocomplete-preset-algolia@alpha
+# or
+npm install @algolia/autocomplete-preset-algolia@alpha
+```
+
+Then import it in your project:
+
+```js
+import { parseAlgoliaHitSnippet } from '@algolia/autocomplete-preset-algolia';
+```
+
+If you don't use a package manager, you can use a standalone endpoint:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-preset-algolia@alpha"></script>
+```
+
+## Examples
+
+### With a single string
 
 ```js
 import { parseAlgoliaHitSnippet } from '@algolia/autocomplete-preset-algolia';
 
-// Fetch an Algolia hit
+// An Algolia hit for query "lap"
 const hit = {
   name: 'Laptop',
   _snippetResult: {
@@ -18,20 +48,20 @@ const hit = {
     },
   },
 };
-const snippetParts = parseAlgoliaHitSnippet({
+const snippetedParts = parseAlgoliaHitSnippet({
   hit,
   attribute: 'name',
 });
 
-// => [{ value: 'Lap', isHighlighted: true }, { value: 'top', isHighlighted: false }]
+// [{ value: 'Lap', isHighlighted: true }, { value: 'top', isHighlighted: false }]
 ```
 
-## Example with nested attributes
+### With nested attributes
 
 ```js
 import { parseAlgoliaHitSnippet } from '@algolia/autocomplete-preset-algolia';
 
-// Fetch an Algolia hit
+// An Algolia hit for query "lap"
 const hit = {
   name: {
     type: 'Laptop',
@@ -44,24 +74,30 @@ const hit = {
     },
   },
 };
-const snippetParts = parseAlgoliaHitSnippet({
+const snippetedParts = parseAlgoliaHitSnippet({
   hit,
   attribute: ['name', 'type'],
 });
 
-// => [{ value: 'Lap', isHighlighted: true }, { value: 'top', isHighlighted: false }]
+// [{ value: 'Lap', isHighlighted: true }, { value: 'top', isHighlighted: false }]
 ```
 
-## Params
+## Parameters
 
 ### `hit`
 
 > `AlgoliaHit` | required
 
-The Algolia hit to retrieve the attribute value from.
+The Algolia hit whose attribute to retrieve the snippet from.
 
 ### `attribute`
 
 > `string | string[]` | required
 
-The attribute to retrieve the snippet value from. You can use the array syntax to reference the nested attributes.
+The attribute to retrieve the snippet from. You can use the array syntax to reference nested attributes.
+
+## Returns
+
+> `ParsedAttribute[]`
+
+An array of the parsed attribute's parts.
