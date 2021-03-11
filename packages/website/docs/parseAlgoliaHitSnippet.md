@@ -37,14 +37,15 @@ If you don't use a package manager, you can use a standalone endpoint:
 ### With a single string
 
 ```js
-import { parseAlgoliaHitSnippet } from '@algolia/autocomplete-preset-algolia';
+import { parseAlgoliaHitHighlight } from '@algolia/autocomplete-preset-algolia';
 
-// An Algolia hit for query "lap"
+// An Algolia hit for query "the"
 const hit = {
-  name: 'Laptop',
+  name: 'The Legend of Zelda: Breath of the Wild',
   _snippetResult: {
     name: {
-      value: '__aa_highlight__Lap__/aa_highlight__top',
+      value:
+        '__aa-highlight__The__/aa-highlight__ Legend of Zelda: Breath of __aa-highlight__the__/aa-highlight__ Wild',
     },
   },
 };
@@ -53,7 +54,14 @@ const snippetedParts = parseAlgoliaHitSnippet({
   attribute: 'name',
 });
 
-// [{ value: 'Lap', isHighlighted: true }, { value: 'top', isHighlighted: false }]
+/*
+ * [
+ *  { value: 'The', isHighlighted: true },
+ *  { value: ' Legend of Zelda: Breath of ', isHighlighted: false },
+ *  { value: 'the', isHighlighted: true },
+ *  { value: ' Wild', isHighlighted: false },
+ * ]
+ */
 ```
 
 ### With nested attributes
@@ -61,25 +69,33 @@ const snippetedParts = parseAlgoliaHitSnippet({
 ```js
 import { parseAlgoliaHitSnippet } from '@algolia/autocomplete-preset-algolia';
 
-// An Algolia hit for query "lap"
+// An Algolia hit for query "cam"
 const hit = {
-  name: {
-    type: 'Laptop',
+  hierarchicalCategories: {
+    lvl1: 'Cameras & Camcoders',
   },
   _snippetResult: {
-    name: {
-      type: {
-        value: '__aa_highlight__Lap__/aa_highlight__top',
+    hierarchicalCategories: {
+      lvl1: {
+        value:
+          '__aa-highlight__Cam__/aa-highlight__eras & __aa-highlight__Cam__/aa-highlight__coders',
       },
     },
   },
 };
 const snippetedParts = parseAlgoliaHitSnippet({
   hit,
-  attribute: ['name', 'type'],
+  attribute: ['hierarchicalCategories', 'lvl1'],
 });
 
-// [{ value: 'Lap', isHighlighted: true }, { value: 'top', isHighlighted: false }]
+/*
+ * [
+ *  { value: 'Cam', isHighlighted: true },
+ *  { value: 'eras & ', isHighlighted: false },
+ *  { value: 'Cam', isHighlighted: true },
+ *  { value: 'coders', isHighlighted: false },
+ * ]
+ */
 ```
 
 ## Parameters

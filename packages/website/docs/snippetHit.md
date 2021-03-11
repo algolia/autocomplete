@@ -15,13 +15,13 @@ To determine what attribute to parse, you can pass it as a string.
 ```js
 import { snippetHit } from '@algolia/autocomplete-js';
 
-// An Algolia hit for query "he"
+// An Algolia hit for query "the"
 const hit = {
-  query: 'Hello there',
+  name: 'The Legend of Zelda: Breath of the Wild',
   _snippetResult: {
     query: {
       value:
-        '__aa-highlight__He__/aa-highlight__llo t__aa-highlight__he__/aa-highlight__re',
+        '__aa-highlight__The__/aa-highlight__ Legend of Zelda: Breath of __aa-highlight__the__/aa-highlight__ Wild',
     },
   },
 };
@@ -38,23 +38,23 @@ If you're referencing a nested attribute, you can use the array syntax.
 ```js
 import { snippetHit } from '@algolia/autocomplete-js';
 
-// An Algolia hit for query "he"
+// An Algolia hit for query "cam"
 const hit = {
-  query: {
-    title: 'Hello there',
-  }
+  hierarchicalCategories: {
+    lvl1: 'Cameras & Camcoders',
+  },
   _snippetResult: {
-    query: {
-      title: {
+    hierarchicalCategories: {
+      lvl1: {
         value:
-          '__aa-highlight__He__/aa-highlight__llo t__aa-highlight__he__/aa-highlight__re',
+          '__aa-highlight__Cam__/aa-highlight__eras & __aa-highlight__Cam__/aa-highlight__coders',
       },
     },
   },
 };
 const snippetedValue = snippetHit({
   hit,
-  attribute: ['query', 'title'],
+  attribute: ['hierarchicalCategories', 'lvl1'],
 });
 ```
 
