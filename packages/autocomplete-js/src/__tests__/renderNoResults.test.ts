@@ -227,7 +227,7 @@ describe('renderNoResults', () => {
   });
 
   test('provides the elements', async () => {
-    const sourceId = 'testSource';
+    const sourceId1 = 'testSource1';
     const sourceId2 = 'testSource2';
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
@@ -240,7 +240,7 @@ describe('renderNoResults', () => {
       getSources() {
         return [
           {
-            sourceId,
+            sourceId: sourceId1,
             getItems() {
               return [{ label: '1' }];
             },
@@ -265,11 +265,11 @@ describe('renderNoResults', () => {
       },
       renderNoResults({ elements, createElement }, root) {
         expect(elements).toEqual({
-          [sourceId]: expect.objectContaining({
+          [sourceId1]: expect.objectContaining({
             type: 'section',
             props: {
               className: expect.any(String),
-              'data-autocomplete-source-id': sourceId,
+              'data-autocomplete-source-id': sourceId1,
               children: expect.any(Array),
             },
           }),
@@ -299,7 +299,7 @@ describe('renderNoResults', () => {
   });
 
   test('provides the sections', async () => {
-    const sourceId = 'testSource';
+    const sourceId1 = 'testSource1';
     const sourceId2 = 'testSource2';
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
@@ -312,7 +312,7 @@ describe('renderNoResults', () => {
       getSources() {
         return [
           {
-            sourceId,
+            sourceId: sourceId1,
             getItems() {
               return [{ label: '1' }];
             },
@@ -341,7 +341,7 @@ describe('renderNoResults', () => {
             type: 'section',
             props: {
               className: expect.any(String),
-              'data-autocomplete-source-id': sourceId,
+              'data-autocomplete-source-id': sourceId1,
               children: expect.any(Array),
             },
           }),
@@ -541,7 +541,7 @@ describe('renderNoResults', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
-    const customFragment = (props: any) => props.children;
+    const CustomFragment = (props: any) => props.children;
 
     document.body.appendChild(panelContainer);
     autocomplete<{ label: string }>({
@@ -566,12 +566,12 @@ describe('renderNoResults', () => {
         ];
       },
       renderNoResults({ createElement, Fragment }, root) {
-        expect(Fragment).toBe(customFragment);
+        expect(Fragment).toBe(CustomFragment);
         render(createElement(Fragment, null, 'No results render'), root);
       },
       renderer: {
         createElement: preactCreateElement,
-        Fragment: customFragment,
+        Fragment: CustomFragment,
       },
     });
   });
