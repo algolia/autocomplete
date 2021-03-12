@@ -139,7 +139,7 @@ describe('renderNoResults', () => {
     });
   });
 
-  test('provides the panel as root', async () => {
+  test('provides the panel as root', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -147,7 +147,9 @@ describe('renderNoResults', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
-      openOnFocus: true,
+      initialState: {
+        isOpen: true,
+      },
       getSources() {
         return [
           {
@@ -169,16 +171,6 @@ describe('renderNoResults', () => {
         );
         render(createElement('div', null, 'No results render'), root);
       },
-    });
-
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
-
-    fireEvent.input(input, { target: { value: 'a' } });
-
-    await waitFor(() => {
-      expect(
-        panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
     });
   });
 
@@ -441,7 +433,7 @@ describe('renderNoResults', () => {
     });
   });
 
-  test('provides a default createElement', async () => {
+  test('provides a default createElement', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -449,7 +441,9 @@ describe('renderNoResults', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
-      openOnFocus: true,
+      initialState: {
+        isOpen: true,
+      },
       getSources() {
         return [
           {
@@ -470,19 +464,9 @@ describe('renderNoResults', () => {
         render(createElement('div', null, 'No results render'), root);
       },
     });
-
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
-
-    fireEvent.input(input, { target: { value: 'a' } });
-
-    await waitFor(() => {
-      expect(
-        panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
-    });
   });
 
-  test('provides a default Fragment', async () => {
+  test('provides a default Fragment', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -490,7 +474,9 @@ describe('renderNoResults', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
-      openOnFocus: true,
+      initialState: {
+        isOpen: true,
+      },
       getSources() {
         return [
           {
@@ -511,19 +497,9 @@ describe('renderNoResults', () => {
         render(createElement(Fragment, null, 'No results render'), root);
       },
     });
-
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
-
-    fireEvent.input(input, { target: { value: 'a' } });
-
-    await waitFor(() => {
-      expect(
-        panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
-    });
   });
 
-  test('retrieves the custom createElement from the renderer', async () => {
+  test('retrieves the custom createElement from the renderer', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
     const mockCreateElement = jest.fn().mockImplementation(preactCreateElement);
@@ -532,7 +508,9 @@ describe('renderNoResults', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
-      openOnFocus: true,
+      initialState: {
+        isOpen: true,
+      },
       getSources() {
         return [
           {
@@ -557,19 +535,9 @@ describe('renderNoResults', () => {
         Fragment: PreactFragment,
       },
     });
-
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
-
-    fireEvent.input(input, { target: { value: 'a' } });
-
-    await waitFor(() => {
-      expect(
-        panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
-    });
   });
 
-  test('retrieves the custom Fragment from the renderer', async () => {
+  test('retrieves the custom Fragment from the renderer', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -579,7 +547,9 @@ describe('renderNoResults', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
-      openOnFocus: true,
+      initialState: {
+        isOpen: true,
+      },
       getSources() {
         return [
           {
@@ -603,16 +573,6 @@ describe('renderNoResults', () => {
         createElement: preactCreateElement,
         Fragment: customFragment,
       },
-    });
-
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
-
-    fireEvent.input(input, { target: { value: 'a' } });
-
-    await waitFor(() => {
-      expect(
-        panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
     });
   });
 });
