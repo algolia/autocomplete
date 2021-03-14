@@ -39,21 +39,27 @@ If you don't use a package manager, you can use a standalone endpoint:
 ```js
 import { parseAlgoliaHitReverseSnippet } from '@algolia/autocomplete-preset-algolia';
 
-// An Algolia hit for query "lap"
+// An Algolia hit for query "zelda"
 const hit = {
-  name: 'Laptop',
+  query: 'zelda switch',
   _snippetResult: {
-    name: {
-      value: '__aa_highlight__Lap__/aa_highlight__top',
+    query: {
+      value:
+        '__aa-highlight__zelda__/aa-highlight__ switch',
     },
   },
 };
 const reverseSnippetedParts = parseAlgoliaHitReverseSnippet({
   hit,
-  attribute: 'name',
+  attribute: 'query',
 });
 
-// [{ value: 'Lap', isHighlighted: false }, { value: 'top', isHighlighted: true }]
+/*
+ * [
+ *  { value: 'zelda', isHighlighted: false },
+ *  { value: ' switch', isHighlighted: true },
+ * ]
+ */
 ```
 
 ## Example with nested attributes
@@ -61,25 +67,31 @@ const reverseSnippetedParts = parseAlgoliaHitReverseSnippet({
 ```js
 import { parseAlgoliaHitReverseSnippet } from '@algolia/autocomplete-preset-algolia';
 
-// An Algolia hit for query "lap"
+// An Algolia hit for query "video"
 const hit = {
-  name: {
-    type: 'Laptop',
+  hierarchicalCategories: {
+    lvl1: 'Video games',
   },
   _snippetResult: {
-    name: {
-      type: {
-        value: '__aa_highlight__Lap__/aa_highlight__top',
+    hierarchicalCategories: {
+      lvl1: {
+        value:
+          '__aa-highlight__Video__/aa-highlight__ games',
       },
     },
   },
 };
 const reverseSnippetedParts = parseAlgoliaHitReverseSnippet({
   hit,
-  attribute: ['name', 'type'],
+  attribute: ['hierarchicalCategories', 'lvl1'],
 });
 
-// [{ value: 'Lap', isHighlighted: false }, { value: 'top', isHighlighted: true }]
+/*
+ * [
+ *  { value: 'Video', isHighlighted: false },
+ *  { value: ' games', isHighlighted: true },
+ * ]
+ */
 ```
 
 ## Parameters

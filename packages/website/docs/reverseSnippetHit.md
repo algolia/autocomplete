@@ -38,7 +38,7 @@ If you're referencing a nested attribute, you can use the array syntax.
 ```js
 import { reverseSnippetHit } from '@algolia/autocomplete-js';
 
-// An Algolia hit for query "hello"
+// An Algolia hit for query "video"
 const hit = {
   hierarchicalCategories: {
     lvl1: 'Video games',

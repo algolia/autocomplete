@@ -42,7 +42,7 @@ import { highlightHit } from '@algolia/autocomplete-js';
 const hit = {
   hierarchicalCategories: {
     lvl1: 'Cameras & Camcoders',
-  }
+  },
   _highlightResult: {
     hierarchicalCategories: {
       lvl1: {
