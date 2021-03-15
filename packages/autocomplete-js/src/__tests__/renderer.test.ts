@@ -1,12 +1,16 @@
 import { fireEvent, waitFor } from '@testing-library/dom';
 import {
   createElement as preactCreateElement,
-  Fragment as preactFragment,
+  Fragment as PreactFragment,
 } from 'preact';
 
 import { autocomplete } from '../autocomplete';
 
 describe('renderer', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+  });
+
   test('accepts a custom renderer', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
@@ -34,7 +38,7 @@ describe('renderer', () => {
       },
       renderer: {
         createElement: mockCreateElement,
-        Fragment: preactFragment,
+        Fragment: PreactFragment,
       },
     });
 
