@@ -2,6 +2,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import {
   createElement as preactCreateElement,
   Fragment as PreactFragment,
+  render,
 } from 'preact';
 
 import { autocomplete } from '../autocomplete';
@@ -11,16 +12,17 @@ describe('renderer', () => {
     document.body.innerHTML = '';
   });
 
-  test('accepts a custom renderer', async () => {
+  test('defaults to the Preact implementation', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
-    const mockCreateElement = jest.fn().mockImplementation(preactCreateElement);
 
     document.body.appendChild(panelContainer);
     autocomplete<{ label: string }>({
       container,
       panelContainer,
-      openOnFocus: true,
+      initialState: {
+        isOpen: true,
+      },
       getSources() {
         return [
           {
@@ -36,23 +38,54 @@ describe('renderer', () => {
           },
         ];
       },
-      renderer: {
-        createElement: mockCreateElement,
-        Fragment: PreactFragment,
+      render({ createElement, Fragment }, root) {
+        expect(createElement).toBe(preactCreateElement);
+        expect(Fragment).toBe(PreactFragment);
+
+        render(createElement(Fragment, null, 'testSource'), root);
       },
     });
+  });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+  test('accepts a custom renderer', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+    const CustomFragment = (props: any) => props.children;
+    const mockCreateElement = jest.fn().mockImplementation(preactCreateElement);
 
-    fireEvent.input(input, { target: { value: 'a' } });
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      initialState: {
+        isOpen: true,
+      },
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [{ label: '1' }];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+      render({ createElement, Fragment }, root) {
+        expect(createElement).toBe(mockCreateElement);
+        expect(Fragment).toBe(CustomFragment);
+        expect(mockCreateElement).toHaveBeenCalled();
 
-    await waitFor(() => {
-      expect(
-        panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toBeInTheDocument();
-
-      expect(panelContainer).toHaveTextContent('1');
-      expect(mockCreateElement).toHaveBeenCalled();
+        render(createElement(Fragment, null, 'testSource'), root);
+      },
+      renderer: {
+        createElement: mockCreateElement,
+        Fragment: CustomFragment,
+      },
     });
   });
 });
