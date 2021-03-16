@@ -1,4 +1,3 @@
-import { fireEvent, waitFor } from '@testing-library/dom';
 import {
   createElement as preactCreateElement,
   Fragment as PreactFragment,
