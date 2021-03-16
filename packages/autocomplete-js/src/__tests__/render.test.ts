@@ -493,7 +493,6 @@ describe('render', () => {
   test('retrieves the custom Fragment from the renderer', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
-
     const CustomFragment = (props: any) => props.children;
 
     document.body.appendChild(panelContainer);
