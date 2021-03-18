@@ -1,6 +1,7 @@
 import { fireEvent, waitFor } from '@testing-library/dom';
 import {
   createElement as preactCreateElement,
+  Fragment,
   Fragment as PreactFragment,
   render,
 } from 'preact';
@@ -358,16 +359,24 @@ describe('render', () => {
           },
         ];
       },
-      render({ createElement, children }, root) {
+      render({ createElement, children, sections }, root) {
         expect(children).toEqual(
           expect.objectContaining({
-            type: 'div',
+            type: Fragment,
             props: {
-              className: expect.any(String),
-              children: expect.arrayContaining([
-                expect.any(Object),
-                expect.any(Object),
-              ]),
+              children: [
+                expect.objectContaining({
+                  props: {
+                    className: 'aa-PanelLayout aa-Panel--Scrollable',
+                    children: sections,
+                  },
+                }),
+                expect.objectContaining({
+                  props: {
+                    className: 'aa-GradientBottom',
+                  },
+                }),
+              ],
             },
           })
         );
