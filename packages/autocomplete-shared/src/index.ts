@@ -1,5 +1,6 @@
 export * from './createRef';
 export * from './debounce';
+export * from './generateAutocompleteId';
 export * from './getAttributeValueByPath';
 export * from './getItemsCount';
 export * from './invariant';

@@ -3,15 +3,22 @@ id: getAlgoliaResults-js
 title: getAlgoliaResults
 ---
 
-Retrieves Algolia results from multiple indices.
+import GetAlgoliaResultsIntro from './partials/preset-algolia/getAlgoliaResults/intro.md'
+
+<GetAlgoliaResultsIntro />
 
 ## Example
+
+This example uses the function along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client.
 
 ```js
 import { getAlgoliaResults } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch/lite';
 
-const searchClient = algoliasearch(APP_ID, SEARCH_API_KEY);
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
 
 getAlgoliaResults({
   searchClient,
@@ -29,6 +36,6 @@ getAlgoliaResults({
 });
 ```
 
-## Params
+## Parameters
 
-See [`autocomplete-preset-algolia#getAlgoliaResults`](getAlgoliaResults#params).
+See [`autocomplete-preset-algolia#getAlgoliaResults`](getAlgoliaResults#parameters).

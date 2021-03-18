@@ -42,6 +42,7 @@ export function autocomplete<TItem extends BaseItem>(
         props.value.renderer.detachedMediaQuery
       ).matches
   );
+
   const autocomplete = reactive(() =>
     createAutocomplete<TItem>({
       ...props.value.core,
@@ -246,12 +247,12 @@ export function autocomplete<TItem extends BaseItem>(
 
   runEffect(() => {
     const onResize = debounce<Event>(() => {
-      const previousisDetached = isDetached.value;
+      const previousIsDetached = isDetached.value;
       isDetached.value = props.value.core.environment.matchMedia(
         props.value.renderer.detachedMediaQuery
       ).matches;
 
-      if (previousisDetached !== isDetached.value) {
+      if (previousIsDetached !== isDetached.value) {
         update({});
       } else {
         requestAnimationFrame(setPanelPosition);

@@ -8,6 +8,7 @@ export type AutocompleteRender<TItem extends BaseItem> = (
     children: VNode;
     state: AutocompleteState<TItem>;
     sections: VNode[];
+    elements: Record<string, VNode>;
     createElement: Pragma;
     Fragment: PragmaFrag;
   },

@@ -21,11 +21,6 @@ module.exports = {
           position: 'right',
         },
         {
-          label: 'API',
-          to: 'docs/api',
-          position: 'right',
-        },
-        {
           label: 'Playground',
           to:
             'https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx',

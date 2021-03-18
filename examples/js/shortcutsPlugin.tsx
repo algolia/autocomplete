@@ -22,9 +22,11 @@ export const shortcutsPlugin: AutocompletePlugin<DarkModeItem, undefined> = {
             },
           ];
         },
-        onSelect({ setIsOpen }) {
+        onSelect({ setIsOpen, setQuery, refresh }) {
           toggleTheme();
+          setQuery('');
           setIsOpen(true);
+          refresh();
         },
         templates: {
           header({ createElement, Fragment }) {

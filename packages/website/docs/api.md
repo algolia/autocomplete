@@ -3,7 +3,6 @@ id: api
 title: Introduction
 ---
 
-import Draft from './partials/draft.md'
 import PluginsList from './partials/plugins-list.md'
 
 The API reference contains technical information on all Autocomplete packages.

@@ -10,7 +10,6 @@ import {
 } from '@algolia/autocomplete-plugin-algolia-insights';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
-import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch';
 import { h, Fragment } from 'preact';
 import insightsClient from 'search-insights';
@@ -19,15 +18,7 @@ import '@algolia/autocomplete-theme-classic';
 
 import { createCategoriesPlugin } from './categoriesPlugin';
 import { shortcutsPlugin } from './shortcutsPlugin';
-
-type Product = {
-  name: string;
-  image: string;
-  description: string;
-  __autocomplete_indexName: string;
-  __autocomplete_queryID: string;
-};
-type ProductHit = Hit<Product>;
+import { ProductHit, ProductRecord } from './types';
 
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
@@ -78,7 +69,7 @@ autocomplete({
       {
         sourceId: 'products',
         getItems() {
-          return getAlgoliaHits<Product>({
+          return getAlgoliaHits<ProductRecord>({
             searchClient,
             queries: [
               {

@@ -30,7 +30,7 @@ export type CreateQuerySuggestionsPluginParams<
    * The number of items to display categories for.
    * @default 1
    */
-  categoriesLimit?: number;
+  itemsWithCategories?: number;
   /**
    * The number of categories to display per item.
    * @default 1
@@ -46,8 +46,8 @@ export function createQuerySuggestionsPlugin<
   getSearchParams = () => ({}),
   transformSource = ({ source }) => source,
   categoryAttribute,
+  itemsWithCategories = 1,
   categoriesPerItem = 1,
-  categoriesLimit = 1,
 }: CreateQuerySuggestionsPluginParams<TItem>): AutocompletePlugin<
   TItem,
   undefined
@@ -88,7 +88,7 @@ export function createQuerySuggestionsPlugin<
                     AutocompleteQuerySuggestionsHit<typeof indexName>
                   > = [current];
 
-                  if (i <= categoriesPerItem - 1) {
+                  if (i <= itemsWithCategories - 1) {
                     const categories = getAttributeValueByPath(
                       current,
                       Array.isArray(categoryAttribute)
@@ -96,7 +96,7 @@ export function createQuerySuggestionsPlugin<
                         : [categoryAttribute]
                     )
                       .map((x) => x.value)
-                      .slice(0, categoriesLimit);
+                      .slice(0, categoriesPerItem);
 
                     for (const category of categories) {
                       items.push({

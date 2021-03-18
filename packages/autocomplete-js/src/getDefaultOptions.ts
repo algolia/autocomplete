@@ -1,5 +1,8 @@
 import { BaseItem } from '@algolia/autocomplete-core';
-import { invariant } from '@algolia/autocomplete-shared';
+import {
+  generateAutocompleteId,
+  invariant,
+} from '@algolia/autocomplete-shared';
 import {
   createElement as preactCreateElement,
   Fragment as PreactFragment,
@@ -115,6 +118,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
     },
     core: {
       ...core,
+      id: core.id ?? generateAutocompleteId(),
       environment,
     },
   };
