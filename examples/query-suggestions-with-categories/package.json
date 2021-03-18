@@ -1,6 +1,6 @@
 {
-  "name": "@algolia/query-suggestion-with-in-category",
-  "description": "Autocomplete Query Suggestions with in Category",
+  "name": "@algolia/query-suggestion-with-categories",
+  "description": "Autocomplete Query Suggestions with categories",
   "version": "1.0.0-alpha.44",
   "private": true,
   "license": "MIT",
