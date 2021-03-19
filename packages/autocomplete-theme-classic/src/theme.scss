@@ -90,12 +90,12 @@ body {
   /* stylelint-enable selector-no-qualifying-type, selector-class-pattern */
 }
 
-// reset for extend
+// Reset for `@extend`
 %reset {
   box-sizing: border-box;
 }
 
-// init for extend
+// Init for `@extend`
 %init {
   color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
   font-family: var(--aa-font-family);
@@ -113,11 +113,10 @@ body {
 .aa-Autocomplete,
 .aa-DetachedFormContainer {
   @extend %init;
-  // reset
   * {
     @extend %reset;
   }
-  // searchbox
+  // Search box
   .aa-Form {
     align-items: center;
     background-color: rgba(
@@ -139,7 +138,7 @@ body {
       display: flex;
       flex-shrink: 0;
       order: 1;
-      // container for search and loading icons
+      // Container for search and loading icons
       .aa-Label,
       .aa-LoadingIndicator {
         cursor: initial;
@@ -167,7 +166,7 @@ body {
       order: 3;
       position: relative;
       width: 100%;
-      // input of the searchbox, where the placeholder and query appear
+      // Search box input (with placeholder and query)
       .aa-Input {
         appearance: none;
         background: none;
@@ -176,7 +175,7 @@ body {
         font: inherit;
         height: var(--aa-search-input-height);
         width: 100%;
-        // remove native appearence
+        // Remove native appearence
         &::-webkit-search-decoration,
         &::-webkit-search-cancel-button,
         &::-webkit-search-results-button,
@@ -187,7 +186,7 @@ body {
           color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
           opacity: 1;
         }
-        // remove focus effect as we moved it to parent wrapper
+        // Remove focus effect as we moved it to parent wrapper
         &:focus {
           border-color: none;
           box-shadow: none;
@@ -199,7 +198,7 @@ body {
       align-items: center;
       display: flex;
       order: 4;
-      // accelerator to clear the query
+      // Accelerator to clear the query
       .aa-ClearButton {
         align-items: center;
         background: none;
@@ -240,8 +239,6 @@ body {
 // 4. Panel
 // ----------------
 .aa-Panel {
-  @extend %init;
-
   background-color: rgba(
     var(--aa-background-color-rgb),
     var(--aa-background-color-alpha)
@@ -252,6 +249,7 @@ body {
   overflow: hidden;
   position: absolute;
   transition: opacity 200ms ease-in, filter 200ms ease-in;
+  @extend %init;
   @media screen and (prefers-reduced-motion) {
     transition: none;
   }
@@ -296,7 +294,6 @@ body {
       }
     }
   }
-  // reset
   * {
     @extend %reset;
   }
@@ -307,7 +304,7 @@ body {
     margin: 0;
     padding: 0;
   }
-  // when a query isn't resolved yet
+  // When a query isn't resolved yet
   &.aa-Panel--stalled {
     .aa-Source {
       filter: grayscale(1);
@@ -330,14 +327,14 @@ body {
     margin: 0;
     padding: var(--aa-spacing);
   }
-  // list of results inside the source
+  // List of results inside the source
   @at-root .aa-List {
     list-style: none;
     margin: 0;
     padding: 0;
     position: relative;
   }
-  // source title
+  // Source title
   .aa-SourceHeader {
     margin: var(--aa-spacing-half) 0.5em var(--aa-spacing-half) 0;
     padding: 0;
@@ -371,7 +368,7 @@ body {
       top: var(--aa-spacing-half);
       z-index: 1;
     }
-    // hide empty header
+    // Hide empty header
     &:empty {
       display: none;
     }
@@ -413,7 +410,7 @@ body {
   cursor: pointer;
   display: flex;
   padding: 0;
-  // the result type icon inlined svg or img
+  // The result type icon inlined svg or img
   @at-root .aa-ItemIcon {
     align-items: center;
     background: rgba(
@@ -792,7 +789,7 @@ body {
     width: calc(var(--aa-icon-size) + var(--aa-spacing));
   }
 }
-// remove scroll for body
+// Remove scroll on `body`
 .aa-Detached {
   height: 100vh;
   overflow: hidden;
@@ -822,7 +819,6 @@ body {
 //----------------
 // 10. Gradients
 //----------------
-
 .aa-GradientTop,
 .aa-GradientBottom {
   left: 0;
