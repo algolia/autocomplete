@@ -167,7 +167,7 @@ export function renderPanel<TItem extends BaseItem>(
 
   const children = (
     <Fragment>
-      <div className="aa-PanelLayout aa-Panel--Scrollable">{sections}</div>
+      <div className="aa-PanelLayout aa-Panel--scrollable">{sections}</div>
       <div className="aa-GradientBottom" />
     </Fragment>
   );

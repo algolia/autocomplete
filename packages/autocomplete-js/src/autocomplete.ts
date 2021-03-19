@@ -228,7 +228,7 @@ export function autocomplete<TItem extends BaseItem>(
       // results come in) so that users don't have to.
       if (state.query !== prevState.query) {
         const scrollablePanels = document.querySelectorAll(
-          '.aa-Panel--Scrollable'
+          '.aa-Panel--scrollable'
         );
         scrollablePanels.forEach((scrollablePanel) => {
           if (scrollablePanel.scrollTop !== 0) {

@@ -49,7 +49,7 @@ To customize a value, you can create a custom stylesheet and override the variab
 }
 ```
 
-Make sure to load these styles *after* the theme.
+Make sure to load these styles _after_ the theme.
 
 ## Templates
 
@@ -166,7 +166,7 @@ The theme provides a set of optional classes for you to use in different context
 
 - `.aa-ItemIcon--no-border` removes the border of the icon
 - `.aa-ItemIcon--align-top` aligns the icon to the top (recommended when the template is longer than three lines)
-- `.aa-Panel--Scrollable` declares the scrollable container(s) of the panel
+- `.aa-Panel--scrollable` declares the scrollable container(s) of the panel
 
 ### Utilities
 

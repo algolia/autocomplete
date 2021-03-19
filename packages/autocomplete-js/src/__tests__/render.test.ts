@@ -367,7 +367,7 @@ describe('render', () => {
               children: [
                 expect.objectContaining({
                   props: {
-                    className: 'aa-PanelLayout aa-Panel--Scrollable',
+                    className: 'aa-PanelLayout aa-Panel--scrollable',
                     children: sections,
                   },
                 }),
