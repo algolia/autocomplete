@@ -36,27 +36,34 @@
   // icons
   --aa-icon-size: 18px;
   --aa-icon-stroke-width: 1.6;
-  --aa-icon-color: rgb(119, 119, 163);
+  --aa-icon-color-rgb: 119, 119, 163;
+  --aa-icon-color-alpha: 1;
   // text colors
-  --aa-text-color: rgb(38, 38, 39);
-  --aa-primary-color: rgb(62, 52, 211);
-  --aa-primary-color-alpha: rgba(62, 52, 211, 0.2);
-  --aa-content-text-color: rgb(38, 38, 39, 0.7);
-  --aa-muted-color: rgba(128, 126, 163, 0.6);
+  --aa-text-color-rgb: 38, 38, 39;
+  --aa-text-color-alpha: 1;
+  --aa-primary-color-rgb: 62, 52, 211;
+  --aa-primary-color-alpha: 0.2;
+  --aa-muted-color-rgb: 128, 126, 163;
+  --aa-muted-color-alpha: 0.6;
   // border colors
-  --aa-panel-border-color: rgba(128, 126, 163, 0.3);
-  --aa-input-border-color: rgba(128, 126, 163, 0.8);
+  --aa-panel-border-color-rgb: 128, 126, 163;
+  --aa-panel-border-color-alpha: 0.3;
+  --aa-input-border-color-rgb: 128, 126, 163;
+  --aa-input-border-color-alpha: 0.8;
   // background colors
-  --aa-selected-color: rgba(179, 173, 214, 0.205);
-  --aa-background-color: rgb(255, 255, 255);
-  --aa-background-color-alpha-0: rgba(255, 255, 255, 0);
-  --aa-input-background-color: rgb(255, 255, 255);
+  --aa-selected-color-rgb: 179, 173, 214;
+  --aa-selected-color-alpha: 0.205;
+  --aa-background-color-rgb: 255, 255, 255;
+  --aa-background-color-alpha: 1;
+  --aa-input-background-color-rgb: 255, 255, 255;
+  --aa-input-background-color-alpha: 1;
   // detached mode
   --aa-detached-media-query: (max-width: 680px);
   --aa-detached-modal-media-query: (min-width: 680px);
   --aa-detached-modal-max-width: 680px;
   --aa-detached-modal-max-height: 500px;
-  --aa-overlay-color: rgba(115, 114, 129, 0.4);
+  --aa-overlay-color-rgb: 115, 114, 129;
+  --aa-overlay-color-alpha: 0.4;
   // shadows
   --aa-panel-shadow: 0 0 0 1px rgba(35, 38, 59, 0.1),
     0 6px 16px -4px rgba(35, 38, 59, 0.15);
@@ -70,13 +77,13 @@ body {
   /* stylelint-disable selector-no-qualifying-type, selector-class-pattern */
   &[data-theme='dark'],
   &.dark {
-    --aa-primary-color: rgb(93, 85, 213);
-    --aa-muted-color: rgba(93, 85, 213, 0.6);
-    --aa-selected-color: rgba(93, 85, 213, 0.25);
-    --aa-icon-color: rgb(119, 119, 163);
-    --aa-text-color: rgb(183, 192, 199);
-    --aa-content-text-color: rgb(183, 192, 199, 0.8);
-    --aa-background-color: rgb(21, 24, 42);
+    --aa-primary-color-rgb: 93, 85, 213;
+    --aa-muted-color-rgb: 93, 85, 213;
+    --aa-selected-color-rgb: 93, 85, 213;
+    --aa-selected-color-alpha: 0.25;
+    --aa-icon-color-rgb-rgb: 119, 119, 163;
+    --aa-text-color-rgb: 183, 192, 199;
+    --aa-background-color-rgb: 21, 24, 42;
     --aa-panel-shadow: inset 1px 1px 0 0 rgb(44, 46, 64),
       0 3px 8px 0 rgb(0, 3, 9);
   }
@@ -90,7 +97,7 @@ body {
 
 // init for extend
 %init {
-  color: var(--aa-text-color);
+  color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
   font-family: var(--aa-font-family);
   font-size: var(--aa-font-size);
   font-weight: normal;
@@ -113,8 +120,12 @@ body {
   // searchbox
   .aa-Form {
     align-items: center;
-    background-color: var(--aa-input-background-color);
-    border: 1px solid var(--aa-input-border-color);
+    background-color: rgba(
+      var(--aa-input-background-color-rgb),
+      var(--aa-input-background-color-alpha)
+    );
+    border: 1px solid
+      rgba(var(--aa-input-border-color-rgb), var(--aa-input-border-color-alpha));
     border-radius: 3px;
     display: flex;
     line-height: 1em;
@@ -144,7 +155,7 @@ body {
           padding: 2px;
         }
         svg {
-          color: var(--aa-primary-color);
+          color: rgba(var(--aa-primary-color-rgb), 1);
           height: auto;
           max-height: var(--aa-input-icon-size);
           stroke-width: var(--aa-icon-stroke-width);
@@ -161,7 +172,7 @@ body {
         appearance: none;
         background: none;
         border: 0;
-        color: var(--aa-text-color);
+        color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
         font: inherit;
         height: var(--aa-search-input-height);
         width: 100%;
@@ -173,7 +184,7 @@ body {
           appearance: none;
         }
         &::placeholder {
-          color: var(--aa-muted-color);
+          color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
           opacity: 1;
         }
         // remove focus effect as we moved it to parent wrapper
@@ -193,7 +204,7 @@ body {
         align-items: center;
         background: none;
         border: 0;
-        color: var(--aa-muted-color);
+        color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
         cursor: pointer;
         display: flex;
         margin: 0;
@@ -203,7 +214,7 @@ body {
         }
         &:hover,
         &:focus {
-          color: var(--aa-text-color);
+          color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
         }
         svg {
           stroke-width: var(--aa-icon-stroke-width);
@@ -212,9 +223,14 @@ body {
       }
     }
     &:focus-within {
-      border-color: var(--aa-primary-color);
-      box-shadow: var(--aa-primary-color-alpha) 0 0 0 2px,
-        inset var(--aa-primary-color-alpha) 0 0 0 2px;
+      border-color: rgba(var(--aa-primary-color-rgb), 1);
+      box-shadow: rgba(
+            var(--aa-primary-color-rgb),
+            var(--aa-primary-color-alpha)
+          )
+          0 0 0 2px,
+        inset rgba(var(--aa-primary-color-rgb), var(--aa-primary-color-alpha)) 0
+          0 0 2px;
       outline: currentColor none medium;
     }
   }
@@ -226,7 +242,10 @@ body {
 .aa-Panel {
   @extend %init;
 
-  background-color: var(--aa-background-color);
+  background-color: rgba(
+    var(--aa-background-color-rgb),
+    var(--aa-background-color-alpha)
+  );
   border-radius: calc(var(--aa-spacing) / 4);
   box-shadow: var(--aa-panel-shadow);
   margin: 8px 0 0;
@@ -325,8 +344,11 @@ body {
     position: relative;
     // Title typography
     @at-root .aa-SourceHeaderTitle {
-      background: var(--aa-background-color);
-      color: var(--aa-primary-color);
+      background: rgba(
+        var(--aa-background-color-rgb),
+        var(--aa-background-color-alpha)
+      );
+      color: rgba(var(--aa-primary-color-rgb), 1);
       display: inline-block;
       font-size: 0.8em;
       font-weight: 600;
@@ -338,7 +360,7 @@ body {
     }
     // Line separator
     @at-root .aa-SourceHeaderLine {
-      border-bottom: solid 1px var(--aa-primary-color);
+      border-bottom: solid 1px rgba(var(--aa-primary-color-rgb), 1);
       display: block;
       height: 2px;
       left: 0;
@@ -363,10 +385,11 @@ body {
   .aa-SourceFooterSeeAll {
     background: linear-gradient(
       180deg,
-      var(--aa-background-color),
+      rgba(var(--aa-background-color-rgb), var(--aa-background-color-alpha)),
       rgba(128, 126, 163, 0.14)
     );
-    border: 1px solid var(--aa-muted-color);
+    border: 1px solid
+      rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
     border-radius: 5px;
     box-shadow: inset 0 0 2px #fff, 0 2px 2px -1px rgba(76, 69, 88, 0.15);
     color: inherit;
@@ -376,8 +399,8 @@ body {
     text-decoration: none;
     &:focus,
     &:hover {
-      border: 1px solid var(--aa-primary-color);
-      color: var(--aa-primary-color);
+      border: 1px solid rgba(var(--aa-primary-color-rgb), 1);
+      color: rgba(var(--aa-primary-color-rgb), 1);
     }
   }
 }
@@ -394,10 +417,14 @@ body {
   // the result type icon inlined svg or img
   @at-root .aa-ItemIcon {
     align-items: center;
-    background: var(--aa-background-color);
+    background: rgba(
+      var(--aa-background-color-rgb),
+      var(--aa-background-color-alpha)
+    );
     border-radius: 3px;
-    box-shadow: inset 0 0 0 1px var(--aa-panel-border-color);
-    color: var(--aa-icon-color);
+    box-shadow: inset 0 0 0 1px
+      rgba(var(--aa-panel-border-color-rgb), var(--aa-panel-border-color-alpha));
+    color: rgba(var(--aa-icon-color-rgb), var(--aa-icon-color-alpha));
     display: flex;
     flex-shrink: 0;
     font-size: var(--aa-icon-size);
@@ -455,7 +482,7 @@ body {
     }
     mark {
       background: none;
-      color: var(--aa-text-color);
+      color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
       font-style: normal;
       font-weight: bold;
     }
@@ -469,7 +496,7 @@ body {
       white-space: nowrap;
     }
     .aa-ItemContentSubtitle {
-      color: var(--aa-content-text-color);
+      color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
       display: inline-block;
       font-size: 0.8em;
       max-width: 100%;
@@ -478,7 +505,7 @@ body {
       white-space: nowrap;
     }
     .aa-ItemContentDescription {
-      color: var(--aa-content-text-color);
+      color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
       font-size: 0.85em;
       max-width: 100%;
       overflow-x: hidden;
@@ -486,7 +513,7 @@ body {
       text-overflow: ellipsis;
       mark {
         background: rgba(245, 223, 77, 0.5);
-        color: var(--aa-text-color);
+        color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
         font-style: normal;
         font-weight: 500;
       }
@@ -498,12 +525,15 @@ body {
       display: none;
     }
     .aa-ItemContentDash {
-      color: var(--aa-muted-color);
+      color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
       display: none;
       opacity: 0.4;
     }
     .aa-ItemContentTag {
-      background-color: var(--aa-primary-color-alpha);
+      background-color: rgba(
+        var(--aa-primary-color-rgb),
+        var(--aa-primary-color-alpha)
+      );
       border-radius: 3px;
       margin: 0 0.4em 0 0;
       padding: 0.08em 0.3em;
@@ -514,7 +544,10 @@ body {
   }
   // when the result is active
   &[aria-selected='true'] {
-    background-color: var(--aa-selected-color);
+    background-color: rgba(
+      var(--aa-selected-color-rgb),
+      var(--aa-selected-color-alpha)
+    );
     .aa-ItemActionButton,
     .aa-ActiveOnly {
       visibility: visible;
@@ -541,7 +574,7 @@ body {
     align-items: center;
     background: none;
     border: 0;
-    color: var(--aa-muted-color);
+    color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
     cursor: pointer;
     display: flex;
     flex-shrink: 0;
@@ -549,16 +582,16 @@ body {
     padding: 0;
     &:hover svg,
     &:focus svg {
-      color: var(--aa-text-color);
+      color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
     }
     svg {
-      color: var(--aa-muted-color);
+      color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
       margin: 0;
       stroke-width: var(--aa-icon-stroke-width);
       width: var(--aa-icon-size);
       &:hover,
       &:focus {
-        color: var(--aa-text-color);
+        color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
       }
     }
   }
@@ -569,7 +602,7 @@ body {
 //----------------
 .aa-PanelHeader {
   align-items: center;
-  background: var(--aa-primary-color);
+  background: rgba(var(--aa-primary-color-rgb), 1);
   color: #fff;
   display: grid;
   height: var(--aa-modal-header-height);
@@ -579,8 +612,8 @@ body {
 
   &::after {
     background-image: linear-gradient(
-      var(--aa-background-color),
-      var(--aa-background-color-alpha-0)
+      rgba(var(--aa-background-color-rgb), 1),
+      rgba(var(--aa-background-color-rgb), 0)
     );
     bottom: calc(var(--aa-spacing-half) * -1);
     content: '';
@@ -597,8 +630,12 @@ body {
 // 8. Panel Footer
 //----------------
 .aa-PanelFooter {
-  background-color: var(--aa-background-color);
-  box-shadow: inset 0 1px 0 var(--aa-panel-border-color);
+  background-color: rgba(
+    var(--aa-background-color-rgb),
+    var(--aa-background-color-alpha)
+  );
+  box-shadow: inset 0 1px 0
+    rgba(var(--aa-panel-border-color-rgb), var(--aa-panel-border-color-alpha));
   display: flex;
   justify-content: space-between;
   margin: 0;
@@ -607,8 +644,8 @@ body {
   z-index: 95;
   &::after {
     background-image: linear-gradient(
-      var(--aa-background-color-alpha-0),
-      var(--aa-muted-color)
+      rgba(var(--aa-background-color-rgb), 0),
+      rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha))
     );
     content: '';
     height: var(--aa-spacing);
@@ -626,7 +663,10 @@ body {
 // 9. Detached Mode
 //----------------
 .aa-DetachedContainer {
-  background: var(--aa-background-color);
+  background: rgba(
+    var(--aa-background-color-rgb),
+    var(--aa-background-color-alpha)
+  );
   bottom: 0;
   box-shadow: var(--aa-panel-shadow);
   display: flex;
@@ -640,7 +680,8 @@ body {
   top: 0;
   z-index: 1000;
   .aa-DetachedFormContainer {
-    border-bottom: solid 1px var(--aa-panel-border-color);
+    border-bottom: solid 1px
+      rgba(var(--aa-panel-border-color-rgb), var(--aa-panel-border-color-alpha));
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -651,19 +692,26 @@ body {
       border: 0;
       border-radius: 3px;
       color: inherit;
-      color: var(--aa-text-color);
+      color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
       cursor: pointer;
       font: inherit;
       margin: 0 0 0 var(--aa-spacing-half);
       padding: 0 var(--aa-spacing-half);
       &:hover,
       &:focus {
-        box-shadow: inset 0 0 0 1px var(--aa-panel-border-color);
+        box-shadow: inset 0 0 0 1px
+          rgba(
+            var(--aa-panel-border-color-rgb),
+            var(--aa-panel-border-color-alpha)
+          );
       }
     }
   }
   .aa-Panel {
-    background-color: var(--aa-background-color);
+    background-color: rgba(
+      var(--aa-background-color-rgb),
+      var(--aa-background-color-alpha)
+    );
     border-radius: 0;
     box-shadow: none;
     margin: 0;
@@ -708,10 +756,14 @@ body {
 // Search Button
 .aa-DetachedSearchButton {
   align-items: center;
-  background-color: var(--aa-input-background-color);
-  border: 1px solid var(--aa-input-border-color);
+  background-color: rgba(
+    var(--aa-input-background-color-rgb),
+    var(--aa-input-background-color-alpha)
+  );
+  border: 1px solid
+    rgba(var(--aa-input-border-color-rgb), var(--aa-input-border-color-alpha));
   border-radius: 3px;
-  color: var(--aa-muted-color);
+  color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
   cursor: pointer;
   display: flex;
   font: inherit;
@@ -724,14 +776,16 @@ body {
   text-align: left;
   width: 100%;
   &:focus {
-    border-color: var(--aa-primary-color);
-    box-shadow: var(--aa-primary-color-alpha) 0 0 0 3px,
-      inset var(--aa-primary-color-alpha) 0 0 0 2px;
+    border-color: rgba(var(--aa-primary-color-rgb), 1);
+    box-shadow: rgba(var(--aa-primary-color-rgb), var(--aa-primary-color-alpha))
+        0 0 0 3px,
+      inset rgba(var(--aa-primary-color-rgb), var(--aa-primary-color-alpha)) 0 0
+        0 2px;
     outline: currentColor none medium;
   }
   .aa-DetachedSearchButtonIcon {
     align-items: center;
-    color: var(--aa-primary-color);
+    color: rgba(var(--aa-primary-color-rgb), 1);
     cursor: initial;
     display: flex;
     height: 100%;
@@ -746,7 +800,10 @@ body {
 }
 
 .aa-DetachedOverlay {
-  background-color: var(--aa-overlay-color);
+  background-color: rgba(
+    var(--aa-overlay-color-rgb),
+    var(--aa-overlay-color-alpha)
+  );
   height: 100vh;
   left: 0;
   margin: 0;
@@ -777,7 +834,8 @@ body {
 
 .aa-GradientTop {
   background-image: linear-gradient(
-    var(--aa-background-color) var(--aa-background-color-alpha-0)
+    rgba(var(--aa-background-color-rgb), 1),
+    rgba(var(--aa-background-color-rgb), 0)
   );
   height: var(--aa-spacing-half);
   top: 0;
@@ -786,8 +844,8 @@ body {
 
 .aa-GradientBottom {
   background-image: linear-gradient(
-    var(--aa-background-color-alpha-0),
-    var(--aa-background-color)
+    rgba(var(--aa-background-color-rgb), 0),
+    rgba(var(--aa-background-color-rgb), 1)
   );
   bottom: 0;
   height: var(--aa-spacing);
