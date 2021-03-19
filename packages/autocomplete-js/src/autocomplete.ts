@@ -272,7 +272,7 @@ export function autocomplete<TItem extends BaseItem>(
 
     function toggleModalClassname(isActive: boolean) {
       dom.value.detachedContainer.classList.toggle(
-        'aa-DetachedContainer--Modal',
+        'aa-DetachedContainer--modal',
         isActive
       );
     }
