@@ -266,19 +266,19 @@ body {
     position: relative;
     text-align: left;
 
-    &.aa-PanelLayout-cols-two--golden {
+    &.aa-PanelLayoutColumns--twoGolden {
       display: grid;
       grid-template-columns: 39.2% auto;
       overflow: hidden;
       padding: 0;
     }
-    &.aa-PanelLayout-cols-two {
+    &.aa-PanelLayoutColumns--two {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       overflow: hidden;
       padding: 0;
     }
-    &.aa-PanelLayout-cols-three {
+    &.aa-PanelLayoutColumns--three {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       overflow: hidden;
