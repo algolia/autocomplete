@@ -239,6 +239,8 @@ body {
 // 4. Panel
 // ----------------
 .aa-Panel {
+  @extend %init;
+
   background-color: rgba(
     var(--aa-background-color-rgb),
     var(--aa-background-color-alpha)
@@ -249,7 +251,23 @@ body {
   overflow: hidden;
   position: absolute;
   transition: opacity 200ms ease-in, filter 200ms ease-in;
-  @extend %init;
+  * {
+    @extend %reset;
+  }
+  button {
+    appearance: none;
+    background: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+  // When a query isn't resolved yet
+  &.aa-Panel--stalled {
+    .aa-Source {
+      filter: grayscale(1);
+      opacity: 0.8;
+    }
+  }
   @media screen and (prefers-reduced-motion) {
     transition: none;
   }
@@ -292,23 +310,6 @@ body {
       &:first-child {
         margin-left: var(--aa-spacing-half);
       }
-    }
-  }
-  * {
-    @extend %reset;
-  }
-  button {
-    appearance: none;
-    background: none;
-    border: 0;
-    margin: 0;
-    padding: 0;
-  }
-  // When a query isn't resolved yet
-  &.aa-Panel--stalled {
-    .aa-Source {
-      filter: grayscale(1);
-      opacity: 0.8;
     }
   }
 }
