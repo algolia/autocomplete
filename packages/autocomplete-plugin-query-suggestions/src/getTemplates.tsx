@@ -14,7 +14,7 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
     item({ item, createElement, Fragment }) {
       return (
         <Fragment>
-          <div className="aa-ItemIcon aa-ItemIcon--no-border">
+          <div className="aa-ItemIcon aa-ItemIcon--noBorder">
             {!item.__autocomplete_qsCategory && (
               <svg
                 viewBox="0 0 24 24"

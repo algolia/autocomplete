@@ -444,10 +444,10 @@ body {
         padding: var(--aa-spacing-half);
       }
     }
-    &.aa-ItemIcon--align-top {
+    &.aa-ItemIcon--alignTop {
       align-self: flex-start;
     }
-    &.aa-ItemIcon--no-border {
+    &.aa-ItemIcon--noBorder {
       background: none;
       box-shadow: none;
       margin: 0 var(--aa-spacing-half) 0 2px;

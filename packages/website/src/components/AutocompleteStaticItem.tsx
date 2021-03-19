@@ -12,7 +12,7 @@ type AutocompleteStaticItemProps = {
 export function AutocompleteStaticItem({ hit }: AutocompleteStaticItemProps) {
   return (
     <a className="aa-ItemLink" href={hit.url}>
-      <div className="aa-ItemIcon aa-ItemIcon--no-border">
+      <div className="aa-ItemIcon aa-ItemIcon--noBorder">
         <svg
           width="18"
           height="18"
