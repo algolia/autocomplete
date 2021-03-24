@@ -196,7 +196,7 @@ body {
           color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
           opacity: 1;
         }
-        // Remove focus effect as we moved it to parent wrapper
+        // Focus is set and styled on the parent, it isn't necessary here
         &:focus {
           border-color: none;
           box-shadow: none;
@@ -271,7 +271,7 @@ body {
     margin: 0;
     padding: 0;
   }
-  // When a query isn't resolved yet
+  // When a request isn't resolved yet
   &.aa-Panel--stalled {
     .aa-Source {
       filter: grayscale(1);
