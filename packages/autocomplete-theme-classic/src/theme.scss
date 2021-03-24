@@ -67,6 +67,8 @@
   // shadows
   --aa-panel-shadow: 0 0 0 1px rgba(35, 38, 59, 0.1),
     0 6px 16px -4px rgba(35, 38, 59, 0.15);
+  // Z-index
+  --aa-base-z-index: 9999;
 }
 
 // ----------------
@@ -352,7 +354,7 @@ body {
       margin: 0;
       padding: 0 var(--aa-spacing-half) 0 0;
       position: relative;
-      z-index: 2;
+      z-index: var(--aa-base-z-index);
     }
     // Line separator
     @at-root .aa-SourceHeaderLine {
@@ -366,7 +368,7 @@ body {
       position: absolute;
       right: 0;
       top: var(--aa-spacing-half);
-      z-index: 1;
+      z-index: calc(var(--aa-base-z-index) - 1);
     }
     // Hide empty header
     &:empty {
@@ -618,7 +620,7 @@ body {
     pointer-events: none;
     position: absolute;
     right: 0;
-    z-index: 99;
+    z-index: var(--aa-base-z-index);
   }
 }
 
@@ -637,7 +639,7 @@ body {
   margin: 0;
   padding: var(--aa-spacing);
   position: relative;
-  z-index: 95;
+  z-index: var(--aa-base-z-index);
   &::after {
     background-image: linear-gradient(
       rgba(var(--aa-background-color-rgb), 0),
@@ -651,7 +653,7 @@ body {
     position: absolute;
     right: 0;
     top: calc(var(--aa-spacing) * -1);
-    z-index: 99;
+    z-index: calc(var(--aa-base-z-index) - 1);
   }
 }
 
@@ -674,7 +676,7 @@ body {
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 1000;
+  z-index: var(--aa-base-z-index);
   .aa-DetachedFormContainer {
     border-bottom: solid 1px
       rgba(var(--aa-panel-border-color-rgb), var(--aa-panel-border-color-alpha));
@@ -807,7 +809,7 @@ body {
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 999;
+  z-index: calc(var(--aa-base-z-index) - 1);
 }
 
 @media (hover: none) and (pointer: coarse) {
@@ -834,7 +836,7 @@ body {
   );
   height: var(--aa-spacing-half);
   top: 0;
-  z-index: 98;
+  z-index: var(--aa-base-z-index);
 }
 
 .aa-GradientBottom {
@@ -844,5 +846,5 @@ body {
   );
   bottom: 0;
   height: var(--aa-spacing);
-  z-index: 90;
+  z-index: var(--aa-base-z-index);
 }
