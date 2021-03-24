@@ -19,56 +19,65 @@
 // 1. CSS Variables
 // ----------------
 :root {
-  // input
+  // Input
   --aa-search-input-height: 44px;
   --aa-input-icon-size: 20px;
-  // size & spacing
+
+  // Size and spacing
   --aa-base-unit: 16;
   --aa-spacing-factor: 0.8;
   --aa-spacing: calc(var(--aa-base-unit) * var(--aa-spacing-factor) * 1px);
   --aa-spacing-half: calc(var(--aa-spacing) / 2);
   --aa-panel-max-height: 650px;
-  // font
+
+  // Z-index
+  --aa-base-z-index: 9999;
+
+  // Font
   --aa-font-size: calc(var(--aa-base-unit) * 1px);
   --aa-font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
     'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  // icons
+
+  // Icons
   --aa-icon-size: 18px;
   --aa-icon-stroke-width: 1.6;
   --aa-icon-color-rgb: 119, 119, 163;
   --aa-icon-color-alpha: 1;
-  // text colors
+
+  // Text colors
   --aa-text-color-rgb: 38, 38, 39;
   --aa-text-color-alpha: 1;
   --aa-primary-color-rgb: 62, 52, 211;
   --aa-primary-color-alpha: 0.2;
   --aa-muted-color-rgb: 128, 126, 163;
   --aa-muted-color-alpha: 0.6;
-  // border colors
+
+  // Border colors
   --aa-panel-border-color-rgb: 128, 126, 163;
   --aa-panel-border-color-alpha: 0.3;
   --aa-input-border-color-rgb: 128, 126, 163;
   --aa-input-border-color-alpha: 0.8;
-  // background colors
+
+  // Background colors
   --aa-selected-color-rgb: 179, 173, 214;
   --aa-selected-color-alpha: 0.205;
   --aa-background-color-rgb: 255, 255, 255;
   --aa-background-color-alpha: 1;
   --aa-input-background-color-rgb: 255, 255, 255;
   --aa-input-background-color-alpha: 1;
-  // detached mode
+
+  // Detached mode
   --aa-detached-media-query: (max-width: 680px);
   --aa-detached-modal-media-query: (min-width: 680px);
   --aa-detached-modal-max-width: 680px;
   --aa-detached-modal-max-height: 500px;
   --aa-overlay-color-rgb: 115, 114, 129;
   --aa-overlay-color-alpha: 0.4;
-  // shadows
+
+  // Shadows
   --aa-panel-shadow: 0 0 0 1px rgba(35, 38, 59, 0.1),
     0 6px 16px -4px rgba(35, 38, 59, 0.15);
-  // Z-index
-  --aa-base-z-index: 9999;
 }
 
 // ----------------
