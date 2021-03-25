@@ -67,6 +67,8 @@
   --aa-background-color-alpha: 1;
   --aa-input-background-color-rgb: 255, 255, 255;
   --aa-input-background-color-alpha: 1;
+  --aa-description-highlight-background-color-rgb: 245, 223, 77;
+  --aa-description-highlight-background-color-alpha: 0.5;
 
   // Detached mode
   --aa-detached-media-query: (max-width: 680px);
@@ -520,7 +522,10 @@ body {
       padding: 0;
       text-overflow: ellipsis;
       mark {
-        background: rgba(245, 223, 77, 0.5);
+        background: rgba(
+          --aa-description-highlight-background-color-rgb,
+          --aa-description-highlight-background-color-alpha
+        );
         color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
         font-style: normal;
         font-weight: var(--aa-font-weight-medium);
