@@ -9,7 +9,8 @@
     "/examples/query-suggestions",
     "/examples/query-suggestions-with-recent-searches",
     "/examples/query-suggestions-with-inline-categories",
-    "/examples/recently-viewed-items"
+    "/examples/recently-viewed-items",
+    "/examples/layouts"
   ],
   "node": "14"
 }
