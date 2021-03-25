@@ -36,6 +36,9 @@
   // Font
   --aa-font-size: calc(var(--aa-base-unit) * 1px);
   --aa-font-family: inherit;
+  --aa-font-weight-medium: 500;
+  --aa-font-weight-semibold: 600;
+  --aa-font-weight-bold: 700;
 
   // Icons
   --aa-icon-size: 18px;
@@ -357,7 +360,7 @@ body {
       color: rgba(var(--aa-primary-color-rgb), 1);
       display: inline-block;
       font-size: 0.8em;
-      font-weight: 600;
+      font-weight: var(--aa-font-weight-semibold);
       margin: 0;
       padding: 0 var(--aa-spacing-half) 0 0;
       position: relative;
@@ -399,7 +402,7 @@ body {
     box-shadow: inset 0 0 2px #fff, 0 2px 2px -1px rgba(76, 69, 88, 0.15);
     color: inherit;
     font-size: 0.95em;
-    font-weight: 500;
+    font-weight: var(--aa-font-weight-medium);
     padding: 0.475em 1em 0.6em;
     text-decoration: none;
     &:focus,
@@ -489,7 +492,7 @@ body {
       background: none;
       color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
       font-style: normal;
-      font-weight: bold;
+      font-weight: var(--aa-font-weight-bold);
     }
     .aa-ItemContentTitle {
       display: inline-block;
@@ -520,7 +523,7 @@ body {
         background: rgba(245, 223, 77, 0.5);
         color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
         font-style: normal;
-        font-weight: 500;
+        font-weight: var(--aa-font-weight-medium);
       }
       &:empty {
         display: none;
