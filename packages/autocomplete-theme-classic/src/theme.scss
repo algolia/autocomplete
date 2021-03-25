@@ -35,9 +35,7 @@
 
   // Font
   --aa-font-size: calc(var(--aa-base-unit) * 1px);
-  --aa-font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
-    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  --aa-font-family: inherit;
 
   // Icons
   --aa-icon-size: 18px;
