@@ -164,7 +164,7 @@ autocomplete({
 });
 ```
 
-You can use `sections` to recreate the wrapping layout:
+You can use `sections`, which holds the components tree of your autocomplete, to customize the wrapping layout.
 
 ```js
 import { render } from 'preact';
@@ -180,7 +180,7 @@ autocomplete({
 });
 ```
 
-You can use `elements` to pick which source to display based on its [`sourceId`](sources#sourceid):
+If you need to split the content across a more complex layout, you can use `elements` instead to pick which source to display based on its [`sourceId`](sources#sourceid).
 
 ```js
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
