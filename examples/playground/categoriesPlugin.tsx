@@ -2,7 +2,6 @@
 import {
   AutocompletePlugin,
   getAlgoliaFacetHits,
-  highlightHit,
 } from '@algolia/autocomplete-js';
 import { SearchClient } from 'algoliasearch/lite';
 import { h, Fragment } from 'preact';
@@ -56,7 +55,7 @@ export function createCategoriesPlugin({
                 </Fragment>
               );
             },
-            item({ item }) {
+            item({ item, components }) {
               return (
                 <Fragment>
                   <div className="aa-ItemIcon aa-ItemIcon--no-border">
@@ -77,10 +76,7 @@ export function createCategoriesPlugin({
                   </div>
                   <div className="aa-ItemContent">
                     <div className="aa-ItemContentTitle">
-                      {highlightHit<CategoryHit>({
-                        hit: item,
-                        attribute: 'label',
-                      })}
+                      <components.Highlight hit={item} attribute="label" />
                     </div>
                   </div>
                 </Fragment>

@@ -5,7 +5,7 @@ import {
 
 import { createDomElement } from '../createDomElement';
 import { AutocompletePropGetters, AutocompleteState } from '../types';
-import { Component } from '../types/Component';
+import { AutocompleteElement } from '../types/AutocompleteElement';
 import { setProperties } from '../utils';
 
 type InputProps = {
@@ -16,7 +16,7 @@ type InputProps = {
   state: AutocompleteState<any>;
 };
 
-export const Input: Component<InputProps, HTMLInputElement> = ({
+export const Input: AutocompleteElement<InputProps, HTMLInputElement> = ({
   autocompleteScopeApi,
   classNames,
   getInputProps,

@@ -1,9 +1,9 @@
-type WithComponentProps<TProps> = TProps &
+type WithElementProps<TProps> = TProps &
   Record<string, unknown> & {
     children?: Node[];
   };
 
-export type Component<
+export type AutocompleteElement<
   TProps = {},
   TElement extends HTMLOrSVGElement = HTMLOrSVGElement
-> = (props: WithComponentProps<TProps>) => TElement;
+> = (props: WithElementProps<TProps>) => TElement;

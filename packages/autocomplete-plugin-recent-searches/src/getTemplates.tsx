@@ -1,6 +1,5 @@
 /** @jsx createElement */
-import { reverseHighlightHit, SourceTemplates } from '@algolia/autocomplete-js';
-import { HighlightedHit } from '@algolia/autocomplete-preset-algolia';
+import { SourceTemplates } from '@algolia/autocomplete-js';
 
 import { RecentSearchesItem } from './types';
 
@@ -14,7 +13,7 @@ export function getTemplates<TItem extends RecentSearchesItem>({
   onTapAhead,
 }: GetTemplatesParams<TItem>): SourceTemplates<TItem> {
   return {
-    item({ item, createElement, Fragment }) {
+    item({ item, createElement, Fragment, components }) {
       return (
         <Fragment>
           <div className="aa-ItemIcon aa-ItemIcon--no-border">
@@ -24,11 +23,7 @@ export function getTemplates<TItem extends RecentSearchesItem>({
           </div>
           <div className="aa-ItemContent">
             <div className="aa-ItemContentTitle">
-              {reverseHighlightHit<HighlightedHit<TItem>>({
-                hit: item,
-                attribute: 'label',
-                createElement,
-              })}
+              <components.ReverseHighlight hit={item} attribute="label" />
             </div>
 
             {item.category && (

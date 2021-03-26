@@ -1,6 +1,6 @@
-import { Component } from '../types/Component';
+import { AutocompleteElement } from '../types/AutocompleteElement';
 
-export const ClearIcon: Component<{}, SVGSVGElement> = () => {
+export const ClearIcon: AutocompleteElement<{}, SVGSVGElement> = () => {
   const element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   element.setAttribute('class', 'aa-ClearIcon');
   element.setAttribute('viewBox', '0 0 24 24');
