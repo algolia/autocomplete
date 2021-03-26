@@ -37,7 +37,7 @@ export function createCategoriesPlugin({
                   params: {
                     facetName: 'categories',
                     facetQuery: query,
-                    maxFacetHits: query ? 3 : 10,
+                    maxFacetHits: query ? 3 : 5,
                   },
                 },
               ],

@@ -67,46 +67,6 @@ autocomplete({
 
     return [
       {
-        sourceId: 'productsNoIcon',
-        getItems() {
-          return getAlgoliaHits<ProductRecord>({
-            searchClient,
-            queries: [
-              {
-                indexName: 'instant_search',
-                query,
-                params: {
-                  clickAnalytics: true,
-                  attributesToSnippet: ['name:10', 'description:35'],
-                  snippetEllipsisText: '…',
-                },
-              },
-            ],
-          });
-        },
-        templates: {
-          header() {
-            return (
-              <Fragment>
-                <span className="aa-SourceHeaderTitle">Products</span>
-                <div className="aa-SourceHeaderLine" />
-              </Fragment>
-            );
-          },
-          item({ item }) {
-            return (
-              <Fragment>
-                <div className="aa-ItemContent">
-                  <div className="aa-ItemContentTitle">
-                    {snippetHit<ProductHit>({ hit: item, attribute: 'name' })}
-                  </div>
-                </div>
-              </Fragment>
-            );
-          },
-        },
-      },
-      {
         sourceId: 'products',
         getItems() {
           return getAlgoliaHits<ProductRecord>({
@@ -161,14 +121,105 @@ function ProductItem({ hit, insights }: ProductItemProps) {
   return (
     <Fragment>
       <div className="aa-ItemContent">
-        <div className="aa-ItemIcon aa-ItemIcon--alignTop">
+        <div className="aa-ItemVisual aa-ItemIcon aa-ItemIcon--alignTop">
           <img src={hit.image} alt={hit.name} width="40" height="40" />
         </div>
-        <div className="aa-ItemContentTitle">
-          {snippetHit<ProductHit>({ hit, attribute: 'name' })}
-        </div>
-        <div className="aa-ItemContentDescription">
-          {snippetHit<ProductHit>({ hit, attribute: 'description' })}
+
+        <div className="aa-ItemContentBody">
+          <div className="aa-ItemContentTitle">
+            {snippetHit<ProductHit>({ hit, attribute: 'name' })}
+          </div>
+          <div className="aa-ItemContentDescription">
+            By <strong>{hit.brand}</strong> in{' '}
+            <strong>{hit.categories[0]}</strong>
+          </div>
+
+          <div
+            className="aa-ItemContentDescription"
+            style={{ display: 'flex', alignItems: 'center', gap: 8 }}
+          >
+            {hit.rating > 0 && (
+              <div className="aa-ItemContentDescription">
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: 1,
+                    color: 'rgba(var(--aa-muted-color-rgb), 0.5)',
+                  }}
+                >
+                  {Array.from({ length: 5 }, (_value, index) => {
+                    const isFilled = hit.rating >= index + 1;
+
+                    return (
+                      <svg
+                        key={index}
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill={isFilled ? 'currentColor' : 'none'}
+                        stroke="currentColor"
+                        strokeWidth="1"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                      </svg>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              {hit.popularity.toLocaleString()}
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{
+                  position: 'relative',
+                  top: '1px',
+                }}
+              >
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              <strong style={{ color: '#000', fontSize: '0.9em' }}>
+                ${hit.price.toLocaleString()}
+              </strong>
+              {hit.free_shipping && (
+                <span
+                  style={{
+                    textTransform: 'uppercase',
+                    fontSize: '0.64em',
+                    background: '#40b340',
+                    color: '#fff',
+                    fontWeight: 600,
+                    borderRadius: 9999,
+                    padding: '2px 6px',
+                    display: 'inline-block',
+                    lineHeight: '1.25em',
+                  }}
+                >
+                  On sale
+                </span>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -177,6 +228,10 @@ function ProductItem({ hit, insights }: ProductItemProps) {
           className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
           type="button"
           title="Select"
+          disabled={true}
+          style={{
+            pointerEvents: 'none',
+          }}
         >
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M18.984 6.984h2.016v6h-15.188l3.609 3.609-1.406 1.406-6-6 6-6 1.406 1.406-3.609 3.609h13.172v-4.031z" />

@@ -506,8 +506,8 @@ body {
     text-align: center;
     width: calc(var(--aa-icon-size) + var(--aa-spacing-half));
     &.aa-ItemVisual {
-      height: 80px;
-      width: 80px;
+      height: 96px;
+      width: 96px;
       img {
         max-height: 100%;
         max-width: 100%;
@@ -536,7 +536,7 @@ body {
     align-items: center;
     cursor: pointer;
     display: grid;
-    gap: calc(var(--aa-spacing-half) / 2);
+    gap: var(--aa-spacing-half);
     grid-auto-flow: column;
     line-height: 1.25em;
     overflow: hidden;
@@ -652,10 +652,11 @@ body {
     }
   }
   @at-root .aa-ItemContent--indented {
-    padding-left: calc(
-      var(--aa-icon-size) + var(--aa-spacing-half) +
-        calc(var(--aa-spacing-half) / 2)
-    );
+    padding-left: calc(var(--aa-icon-size) + var(--aa-spacing));
+  }
+  .aa-ItemContentBody {
+    display: grid;
+    gap: calc(var(--aa-spacing-half) / 2);
   }
   .aa-ActiveOnly {
     visibility: hidden;
