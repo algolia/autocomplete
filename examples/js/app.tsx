@@ -45,6 +45,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
     'exact_matches',
     'categories',
   ],
+  categoriesPerItem: 2,
 });
 const categoriesPlugin = createCategoriesPlugin({ searchClient });
 
