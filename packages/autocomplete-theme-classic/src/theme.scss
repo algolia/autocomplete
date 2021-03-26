@@ -832,6 +832,7 @@ body {
     }
   }
   .aa-Panel {
+    flex-grow: 1;
     background-color: rgba(
       var(--aa-background-color-rgb),
       var(--aa-background-color-alpha)
@@ -842,11 +843,15 @@ body {
     padding: 0;
     position: relative;
     .aa-PanelLayout {
+      bottom: 0;
       box-shadow: none;
-      height: 100%;
+      left: 0;
       margin: 0;
       max-height: none;
       overflow-y: auto;
+      position: absolute;
+      right: 0;
+      top: 0;
       width: 100%;
     }
     // .aa-Item {
