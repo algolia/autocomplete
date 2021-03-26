@@ -80,12 +80,12 @@ export const shortcutsPlugin: AutocompletePlugin<DarkModeItem, undefined> = {
               {},
               createElement(
                 'div',
-                { className: 'aa-ItemIcon' },
-                isDarkThemeSelected() ? lightIcon : darkIcon
-              ),
-              createElement(
-                'div',
                 { className: 'aa-ItemContent' },
+                createElement(
+                  'div',
+                  { className: 'aa-ItemIcon' },
+                  isDarkThemeSelected() ? lightIcon : darkIcon
+                ),
                 createElement(
                   'div',
                   { className: 'aa-ItemContentTitle' },

@@ -41,10 +41,11 @@
   --aa-font-weight-bold: 700;
 
   // Icons
-  --aa-icon-size: 18px;
+  --aa-icon-size: 20px;
   --aa-icon-stroke-width: 1.6;
   --aa-icon-color-rgb: 119, 119, 163;
   --aa-icon-color-alpha: 1;
+  --aa-action-icon-size: 20px;
 
   // Text colors
   --aa-text-color-rgb: 38, 38, 39;
@@ -61,12 +62,12 @@
   --aa-input-border-color-alpha: 0.8;
 
   // Background colors
-  --aa-selected-color-rgb: 179, 173, 214;
-  --aa-selected-color-alpha: 0.205;
   --aa-background-color-rgb: 255, 255, 255;
   --aa-background-color-alpha: 1;
   --aa-input-background-color-rgb: 255, 255, 255;
   --aa-input-background-color-alpha: 1;
+  --aa-selected-color-rgb: 179, 173, 214;
+  --aa-selected-color-alpha: 0.205;
   --aa-description-highlight-background-color-rgb: 245, 223, 77;
   --aa-description-highlight-background-color-alpha: 0.5;
 
@@ -87,7 +88,7 @@
   --aa-scrollbar-track-background-color-rgb: 234, 234, 234;
   --aa-scrollbar-track-background-color-alpha: 1;
   --aa-scrollbar-thumb-background-color-rgb: var(--aa-background-color-rgb);
-  --aa-scrollbar-thumb-background-color-alpha: 1;
+  --aa-scrollbar-thumb-background-color-alpha: 0.8;
 }
 
 // ----------------
@@ -97,22 +98,40 @@ body {
   /* stylelint-disable selector-no-qualifying-type, selector-class-pattern */
   &[data-theme='dark'],
   &.dark {
+    // Text colors
+    --aa-text-color-rgb: 183, 192, 199;
     --aa-primary-color-rgb: 146, 138, 255;
     --aa-muted-color-rgb: 146, 138, 255;
-    --aa-selected-color-rgb: 146, 138, 255;
-    --aa-selected-color-alpha: 0.25;
-    --aa-icon-color-rgb-rgb: 119, 119, 163;
-    --aa-text-color-rgb: 183, 192, 199;
-    --aa-description-highlight-background-color-rgb: 0 255 255;
-    --aa-description-highlight-background-color-alpha: 0.25;
+
+    // Background colors
     --aa-input-background-color-rgb: 0, 3, 9;
     --aa-background-color-rgb: 21, 24, 42;
+    --aa-selected-color-rgb: 146, 138, 255;
+    --aa-selected-color-alpha: 0.25;
+    --aa-description-highlight-background-color-rgb: 0 255 255;
+    --aa-description-highlight-background-color-alpha: 0.25;
+
+    // Icons
+    --aa-icon-color-rgb: 119, 119, 163;
+
+    // Shadows
     --aa-panel-shadow: inset 1px 1px 0 0 rgb(44, 46, 64),
       0 3px 8px 0 rgb(0, 3, 9);
+
+    // Scrollbar
     --aa-scrollbar-track-background-color-rgb: 44, 46, 64;
     --aa-scrollbar-thumb-background-color-rgb: var(--aa-background-color-rgb);
   }
   /* stylelint-enable selector-no-qualifying-type, selector-class-pattern */
+}
+
+// Touch screens
+@media (hover: none) and (pointer: coarse) {
+  :root {
+    // Size and spacing
+    --aa-spacing-factor: 1.2;
+    --aa-action-icon-size: 22px;
+  }
 }
 
 // Reset for `@extend`
@@ -340,10 +359,6 @@ body {
       );
     scrollbar-width: thin;
 
-    &:first-child {
-      margin-left: var(--aa-spacing-half);
-    }
-
     &::-webkit-scrollbar {
       width: var(--aa-scrollbar-width);
     }
@@ -464,8 +479,12 @@ body {
   align-items: center;
   border-radius: 3px;
   cursor: pointer;
-  display: flex;
-  padding: 0;
+  display: grid;
+  gap: calc(var(--aa-spacing-half) / 2);
+  grid-auto-flow: column;
+  justify-content: space-between;
+  min-height: calc(var(--aa-spacing) * 2.5);
+  padding: calc(var(--aa-spacing-half) / 2);
   // The result type icon inlined svg or img
   @at-root .aa-ItemIcon {
     align-items: center;
@@ -479,15 +498,13 @@ body {
     color: rgba(var(--aa-icon-color-rgb), var(--aa-icon-color-alpha));
     display: flex;
     flex-shrink: 0;
-    font-size: var(--aa-icon-size);
     font-size: 0.7em;
-    height: calc(var(--aa-icon-size) + var(--aa-spacing));
+    height: calc(var(--aa-icon-size) + var(--aa-spacing-half));
     justify-content: center;
-    margin: 2px var(--aa-spacing-half) 2px 2px;
     overflow: hidden;
     stroke-width: var(--aa-icon-stroke-width);
     text-align: center;
-    width: calc(var(--aa-icon-size) + var(--aa-spacing));
+    width: calc(var(--aa-icon-size) + var(--aa-spacing-half));
     &.aa-ItemVisual {
       height: 80px;
       width: 80px;
@@ -503,12 +520,11 @@ body {
     &.aa-ItemIcon--noBorder {
       background: none;
       box-shadow: none;
-      margin: 0 var(--aa-spacing-half) 0 2px;
     }
     img {
       height: auto;
-      max-height: calc(var(--aa-icon-size) + var(--aa-spacing) - 8px);
-      max-width: calc(var(--aa-icon-size) + var(--aa-spacing) - 8px);
+      max-height: calc(var(--aa-icon-size) + var(--aa-spacing-half) - 8px);
+      max-width: calc(var(--aa-icon-size) + var(--aa-spacing-half) - 8px);
       width: auto;
     }
     svg {
@@ -517,11 +533,13 @@ body {
     }
   }
   @at-root .aa-ItemContent {
+    align-items: center;
     cursor: pointer;
+    display: grid;
+    gap: calc(var(--aa-spacing-half) / 2);
+    grid-auto-flow: column;
     line-height: 1.25em;
     overflow: hidden;
-    padding: calc(var(--aa-spacing) / 4) 0;
-    width: 100%;
     &.aa-ItemContent--dual {
       display: flex;
       flex-direction: column;
@@ -548,20 +566,59 @@ body {
       white-space: nowrap;
     }
     .aa-ItemContentSubtitle {
+      align-items: center;
       color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
-      display: inline-block;
-      font-size: 0.8em;
-      max-width: 100%;
-      overflow-x: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      display: grid;
+      font-size: 0.92em;
+      gap: var(--aa-spacing-half);
+      grid-auto-flow: column;
+      justify-content: start;
+
+      .aa-ItemContentSubtitleIcon {
+        &::before {
+          border-color: rgba(var(--aa-muted-color-rgb), 0.64);
+          border-radius: 0 0 0 3px;
+          border-style: solid;
+          border-width: 0 0 1.5px 1.5px;
+          content: '';
+          display: inline-block;
+          height: var(--aa-spacing-half);
+          left: 1px;
+          position: relative;
+          top: -3px;
+          width: var(--aa-spacing-half);
+        }
+      }
+    }
+    .aa-ItemContentSubtitleInline {
+      font-size: 0.92em;
+
+      .aa-ItemContentSubtitleIcon {
+        &::before {
+          border-color: rgba(var(--aa-muted-color-rgb), 0.64);
+          border-style: solid;
+          border-width: 0 0 1.5px;
+          content: '';
+          display: inline-block;
+          left: 1px;
+          margin-left: var(--aa-spacing-half);
+          margin-right: calc(var(--aa-spacing-half) / 2);
+          position: relative;
+          top: -3px;
+          width: calc(var(--aa-spacing-half) + 2px);
+        }
+      }
+    }
+
+    .aa-ItemContentSubtitleCategory {
+      color: rgba(var(--aa-muted-color-rgb), 1);
+      font-weight: 500;
     }
     .aa-ItemContentDescription {
       color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
       font-size: 0.85em;
       max-width: 100%;
       overflow-x: hidden;
-      padding: 0;
       text-overflow: ellipsis;
       mark {
         background: rgba(
@@ -594,6 +651,12 @@ body {
       padding: 0.08em 0.3em;
     }
   }
+  @at-root .aa-ItemContent--indented {
+    padding-left: calc(
+      var(--aa-icon-size) + var(--aa-spacing-half) +
+        calc(var(--aa-spacing-half) / 2)
+    );
+  }
   .aa-ActiveOnly {
     visibility: hidden;
   }
@@ -623,9 +686,12 @@ body {
   }
   // secondary click action
   .aa-ItemActions {
-    display: inline-grid;
-    gap: var(--aa-spacing-half);
+    display: grid;
     grid-auto-flow: column;
+    height: 100%;
+    justify-self: end;
+    margin: 0 calc(var(--aa-spacing) / -3);
+    padding: 0 2px 0 0;
   }
   .aa-ItemActionButton {
     align-items: center;
@@ -643,8 +709,9 @@ body {
     svg {
       color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
       margin: 0;
+      margin: calc(var(--aa-spacing) / 3);
       stroke-width: var(--aa-icon-stroke-width);
-      width: var(--aa-icon-size);
+      width: var(--aa-action-icon-size);
       &:hover,
       &:focus {
         color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
@@ -781,10 +848,10 @@ body {
       overflow-y: auto;
       width: 100%;
     }
-    .aa-Item {
-      border-radius: 3px;
-      padding: 0;
-    }
+    // .aa-Item {
+    //   border-radius: 3px;
+    //   padding: 0;
+    // }
     .aa-SourceHeader {
       margin: var(--aa-spacing-half) 0 var(--aa-spacing-half) 2px;
     }
