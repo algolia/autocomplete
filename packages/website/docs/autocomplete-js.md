@@ -57,7 +57,7 @@ const autocompleteSearch = autocomplete({
   getSources() {
     return [
       {
-        sourceId: 'querySuggestionsSources',
+        sourceId: 'querySuggestions',
         getItemInputValue: ({ item }) => item.query,
         getItems({ query }) {
           return getAlgoliaHits({

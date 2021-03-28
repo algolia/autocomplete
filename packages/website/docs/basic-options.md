@@ -19,6 +19,7 @@ autocomplete({
   getSources() {
     return [
       {
+        sourceId: 'links',
         getItems({ query }) {
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
