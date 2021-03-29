@@ -83,6 +83,16 @@ autocomplete({
                 },
               },
             ],
+          }).then(([hits]) => {
+            return hits.map((hit) => ({
+              ...hit,
+              comments: hit.popularity % 100,
+              sale: hit.free_shipping,
+              // eslint-disable-next-line @typescript-eslint/camelcase
+              sale_price: hit.free_shipping
+                ? (hit.price - hit.price / 10).toFixed(2)
+                : hit.price,
+            }));
           });
         },
         templates: {
@@ -137,14 +147,18 @@ function ProductItem({ hit, insights }: ProductItemProps) {
 
           <div
             className="aa-ItemContentDescription"
-            style={{ display: 'flex', alignItems: 'center', gap: 8 }}
+            style={{
+              display: 'grid',
+              gridAutoFlow: 'column',
+              justifyContent: 'start',
+              alignItems: 'center',
+              gap: 8,
+            }}
           >
             {hit.rating > 0 && (
               <div className="aa-ItemContentDescription">
                 <div
                   style={{
-                    display: 'flex',
-                    gap: 1,
                     color: 'rgba(var(--aa-muted-color-rgb), 0.5)',
                   }}
                 >
@@ -170,8 +184,15 @@ function ProductItem({ hit, insights }: ProductItemProps) {
                 </div>
               </div>
             )}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              {hit.popularity.toLocaleString()}
+            <div
+              style={{
+                display: 'grid',
+                gridAutoFlow: 'column',
+                justifyContent: 'start',
+                alignItems: 'center',
+                gap: 4,
+              }}
+            >
               <svg
                 width="16"
                 height="16"
@@ -188,6 +209,7 @@ function ProductItem({ hit, insights }: ProductItemProps) {
               >
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
               </svg>
+              <span>{hit.comments.toLocaleString()}</span>
             </div>
           </div>
 
@@ -198,16 +220,43 @@ function ProductItem({ hit, insights }: ProductItemProps) {
               gap: 8,
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              <strong style={{ color: '#000', fontSize: '0.9em' }}>
-                ${hit.price.toLocaleString()}
-              </strong>
-              {hit.free_shipping && (
+            <div
+              style={{
+                display: 'grid',
+                gridAutoFlow: 'column',
+                justifyContent: 'start',
+                alignItems: 'center',
+                gap: 4,
+              }}
+            >
+              <div>
+                <span
+                  style={{
+                    color: '#000',
+                    fontSize: '0.9em',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  ${hit.sale_price.toLocaleString()}
+                </span>{' '}
+                {hit.sale && (
+                  <span
+                    style={{
+                      color: 'rgb(var(--aa-muted-color-rgb))',
+                      fontSize: '0.9em',
+                      textDecoration: 'line-through',
+                    }}
+                  >
+                    ${hit.price.toLocaleString()}
+                  </span>
+                )}
+              </div>
+              {hit.sale && (
                 <span
                   style={{
                     textTransform: 'uppercase',
                     fontSize: '0.64em',
-                    background: '#40b340',
+                    background: '#539753',
                     color: '#fff',
                     fontWeight: 600,
                     borderRadius: 9999,
