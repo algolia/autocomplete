@@ -807,6 +807,36 @@ body {
   right: 0;
   top: 0;
   z-index: var(--aa-base-z-index);
+  &::after {
+    height: 32px;
+  }
+  .aa-SourceHeader {
+    margin: var(--aa-spacing-half) 0 var(--aa-spacing-half) 2px;
+  }
+  .aa-Panel {
+    background-color: rgba(
+      var(--aa-background-color-rgb),
+      var(--aa-background-color-alpha)
+    );
+    border-radius: 0;
+    box-shadow: none;
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+  .aa-PanelLayout {
+    bottom: 0;
+    box-shadow: none;
+    left: 0;
+    margin: 0;
+    max-height: none;
+    overflow-y: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+  }
   @at-root .aa-DetachedFormContainer {
     border-bottom: solid 1px
       rgba(var(--aa-panel-border-color-rgb), var(--aa-panel-border-color-alpha));
@@ -835,40 +865,6 @@ body {
       }
     }
   }
-  .aa-Panel {
-    background-color: rgba(
-      var(--aa-background-color-rgb),
-      var(--aa-background-color-alpha)
-    );
-    border-radius: 0;
-    box-shadow: none;
-    flex-grow: 1;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    .aa-PanelLayout {
-      bottom: 0;
-      box-shadow: none;
-      left: 0;
-      margin: 0;
-      max-height: none;
-      overflow-y: auto;
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 100%;
-    }
-    // .aa-Item {
-    //   border-radius: 3px;
-    //   padding: 0;
-    // }
-    .aa-SourceHeader {
-      margin: var(--aa-spacing-half) 0 var(--aa-spacing-half) 2px;
-    }
-  }
-  &::after {
-    height: 32px;
-  }
   @at-root .aa-DetachedContainer--modal {
     border-radius: 6px;
     bottom: inherit;
@@ -877,11 +873,9 @@ body {
     max-width: var(--aa-detached-modal-max-width);
     position: absolute;
     top: 3%;
-    .aa-Panel {
-      .aa-PanelLayout {
-        max-height: var(--aa-detached-modal-max-height);
-        padding-bottom: var(--aa-spacing-half);
-      }
+    .aa-PanelLayout {
+      max-height: var(--aa-detached-modal-max-height);
+      padding-bottom: var(--aa-spacing-half);
     }
   }
 }
