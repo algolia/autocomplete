@@ -88,7 +88,7 @@
   --aa-scrollbar-track-background-color-rgb: 234, 234, 234;
   --aa-scrollbar-track-background-color-alpha: 1;
   --aa-scrollbar-thumb-background-color-rgb: var(--aa-background-color-rgb);
-  --aa-scrollbar-thumb-background-color-alpha: 0.8;
+  --aa-scrollbar-thumb-background-color-alpha: 1;
 }
 
 // ----------------
@@ -703,7 +703,8 @@ body {
     display: flex;
     flex-shrink: 0;
     padding: 0;
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       svg {
         color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
         @media (hover: none) and (pointer: coarse) {
@@ -854,10 +855,6 @@ body {
       top: 0;
       width: 100%;
     }
-    // .aa-Item {
-    //   border-radius: 3px;
-    //   padding: 0;
-    // }
     .aa-SourceHeader {
       margin: var(--aa-spacing-half) 0 var(--aa-spacing-half) 2px;
     }
