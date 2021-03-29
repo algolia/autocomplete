@@ -19,7 +19,7 @@ The Navigator API defines three navigation schemes based on key combinations:
 
 To activate keyboard navigation, you need to implement a [`getItemUrl`](createAutocomplete#getitemurl) function in each of your [sources](/docs/sources) to provide the URL to navigate to. It tells the Navigator API which link to open on <kbd>Enter</kbd>.
 
-```js {6-8}
+```js {7-9}
 autocomplete({
   // ...
   getSources() {
@@ -30,7 +30,9 @@ autocomplete({
           return item.url;
         },
         getItems() {
-          return [];
+          return [
+            // ...
+          ];
         },
       },
     ];

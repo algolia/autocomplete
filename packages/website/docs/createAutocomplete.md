@@ -52,7 +52,7 @@ const autocomplete = createAutocomplete({
   getSources() {
     return [
       {
-        sourceId: 'querySuggestionsSource',
+        sourceId: 'querySuggestions',
         getItemInputValue: ({ item }) => item.query,
         getItems({ query }) {
           return getAlgoliaHits({

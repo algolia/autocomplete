@@ -1,6 +1,6 @@
 {
-  "name": "@algolia/query-suggestions-with-rich-hits-example",
-  "description": "Autocomplete Query Suggestions With Rich Hits Sandbox",
+  "name": "@algolia/autocomplete-example-query-suggestion-with-categories",
+  "description": "Autocomplete example with Query Suggestions with categories",
   "version": "1.0.0-alpha.44",
   "private": true,
   "license": "MIT",
@@ -11,15 +11,10 @@
   },
   "dependencies": {
     "@algolia/autocomplete-js": "1.0.0-alpha.44",
-    "@algolia/autocomplete-plugin-algolia-insights": "^1.0.0-alpha.44",
     "@algolia/autocomplete-plugin-query-suggestions": "1.0.0-alpha.44",
-    "@algolia/autocomplete-plugin-recent-searches": "1.0.0-alpha.44",
-    "@algolia/autocomplete-preset-algolia": "1.0.0-alpha.44",
     "@algolia/autocomplete-theme-classic": "1.0.0-alpha.44",
-    "@algolia/client-search": "4.8.3",
-    "algoliasearch": "4.8.3",
-    "preact": "10.5.7",
-    "search-insights": "1.6.3"
+    "algoliasearch": "4.8.6",
+    "preact": "10.5.13"
   },
   "devDependencies": {
     "parcel-bundler": "1.12.4"

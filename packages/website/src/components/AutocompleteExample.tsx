@@ -33,8 +33,7 @@ export function AutocompleteExample<TItem extends BaseItem>(
     <div
       ref={containerRef}
       style={{
-        margin: 'auto',
-        marginBottom: 'var(--ifm-paragraph-margin-bottom)',
+        margin: 'calc(var(--ifm-paragraph-margin-bottom) * 2) auto',
         maxWidth: 540,
       }}
     />

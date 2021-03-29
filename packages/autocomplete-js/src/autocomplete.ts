@@ -281,7 +281,7 @@ export function autocomplete<TItem extends BaseItem>(
       toggleModalClassname(event.matches);
     }
 
-    const isModalDetachedMql = window.matchMedia(
+    const isModalDetachedMql = props.value.core.environment.matchMedia(
       getComputedStyle(
         props.value.core.environment.document.documentElement
       ).getPropertyValue('--aa-detached-modal-media-query')

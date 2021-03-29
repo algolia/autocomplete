@@ -104,6 +104,7 @@ function App() {
         getSources={({ query }) =>
           [
             {
+              sourceId: 'products',
               getItems() {
                 return getAlgoliaHits({
                   searchClient,

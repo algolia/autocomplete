@@ -59,6 +59,7 @@ const gitHubReposPlugin = {
   getSources() {
     return [
       {
+        sourceId: 'githubPlugin',
         getItems() {
           return [
             { name: 'algolia/autocomplete.js', stars: 1237 },
@@ -114,6 +115,7 @@ export function createGitHubReposPlugin(options) {
         .then((repositories) => {
           return [
             {
+              sourceId: 'githubPlugin',
               getItems() {
                 return repositories.items;
               },
