@@ -73,17 +73,17 @@ kbd {
 }
 
 .alert--success {
-  --ifm-code-background: var(--ifm-color-success-darker)
+  --ifm-code-background: var(--ifm-color-success-darker);
 }
 
 .alert--info {
-  --ifm-code-background: var(--ifm-color-info-darker)
+  --ifm-code-background: var(--ifm-color-info-darker);
 }
 
 .alert--warning {
-  --ifm-code-background: var(--ifm-color-warning-darker)
+  --ifm-code-background: var(--ifm-color-warning-darker);
 }
 
 .alert--danger {
-  --ifm-code-background: var(--ifm-color-danger-darker)
+  --ifm-code-background: var(--ifm-color-danger-darker);
 }
