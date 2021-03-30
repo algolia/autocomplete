@@ -35,11 +35,7 @@ If you haven't implemented an autocomplete using Algolia as a source yet, follow
 First, begin with some boilerplate for the autocomplete implementation. Create a file called `index.js` in your `src` directory, and add the boilerplate below:
 
 ```js title="index.js"
-import {
-  autocomplete,
-  getAlgoliaHits,
-  highlightHit,
-} from '@algolia/autocomplete-js';
+import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
 import { h, Fragment } from 'preact';
 
@@ -70,8 +66,8 @@ autocomplete({
           });
         },
         templates: {
-          item({ item }) {
-            return <ProductItem hit={item} />;
+          item({ item, components }) {
+            return <ProductItem hit={item} components={components} />;
           },
         },
       },
@@ -79,7 +75,7 @@ autocomplete({
   },
 });
 
-function ProductItem({ hit }) {
+function ProductItem({ hit, components }) {
   return (
     <Fragment>
       <div className="aa-ItemIcon">
@@ -87,10 +83,10 @@ function ProductItem({ hit }) {
       </div>
       <div className="aa-ItemContent">
         <div className="aa-ItemContentTitle">
-          {highlightHit({ hit, attribute: 'name' })}
+          <components.Highlight hit={hit} attribute="name" />
         </div>
         <div className="aa-ItemContentDescription">
-          {highlightHit({ hit, attribute: 'description' })}
+          <components.Highlight hit={hit} attribute="description" />
         </div>
       </div>
       <button
@@ -126,11 +122,7 @@ The [`autocomplete-plugin-algolia-insights`](createAlgoliaInsightsPlugin) packag
 It requires an [Algolia Insights client](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/how-to/sending-events-with-api-client/#initializing-the-insights-client) initialized with an [Algolia application ID and Search API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id).
 
 ```js title="index.js"
-import {
-  autocomplete,
-  getAlgoliaHits,
-  highlightHit,
-} from '@algolia/autocomplete-js';
+import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
 import { h, Fragment } from 'preact';
 import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
@@ -239,10 +231,11 @@ autocomplete({
   // ...
   plugins: [algoliaInsightsPlugin],
   templates: {
-    item({ item, state }) {
+    item({ item, components, state }) {
       return (
         <ProductItem
           hit={item}
+          components={components}
           insights={state.context.algoliaInsightsPlugin.insights}
         />
       );
@@ -254,7 +247,7 @@ autocomplete({
 Once available to your templates, you can use it to send events using [Insights client methods](https://www.algolia.com/doc/api-client/methods/insights/). In this example, clicking the "Add to cart button" fires the [`convertedObjectIDsAfterSearch`](https://www.algolia.com/doc/api-reference/api-methods/converted-object-ids-after-search/) method, sending a conversion event.
 
 ```jsx title="ProductItem.jsx"
-function ProductItem({ hit, insights }) {
+function ProductItem({ hit, insights, components }) {
   return (
     <Fragment>
       <div className="aa-ItemIcon">
@@ -262,10 +255,10 @@ function ProductItem({ hit, insights }) {
       </div>
       <div className="aa-ItemContent">
         <div className="aa-ItemContentTitle">
-          {snippetHit({ hit, attribute: 'name' })}
+          <components.Snippet hit={hit} attribute="name" />
         </div>
         <div className="aa-ItemContentDescription">
-          {snippetHit({ hit, attribute: 'description' })}
+          <components.Snippet hit={hit} attribute="description" />
         </div>
       </div>
       <div className="aa-ItemActions">

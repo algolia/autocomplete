@@ -1,6 +1,7 @@
 export * from './AutocompleteApi';
 export * from './AutocompleteClassNames';
 export * from './AutocompleteCollection';
+export * from './AutocompleteComponents';
 export * from './AutocompleteDom';
 export * from './AutocompleteOptions';
 export * from './AutocompletePlugin';
@@ -9,3 +10,4 @@ export * from './AutocompleteRender';
 export * from './AutocompleteRenderer';
 export * from './AutocompleteSource';
 export * from './AutocompleteState';
+export * from './HighlightHitParams';

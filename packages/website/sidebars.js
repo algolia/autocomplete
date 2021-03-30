@@ -36,10 +36,6 @@ module.exports = {
           'getAlgoliaHits-js',
           'getAlgoliaResults-js',
           'getAlgoliaFacetHits-js',
-          'highlightHit',
-          'reverseHighlightHit',
-          'snippetHit',
-          'reverseSnippetHit',
         ],
       },
       {

@@ -4,11 +4,16 @@ import {
   BaseItem,
 } from '@algolia/autocomplete-core';
 
+import { AutocompleteComponents } from './AutocompleteComponents';
 import { Pragma, PragmaFrag, VNode } from './AutocompleteRenderer';
 import { AutocompleteState } from './AutocompleteState';
 
 type Template<TParams> = (
-  params: TParams & { createElement: Pragma; Fragment: PragmaFrag }
+  params: TParams & {
+    createElement: Pragma;
+    Fragment: PragmaFrag;
+    components: AutocompleteComponents;
+  }
 ) => VNode | string;
 
 /**

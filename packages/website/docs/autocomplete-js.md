@@ -39,13 +39,9 @@ Make sure to define an empty container in your HTML where to inject your autocom
 
 This example uses Autocomplete with an Algolia index, along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client. All Algolia utility functions to retrieve hits and parse results are available directly in the package.
 
-```js title="JavaScript"
+```jsx title="JavaScript"
 import algoliasearch from 'algoliasearch/lite';
-import {
-  autocomplete,
-  getAlgoliaHits,
-  reverseHighlightHit,
-} from '@algolia/autocomplete-js';
+import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
 
 const searchClient = algoliasearch(
   'latency',
@@ -74,8 +70,8 @@ const autocompleteSearch = autocomplete({
           });
         },
         templates: {
-          item({ item }) {
-            return reverseHighlightHit({ hit: item, attribute: 'query' });
+          item({ item, components }) {
+            return <components.ReverseHighlight hit={item} attribute="query" />;
           },
         },
       },

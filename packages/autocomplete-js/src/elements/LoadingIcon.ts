@@ -1,6 +1,6 @@
-import { Component } from '../types/Component';
+import { AutocompleteElement } from '../types/AutocompleteElement';
 
-export const LoadingIcon: Component<{}, SVGSVGElement> = () => {
+export const LoadingIcon: AutocompleteElement<{}, SVGSVGElement> = () => {
   const element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   element.setAttribute('class', 'aa-LoadingIcon');
   element.setAttribute('viewBox', '0 0 100 100');

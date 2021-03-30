@@ -1,8 +1,8 @@
 /** @jsx h */
 import {
   autocomplete,
+  AutocompleteComponents,
   getAlgoliaHits,
-  snippetHit,
 } from '@algolia/autocomplete-js';
 import {
   AutocompleteInsightsApi,
@@ -102,10 +102,11 @@ autocomplete({
               </Fragment>
             );
           },
-          item({ item }) {
+          item({ item, components }) {
             return (
               <ProductItem
                 hit={item}
+                components={components}
                 insights={state.context.algoliaInsightsPlugin.insights}
               />
             );
@@ -124,9 +125,10 @@ autocomplete({
 type ProductItemProps = {
   hit: ProductHit;
   insights: AutocompleteInsightsApi;
+  components: AutocompleteComponents;
 };
 
-function ProductItem({ hit, insights }: ProductItemProps) {
+function ProductItem({ hit, insights, components }: ProductItemProps) {
   return (
     <Fragment>
       <div className="aa-ItemIcon aa-ItemIcon--align-top">
@@ -134,10 +136,10 @@ function ProductItem({ hit, insights }: ProductItemProps) {
       </div>
       <div className="aa-ItemContent">
         <div className="aa-ItemContentTitle">
-          {snippetHit<ProductHit>({ hit, attribute: 'name' })}
+          <components.Snippet hit={hit} attribute="name" />
         </div>
         <div className="aa-ItemContentDescription">
-          {snippetHit<ProductHit>({ hit, attribute: 'description' })}
+          <components.Snippet hit={hit} attribute="description" />
         </div>
       </div>
       <div className="aa-ItemActions">

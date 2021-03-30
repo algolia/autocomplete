@@ -117,8 +117,8 @@ function App() {
                 });
               },
               templates: {
-                item({ item }) {
-                  return <ProductItem hit={item} />;
+                item({ item, components }) {
+                  return <ProductItem hit={item} components={components} />;
                 }
               }
             }
@@ -134,31 +134,17 @@ export default App;
 
 ### Creating templates
 
-The example above passes `<ProductItem />`, another React component, for the `item` [template](templates). When creating templates, there's one thing to keep in mind. If you're using the highlighting and snippeting utilities, you must pass them React's `createElement` function. Without doing this, the utilities default to `preact.createElement` and won't work properly.
-
-The highlighting and snippeting utilities are:
-
-- [`highlightHit`](highlighthit)
-- [`snippetHit`](snippethit)
-- [`reverseHighlightHit`](reversehighlighthit)
-- [`reverseSnippetHit`](reversesnippethit)
-
-Here's an example using [`highlightHit`](highlighthit):
+The example above passes `<ProductItem />`, another React component, for the `item` [template](templates).
 
 ```jsx title="ProductItem.jsx"
-import { highlightHit } from '@algolia/autocomplete-js';
 import React, { createElement } from 'react';
 
-export function ProductItem({ hit }) {
+export function ProductItem({ hit, components }) {
   return (
     <a href={hit.url} className="aa-ItemLink">
       <div className="aa-ItemContent">
         <div className="aa-ItemTitle">
-          {highlightHit({
-            hit,
-            attribute: 'name',
-            createElement,
-          })}
+          <components.Highlight hit={hit} attribute="name" />
         </div>
       </div>
     </a>

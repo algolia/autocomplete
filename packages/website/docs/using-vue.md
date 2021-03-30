@@ -136,21 +136,12 @@ This is because the default Autocomplete implementation uses [Preact's](https://
 
 ## Customizing templates
 
-Next, to display the results from Algolia, you need to define an [`item` template](templates). If you're using the highlighting and snippeting utilities, there's one thing to keep in mind: you must pass them Vue's `createElement` function. Without doing this, the utilities default to `preact.createElement` and won't work properly.
-
-The highlighting and snippeting utilities are:
-
-- [`highlightHit`](highlighthit)
-- [`snippetHit`](snippethit)
-- [`reverseHighlightHit`](reversehighlighthit)
-- [`reverseSnippetHit`](reversesnippethit)
-
-Here's an example of a custom `item` template using [`snippetHit`](snippethit):
+Next, to display the results from Algolia, you need to define an [`item` template](templates).
 
 ```html title="App.vue"
 <script>
   import { h, Fragment, render, onMounted } from 'vue';
-  import { autocomplete, snippetHit } from '@algolia/autocomplete-js';
+  import { autocomplete } from '@algolia/autocomplete-js';
 
   export default {
     name: 'App',
@@ -163,7 +154,7 @@ Here's an example of a custom `item` template using [`snippetHit`](snippethit):
               {
                 // ...
                 templates: {
-                  item({ item }) {
+                  item({ item, components }) {
                     return (
                       <Fragment>
                         <div className="aa-ItemIcon">
@@ -176,18 +167,13 @@ Here's an example of a custom `item` template using [`snippetHit`](snippethit):
                         </div>
                         <div className="aa-ItemContent">
                           <div className="aa-ItemContentTitle">
-                            {snippetHit({
-                              hit: item,
-                              attribute: 'name',
-                              createElement: h,
-                            })}
+                            <components.Snippet hit={item} attribute="name" />
                           </div>
                           <div className="aa-ItemContentDescription">
-                            {snippetHit({
-                              hit: item,
-                              attribute: 'description',
-                              createElement: h,
-                            })}
+                            <components.Snippet
+                              hit={item}
+                              attribute="description"
+                            />
                           </div>
                         </div>
                       </Fragment>

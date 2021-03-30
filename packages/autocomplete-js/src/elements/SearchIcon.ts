@@ -1,6 +1,6 @@
-import { Component } from '../types/Component';
+import { AutocompleteElement } from '../types/AutocompleteElement';
 
-export const SearchIcon: Component<{}, SVGSVGElement> = () => {
+export const SearchIcon: AutocompleteElement<{}, SVGSVGElement> = () => {
   const element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   element.setAttribute('class', 'aa-SubmitIcon');
   element.setAttribute('viewBox', '0 0 24 24');

@@ -135,6 +135,7 @@ export function autocomplete<TItem extends BaseItem>(
       autocomplete: autocomplete.value,
       autocompleteScopeApi,
       classNames: props.value.renderer.classNames,
+      components: props.value.renderer.components,
       container: props.value.renderer.container,
       createElement: props.value.renderer.renderer.createElement,
       dom: dom.value,
