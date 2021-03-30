@@ -93,7 +93,7 @@ function ProductItem({ hit }) {
         </div>
       </div>
       <button
-        className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
+        className="aa-ItemActionButton aa-DesktopOnly aa-ActiveOnly"
         type="button"
         title="Select"
       >

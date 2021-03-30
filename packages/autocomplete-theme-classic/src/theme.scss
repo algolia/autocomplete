@@ -715,7 +715,7 @@ body {
       width: var(--aa-action-icon-size);
     }
   }
-  @at-root .aa-TouchOnly {
+  @at-root .aa-DesktopOnly {
     @media (hover: none) and (pointer: coarse) {
       display: none;
     }

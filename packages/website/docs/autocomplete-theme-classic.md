@@ -79,7 +79,7 @@ autocomplete({
           </div>
           <div className="aa-ItemActions">
             <button
-              className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
+              className="aa-ItemActionButton aa-DesktopOnly aa-ActiveOnly"
               type="button"
               title="Select"
             >
@@ -171,7 +171,7 @@ The theme provides a set of optional classes for you to use in different context
 ### Utilities
 
 - `.aa-ActiveOnly` displays an element only when the item is active
-- `.aa-TouchOnly` displays an element only on touch devices
+- `.aa-DesktopOnly` displays an element only on desktop devices
 
 ## Dark mode
 
