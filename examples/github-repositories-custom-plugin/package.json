@@ -12,10 +12,8 @@
   "dependencies": {
     "@algolia/autocomplete-js": "1.0.0-alpha.44",
     "@algolia/autocomplete-theme-classic": "1.0.0-alpha.44",
-    "debounce-promise": "3.1.2",
     "preact": "10.5.13",
-    "qs": "6.10.1",
-    "unfetch": "4.2.0"
+    "qs": "6.10.1"
   },
   "devDependencies": {
     "@types/debounce-promise": "^3.1.3",

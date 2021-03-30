@@ -1,7 +1,5 @@
 import { AutocompletePlugin } from '@algolia/autocomplete-js';
 import qs from 'qs';
-import unfetch from 'unfetch';
-import debounce from 'debounce-promise';
 
 type GitHubRepository = {
   full_name: string,
@@ -21,7 +19,24 @@ type CreateGithubReposPluginProps = {
   page?: number,
 };
 
-const debouncedFetch = debounce(unfetch, 300);
+function debouncePromise<TParams extends unknown[], TResponse>(
+  fn: (...params: TParams) => Promise<TResponse>,
+  time: number
+) {
+  let timerId: ReturnType<typeof setTimeout> | undefined = undefined;
+
+  return function (...args: TParams) {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
+    return new Promise<TResponse>((resolve) => {
+      timerId = setTimeout(() => resolve(fn(...args)), time);
+    });
+  };
+}
+
+const debouncedFetch = debouncePromise(fetch, 300);
 
 const baseUrl = `https://api.github.com/search/repositories`;
 
