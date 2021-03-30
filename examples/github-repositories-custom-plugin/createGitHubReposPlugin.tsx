@@ -67,15 +67,17 @@ export function createGitHubReposPlugin(
                             <div>{item.full_name}</div>
                             <div
                               style={{
+                                alignItems: 'center',
                                 display: 'flex',
                                 marginLeft: 'var(--aa-spacing-half)',
+                                position: 'relative',
+                                top: '1px',
                               }}
                             >
                               <svg
                                 aria-label={`${stars} stars`}
                                 style={{
-                                  position: 'relative',
-                                  top: '1px',
+                                  display: 'block',
                                   width: 'calc(var(--aa-spacing-half) * 2)',
                                   height: 'calc(var(--aa-spacing-half) * 2)',
                                   color: '#ffa724',
@@ -88,8 +90,9 @@ export function createGitHubReposPlugin(
                               <span
                                 aria-hidden="true"
                                 style={{
-                                  fontSize: '0.8em',
                                   color: 'var(--aa-content-text-color)',
+                                  fontSize: '0.8em',
+                                  lineHeight: 'normal',
                                 }}
                               >
                                 {stars}
