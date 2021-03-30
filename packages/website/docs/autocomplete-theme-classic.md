@@ -172,6 +172,7 @@ The theme provides a set of optional classes for you to use in different context
 
 - `.aa-ActiveOnly` displays an element only when the item is active
 - `.aa-DesktopOnly` displays an element only on desktop devices
+- `.aa-TouchOnly` displays an element only on touch devices
 
 ## Dark mode
 

@@ -720,6 +720,11 @@ body {
       display: none;
     }
   }
+  @at-root .aa-TouchOnly {
+    @media (hover: hover) {
+      display: none;
+    }
+  }
   @at-root .aa-ActiveOnly {
     visibility: hidden;
   }
