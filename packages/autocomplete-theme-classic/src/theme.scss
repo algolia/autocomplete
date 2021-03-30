@@ -516,13 +516,6 @@ body {
     stroke-width: var(--aa-icon-stroke-width);
     text-align: center;
     width: calc(var(--aa-icon-size) + var(--aa-spacing-half));
-    @at-root .aa-ItemIcon--alignTop {
-      align-self: flex-start;
-    }
-    @at-root .aa-ItemIcon--noBorder {
-      background: none;
-      box-shadow: none;
-    }
     img {
       height: auto;
       max-height: calc(var(--aa-icon-size) + var(--aa-spacing-half) - 8px);
@@ -533,14 +526,21 @@ body {
       height: var(--aa-icon-size);
       width: var(--aa-icon-size);
     }
-  }
-  @at-root .aa-ItemVisual {
-    height: 96px;
-    width: 96px;
-    img {
-      max-height: 100%;
-      max-width: 100%;
-      padding: var(--aa-spacing-half);
+    @at-root .aa-ItemIcon--alignTop {
+      align-self: flex-start;
+    }
+    @at-root .aa-ItemIcon--noBorder {
+      background: none;
+      box-shadow: none;
+    }
+    @at-root .aa-ItemIcon--picture {
+      height: 96px;
+      width: 96px;
+      img {
+        max-height: 100%;
+        max-width: 100%;
+        padding: var(--aa-spacing-half);
+      }
     }
   }
   @at-root .aa-ItemContent {

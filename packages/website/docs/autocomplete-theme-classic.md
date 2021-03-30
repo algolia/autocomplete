@@ -166,6 +166,7 @@ The theme provides a set of optional classes for you to use in different context
 
 - `.aa-ItemIcon--noBorder` removes the border of the icon
 - `.aa-ItemIcon--alignTop` aligns the icon to the top (recommended when the template is longer than three lines)
+- `.aa-ItemIcon--picture` makes the icon larger (recommended when using an image and the template is longer than three lines)
 - `.aa-Panel--scrollable` declares the scrollable container(s) of the panel
 
 ### Utilities

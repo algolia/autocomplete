@@ -121,7 +121,7 @@ function ProductItem({ hit, insights }: ProductItemProps) {
   return (
     <Fragment>
       <div className="aa-ItemContent">
-        <div className="aa-ItemVisual aa-ItemIcon aa-ItemIcon--alignTop">
+        <div className="aa-ItemIcon--picture aa-ItemIcon aa-ItemIcon--alignTop">
           <img src={hit.image} alt={hit.name} width="40" height="40" />
         </div>
 
