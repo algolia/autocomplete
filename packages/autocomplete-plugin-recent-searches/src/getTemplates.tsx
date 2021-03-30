@@ -32,7 +32,7 @@ export function getTemplates<TItem extends RecentSearchesItem>({
               })}
 
               {item.category && (
-                <span className="aa-ItemContentSubtitleInline">
+                <span className="aa-ItemContentSubtitle aa-ItemContentSubtitle--inline">
                   <span className="aa-ItemContentSubtitleIcon" /> in{' '}
                   <span className="aa-ItemContentSubtitleCategory">
                     {item.category}

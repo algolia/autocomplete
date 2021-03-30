@@ -16,7 +16,7 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
         return (
           <Fragment>
             <div className="aa-ItemContent aa-ItemContent--indented">
-              <div className="aa-ItemContentSubtitle">
+              <div className="aa-ItemContentSubtitle aa-ItemContentSubtitle--standalone">
                 <span className="aa-ItemContentSubtitleIcon" />
                 <span>
                   in{' '}
