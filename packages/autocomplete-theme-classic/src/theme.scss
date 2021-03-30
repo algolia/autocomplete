@@ -9,6 +9,7 @@
 // 8.  Panel Footer
 // 9.  Detached Mode
 // 10. Gradients
+// 11. Utilities
 // ----------------
 
 // Note:
@@ -715,16 +716,6 @@ body {
       width: var(--aa-action-icon-size);
     }
   }
-  @at-root .aa-DesktopOnly {
-    @media (hover: none) and (pointer: coarse) {
-      display: none;
-    }
-  }
-  @at-root .aa-TouchOnly {
-    @media (hover: hover) {
-      display: none;
-    }
-  }
   @at-root .aa-ActiveOnly {
     visibility: hidden;
   }
@@ -973,4 +964,19 @@ body {
     rgba(var(--aa-background-color-rgb), 1)
   );
   bottom: 0;
+}
+
+//----------------
+// 11. Utilities
+//----------------
+.aa-DesktopOnly {
+  @media (hover: none) and (pointer: coarse) {
+    display: none;
+  }
+}
+
+.aa-TouchOnly {
+  @media (hover: hover) {
+    display: none;
+  }
 }
