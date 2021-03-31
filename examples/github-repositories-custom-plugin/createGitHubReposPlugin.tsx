@@ -2,21 +2,21 @@ import { AutocompletePlugin } from '@algolia/autocomplete-js';
 import qs from 'qs';
 
 type GitHubRepository = {
-  full_name: string,
-  description: string,
-  stargazers_count: number,
-  html_url: string,
+  full_name: string;
+  description: string;
+  stargazers_count: number;
+  html_url: string;
   owner: {
-    avatar_url: string,
-  },
+    avatar_url: string;
+  };
 };
 
 type CreateGithubReposPluginProps = {
-  accept?: string,
-  sort?: 'stars' | 'forks' | 'help-wanted-issues' | 'updated',
-  order?: 'asc' | 'desc',
-  per_page?: number,
-  page?: number,
+  accept?: string;
+  sort?: 'stars' | 'forks' | 'help-wanted-issues' | 'updated';
+  order?: 'asc' | 'desc';
+  per_page?: number;
+  page?: number;
 };
 
 function debouncePromise<TParams extends unknown[], TResponse>(
