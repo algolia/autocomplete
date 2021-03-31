@@ -1,3 +1,4 @@
+/** @jsx h */
 import { AutocompletePlugin } from '@algolia/autocomplete-js';
 import qs from 'qs';
 
