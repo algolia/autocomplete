@@ -1,4 +1,5 @@
 import { autocomplete } from '@algolia/autocomplete-js';
+
 import { createGitHubReposPlugin } from './createGitHubReposPlugin';
 
 import '@algolia/autocomplete-theme-classic';
