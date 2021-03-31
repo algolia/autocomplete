@@ -63,7 +63,7 @@ Here's the markup for an [`item`](templates#item) template.
 autocomplete({
   // ...
   templates: {
-    item({ item }) {
+    item({ item, components }) {
       return (
         <Fragment>
           <div className="aa-ItemIcon">
@@ -71,10 +71,10 @@ autocomplete({
           </div>
           <div className="aa-ItemContent">
             <div className="aa-ItemContentTitle">
-              {snippetHit({ hit: item, attribute: 'name' })}
+              <components.Snippet hit={item} attribute="name" />
             </div>
             <div className="aa-ItemContentDescription">
-              {snippetHit({ hit: item, attribute: 'description' })}
+              <components.Snippet hit={item} attribute="description" />
             </div>
           </div>
           <div className="aa-ItemActions">

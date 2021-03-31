@@ -10,7 +10,14 @@ import {
 } from 'preact';
 
 import {
+  createHighlightComponent,
+  createReverseHighlightComponent,
+  createReverseSnippetComponent,
+  createSnippetComponent,
+} from './components';
+import {
   AutocompleteClassNames,
+  AutocompleteComponents,
   AutocompleteOptions,
   AutocompleteRender,
   AutocompleteRenderer,
@@ -74,6 +81,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
     renderNoResults,
     renderer,
     detachedMediaQuery,
+    components,
     ...core
   } = options;
 
@@ -87,6 +95,13 @@ export function getDefaultOptions<TItem extends BaseItem>(
   const environment = (typeof window !== 'undefined'
     ? window
     : {}) as typeof window;
+  const defaultedRenderer = renderer ?? defaultRenderer;
+  const defaultComponents: AutocompleteComponents = {
+    Highlight: createHighlightComponent(defaultedRenderer),
+    ReverseHighlight: createReverseHighlightComponent(defaultedRenderer),
+    ReverseSnippet: createReverseSnippetComponent(defaultedRenderer),
+    Snippet: createSnippetComponent(defaultedRenderer),
+  };
 
   return {
     renderer: {
@@ -109,12 +124,16 @@ export function getDefaultOptions<TItem extends BaseItem>(
       panelPlacement: panelPlacement ?? 'input-wrapper-width',
       render: render ?? defaultRender,
       renderNoResults,
-      renderer: renderer ?? defaultRenderer,
+      renderer: defaultedRenderer,
       detachedMediaQuery:
         detachedMediaQuery ??
         getComputedStyle(environment.document.documentElement).getPropertyValue(
           '--aa-detached-media-query'
         ),
+      components: {
+        ...defaultComponents,
+        ...components,
+      },
     },
     core: {
       ...core,

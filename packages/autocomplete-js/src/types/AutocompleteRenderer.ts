@@ -2,7 +2,7 @@ export type Pragma = (
   type: any,
   props: Record<string, any> | null,
   ...children: ComponentChildren[]
-) => VNode;
+) => JSX.Element;
 export type PragmaFrag = any;
 
 type ComponentChild =
@@ -17,7 +17,7 @@ type ComponentChildren = ComponentChild[] | ComponentChild;
 
 export type VNode<TProps = any> = {
   type: any;
-  props: TProps & { children: ComponentChildren };
+  props: TProps & { children: ComponentChildren; key?: any };
 };
 
 export type AutocompleteRenderer = {
