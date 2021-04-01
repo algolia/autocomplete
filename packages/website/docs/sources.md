@@ -21,7 +21,7 @@ autocomplete({
   getSources() {
     return [
       {
-        sourceId: 'staticSource',
+        sourceId: 'links',
         getItems() {
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
@@ -50,7 +50,7 @@ autocomplete({
   getSources() {
     return [
       {
-        sourceId: 'staticSource',
+        sourceId: 'links',
         getItems({ query }) {
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
@@ -146,7 +146,7 @@ autocomplete({
   getSources() {
     return [
       {
-        sourceId: 'algoliaHits',
+        sourceId: 'products',
         getItems({ query }) {
           return getAlgoliaHits({
             searchClient,
@@ -185,6 +185,7 @@ autocomplete({
       .then(({ predictions }) => {
         return [
           {
+            sourceId: 'predictions',
             getItems() {
               return predictions;
             },
@@ -236,7 +237,7 @@ autocomplete({
 
       return [
         {
-          sourceId: 'querySuggestionsSource',
+          sourceId: 'querySuggestions',
           getItems() {
             return suggestions.hits;
           },
@@ -245,7 +246,7 @@ autocomplete({
           },
         },
         {
-          sourceId: 'algoliaHits',
+          sourceId: 'products',
           getItems() {
             return products.hits;
           },

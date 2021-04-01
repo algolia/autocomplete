@@ -59,6 +59,7 @@ const gitHubReposPlugin = {
   getSources() {
     return [
       {
+        sourceId: 'githubPlugin',
         getItems() {
           return [
             { name: 'algolia/autocomplete.js', stars: 1237 },
@@ -114,6 +115,7 @@ export function createGitHubReposPlugin(options) {
         .then((repositories) => {
           return [
             {
+              sourceId: 'githubPlugin',
               getItems() {
                 return repositories.items;
               },
@@ -154,7 +156,7 @@ autocomplete({
 });
 ```
 
-You can see [this demo live on CodeSandbox](https://codesandbox.io/s/amazing-neumann-d3l1p).
+You can see [this demo live on CodeSandbox](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/github-repositories-custom-plugin?file=/app.tsx).
 
 :::note
 

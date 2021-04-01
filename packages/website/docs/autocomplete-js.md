@@ -39,13 +39,9 @@ Make sure to define an empty container in your HTML where to inject your autocom
 
 This example uses Autocomplete with an Algolia index, along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client. All Algolia utility functions to retrieve hits and parse results are available directly in the package.
 
-```js title="JavaScript"
+```jsx title="JavaScript"
 import algoliasearch from 'algoliasearch/lite';
-import {
-  autocomplete,
-  getAlgoliaHits,
-  reverseHighlightHit,
-} from '@algolia/autocomplete-js';
+import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
 
 const searchClient = algoliasearch(
   'latency',
@@ -57,7 +53,7 @@ const autocompleteSearch = autocomplete({
   getSources() {
     return [
       {
-        sourceId: 'querySuggestionsSources',
+        sourceId: 'querySuggestions',
         getItemInputValue: ({ item }) => item.query,
         getItems({ query }) {
           return getAlgoliaHits({
@@ -74,8 +70,8 @@ const autocompleteSearch = autocomplete({
           });
         },
         templates: {
-          item({ item }) {
-            return reverseHighlightHit({ hit: item, attribute: 'query' });
+          item({ item, components }) {
+            return <components.ReverseHighlight hit={item} attribute="query" />;
           },
         },
       },
@@ -147,7 +143,7 @@ type ClassNames = Partial<{
 
 ### `render`
 
-> `(params: { children: VNode, state: AutocompleteState<TItem>, sections: VNode[], createElement: Pragma, Fragment: PragmaFrag }) => void`
+> `(params: { children: VNode, elements: Elements, sections: VNode[], state: AutocompleteState<TItem>, createElement: Pragma, Fragment: PragmaFrag }) => void`
 
 The function that renders the autocomplete panel. This is useful to customize the rendering, for example, using multi-row or multi-column layouts.
 
@@ -160,6 +156,70 @@ autocomplete({
   // ...
   render({ children }, root) {
     render(children, root);
+  },
+});
+```
+
+You can use `sections`, which holds the components tree of your autocomplete, to customize the wrapping layout.
+
+```js
+import { render } from 'preact';
+
+autocomplete({
+  // ...
+  render({ sections }, root) {
+    render(
+      <div className="aa-PanelLayout aa-Panel--scrollable">{sections}</div>,
+      root
+    );
+  },
+});
+```
+
+If you need to split the content across a more complex layout, you can use `elements` instead to pick which source to display based on its [`sourceId`](sources#sourceid).
+
+```js
+import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
+import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+import algoliasearch from 'algoliasearch';
+import { render } from 'preact';
+
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
+const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+  key: 'search',
+});
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  searchClient,
+  indexName: 'instant_search_demo_query_suggestions',
+});
+
+autocomplete({
+  // ...
+  plugins: [recentSearchesPlugin, querySuggestionsPlugin],
+  getSources({ query }) {
+    return [
+      {
+        sourceId: 'products',
+        // ...
+      },
+    ];
+  },
+  render({ elements }, root) {
+    const { recentSearchesPlugin, querySuggestionsPlugin, products } = elements;
+
+    render(
+      <div className="aa-PanelLayout aa-Panel--scrollable">
+        <div>
+          {recentSearchesPlugin}
+          {querySuggestionsPlugin}
+        </div>
+        <div>{products}</div>
+      </div>,
+      root
+    );
   },
 });
 ```

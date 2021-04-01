@@ -1,4 +1,4 @@
-import { snippetHit } from '@algolia/autocomplete-js';
+import { AutocompleteComponents } from '@algolia/autocomplete-js';
 import { Hit } from '@algolia/client-search';
 import React from 'react';
 
@@ -13,9 +13,13 @@ type ProductHit = Hit<Product>;
 
 type AutocompleteProductProps = {
   hit: ProductHit;
+  components: AutocompleteComponents;
 };
 
-export function AutocompleteProduct({ hit }: AutocompleteProductProps) {
+export function AutocompleteProduct({
+  hit,
+  components,
+}: AutocompleteProductProps) {
   return (
     <a className="aa-ItemLink" href={hit.url}>
       <div className="aa-ItemIcon">
@@ -23,10 +27,10 @@ export function AutocompleteProduct({ hit }: AutocompleteProductProps) {
       </div>
       <div className="aa-ItemContent">
         <div className="aa-ItemContentTitle">
-          {snippetHit<ProductHit>({ hit, attribute: 'name' })}
+          <components.Snippet hit={hit} attribute="name" />
         </div>
         <div className="aa-ItemContentDescription">
-          {snippetHit<ProductHit>({ hit, attribute: 'description' })}
+          <components.Snippet hit={hit} attribute="description" />
         </div>
       </div>
       <button
