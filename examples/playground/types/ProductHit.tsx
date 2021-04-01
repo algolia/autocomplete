@@ -3,6 +3,7 @@ import { Hit } from '@algolia/client-search';
 export type ProductRecord = {
   brand: string;
   categories: string[];
+  comments: number;
   description: string;
   free_shipping: boolean;
   hierarchicalCategories: {
@@ -20,6 +21,8 @@ export type ProductRecord = {
   price: number;
   prince_range: string;
   rating: number;
+  sale: boolean;
+  sale_price: number;
   type: string;
 };
 

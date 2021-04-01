@@ -78,7 +78,7 @@ type ProductItemProps = {
 function ProductItem({ hit, components }: ProductItemProps) {
   return (
     <Fragment>
-      <div className="aa-ItemIcon aa-ItemIcon--align-top">
+      <div className="aa-ItemIcon aa-ItemIcon--alignTop">
         <img src={hit.image} alt={hit.name} width="40" height="40" />
       </div>
       <div className="aa-ItemContent">

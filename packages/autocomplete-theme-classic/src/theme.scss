@@ -1,123 +1,224 @@
 // ----------------
-// Variables
+// 1.  CSS Variables
+// 2.  Dark Mode
+// 3.  Autocomplete
+// 4.  Panel
+// 5.  Sources
+// 6.  Hit Layout
+// 7.  Panel Header
+// 8.  Panel Footer
+// 9.  Detached Mode
+// 10. Gradients
+// ----------------
+
+// Note:
+// This theme reflects the markup structure of autocomplete with SCSS indentation.
+// We use the SASS `@at-root` function to keep specificity low.
+
+// ----------------
+// 1. CSS Variables
 // ----------------
 :root {
+  // Input
+  --aa-search-input-height: 44px;
+  --aa-input-icon-size: 20px;
+
+  // Size and spacing
   --aa-base-unit: 16;
-  --aa-font-size: calc(var(--aa-base-unit) * 1px);
-  --aa-spacing-factor: 1; // xs:0.6 / sm:0.8 / md:1 / lg:1.2 / xl:1.5
+  --aa-spacing-factor: 1;
   --aa-spacing: calc(var(--aa-base-unit) * var(--aa-spacing-factor) * 1px);
   --aa-spacing-half: calc(var(--aa-spacing) / 2);
-  --aa-icon-size: 18px;
-  --aa-icon-stroke-width: calc((20 / var(--aa-base-unit)) * 1.6);
-  --aa-primary-color: rgb(62, 52, 211);
-  --aa-muted-color: rgba(128, 126, 163, 0.6);
-  --aa-selected-color: rgba(62, 52, 211, 0.1);
-  --aa-icon-color: rgb(119, 119, 163);
-  --aa-text-color: rgb(38, 38, 39);
-  --aa-content-text-color: rgb(38, 38, 39, 0.7);
-  --aa-background-color: rgb(255, 255, 255);
-  --aa-background-color-alpha-0: rgba(255, 255, 255, 0);
+  --aa-panel-max-height: 650px;
+
+  // Z-index
+  --aa-base-z-index: 9999;
+
+  // Font
+  --aa-font-size: calc(var(--aa-base-unit) * 1px);
+  --aa-font-family: inherit;
+  --aa-font-weight-medium: 500;
+  --aa-font-weight-semibold: 600;
+  --aa-font-weight-bold: 700;
+
+  // Icons
+  --aa-icon-size: 20px;
+  --aa-icon-stroke-width: 1.6;
+  --aa-icon-color-rgb: 119, 119, 163;
+  --aa-icon-color-alpha: 1;
+  --aa-action-icon-size: 20px;
+
+  // Text colors
+  --aa-text-color-rgb: 38, 38, 39;
+  --aa-text-color-alpha: 1;
+  --aa-primary-color-rgb: 62, 52, 211;
+  --aa-primary-color-alpha: 0.2;
+  --aa-muted-color-rgb: 128, 126, 163;
+  --aa-muted-color-alpha: 0.6;
+
+  // Border colors
+  --aa-panel-border-color-rgb: 128, 126, 163;
+  --aa-panel-border-color-alpha: 0.3;
+  --aa-input-border-color-rgb: 128, 126, 163;
+  --aa-input-border-color-alpha: 0.8;
+
+  // Background colors
+  --aa-background-color-rgb: 255, 255, 255;
+  --aa-background-color-alpha: 1;
+  --aa-input-background-color-rgb: 255, 255, 255;
+  --aa-input-background-color-alpha: 1;
+  --aa-selected-color-rgb: 179, 173, 214;
+  --aa-selected-color-alpha: 0.205;
+  --aa-description-highlight-background-color-rgb: 245, 223, 77;
+  --aa-description-highlight-background-color-alpha: 0.5;
+
+  // Detached mode
+  --aa-detached-media-query: (max-width: 680px);
+  --aa-detached-modal-media-query: (min-width: 680px);
+  --aa-detached-modal-max-width: 680px;
+  --aa-detached-modal-max-height: 500px;
+  --aa-overlay-color-rgb: 115, 114, 129;
+  --aa-overlay-color-alpha: 0.4;
+
+  // Shadows
   --aa-panel-shadow: 0 0 0 1px rgba(35, 38, 59, 0.1),
     0 6px 16px -4px rgba(35, 38, 59, 0.15);
-  --aa-panel-max-height: 500px;
-  --aa-detached-media-query: (max-width: 500px);
-  --aa-detached-modal-media-query: (min-width: 500px);
-  --aa-detached-modal-max-width: 500px;
-  --aa-detached-modal-max-height: 500px;
+
+  // Scrollbar
+  --aa-scrollbar-width: 13px;
+  --aa-scrollbar-track-background-color-rgb: 234, 234, 234;
+  --aa-scrollbar-track-background-color-alpha: 1;
+  --aa-scrollbar-thumb-background-color-rgb: var(--aa-background-color-rgb);
+  --aa-scrollbar-thumb-background-color-alpha: 1;
 }
 
 // ----------------
-// Darkmode
+// 2. Dark Mode
 // ----------------
 body {
   /* stylelint-disable selector-no-qualifying-type, selector-class-pattern */
   &[data-theme='dark'],
   &.dark {
-    --aa-primary-color: rgb(93, 85, 213);
-    --aa-muted-color: rgba(93, 85, 213, 0.6);
-    --aa-selected-color: rgba(93, 85, 213, 0.25);
-    --aa-icon-color: rgb(119, 119, 163);
-    --aa-text-color: rgb(183, 192, 199);
-    --aa-content-text-color: rgb(183, 192, 199, 0.8);
-    --aa-background-color: rgb(21, 24, 42);
+    // Text colors
+    --aa-text-color-rgb: 183, 192, 199;
+    --aa-primary-color-rgb: 146, 138, 255;
+    --aa-muted-color-rgb: 146, 138, 255;
+
+    // Background colors
+    --aa-input-background-color-rgb: 0, 3, 9;
+    --aa-background-color-rgb: 21, 24, 42;
+    --aa-selected-color-rgb: 146, 138, 255;
+    --aa-selected-color-alpha: 0.25;
+    --aa-description-highlight-background-color-rgb: 0 255 255;
+    --aa-description-highlight-background-color-alpha: 0.25;
+
+    // Icons
+    --aa-icon-color-rgb: 119, 119, 163;
+
+    // Shadows
     --aa-panel-shadow: inset 1px 1px 0 0 rgb(44, 46, 64),
       0 3px 8px 0 rgb(0, 3, 9);
+
+    // Scrollbar
+    --aa-scrollbar-track-background-color-rgb: 44, 46, 64;
+    --aa-scrollbar-thumb-background-color-rgb: var(--aa-background-color-rgb);
   }
   /* stylelint-enable selector-no-qualifying-type, selector-class-pattern */
 }
 
+// Touch screens
+@media (hover: none) and (pointer: coarse) {
+  :root {
+    // Size and spacing
+    --aa-spacing-factor: 1.2;
+    --aa-action-icon-size: 22px;
+  }
+}
+
+// Reset for `@extend`
+%reset {
+  box-sizing: border-box;
+}
+
+// Init for `@extend`
+%init {
+  color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
+  font-family: var(--aa-font-family);
+  font-size: var(--aa-font-size);
+  font-weight: normal;
+  line-height: 1em;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
 // ----------------
-// Autocomplete
+// 3. Autocomplete
 // ----------------
 .aa-Autocomplete,
 .aa-DetachedFormContainer {
-  font-size: var(--aa-font-size);
-  line-height: 1em;
-  text-align: left;
-  // reset
+  @extend %init;
   * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    @extend %reset;
   }
-  // searchbox
+  // Search box
   .aa-Form {
     align-items: center;
-    background-color: var(--aa-background-color);
-    border: 1px solid var(--aa-muted-color);
+    background-color: rgba(
+      var(--aa-input-background-color-rgb),
+      var(--aa-input-background-color-alpha)
+    );
+    border: 1px solid
+      rgba(var(--aa-input-border-color-rgb), var(--aa-input-border-color-alpha));
     border-radius: 3px;
     display: flex;
-    padding: 0 var(--aa-spacing) 0 var(--aa-spacing-half);
+    line-height: 1em;
+    margin: 0;
+    padding: 0 calc(var(--aa-spacing) - 2px) 0 calc(var(--aa-spacing) - 1px);
     position: relative;
     width: 100%;
-    &:focus-within {
-      border-color: var(--aa-primary-color);
-      box-shadow: var(--aa-selected-color) 0 0 0 3px,
-        inset var(--aa-selected-color) 0 0 0 2px;
-      outline: currentColor none medium;
-    }
-    .aa-InputWrapperPrefix {
+    @at-root .aa-InputWrapperPrefix {
       align-items: center;
       display: flex;
       flex-shrink: 0;
-      flex-wrap: none;
       order: 1;
-      padding-right: var(--aa-spacing-half);
-      // container for search and loading icons
+      // Container for search and loading icons
       .aa-Label,
       .aa-LoadingIndicator {
         cursor: initial;
         flex-shrink: 0;
-        text-align: center;
-        width: calc(var(--aa-spacing) + var(--aa-icon-size));
+        padding: 0;
+        text-align: left;
+        width: calc(var(--aa-icon-size) + var(--aa-spacing));
         button {
           appearance: none;
           background: none;
           border: 0;
+          margin: 0;
+          padding: 2px;
         }
         svg {
-          color: var(--aa-primary-color);
-          left: 2px;
-          position: relative;
+          color: rgba(var(--aa-primary-color-rgb), 1);
+          height: auto;
+          max-height: var(--aa-input-icon-size);
           stroke-width: var(--aa-icon-stroke-width);
-          width: 20px;
+          width: var(--aa-input-icon-size);
         }
       }
     }
-    .aa-InputWrapper {
+    @at-root .aa-InputWrapper {
       order: 3;
       position: relative;
       width: 100%;
-      // input of the searchbox, where the placeholder and query appear
+      // Search box input (with placeholder and query)
       .aa-Input {
         appearance: none;
         background: none;
         border: 0;
-        color: var(--aa-text-color);
+        color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
         font: inherit;
-        height: calc(var(--aa-spacing) * 2.5);
+        height: var(--aa-search-input-height);
         width: 100%;
-        // remove native appearence
+        // Remove native appearence
         &::-webkit-search-decoration,
         &::-webkit-search-cancel-button,
         &::-webkit-search-results-button,
@@ -125,10 +226,10 @@ body {
           appearance: none;
         }
         &::placeholder {
-          color: var(--aa-muted-color);
+          color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
           opacity: 1;
         }
-        // remove focus effect as we moved it to parent wrapper
+        // Focus is set and styled on the parent, it isn't necessary here
         &:focus {
           border-color: none;
           box-shadow: none;
@@ -136,24 +237,26 @@ body {
         }
       }
     }
-    .aa-InputWrapperSuffix {
+    @at-root .aa-InputWrapperSuffix {
       align-items: center;
       display: flex;
       order: 4;
-      // accelerator to clear the query
+      // Accelerator to clear the query
       .aa-ClearButton {
         align-items: center;
         background: none;
         border: 0;
-        color: var(--aa-muted-color);
+        color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
         cursor: pointer;
         display: flex;
+        margin: 0;
+        padding: 2px;
         &[hidden] {
           display: none;
         }
         &:hover,
         &:focus {
-          color: var(--aa-text-color);
+          color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
         }
         svg {
           stroke-width: var(--aa-icon-stroke-width);
@@ -161,153 +264,409 @@ body {
         }
       }
     }
+    &:focus-within {
+      border-color: rgba(var(--aa-primary-color-rgb), 1);
+      box-shadow: rgba(
+            var(--aa-primary-color-rgb),
+            var(--aa-primary-color-alpha)
+          )
+          0 0 0 2px,
+        inset rgba(var(--aa-primary-color-rgb), var(--aa-primary-color-alpha)) 0
+          0 0 2px;
+      outline: currentColor none medium;
+    }
   }
 }
 
 // ----------------
-// Panel
+// 4. Panel
 // ----------------
-
 .aa-Panel {
+  @extend %init;
+
+  background-color: rgba(
+    var(--aa-background-color-rgb),
+    var(--aa-background-color-alpha)
+  );
+  border-radius: calc(var(--aa-spacing) / 4);
+  box-shadow: var(--aa-panel-shadow);
+  margin: 8px 0 0;
+  overflow: hidden;
   position: absolute;
-  // reset
+  transition: opacity 200ms ease-in, filter 200ms ease-in;
   * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    @extend %reset;
   }
   button {
     appearance: none;
     background: none;
     border: 0;
+    margin: 0;
+    padding: 0;
   }
-
-  &::after {
-    background-image: linear-gradient(
-      var(--aa-background-color-alpha-0),
-      var(--aa-background-color)
-    );
-    border-radius: 3px;
-    bottom: 0;
-    content: '';
-    height: 0.75em;
-    pointer-events: none;
-    position: absolute;
-    width: 100%;
-    z-index: 99;
+  // When a request isn't resolved yet
+  &.aa-Panel--stalled {
+    .aa-Source {
+      filter: grayscale(1);
+      opacity: 0.8;
+    }
   }
-  .aa-PanelLayout {
-    background-color: var(--aa-background-color);
-    border-radius: 3px;
-    box-shadow: var(--aa-panel-shadow);
+  @media screen and (prefers-reduced-motion) {
+    transition: none;
+  }
+  @at-root .aa-PanelLayout {
     height: 100%;
-    margin-top: var(--aa-spacing-half);
+    margin: 0;
     max-height: var(--aa-panel-max-height);
-    padding-bottom: var(--aa-spacing-half);
-    padding-top: var(--aa-spacing-half);
+    overflow-y: auto;
+    padding: 0;
     position: relative;
     text-align: left;
 
-    .aa-PanelLayoutResults {
-      overflow-x: hidden;
-      overflow-y: auto;
-      width: 50%;
-    }
-    .aa-PanelLayoutPreview {
-      border-left: solid 1px var(--aa-selected-color);
-      flex-shrink: 1;
-      max-width: 50%;
+    &.aa-PanelLayoutColumns--twoGolden {
+      display: grid;
+      grid-template-columns: 39.2% auto;
       overflow: hidden;
+      padding: 0;
     }
-  }
-  .aa-Panel--Scrollable {
-    overflow-y: auto;
+    &.aa-PanelLayoutColumns--two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      overflow: hidden;
+      padding: 0;
+    }
+    &.aa-PanelLayoutColumns--three {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      overflow: hidden;
+      padding: 0;
+    }
   }
 
-  // when a query isn't resolved yet
-  &.aa-Panel--stalled {
-    filter: grayscale(1);
-    opacity: 0.8;
-    @media screen and (prefers-reduced-motion: reduce) {
-      transition: opacity 200ms ease-in;
+  @at-root .aa-Panel--scrollable {
+    margin: 0;
+    max-height: var(--aa-panel-max-height);
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: var(--aa-spacing-half);
+    scrollbar-color: rgba(
+        var(--aa-scrollbar-thumb-background-color-rgb),
+        var(--aa-scrollbar-thumb-background-color-alpha)
+      )
+      rgba(
+        var(--aa-scrollbar-track-background-color-rgb),
+        var(--aa-scrollbar-track-background-color-alpha)
+      );
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      width: var(--aa-scrollbar-width);
+    }
+    &::-webkit-scrollbar-track {
+      background-color: rgba(
+        var(--aa-scrollbar-track-background-color-rgb),
+        var(--aa-scrollbar-track-background-color-alpha)
+      );
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(
+        var(--aa-scrollbar-thumb-background-color-rgb),
+        var(--aa-scrollbar-thumb-background-color-alpha)
+      );
+      border-color: rgba(
+        var(--aa-scrollbar-track-background-color-rgb),
+        var(--aa-scrollbar-track-background-color-alpha)
+      );
+      border-radius: 9999px;
+      border-style: solid;
+      border-width: 3px 2px 3px 3px;
     }
   }
 }
 
 // ----------------
-// Sources
+// 5. Sources
 // Each source can be styled independently
 // ----------------
 .aa-Source {
+  margin: 0;
+  padding: 0;
   position: relative;
   width: 100%;
-  // source title
-  .aa-SourceHeader {
-    line-height: var(--aa-spacing);
-    margin: var(--aa-spacing-half) calc(var(--aa-spacing-half) + 2px);
-    position: relative;
-    // Title typography
-    .aa-SourceHeaderTitle {
-      background: var(--aa-background-color);
-      color: var(--aa-primary-color);
-      display: inline-block;
-      font-size: 0.8em;
-      font-weight: 600;
-      padding-right: var(--aa-spacing-half);
-      position: relative;
-      text-transform: capitalize;
-      z-index: 2;
-    }
-    // Line separator
-    .aa-SourceHeaderLine {
-      border-bottom: solid 1px var(--aa-primary-color);
-      display: block;
-      height: 2px;
-      left: 0;
-      opacity: 0.3;
-      position: absolute;
-      right: 0;
-      top: var(--aa-spacing-half);
-      z-index: 1;
-    }
-    // hide empty header
-    &:empty {
-      display: none;
-    }
-  }
-  .aa-SourceNoResults {
+  @at-root .aa-SourceNoResults {
+    font-size: 1em;
+    margin: 0;
     padding: var(--aa-spacing);
   }
-  &:empty {
-    // hide empty section
-    display: none;
-  }
-  // list of results inside the source
-  .aa-List {
+  // List of results inside the source
+  @at-root .aa-List {
     list-style: none;
     margin: 0;
     padding: 0;
     position: relative;
   }
+  // Source title
+  .aa-SourceHeader {
+    margin: var(--aa-spacing-half) 0.5em var(--aa-spacing-half) 0;
+    padding: 0;
+    position: relative;
+    // Title typography
+    @at-root .aa-SourceHeaderTitle {
+      background: rgba(
+        var(--aa-background-color-rgb),
+        var(--aa-background-color-alpha)
+      );
+      color: rgba(var(--aa-primary-color-rgb), 1);
+      display: inline-block;
+      font-size: 0.8em;
+      font-weight: var(--aa-font-weight-semibold);
+      margin: 0;
+      padding: 0 var(--aa-spacing-half) 0 0;
+      position: relative;
+      z-index: var(--aa-base-z-index);
+    }
+    // Line separator
+    @at-root .aa-SourceHeaderLine {
+      border-bottom: solid 1px rgba(var(--aa-primary-color-rgb), 1);
+      display: block;
+      height: 2px;
+      left: 0;
+      margin: 0;
+      opacity: 0.3;
+      padding: 0;
+      position: absolute;
+      right: 0;
+      top: var(--aa-spacing-half);
+      z-index: calc(var(--aa-base-z-index) - 1);
+    }
+    // Hide empty header
+    &:empty {
+      display: none;
+    }
+  }
+  &:empty {
+    // hide empty section
+    display: none;
+  }
+  // See all button
+  .aa-SourceFooterSeeAll {
+    background: linear-gradient(
+      180deg,
+      rgba(var(--aa-background-color-rgb), var(--aa-background-color-alpha)),
+      rgba(128, 126, 163, 0.14)
+    );
+    border: 1px solid
+      rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
+    border-radius: 5px;
+    box-shadow: inset 0 0 2px #fff, 0 2px 2px -1px rgba(76, 69, 88, 0.15);
+    color: inherit;
+    font-size: 0.95em;
+    font-weight: var(--aa-font-weight-medium);
+    padding: 0.475em 1em 0.6em;
+    text-decoration: none;
+    &:focus,
+    &:hover {
+      border: 1px solid rgba(var(--aa-primary-color-rgb), 1);
+      color: rgba(var(--aa-primary-color-rgb), 1);
+    }
+  }
 }
 
 // ----------------
-// Hit Layout
+// 6. Hit Layout
 // ----------------
 .aa-Item {
   align-items: center;
-  color: var(--aa-text-color);
+  border-radius: 3px;
   cursor: pointer;
-  display: flex;
-  //height: 100%;
-  line-height: 1.1em;
-  padding: 0 var(--aa-spacing-half);
+  display: grid;
+  gap: calc(var(--aa-spacing-half) / 2);
+  grid-auto-flow: column;
+  justify-content: space-between;
+  min-height: calc(var(--aa-spacing) * 2.5);
+  padding: calc(var(--aa-spacing-half) / 2);
+  // The result type icon inlined svg or img
+  @at-root .aa-ItemIcon {
+    align-items: center;
+    background: rgba(
+      var(--aa-background-color-rgb),
+      var(--aa-background-color-alpha)
+    );
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1px
+      rgba(var(--aa-panel-border-color-rgb), var(--aa-panel-border-color-alpha));
+    color: rgba(var(--aa-icon-color-rgb), var(--aa-icon-color-alpha));
+    display: flex;
+    flex-shrink: 0;
+    font-size: 0.7em;
+    height: calc(var(--aa-icon-size) + var(--aa-spacing-half));
+    justify-content: center;
+    overflow: hidden;
+    stroke-width: var(--aa-icon-stroke-width);
+    text-align: center;
+    width: calc(var(--aa-icon-size) + var(--aa-spacing-half));
+    &.aa-ItemVisual {
+      height: 96px;
+      width: 96px;
+      img {
+        max-height: 100%;
+        max-width: 100%;
+        padding: var(--aa-spacing-half);
+      }
+    }
+    &.aa-ItemIcon--alignTop {
+      align-self: flex-start;
+    }
+    &.aa-ItemIcon--noBorder {
+      background: none;
+      box-shadow: none;
+    }
+    img {
+      height: auto;
+      max-height: calc(var(--aa-icon-size) + var(--aa-spacing-half) - 8px);
+      max-width: calc(var(--aa-icon-size) + var(--aa-spacing-half) - 8px);
+      width: auto;
+    }
+    svg {
+      height: var(--aa-icon-size);
+      width: var(--aa-icon-size);
+    }
+  }
+  @at-root .aa-ItemContent {
+    align-items: center;
+    cursor: pointer;
+    display: grid;
+    gap: var(--aa-spacing-half);
+    grid-auto-flow: column;
+    line-height: 1.25em;
+    overflow: hidden;
+    &.aa-ItemContent--dual {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: left;
+      .aa-ItemContentTitle,
+      .aa-ItemContentSubtitle {
+        display: block;
+      }
+    }
+    mark {
+      background: none;
+      color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
+      font-style: normal;
+      font-weight: var(--aa-font-weight-bold);
+    }
+    .aa-ItemContentTitle {
+      display: inline-block;
+      margin: 0 0.5em 0 0;
+      max-width: 100%;
+      overflow: hidden;
+      padding: 0;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .aa-ItemContentSubtitle {
+      align-items: center;
+      color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
+      display: grid;
+      font-size: 0.92em;
+      gap: var(--aa-spacing-half);
+      grid-auto-flow: column;
+      justify-content: start;
+
+      .aa-ItemContentSubtitleIcon {
+        &::before {
+          border-color: rgba(var(--aa-muted-color-rgb), 0.64);
+          border-radius: 0 0 0 3px;
+          border-style: solid;
+          border-width: 0 0 1.5px 1.5px;
+          content: '';
+          display: inline-block;
+          height: var(--aa-spacing-half);
+          left: 1px;
+          position: relative;
+          top: -3px;
+          width: var(--aa-spacing-half);
+        }
+      }
+    }
+    .aa-ItemContentSubtitleInline {
+      font-size: 0.92em;
+
+      .aa-ItemContentSubtitleIcon {
+        &::before {
+          border-color: rgba(var(--aa-muted-color-rgb), 0.64);
+          border-style: solid;
+          border-width: 0 0 1.5px;
+          content: '';
+          display: inline-block;
+          left: 1px;
+          margin-left: var(--aa-spacing-half);
+          margin-right: calc(var(--aa-spacing-half) / 2);
+          position: relative;
+          top: -3px;
+          width: calc(var(--aa-spacing-half) + 2px);
+        }
+      }
+    }
+
+    .aa-ItemContentSubtitleCategory {
+      color: rgba(var(--aa-muted-color-rgb), 1);
+      font-weight: 500;
+    }
+    .aa-ItemContentDescription {
+      color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
+      font-size: 0.85em;
+      max-width: 100%;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      mark {
+        background: rgba(
+          var(--aa-description-highlight-background-color-rgb),
+          var(--aa-description-highlight-background-color-alpha)
+        );
+        color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
+        font-style: normal;
+        font-weight: var(--aa-font-weight-medium);
+      }
+      &:empty {
+        display: none;
+      }
+    }
+    &:empty {
+      display: none;
+    }
+    .aa-ItemContentDash {
+      color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
+      display: none;
+      opacity: 0.4;
+    }
+    .aa-ItemContentTag {
+      background-color: rgba(
+        var(--aa-primary-color-rgb),
+        var(--aa-primary-color-alpha)
+      );
+      border-radius: 3px;
+      margin: 0 0.4em 0 0;
+      padding: 0.08em 0.3em;
+    }
+  }
+  @at-root .aa-ItemContent--indented {
+    padding-left: calc(var(--aa-icon-size) + var(--aa-spacing));
+  }
+  .aa-ItemContentBody {
+    display: grid;
+    gap: calc(var(--aa-spacing-half) / 2);
+  }
   .aa-ActiveOnly {
     visibility: hidden;
   }
   // when the result is active
   &[aria-selected='true'] {
-    background-color: var(--aa-selected-color);
+    background-color: rgba(
+      var(--aa-selected-color-rgb),
+      var(--aa-selected-color-alpha)
+    );
     .aa-ItemActionButton,
     .aa-ActiveOnly {
       visibility: visible;
@@ -326,229 +685,175 @@ body {
     color: inherit;
     text-decoration: none;
   }
-  // the result type icon inlined svg or img
-  .aa-ItemIcon {
-    align-items: center;
-    background: #fff;
-    border-radius: 3px;
-    box-shadow: inset 0 0 0 1px var(--aa-selected-color);
-    color: var(--aa-icon-color);
-    display: flex;
-    flex-shrink: 0;
-    font-size: var(--aa-icon-size);
-    height: calc(var(--aa-icon-size) + var(--aa-spacing));
-    justify-content: center;
-    margin: 2px var(--aa-spacing-half) 2px 2px;
-    stroke-width: var(--aa-icon-stroke-width);
-    text-align: center;
-    width: calc(var(--aa-icon-size) + var(--aa-spacing));
-    &.aa-ItemIcon--align-top {
-      align-self: flex-start;
-    }
-    &.aa-ItemIcon--no-border {
-      background: none;
-      box-shadow: none;
-      margin: 0 var(--aa-spacing-half) 0 2px;
-    }
-    img {
-      height: auto;
-      max-height: calc(var(--aa-icon-size) + var(--aa-spacing) - 8px);
-      max-width: calc(var(--aa-icon-size) + var(--aa-spacing) - 8px);
-      width: auto;
-    }
-    svg {
-      height: var(--aa-icon-size);
-      width: var(--aa-icon-size);
-    }
-  }
-  .aa-ItemContent {
-    color: var(--aa-text-color);
-    cursor: pointer;
-    flex-shrink: 1;
-    overflow: hidden;
-    padding: calc(var(--aa-spacing) / 4) 0;
-    width: 100%;
-    mark {
-      background: none;
-      color: var(--aa-text-color);
-      font-style: normal;
-      font-weight: bold;
-    }
-    .aa-ItemContentTitle {
-      display: inline-block;
-      line-height: 1.25em;
-      max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .aa-ItemContentSubtitle {
-      color: var(--aa-content-text-color);
-      display: inline-block;
-      font-size: 0.92em;
-      margin-top: -2px;
-      max-width: 100%;
-      overflow-x: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      &::before {
-        content: ' ';
-        white-space: pre;
-      }
-      &:empty {
-        display: none;
-      }
-      .aa-ItemContentDash {
-        color: var(--aa-muted-color);
-        display: none;
-        opacity: 0.4;
-      }
-      .aa-ItemContentTag {
-        background-color: var(--aa-selected-color);
-        border-radius: 3px;
-        margin-right: 0.4em;
-        padding: 0.08em 0.3em;
-      }
-    }
-    &.aa-ItemContent--dual {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      text-align: left;
-      .aa-ItemContentTitle,
-      .aa-ItemContentSubtitle {
-        display: block;
-      }
-    }
-    .aa-ItemContentDescription {
-      color: var(--aa-content-text-color);
-      font-size: 0.85em;
-      max-width: 100%;
-      overflow-x: hidden;
-      padding: 0.3em 0;
-      text-overflow: ellipsis;
-      mark {
-        background: rgb(245 223 77 / 0.5);
-        color: var(--aa-text-color);
-        font-style: normal;
-        font-weight: 500;
-      }
-      &:empty {
-        display: none;
-      }
-    }
-  }
   // secondary click action
   .aa-ItemActions {
-    display: flex;
+    display: grid;
+    grid-auto-flow: column;
+    height: 100%;
+    justify-self: end;
+    margin: 0 calc(var(--aa-spacing) / -3);
+    padding: 0 2px 0 0;
   }
   .aa-ItemActionButton {
     align-items: center;
     background: none;
     border: 0;
-    color: var(--aa-muted-color);
+    color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
     cursor: pointer;
     display: flex;
     flex-shrink: 0;
-    &:hover svg,
-    &:focus svg {
-      color: var(--aa-text-color);
-    }
-    svg {
-      color: var(--aa-muted-color);
-      margin: 0 var(--aa-spacing-half);
-      stroke-width: var(--aa-icon-stroke-width);
-      width: var(--aa-icon-size);
-      &:hover,
-      &:focus {
-        color: var(--aa-text-color);
+    padding: 0;
+    &:hover,
+    &:focus {
+      svg {
+        color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
+        @media (hover: none) and (pointer: coarse) {
+          color: inherit;
+        }
       }
     }
+    svg {
+      color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
+      margin: 0;
+      margin: calc(var(--aa-spacing) / 3);
+      stroke-width: var(--aa-icon-stroke-width);
+      width: var(--aa-action-icon-size);
+    }
   }
 }
 
 //----------------
-// Detached
+// 7. Panel Header
 //----------------
-.aa-DetachedSearchButton {
+.aa-PanelHeader {
   align-items: center;
-  background-color: var(--aa-background-color);
-  border: 1px solid var(--aa-muted-color);
-  border-radius: 3px;
-  color: var(--aa-muted-color);
-  cursor: pointer;
-  display: flex;
-  font: inherit;
-  height: calc(var(--aa-spacing) * 2.5);
-  padding: 0 var(--aa-spacing-half);
+  background: rgba(var(--aa-primary-color-rgb), 1);
+  color: #fff;
+  display: grid;
+  height: var(--aa-modal-header-height);
+  margin: 0;
+  padding: var(--aa-spacing-half) var(--aa-spacing);
   position: relative;
-  text-align: left;
-  width: 100%;
-  &:focus {
-    border-color: var(--aa-primary-color);
-    box-shadow: var(--aa-selected-color) 0 0 0 3px,
-      inset var(--aa-selected-color) 0 0 0 2px;
-    outline: currentColor none medium;
-  }
-  .aa-DetachedSearchButtonIcon {
-    align-items: center;
-    color: var(--aa-primary-color);
-    cursor: initial;
-    display: flex;
-    height: 100%;
-    margin-right: var(--aa-spacing-half);
+
+  &::after {
+    background-image: linear-gradient(
+      rgba(var(--aa-background-color-rgb), 1),
+      rgba(var(--aa-background-color-rgb), 0)
+    );
+    bottom: calc(var(--aa-spacing-half) * -1);
+    content: '';
+    height: var(--aa-spacing-half);
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    z-index: var(--aa-base-z-index);
   }
 }
 
+//----------------
+// 8. Panel Footer
+//----------------
+.aa-PanelFooter {
+  background-color: rgba(
+    var(--aa-background-color-rgb),
+    var(--aa-background-color-alpha)
+  );
+  box-shadow: inset 0 1px 0
+    rgba(var(--aa-panel-border-color-rgb), var(--aa-panel-border-color-alpha));
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: var(--aa-spacing);
+  position: relative;
+  z-index: var(--aa-base-z-index);
+  &::after {
+    background-image: linear-gradient(
+      rgba(var(--aa-background-color-rgb), 0),
+      rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha))
+    );
+    content: '';
+    height: var(--aa-spacing);
+    left: 0;
+    opacity: 0.12;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: calc(var(--aa-spacing) * -1);
+    z-index: calc(var(--aa-base-z-index) - 1);
+  }
+}
+
+//----------------
+// 9. Detached Mode
+//----------------
 .aa-DetachedContainer {
-  background: var(--aa-background-color);
+  background: rgba(
+    var(--aa-background-color-rgb),
+    var(--aa-background-color-alpha)
+  );
   bottom: 0;
+  box-shadow: var(--aa-panel-shadow);
   display: flex;
   flex-direction: column;
   left: 0;
+  margin: 0;
   overflow: hidden;
   padding: 0;
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 1000;
-
+  z-index: var(--aa-base-z-index);
   .aa-DetachedFormContainer {
-    border-bottom: solid 1px var(--aa-selected-color);
+    border-bottom: solid 1px
+      rgba(var(--aa-panel-border-color-rgb), var(--aa-panel-border-color-alpha));
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin: 0;
     padding: var(--aa-spacing-half);
-    .aa-Form {
-      padding: 0 var(--aa-spacing-half) 0 0;
-    }
     .aa-DetachedCancelButton {
       background: none;
       border: 0;
+      border-radius: 3px;
       color: inherit;
+      color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
       cursor: pointer;
       font: inherit;
-      padding: 0 0 0 var(--aa-spacing-half);
+      margin: 0 0 0 var(--aa-spacing-half);
+      padding: 0 var(--aa-spacing-half);
+      &:hover,
+      &:focus {
+        box-shadow: inset 0 0 0 1px
+          rgba(
+            var(--aa-panel-border-color-rgb),
+            var(--aa-panel-border-color-alpha)
+          );
+      }
     }
   }
   .aa-Panel {
-    background-color: var(--aa-background-color);
-    overflow: hidden;
+    background-color: rgba(
+      var(--aa-background-color-rgb),
+      var(--aa-background-color-alpha)
+    );
+    border-radius: 0;
+    box-shadow: none;
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
     position: relative;
     .aa-PanelLayout {
+      bottom: 0;
       box-shadow: none;
-      height: 100%;
+      left: 0;
       margin: 0;
       max-height: none;
       overflow-y: auto;
-      padding: 0;
-      padding: 6px var(--aa-spacing-half) 80px;
+      position: absolute;
+      right: 0;
+      top: 0;
       width: 100%;
-    }
-
-    .aa-Item {
-      border-radius: 3px;
-      padding: 0;
     }
     .aa-SourceHeader {
       margin: var(--aa-spacing-half) 0 var(--aa-spacing-half) 2px;
@@ -557,8 +862,7 @@ body {
   &::after {
     height: 32px;
   }
-
-  &.aa-DetachedContainer--Modal {
+  &.aa-DetachedContainer--modal {
     border-radius: 6px;
     bottom: inherit;
     height: auto;
@@ -574,25 +878,98 @@ body {
     }
   }
 }
-
-// remove scroll for body
+// Search Button
+.aa-DetachedSearchButton {
+  align-items: center;
+  background-color: rgba(
+    var(--aa-input-background-color-rgb),
+    var(--aa-input-background-color-alpha)
+  );
+  border: 1px solid
+    rgba(var(--aa-input-border-color-rgb), var(--aa-input-border-color-alpha));
+  border-radius: 3px;
+  color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  font-family: var(--aa-font-family);
+  font-size: var(--aa-font-size);
+  height: var(--aa-search-input-height);
+  margin: 0;
+  padding: 0 calc(var(--aa-search-input-height) / 8);
+  position: relative;
+  text-align: left;
+  width: 100%;
+  &:focus {
+    border-color: rgba(var(--aa-primary-color-rgb), 1);
+    box-shadow: rgba(var(--aa-primary-color-rgb), var(--aa-primary-color-alpha))
+        0 0 0 3px,
+      inset rgba(var(--aa-primary-color-rgb), var(--aa-primary-color-alpha)) 0 0
+        0 2px;
+    outline: currentColor none medium;
+  }
+  .aa-DetachedSearchButtonIcon {
+    align-items: center;
+    color: rgba(var(--aa-primary-color-rgb), 1);
+    cursor: initial;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    width: calc(var(--aa-icon-size) + var(--aa-spacing));
+  }
+}
+// Remove scroll on `body`
 .aa-Detached {
   height: 100vh;
   overflow: hidden;
 }
 
 .aa-DetachedOverlay {
-  background-color: var(--aa-muted-color);
+  background-color: rgba(
+    var(--aa-overlay-color-rgb),
+    var(--aa-overlay-color-alpha)
+  );
   height: 100vh;
   left: 0;
+  margin: 0;
+  padding: 0;
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 999;
+  z-index: calc(var(--aa-base-z-index) - 1);
 }
 
 @media (hover: none) and (pointer: coarse) {
   .aa-TouchOnly {
     display: none !important; // TODO: fix specificity issue
   }
+}
+
+//----------------
+// 10. Gradients
+//----------------
+.aa-GradientTop,
+.aa-GradientBottom {
+  height: var(--aa-spacing-half);
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: var(--aa-scrollbar-width);
+  z-index: var(--aa-base-z-index);
+}
+
+.aa-GradientTop {
+  background-image: linear-gradient(
+    rgba(var(--aa-background-color-rgb), 1),
+    rgba(var(--aa-background-color-rgb), 0)
+  );
+  top: 0;
+}
+
+.aa-GradientBottom {
+  background-image: linear-gradient(
+    rgba(var(--aa-background-color-rgb), 0),
+    rgba(var(--aa-background-color-rgb), 1)
+  );
+  bottom: 0;
 }

@@ -54,7 +54,7 @@ export function createCategoriesPlugin({
             item({ item, components }) {
               return (
                 <Fragment>
-                  <div className="aa-ItemIcon aa-ItemIcon--no-border">
+                  <div className="aa-ItemIcon aa-ItemIcon--noBorder">
                     <svg
                       viewBox="0 0 24 24"
                       width="18"

@@ -80,7 +80,7 @@ export function createLocalStorageRecentlyViewedItems<
                     <img src={item.image} alt={item.label} />
                   </div>
                 ) : (
-                  <div className="aa-ItemIcon aa-ItemIcon--no-border">
+                  <div className="aa-ItemIcon aa-ItemIcon--noBorder">
                     <svg
                       viewBox="0 0 24 24"
                       width="18"
