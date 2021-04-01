@@ -50,7 +50,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
                 </div>
 
                 {item.__autocomplete_qsCategory && (
-                  <div className="aa-ItemContentSubtitle">
+                  <div className="aa-ItemContentSubtitle aa-ItemContentSubtitle--standalone">
                     in{' '}
                     <span
                       style={{

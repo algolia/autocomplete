@@ -123,7 +123,7 @@ export function createGitHubReposPlugin(
                       </div>
                       <div className="aa-ItemActions">
                         <button
-                          className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
+                          className="aa-ItemActionButton aa-DesktopOnly aa-ActiveOnly"
                           type="button"
                           title="Select"
                         >

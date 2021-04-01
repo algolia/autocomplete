@@ -134,7 +134,7 @@ function ProductItem({ hit, insights, components }: ProductItemProps) {
   return (
     <Fragment>
       <div className="aa-ItemContent">
-        <div className="aa-ItemVisual aa-ItemIcon aa-ItemIcon--alignTop">
+        <div className="aa-ItemIcon aa-ItemIcon--picture aa-ItemIcon--alignTop">
           <img src={hit.image} alt={hit.name} width="40" height="40" />
         </div>
 
@@ -277,7 +277,7 @@ function ProductItem({ hit, insights, components }: ProductItemProps) {
 
       <div className="aa-ItemActions">
         <button
-          className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
+          className="aa-ItemActionButton aa-DesktopOnly aa-ActiveOnly"
           type="button"
           title="Select"
           disabled={true}
