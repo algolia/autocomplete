@@ -17,7 +17,6 @@ type CreateGithubReposPluginProps = {
   accept?: string;
   sort?: 'stars' | 'forks' | 'help-wanted-issues' | 'updated';
   order?: 'asc' | 'desc';
-  // eslint-disable-next-line @typescript-eslint/camelcase
   per_page?: number;
   page?: number;
 };
