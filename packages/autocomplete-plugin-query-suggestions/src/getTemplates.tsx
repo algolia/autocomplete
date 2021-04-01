@@ -11,7 +11,7 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
   onTapAhead,
 }: GetTemplatesParams<TItem>): SourceTemplates<TItem> {
   return {
-    item({ item, Fragment, components }) {
+    item({ item, createElement, Fragment, components }) {
       if (item.__autocomplete_qsCategory) {
         return (
           <Fragment>
