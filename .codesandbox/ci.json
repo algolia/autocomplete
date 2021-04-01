@@ -3,6 +3,7 @@
   "buildCommand": false,
   "^": "buildCommand is false because `yarn prepare` is going to build packages anyway.",
   "sandboxes": [
+    "/examples/github-repositories-custom-plugin",
     "/examples/playground",
     "/examples/query-suggestions-with-categories",
     "/examples/query-suggestions-with-hits",

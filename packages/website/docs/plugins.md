@@ -156,7 +156,7 @@ autocomplete({
 });
 ```
 
-You can see [this demo live on CodeSandbox](https://codesandbox.io/s/amazing-neumann-d3l1p).
+You can see [this demo live on CodeSandbox](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/github-repositories-custom-plugin?file=/app.tsx).
 
 :::note
 
