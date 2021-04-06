@@ -4,7 +4,7 @@ type QueryWithMetadata<TQuery> = {
   query: TQuery;
 } & any;
 
-type RequesterOptions<TQuery> = {
+export type OriginalRequesterOptions<TQuery> = {
   searchClient: SearchClient;
   queries: TQuery[];
 };
@@ -14,12 +14,12 @@ type FetcherOptions<TQuery> = {
   queries: QueryWithMetadata<TQuery>[];
 };
 
-type Fetcher<TQuery, TResult> = (
+export type Fetcher<TQuery, TResult> = (
   options: FetcherOptions<TQuery>
 ) => Promise<TResult[]>;
 
 type CreateFetcherOptions<TQuery, TRawResult, TResults = TRawResult> = {
-  request: (options: RequesterOptions<TQuery>) => Promise<TRawResult[]>;
+  request: (options: OriginalRequesterOptions<TQuery>) => Promise<TRawResult[]>;
   transform?: (
     results: TRawResult[],
     initialQueries: QueryWithMetadata<TQuery>[]
