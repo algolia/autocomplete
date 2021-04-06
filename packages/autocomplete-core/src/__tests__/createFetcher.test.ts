@@ -7,13 +7,14 @@ import { getAlgoliaHits } from '../../../autocomplete-preset-algolia/src/search/
 
 function createTestSearchClient() {
   return createSearchClient({
-    search: () =>
+    search: jest.fn(() =>
       Promise.resolve(
         createMultiSearchResponse<{ label: string }>(
           { hits: [{ objectID: '1', label: 'Hit 1' }] },
           { hits: [{ objectID: '2', label: 'Hit 2' }] }
         )
-      ),
+      )
+    ),
   });
 }
 
@@ -28,16 +29,30 @@ describe('createFetcher', () => {
       searchClient,
       queries: [
         {
-          indexName: 'indexName',
-          query: 'query',
+          query: {
+            indexName: 'indexName',
+            query: 'query',
+          },
         },
         {
-          indexName: 'indexName2',
-          query: 'query',
+          query: {
+            indexName: 'indexName2',
+            query: 'query',
+          },
         },
       ],
     });
 
+    expect(searchClient.search).toHaveBeenNthCalledWith(1, [
+      expect.objectContaining({
+        indexName: 'indexName',
+        query: 'query',
+      }),
+      expect.objectContaining({
+        indexName: 'indexName2',
+        query: 'query',
+      }),
+    ]);
     expect(results).toEqual([
       [{ objectID: '1', label: 'Hit 1' }],
       [{ objectID: '2', label: 'Hit 2' }],
@@ -49,11 +64,11 @@ describe('createFetcher', () => {
       request: getAlgoliaHits,
       transform: (collections, initialQueries) => {
         return collections.map((hits, index) => {
-          const { indexName } = initialQueries[index];
+          const { __autocomplete_sourceId } = initialQueries[index];
 
           return hits.map((hit) => ({
             ...hit,
-            indexName,
+            __autocomplete_sourceId,
           }));
         });
       },
@@ -63,19 +78,41 @@ describe('createFetcher', () => {
       searchClient,
       queries: [
         {
-          indexName: 'indexName',
-          query: 'query',
+          query: {
+            indexName: 'indexName',
+            query: 'query',
+          },
+          __autocomplete_sourceId: 'products',
         },
         {
-          indexName: 'indexName2',
-          query: 'query',
+          query: {
+            indexName: 'indexName2',
+            query: 'query',
+          },
+          __autocomplete_sourceId: 'suggestions',
         },
       ],
     });
 
+    expect(searchClient.search).toHaveBeenNthCalledWith(1, [
+      expect.objectContaining({
+        indexName: 'indexName',
+        query: 'query',
+      }),
+      expect.objectContaining({
+        indexName: 'indexName2',
+        query: 'query',
+      }),
+    ]);
     expect(results).toEqual([
-      [{ objectID: '1', label: 'Hit 1', indexName: 'indexName' }],
-      [{ objectID: '2', label: 'Hit 2', indexName: 'indexName2' }],
+      [{ objectID: '1', label: 'Hit 1', __autocomplete_sourceId: 'products' }],
+      [
+        {
+          objectID: '2',
+          label: 'Hit 2',
+          __autocomplete_sourceId: 'suggestions',
+        },
+      ],
     ]);
   });
 });

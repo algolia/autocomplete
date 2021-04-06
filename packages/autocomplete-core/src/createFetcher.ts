@@ -1,28 +1,28 @@
 import { SearchClient } from 'algoliasearch/lite';
 
-type Query<TQuery, TMetadata extends {}> = { query: TQuery } & TMetadata;
+type QueryWithMetadata<TQuery> = {
+  query: TQuery;
+} & any;
 
-type FetcherOptions<TQuery, TMetadata> = {
+type RequesterOptions<TQuery> = {
   searchClient: SearchClient;
-  queries: Query<TQuery, TMetadata>[];
+  queries: TQuery[];
 };
 
-type Fetcher<TQuery, TMetadata, TResult> = (
-  options: FetcherOptions<TQuery, TMetadata>
+type FetcherOptions<TQuery> = {
+  searchClient: SearchClient;
+  queries: QueryWithMetadata<TQuery>[];
+};
+
+type Fetcher<TQuery, TResult> = (
+  options: FetcherOptions<TQuery>
 ) => Promise<TResult[]>;
 
-type CreateFetcherOptions<
-  TQuery,
-  TMetadata,
-  TRawResult,
-  TResults = TRawResult
-> = {
-  request: (
-    options: FetcherOptions<TQuery, TMetadata>
-  ) => Promise<TRawResult[]>;
+type CreateFetcherOptions<TQuery, TRawResult, TResults = TRawResult> = {
+  request: (options: RequesterOptions<TQuery>) => Promise<TRawResult[]>;
   transform?: (
     results: TRawResult[],
-    initialQueries: Query<TQuery, TMetadata>[]
+    initialQueries: QueryWithMetadata<TQuery>[]
   ) => TResults[];
 };
 
@@ -31,11 +31,12 @@ export function createFetcher<TQuery, TMetadata, TRawResult>({
   transform = (value) => value,
 }: CreateFetcherOptions<TQuery, TMetadata, TRawResult>): Fetcher<
   TQuery,
-  TMetadata,
   TRawResult
 > {
   return function fetcher(options) {
-    return request(options).then((results) =>
+    const queries = options.queries.map(({ query }) => query);
+
+    return request({ ...options, queries }).then((results) =>
       transform(results, options.queries)
     );
   };
