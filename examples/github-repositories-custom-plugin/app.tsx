@@ -11,6 +11,5 @@ const gitHubReposPlugin = createGitHubReposPlugin({
 
 autocomplete({
   container: '#autocomplete',
-  debug: true,
   plugins: [gitHubReposPlugin],
 });
