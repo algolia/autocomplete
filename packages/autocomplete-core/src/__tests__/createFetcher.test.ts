@@ -2,7 +2,6 @@ import { createFetcher } from '../createFetcher';
 import {
   createMultiSearchResponse,
   createSearchClient,
-  createSFFVResponse,
 } from '../../../../test/utils';
 import { getAlgoliaHits } from '../../../autocomplete-preset-algolia/src/search/getAlgoliaHits';
 
