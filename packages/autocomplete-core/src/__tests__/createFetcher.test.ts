@@ -66,10 +66,10 @@ describe('createFetcher', () => {
         return collections.map((hits, index) => {
           const { __autocomplete_sourceId } = initialQueries[index];
 
-          return hits.map((hit) => ({
-            ...hit,
+          return {
+            hits,
             __autocomplete_sourceId,
-          }));
+          };
         });
       },
     });
@@ -105,14 +105,14 @@ describe('createFetcher', () => {
       }),
     ]);
     expect(results).toEqual([
-      [{ objectID: '1', label: 'Hit 1', __autocomplete_sourceId: 'products' }],
-      [
-        {
-          objectID: '2',
-          label: 'Hit 2',
-          __autocomplete_sourceId: 'suggestions',
-        },
-      ],
+      {
+        hits: [{ objectID: '1', label: 'Hit 1' }],
+        __autocomplete_sourceId: 'products',
+      },
+      {
+        hits: [{ objectID: '2', label: 'Hit 2' }],
+        __autocomplete_sourceId: 'suggestions',
+      },
     ]);
   });
 });

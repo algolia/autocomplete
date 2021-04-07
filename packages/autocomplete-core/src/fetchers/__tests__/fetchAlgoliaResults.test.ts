@@ -51,14 +51,22 @@ describe('fetchAlgoliaResults', () => {
       }),
     ]);
     expect(results).toEqual([
-      expect.objectContaining({
-        hits: [{ objectID: '1', label: 'Hit 1' }],
+      {
+        items: {
+          results: expect.objectContaining({
+            hits: [{ objectID: '1', label: 'Hit 1' }],
+          }),
+        },
         __autocomplete_sourceId: 'products',
-      }),
-      expect.objectContaining({
-        hits: [{ objectID: '2', label: 'Hit 2' }],
+      },
+      {
+        items: {
+          results: expect.objectContaining({
+            hits: [{ objectID: '2', label: 'Hit 2' }],
+          }),
+        },
         __autocomplete_sourceId: 'suggestions',
-      }),
+      },
     ]);
   });
 });

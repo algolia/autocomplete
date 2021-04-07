@@ -51,14 +51,14 @@ describe('fetchAlgoliaHits', () => {
       }),
     ]);
     expect(results).toEqual([
-      [{ objectID: '1', label: 'Hit 1', __autocomplete_sourceId: 'products' }],
-      [
-        {
-          objectID: '2',
-          label: 'Hit 2',
-          __autocomplete_sourceId: 'suggestions',
-        },
-      ],
+      {
+        items: [{ objectID: '1', label: 'Hit 1' }],
+        __autocomplete_sourceId: 'products',
+      },
+      {
+        items: [{ objectID: '2', label: 'Hit 2' }],
+        __autocomplete_sourceId: 'suggestions',
+      },
     ]);
   });
 });

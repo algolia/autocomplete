@@ -8,10 +8,10 @@ export const fetchAlgoliaHits = createFetcher({
     return collections.map((hits, index) => {
       const { __autocomplete_sourceId } = initialQueries[index];
 
-      return hits.map((hit) => ({
-        ...hit,
+      return {
+        items: hits,
         __autocomplete_sourceId,
-      }));
+      };
     });
   },
 });
