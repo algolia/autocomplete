@@ -1,8 +1,8 @@
 /** @jsx h */
 import {
   autocomplete,
+  AutocompleteComponents,
   getAlgoliaHits,
-  highlightHit,
 } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
 import { h, Fragment } from 'preact';
@@ -66,8 +66,10 @@ autocomplete({
               </Fragment>
             );
           },
-          item({ item }) {
-            return <AutocompleteProductItem hit={item} />;
+          item({ item, components }) {
+            return (
+              <AutocompleteProductItem hit={item} components={components} />
+            );
           },
           noResults() {
             return (
@@ -82,9 +84,10 @@ autocomplete({
 
 type ProductItemProps = {
   hit: ProductHit;
+  components: AutocompleteComponents;
 };
 
-function AutocompleteProductItem({ hit }: ProductItemProps) {
+function AutocompleteProductItem({ hit, components }: ProductItemProps) {
   return (
     <Fragment>
       <div className="aa-ItemIcon aa-ItemIcon--alignTop">
@@ -92,12 +95,12 @@ function AutocompleteProductItem({ hit }: ProductItemProps) {
       </div>
       <div className="aa-ItemContent">
         <div className="aa-ItemContentTitle">
-          {highlightHit<ProductHit>({ hit, attribute: 'name' })}
+          <components.Highlight hit={hit} attribute="name" />
         </div>
       </div>
       <div className="aa-ItemActions">
         <button
-          className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
+          className="aa-ItemActionButton aa-DesktopOnly aa-ActiveOnly"
           type="button"
           title="Select"
         >

@@ -1,5 +1,5 @@
 /** @jsx h */
-import { autocomplete, reverseHighlightHit } from '@algolia/autocomplete-js';
+import { autocomplete } from '@algolia/autocomplete-js';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import algoliasearch from 'algoliasearch';
 import { h, Fragment } from 'preact';
@@ -30,7 +30,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
       ...source,
       templates: {
         ...source.templates,
-        item({ item, createElement }) {
+        item({ item, components }) {
           return (
             <Fragment>
               <div className="aa-ItemIcon aa-ItemIcon--noBorder">
@@ -46,15 +46,11 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 
               <div className="aa-ItemContent">
                 <div className="aa-ItemContentTitle">
-                  {reverseHighlightHit<any>({
-                    hit: item,
-                    attribute: 'query',
-                    createElement,
-                  })}
+                  <components.ReverseHighlight hit={item} attribute="query" />
                 </div>
 
                 {item.__autocomplete_qsCategory && (
-                  <div className="aa-ItemContentSubtitle">
+                  <div className="aa-ItemContentSubtitle aa-ItemContentSubtitle--standalone">
                     in{' '}
                     <span
                       style={{
@@ -73,6 +69,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
                   className="aa-ItemActionButton"
                   title={`Fill query with "${item.query}"`}
                   onClick={(event) => {
+                    event.preventDefault();
                     event.stopPropagation();
                     onTapAhead(item);
                   }}

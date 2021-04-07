@@ -1,0 +1,387 @@
+{
+  "results": [
+    {
+      "hits": [
+        {
+          "name": "Apple - iPhone SE 16GB - Space Gray (Verizon)",
+          "description": "iPhone SE features a 4-inch Retina display, an A9 chip with 64-bit desktop-class architecture, the Touch ID fingerprint sensor, a 12MP iSight camera, a FaceTime HD camera with Retina Flash, Live Photos, LTE and fast Wi-Fi, iOS 9, and iCloud.",
+          "brand": "Apple",
+          "categories": ["Cell Phones", "iPhone", "iPhone SE"],
+          "hierarchicalCategories": {
+            "lvl0": "Cell Phones",
+            "lvl1": "Cell Phones > iPhone",
+            "lvl2": "Cell Phones > iPhone > iPhone SE"
+          },
+          "type": "Vzw iphone handset",
+          "price": 449.99,
+          "price_range": "200 - 500",
+          "image": "https://cdn-demo.algolia.com/bestbuy-0118/5005506_sb.jpg",
+          "url": "https://api.bestbuy.com/click/-/5005506/pdp",
+          "free_shipping": true,
+          "rating": 4,
+          "popularity": 19581,
+          "objectID": "5005506",
+          "_snippetResult": {
+            "name": {
+              "value": "Apple - __aa-highlight__iPhone__/aa-highlight__ SE 16GB - Space Gray (Verizon)",
+              "matchLevel": "full"
+            },
+            "description": {
+              "value": "__aa-highlight__iPhone__/aa-highlight__ SE features a 4-inch Retina display, an A9 chip with 64-bit desktop-class architecture, the Touch ID fingerprint sensor, a 12MP iSight camera, a FaceTime HD camera with Retina Flash, Live Photos …",
+              "matchLevel": "full"
+            }
+          },
+          "_highlightResult": {
+            "name": {
+              "value": "Apple - __aa-highlight__iPhone__/aa-highlight__ SE 16GB - Space Gray (Verizon)",
+              "matchLevel": "full",
+              "fullyHighlighted": false,
+              "matchedWords": ["iphone"]
+            },
+            "description": {
+              "value": "__aa-highlight__iPhone__/aa-highlight__ SE features a 4-inch Retina display, an A9 chip with 64-bit desktop-class architecture, the Touch ID fingerprint sensor, a 12MP iSight camera, a FaceTime HD camera with Retina Flash, Live Photos, LTE and fast Wi-Fi, iOS 9, and iCloud.",
+              "matchLevel": "full",
+              "fullyHighlighted": false,
+              "matchedWords": ["iphone"]
+            },
+            "brand": {
+              "value": "Apple",
+              "matchLevel": "none",
+              "matchedWords": []
+            },
+            "categories": [
+              {
+                "value": "Cell Phones",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              {
+                "value": "__aa-highlight__iPhone__/aa-highlight__",
+                "matchLevel": "full",
+                "fullyHighlighted": true,
+                "matchedWords": ["iphone"]
+              },
+              {
+                "value": "__aa-highlight__iPhone__/aa-highlight__ SE",
+                "matchLevel": "full",
+                "fullyHighlighted": false,
+                "matchedWords": ["iphone"]
+              }
+            ],
+            "type": {
+              "value": "Vzw __aa-highlight__iphone__/aa-highlight__ handset",
+              "matchLevel": "full",
+              "fullyHighlighted": false,
+              "matchedWords": ["iphone"]
+            }
+          }
+        },
+        {
+          "name": "Apple - iPhone SE 64GB - Space Gray (AT&T)",
+          "description": "iPhone SE features a 4-inch Retina display, an A9 chip with 64-bit desktop-class architecture, the Touch ID fingerprint sensor, a 12MP iSight camera, a FaceTime HD camera with Retina Flash, Live Photos, LTE and fast Wi-Fi, iOS 9, and iCloud.",
+          "brand": "Apple",
+          "categories": ["Cell Phones", "iPhone", "iPhone SE"],
+          "hierarchicalCategories": {
+            "lvl0": "Cell Phones",
+            "lvl1": "Cell Phones > iPhone",
+            "lvl2": "Cell Phones > iPhone > iPhone SE"
+          },
+          "type": "At&#38;t iphone handset",
+          "price": 499.99,
+          "price_range": "200 - 500",
+          "image": "https://cdn-demo.algolia.com/bestbuy-0118/5005675_sb.jpg",
+          "url": "https://api.bestbuy.com/click/-/5005675/pdp",
+          "free_shipping": true,
+          "rating": 4,
+          "popularity": 19311,
+          "objectID": "5005675",
+          "_snippetResult": {
+            "name": {
+              "value": "Apple - __aa-highlight__iPhone__/aa-highlight__ SE 64GB - Space Gray (AT&T)",
+              "matchLevel": "full"
+            },
+            "description": {
+              "value": "__aa-highlight__iPhone__/aa-highlight__ SE features a 4-inch Retina display, an A9 chip with 64-bit desktop-class architecture, the Touch ID fingerprint sensor, a 12MP iSight camera, a FaceTime HD camera with Retina Flash, Live Photos …",
+              "matchLevel": "full"
+            }
+          },
+          "_highlightResult": {
+            "name": {
+              "value": "Apple - __aa-highlight__iPhone__/aa-highlight__ SE 64GB - Space Gray (AT&T)",
+              "matchLevel": "full",
+              "fullyHighlighted": false,
+              "matchedWords": ["iphone"]
+            },
+            "description": {
+              "value": "__aa-highlight__iPhone__/aa-highlight__ SE features a 4-inch Retina display, an A9 chip with 64-bit desktop-class architecture, the Touch ID fingerprint sensor, a 12MP iSight camera, a FaceTime HD camera with Retina Flash, Live Photos, LTE and fast Wi-Fi, iOS 9, and iCloud.",
+              "matchLevel": "full",
+              "fullyHighlighted": false,
+              "matchedWords": ["iphone"]
+            },
+            "brand": {
+              "value": "Apple",
+              "matchLevel": "none",
+              "matchedWords": []
+            },
+            "categories": [
+              {
+                "value": "Cell Phones",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              {
+                "value": "__aa-highlight__iPhone__/aa-highlight__",
+                "matchLevel": "full",
+                "fullyHighlighted": true,
+                "matchedWords": ["iphone"]
+              },
+              {
+                "value": "__aa-highlight__iPhone__/aa-highlight__ SE",
+                "matchLevel": "full",
+                "fullyHighlighted": false,
+                "matchedWords": ["iphone"]
+              }
+            ],
+            "type": {
+              "value": "At&t __aa-highlight__iphone__/aa-highlight__ handset",
+              "matchLevel": "full",
+              "fullyHighlighted": false,
+              "matchedWords": ["iphone"]
+            }
+          }
+        },
+        {
+          "name": "Apple - iPhone SE 16GB - Space Gray (Sprint)",
+          "description": "iPhone SE features a 4-inch Retina display, an A9 chip with 64-bit desktop-class architecture, the Touch ID fingerprint sensor, a 12MP iSight camera, a FaceTime HD camera with Retina Flash, Live Photos, LTE and fast Wi-Fi, iOS 9, and iCloud.",
+          "brand": "Apple",
+          "categories": ["Cell Phones", "iPhone", "iPhone SE"],
+          "hierarchicalCategories": {
+            "lvl0": "Cell Phones",
+            "lvl1": "Cell Phones > iPhone",
+            "lvl2": "Cell Phones > iPhone > iPhone SE"
+          },
+          "type": "Spr iphone handset",
+          "price": 449.99,
+          "price_range": "200 - 500",
+          "image": "https://cdn-demo.algolia.com/bestbuy-0118/5005532_sb.jpg",
+          "url": "https://api.bestbuy.com/click/-/5005532/pdp",
+          "free_shipping": true,
+          "rating": 4,
+          "popularity": 19206,
+          "objectID": "5005532",
+          "_snippetResult": {
+            "name": {
+              "value": "Apple - __aa-highlight__iPhone__/aa-highlight__ SE 16GB - Space Gray (Sprint)",
+              "matchLevel": "full"
+            },
+            "description": {
+              "value": "__aa-highlight__iPhone__/aa-highlight__ SE features a 4-inch Retina display, an A9 chip with 64-bit desktop-class architecture, the Touch ID fingerprint sensor, a 12MP iSight camera, a FaceTime HD camera with Retina Flash, Live Photos …",
+              "matchLevel": "full"
+            }
+          },
+          "_highlightResult": {
+            "name": {
+              "value": "Apple - __aa-highlight__iPhone__/aa-highlight__ SE 16GB - Space Gray (Sprint)",
+              "matchLevel": "full",
+              "fullyHighlighted": false,
+              "matchedWords": ["iphone"]
+            },
+            "description": {
+              "value": "__aa-highlight__iPhone__/aa-highlight__ SE features a 4-inch Retina display, an A9 chip with 64-bit desktop-class architecture, the Touch ID fingerprint sensor, a 12MP iSight camera, a FaceTime HD camera with Retina Flash, Live Photos, LTE and fast Wi-Fi, iOS 9, and iCloud.",
+              "matchLevel": "full",
+              "fullyHighlighted": false,
+              "matchedWords": ["iphone"]
+            },
+            "brand": {
+              "value": "Apple",
+              "matchLevel": "none",
+              "matchedWords": []
+            },
+            "categories": [
+              {
+                "value": "Cell Phones",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              {
+                "value": "__aa-highlight__iPhone__/aa-highlight__",
+                "matchLevel": "full",
+                "fullyHighlighted": true,
+                "matchedWords": ["iphone"]
+              },
+              {
+                "value": "__aa-highlight__iPhone__/aa-highlight__ SE",
+                "matchLevel": "full",
+                "fullyHighlighted": false,
+                "matchedWords": ["iphone"]
+              }
+            ],
+            "type": {
+              "value": "Spr __aa-highlight__iphone__/aa-highlight__ handset",
+              "matchLevel": "full",
+              "fullyHighlighted": false,
+              "matchedWords": ["iphone"]
+            }
+          }
+        },
+        {
+          "name": "Apple - iPhone 6s 32GB - Space Gray (AT&T)",
+          "description": "A 4.7-inch Retina HD display with 3D Touch. 7000 series aluminum and stronger cover glass. An A9 chip with 64-bit desktop-class architecture. All new 12MP iSight camera with Live Photos. Touch ID. Faster LTE and Wi-Fi. Long battery life and iOS 10 and iCloud. All in a smooth, continuous unibody design.",
+          "brand": "Apple",
+          "categories": ["Cell Phones", "iPhone"],
+          "hierarchicalCategories": {
+            "lvl0": "Cell Phones",
+            "lvl1": "Cell Phones > iPhone"
+          },
+          "type": "Att iph unv handset",
+          "price": 599.99,
+          "price_range": "500 - 2000",
+          "image": "https://cdn-demo.algolia.com/bestbuy-0118/5580377_sb.jpg",
+          "url": "https://api.bestbuy.com/click/-/5580377/pdp",
+          "free_shipping": true,
+          "rating": 4,
+          "popularity": 19201,
+          "objectID": "5580377",
+          "_snippetResult": {
+            "name": {
+              "value": "Apple - __aa-highlight__iPhone__/aa-highlight__ 6s 32GB - Space Gray (AT&T)",
+              "matchLevel": "full"
+            },
+            "description": {
+              "value": "A 4.7-inch Retina HD display with 3D Touch. 7000 series aluminum and stronger cover glass. An A9 chip with 64-bit desktop-class architecture. All new 12MP iSight camera with Live Photos. Touch …",
+              "matchLevel": "none"
+            }
+          },
+          "_highlightResult": {
+            "name": {
+              "value": "Apple - __aa-highlight__iPhone__/aa-highlight__ 6s 32GB - Space Gray (AT&T)",
+              "matchLevel": "full",
+              "fullyHighlighted": false,
+              "matchedWords": ["iphone"]
+            },
+            "description": {
+              "value": "A 4.7-inch Retina HD display with 3D Touch. 7000 series aluminum and stronger cover glass. An A9 chip with 64-bit desktop-class architecture. All new 12MP iSight camera with Live Photos. Touch ID. Faster LTE and Wi-Fi. Long battery life and iOS 10 and iCloud. All in a smooth, continuous unibody design.",
+              "matchLevel": "none",
+              "matchedWords": []
+            },
+            "brand": {
+              "value": "Apple",
+              "matchLevel": "none",
+              "matchedWords": []
+            },
+            "categories": [
+              {
+                "value": "Cell Phones",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              {
+                "value": "__aa-highlight__iPhone__/aa-highlight__",
+                "matchLevel": "full",
+                "fullyHighlighted": true,
+                "matchedWords": ["iphone"]
+              }
+            ],
+            "type": {
+              "value": "Att iph unv handset",
+              "matchLevel": "none",
+              "matchedWords": []
+            }
+          }
+        },
+        {
+          "name": "Apple - iPhone SE 16GB - Rose Gold (Verizon)",
+          "description": "iPhone SE features a 4-inch Retina display, an A9 chip with 64-bit desktop-class architecture, the Touch ID fingerprint sensor, a 12MP iSight camera, a FaceTime HD camera with Retina Flash, Live Photos, LTE and fast Wi-Fi, iOS 9, and iCloud.",
+          "brand": "Apple",
+          "categories": ["Cell Phones", "iPhone", "iPhone SE"],
+          "hierarchicalCategories": {
+            "lvl0": "Cell Phones",
+            "lvl1": "Cell Phones > iPhone",
+            "lvl2": "Cell Phones > iPhone > iPhone SE"
+          },
+          "type": "Vzw iphone handset",
+          "price": 449.99,
+          "price_range": "200 - 500",
+          "image": "https://cdn-demo.algolia.com/bestbuy-0118/5005509_sb.jpg",
+          "url": "https://api.bestbuy.com/click/-/5005509/pdp",
+          "free_shipping": true,
+          "rating": 4,
+          "popularity": 19033,
+          "objectID": "5005509",
+          "_snippetResult": {
+            "name": {
+              "value": "Apple - __aa-highlight__iPhone__/aa-highlight__ SE 16GB - Rose Gold (Verizon)",
+              "matchLevel": "full"
+            },
+            "description": {
+              "value": "__aa-highlight__iPhone__/aa-highlight__ SE features a 4-inch Retina display, an A9 chip with 64-bit desktop-class architecture, the Touch ID fingerprint sensor, a 12MP iSight camera, a FaceTime HD camera with Retina Flash, Live Photos …",
+              "matchLevel": "full"
+            }
+          },
+          "_highlightResult": {
+            "name": {
+              "value": "Apple - __aa-highlight__iPhone__/aa-highlight__ SE 16GB - Rose Gold (Verizon)",
+              "matchLevel": "full",
+              "fullyHighlighted": false,
+              "matchedWords": ["iphone"]
+            },
+            "description": {
+              "value": "__aa-highlight__iPhone__/aa-highlight__ SE features a 4-inch Retina display, an A9 chip with 64-bit desktop-class architecture, the Touch ID fingerprint sensor, a 12MP iSight camera, a FaceTime HD camera with Retina Flash, Live Photos, LTE and fast Wi-Fi, iOS 9, and iCloud.",
+              "matchLevel": "full",
+              "fullyHighlighted": false,
+              "matchedWords": ["iphone"]
+            },
+            "brand": {
+              "value": "Apple",
+              "matchLevel": "none",
+              "matchedWords": []
+            },
+            "categories": [
+              {
+                "value": "Cell Phones",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              {
+                "value": "__aa-highlight__iPhone__/aa-highlight__",
+                "matchLevel": "full",
+                "fullyHighlighted": true,
+                "matchedWords": ["iphone"]
+              },
+              {
+                "value": "__aa-highlight__iPhone__/aa-highlight__ SE",
+                "matchLevel": "full",
+                "fullyHighlighted": false,
+                "matchedWords": ["iphone"]
+              }
+            ],
+            "type": {
+              "value": "Vzw __aa-highlight__iphone__/aa-highlight__ handset",
+              "matchLevel": "full",
+              "fullyHighlighted": false,
+              "matchedWords": ["iphone"]
+            }
+          }
+        }
+      ],
+      "userData": [
+        {
+          "title": "iPhone Xs",
+          "banner": "https://user-images.githubusercontent.com/6137112/80473185-10281600-8946-11ea-9dbf-652dfbb7968b.png",
+          "link": "https://www.apple.com/iphone/"
+        }
+      ],
+      "nbHits": 3977,
+      "page": 0,
+      "nbPages": 200,
+      "hitsPerPage": 5,
+      "exhaustiveNbHits": true,
+      "query": "iphone",
+      "queryAfterRemoval": "iphone",
+      "params": "query=iphone&hitsPerPage=5&highlightPreTag=__aa-highlight__&highlightPostTag=__%2Faa-highlight__&clickAnalytics=true&attributesToSnippet=%5B%22name%3A10%22%2C%22description%3A35%22%5D&snippetEllipsisText=%E2%80%A6",
+      "index": "instant_search",
+      "queryID": "94e8a45fd0dc47b54627fb00342381b6",
+      "processingTimeMS": 2
+    }
+  ]
+}

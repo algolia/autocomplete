@@ -10,7 +10,7 @@ Opening an issue is very effective way to contribute because many users might al
 
 Before reporting an issue, first check that there is not an already open issue for the same topic using the [issues page](https://github.com/algolia/autocomplete/issues). Don't hesitate to thumb up an issue that corresponds to the problem you have.
 
-Another element that will help us go faster at solving the issue is to provide a reproducible test case. We recommend to [use this CodeSandbox template](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx).
+Another element that will help us go faster at solving the issue is to provide a reproducible test case. We recommend to [use this CodeSandbox template](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx).
 
 ## Code contribution
 

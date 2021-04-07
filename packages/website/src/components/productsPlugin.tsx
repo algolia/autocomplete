@@ -1,12 +1,12 @@
 import {
+  AutocompleteComponents,
   AutocompletePlugin,
   AutocompleteSource,
   getAlgoliaHits,
-  snippetHit,
 } from '@algolia/autocomplete-js';
 import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch/lite';
-import React, { createElement, Fragment } from 'react';
+import React, { Fragment } from 'react';
 
 const searchClient = algoliasearch(
   'latency',
@@ -53,8 +53,8 @@ export function createProductsPlugin({
             return item.url;
           },
           templates: {
-            item({ item }) {
-              return <ProductItem hit={item} />;
+            item({ item, components }) {
+              return <ProductItem hit={item} components={components} />;
             },
           },
         }),
@@ -72,9 +72,10 @@ type ProductHit = Hit<Product>;
 
 type ProductItemProps = {
   hit: ProductHit;
+  components: AutocompleteComponents;
 };
 
-function ProductItem({ hit }: ProductItemProps) {
+function ProductItem({ hit, components }: ProductItemProps) {
   return (
     <Fragment>
       <div className="aa-ItemIcon aa-ItemIcon--alignTop">
@@ -82,23 +83,15 @@ function ProductItem({ hit }: ProductItemProps) {
       </div>
       <div className="aa-ItemContent">
         <div className="aa-ItemContentTitle">
-          {snippetHit<ProductHit>({
-            hit,
-            attribute: 'name',
-            createElement,
-          })}
+          <components.Snippet hit={hit} attribute="name" />
         </div>
         <div className="aa-ItemContentDescription">
-          {snippetHit<ProductHit>({
-            hit,
-            attribute: 'description',
-            createElement,
-          })}
+          <components.Snippet hit={hit} attribute="description" />
         </div>
       </div>
       <div className="aa-ItemActions">
         <button
-          className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
+          className="aa-ItemActionButton aa-DesktopOnly aa-ActiveOnly"
           type="button"
           title="Select"
         >

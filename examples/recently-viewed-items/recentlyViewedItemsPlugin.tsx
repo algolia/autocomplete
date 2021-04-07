@@ -1,5 +1,5 @@
 /** @jsx h */
-import { AutocompletePlugin, highlightHit } from '@algolia/autocomplete-js';
+import { AutocompletePlugin } from '@algolia/autocomplete-js';
 import {
   createLocalStorageRecentSearchesPlugin,
   search,
@@ -72,7 +72,7 @@ export function createLocalStorageRecentlyViewedItems<
               </Fragment>
             );
           },
-          item({ item, createElement }) {
+          item({ item, components }) {
             return (
               <a className="aa-ItemLink" href={item.url}>
                 {item.image ? (
@@ -94,11 +94,7 @@ export function createLocalStorageRecentlyViewedItems<
 
                 <div className="aa-ItemContent">
                   <div className="aa-ItemContentTitle">
-                    {highlightHit<RecentlyViewedItem>({
-                      hit: item,
-                      attribute: 'label',
-                      createElement,
-                    })}
+                    <components.Highlight hit={item} attribute="label" />
                   </div>
                 </div>
                 <div className="aa-ItemActions">
@@ -106,6 +102,7 @@ export function createLocalStorageRecentlyViewedItems<
                     className="aa-ItemActionButton"
                     title="Remove this search"
                     onClick={(event) => {
+                      event.preventDefault();
                       event.stopPropagation();
                       onRemove(item.id);
                     }}

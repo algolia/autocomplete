@@ -63,7 +63,7 @@ Here's the markup for an [`item`](templates#item) template.
 autocomplete({
   // ...
   templates: {
-    item({ item }) {
+    item({ item, components }) {
       return (
         <Fragment>
           <div className="aa-ItemIcon">
@@ -71,15 +71,15 @@ autocomplete({
           </div>
           <div className="aa-ItemContent">
             <div className="aa-ItemContentTitle">
-              {snippetHit({ hit: item, attribute: 'name' })}
+              <components.Snippet hit={item} attribute="name" />
             </div>
             <div className="aa-ItemContentDescription">
-              {snippetHit({ hit: item, attribute: 'description' })}
+              <components.Snippet hit={item} attribute="description" />
             </div>
           </div>
           <div className="aa-ItemActions">
             <button
-              className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
+              className="aa-ItemActionButton aa-DesktopOnly aa-ActiveOnly"
               type="button"
               title="Select"
             >
@@ -166,11 +166,13 @@ The theme provides a set of optional classes for you to use in different context
 
 - `.aa-ItemIcon--noBorder` removes the border of the icon
 - `.aa-ItemIcon--alignTop` aligns the icon to the top (recommended when the template is longer than three lines)
+- `.aa-ItemIcon--picture` makes the icon larger (recommended when using an image and the template is longer than three lines)
 - `.aa-Panel--scrollable` declares the scrollable container(s) of the panel
 
 ### Utilities
 
 - `.aa-ActiveOnly` displays an element only when the item is active
+- `.aa-DesktopOnly` displays an element only on desktop devices
 - `.aa-TouchOnly` displays an element only on touch devices
 
 ## Dark mode
