@@ -28,11 +28,12 @@ autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
+  debug: true,
   plugins: [querySuggestionsPlugin],
   render({ sections, createElement, Fragment }, root) {
     render(
       <Fragment>
-        <div className="aa-PanelLayout">{sections}</div>
+        <div className="aa-PanelLayout aa-Panel--scrollable">{sections}</div>
         <footer className="aa-PanelFooter">
           {NavigationCommandsLayout({
             createElement,
