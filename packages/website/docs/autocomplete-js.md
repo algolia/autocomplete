@@ -141,6 +141,60 @@ type ClassNames = Partial<{
 }>;
 ```
 
+### `components`
+
+Components to register in the Autocomplete rendering lifecycles. Registered components become available in [`templates`](templates), [`render`](#render), and in [`renderNoResults`](#rendernoresults).
+
+```jsx
+import { render } from 'preact';
+import { MyComponent } from './my-components';
+
+autocomplete({
+  // ...
+  components: {
+    MyComponent,
+  },
+  render({ sections, components }, root) {
+    render(
+      <Fragment>
+        <div className="aa-PanelLayout aa-Panel--scollable">{sections}</div>
+        <components.MyComponent />
+      </Fragment>,
+      root
+    );
+  },
+});
+```
+
+Four components are registered by default:
+
+- `Highlight` to highlight matches in Algolia results
+- `Snippet` to snippet matches in Algolia results
+- `ReverseHighlight` to reverse highlight matches in Algolia results
+- `ReverseSnippet` to reverse highlight and snippet matches in Algolia results
+
+```jsx
+autocomplete({
+  // ...
+  getSources({ query }) {
+    return [
+      {
+        getItems() {
+          return [
+            /* ... */
+          ];
+        },
+        templates: {
+          item({ item, components }) {
+            return <components.Highlight hit={item} attribute="name" />;
+          },
+        },
+      },
+    ];
+  },
+});
+```
+
 ### `render`
 
 > `(params: { children: VNode, elements: Elements, sections: VNode[], state: AutocompleteState<TItem>, createElement: Pragma, Fragment: PragmaFrag }) => void`
