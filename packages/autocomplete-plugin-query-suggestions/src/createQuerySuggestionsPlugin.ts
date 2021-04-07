@@ -13,27 +13,53 @@ import { AutocompleteQuerySuggestionsHit, QuerySuggestionsHit } from './types';
 export type CreateQuerySuggestionsPluginParams<
   TItem extends QuerySuggestionsHit
 > = {
+  /**
+   * The initialized Algolia search client.
+   *
+   * @link https://autocomplete.algolia.com/docs/createQuerySuggestionsPlugin#searchclient
+   */
   searchClient: SearchClient;
+  /**
+   * The index name.
+   *
+   * @link https://autocomplete.algolia.com/docs/createQuerySuggestionsPlugin#indexname
+   */
   indexName: string;
+  /**
+   * A function returning [Algolia search parameters](https://www.algolia.com/doc/api-reference/search-api-parameters/).
+   *
+   * @link https://autocomplete.algolia.com/docs/createQuerySuggestionsPlugin#getsearchparams
+   */
   getSearchParams?(params: { state: AutocompleteState<TItem> }): SearchOptions;
+  /**
+   * A function to transform the provided source.
+   *
+   * @link https://autocomplete.algolia.com/docs/createQuerySuggestionsPlugin#transformsource
+   */
   transformSource?(params: {
     source: AutocompleteSource<TItem>;
     onTapAhead(item: TItem): void;
   }): AutocompleteSource<TItem>;
   /**
-   * The attribute or attribute path to display categories.
+   * The attribute or attribute path to display categories for.
+   *
    * @example ["instant_search", "facets", "exact_matches", "categories"]
    * @example ["instant_search", "facets", "exact_matches", "hierarchicalCategories.lvl0"]
+   * @link https://autocomplete.algolia.com/docs/createQuerySuggestionsPlugin#categoryattribute
    */
   categoryAttribute?: string | string[];
   /**
-   * The number of items to display categories for.
+   * How many items to display categories for.
+   *
    * @default 1
+   * @link https://autocomplete.algolia.com/docs/createQuerySuggestionsPlugin#itemswithcategories
    */
   itemsWithCategories?: number;
   /**
    * The number of categories to display per item.
+   *
    * @default 1
+   * @link https://autocomplete.algolia.com/docs/createQuerySuggestionsPlugin#categoriesperitem
    */
   categoriesPerItem?: number;
 };

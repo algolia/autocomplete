@@ -99,3 +99,9 @@ A flag to activate the debug mode.
 This is useful while developing because it keeps the panel open even when the blur event occurs. **Make sure to disable it in production.**
 
 See [**Debugging**](/docs/debugging) for more information.
+
+### `plugins`
+
+The plugins that encapsulate and distribute custom Autocomplete behaviors.
+
+See [**Plugins**](/docs/plugins) for more information.

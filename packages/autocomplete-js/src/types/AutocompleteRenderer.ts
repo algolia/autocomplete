@@ -22,13 +22,13 @@ export type VNode<TProps = any> = {
 
 export type AutocompleteRenderer = {
   /**
-   * Function used to create elements.
+   * The function to create virtual nodes.
    *
    * @default preact.createElement
    */
   createElement: Pragma;
   /**
-   * Component used for fragments.
+   * The component to use to create fragments.
    *
    * @default preact.Fragment
    */

@@ -238,19 +238,19 @@ The function called when the internal state changes.
 
 > `(params: { state: AutocompleteState, event: Event, ...setters: AutocompleteSetters }) => void`
 
-The function called when the Autocomplete form is submitted.
+The function called when submitting the Autocomplete form.
 
 ### `onReset`
 
 > `(params: { state: AutocompleteState, event: Event, ...setters: AutocompleteSetters }) => void`
 
-The function called when the Autocomplete form is reset.
+The function called when resetting the Autocomplete form.
 
 ### `getSources`
 
 > `(params: { query: string, state: AutocompleteState, ...setters: AutocompleteSetters }) => Array<AutocompleteSource> | Promise<Array<AutocompleteSource>>`
 
-The sources to get the suggestions from.
+The [sources](sources) to get the suggestions from.
 
 When defined, they're merged with the sources of your Autocomplete instance.
 

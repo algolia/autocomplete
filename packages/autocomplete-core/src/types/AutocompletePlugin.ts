@@ -20,14 +20,13 @@ export type AutocompletePlugin<
   >
 > & {
   /**
-   * Function called when Autocomplete starts.
+   * The function called when Autocomplete starts.
    *
-   * It can be used to subscribe to lifecycle hooks or to interact with the
-   * Autocomplete state and context.
+   * It lets you subscribe to lifecycle hooks and interact with the instance's state and context.
    */
   subscribe?(params: PluginSubscribeParams<TItem>): void;
   /**
-   * Extra plugin object to expose properties and functions as APIs.
+   * An extra plugin object to expose properties and functions as APIs.
    */
   data?: TData;
 };
