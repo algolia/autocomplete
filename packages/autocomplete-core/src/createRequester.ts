@@ -4,7 +4,7 @@ type Requester<TQuery, TResult> = (
   options: OriginalRequesterOptions<TQuery>
 ) => Promise<Description<TQuery, TResult>>;
 
-type Description<TQuery, TResult> = {
+export type Description<TQuery, TResult> = {
   fetcher: Fetcher<TQuery, TResult>;
 } & OriginalRequesterOptions<TQuery>;
 
