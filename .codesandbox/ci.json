@@ -11,7 +11,8 @@
     "/examples/query-suggestions-with-recent-searches",
     "/examples/query-suggestions",
     "/examples/react-renderer",
-    "/examples/recently-viewed-items"
+    "/examples/recently-viewed-items",
+    "/examples/starter"
   ],
   "node": "14"
 }
