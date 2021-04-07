@@ -1,2 +1,2 @@
-export * from './NavigationCommandsLayout';
-export * from './SearchByAlgoliaLayout';
+export * from './NavigationCommands';
+export * from './SearchByAlgolia';

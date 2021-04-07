@@ -1,8 +1,8 @@
 /** @jsx h */
 import { autocomplete } from '@algolia/autocomplete-js';
 import {
-  NavigationCommandsLayout,
-  SearchByAlgoliaLayout,
+  NavigationCommands,
+  SearchByAlgolia,
 } from '@algolia/autocomplete-layout-classic';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import algoliasearch from 'algoliasearch/lite';
@@ -30,27 +30,27 @@ autocomplete({
   openOnFocus: true,
   debug: true,
   plugins: [querySuggestionsPlugin],
-  render({ sections, createElement, Fragment }, root) {
+  components: {
+    NavigationCommands,
+    SearchByAlgolia,
+  },
+  render({ sections, Fragment, components }, root) {
     render(
       <Fragment>
         <div className="aa-PanelLayout aa-Panel--scrollable">{sections}</div>
         <footer className="aa-PanelFooter">
-          {NavigationCommandsLayout({
-            createElement,
-            Fragment,
-            translations: {
+          <components.NavigationCommands
+            translations={{
               toClose: 'pour fermer',
               toNavigate: 'pour naviguer',
               toSelect: 'pour sélectionner',
-            },
-          })}
-          {SearchByAlgoliaLayout({
-            createElement,
-            Fragment,
-            translations: {
+            }}
+          />
+          <components.SearchByAlgolia
+            translations={{
               searchBy: 'Recherche par',
-            },
-          })}
+            }}
+          />
         </footer>
       </Fragment>,
       root
