@@ -303,7 +303,7 @@ autocomplete({
 
 > `(type: any, props: Record<string, any> | null, ...children: ComponentChildren[]) => VNode` | defaults to `preact.createElement`
 
-The function that create virtual nodes.
+The function to create virtual nodes.
 
 It uses [Preact 10](https://preactjs.com/guide/v10/whats-new/)'s `createElement` by default, but you can provide your own implementation.
 

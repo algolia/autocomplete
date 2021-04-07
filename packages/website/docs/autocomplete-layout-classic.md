@@ -20,8 +20,8 @@ Then import it in your project:
 
 ```js
 import {
-  NavigationCommandsLayout,
-  SearchByAlgoliaLayout,
+  NavigationCommands,
+  SearchByAlgolia,
 } from '@algolia/autocomplete-layout-classic';
 ```
 
@@ -39,8 +39,8 @@ With default translations:
 /** @jsx h */
 import { autocomplete } from '@algolia/autocomplete-js';
 import {
-  NavigationCommandsLayout,
-  SearchByAlgoliaLayout,
+  NavigationCommands,
+  SearchByAlgolia,
 } from '@algolia/autocomplete-layout-classic';
 import { h, render } from 'preact';
 
@@ -48,13 +48,17 @@ import '@algolia/autocomplete-theme-classic';
 
 autocomplete({
   // ...
-  render({ sections, createElement, Fragment }, root) {
+  components: {
+    NavigationCommands,
+    SearchByAlgolia,
+  },
+  render({ sections, Fragment, components }, root) {
     render(
       <Fragment>
-        <div className="aa-PanelLayout">{sections}</div>
+        <div className="aa-PanelLayout aa-Panel--scrollable">{sections}</div>
         <footer className="aa-PanelFooter">
-          {NavigationCommandsLayout({ createElement, Fragment })}
-          {SearchByAlgoliaLayout({ createElement, Fragment })}
+          <components.NavigationCommands />
+          <components.SearchByAlgolia />
         </footer>
       </Fragment>,
       root
@@ -69,8 +73,8 @@ With French translations:
 /** @jsx h */
 import { autocomplete } from '@algolia/autocomplete-js';
 import {
-  NavigationCommandsLayout,
-  SearchByAlgoliaLayout,
+  NavigationCommands,
+  SearchByAlgolia,
 } from '@algolia/autocomplete-layout-classic';
 import { h, render } from 'preact';
 
@@ -78,27 +82,27 @@ import '@algolia/autocomplete-theme-classic';
 
 autocomplete({
   // ...
-  render({ sections, createElement, Fragment }, root) {
+  components: {
+    NavigationCommands,
+    SearchByAlgolia,
+  },
+  render({ sections, Fragment, components }, root) {
     render(
       <Fragment>
-        <div className="aa-PanelLayout">{sections}</div>
+        <div className="aa-PanelLayout aa-Panel--scrollable">{sections}</div>
         <footer className="aa-PanelFooter">
-          {NavigationCommandsLayout({
-            createElement,
-            Fragment,
-            translations: {
+          <components.NavigationCommands
+            translations={{
               toClose: 'pour fermer',
               toNavigate: 'pour naviguer',
               toSelect: 'pour sélectionner',
-            },
-          })}
-          {SearchByAlgoliaLayout({
-            createElement,
-            Fragment,
-            translations: {
+            }}
+          />
+          <components.SearchByAlgolia
+            translations={{
               searchBy: 'Recherche par',
-            },
-          })}
+            }}
+          />
         </footer>
       </Fragment>,
       root
@@ -107,28 +111,54 @@ autocomplete({
 });
 ```
 
-## Layouts
+With a custom renderer:
 
-### `NavigationCommandsLayout`
+```tsx
+import { autocomplete } from '@algolia/autocomplete-js';
+import {
+  createNavigationCommandsComponent,
+  createSearchByAlgoliaComponent,
+} from '@algolia/autocomplete-layout-classic';
+import React, { createElement, Fragment } from 'react';
 
-#### `createElement`
+import '@algolia/autocomplete-theme-classic';
 
-> `(type: any, props: Record<string, any> | null, ...children: ComponentChildren[]) => VNode`
+const renderer = { createElement, Fragment };
 
-The function that create virtual nodes.
+autocomplete({
+  // ...
+  renderer,
+  components: {
+    NavigationCommands: createNavigationCommandsComponent(renderer),
+    SearchByAlgolia: createSearchByAlgoliaComponent(renderer),
+  },
+  render({ sections, Fragment, components }, root) {
+    render(
+      <Fragment>
+        <div className="aa-PanelLayout aa-Panel--scrollable">{sections}</div>
+        <footer className="aa-PanelFooter">
+          <components.NavigationCommands />
+          <components.SearchByAlgolia />
+        </footer>
+      </Fragment>,
+      root
+    );
+  },
+});
+```
 
-#### `Fragment`
+## Reference
 
-The component to use to create fragments.
+### `NavigationCommands`
 
 #### `translations`
 
-> `NavigationCommandsLayoutTranslations` | defaults to English strings
+> `NavigationCommandsTranslations` | defaults to English strings
 
 The translations to display.
 
 ```ts
-type NavigationCommandsLayoutTranslations = {
+type NavigationCommandsTranslations = {
   toSelect: string;
   toNavigate: string;
   toClose: string;
@@ -145,17 +175,7 @@ const translations = {
 };
 ```
 
-### `SearchByAlgoliaLayout`
-
-#### `createElement`
-
-> `(type: any, props: Record<string, any> | null, ...children: ComponentChildren[]) => VNode`
-
-The function that create virtual nodes.
-
-#### `Fragment`
-
-The component to use to create fragments.
+### `SearchByAlgolia`
 
 #### `translations`
 
@@ -176,3 +196,15 @@ const translations = {
   searchBy: 'Search by',
 };
 ```
+
+### `createNavigationCommandsComponent`
+
+> `(renderer: AutocompleteRenderer) => JSX.Element`
+
+The function accepts a [renderer](/docs/autocomplete-js/#renderer) and returns the [`NavigationCommands`](#navigationcommands) component. It's useful when using a framework like [React](/docs/using-react) or [Vue](/docs/using-vue).
+
+### `createSearchByAlgoliaComponent`
+
+> `(renderer: AutocompleteRenderer) => JSX.Element`
+
+The function accepts a [renderer](/docs/autocomplete-js/#renderer) and returns the [`SearchByAlgolia`](#searchbyalgolia) component. It's useful when using a framework like [React](/docs/using-react) or [Vue](/docs/using-vue).
