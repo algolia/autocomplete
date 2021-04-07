@@ -769,13 +769,13 @@ body {
       rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha))
     );
     content: '';
-    height: var(--aa-spacing);
+    height: var(--aa-spacing-half);
     left: 0;
     opacity: 0.12;
     pointer-events: none;
     position: absolute;
     right: 0;
-    top: calc(var(--aa-spacing) * -1);
+    top: calc(var(--aa-spacing-half) * -1);
     z-index: calc(var(--aa-base-z-index) - 1);
   }
 }
