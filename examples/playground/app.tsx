@@ -2,8 +2,9 @@
 import {
   autocomplete,
   AutocompleteComponents,
-  getAlgoliaHits,
+  //getAlgoliaHits,
 } from '@algolia/autocomplete-js';
+import { getAlgoliaHits } from '@algolia/autocomplete-core/src/requesters/getAlgoliaHits';
 import {
   AutocompleteInsightsApi,
   createAlgoliaInsightsPlugin,
@@ -23,6 +24,10 @@ import { ProductHit, ProductRecord } from './types';
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
+const searchClient2 = algoliasearch(
+  'GZV6PDPKZY',
+  'b81a40a29d53e9d7d5ae6e919cce610d'
+);
 insightsClient('init', { appId, apiKey });
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
@@ -55,11 +60,11 @@ autocomplete({
   debug: true,
   openOnFocus: true,
   plugins: [
-    shortcutsPlugin,
+    /* shortcutsPlugin,
     algoliaInsightsPlugin,
     recentSearchesPlugin,
     querySuggestionsPlugin,
-    categoriesPlugin,
+    categoriesPlugin, */
   ],
   getSources({ query, state }) {
     if (!query) {
@@ -67,6 +72,51 @@ autocomplete({
     }
 
     return [
+      {
+        sourceId: 'github',
+        getItems() {
+          return fetch(
+            `https://api.github.com/search/repositories?q=${query}&per_page=5`
+          )
+            .then((res) => res.json())
+            .then((r) => r.items || []);
+        },
+        templates: {
+          item({ item }) {
+            return item.full_name;
+          },
+        },
+      },
+      {
+        sourceId: 'suggestions',
+        getItems() {
+          return getAlgoliaHits({
+            searchClient,
+            queries: [
+              {
+                indexName: 'instant_search_demo_query_suggestions',
+                query,
+                params: {
+                  clickAnalytics: true,
+                },
+              },
+            ],
+          });
+        },
+        templates: {
+          header() {
+            return (
+              <Fragment>
+                <span className="aa-SourceHeaderTitle">Suggestions</span>
+                <div className="aa-SourceHeaderLine" />
+              </Fragment>
+            );
+          },
+          item({ item }) {
+            return item.objectID;
+          },
+        },
+      },
       {
         sourceId: 'products',
         getItems() {
@@ -80,19 +130,18 @@ autocomplete({
                   clickAnalytics: true,
                   attributesToSnippet: ['name:10', 'description:35'],
                   snippetEllipsisText: '…',
+                  hitsPerPage: 5,
+                },
+              },
+              {
+                indexName: 'instant_search_movies',
+                query,
+                params: {
+                  clickAnalytics: true,
+                  hitsPerPage: 5,
                 },
               },
             ],
-          }).then(([hits]) => {
-            return hits.map((hit) => ({
-              ...hit,
-              comments: hit.popularity % 100,
-              sale: hit.free_shipping,
-              // eslint-disable-next-line @typescript-eslint/camelcase
-              sale_price: hit.free_shipping
-                ? (hit.price - hit.price / 10).toFixed(2)
-                : hit.price,
-            }));
           });
         },
         templates: {
@@ -105,17 +154,55 @@ autocomplete({
             );
           },
           item({ item, components }) {
-            return (
+            return item.name || item.title;
+
+            /* return (
               <ProductItem
                 hit={item}
                 components={components}
                 insights={state.context.algoliaInsightsPlugin.insights}
               />
-            );
+            ); */
           },
           noResults() {
             return (
               <div className="aa-ItemContent">No products for this query.</div>
+            );
+          },
+        },
+      },
+      {
+        sourceId: 'soccer',
+        getItems() {
+          return getAlgoliaHits({
+            searchClient: searchClient2,
+            queries: [
+              {
+                indexName: 'world-cup-2018',
+                query,
+                params: {
+                  clickAnalytics: true,
+                  hitsPerPage: 5,
+                },
+              },
+            ],
+          });
+        },
+        templates: {
+          header() {
+            return (
+              <Fragment>
+                <span className="aa-SourceHeaderTitle">World Cup</span>
+                <div className="aa-SourceHeaderLine" />
+              </Fragment>
+            );
+          },
+          item({ item }) {
+            return `${item.home_team} - ${item.away_team}`;
+          },
+          noResults() {
+            return (
+              <div className="aa-ItemContent">No games for this query.</div>
             );
           },
         },

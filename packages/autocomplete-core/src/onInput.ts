@@ -1,4 +1,5 @@
 import { invariant } from '@algolia/autocomplete-shared';
+import { resolve } from './resolve';
 
 import {
   AutocompleteScopeApi,
@@ -7,7 +8,7 @@ import {
   BaseItem,
   InternalAutocompleteOptions,
 } from './types';
-import { getActiveItem } from './utils';
+import { flatten, getActiveItem } from './utils';
 
 let lastStalledId: number | null = null;
 
@@ -82,7 +83,6 @@ export function onInput<TItem extends BaseItem>({
     .then((sources) => {
       setStatus('loading');
 
-      // @TODO: convert `Promise.all` to fetching strategy.
       return Promise.all(
         sources.map((source) => {
           return Promise.resolve(
@@ -93,17 +93,54 @@ export function onInput<TItem extends BaseItem>({
               ...setters,
             })
           ).then((items) => {
-            invariant(
-              Array.isArray(items),
+            /* invariant(
+              Array.isArray(items.queries),
               `The \`getItems\` function must return an array of items but returned type ${JSON.stringify(
                 typeof items
               )}:\n\n${JSON.stringify(items, null, 2)}`
-            );
+            ); */
 
-            return { source, items };
+            if (Array.isArray(items)) {
+              return {
+                items,
+                __autocomplete_sourceId: source.sourceId,
+              };
+            }
+
+            return {
+              ...items,
+              queries: items.queries.map((query) => ({
+                query,
+                __autocomplete_sourceId: source.sourceId,
+              })),
+            };
           });
         })
       )
+        .then(resolve)
+        .then((response) => {
+          return flatten(response).reduce(
+            (acc, { __autocomplete_sourceId, items }) => {
+              const index = acc.findIndex(({ source }) => {
+                return source.sourceId === __autocomplete_sourceId;
+              });
+
+              if (index > -1) {
+                acc[index].items.push(items);
+              } else {
+                acc.push({
+                  source: sources.find(
+                    ({ sourceId }) => sourceId === __autocomplete_sourceId
+                  ),
+                  items,
+                });
+              }
+
+              return acc;
+            },
+            []
+          );
+        })
         .then((collections) => {
           setStatus('idle');
           setCollections(collections as any);
