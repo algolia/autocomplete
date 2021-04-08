@@ -40,7 +40,7 @@ We recommend using `0` when the query typed aims at opening item links, without 
 
 > `boolean` | defaults to `false`
 
-Whether to open the panel on focus or not when there's no query.
+Whether to open the panel on focus when there's no query.
 
 ### `stallThreshold`
 

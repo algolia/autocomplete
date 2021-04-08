@@ -20,11 +20,11 @@ export type OnActiveParams<TItem extends BaseItem> = OnSelectParams<TItem>;
 
 export interface AutocompleteSource<TItem extends BaseItem> {
   /**
-   * Identifier for the source.
+   * Unique identifier for the source.
    */
   sourceId: string;
   /**
-   * The function called to get the value of the item.
+   * The function called to get the value of an item.
    *
    * The value is used to fill the search box.
    */

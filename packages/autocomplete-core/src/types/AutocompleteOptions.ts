@@ -95,7 +95,7 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    */
   defaultActiveItemId?: number | null;
   /**
-   * Whether to open the panel on focus or not when there's no query.
+   * Whether to open the panel on focus when there's no query.
    *
    * @default false
    * @link https://autocomplete.algolia.com/docs/autocomplete-js#openonfocus

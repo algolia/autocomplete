@@ -286,7 +286,7 @@ Each source implements the following interface:
 
 > `string`
 
-Identifier for the source. It is used as value for the `data-autocomplete-source-id` attribute of the source `section` container.
+Unique identifier for the source. It is used as value for the `data-autocomplete-source-id` attribute of the source `section` container.
 
 ### `getItems`
 
@@ -309,7 +309,7 @@ const source = {
 
 > `(params: { item, state: AutocompleteState }) => string` | defaults to `({ state }) => state.query`
 
-The function called to get the value of the item. The value is used to fill the search box.
+The function called to get the value of an item. The value is used to fill the search box.
 
 ```js
 const items = [{ value: 'Apple' }, { value: 'Banana' }];
