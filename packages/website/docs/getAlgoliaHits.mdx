@@ -2,8 +2,8 @@
 id: getAlgoliaHits
 ---
 
-import GetAlgoliaHitsIntro from './partials/preset-algolia/getAlgoliaHits/intro.md'
-import PresetAlgoliaNote from './partials/preset-algolia/note.md'
+import GetAlgoliaHitsIntro from './partials/preset-algolia/getAlgoliaHits/intro.md';
+import PresetAlgoliaNote from './partials/preset-algolia/note.md';
 
 <GetAlgoliaHitsIntro />
 
@@ -25,10 +25,13 @@ Then import it in your project:
 import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
 ```
 
-If you don't use a package manager, you can use a standalone endpoint:
+If you don't use a package manager, you can use the HTML `script` element:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-preset-algolia@alpha"></script>
+<script>
+  const { getAlgoliaHits } = window['@algolia/autocomplete-preset-algolia'];
+</script>
 ```
 
 ## Example

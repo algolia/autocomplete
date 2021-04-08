@@ -22,10 +22,15 @@ Then import it in your project:
 import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 ```
 
-If you don't use a package manager, you can use a standalone endpoint:
+If you don't use a package manager, you can use the HTML `script` element:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-recent-searches@alpha"></script>
+<script>
+  const { createRecentSearchesPlugin } = window[
+    '@algolia/autocomplete-plugin-recent-searches'
+  ];
+</script>
 ```
 
 ## Example
