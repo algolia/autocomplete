@@ -19,7 +19,7 @@ npm install @algolia/autocomplete-plugin-recent-searches@alpha
 Then import it in your project:
 
 ```js
-import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 ```
 
 If you don't use a package manager, you can use the HTML `script` element:
@@ -27,7 +27,7 @@ If you don't use a package manager, you can use the HTML `script` element:
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-recent-searches@alpha"></script>
 <script>
-  const { createRecentSearchesPlugin } = window[
+  const { createLocalStorageRecentSearchesPlugin } = window[
     '@algolia/autocomplete-plugin-recent-searches'
   ];
 </script>
