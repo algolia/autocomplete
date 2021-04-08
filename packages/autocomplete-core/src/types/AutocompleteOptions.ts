@@ -88,7 +88,7 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
   /**
    * The default item index to pre-select.
    *
-   * We recommend using `0` when the query typed aims at opening item links, without triggering an actual search.
+   * We recommend using `0` when the autocomplete is used to open links, instead of triggering a search in an application.
    *
    * @default null
    * @link https://autocomplete.algolia.com/docs/autocomplete-js#defaultactiveitemid

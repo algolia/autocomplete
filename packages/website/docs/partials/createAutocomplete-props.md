@@ -34,7 +34,7 @@ Whether to focus the search input or not when the page is loaded.
 
 The default item index to pre-select.
 
-We recommend using `0` when the query typed aims at opening item links, without triggering an actual search.
+We recommend using `0` when the autocomplete is used to open links, instead of triggering a search in an application.
 
 ### `openOnFocus`
 
