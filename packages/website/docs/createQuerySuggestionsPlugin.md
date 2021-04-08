@@ -104,7 +104,7 @@ A function returning [Algolia search parameters](https://www.algolia.com/doc/api
 
 ### `transformSource`
 
-> `(params: { source: AutocompleteSource, onTapAhead: () => void })`
+> `(params: { source: AutocompleteSource, state: AutocompleteState, onTapAhead: () => void })`
 
 A function to transform the provided source.
 

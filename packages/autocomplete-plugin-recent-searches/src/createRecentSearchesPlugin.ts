@@ -1,5 +1,6 @@
 import {
   AutocompletePlugin,
+  AutocompleteState,
   PluginSubscribeParams,
 } from '@algolia/autocomplete-core';
 import { AutocompleteSource } from '@algolia/autocomplete-js';
@@ -21,6 +22,7 @@ export type CreateRecentSearchesPluginParams<
   storage: Storage<TItem>;
   transformSource?(params: {
     source: AutocompleteSource<TItem>;
+    state: AutocompleteState<TItem>;
     onRemove(id: string): void;
     onTapAhead(item: TItem): void;
   }): AutocompleteSource<TItem>;
@@ -70,7 +72,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
         store.addItem(recentItem as TItem);
       }
     },
-    getSources({ query, setQuery, refresh }) {
+    getSources({ query, setQuery, refresh, state }) {
       lastItemsRef.current = store.getAll(query);
 
       function onRemove(id: string) {
@@ -102,6 +104,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
             },
             onRemove,
             onTapAhead,
+            state,
           }),
         ];
       });

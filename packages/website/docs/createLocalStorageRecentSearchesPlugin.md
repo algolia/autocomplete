@@ -140,7 +140,7 @@ function search({ query, items, limit }) {
 
 ### `transformSource`
 
-> `(params: { source: AutocompleteSource, onRemove: () => void, onTapAhead: () => void })`
+> `(params: { source: AutocompleteSource, state: AutocompleteState, onRemove: () => void, onTapAhead: () => void })`
 
 A function to transform the provided source.
 
