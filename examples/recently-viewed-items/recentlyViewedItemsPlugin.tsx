@@ -48,9 +48,9 @@ export function createLocalStorageRecentlyViewedItems<
 
       return search(params);
     },
-    transformSource({ source, onRemove }) {
+    transformSource({ source, onRemove, state }) {
       const transformedSource = params.transformSource
-        ? params.transformSource({ source, onRemove })
+        ? params.transformSource({ source, onRemove, state })
         : source;
 
       return {

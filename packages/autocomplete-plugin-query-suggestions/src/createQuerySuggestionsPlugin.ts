@@ -18,6 +18,7 @@ export type CreateQuerySuggestionsPluginParams<
   getSearchParams?(params: { state: AutocompleteState<TItem> }): SearchOptions;
   transformSource?(params: {
     source: AutocompleteSource<TItem>;
+    state: AutocompleteState<TItem>;
     onTapAhead(item: TItem): void;
   }): AutocompleteSource<TItem>;
   /**
@@ -115,6 +116,7 @@ export function createQuerySuggestionsPlugin<
             templates: getTemplates({ onTapAhead }),
           },
           onTapAhead,
+          state,
         }),
       ];
     },
