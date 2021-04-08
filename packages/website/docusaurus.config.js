@@ -6,6 +6,8 @@ module.exports = {
   favicon: 'img/logo.png',
   organizationName: 'algolia',
   projectName: 'autocomplete',
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
   themeConfig: {
     sidebarCollapsible: true,
     navbar: {
