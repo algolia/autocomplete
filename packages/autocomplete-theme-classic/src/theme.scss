@@ -224,8 +224,8 @@ body {
         margin: 0;
       }
       @at-root .aa-LoadingIndicator {
-        display: flex;
         align-items: center;
+        display: flex;
         justify-content: center;
         &[hidden] {
           display: none;
@@ -268,8 +268,8 @@ body {
     @at-root .aa-InputWrapperSuffix {
       align-items: center;
       display: flex;
-      order: 4;
       height: var(--aa-search-input-height);
+      order: 4;
       // Accelerator to clear the query
       @at-root .aa-ClearButton {
         align-items: center;
@@ -278,8 +278,8 @@ body {
         color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
         cursor: pointer;
         display: flex;
-        margin: 0;
         height: 100%;
+        margin: 0;
         padding: 0 calc(var(--aa-spacing) * (5 / 6) - 0.5px);
         @media (hover: none) and (pointer: coarse) {
           padding: 0 calc(var(--aa-spacing) * (2 / 3) - 0.5px);
