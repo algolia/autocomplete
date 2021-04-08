@@ -299,6 +299,8 @@ autocomplete({
 
 ### `renderer`
 
+The virtual DOM implementation to plug to Autocomplete. It defaults to Preact.
+
 #### `createElement`
 
 > `(type: any, props: Record<string, any> | null, ...children: ComponentChildren[]) => VNode` | defaults to `preact.createElement`
@@ -314,6 +316,14 @@ It uses [Preact 10](https://preactjs.com/guide/v10/whats-new/)'s `createElement`
 The component to use to create fragments.
 
 It uses [Preact 10](https://preactjs.com/guide/v10/whats-new/)'s `Fragment` by default, but you can provide your own implementation.
+
+### `detachedMediaQuery`
+
+> `string` | defaults to `"(max-width: 680px)"`
+
+The Detached Mode turns the dropdown display into a full screen, modal experience.
+
+See [**Detached Mode**](detached-mode) for more information.
 
 ## Returns
 
