@@ -26,10 +26,15 @@ Then import it in your project:
 import { parseAlgoliaHitReverseSnippet } from '@algolia/autocomplete-preset-algolia';
 ```
 
-If you don't use a package manager, you can use a standalone endpoint:
+If you don't use a package manager, you can use the HTML `script` element:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-preset-algolia@alpha"></script>
+<script>
+  const { parseAlgoliaHitReverseSnippet } = window[
+    '@algolia/autocomplete-preset-algolia'
+  ];
+</script>
 ```
 
 ## Examples
@@ -44,8 +49,7 @@ const hit = {
   query: 'zelda switch',
   _snippetResult: {
     query: {
-      value:
-        '__aa-highlight__zelda__/aa-highlight__ switch',
+      value: '__aa-highlight__zelda__/aa-highlight__ switch',
     },
   },
 };
@@ -75,8 +79,7 @@ const hit = {
   _snippetResult: {
     hierarchicalCategories: {
       lvl1: {
-        value:
-          '__aa-highlight__Video__/aa-highlight__ games',
+        value: '__aa-highlight__Video__/aa-highlight__ games',
       },
     },
   },

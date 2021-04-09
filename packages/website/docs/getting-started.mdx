@@ -40,10 +40,13 @@ yarn add @algolia/autocomplete-js@alpha
 npm install @algolia/autocomplete-js@alpha
 ```
 
-If you don't want to use a package manager, you can use a standalone endpoint:
+If you don't use a package manager, you can use the HTML `script` element:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js@alpha"></script>
+<script>
+  const { autocomplete } = window['@algolia/autocomplete-js'];
+</script>
 ```
 
 We recommend using [jsDelivr](https://www.jsdelivr.com) but [`autocomplete-js`](autocomplete-js) is also available through [unpkg](https://unpkg.com/@algolia/autocomplete-js@alpha).

@@ -23,10 +23,13 @@ Then import it in your project:
 import { autocomplete } from '@algolia/autocomplete-js';
 ```
 
-If you don't use a package manager, you can use a standalone endpoint:
+If you don't use a package manager, you can use the HTML `script` element:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js@alpha"></script>
+<script>
+  const { autocomplete } = window['@algolia/autocomplete-js'];
+</script>
 ```
 
 ## Example
