@@ -1,10 +1,10 @@
-import { createRequester } from '../createRequester';
-import { createFetcher } from '../createFetcher';
 import {
   createMultiSearchResponse,
   createSearchClient,
 } from '../../../../test/utils';
 import { getAlgoliaHits as originalGetAlgoliaHits } from '../../../autocomplete-preset-algolia/src/search/getAlgoliaHits';
+import { createFetcher } from '../createFetcher';
+import { createRequester } from '../createRequester';
 
 function createTestSearchClient() {
   return createSearchClient({

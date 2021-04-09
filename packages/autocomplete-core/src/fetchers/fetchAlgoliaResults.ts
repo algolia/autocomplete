@@ -4,12 +4,12 @@ import { createFetcher } from '../createFetcher';
 
 export const fetchAlgoliaResults = createFetcher({
   request: getAlgoliaResults,
-  transform: (collections, initialQueries) => {
-    return collections.map((results, index) => {
+  mapToItems: (results, initialQueries) => {
+    return results.map((result, index) => {
       const { __autocomplete_sourceId } = initialQueries[index];
 
       return {
-        items: { results },
+        items: result,
         __autocomplete_sourceId,
       };
     });

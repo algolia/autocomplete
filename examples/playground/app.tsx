@@ -54,6 +54,25 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 });
 const categoriesPlugin = createCategoriesPlugin({ searchClient });
 
+function debouncePromise<TParams extends unknown[], TResponse>(
+  fn: (...params: TParams) => Promise<TResponse>,
+  time: number
+) {
+  let timerId: ReturnType<typeof setTimeout> | undefined = undefined;
+
+  return function (...args: TParams) {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
+    return new Promise<TResponse>((resolve) => {
+      timerId = setTimeout(() => resolve(fn(...args)), time);
+    });
+  };
+}
+
+const debouncedFetch = debouncePromise(fetch, 300);
+
 autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
@@ -75,13 +94,21 @@ autocomplete({
       {
         sourceId: 'github',
         getItems() {
-          return fetch(
+          return debouncedFetch(
             `https://api.github.com/search/repositories?q=${query}&per_page=5`
           )
             .then((res) => res.json())
             .then((r) => r.items || []);
         },
         templates: {
+          header() {
+            return (
+              <Fragment>
+                <span className="aa-SourceHeaderTitle">GitHub</span>
+                <div className="aa-SourceHeaderLine" />
+              </Fragment>
+            );
+          },
           item({ item }) {
             return item.full_name;
           },
@@ -101,6 +128,11 @@ autocomplete({
                 },
               },
             ],
+            transformResponse(response) {
+              console.log('transformResponse', response);
+
+              return response.results.map((result) => result.hits);
+            },
           });
         },
         templates: {
@@ -112,8 +144,14 @@ autocomplete({
               </Fragment>
             );
           },
-          item({ item }) {
-            return item.objectID;
+          item({ item, components }) {
+            return (
+              <div className="aa-ItemContent">
+                <div className="aa-ItemContentTitle">
+                  <components.ReverseHighlight hit={item} attribute="query" />
+                </div>
+              </div>
+            );
           },
         },
       },
@@ -154,7 +192,25 @@ autocomplete({
             );
           },
           item({ item, components }) {
-            return item.name || item.title;
+            // return item.name || item.title;
+
+            if (item.name) {
+              return (
+                <div className="aa-ItemContent">
+                  <div className="aa-ItemContentTitle">
+                    <components.Highlight hit={item} attribute="name" />
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <div className="aa-ItemContent">
+                <div className="aa-ItemContentTitle">
+                  <components.Highlight hit={item} attribute="title" />
+                </div>
+              </div>
+            );
 
             /* return (
               <ProductItem
@@ -197,8 +253,16 @@ autocomplete({
               </Fragment>
             );
           },
-          item({ item }) {
-            return `${item.home_team} - ${item.away_team}`;
+          item({ item, components }) {
+            // return `${item.home_team} - ${item.away_team}`;
+
+            return (
+              <div className="aa-ItemContent">
+                <div className="aa-ItemContentTitle">
+                  <components.Highlight hit={item} attribute="home_team" />
+                </div>
+              </div>
+            );
           },
           noResults() {
             return (

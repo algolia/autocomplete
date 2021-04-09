@@ -1,7 +1,11 @@
 import { Fetcher, OriginalRequesterOptions } from './createFetcher';
 
+type WithTransformResponse<TType> = TType & {
+  transformResponse?(response: any): any;
+};
+
 type Requester<TQuery, TResult> = (
-  options: OriginalRequesterOptions<TQuery>
+  options: WithTransformResponse<OriginalRequesterOptions<TQuery>>
 ) => Promise<Description<TQuery, TResult>>;
 
 export type Description<TQuery, TResult> = {
@@ -15,7 +19,7 @@ type CreateRequesterOptions<TQuery, TResult> = {
 export function createRequester<TQuery, TResult>({
   fetcher,
 }: CreateRequesterOptions<TQuery, TResult>): Requester<TQuery, TResult> {
-  return function requester(options: OriginalRequesterOptions<TQuery>) {
+  return function requester(options) {
     return Promise.resolve({
       fetcher,
       ...options,

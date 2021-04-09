@@ -11,7 +11,7 @@ export type OriginalRequesterOptions<TQuery> = {
 
 type FetcherOptions<TQuery> = {
   searchClient: SearchClient;
-  queries: QueryWithMetadata<TQuery>[];
+  queries: Array<QueryWithMetadata<TQuery>>;
 };
 
 export type Fetcher<TQuery, TResult> = (
@@ -20,15 +20,15 @@ export type Fetcher<TQuery, TResult> = (
 
 type CreateFetcherOptions<TQuery, TRawResult, TResults = TRawResult> = {
   request: (options: OriginalRequesterOptions<TQuery>) => Promise<TRawResult[]>;
-  transform?: (
+  mapToItems?: (
     results: TRawResult[],
-    initialQueries: QueryWithMetadata<TQuery>[]
+    initialQueries: Array<QueryWithMetadata<TQuery>>
   ) => TResults[];
 };
 
 export function createFetcher<TQuery, TMetadata, TRawResult>({
   request,
-  transform = (value) => value,
+  mapToItems = (value) => value,
 }: CreateFetcherOptions<TQuery, TMetadata, TRawResult>): Fetcher<
   TQuery,
   TRawResult
@@ -37,7 +37,7 @@ export function createFetcher<TQuery, TMetadata, TRawResult>({
     const queries = options.queries.map(({ query }) => query);
 
     return request({ ...options, queries }).then((results) =>
-      transform(results, options.queries)
+      mapToItems(results, options.queries)
     );
   };
 }

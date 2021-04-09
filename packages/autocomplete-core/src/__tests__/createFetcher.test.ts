@@ -1,9 +1,9 @@
-import { createFetcher } from '../createFetcher';
 import {
   createMultiSearchResponse,
   createSearchClient,
 } from '../../../../test/utils';
 import { getAlgoliaHits } from '../../../autocomplete-preset-algolia/src/search/getAlgoliaHits';
+import { createFetcher } from '../createFetcher';
 
 function createTestSearchClient() {
   return createSearchClient({
@@ -62,7 +62,7 @@ describe('createFetcher', () => {
     const searchClient = createTestSearchClient();
     const fetchAlgoliaHits = createFetcher({
       request: getAlgoliaHits,
-      transform: (collections, initialQueries) => {
+      mapToItems: (collections, initialQueries) => {
         return collections.map((hits, index) => {
           const { __autocomplete_sourceId } = initialQueries[index];
 
