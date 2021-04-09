@@ -18,10 +18,12 @@ type CreateRequesterOptions<TQuery, TResult> = {
 
 export function createRequester<TQuery, TResult>({
   fetcher,
+  transformResponse,
 }: CreateRequesterOptions<TQuery, TResult>): Requester<TQuery, TResult> {
   return function requester(options) {
     return Promise.resolve({
       fetcher,
+      transformResponse,
       ...options,
     });
   };

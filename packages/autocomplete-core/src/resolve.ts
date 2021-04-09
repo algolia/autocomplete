@@ -13,12 +13,11 @@ function pack<TQuery, TResult, TItem>(
     } else if (index > -1) {
       acc[index].items.push(...curr.queries);
     } else {
-      const { searchClient, fetcher, transformResponse } = curr;
+      const { searchClient, fetcher } = curr;
 
       acc.push({
         searchClient,
         fetcher,
-        transformResponse,
         items: curr.searchClient ? curr.queries : [curr],
       });
     }
@@ -42,20 +41,12 @@ export function resolve<TQuery, TResult, TItem>(
         fetcher,
         searchClient,
         items,
-        transformResponse, // @TODO: get from __autocomplete_transformResponse ?
       } = description;
 
       return fetcher({
         searchClient,
         queries: items,
-      }).then((responses) => {
-        return responses.map((response) => {
-          return {
-            ...response,
-            transformResponse,
-          };
-        });
       });
-    })
+    });
   );
 }

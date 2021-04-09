@@ -8,7 +8,7 @@ export const fetchAlgoliaResults = createFetcher({
     return results.map((result, index) => {
       const {
         __autocomplete_sourceId,
-        __autocomplete_transformResponse = (x) => x.hits,
+        __autocomplete_transformResponse,
       } = initialQueries[index];
 
       return {

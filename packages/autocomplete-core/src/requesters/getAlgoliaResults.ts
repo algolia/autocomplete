@@ -3,4 +3,5 @@ import { fetchAlgoliaResults } from '../fetchers';
 
 export const getAlgoliaResults = createRequester({
   fetcher: fetchAlgoliaResults,
+  transformResponse: ({ hits }) => hits,
 });

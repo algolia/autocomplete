@@ -116,7 +116,7 @@ autocomplete({
       // },
       {
         sourceId: 'categories',
-        getItems({ setContext }) {
+        getItems() {
           return getAlgoliaFacets({
             searchClient,
             queries: [
@@ -130,12 +130,6 @@ autocomplete({
                 },
               },
             ],
-            // transformResponse({ facetHits, hits, results }) {
-            //   console.log({ facetHits, hits, results });
-            //   return facetHits;
-            //   // console.log('transformResponse > results', results);
-            //   // return results.map((r) => r.facetHits);
-            // },
           });
         },
         templates: {
@@ -173,24 +167,13 @@ autocomplete({
                 },
               },
             ],
-            transformResponse({ facetHits, hits, results }) {
-              console.log('transformResponse', { facetHits, hits, results });
+            transformResponse({ hits, results }) {
+              setContext({
+                processingTimeMS: results[0].processingTimeMS
+              });
+
               return hits;
-              // console.log('transformResponse > results', results);
-              // return results.map((r) => r.facetHits);
             },
-            // transformResponse({ results, hits }) {
-            //   const [nbHitsOne, nbHitsSecond] = results.map(
-            //     ({ nbHits }) => nbHits
-            //   );
-
-            //   setContext({
-            //     nbHitsOne,
-            //     nbHitsSecond,
-            //   });
-
-            //   return hits;
-            // },
           });
         },
         templates: {
@@ -198,7 +181,7 @@ autocomplete({
             return (
               <Fragment>
                 <span className="aa-SourceHeaderTitle">
-                  Suggestions (processed in {state.context.nbHitsOne} ms)
+                  Suggestions (processed in {state.context.processingTimeMS} ms)
                 </span>
                 <div className="aa-SourceHeaderLine" />
               </Fragment>
@@ -240,12 +223,9 @@ autocomplete({
                 },
               },
             ],
-            transformResponse({ facetHits, hits, results }) {
-              console.log('transformResponse', { facetHits, hits, results });
-              return hits;
-              // console.log('transformResponse > results', results);
-              // return results.map((r) => r.facetHits);
-            },
+            // transformResponse({ hits }) {
+            //   return hits;
+            // },
           });
         },
         templates: {
