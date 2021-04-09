@@ -116,7 +116,7 @@ body {
     // Text colors
     --aa-text-color-rgb: 183, 192, 199;
     --aa-primary-color-rgb: 146, 138, 255;
-    --aa-muted-color-rgb: 146, 138, 255;
+    --aa-muted-color-rgb: 136, 138, 155;
 
     // Background colors
     --aa-input-background-color-rgb: 0, 3, 9;
@@ -1018,7 +1018,7 @@ body {
 
 .aa-NavigationCommandLabel,
 .aa-SearchByAlgoliaLabel {
-  color: #969faf;
+  color: rgba(var(--aa-muted-color-rgb),1);
   font-size: 0.75em;
   line-height: 1.6em;
 }
@@ -1040,7 +1040,7 @@ body {
   background: var(--aa-key-background);
   border-radius: 3px;
   box-shadow: var(--aa-key-shadow);
-  color: #969faf;
+  color: rgba(var(--aa-muted-color-rgb),1);
   display: flex;
   height: 20px;
   justify-content: center;
