@@ -1,6 +1,6 @@
 import { invariant } from '@algolia/autocomplete-shared';
-import { resolve } from './resolve';
 
+import { resolve } from './resolve';
 import {
   AutocompleteCollection,
   AutocompleteScopeApi,
@@ -9,7 +9,7 @@ import {
   BaseItem,
   InternalAutocompleteOptions,
 } from './types';
-import { flatten, getActiveItem } from './utils';
+import { flatten, getActiveItem, isRequesterDescription } from './utils';
 
 let lastStalledId: number | null = null;
 
@@ -94,19 +94,19 @@ export function onInput<TItem extends BaseItem>({
               ...setters,
             })
           ).then((items) => {
-            if (Array.isArray(items)) {
+            if (isRequesterDescription(items)) {
               return {
-                items,
-                __autocomplete_sourceId: source.sourceId,
+                ...items,
+                queries: items.queries.map((query) => ({
+                  query,
+                  __autocomplete_sourceId: source.sourceId,
+                })),
               };
             }
 
             return {
-              ...items,
-              queries: items.queries.map((query) => ({
-                query,
-                __autocomplete_sourceId: source.sourceId,
-              })),
+              items,
+              __autocomplete_sourceId: source.sourceId,
             };
           });
         })
