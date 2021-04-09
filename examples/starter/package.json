@@ -15,7 +15,7 @@
     "preact": "10.5.13"
   },
   "devDependencies": {
-    "parcel-bundler": "1.12.4"
+    "parcel": "2.0.0-beta.2"
   },
   "keywords": [
     "algolia",

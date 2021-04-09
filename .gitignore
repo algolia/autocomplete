@@ -5,6 +5,7 @@ node_modules/
 *.log
 coverage/
 .cache
+.parcel-cache
 
 # Bundle build files
 dist/
