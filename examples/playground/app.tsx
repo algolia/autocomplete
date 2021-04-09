@@ -1,10 +1,10 @@
 /** @jsx h */
+import { getAlgoliaHits } from '@algolia/autocomplete-core/src/requesters/getAlgoliaHits';
 import {
   autocomplete,
   AutocompleteComponents,
   //getAlgoliaHits,
 } from '@algolia/autocomplete-js';
-import { getAlgoliaHits } from '@algolia/autocomplete-core/src/requesters/getAlgoliaHits';
 import {
   AutocompleteInsightsApi,
   createAlgoliaInsightsPlugin,

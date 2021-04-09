@@ -1,7 +1,7 @@
 import { Description } from './createRequester';
 
 function pack<TQuery, TResult, TItem>(
-  items: Description<TQuery, TResult>[] | TItem[]
+  items: Array<Description<TQuery, TResult>> | TItem[]
 ) {
   return items.reduce((acc, curr) => {
     const index = acc.findIndex((item) => {
@@ -10,18 +10,16 @@ function pack<TQuery, TResult, TItem>(
 
     if (!curr.searchClient) {
       acc.push(curr);
+    } else if (index > -1) {
+      acc[index].items.push(...curr.queries);
     } else {
-      if (index > -1) {
-        acc[index].items.push(...curr.queries);
-      } else {
-        const { searchClient, fetcher } = curr;
+      const { searchClient, fetcher } = curr;
 
-        acc.push({
-          ...(searchClient && { searchClient }),
-          ...(fetcher && { fetcher }),
-          items: curr.searchClient ? curr.queries : [curr],
-        });
-      }
+      acc.push({
+        ...(searchClient && { searchClient }),
+        ...(fetcher && { fetcher }),
+        items: curr.searchClient ? curr.queries : [curr],
+      });
     }
 
     return acc;
@@ -29,7 +27,7 @@ function pack<TQuery, TResult, TItem>(
 }
 
 export function resolve<TQuery, TResult, TItem>(
-  items: Description<TQuery, TResult>[] | TItem[]
+  items: Array<Description<TQuery, TResult>> | TItem[]
 ) {
   const packed = pack(items);
 

@@ -1,8 +1,8 @@
-import { fetchAlgoliaResults } from '../fetchAlgoliaResults';
 import {
   createMultiSearchResponse,
   createSearchClient,
 } from '../../../../../test/utils';
+import { fetchAlgoliaResults } from '../fetchAlgoliaResults';
 
 function createTestSearchClient() {
   return createSearchClient({
