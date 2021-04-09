@@ -100,6 +100,7 @@ export function onInput<TItem extends BaseItem>({
                 queries: items.queries.map((query) => ({
                   query,
                   __autocomplete_sourceId: source.sourceId,
+                  __autocomplete_transformResponse: items.transformResponse,
                 })),
               };
             }
@@ -107,22 +108,20 @@ export function onInput<TItem extends BaseItem>({
             return {
               items,
               __autocomplete_sourceId: source.sourceId,
+              __autocomplete_transformResponse: (x) => x.results,
             };
           });
         })
       )
         .then(resolve)
         .then((response) => {
-          return flatten(response).reduce<Array<AutocompleteCollection<any>>>(
-            (acc, current) => {
-              const { __autocomplete_sourceId, items } = current;
-
-              invariant(
-                Array.isArray(items),
-                `The \`getItems\` function must return an array of items but returned type ${JSON.stringify(
-                  typeof items
-                )}:\n\n${JSON.stringify(items, null, 2)}`
-              );
+          return flatten(response)
+            .reduce<Array<AutocompleteCollection<any>>>((acc, current) => {
+              const {
+                items,
+                __autocomplete_sourceId,
+                __autocomplete_transformResponse,
+              } = current;
 
               const index = acc.findIndex(({ source }) => {
                 return source.sourceId === __autocomplete_sourceId;
@@ -144,14 +143,38 @@ export function onInput<TItem extends BaseItem>({
 
                 acc.push({
                   source: source!,
-                  items,
+                  items: [items],
+                  __autocomplete_transformResponse,
                 });
               }
 
               return acc;
-            },
-            []
-          );
+            }, [])
+            .map((collectionToTransform) => {
+              const items = collectionToTransform.__autocomplete_transformResponse(
+                {
+                  results: collectionToTransform.items,
+                  hits: collectionToTransform.items
+                    .map((x) => x.hits)
+                    .filter(Boolean),
+                  facetHits: collectionToTransform.items
+                    .map((x) => x.facetHits)
+                    .filter(Boolean),
+                }
+              );
+
+              invariant(
+                Array.isArray(items),
+                `The \`getItems\` function must return an array of items but returned type ${JSON.stringify(
+                  typeof items
+                )}:\n\n${JSON.stringify(items, null, 2)}`
+              );
+
+              return {
+                source: collectionToTransform.source,
+                items,
+              };
+            });
         })
         .then((collections) => {
           setStatus('idle');

@@ -1,9 +1,9 @@
 /** @jsx h */
-import { getAlgoliaResults } from '@algolia/autocomplete-core/src/requesters/getAlgoliaResults';
 import {
   autocomplete,
   AutocompleteComponents,
-  //getAlgoliaResults,
+  getAlgoliaFacets,
+  getAlgoliaResults,
 } from '@algolia/autocomplete-js';
 import {
   AutocompleteInsightsApi,
@@ -91,26 +91,71 @@ autocomplete({
     }
 
     return [
+      // {
+      //   sourceId: 'github',
+      //   getItems() {
+      //     return debouncedFetch(
+      //       `https://api.github.com/search/repositories?q=${query}&per_page=5`
+      //     )
+      //       .then((response) => response.json())
+      //       .then((result) => result.items || []);
+      //   },
+      //   templates: {
+      //     header() {
+      //       return (
+      //         <Fragment>
+      //           <span className="aa-SourceHeaderTitle">GitHub</span>
+      //           <div className="aa-SourceHeaderLine" />
+      //         </Fragment>
+      //       );
+      //     },
+      //     item({ item }) {
+      //       return item.full_name;
+      //     },
+      //   },
+      // },
       {
-        sourceId: 'github',
-        getItems() {
-          return debouncedFetch(
-            `https://api.github.com/search/repositoies?q=${query}&per_page=5`
-          )
-            .then((response) => response.json())
-            .then((result) => result.items || []);
+        sourceId: 'categories',
+        getItems({ setContext }) {
+          return getAlgoliaFacets({
+            searchClient,
+            queries: [
+              {
+                indexName: 'instant_search',
+                type: 'facet',
+                facet: 'categories',
+                query,
+                params: {
+                  clickAnalytics: true,
+                },
+              },
+            ],
+            // transformResponse({ facetHits, hits, results }) {
+            //   console.log({ facetHits, hits, results });
+            //   return facetHits;
+            //   // console.log('transformResponse > results', results);
+            //   // return results.map((r) => r.facetHits);
+            // },
+          });
         },
         templates: {
-          header() {
+          header({ state }) {
             return (
               <Fragment>
-                <span className="aa-SourceHeaderTitle">GitHub</span>
+                <span className="aa-SourceHeaderTitle">Categories</span>
                 <div className="aa-SourceHeaderLine" />
               </Fragment>
             );
           },
-          item({ item }) {
-            return item.full_name;
+          item({ item, components }) {
+            return (
+              <div className="aa-ItemContent">
+                <div className="aa-ItemContentTitle">
+                  {item.highlighted}
+                  {/* <components.Highlight hit={item} attribute="label" /> */}
+                </div>
+              </div>
+            );
           },
         },
       },
@@ -128,18 +173,24 @@ autocomplete({
                 },
               },
             ],
-            transformResponse({ results, hits }) {
-              const [nbHitsOne, nbHitsSecond] = results.map(
-                ({ nbHits }) => nbHits
-              );
-
-              setContext({
-                nbHitsOne,
-                nbHitsSecond,
-              });
-
+            transformResponse({ facetHits, hits, results }) {
+              console.log('transformResponse', { facetHits, hits, results });
               return hits;
+              // console.log('transformResponse > results', results);
+              // return results.map((r) => r.facetHits);
             },
+            // transformResponse({ results, hits }) {
+            //   const [nbHitsOne, nbHitsSecond] = results.map(
+            //     ({ nbHits }) => nbHits
+            //   );
+
+            //   setContext({
+            //     nbHitsOne,
+            //     nbHitsSecond,
+            //   });
+
+            //   return hits;
+            // },
           });
         },
         templates: {
@@ -189,9 +240,12 @@ autocomplete({
                 },
               },
             ],
-            /* transformResponse([results]) {
-              return results.hits;
-            }, */
+            transformResponse({ facetHits, hits, results }) {
+              console.log('transformResponse', { facetHits, hits, results });
+              return hits;
+              // console.log('transformResponse > results', results);
+              // return results.map((r) => r.facetHits);
+            },
           });
         },
         templates: {
@@ -239,9 +293,6 @@ autocomplete({
                 },
               },
             ],
-            /* transformResponse([results]) {
-              return results.hits;
-            }, */
           });
         },
         templates: {

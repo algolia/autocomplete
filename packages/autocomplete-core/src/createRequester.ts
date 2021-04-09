@@ -22,9 +22,6 @@ export function createRequester<TQuery, TResult>({
   return function requester(options) {
     return Promise.resolve({
       fetcher,
-      transformResponse({ hits }) {
-        return hits;
-      },
       ...options,
     });
   };

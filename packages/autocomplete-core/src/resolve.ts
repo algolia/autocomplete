@@ -38,23 +38,21 @@ export function resolve<TQuery, TResult, TItem>(
         return Promise.resolve(description);
       }
 
-      const { fetcher, searchClient, items, transformResponse } = description;
+      const {
+        fetcher,
+        searchClient,
+        items,
+        transformResponse, // @TODO: get from __autocomplete_transformResponse ?
+      } = description;
 
       return fetcher({
         searchClient,
         queries: items,
       }).then((responses) => {
-        const results = responses.map(({ items }) => items);
-
-        const items = transformResponse({
-          results,
-          hits: results.map(({ hits }) => hits),
-        });
-
-        return responses.map((response, index) => {
+        return responses.map((response) => {
           return {
             ...response,
-            items: items[index],
+            transformResponse,
           };
         });
       });

@@ -30,11 +30,10 @@ export function search<TRecord>({
 
   return searchClient.search<TRecord>(
     queries.map((searchParameters) => {
-      const { indexName, query, params } = searchParameters;
+      const { params, ...keys } = searchParameters;
 
       return {
-        indexName,
-        query,
+        ...keys,
         params: {
           hitsPerPage: 5,
           highlightPreTag: HIGHLIGHT_PRE_TAG,

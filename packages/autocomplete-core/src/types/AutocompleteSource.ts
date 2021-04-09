@@ -53,7 +53,7 @@ export interface AutocompleteSource<TItem extends BaseItem> {
    */
   getItems(
     params: GetSourcesParams<TItem>
-  ): MaybePromise<TItem[] | TItem[][] | RequesterDescription<any, any>>; // @TODO: remove `TItem[][]`
+  ): MaybePromise<TItem[] | TItem[][] | RequesterDescription<any, any>>;
   /**
    * Function called when an item is selected.
    */

@@ -1,14 +1,14 @@
-import { fetchAlgoliaResults as originalFetchAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
+import { fetchAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 
 import { createFetcher } from '../createFetcher';
 
-export const fetchAlgoliaResults = createFetcher({
-  request: originalFetchAlgoliaResults,
+export const fetchAlgoliaFacets = createFetcher({
+  request: fetchAlgoliaResults,
   mapToItems: (results, initialQueries) => {
     return results.map((result, index) => {
       const {
         __autocomplete_sourceId,
-        __autocomplete_transformResponse = (x) => x.hits,
+        __autocomplete_transformResponse = (x) => x.facetHits,
       } = initialQueries[index];
 
       return {

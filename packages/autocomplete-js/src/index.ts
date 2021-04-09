@@ -1,5 +1,7 @@
 export * from './autocomplete';
-export * from './getAlgoliaFacetHits';
-export * from './getAlgoliaHits';
-export * from './getAlgoliaResults';
 export * from './types';
+// @TODO add JS user agents
+export {
+  getAlgoliaFacets,
+  getAlgoliaResults,
+} from '@algolia/autocomplete-core';
