@@ -2,6 +2,7 @@ import { invariant } from '@algolia/autocomplete-shared';
 import { resolve } from './resolve';
 
 import {
+  AutocompleteCollection,
   AutocompleteScopeApi,
   AutocompleteState,
   AutocompleteStore,
@@ -93,13 +94,6 @@ export function onInput<TItem extends BaseItem>({
               ...setters,
             })
           ).then((items) => {
-            /* invariant(
-              Array.isArray(items.queries),
-              `The \`getItems\` function must return an array of items but returned type ${JSON.stringify(
-                typeof items
-              )}:\n\n${JSON.stringify(items, null, 2)}`
-            ); */
-
             if (Array.isArray(items)) {
               return {
                 items,
@@ -119,8 +113,17 @@ export function onInput<TItem extends BaseItem>({
       )
         .then(resolve)
         .then((response) => {
-          return flatten(response).reduce(
-            (acc, { __autocomplete_sourceId, items }) => {
+          return flatten(response).reduce<Array<AutocompleteCollection<any>>>(
+            (acc, current) => {
+              const { __autocomplete_sourceId, items } = current;
+
+              invariant(
+                Array.isArray(items),
+                `The \`getItems\` function must return an array of items but returned type ${JSON.stringify(
+                  typeof items
+                )}:\n\n${JSON.stringify(items, null, 2)}`
+              );
+
               const index = acc.findIndex(({ source }) => {
                 return source.sourceId === __autocomplete_sourceId;
               });
@@ -128,10 +131,19 @@ export function onInput<TItem extends BaseItem>({
               if (index > -1) {
                 acc[index].items.push(items);
               } else {
+                const source = sources.find(
+                  ({ sourceId }) => sourceId === __autocomplete_sourceId
+                );
+
+                invariant(
+                  Boolean(source),
+                  `Cannot find \`sourceId\` ${JSON.stringify(
+                    __autocomplete_sourceId
+                  )}.`
+                );
+
                 acc.push({
-                  source: sources.find(
-                    ({ sourceId }) => sourceId === __autocomplete_sourceId
-                  ),
+                  source: source!,
                   items,
                 });
               }

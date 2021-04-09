@@ -3,6 +3,7 @@ import { MaybePromise } from '@algolia/autocomplete-shared';
 import { AutocompleteScopeApi, BaseItem } from './AutocompleteApi';
 import { GetSourcesParams } from './AutocompleteOptions';
 import { AutocompleteState } from './AutocompleteState';
+import { RequesterDescription } from './RequesterDescription';
 
 export interface OnSelectParams<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
@@ -50,7 +51,9 @@ export interface AutocompleteSource<TItem extends BaseItem> {
   /**
    * Function called when the input changes. You can use this function to filter/search the items based on the query.
    */
-  getItems(params: GetSourcesParams<TItem>): MaybePromise<TItem[] | TItem[][]>;
+  getItems(
+    params: GetSourcesParams<TItem>
+  ): MaybePromise<TItem[] | TItem[][] | RequesterDescription<any, any>>; // @TODO: remove `TItem[][]`
   /**
    * Function called when an item is selected.
    */

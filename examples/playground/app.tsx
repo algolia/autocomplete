@@ -97,8 +97,8 @@ autocomplete({
           return debouncedFetch(
             `https://api.github.com/search/repositories?q=${query}&per_page=5`
           )
-            .then((res) => res.json())
-            .then((r) => r.items || []);
+            .then((response) => response.json())
+            .then((result) => result.items || []);
         },
         templates: {
           header() {
@@ -187,33 +187,18 @@ autocomplete({
             );
           },
           item({ item, components }) {
-            // return item.name || item.title;
-
-            if (item.name) {
-              return (
-                <div className="aa-ItemContent">
-                  <div className="aa-ItemContentTitle">
-                    <components.Highlight hit={item} attribute="name" />
-                  </div>
-                </div>
-              );
-            }
+            const attributeToHighlight = item.name ? 'name' : 'title';
 
             return (
               <div className="aa-ItemContent">
                 <div className="aa-ItemContentTitle">
-                  <components.Highlight hit={item} attribute="title" />
+                  <components.Highlight
+                    hit={item}
+                    attribute={attributeToHighlight}
+                  />
                 </div>
               </div>
             );
-
-            /* return (
-              <ProductItem
-                hit={item}
-                components={components}
-                insights={state.context.algoliaInsightsPlugin.insights}
-              />
-            ); */
           },
           noResults() {
             return (
@@ -249,12 +234,11 @@ autocomplete({
             );
           },
           item({ item, components }) {
-            // return `${item.home_team} - ${item.away_team}`;
-
             return (
               <div className="aa-ItemContent">
                 <div className="aa-ItemContentTitle">
-                  <components.Highlight hit={item} attribute="home_team" />
+                  <components.Highlight hit={item} attribute="home_team" /> –{' '}
+                  <components.Highlight hit={item} attribute="away_team" />
                 </div>
               </div>
             );

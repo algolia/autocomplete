@@ -1,6 +1,6 @@
 import { Fetcher, OriginalRequesterOptions } from './createFetcher';
 
-type WithTransformResponse<TType> = TType & {
+export type WithTransformResponse<TType> = TType & {
   transformResponse?(response: any): any;
 };
 
