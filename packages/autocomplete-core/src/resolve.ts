@@ -13,11 +13,12 @@ function pack<TQuery, TResult, TItem>(
     } else if (index > -1) {
       acc[index].items.push(...curr.queries);
     } else {
-      const { searchClient, fetcher } = curr;
+      const { searchClient, fetcher, transformResponse } = curr;
 
       acc.push({
-        ...(searchClient && { searchClient }),
-        ...(fetcher && { fetcher }),
+        searchClient,
+        fetcher,
+        transformResponse,
         items: curr.searchClient ? curr.queries : [curr],
       });
     }
@@ -37,11 +38,25 @@ export function resolve<TQuery, TResult, TItem>(
         return Promise.resolve(description);
       }
 
-      const { fetcher, searchClient, items } = description;
+      const { fetcher, searchClient, items, transformResponse } = description;
 
       return fetcher({
         searchClient,
         queries: items,
+      }).then((responses) => {
+        const results = responses.map(({ items }) => items);
+
+        const items = transformResponse({
+          results,
+          hits: results.map(({ hits }) => hits),
+        });
+
+        return responses.map((response, index) => {
+          return {
+            ...response,
+            items: items[index],
+          };
+        });
       });
     })
   );

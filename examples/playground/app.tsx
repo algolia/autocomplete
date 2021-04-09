@@ -1,9 +1,9 @@
 /** @jsx h */
-import { getAlgoliaHits } from '@algolia/autocomplete-core/src/requesters/getAlgoliaHits';
+import { getAlgoliaResults } from '@algolia/autocomplete-core/src/requesters/getAlgoliaResults';
 import {
   autocomplete,
   AutocompleteComponents,
-  //getAlgoliaHits,
+  //getAlgoliaResults,
 } from '@algolia/autocomplete-js';
 import {
   AutocompleteInsightsApi,
@@ -95,7 +95,7 @@ autocomplete({
         sourceId: 'github',
         getItems() {
           return debouncedFetch(
-            `https://api.github.com/search/repositories?q=${query}&per_page=5`
+            `https://api.github.com/search/repositoies?q=${query}&per_page=5`
           )
             .then((response) => response.json())
             .then((result) => result.items || []);
@@ -116,8 +116,8 @@ autocomplete({
       },
       {
         sourceId: 'suggestions',
-        getItems() {
-          return getAlgoliaHits({
+        getItems({ setContext }) {
+          return getAlgoliaResults({
             searchClient,
             queries: [
               {
@@ -128,13 +128,27 @@ autocomplete({
                 },
               },
             ],
+            transformResponse({ results, hits }) {
+              const [nbHitsOne, nbHitsSecond] = results.map(
+                ({ nbHits }) => nbHits
+              );
+
+              setContext({
+                nbHitsOne,
+                nbHitsSecond,
+              });
+
+              return hits;
+            },
           });
         },
         templates: {
-          header() {
+          header({ state }) {
             return (
               <Fragment>
-                <span className="aa-SourceHeaderTitle">Suggestions</span>
+                <span className="aa-SourceHeaderTitle">
+                  Suggestions (processed in {state.context.nbHitsOne} ms)
+                </span>
                 <div className="aa-SourceHeaderLine" />
               </Fragment>
             );
@@ -153,7 +167,7 @@ autocomplete({
       {
         sourceId: 'products',
         getItems() {
-          return getAlgoliaHits<ProductRecord>({
+          return getAlgoliaResults<ProductRecord>({
             searchClient,
             queries: [
               {
@@ -175,6 +189,9 @@ autocomplete({
                 },
               },
             ],
+            /* transformResponse([results]) {
+              return results.hits;
+            }, */
           });
         },
         templates: {
@@ -210,7 +227,7 @@ autocomplete({
       {
         sourceId: 'soccer',
         getItems() {
-          return getAlgoliaHits({
+          return getAlgoliaResults({
             searchClient: searchClient2,
             queries: [
               {
@@ -222,6 +239,9 @@ autocomplete({
                 },
               },
             ],
+            /* transformResponse([results]) {
+              return results.hits;
+            }, */
           });
         },
         templates: {
