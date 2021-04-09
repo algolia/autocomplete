@@ -18,7 +18,7 @@ function createTestSearchClient() {
 }
 
 describe('fetchAlgoliaResults', () => {
-  test('fetches and transforms the results', async () => {
+  test.skip('fetches and transforms the results', async () => {
     const searchClient = createTestSearchClient();
     const results = await fetchAlgoliaResults({
       searchClient,

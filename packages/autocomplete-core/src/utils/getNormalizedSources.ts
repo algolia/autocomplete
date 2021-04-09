@@ -15,6 +15,8 @@ export function getNormalizedSources<TItem extends BaseItem>(
   getSources: GetSources<TItem>,
   params: GetSourcesParams<TItem>
 ): ReturnType<InternalGetSources<TItem>> {
+  const seenSourceIds: string[] = [];
+
   return Promise.resolve(getSources(params)).then((sources) => {
     invariant(
       Array.isArray(sources),
@@ -36,6 +38,16 @@ export function getNormalizedSources<TItem extends BaseItem>(
             typeof source.sourceId === 'string',
             'A source must provide a `sourceId` string.'
           );
+
+          if (seenSourceIds.includes(source.sourceId)) {
+            throw new Error(
+              `[Autocomplete] The \`sourceId\` ${JSON.stringify(
+                source.sourceId
+              )} is not unique.`
+            );
+          }
+
+          seenSourceIds.push(source.sourceId);
 
           const normalizedSource: InternalAutocompleteSource<TItem> = {
             getItemInputValue({ state }) {

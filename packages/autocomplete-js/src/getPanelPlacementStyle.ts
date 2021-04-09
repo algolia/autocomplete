@@ -60,7 +60,7 @@ export function getPanelPlacementStyle({
 
     default: {
       throw new Error(
-        `The \`panelPlacement\` value ${JSON.stringify(
+        `[Autocomplete] The \`panelPlacement\` value ${JSON.stringify(
           panelPlacement
         )} is not valid.`
       );

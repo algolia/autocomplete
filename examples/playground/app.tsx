@@ -128,11 +128,6 @@ autocomplete({
                 },
               },
             ],
-            transformResponse(response) {
-              console.log('transformResponse', response);
-
-              return response.results.map((result) => result.hits);
-            },
           });
         },
         templates: {
