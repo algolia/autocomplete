@@ -91,7 +91,6 @@ autocomplete({
     }
 
     return [
-
       {
         sourceId: 'categories',
         getItems() {

@@ -3,22 +3,27 @@ import { Description } from './createRequester';
 function pack<TQuery, TResult, TItem>(
   items: Array<Description<TQuery, TResult>> | TItem[]
 ) {
-  return items.reduce((acc, curr) => {
+  return items.reduce((acc, current) => {
+    const { searchClient, fetcher, queries } = current;
+
     const index = acc.findIndex((item) => {
-      return curr.searchClient && item?.searchClient === curr.searchClient;
+      return (
+        searchClient &&
+        fetcher &&
+        item?.searchClient === searchClient &&
+        item?.fetcher === fetcher
+      );
     });
 
-    if (!curr.searchClient) {
-      acc.push(curr);
+    if (!searchClient) {
+      acc.push(current);
     } else if (index > -1) {
-      acc[index].items.push(...curr.queries);
+      acc[index].items.push(...queries);
     } else {
-      const { searchClient, fetcher } = curr;
-
       acc.push({
         searchClient,
         fetcher,
-        items: curr.searchClient ? curr.queries : [curr],
+        items: searchClient ? queries : [current],
       });
     }
 
@@ -37,16 +42,12 @@ export function resolve<TQuery, TResult, TItem>(
         return Promise.resolve(description);
       }
 
-      const {
-        fetcher,
-        searchClient,
-        items,
-      } = description;
+      const { fetcher, searchClient, items } = description;
 
       return fetcher({
         searchClient,
         queries: items,
       });
-    });
+    })
   );
 }

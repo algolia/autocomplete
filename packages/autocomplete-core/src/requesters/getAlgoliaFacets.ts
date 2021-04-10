@@ -1,7 +1,7 @@
 import { createRequester } from '../createRequester';
-import { fetchAlgoliaFacets } from '../fetchers';
+import { fetchAlgoliaResults } from '../fetchers';
 
 export const getAlgoliaFacets = createRequester({
-  fetcher: fetchAlgoliaFacets,
+  fetcher: fetchAlgoliaResults,
   transformResponse: ({ facetHits }) => facetHits,
 });
