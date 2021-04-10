@@ -115,66 +115,37 @@ export function onInput<TItem extends BaseItem>({
       )
         .then(resolve)
         .then((response) => {
-          return flatten(response)
-            .reduce<Array<AutocompleteCollection<any>>>((acc, current) => {
-              const {
-                items,
-                __autocomplete_sourceId,
-                __autocomplete_transformResponse,
-              } = current;
+          const flattenedResponse = flatten(response);
 
-              const index = acc.findIndex(({ source }) => {
-                return source.sourceId === __autocomplete_sourceId;
-              });
-
-              if (index > -1) {
-                acc[index].items.push(items);
-              } else {
-                const source = sources.find(
-                  ({ sourceId }) => sourceId === __autocomplete_sourceId
-                );
-
-                invariant(
-                  Boolean(source),
-                  `Cannot find \`sourceId\` ${JSON.stringify(
-                    __autocomplete_sourceId
-                  )}.`
-                );
-
-                acc.push({
-                  source: source!,
-                  items: [items],
-                  __autocomplete_transformResponse,
-                });
+          return sources.map((source) => {
+            const matches = flattenedResponse.filter(
+              ({ __autocomplete_sourceId }) => {
+                return __autocomplete_sourceId === source.sourceId;
               }
+            );
 
-              return acc;
-            }, [])
-            .map((collectionToTransform) => {
-              const items = collectionToTransform.__autocomplete_transformResponse(
-                {
-                  results: collectionToTransform.items,
-                  hits: collectionToTransform.items
-                    .map((x) => x.hits)
-                    .filter(Boolean),
-                  facetHits: collectionToTransform.items
-                    .map((x) => x.facetHits)
-                    .filter(Boolean),
-                }
-              );
+            const { __autocomplete_transformResponse } = matches[0];
 
-              invariant(
-                Array.isArray(items),
-                `The \`getItems\` function must return an array of items but returned type ${JSON.stringify(
-                  typeof items
-                )}:\n\n${JSON.stringify(items, null, 2)}`
-              );
+            const results = matches.map(({ items }) => items);
 
-              return {
-                source: collectionToTransform.source,
-                items,
-              };
+            const items = __autocomplete_transformResponse({
+              results: results,
+              hits: results.map((x) => x.hits).filter(Boolean),
+              facetHits: results.map((x) => x.facetHits).filter(Boolean),
             });
+
+            invariant(
+              Array.isArray(items),
+              `The \`getItems\` function must return an array of items but returned type ${JSON.stringify(
+                typeof items
+              )}:\n\n${JSON.stringify(items, null, 2)}`
+            );
+
+            return {
+              source,
+              items,
+            };
+          });
         })
         .then((collections) => {
           setStatus('idle');

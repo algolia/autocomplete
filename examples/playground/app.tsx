@@ -91,29 +91,7 @@ autocomplete({
     }
 
     return [
-      // {
-      //   sourceId: 'github',
-      //   getItems() {
-      //     return debouncedFetch(
-      //       `https://api.github.com/search/repositories?q=${query}&per_page=5`
-      //     )
-      //       .then((response) => response.json())
-      //       .then((result) => result.items || []);
-      //   },
-      //   templates: {
-      //     header() {
-      //       return (
-      //         <Fragment>
-      //           <span className="aa-SourceHeaderTitle">GitHub</span>
-      //           <div className="aa-SourceHeaderLine" />
-      //         </Fragment>
-      //       );
-      //     },
-      //     item({ item }) {
-      //       return item.full_name;
-      //     },
-      //   },
-      // },
+
       {
         sourceId: 'categories',
         getItems() {
@@ -150,6 +128,29 @@ autocomplete({
                 </div>
               </div>
             );
+          },
+        },
+      },
+      {
+        sourceId: 'github',
+        getItems() {
+          return debouncedFetch(
+            `https://api.github.com/search/repositories?q=${query}&per_page=5`
+          )
+            .then((response) => response.json())
+            .then((result) => result.items || []);
+        },
+        templates: {
+          header() {
+            return (
+              <Fragment>
+                <span className="aa-SourceHeaderTitle">GitHub</span>
+                <div className="aa-SourceHeaderLine" />
+              </Fragment>
+            );
+          },
+          item({ item }) {
+            return item.full_name;
           },
         },
       },
