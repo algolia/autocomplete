@@ -79,11 +79,11 @@ autocomplete({
   debug: true,
   openOnFocus: true,
   plugins: [
-    /* shortcutsPlugin,
+    shortcutsPlugin,
     algoliaInsightsPlugin,
-    recentSearchesPlugin,
-    querySuggestionsPlugin,
-    categoriesPlugin, */
+    // recentSearchesPlugin,
+    // querySuggestionsPlugin,
+    // categoriesPlugin,
   ],
   getSources({ query, state }) {
     if (!query) {
@@ -133,7 +133,7 @@ autocomplete({
           });
         },
         templates: {
-          header({ state }) {
+          header() {
             return (
               <Fragment>
                 <span className="aa-SourceHeaderTitle">Categories</span>
@@ -168,8 +168,10 @@ autocomplete({
               },
             ],
             transformResponse({ hits, results }) {
+              const [suggestions] = results;
+
               setContext({
-                processingTimeMS: results[0].processingTimeMS
+                suggestionsProcessingTime: suggestions.processingTimeMS
               });
 
               return hits;
@@ -181,7 +183,7 @@ autocomplete({
             return (
               <Fragment>
                 <span className="aa-SourceHeaderTitle">
-                  Suggestions (processed in {state.context.processingTimeMS} ms)
+                  Suggestions (processed in {state.context.suggestionsProcessingTime} ms)
                 </span>
                 <div className="aa-SourceHeaderLine" />
               </Fragment>
@@ -223,32 +225,41 @@ autocomplete({
                 },
               },
             ],
-            // transformResponse({ hits }) {
-            //   return hits;
-            // },
+            transformResponse({ hits }) {
+              const [bestBuyHits, imdbHits] = hits;
+
+              return bestBuyHits.map((hit) => ({
+                ...hit,
+                comments: hit.popularity % 100,
+                sale: hit.free_shipping,
+                // eslint-disable-next-line @typescript-eslint/camelcase
+                sale_price: hit.free_shipping
+                  ? (hit.price - hit.price / 10).toFixed(2)
+                  : hit.price,
+              })).concat(imdbHits);
+            }
           });
         },
         templates: {
           header() {
             return (
               <Fragment>
-                <span className="aa-SourceHeaderTitle">Products</span>
+                <span className="aa-SourceHeaderTitle">Products &amp; Movies</span>
                 <div className="aa-SourceHeaderLine" />
               </Fragment>
             );
           },
           item({ item, components }) {
-            const attributeToHighlight = item.name ? 'name' : 'title';
+            if (item.title) {
+              return item.title;
+            }
 
             return (
-              <div className="aa-ItemContent">
-                <div className="aa-ItemContentTitle">
-                  <components.Highlight
-                    hit={item}
-                    attribute={attributeToHighlight}
-                  />
-                </div>
-              </div>
+              <ProductItem
+                hit={item}
+                components={components}
+                insights={state.context.algoliaInsightsPlugin.insights}
+              />
             );
           },
           noResults() {
