@@ -1,4 +1,4 @@
-import { SearchClient } from 'algoliasearch/lite';
+import type { SearchClient } from 'algoliasearch/lite';
 
 type QueryWithMetadata<TQuery> = {
   query: TQuery;
@@ -9,7 +9,7 @@ export type OriginalRequesterOptions<TQuery> = {
   queries: TQuery[];
 };
 
-type FetcherOptions<TQuery> = {
+export type FetcherOptions<TQuery> = {
   searchClient: SearchClient;
   queries: Array<QueryWithMetadata<TQuery>>;
 };
@@ -18,20 +18,32 @@ export type Fetcher<TQuery, TResult> = (
   options: FetcherOptions<TQuery>
 ) => Promise<TResult[]>;
 
-type CreateFetcherOptions<TQuery, TRawResult, TResults = TRawResult> = {
-  request: (options: OriginalRequesterOptions<TQuery>) => Promise<TRawResult[]>;
-  mapToItems?: (
-    results: TRawResult[],
-    initialQueries: Array<QueryWithMetadata<TQuery>>
-  ) => TResults[];
+type FetcherResult<TResult> = {
+  items: TResult[];
 };
 
-export function createFetcher<TQuery, TMetadata, TRawResult>({
-  request,
-  mapToItems = (value) => value,
-}: CreateFetcherOptions<TQuery, TMetadata, TRawResult>): Fetcher<
+type CreateFetcherOptions<
   TQuery,
-  TRawResult
+  TRawResult,
+  TResult extends FetcherResult<any>
+> = {
+  request: (options: OriginalRequesterOptions<TQuery>) => Promise<TRawResult[]>;
+  mapToItems: (
+    results: TRawResult[],
+    initialQueries: Array<QueryWithMetadata<TQuery>>
+  ) => TResult[];
+};
+
+export function createFetcher<
+  TQuery,
+  TRawResult,
+  TResult extends FetcherResult<any>
+>({
+  request,
+  mapToItems,
+}: CreateFetcherOptions<TQuery, TRawResult, TResult>): Fetcher<
+  TQuery,
+  TResult
 > {
   return function fetcher(options) {
     const queries = options.queries.map(({ query }) => query);

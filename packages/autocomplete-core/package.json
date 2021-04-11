@@ -31,6 +31,11 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@algolia/autocomplete-shared": "1.0.0-alpha.44"
+    "@algolia/autocomplete-shared": "1.0.0-alpha.44",
+    "@algolia/autocomplete-preset-algolia": "1.0.0-alpha.44"
+  },
+  "devDependencies": {
+    "@algolia/client-search": "4.8.6",
+    "algoliasearch": "4.8.6"
   }
 }

@@ -1,5 +1,6 @@
 import { invariant } from '@algolia/autocomplete-shared';
 
+import { TransformedResponse, TransformResponse } from './createRequester';
 import { resolve } from './resolve';
 import {
   AutocompleteCollection,
@@ -116,20 +117,19 @@ export function onInput<TItem extends BaseItem>({
         .then(resolve)
         .then((response) => {
           const flattenedResponse = flatten(response);
+          console.log('flattenedResponse', flattenedResponse);
 
           return sources.map((source) => {
-            const matches = flattenedResponse.filter(
-              ({ __autocomplete_sourceId }) => {
-                return __autocomplete_sourceId === source.sourceId;
-              }
-            );
+            const matches = flattenedResponse.filter((response) => {
+              return response.__autocomplete_sourceId === source.sourceId;
+            });
 
             const { __autocomplete_transformResponse } = matches[0];
 
             const results = matches.map(({ items }) => items);
 
             const items = __autocomplete_transformResponse({
-              results: results,
+              results,
               hits: results.map((x) => x.hits).filter(Boolean),
               facetHits: results.map((x) => x.facetHits).filter(Boolean),
             });

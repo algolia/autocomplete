@@ -171,7 +171,7 @@ autocomplete({
               const [suggestions] = results;
 
               setContext({
-                suggestionsProcessingTime: suggestions.processingTimeMS
+                suggestionsProcessingTime: suggestions.processingTimeMS,
               });
 
               return hits;
@@ -183,7 +183,8 @@ autocomplete({
             return (
               <Fragment>
                 <span className="aa-SourceHeaderTitle">
-                  Suggestions (processed in {state.context.suggestionsProcessingTime} ms)
+                  Suggestions (processed in{' '}
+                  {state.context.suggestionsProcessingTime} ms)
                 </span>
                 <div className="aa-SourceHeaderLine" />
               </Fragment>
@@ -228,23 +229,27 @@ autocomplete({
             transformResponse({ hits }) {
               const [bestBuyHits, imdbHits] = hits;
 
-              return bestBuyHits.map((hit) => ({
-                ...hit,
-                comments: hit.popularity % 100,
-                sale: hit.free_shipping,
-                // eslint-disable-next-line @typescript-eslint/camelcase
-                sale_price: hit.free_shipping
-                  ? (hit.price - hit.price / 10).toFixed(2)
-                  : hit.price,
-              })).concat(imdbHits);
-            }
+              return bestBuyHits
+                .map((hit) => ({
+                  ...hit,
+                  comments: hit.popularity % 100,
+                  sale: hit.free_shipping,
+                  // eslint-disable-next-line @typescript-eslint/camelcase
+                  sale_price: hit.free_shipping
+                    ? (hit.price - hit.price / 10).toFixed(2)
+                    : hit.price,
+                }))
+                .concat(imdbHits);
+            },
           });
         },
         templates: {
           header() {
             return (
               <Fragment>
-                <span className="aa-SourceHeaderTitle">Products &amp; Movies</span>
+                <span className="aa-SourceHeaderTitle">
+                  Products &amp; Movies
+                </span>
                 <div className="aa-SourceHeaderLine" />
               </Fragment>
             );

@@ -1,5 +1,5 @@
-import { MultipleQueriesQuery } from '@algolia/client-search';
-import { SearchClient } from 'algoliasearch/lite';
+import type { MultipleQueriesQuery } from '@algolia/client-search';
+import type { SearchClient } from 'algoliasearch/lite';
 
 import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from '../constants';
 import { version } from '../version';
