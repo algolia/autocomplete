@@ -13,7 +13,7 @@ const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
 
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
-  key: 'qs-with-rs-example',
+  key: 'multi-datasets-with-headers-example',
   limit: 3,
   transformSource({ source }) {
     return {
