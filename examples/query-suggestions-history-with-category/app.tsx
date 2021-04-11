@@ -10,7 +10,7 @@ const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
 
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
-  key: 'qs-with-rs-example',
+  key: 'query-suggestions-history-with-category-example',
   limit: 5,
 });
 
