@@ -1,55 +1,52 @@
-import type {
-  FacetHit,
-  Hit,
-  SearchForFacetValuesResponse,
-  SearchResponse,
-} from '@algolia/client-search';
+export type TransformResponse<TResponse, TTransformedResponse> = (
+  response: TResponse
+) => TTransformedResponse;
 
-import { Fetcher, OriginalRequesterOptions } from './createFetcher';
-
-export type TransformResponse<TResponse> = (response: TResponse) => any[];
-
-export type TransformedResponse<THit> = {
-  items:
-    | Array<SearchResponse<THit>>
-    | Array<SearchResponse<THit>['hits']>
-    | SearchForFacetValuesResponse[];
+export type TransformedResponse<TItem, TResponse, TTransformedResponse> = {
+  items: TItem[];
   __autocomplete_sourceId: string;
-  __autocomplete_transformResponse: TransformResponse<RequesterResponse<THit>>;
+  __autocomplete_transformResponse: TransformResponse<
+    TResponse,
+    TTransformedResponse
+  >;
 };
 
-export type WithTransformResponse<TType> = TType & {
-  transformResponse?: TransformResponse<RequesterResponse<{}>>;
+export type Description<TFetcher> = {
+  fetcher: TFetcher;
 };
 
-type Requester<TQuery, TResult> = (
-  options: WithTransformResponse<OriginalRequesterOptions<TQuery>>
-) => Promise<Description<TQuery, TResult>>;
-
-type RequesterResponse<THit> = {
-  results: Array<Array<SearchResponse<THit>>>;
-  hits: Array<Array<Hit<THit>>>;
-  facetHits: FacetHit[][];
+export type RequesterParams<TQuery> = {
+  queries: TQuery[];
 };
 
-export type Description<TQuery, TResult> = {
-  fetcher: Fetcher<TQuery, TResult>;
-} & OriginalRequesterOptions<TQuery>;
+type Requester<TFetcher, TParams, TQuery> = (
+  params: RequesterParams<TQuery> & TParams
+) => Promise<Description<TFetcher>>;
 
-type CreateRequesterOptions<TQuery, TResult> = {
-  fetcher: Fetcher<TQuery, TResult>;
-  transformResponse: TransformResponse<RequesterResponse<TResult>>;
+type CreateRequesterParams<TFetcher, TResponse, TTransformedResponse> = {
+  fetcher: TFetcher;
+  transformResponse: TransformResponse<TResponse, TTransformedResponse>;
 };
 
-export function createRequester<TQuery, TResult>({
+export function createRequester<
+  TFetcher,
+  TParams,
+  TQuery,
+  TResponse,
+  TTransformedResponse
+>({
   fetcher,
   transformResponse,
-}: CreateRequesterOptions<TQuery, TResult>): Requester<TQuery, TResult> {
-  return function requester(options) {
+}: CreateRequesterParams<TFetcher, TResponse, TTransformedResponse>): Requester<
+  TFetcher,
+  TParams,
+  TQuery
+> {
+  return function requester(params) {
     return Promise.resolve({
       fetcher,
       transformResponse,
-      ...options,
+      ...params,
     });
   };
 }

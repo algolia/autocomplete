@@ -1,12 +1,16 @@
 import type { SearchClient } from 'algoliasearch/lite';
 
+import { Fetcher } from './createFetcher';
 import { RequesterDescription } from './types/RequesterDescription';
-import { isRequesterDescription } from './utils/isRequesterDescription';
+import {
+  assertIsRequesterDescription,
+  isRequesterDescription,
+} from './utils/isRequesterDescription';
 
 type FetcherDescription<TItem> = {
   searchClient: SearchClient;
-  fetcher: any;
-  items: any[];
+  fetcher: Fetcher<any, any, any, any>;
+  items: TItem[];
 };
 
 function isFetcherDescription(
@@ -15,6 +19,10 @@ function isFetcherDescription(
   return Boolean(description.fetcher);
 }
 
+function assertIsFetcherDescription(
+  _description: any
+): asserts _description is FetcherDescription<any> {}
+
 function pack<TItem>(items: Array<FetcherDescription<TItem> | TItem>) {
   return items.reduce<Array<TItem | FetcherDescription<TItem>>>(
     (acc, current) => {
@@ -22,6 +30,8 @@ function pack<TItem>(items: Array<FetcherDescription<TItem> | TItem>) {
         acc.push(current);
         return acc;
       }
+
+      assertIsRequesterDescription(current);
 
       const { searchClient, fetcher, queries } = current;
 
@@ -34,8 +44,11 @@ function pack<TItem>(items: Array<FetcherDescription<TItem> | TItem>) {
         );
       });
 
+      const container = acc[index];
+      assertIsFetcherDescription(container);
+
       if (index > -1) {
-        (acc[index] as FetcherDescription<any>).items.push(...queries);
+        container.items.push(...queries);
       } else {
         acc.push({
           searchClient,
@@ -52,13 +65,13 @@ function pack<TItem>(items: Array<FetcherDescription<TItem> | TItem>) {
 
 export function resolve<TQuery, TResult, TItem>(
   items: Array<RequesterDescription<TQuery, TResult> | TItem>
-) {
+): Promise<TItem[][]> {
   const packed = pack(items);
 
   return Promise.all(
     packed.map((maybeDescription) => {
       if (!isFetcherDescription(maybeDescription)) {
-        return Promise.resolve(maybeDescription);
+        return Promise.resolve([maybeDescription]);
       }
 
       const { fetcher, searchClient, items } = maybeDescription;

@@ -1,55 +1,53 @@
-import type { SearchClient } from 'algoliasearch/lite';
+import { TransformResponse } from './createRequester';
 
-type QueryWithMetadata<TQuery> = {
-  query: TQuery;
-} & any;
+type FetcherParams<TQuery, TResponse, TItem> = {
+  queries: Array<FetcherQuery<TQuery, TResponse, TItem>>;
+};
 
-export type OriginalRequesterOptions<TQuery> = {
-  searchClient: SearchClient;
+export type FetcherRequestParams<TQuery> = {
   queries: TQuery[];
 };
 
-export type FetcherOptions<TQuery> = {
-  searchClient: SearchClient;
-  queries: Array<QueryWithMetadata<TQuery>>;
+export type Fetcher<TRequesterParams, TQuery, TResponse, TItem> = (
+  params: FetcherParams<TQuery, TResponse, TItem> & TRequesterParams
+) => Promise<Array<FetcherResult<TResponse, TItem>>>;
+
+export type FetcherQuery<TQuery, TResponse, TItem> = {
+  query: TQuery;
+  __autocomplete_sourceId: string;
+  __autocomplete_transformResponse: TransformResponse<TResponse, TItem[][]>;
 };
 
-export type Fetcher<TQuery, TResult> = (
-  options: FetcherOptions<TQuery>
-) => Promise<TResult[]>;
-
-type FetcherResult<TResult> = {
-  items: TResult[];
+type FetcherResult<TResponse, TItem> = {
+  items: TResponse;
+  __autocomplete_sourceId: string;
+  __autocomplete_transformResponse: TransformResponse<TResponse, TItem[][]>;
 };
 
-type CreateFetcherOptions<
-  TQuery,
-  TRawResult,
-  TResult extends FetcherResult<any>
-> = {
-  request: (options: OriginalRequesterOptions<TQuery>) => Promise<TRawResult[]>;
+type CreateFetcherParams<TRequesterParams, TQuery, TResponse, TItem> = {
+  request: (
+    params: FetcherRequestParams<TQuery> & TRequesterParams
+  ) => Promise<TResponse[]>;
   mapToItems: (
-    results: TRawResult[],
-    initialQueries: Array<QueryWithMetadata<TQuery>>
-  ) => TResult[];
+    results: TResponse[],
+    initialQueries: Array<FetcherQuery<TQuery, TResponse, TItem>>
+  ) => Array<FetcherResult<TResponse, TItem>>;
 };
 
-export function createFetcher<
-  TQuery,
-  TRawResult,
-  TResult extends FetcherResult<any>
->({
+export function createFetcher<TRequesterParams, TQuery, TResponse, TItem>({
   request,
   mapToItems,
-}: CreateFetcherOptions<TQuery, TRawResult, TResult>): Fetcher<
+}: CreateFetcherParams<TRequesterParams, TQuery, TResponse, TItem>): Fetcher<
+  FetcherParams<TQuery, TResponse, TItem>,
   TQuery,
-  TResult
+  TResponse,
+  TItem
 > {
-  return function fetcher(options) {
-    const queries = options.queries.map(({ query }) => query);
+  return function fetcher(params) {
+    const mappedQueries = params.queries.map((x) => x.query);
 
-    return request({ ...options, queries }).then((results) =>
-      mapToItems(results, options.queries)
+    return request({ ...params, queries: mappedQueries }).then((results) =>
+      mapToItems(results, params.queries)
     );
   };
 }

@@ -94,20 +94,21 @@ export function onInput<TItem extends BaseItem>({
               state: store.getState(),
               ...setters,
             })
-          ).then((items) => {
-            if (isRequesterDescription(items)) {
+          ).then((itemsOrDescription) => {
+            if (isRequesterDescription(itemsOrDescription)) {
               return {
-                ...items,
-                queries: items.queries.map((query) => ({
+                ...itemsOrDescription,
+                queries: itemsOrDescription.queries.map((query) => ({
                   query,
                   __autocomplete_sourceId: source.sourceId,
-                  __autocomplete_transformResponse: items.transformResponse,
+                  __autocomplete_transformResponse:
+                    itemsOrDescription.transformResponse,
                 })),
               };
             }
 
             return {
-              items,
+              items: itemsOrDescription,
               __autocomplete_sourceId: source.sourceId,
               __autocomplete_transformResponse: (x) => x.results,
             };
@@ -117,7 +118,6 @@ export function onInput<TItem extends BaseItem>({
         .then(resolve)
         .then((response) => {
           const flattenedResponse = flatten(response);
-          console.log('flattenedResponse', flattenedResponse);
 
           return sources.map((source) => {
             const matches = flattenedResponse.filter((response) => {

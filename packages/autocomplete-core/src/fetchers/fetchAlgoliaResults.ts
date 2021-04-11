@@ -1,16 +1,24 @@
 import { fetchAlgoliaResults as originalFetchAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
-import { MultipleQueriesQuery, SearchResponse } from '@algolia/client-search';
+import type {
+  Hit,
+  MultipleQueriesQuery,
+  SearchResponse,
+} from '@algolia/client-search';
+import type { SearchClient } from 'algoliasearch/lite';
 
 import { createFetcher } from '../createFetcher';
-import { TransformedResponse } from '../createRequester';
+
+type AlgoliaRequesterParams = {
+  searchClient: SearchClient;
+};
 
 export const fetchAlgoliaResults = createFetcher<
+  AlgoliaRequesterParams,
   MultipleQueriesQuery,
-  SearchResponse<any>,
-  TransformedResponse<any>
+  SearchResponse<{}>,
+  Hit<{}>
 >({
   request: originalFetchAlgoliaResults,
-  // @ts-ignore @TODO fix this type
   mapToItems: (results, initialQueries) => {
     return results.map((result, index) => {
       const {
