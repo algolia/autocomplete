@@ -1,16 +1,15 @@
 import { invariant } from '@algolia/autocomplete-shared';
 
-import { TransformedResponse, TransformResponse } from './createRequester';
 import { resolve } from './resolve';
 import {
-  AutocompleteCollection,
   AutocompleteScopeApi,
   AutocompleteState,
   AutocompleteStore,
   BaseItem,
   InternalAutocompleteOptions,
 } from './types';
-import { flatten, getActiveItem, isRequesterDescription } from './utils';
+import { flatten, getActiveItem } from './utils';
+import { isRequesterDescription } from './utils/isRequesterDescription';
 
 let lastStalledId: number | null = null;
 
