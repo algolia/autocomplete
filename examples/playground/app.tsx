@@ -101,8 +101,8 @@ autocomplete({
                 indexName: 'instant_search',
                 type: 'facet',
                 facet: 'categories',
-                query,
                 params: {
+                  facetQuery: query,
                   clickAnalytics: true,
                 },
               },
@@ -122,8 +122,7 @@ autocomplete({
             return (
               <div className="aa-ItemContent">
                 <div className="aa-ItemContentTitle">
-                  {item.highlighted}
-                  {/* <components.Highlight hit={item} attribute="label" /> */}
+                  <components.Highlight hit={item} attribute="label" />
                 </div>
               </div>
             );

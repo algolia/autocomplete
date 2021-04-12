@@ -130,8 +130,22 @@ export function onInput<TItem extends BaseItem>({
 
             const items = __autocomplete_transformResponse({
               results,
-              hits: results.map((x) => x.hits).filter(Boolean),
-              facetHits: results.map((x) => x.facetHits).filter(Boolean),
+              hits: results.map((result) => result.hits).filter(Boolean),
+              facetHits: results
+                .map((result) =>
+                  result.facetHits?.map((facetHit) => {
+                    return {
+                      label: facetHit.value,
+                      count: facetHit.count,
+                      _highlightResult: {
+                        label: {
+                          value: facetHit.highlighted,
+                        },
+                      },
+                    };
+                  })
+                )
+                .filter(Boolean),
             });
 
             invariant(
