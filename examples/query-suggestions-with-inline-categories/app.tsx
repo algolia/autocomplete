@@ -45,23 +45,25 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
               </div>
 
               <div className="aa-ItemContent">
-                <div className="aa-ItemContentTitle">
-                  <components.ReverseHighlight hit={item} attribute="query" />
-                </div>
-
-                {item.__autocomplete_qsCategory && (
-                  <div className="aa-ItemContentSubtitle aa-ItemContentSubtitle--standalone">
-                    in{' '}
-                    <span
-                      style={{
-                        fontWeight: 500,
-                        color: 'var(--aa-icon-color)',
-                      }}
-                    >
-                      {item.__autocomplete_qsCategory}
-                    </span>
+                <div style={{ display: 'flex' }}>
+                  <div className="aa-ItemContentTitle">
+                    <components.ReverseHighlight hit={item} attribute="query" />
                   </div>
-                )}
+
+                  {item.__autocomplete_qsCategory && (
+                    <div className="aa-ItemContentSubtitle aa-ItemContentSubtitle--standalone">
+                      in{' '}
+                      <span
+                        style={{
+                          fontWeight: 500,
+                          color: 'var(--aa-icon-color)',
+                        }}
+                      >
+                        {item.__autocomplete_qsCategory}
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="aa-ItemActions">
