@@ -13,7 +13,9 @@
   "rules": {
     "order/properties-alphabetical-order": true,
     "no-descending-specificity": null,
-    "selector-class-pattern": ["^aa-[A-Za-z0-9-]*$"],
+    "selector-class-pattern": [
+      "^aa-(?:[A-Z][a-z]+)+(?:--[a-z]+(?:[A-Z][a-z]+)?)?$"
+    ],
     "prettier/prettier": true,
     "max-nesting-depth": null,
     "rule-empty-line-before": [

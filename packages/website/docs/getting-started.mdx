@@ -22,7 +22,7 @@ This documentation offers a few ways to learn about the Autocomplete library:
 - Read the [**Core Concepts**](basic-options) to learn more about underlying principles, like [**Sources**](sources) and [**State**](state).
 - Follow the [**Guides**](adding-suggested-searches) to understand how to build common UX patterns.
 - Refer to [**API reference**](api) for a comprehensive list of parameters and options.
-- Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/js?file=/app.tsx) where you can fork a basic implementation and play around.
+- Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete.js/tree/next/examples/playground?file=/app.tsx) where you can fork a basic implementation and play around.
 
 Keep reading to see how to install Autocomplete and build a basic implementation with Algolia.
 
@@ -40,10 +40,13 @@ yarn add @algolia/autocomplete-js@alpha
 npm install @algolia/autocomplete-js@alpha
 ```
 
-If you don't want to use a package manager, you can use a standalone endpoint:
+If you don't use a package manager, you can use the HTML `script` element:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js@alpha"></script>
+<script>
+  const { autocomplete } = window['@algolia/autocomplete-js'];
+</script>
 ```
 
 We recommend using [jsDelivr](https://www.jsdelivr.com) but [`autocomplete-js`](autocomplete-js) is also available through [unpkg](https://unpkg.com/@algolia/autocomplete-js@alpha).
@@ -155,11 +158,7 @@ The given `classNames` correspond to the [classic theme](autocomplete-theme-clas
 
 ```jsx title="app.jsx"
 /** @jsx h */
-import {
-  autocomplete,
-  getAlgoliaHits,
-  snippetHit,
-} from '@algolia/autocomplete-js';
+import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
 import { h, Fragment } from 'preact';
 
@@ -194,8 +193,8 @@ autocomplete({
           });
         },
         templates: {
-          item({ item }) {
-            return <ProductItem hit={item} />;
+          item({ item, components }) {
+            return <ProductItem hit={item} components={components} />;
           },
         },
       },
@@ -203,23 +202,23 @@ autocomplete({
   },
 });
 
-function ProductItem({ hit }: ProductItemProps) {
+function ProductItem({ hit, components }: ProductItemProps) {
   return (
     <Fragment>
-      <div className="aa-ItemIcon aa-ItemIcon--align-top">
+      <div className="aa-ItemIcon aa-ItemIcon--alignTop">
         <img src={hit.image} alt={hit.name} width="40" height="40" />
       </div>
       <div className="aa-ItemContent">
         <div className="aa-ItemContentTitle">
-          {snippetHit({ hit, attribute: 'name' })}
+          <components.Snippet hit={hit} attribute="name" />
         </div>
         <div className="aa-ItemContentDescription">
-          {snippetHit({ hit, attribute: 'description' })}
+          <components.Snippet hit={hit} attribute="description" />
         </div>
       </div>
       <div className="aa-ItemActions">
         <button
-          className="aa-ItemActionButton aa-TouchOnly aa-ActiveOnly"
+          className="aa-ItemActionButton aa-DesktopOnly aa-ActiveOnly"
           type="button"
           title="Select"
         >
@@ -242,7 +241,7 @@ function ProductItem({ hit }: ProductItemProps) {
 }
 ```
 
-The `ProductItem` component uses the [`snippetHit`](snippetHit) function to only display part of the item's name and description, if they go beyond a certain length. Each attribute's allowed length and the characters to show when truncated are defined in the [`attributesToSnippet`](https://www.algolia.com/doc/api-reference/api-parameters/attributesToSnippet/) and [`snippetEllipsisText`](https://www.algolia.com/doc/api-reference/api-parameters/snippetEllipsisText/) [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) in `params`.
+The `ProductItem` component uses the `Snippet` component to only display part of the item's name and description, if they go beyond a certain length. Each attribute's allowed length and the characters to show when truncated are defined in the [`attributesToSnippet`](https://www.algolia.com/doc/api-reference/api-parameters/attributesToSnippet/) and [`snippetEllipsisText`](https://www.algolia.com/doc/api-reference/api-parameters/snippetEllipsisText/) [Algolia query parameters](https://www.algolia.com/doc/api-reference/api-parameters/) in `params`.
 
 This is what the truncated JSON record looks like:
 

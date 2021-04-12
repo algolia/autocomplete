@@ -14,10 +14,10 @@ const features = [
     title: 'Powered by Algolia',
     imageUrl: 'img/undraw_algolia_msba.svg',
     description:
-      'Autocomplete helps you to leverage the full power of Algolia. You will be able to create a complete discovery experience with no pain.',
+      'Autocomplete helps you leverage the full power of Algolia and create a complete search and discovery experience without pain.',
   },
   {
-    title: 'Search with recommended guidelines',
+    title: 'Recommended guidelines',
     imageUrl: 'img/undraw_file_searching_duff.svg',
     description:
       'Empowered by our expertise, Autocomplete helps you create a state-of-the-art search experience on your website.',
@@ -26,7 +26,7 @@ const features = [
     title: 'Experimental work',
     imageUrl: 'img/undraw_maker_launch_crhe.svg',
     description:
-      'This project is experimental yet. Stay tuned, it will be shipped soon.',
+      'This project is still experimental. Stay tuned, it will be shipped soon.',
   },
 ];
 

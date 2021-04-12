@@ -24,7 +24,7 @@ The data that populates the autocomplete results are called [sources](https://au
 By configuring just those two required parameters ([`container`](https://autocomplete.algolia.com/docs/autocomplete-js/#container) and [`getSources`](https://autocomplete.algolia.com/docs/autocomplete-js/#getsources)) you can have an interactive autocomplete experience. **The library creates an input and provides the interactivity and accessibility attributes, but you're in full control of the DOM elements to output**.
 
 <p align="center">
-  <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx">
+  <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx">
     <img src="./media/screenshot.png" alt="Screenshot">
   </a>
   <br>
@@ -32,7 +32,7 @@ By configuring just those two required parameters ([`container`](https://autocom
   <strong>
   <a href="https://autocomplete.algolia.com/docs/introduction">Documentation</a> •
   <a href="https://autocomplete.algolia.com/docs/api">API</a> •
-  <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx">Playground</a>
+  <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx">Playground</a>
   </strong>
 </p>
 
@@ -50,10 +50,13 @@ yarn add @algolia/autocomplete-js@alpha
 npm install @algolia/autocomplete-js@alpha
 ```
 
-If you don't want to use a package manager, you can use a standalone endpoint:
+If you don't use a package manager, you can use the HTML `script` element:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js@alpha"></script>
+<script>
+  const { autocomplete } = window['@algolia/autocomplete-js'];
+</script>
 ```
 
 ## Usage
@@ -86,7 +89,7 @@ The [documentation](https://autocomplete.algolia.com) offers a few ways to learn
 - Read the [**Core Concepts**](https://autocomplete.algolia.com/docs/basic-options) to learn more about underlying principles, like [**Sources**](https://autocomplete.algolia.com/docs/sources) and [**State**](https://autocomplete.algolia.com/docs/state).
 - Follow the [**Guides**](https://autocomplete.algolia.com/docs/adding-suggested-searches) to understand how to build common UX patterns.
 - Refer to [**API reference**](https://autocomplete.algolia.com/docs/api) for a comprehensive list of parameters and options.
-- Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx) where you can fork a basic implementation and play around.
+- Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx) where you can fork a basic implementation and play around.
 
 You can find more on the [documentation](https://autocomplete.algolia.com).
 
@@ -122,7 +125,7 @@ Check out sandboxes using Autocomplete:
   <thead>
     <tr>
       <th align="center">
-        <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx">
+        <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx">
           <img src="./media/screenshot.png" alt="E-commerce" width="460">
         </a>
       </th>
@@ -137,7 +140,7 @@ Check out sandboxes using Autocomplete:
   <tbody>
     <tr>
       <td align="center">
-        <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx">
+        <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx">
           E-commerce
         </a>
       </td>

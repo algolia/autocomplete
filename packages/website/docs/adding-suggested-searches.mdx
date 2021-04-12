@@ -23,7 +23,7 @@ const querySuggestionsPluginWithCategories = createQuerySuggestionsPlugin({
     'exact_matches',
     'categories',
   ],
-  categoriesLimit: 2,
+  itemsWithCategories: 2,
   categoriesPerItem: 2,
 });
 
@@ -148,7 +148,7 @@ To display categories with the suggestions, you need to define the attribute to 
 
 In this example, the category data is stored in the nested attribute `instant_search.facets.exact_matches.categories`. With this structure, you need to provide the path `["instant_search", "facets", "exact_matches", "categories"]` as the `categoryAttribute`.
 
-You can also set the number of items to display categories for using `categoriesLimit` and the maximum number of categories to display per item using `categoriesPerItem`. Both default to `1`.
+You can also set the number of items to display categories for using `itemsWithCategories` and the maximum number of categories to display per item using `categoriesPerItem`. Both default to `1`.
 
 ```js title="index.js"
 import { autocomplete } from '@algolia/autocomplete-js';
@@ -170,7 +170,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
     'exact_matches',
     'categories',
   ],
-  categoriesLimit: 2,
+  itemsWithCategories: 2,
   categoriesPerItem: 2,
 });
 

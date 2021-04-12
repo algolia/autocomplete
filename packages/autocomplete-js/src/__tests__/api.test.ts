@@ -1,4 +1,5 @@
 import { createAutocomplete } from '@algolia/autocomplete-core';
+import { waitFor } from '@testing-library/dom';
 
 import { createCollection } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
@@ -252,6 +253,23 @@ describe('api', () => {
           }),
         })
       );
+    });
+
+    test('overrides the default id', async () => {
+      const container = document.createElement('div');
+
+      document.body.appendChild(container);
+      const { update } = autocomplete<{ label: string }>({
+        container,
+      });
+
+      update({ id: 'bestSearchExperience' });
+
+      await waitFor(() => {
+        expect(
+          document.body.querySelector('#bestSearchExperience-label')
+        ).toBeInTheDocument();
+      });
     });
   });
 

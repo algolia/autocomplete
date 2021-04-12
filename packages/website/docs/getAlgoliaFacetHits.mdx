@@ -1,0 +1,133 @@
+---
+id: getAlgoliaFacetHits
+---
+
+import GetAlgoliaFacetHitsIntro from './partials/preset-algolia/getAlgoliaFacetHits/intro.md';
+import PresetAlgoliaNote from './partials/preset-algolia/note.md';
+
+<GetAlgoliaFacetHitsIntro />
+
+<PresetAlgoliaNote />
+
+## Installation
+
+First, you need to install the preset.
+
+```bash
+yarn add @algolia/autocomplete-preset-algolia@alpha
+# or
+npm install @algolia/autocomplete-preset-algolia@alpha
+```
+
+Then import it in your project:
+
+```js
+import { getAlgoliaFacetHits } from '@algolia/autocomplete-preset-algolia';
+```
+
+If you don't use a package manager, you can use the HTML `script` element:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-preset-algolia@alpha"></script>
+<script>
+  const { getAlgoliaFacetHits } = window[
+    '@algolia/autocomplete-preset-algolia'
+  ];
+</script>
+```
+
+## Example
+
+```js
+import { getAlgoliaFacetHits } from '@algolia/autocomplete-preset-algolia';
+import algoliasearch from 'algoliasearch/lite';
+
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
+
+getAlgoliaFacetHits({
+  searchClient,
+  queries: [
+    {
+      indexName: 'instant_search',
+      params: {
+        facetName: 'categories',
+        facetQuery: query,
+        maxFacetHits: 10,
+      },
+    },
+  ],
+}).then((facetHits) => {
+  console.log(facetHits);
+});
+```
+
+## Parameters
+
+### `searchClient`
+
+> `SearchClient` | required
+
+The initialized Algolia search client.
+
+### `queries`
+
+> `FacetQuery[]` | required
+
+The queries to search for, with the following parameters:
+
+#### `indexName`
+
+> `string` | required
+
+The index name.
+
+#### `params`
+
+> [`SearchForFacetValuesQueryParams` & `SearchOptions`](https://www.algolia.com/doc/api-reference/api-methods/search-for-facet-values/#parameters)
+
+Algolia search for facet values parameters.
+
+These are the default parameters. You can leave them as is and specify other parameters, or override them.
+
+:::info
+
+If you override `highlightPreTag` and `highlightPostTag`, you won't be able to use the built-in highlighting components such as `Highlight`.
+
+:::
+
+```json
+{
+  "highlightPreTag": "__aa-highlight__",
+  "highlightPostTag": "__/aa-highlight__"
+}
+```
+
+## Returns
+
+The function returns a promise that resolves to a response with the following schema:
+
+```json
+[
+  {
+    "count": 507,
+    "label": "Mobile phones",
+    "_highlightResult": {
+      "label": {
+        "value": "Mobile <em>phone</em>s"
+      }
+    }
+  },
+  {
+    "count": 63,
+    "label": "Phone cases",
+    "_highlightResult": {
+      "label": {
+        "value": "<em>Phone</em> cases"
+      }
+    }
+  }
+]
+```

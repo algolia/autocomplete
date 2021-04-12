@@ -4,8 +4,8 @@ import {
   BaseItem,
 } from '@algolia/autocomplete-core';
 
-import { ClearIcon, Input, LoadingIcon, SearchIcon } from './components';
 import { createDomElement } from './createDomElement';
+import { ClearIcon, Input, LoadingIcon, SearchIcon } from './elements';
 import {
   AutocompleteClassNames,
   AutocompleteDom,

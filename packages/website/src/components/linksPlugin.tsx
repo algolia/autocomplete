@@ -32,7 +32,7 @@ export function createLinksPlugin({
             item({ item }) {
               return (
                 <a className="aa-ItemLink" href={item.url}>
-                  <div className="aa-ItemIcon aa-ItemIcon--no-border">
+                  <div className="aa-ItemIcon aa-ItemIcon--noBorder">
                     <svg
                       width="24"
                       height="24"

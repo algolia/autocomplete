@@ -6,6 +6,8 @@ module.exports = {
   favicon: 'img/logo.png',
   organizationName: 'algolia',
   projectName: 'autocomplete',
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
   themeConfig: {
     sidebarCollapsible: true,
     navbar: {
@@ -21,14 +23,9 @@ module.exports = {
           position: 'right',
         },
         {
-          label: 'API',
-          to: 'docs/api',
-          position: 'right',
-        },
-        {
           label: 'Playground',
           to:
-            'https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx',
+            'https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx',
           position: 'right',
         },
         {
@@ -68,7 +65,8 @@ module.exports = {
             },
             {
               label: 'Discord',
-              href: 'https://discord.gg/tXdr5mP',
+              href:
+                'https://discord.com/channels/477328979074744322/823816543136907264',
             },
           ],
         },

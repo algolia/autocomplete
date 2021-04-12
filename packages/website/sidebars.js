@@ -36,10 +36,6 @@ module.exports = {
           'getAlgoliaHits-js',
           'getAlgoliaResults-js',
           'getAlgoliaFacetHits-js',
-          'highlightHit',
-          'reverseHighlightHit',
-          'snippetHit',
-          'reverseSnippetHit',
         ],
       },
       {
@@ -51,8 +47,8 @@ module.exports = {
         type: 'category',
         label: 'autocomplete-plugin-recent-searches',
         items: [
-          'createLocalStorageRecentSearchesPlugin',
           'createRecentSearchesPlugin',
+          'createLocalStorageRecentSearchesPlugin',
         ],
       },
       {
@@ -73,8 +69,8 @@ module.exports = {
           'getAlgoliaResults',
           'getAlgoliaFacetHits',
           'parseAlgoliaHitHighlight',
-          'parseAlgoliaHitReverseHighlight',
           'parseAlgoliaHitSnippet',
+          'parseAlgoliaHitReverseHighlight',
           'parseAlgoliaHitReverseSnippet',
         ],
       },

@@ -1,5 +1,5 @@
 /** @jsx h */
-import { AutocompletePlugin, highlightHit } from '@algolia/autocomplete-js';
+import { AutocompletePlugin } from '@algolia/autocomplete-js';
 import {
   createLocalStorageRecentSearchesPlugin,
   search,
@@ -48,9 +48,9 @@ export function createLocalStorageRecentlyViewedItems<
 
       return search(params);
     },
-    transformSource({ source, onRemove }) {
+    transformSource({ source, onRemove, state }) {
       const transformedSource = params.transformSource
-        ? params.transformSource({ source, onRemove })
+        ? params.transformSource({ source, onRemove, state })
         : source;
 
       return {
@@ -72,7 +72,7 @@ export function createLocalStorageRecentlyViewedItems<
               </Fragment>
             );
           },
-          item({ item, createElement }) {
+          item({ item, components }) {
             return (
               <a className="aa-ItemLink" href={item.url}>
                 {item.image ? (
@@ -80,7 +80,7 @@ export function createLocalStorageRecentlyViewedItems<
                     <img src={item.image} alt={item.label} />
                   </div>
                 ) : (
-                  <div className="aa-ItemIcon aa-ItemIcon--no-border">
+                  <div className="aa-ItemIcon aa-ItemIcon--noBorder">
                     <svg
                       viewBox="0 0 24 24"
                       width="18"
@@ -94,11 +94,7 @@ export function createLocalStorageRecentlyViewedItems<
 
                 <div className="aa-ItemContent">
                   <div className="aa-ItemContentTitle">
-                    {highlightHit<RecentlyViewedItem>({
-                      hit: item,
-                      attribute: 'label',
-                      createElement,
-                    })}
+                    <components.Highlight hit={item} attribute="label" />
                   </div>
                 </div>
                 <div className="aa-ItemActions">
@@ -106,6 +102,7 @@ export function createLocalStorageRecentlyViewedItems<
                     className="aa-ItemActionButton"
                     title="Remove this search"
                     onClick={(event) => {
+                      event.preventDefault();
                       event.stopPropagation();
                       onRemove(item.id);
                     }}
