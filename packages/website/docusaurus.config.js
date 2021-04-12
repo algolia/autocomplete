@@ -23,6 +23,16 @@ module.exports = {
           position: 'right',
         },
         {
+          label: 'Showcase',
+          to: 'showcase',
+          position: 'right',
+        },
+        {
+          label: 'Sandboxes',
+          to: 'sandboxes',
+          position: 'right',
+        },
+        {
           label: 'Playground',
           to:
             'https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx',

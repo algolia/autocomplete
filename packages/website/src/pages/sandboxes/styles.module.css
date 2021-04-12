@@ -1,0 +1,15 @@
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  list-style: none;
+  margin: 0.5rem 0 0 0;
+  padding: 0;
+}
+
+.tag {
+  border: 1px solid #777;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  padding: 3px 6px;
+}
