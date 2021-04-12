@@ -132,7 +132,7 @@ type ProductItemProps = {
 
 function ProductItem({ hit, insights, components }: ProductItemProps) {
   return (
-    <Fragment>
+    <a href="#" className="aa-ItemLink">
       <div className="aa-ItemContent">
         <div className="aa-ItemIcon aa-ItemIcon--picture aa-ItemIcon--alignTop">
           <img src={hit.image} alt={hit.name} width="40" height="40" />
@@ -310,6 +310,6 @@ function ProductItem({ hit, insights, components }: ProductItemProps) {
           </svg>
         </button>
       </div>
-    </Fragment>
+    </a>
   );
 }

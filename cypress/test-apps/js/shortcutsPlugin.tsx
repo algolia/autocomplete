@@ -74,8 +74,8 @@ export const shortcutsPlugin: AutocompletePlugin<DarkModeItem, undefined> = {
             );
 
             return createElement(
-              Fragment,
-              {},
+              'div',
+              { className: 'aa-ItemWrapper' },
               createElement(
                 'div',
                 { className: 'aa-ItemIcon' },

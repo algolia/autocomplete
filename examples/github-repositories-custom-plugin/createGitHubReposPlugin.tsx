@@ -69,7 +69,7 @@ export function createGitHubReposPlugin(
                   );
 
                   return (
-                    <Fragment>
+                    <div className="aa-ItemWrapper">
                       <div className="aa-ItemContent">
                         <div className="aa-ItemIcon aa-ItemIcon--alignTop">
                           <img
@@ -139,7 +139,7 @@ export function createGitHubReposPlugin(
                           </svg>
                         </button>
                       </div>
-                    </Fragment>
+                    </div>
                   );
                 },
               },

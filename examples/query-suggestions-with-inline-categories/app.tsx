@@ -32,7 +32,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
         ...source.templates,
         item({ item, components }) {
           return (
-            <Fragment>
+            <div className="aa-ItemWrapper">
               <div className="aa-ItemIcon aa-ItemIcon--noBorder">
                 <svg
                   viewBox="0 0 24 24"
@@ -84,7 +84,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
                   </svg>
                 </button>
               </div>
-            </Fragment>
+            </div>
           );
         },
       },

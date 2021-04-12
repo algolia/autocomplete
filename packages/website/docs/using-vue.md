@@ -156,7 +156,7 @@ Next, to display the results from Algolia, you need to define an [`item` templat
                 templates: {
                   item({ item, components }) {
                     return (
-                      <Fragment>
+                      <div className="aa-ItemWrapper">
                         <div className="aa-ItemIcon">
                           <img
                             src={hit.image}
@@ -176,7 +176,7 @@ Next, to display the results from Algolia, you need to define an [`item` templat
                             />
                           </div>
                         </div>
-                      </Fragment>
+                      </div>
                     );
                   },
                 },
