@@ -82,7 +82,7 @@ export function createQuerySuggestionsPlugin<
   return {
     getSources({ query, setQuery, refresh, state }) {
       function onTapAhead(item: TItem) {
-        setQuery(item.query);
+        setQuery(`${item.query} `);
         refresh();
       }
 

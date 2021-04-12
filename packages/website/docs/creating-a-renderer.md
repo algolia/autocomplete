@@ -95,7 +95,7 @@ This setup gives you access to all the methods you may want to use in the `autoc
 
 ## Using prop getters
 
-[Prop getters](prop-getters) are methods that return props to use in your components. These props contain accessibility features, event handlers, etc. You don't have to know exactly what they're doing. Their responsibility is to create a complete experience without exposing the underlying technical elements.
+Prop getters are methods that return props to use in your components. These props contain accessibility features, event handlers, etc. You don't have to know exactly what they're doing. Their responsibility is to create a complete experience without exposing the underlying technical elements.
 
 This following snippet shows how you can use the [`getRootProps()`, `getInputProps()`, `getPanelProps()`, `getListProps()`, and `getItemProps()` prop getters](createAutocomplete#returns) in the appropriate elements.
 
