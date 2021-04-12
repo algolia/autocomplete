@@ -6,7 +6,7 @@ import {
 } from '@algolia/autocomplete-js';
 import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch/lite';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 const searchClient = algoliasearch(
   'latency',
@@ -77,7 +77,7 @@ type ProductItemProps = {
 
 function ProductItem({ hit, components }: ProductItemProps) {
   return (
-    <Fragment>
+    <div className="aa-ItemWrapper">
       <div className="aa-ItemIcon aa-ItemIcon--alignTop">
         <img src={hit.image} alt={hit.name} width="40" height="40" />
       </div>
@@ -109,6 +109,6 @@ function ProductItem({ hit, components }: ProductItemProps) {
           </svg>
         </button>
       </div>
-    </Fragment>
+    </div>
   );
 }

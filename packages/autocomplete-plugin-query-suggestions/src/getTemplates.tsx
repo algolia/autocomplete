@@ -11,10 +11,10 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
   onTapAhead,
 }: GetTemplatesParams<TItem>): SourceTemplates<TItem> {
   return {
-    item({ item, createElement, Fragment, components }) {
+    item({ item, createElement, components }) {
       if (item.__autocomplete_qsCategory) {
         return (
-          <Fragment>
+          <div className="aa-ItemWrapper">
             <div className="aa-ItemContent aa-ItemContent--indented">
               <div className="aa-ItemContentSubtitle aa-ItemContentSubtitle--standalone">
                 <span className="aa-ItemContentSubtitleIcon" />
@@ -26,12 +26,12 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
                 </span>
               </div>
             </div>
-          </Fragment>
+          </div>
         );
       }
 
       return (
-        <Fragment>
+        <div className="aa-ItemWrapper">
           <div className="aa-ItemContent">
             <div className="aa-ItemIcon aa-ItemIcon--noBorder">
               <svg viewBox="0 0 24 24" fill="currentColor">
@@ -59,7 +59,7 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
               </svg>
             </button>
           </div>
-        </Fragment>
+        </div>
       );
     },
   };
