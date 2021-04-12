@@ -11,7 +11,7 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
   onTapAhead,
 }: GetTemplatesParams<TItem>): SourceTemplates<TItem> {
   return {
-    item({ item, components }) {
+    item({ item, createElement, components }) {
       if (item.__autocomplete_qsCategory) {
         return (
           <div className="aa-ItemWrapper">

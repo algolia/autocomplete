@@ -13,7 +13,7 @@ export function getTemplates<TItem extends RecentSearchesItem>({
   onTapAhead,
 }: GetTemplatesParams<TItem>): SourceTemplates<TItem> {
   return {
-    item({ item, components }) {
+    item({ item, createElement, components }) {
       return (
         <div className="aa-ItemWrapper">
           <div className="aa-ItemContent">
