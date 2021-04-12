@@ -6,7 +6,7 @@ import {
 } from '@algolia/autocomplete-js';
 import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch/lite';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 const searchClient = algoliasearch(
   'latency',

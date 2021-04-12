@@ -63,7 +63,7 @@ export function createGitHubReposPlugin(
                 return item.html_url;
               },
               templates: {
-                item({ item, Fragment }) {
+                item({ item }) {
                   const stars = new Intl.NumberFormat('en-US').format(
                     item.stargazers_count
                   );

@@ -41,7 +41,7 @@ export const shortcutsPlugin: AutocompletePlugin<DarkModeItem, undefined> = {
               createElement('div', { className: 'aa-SourceHeaderLine' })
             );
           },
-          item({ item, createElement, Fragment }) {
+          item({ item, createElement }) {
             const darkIcon = createElement(
               'svg',
               {
