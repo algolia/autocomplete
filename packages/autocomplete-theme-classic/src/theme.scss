@@ -691,8 +691,8 @@ body {
     color: inherit;
     display: grid;
     gap: calc(var(--aa-spacing-half) / 2);
-    grid-template-columns: auto 1fr auto;
-    text-decoration: none;
+    grid-auto-flow: column;
+    justify-content: space-between;
     width: 100%;
   }
   @at-root .aa-ItemLink {

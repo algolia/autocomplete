@@ -160,15 +160,15 @@ export function Autocomplete(
                             {...autocomplete.getItemProps({ item, source })}
                           >
                             <div className="aa-ItemWrapper">
-                              <div className="aa-ItemIcon">
-                                <img
-                                  src={item.image}
-                                  alt={item.name}
-                                  width="40"
-                                  height="40"
-                                />
-                              </div>
                               <div className="aa-ItemContent">
+                                <div className="aa-ItemIcon">
+                                  <img
+                                    src={item.image}
+                                    alt={item.name}
+                                    width="40"
+                                    height="40"
+                                  />
+                                </div>
                                 <div className="aa-ItemContentBody">
                                   <div
                                     className="aa-ItemContentTitle"
