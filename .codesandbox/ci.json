@@ -8,8 +8,16 @@
     "/examples/query-suggestions-history-with-category",
     "/examples/query-suggestions",
     "/examples/query-suggestions-with-recent-searches",
+    "/examples/github-repositories-custom-plugin",
+    "/examples/playground",
+    "/examples/query-suggestions-with-categories",
+    "/examples/query-suggestions-with-hits",
     "/examples/query-suggestions-with-inline-categories",
-    "/examples/recently-viewed-items"
+    "/examples/query-suggestions-with-recent-searches",
+    "/examples/query-suggestions",
+    "/examples/react-renderer",
+    "/examples/recently-viewed-items",
+    "/examples/starter"
   ],
   "node": "14"
 }

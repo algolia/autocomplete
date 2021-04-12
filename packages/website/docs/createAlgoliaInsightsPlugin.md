@@ -20,10 +20,15 @@ Then import it in your project:
 import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
 ```
 
-If you don't use a package manager, you can use a standalone endpoint:
+If you don't use a package manager, you can use the HTML `script` element:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-algolia-insights@alpha"></script>
+<script>
+  const { createAlgoliaInsightsPlugin } = window[
+    '@algolia/autocomplete-plugin-algolia-insights'
+  ];
+</script>
 ```
 
 ## Examples

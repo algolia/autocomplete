@@ -22,7 +22,12 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
       hitsPerPage: 5,
     };
   },
-  categoryAttribute: ['categories'],
+  categoryAttribute: [
+    'instant_search',
+    'facets',
+    'exact_matches',
+    'categories',
+  ],
 });
 
 autocomplete({

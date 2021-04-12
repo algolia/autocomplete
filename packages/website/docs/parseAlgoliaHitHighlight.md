@@ -2,66 +2,123 @@
 id: parseAlgoliaHitHighlight
 ---
 
+import PresetAlgoliaNote from './partials/preset-algolia/note.md'
+
 Returns the highlighted parts of an Algolia hit.
 
-## Example with a single string
+The `parseAlgoliaHitHighlight` function lets you parse the highlighted parts of an Algolia hit.
+
+<PresetAlgoliaNote />
+
+## Installation
+
+First, you need to install the preset.
+
+```bash
+yarn add @algolia/autocomplete-preset-algolia@alpha
+# or
+npm install @algolia/autocomplete-preset-algolia@alpha
+```
+
+Then import it in your project:
+
+```js
+import { parseAlgoliaHitHighlight } from '@algolia/autocomplete-preset-algolia';
+```
+
+If you don't use a package manager, you can use the HTML `script` element:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-preset-algolia@alpha"></script>
+<script>
+  const { parseAlgoliaHitHighlight } = window[
+    '@algolia/autocomplete-preset-algolia'
+  ];
+</script>
+```
+
+## Examples
+
+### With a single string
 
 ```js
 import { parseAlgoliaHitHighlight } from '@algolia/autocomplete-preset-algolia';
 
-// Fetch an Algolia hit
+// An Algolia hit for query "the"
 const hit = {
-  name: 'Laptop',
+  name: 'The Legend of Zelda: Breath of the Wild',
   _highlightResult: {
     name: {
-      value: '__aa_highlight__Lap__/aa_highlight__top',
+      value:
+        '__aa-highlight__The__/aa-highlight__ Legend of Zelda: Breath of __aa-highlight__the__/aa-highlight__ Wild',
     },
   },
 };
-const snippetParts = parseAlgoliaHitHighlight({
+const highlightedParts = parseAlgoliaHitHighlight({
   hit,
   attribute: 'name',
 });
 
-// => [{ value: 'Lap', isHighlighted: true }, { value: 'top', isHighlighted: false }]
+/*
+ * [
+ *  { value: 'The', isHighlighted: true },
+ *  { value: ' Legend of Zelda: Breath of ', isHighlighted: false },
+ *  { value: 'the', isHighlighted: true },
+ *  { value: ' Wild', isHighlighted: false },
+ * ]
+ */
 ```
 
-## Example with nested attributes
+### With nested attributes
 
 ```js
 import { parseAlgoliaHitHighlight } from '@algolia/autocomplete-preset-algolia';
 
-// Fetch an Algolia hit
+// An Algolia hit for query "cam"
 const hit = {
-  name: {
-    type: 'Laptop',
+  hierarchicalCategories: {
+    lvl1: 'Cameras & Camcoders',
   },
   _highlightResult: {
-    name: {
-      type: {
-        value: '__aa_highlight__Lap__/aa_highlight__top',
+    hierarchicalCategories: {
+      lvl1: {
+        value:
+          '__aa-highlight__Cam__/aa-highlight__eras & __aa-highlight__Cam__/aa-highlight__coders',
       },
     },
   },
 };
-const snippetParts = parseAlgoliaHitHighlight({
+const highlightedParts = parseAlgoliaHitHighlight({
   hit,
-  attribute: ['name', 'type'],
+  attribute: ['hierarchicalCategories', 'lvl1'],
 });
 
-// => [{ value: 'Lap', isHighlighted: true }, { value: 'top', isHighlighted: false }]
+/*
+ * [
+ *  { value: 'Cam', isHighlighted: true },
+ *  { value: 'eras & ', isHighlighted: false },
+ *  { value: 'Cam', isHighlighted: true },
+ *  { value: 'coders', isHighlighted: false },
+ * ]
+ */
 ```
 
-## Params
+## Parameters
 
 ### `hit`
 
 > `AlgoliaHit` | required
 
-The Algolia hit to retrieve the attribute value from.
+The Algolia hit whose attribute to retrieve the highlighted parts from.
 
 ### `attribute`
 
 > `string | string[]` | required
 
-The attribute to retrieve the reverse highlight value from. You can use the array syntax to reference the nested attributes.
+The attribute to retrieve the highlighted parts from. You can use the array syntax to reference nested attributes.
+
+## Returns
+
+> `ParsedAttribute[]`
+
+An array of the parsed attribute's parts.

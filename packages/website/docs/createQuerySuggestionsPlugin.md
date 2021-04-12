@@ -2,9 +2,40 @@
 id: createQuerySuggestionsPlugin
 ---
 
+The Query Suggestions plugin adds [Algolia Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) to your autocomplete.
+
+## Installation
+
+First, you need to install the plugin.
+
+```bash
+yarn add @algolia/autocomplete-plugin-query-suggestions@alpha
+# or
+npm install @algolia/autocomplete-plugin-query-suggestions@alpha
+```
+
+Then import it in your project:
+
+```js
+import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
+```
+
+If you don't use a package manager, you can use the HTML `script` element:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-query-suggestions@alpha"></script>
+<script>
+  const { createQuerySuggestionsPlugin } = window[
+    '@algolia/autocomplete-plugin-query-suggestions'
+  ];
+</script>
+```
+
 ## Example
 
-```ts
+This example uses the plugin within [`autocomplete-js`](autocomplete-js), along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client.
+
+```js
 import algoliasearch from 'algoliasearch/lite';
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
@@ -24,9 +55,9 @@ autocomplete({
 });
 ```
 
-With [Recent Searches](createLocalStorageRecentSearchesPlugin):
+You can combine this plugin with the [Recent Searches](createLocalStorageRecentSearchesPlugin) plugin to leverage the empty screen with recent and popular queries.
 
-```ts
+```js
 import algoliasearch from 'algoliasearch/lite';
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
@@ -54,35 +85,39 @@ autocomplete({
 });
 ```
 
-## Import
+To see it in action, check [this demo on CodeSandbox](https://fzb4m.csb.app/).
 
-```ts
-import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
-```
-
-## Params
+## Parameters
 
 ### `searchClient`
 
 > `SearchClient` | required
 
+The initialized Algolia search client.
+
 ### `indexName`
 
 > `string` | required
 
+The index name.
+
 ### `getSearchParams`
 
-> [`() => SearchParameters`](https://www.algolia.com/doc/api-reference/search-api-parameters/)
+> `(params: { state: AutocompleteState }) => SearchParameters`
+
+A function returning [Algolia search parameters](https://www.algolia.com/doc/api-reference/search-api-parameters/).
 
 ### `transformSource`
 
-> `(params: { source: AutocompleteSource, onTapAhead: () => void })`
+> `(params: { source: AutocompleteSource, state: AutocompleteState, onTapAhead: () => void })`
 
-#### Example
+A function to transform the provided source.
+
+#### Examples
 
 Keeping the panel open on select:
 
-```tsx
+```jsx
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'instant_search_demo_query_suggestions',
@@ -99,7 +134,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 
 Opening a link:
 
-```tsx
+```jsx
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'instant_search_demo_query_suggestions',
@@ -127,3 +162,36 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   },
 });
 ```
+
+### `categoryAttribute`
+
+> `string | string[]`
+
+The attribute or attribute path to display categories for.
+
+#### Example
+
+```js
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  searchClient,
+  indexName: 'instant_search_demo_query_suggestions',
+  categoryAttribute: [
+    'instant_search',
+    'facets',
+    'exact_matches',
+    'hierarchicalCategories.lvl0',
+  ],
+});
+```
+
+### `itemsWithCategories`
+
+> `number` | defaults to `1`
+
+How many items to display categories for.
+
+### `categoriesPerItem`
+
+> `number` | defaults to `1`
+
+The number of categories to display per item.

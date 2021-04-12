@@ -27,7 +27,7 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
     /**
      * Sends click events to capture a query and its clicked items and positions.
      *
-     * @see https://www.algolia.com/doc/api-reference/api-methods/clicked-object-ids-after-search/
+     * @link https://www.algolia.com/doc/api-reference/api-methods/clicked-object-ids-after-search/
      */
     clickedObjectIDsAfterSearch(
       ...params: ClickedObjectIDsAfterSearchParams[]
@@ -39,7 +39,7 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
     /**
      * Sends click events to capture clicked items.
      *
-     * @see https://www.algolia.com/doc/api-reference/api-methods/clicked-object-ids/
+     * @link https://www.algolia.com/doc/api-reference/api-methods/clicked-object-ids/
      */
     clickedObjectIDs(...params: ClickedObjectIDsParams[]) {
       if (params.length > 0) {
@@ -49,7 +49,7 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
     /**
      * Sends click events to capture the filters a user clicks on.
      *
-     * @see https://www.algolia.com/doc/api-reference/api-methods/clicked-filters/
+     * @link https://www.algolia.com/doc/api-reference/api-methods/clicked-filters/
      */
     clickedFilters(...params: ClickedFiltersParams[]) {
       if (params.length > 0) {
@@ -59,7 +59,7 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
     /**
      * Sends conversion events to capture a query and its clicked items.
      *
-     * @see https://www.algolia.com/doc/api-reference/api-methods/converted-object-ids-after-search/
+     * @link https://www.algolia.com/doc/api-reference/api-methods/converted-object-ids-after-search/
      */
     convertedObjectIDsAfterSearch(
       ...params: ConvertedObjectIDsAfterSearchParams[]
@@ -71,7 +71,7 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
     /**
      * Sends conversion events to capture clicked items.
      *
-     * @see https://www.algolia.com/doc/api-reference/api-methods/converted-object-ids/
+     * @link https://www.algolia.com/doc/api-reference/api-methods/converted-object-ids/
      */
     convertedObjectIDs(...params: ConvertedObjectIDsParams[]) {
       if (params.length > 0) {
@@ -81,7 +81,7 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
     /**
      * Sends conversion events to capture the filters a user uses when converting.
      *
-     * @see https://www.algolia.com/doc/api-reference/api-methods/converted-filters/
+     * @link https://www.algolia.com/doc/api-reference/api-methods/converted-filters/
      */
     convertedFilters(...params: ConvertedFiltersParams[]) {
       if (params.length > 0) {
@@ -91,7 +91,7 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
     /**
      * Sends view events to capture clicked items.
      *
-     * @see https://www.algolia.com/doc/api-reference/api-methods/viewed-object-ids/
+     * @link https://www.algolia.com/doc/api-reference/api-methods/viewed-object-ids/
      */
     viewedObjectIDs(...params: ViewedObjectIDsParams[]) {
       if (params.length > 0) {
@@ -101,7 +101,7 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
     /**
      * Sends view events to capture the filters a user uses when viewing.
      *
-     * @see https://www.algolia.com/doc/api-reference/api-methods/viewed-filters/
+     * @link https://www.algolia.com/doc/api-reference/api-methods/viewed-filters/
      */
     viewedFilters(...params: ViewedFiltersParams[]) {
       if (params.length > 0) {

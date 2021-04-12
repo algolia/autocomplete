@@ -7,6 +7,7 @@ import { BaseItem } from '@algolia/autocomplete-core/src';
 
 import {
   AutocompleteClassNames,
+  AutocompleteComponents,
   AutocompleteDom,
   AutocompletePropGetters,
   AutocompleteRender,
@@ -20,6 +21,7 @@ type RenderProps<TItem extends BaseItem> = {
   autocomplete: AutocompleteCoreApi<TItem>;
   autocompleteScopeApi: AutocompleteScopeApi<TItem>;
   classNames: AutocompleteClassNames;
+  components: AutocompleteComponents;
   createElement: Pragma;
   dom: AutocompleteDom;
   Fragment: PragmaFrag;
@@ -69,6 +71,7 @@ export function renderPanel<TItem extends BaseItem>(
     panelContainer,
     propGetters,
     state,
+    components,
   }: RenderProps<TItem>
 ): void {
   if (!state.isOpen) {
@@ -96,6 +99,7 @@ export function renderPanel<TItem extends BaseItem>(
       {source.templates.header && (
         <div className={classNames.sourceHeader}>
           {source.templates.header({
+            components,
             createElement,
             Fragment,
             items,
@@ -108,6 +112,7 @@ export function renderPanel<TItem extends BaseItem>(
       {items.length === 0 && source.templates.noResults && state.query ? (
         <div className={classNames.sourceNoResults}>
           {source.templates.noResults({
+            components,
             createElement,
             Fragment,
             source,
@@ -140,6 +145,7 @@ export function renderPanel<TItem extends BaseItem>(
                 })}
               >
                 {source.templates.item({
+                  components,
                   createElement,
                   Fragment,
                   item,
@@ -154,6 +160,7 @@ export function renderPanel<TItem extends BaseItem>(
       {source.templates.footer && (
         <div className={classNames.sourceFooter}>
           {source.templates.footer({
+            components,
             createElement,
             Fragment,
             items,
@@ -166,8 +173,26 @@ export function renderPanel<TItem extends BaseItem>(
   ));
 
   const children = (
-    <div className="aa-PanelLayout aa-Panel--Scrollable">{sections}</div>
+    <Fragment>
+      <div className="aa-PanelLayout aa-Panel--scrollable">{sections}</div>
+      <div className="aa-GradientBottom" />
+    </Fragment>
   );
+  const elements = sections.reduce((acc, current) => {
+    acc[current.props['data-autocomplete-source-id']] = current;
+    return acc;
+  }, {});
 
-  render({ children, state, sections, createElement, Fragment }, dom.panel);
+  render(
+    {
+      children,
+      state,
+      sections,
+      elements,
+      createElement,
+      Fragment,
+      components,
+    },
+    dom.panel
+  );
 }

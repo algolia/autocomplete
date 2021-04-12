@@ -1,7 +1,7 @@
 import { AutocompleteOptions } from './types';
 
 type GetPanelPlacementStyleParams = Pick<
-  AutocompleteOptions<any>,
+  Required<AutocompleteOptions<any>>,
   'panelPlacement' | 'environment'
 > & {
   container: HTMLElement;
@@ -12,7 +12,7 @@ export function getPanelPlacementStyle({
   panelPlacement,
   container,
   form,
-  environment = window,
+  environment,
 }: GetPanelPlacementStyleParams) {
   const containerRect = container.getBoundingClientRect();
   const top = container.offsetTop + containerRect.height;

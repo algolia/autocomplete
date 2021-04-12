@@ -1,7 +1,7 @@
 {
-  "name": "@algolia/qs-with-inline-categories-example",
-  "description": "Autocomplete Query Suggestions with inline categories",
-  "version": "1.0.0-alpha.44",
+  "name": "@algolia/autocomplete-example-query-suggestions-with-inline-categories",
+  "description": "Autocomplete example with Query Suggestions with inline categories",
+  "version": "1.0.0-alpha.45",
   "private": true,
   "license": "MIT",
   "main": "index.html",
@@ -10,14 +10,14 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.0.0-alpha.44",
-    "@algolia/autocomplete-plugin-query-suggestions": "1.0.0-alpha.44",
-    "@algolia/autocomplete-theme-classic": "1.0.0-alpha.44",
-    "algoliasearch": "4.8.3",
-    "preact": "10.5.7"
+    "@algolia/autocomplete-js": "1.0.0-alpha.45",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.0.0-alpha.45",
+    "@algolia/autocomplete-theme-classic": "1.0.0-alpha.45",
+    "algoliasearch": "4.8.6",
+    "preact": "10.5.13"
   },
   "devDependencies": {
-    "parcel-bundler": "1.12.4"
+    "parcel": "2.0.0-beta.2"
   },
   "keywords": [
     "algolia",

@@ -21,7 +21,7 @@ autocomplete({
   getSources() {
     return [
       {
-        sourceId: 'staticSource',
+        sourceId: 'links',
         getItems() {
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
@@ -50,7 +50,7 @@ autocomplete({
   getSources() {
     return [
       {
-        sourceId: 'staticSource',
+        sourceId: 'links',
         getItems({ query }) {
           return [
             { label: 'Twitter', url: 'https://twitter.com' },
@@ -146,7 +146,7 @@ autocomplete({
   getSources() {
     return [
       {
-        sourceId: 'algoliaHits',
+        sourceId: 'products',
         getItems({ query }) {
           return getAlgoliaHits({
             searchClient,
@@ -185,6 +185,7 @@ autocomplete({
       .then(({ predictions }) => {
         return [
           {
+            sourceId: 'predictions',
             getItems() {
               return predictions;
             },
@@ -236,7 +237,7 @@ autocomplete({
 
       return [
         {
-          sourceId: 'querySuggestionsSource',
+          sourceId: 'querySuggestions',
           getItems() {
             return suggestions.hits;
           },
@@ -245,7 +246,7 @@ autocomplete({
           },
         },
         {
-          sourceId: 'algoliaHits',
+          sourceId: 'products',
           getItems() {
             return products.hits;
           },
@@ -269,12 +270,6 @@ For more information, check out the guide on [adding multiple sources to one aut
 
 ## Sources
 
-### `sourceId`
-
-> `string`
-
-Identifier for the source. It is used as value for the `data-autocomplete-source-id` attribute of the source `section` container.
-
 ### `getSources`
 
 > `(params: { query: string, state: AutocompleteState, ...setters: Autocomplete Setters }) => Array<AutocompleteSource> | Promise<Array<AutocompleteSource>>`
@@ -287,11 +282,17 @@ See [source](#source) for what to return.
 
 Each source implements the following interface:
 
+### `sourceId`
+
+> `string`
+
+Unique identifier for the source. It is used as value for the `data-autocomplete-source-id` attribute of the source `section` container.
+
 ### `getItems`
 
 > `(params: { query: string, state: AutocompleteState, ...setters }) => Item[] | Promise<Item[]>` | **required**
 
-Called when the input changes. You can use this function to filter the items based on the query.
+The function called when the input changes. You can use this function to filter the items based on the query.
 
 ```js
 const items = [{ value: 'Apple' }, { value: 'Banana' }];
@@ -308,7 +309,7 @@ const source = {
 
 > `(params: { item, state: AutocompleteState }) => string` | defaults to `({ state }) => state.query`
 
-Called to get the value of the item. The value is used to fill the search box.
+The function called to get the value of an item. The value is used to fill the search box.
 
 ```js
 const items = [{ value: 'Apple' }, { value: 'Banana' }];
@@ -325,7 +326,7 @@ const source = {
 
 > `(params: { item: Item, state: AutocompleteState }) => string | undefined`
 
-Called to get the URL of the item. The value is used to add [keyboard accessibility](keyboard-navigation) features to let users open items in the current tab, a new tab, or a new window.
+The function called to get the URL of the item. The value is used to add [keyboard accessibility](keyboard-navigation) features to let users open items in the current tab, a new tab, or a new window.
 
 ```js
 const items = [
@@ -345,13 +346,13 @@ const source = {
 
 > `(params: { state: AutocompleteState, ...setters, event: Event, item: TItem, itemInputValue: string, itemUrl: string, source: AutocompleteSource }) => void` | defaults to `({ setIsOpen }) => setIsOpen(false)`
 
-Called whenever an item is selected.
+The function called whenever an item is selected.
 
 ### `onActive`
 
 > `(params: { state: AutocompleteState, ...setters, event: Event, item: TItem, itemInputValue: string, itemUrl: string, source: AutocompleteSource }) => void`
 
-Called whenever an item is active.
+The function called whenever an item is active.
 
 You can trigger different behaviors if the item is active depending on the triggering event using the `event` parameter.
 
@@ -359,6 +360,6 @@ You can trigger different behaviors if the item is active depending on the trigg
 
 > `AutocompleteTemplates`
 
-A set of templates to customize how items are displayed.
+A set of templates to customize how sections and their items are displayed.
 
-You can also provide templates for header and footer elements around the list of items.
+See [**Displaying items with Templates**](templates) for more information.

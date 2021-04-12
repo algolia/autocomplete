@@ -19,15 +19,14 @@ export interface OnSelectParams<TItem extends BaseItem>
 export type OnActiveParams<TItem extends BaseItem> = OnSelectParams<TItem>;
 
 export interface AutocompleteSource<TItem extends BaseItem> {
-  // This allows flavors to pass other keys to their source.
-  // Example: `templates` in the JavaScript API
-  // [key: string]: unknown;
   /**
-   * Identifier for the source.
+   * Unique identifier for the source.
    */
   sourceId: string;
   /**
-   * Get the string value of the item. The value is used to fill the search box.
+   * The function called to get the value of an item.
+   *
+   * The value is used to fill the search box.
    */
   getItemInputValue?({
     item,
@@ -37,8 +36,9 @@ export interface AutocompleteSource<TItem extends BaseItem> {
     state: AutocompleteState<TItem>;
   }): string;
   /**
-   * Get the URL of a item. The value is used to create default navigation features for
-   * `onClick` and `onKeyDown`.
+   * The function called to get the URL of the item.
+   *
+   * The value is used to add [keyboard accessibility](https://autocomplete.algolia.com/docs/keyboard-navigation) features to let users open items in the current tab, a new tab, or a new window.
    */
   getItemUrl?({
     item,
@@ -48,18 +48,19 @@ export interface AutocompleteSource<TItem extends BaseItem> {
     state: AutocompleteState<TItem>;
   }): string | undefined;
   /**
-   * Function called when the input changes. You can use this function to filter/search the items based on the query.
+   * The function called when the input changes.
+   *
+   * You can use this function to filter the items based on the query.
    */
   getItems(params: GetSourcesParams<TItem>): MaybePromise<TItem[] | TItem[][]>;
   /**
-   * Function called when an item is selected.
+   * The function called whenever an item is selected.
    */
   onSelect?(params: OnSelectParams<TItem>): void;
   /**
-   * Function called when an item is highlighted.
+   * The function called whenever an item is active.
    *
-   * An item is highlighted either via keyboard navigation or via mouse over.
-   * You can trigger different behaviors based on the event `type`.
+   * You can trigger different behaviors if the item is active depending on the triggering event using the `event` parameter.
    */
   onActive?(params: OnActiveParams<TItem>): void;
 }

@@ -11,7 +11,7 @@ about: Help us improve Autocomplete.
 
 <!-- Fork the sandbox, reproduce the bug and paste the URL. -->
 
-[**Preview →**](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/js?file=/app.tsx)
+[**Preview →**](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx)
 
 **Steps**
 

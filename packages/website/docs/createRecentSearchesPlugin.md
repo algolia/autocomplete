@@ -2,9 +2,42 @@
 id: createRecentSearchesPlugin
 ---
 
+The Recent Searches plugin displays a list of the latest searches the user made.
+
+The `createRecentSearchesPlugin` plugin lets you implement your own storage. To connect with the user's [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage), check [`createLocalStorageRecentSearchesPlugin`](createLocalStorageRecentSearchesPlugin).
+
+## Installation
+
+First, you need to install the plugin.
+
+```bash
+yarn add @algolia/autocomplete-plugin-recent-searches@alpha
+# or
+npm install @algolia/autocomplete-plugin-recent-searches@alpha
+```
+
+Then import it in your project:
+
+```js
+import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+```
+
+If you don't use a package manager, you can use the HTML `script` element:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-recent-searches@alpha"></script>
+<script>
+  const { createRecentSearchesPlugin } = window[
+    '@algolia/autocomplete-plugin-recent-searches'
+  ];
+</script>
+```
+
 ## Example
 
-```ts
+This example uses the plugin within [`autocomplete-js`](autocomplete-js). You're in charge of implementing the storage to fetch and save recent searches.
+
+```js
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 
@@ -24,9 +57,45 @@ autocomplete({
 });
 ```
 
-With [Query Suggestions](createQuerySuggestionsPlugin):
+For example, you can plug it to a MongoDB database using [mongoose](https://mongoosejs.com/).
 
-```ts
+```js
+import mongoose from 'mongoose';
+import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+import { search } from '@algolia/autocomplete-plugin-recent-searches/usecases/localStorage';
+
+mongoose.connect('mongodb://localhost:27017/myapp', { useNewUrlParser: true });
+
+const schema = new mongoose.Schema({
+  objectID: String,
+  query: String,
+  category: {
+    type: String,
+    default: undefined,
+  },
+});
+const RecentSearchesItem = mongoose.model('RecentSearchesItem', schema);
+
+const recentSearchesPlugin = createRecentSearchesPlugin({
+  storage: {
+    async getAll(query) {
+      const items = await RecentSearchesItem.find({});
+
+      return search({ query, items, limit: 5 });
+    },
+    onAdd(item) {
+      RecentSearchesItem.create(item);
+    },
+    onRemove(objectID) {
+      RecentSearchesItem.deleteOne({ objectID });
+    },
+  },
+});
+```
+
+You can combine this plugin with the [Query Suggestions](createQuerySuggestionsPlugin) plugin to leverage the empty screen with recent and popular queries.
+
+```js
 import algoliasearch from 'algoliasearch/lite';
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
@@ -59,17 +128,13 @@ autocomplete({
 });
 ```
 
-## Import
-
-```ts
-import { createRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
-```
-
-## Params
+## Parameters
 
 ### `storage`
 
 > `RecentSearchesStorage` | required
+
+The storage to fetch from and save recent searches into.
 
 ```ts
 type RecentSearchesItem = {
@@ -85,9 +150,11 @@ type RecentSearchesStorage<TItem extends RecentSearchesItem> = {
 
 ### `transformSource`
 
-> `(params: { source: AutocompleteSource, onRemove: () => void })`
+> `(params: { source: AutocompleteSource, state: AutocompleteState, onRemove: () => void, onTapAhead: () => void })`
 
-#### Example
+A function to transform the provided source.
+
+#### Examples
 
 Keeping the panel open on select:
 
@@ -142,3 +209,10 @@ const recentSearchesPlugin = createRecentSearchesPlugin({
 #### `getAlgoliaSearchParams`
 
 > `SearchParameters => SearchParameters`
+
+Optimized [Algolia search parameters](https://www.algolia.com/doc/api-reference/search-api-parameters/). This is useful when using the plugin along with the [Query Suggestions](createQuerySuggestionsPlugin) plugin.
+
+This function enhances the provided search parameters by:
+
+- Excluding Query Suggestions that are already displayed in recent searches.
+- Using a shared `hitsPerPage` value to get a group limit of Query Suggestions and recent searches.

@@ -34,13 +34,13 @@ Whether to focus the search input or not when the page is loaded.
 
 The default item index to pre-select.
 
-We recommend using `0` when the query typed aims at opening item links, without triggering an actual search.
+We recommend using `0` when the autocomplete is used to open links, instead of triggering a search in an application.
 
 ### `openOnFocus`
 
 > `boolean` | defaults to `false`
 
-Whether to open the panel on focus or not when there's no query.
+Whether to open the panel on focus when there's no query.
 
 ### `stallThreshold`
 
@@ -99,3 +99,9 @@ A flag to activate the debug mode.
 This is useful while developing because it keeps the panel open even when the blur event occurs. **Make sure to disable it in production.**
 
 See [**Debugging**](/docs/debugging) for more information.
+
+### `plugins`
+
+The plugins that encapsulate and distribute custom Autocomplete behaviors.
+
+See [**Plugins**](/docs/plugins) for more information.

@@ -28,10 +28,13 @@ Then import it in your project:
 import { createAutocomplete } from '@algolia/autocomplete-core';
 ```
 
-If you don't use a package manager, you can use a standalone endpoint:
+If you don't use a package manager, you can use the HTML `script` element:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-core@alpha"></script>
+<script>
+  const { createAutocomplete } = window['@algolia/autocomplete-core'];
+</script>
 ```
 
 ## Example
@@ -52,7 +55,7 @@ const autocomplete = createAutocomplete({
   getSources() {
     return [
       {
-        sourceId: 'querySuggestionsSource',
+        sourceId: 'querySuggestions',
         getItemInputValue: ({ item }) => item.query,
         getItems({ query }) {
           return getAlgoliaHits({

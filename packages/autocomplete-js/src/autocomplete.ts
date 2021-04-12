@@ -42,6 +42,7 @@ export function autocomplete<TItem extends BaseItem>(
         props.value.renderer.detachedMediaQuery
       ).matches
   );
+
   const autocomplete = reactive(() =>
     createAutocomplete<TItem>({
       ...props.value.core,
@@ -134,6 +135,7 @@ export function autocomplete<TItem extends BaseItem>(
       autocomplete: autocomplete.value,
       autocompleteScopeApi,
       classNames: props.value.renderer.classNames,
+      components: props.value.renderer.components,
       container: props.value.renderer.container,
       createElement: props.value.renderer.renderer.createElement,
       dom: dom.value,
@@ -227,7 +229,7 @@ export function autocomplete<TItem extends BaseItem>(
       // results come in) so that users don't have to.
       if (state.query !== prevState.query) {
         const scrollablePanels = document.querySelectorAll(
-          '.aa-Panel--Scrollable'
+          '.aa-Panel--scrollable'
         );
         scrollablePanels.forEach((scrollablePanel) => {
           if (scrollablePanel.scrollTop !== 0) {
@@ -246,12 +248,12 @@ export function autocomplete<TItem extends BaseItem>(
 
   runEffect(() => {
     const onResize = debounce<Event>(() => {
-      const previousisDetached = isDetached.value;
+      const previousIsDetached = isDetached.value;
       isDetached.value = props.value.core.environment.matchMedia(
         props.value.renderer.detachedMediaQuery
       ).matches;
 
-      if (previousisDetached !== isDetached.value) {
+      if (previousIsDetached !== isDetached.value) {
         update({});
       } else {
         requestAnimationFrame(setPanelPosition);
@@ -271,7 +273,7 @@ export function autocomplete<TItem extends BaseItem>(
 
     function toggleModalClassname(isActive: boolean) {
       dom.value.detachedContainer.classList.toggle(
-        'aa-DetachedContainer--Modal',
+        'aa-DetachedContainer--modal',
         isActive
       );
     }
@@ -280,7 +282,7 @@ export function autocomplete<TItem extends BaseItem>(
       toggleModalClassname(event.matches);
     }
 
-    const isModalDetachedMql = window.matchMedia(
+    const isModalDetachedMql = props.value.core.environment.matchMedia(
       getComputedStyle(
         props.value.core.environment.document.documentElement
       ).getPropertyValue('--aa-detached-modal-media-query')

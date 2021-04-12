@@ -1,6 +1,17 @@
+import * as autocompleteShared from '@algolia/autocomplete-shared';
 import { fireEvent, waitFor } from '@testing-library/dom';
 
+import { castToJestMock } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
+
+jest.mock('@algolia/autocomplete-shared', () => {
+  const module = jest.requireActual('@algolia/autocomplete-shared');
+
+  return {
+    ...module,
+    generateAutocompleteId: jest.fn(() => `autocomplete-test`),
+  };
+});
 
 describe('autocomplete-js', () => {
   test('renders with default options', () => {
@@ -151,6 +162,82 @@ describe('autocomplete-js', () => {
     `);
   });
 
+  test("renders with an auto-incremented id if there's multiple instances", () => {
+    const container = document.createElement('div');
+    const initialNbCalls = castToJestMock(
+      autocompleteShared.generateAutocompleteId
+    ).mock.calls.length;
+
+    document.body.appendChild(container);
+    autocomplete({
+      container,
+    });
+
+    expect(autocompleteShared.generateAutocompleteId).toHaveBeenCalledTimes(
+      initialNbCalls + 1
+    );
+
+    autocomplete({
+      container,
+    });
+
+    expect(autocompleteShared.generateAutocompleteId).toHaveBeenCalledTimes(
+      initialNbCalls + 2
+    );
+
+    autocomplete({
+      container,
+    });
+
+    expect(autocompleteShared.generateAutocompleteId).toHaveBeenCalledTimes(
+      initialNbCalls + 3
+    );
+  });
+
+  test("doesn't increment the id when toggling detached mode", () => {
+    const container = document.createElement('div');
+
+    document.body.appendChild(container);
+    const { update } = autocomplete<{ label: string }>({
+      container,
+    });
+
+    const initialNbCalls = castToJestMock(
+      autocompleteShared.generateAutocompleteId
+    ).mock.calls.length;
+
+    expect(autocompleteShared.generateAutocompleteId).toHaveBeenCalledTimes(
+      initialNbCalls
+    );
+
+    const originalMatchMedia = window.matchMedia;
+
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn((query) => ({
+        matches: true,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      })),
+    });
+
+    update({ detachedMediaQuery: '' });
+
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: originalMatchMedia,
+    });
+
+    expect(autocompleteShared.generateAutocompleteId).toHaveBeenCalledTimes(
+      initialNbCalls
+    );
+  });
+
   test('renders noResults template on no results', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
@@ -263,107 +350,6 @@ describe('autocomplete-js', () => {
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
     fireEvent.input(input, { target: { value: 'Query' } });
-
-    await waitFor(() => {
-      expect(
-        panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toHaveTextContent('No results template');
-    });
-  });
-
-  test('calls renderNoResults without noResults template on no results', async () => {
-    const container = document.createElement('div');
-    const panelContainer = document.createElement('div');
-    const renderNoResults = jest.fn((_params, root) => {
-      const div = document.createElement('div');
-      div.innerHTML = 'No results render';
-
-      root.appendChild(div);
-    });
-
-    document.body.appendChild(panelContainer);
-    autocomplete<{ label: string }>({
-      container,
-      panelContainer,
-      openOnFocus: true,
-      getSources() {
-        return [
-          {
-            sourceId: 'testSource',
-            getItems() {
-              return [];
-            },
-            templates: {
-              item({ item }) {
-                return item.label;
-              },
-            },
-          },
-        ];
-      },
-      renderNoResults,
-    });
-
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
-
-    fireEvent.input(input, { target: { value: 'a' } });
-
-    await waitFor(() => {
-      expect(
-        panelContainer.querySelector<HTMLElement>('.aa-Panel')
-      ).toHaveTextContent('No results render');
-    });
-
-    expect(renderNoResults).toHaveBeenCalledWith(
-      {
-        state: expect.anything(),
-        children: expect.anything(),
-        sections: expect.any(Array),
-        createElement: expect.anything(),
-        Fragment: expect.anything(),
-      },
-      expect.any(HTMLElement)
-    );
-  });
-
-  test('renders noResults template over renderNoResults method on no results', async () => {
-    const container = document.createElement('div');
-    const panelContainer = document.createElement('div');
-
-    document.body.appendChild(panelContainer);
-    autocomplete<{ label: string }>({
-      container,
-      panelContainer,
-      openOnFocus: true,
-      getSources() {
-        return [
-          {
-            sourceId: 'testSource',
-            getItems() {
-              return [];
-            },
-            templates: {
-              item({ item }) {
-                return item.label;
-              },
-              noResults() {
-                return 'No results template';
-              },
-            },
-          },
-        ];
-      },
-      renderNoResults(_params, root) {
-        const div = document.createElement('div');
-        div.innerHTML = 'No results render';
-
-        root.appendChild(div);
-      },
-    });
-
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
-
-    fireEvent.input(input, { target: { value: 'a' } });
 
     await waitFor(() => {
       expect(
