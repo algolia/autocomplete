@@ -35,7 +35,6 @@ const searchClient = algoliasearch(appId, apiKey);
 insightsClient('init', { appId, apiKey });
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
-
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'search',
   limit: 3,
