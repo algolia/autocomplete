@@ -5,6 +5,7 @@
   "sandboxes": [
     "/examples/github-repositories-custom-plugin",
     "/examples/playground",
+    "/examples/query-suggestions-history-with-category",
     "/examples/query-suggestions-with-categories",
     "/examples/query-suggestions-with-hits",
     "/examples/query-suggestions-with-inline-categories",
