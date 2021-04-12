@@ -1,9 +1,9 @@
 import Layout from '@theme/Layout';
 import React from 'react';
 
-import styles from './styles.module.css';
-
 import { sandboxes } from '../../data/sandboxes';
+
+import styles from './styles.module.css';
 
 const TITLE = 'Sandboxes';
 const DESCRIPTION = 'Check out sandboxes using Autocomplete';
