@@ -50,13 +50,15 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
       templates: {
         ...source.templates,
         header({ items, state }) {
-          if (Boolean(state.query) || items.length === 0) {
+          if (items.length === 0) {
             return null;
           }
 
           return (
             <Fragment>
-              <span className="aa-SourceHeaderTitle">Popular searches</span>
+              <span className="aa-SourceHeaderTitle">
+                {state.query ? 'Suggested searches' : 'Popular searches'}
+              </span>
               <div className="aa-SourceHeaderLine" />
             </Fragment>
           );
