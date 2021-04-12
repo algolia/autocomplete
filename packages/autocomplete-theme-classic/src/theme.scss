@@ -10,6 +10,7 @@
 // 9.  Detached Mode
 // 10. Gradients
 // 11. Utilities
+// 12. Layouts
 // ----------------
 
 // Note:
@@ -80,9 +81,16 @@
   --aa-overlay-color-rgb: 115, 114, 129;
   --aa-overlay-color-alpha: 0.4;
 
-  // Shadows
+  // Shadows & Gradients
   --aa-panel-shadow: 0 0 0 1px rgba(35, 38, 59, 0.1),
     0 6px 16px -4px rgba(35, 38, 59, 0.15);
+  --aa-key-shadow: inset 0 -2px 0 0 rgba(205, 205, 230, 1),
+    inset 0 0 1px 1px #fff, 0 1px 2px 1px rgba(30, 35, 90, 0.4);
+  --aa-key-background: linear-gradient(
+    -225deg,
+    rgb(213, 219, 228),
+    rgb(248, 248, 248)
+  );
 
   // Scrollbar
   --aa-scrollbar-width: 13px;
@@ -108,7 +116,7 @@ body {
     // Text colors
     --aa-text-color-rgb: 183, 192, 199;
     --aa-primary-color-rgb: 146, 138, 255;
-    --aa-muted-color-rgb: 146, 138, 255;
+    --aa-muted-color-rgb: 136, 138, 155;
 
     // Background colors
     --aa-input-background-color-rgb: 0, 3, 9;
@@ -124,6 +132,13 @@ body {
     // Shadows
     --aa-panel-shadow: inset 1px 1px 0 0 rgb(44, 46, 64),
       0 3px 8px 0 rgb(0, 3, 9);
+    --aa-key-shadow: inset 0 -2px 0 0 rgb(40, 45, 85),
+      inset 0 0 1px 1px rgb(81, 87, 125), 0 2px 2px 0 rgba(3, 4, 9, 0.3);
+    --aa-key-background: linear-gradient(
+      -26.5deg,
+      rgb(86, 88, 114),
+      rgb(49, 53, 91)
+    );
 
     // Scrollbar
     --aa-scrollbar-track-background-color-rgb: 44, 46, 64;
@@ -791,13 +806,13 @@ body {
       rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha))
     );
     content: '';
-    height: var(--aa-spacing);
+    height: var(--aa-spacing-half);
     left: 0;
     opacity: 0.12;
     pointer-events: none;
     position: absolute;
     right: 0;
-    top: calc(var(--aa-spacing) * -1);
+    top: calc(var(--aa-spacing-half) * -1);
     z-index: calc(var(--aa-base-z-index) - 1);
   }
 }
@@ -998,4 +1013,62 @@ body {
   @media (hover: hover) {
     display: none;
   }
+}
+
+//----------------
+// 12. Layouts
+//----------------
+@media (hover: none) and (pointer: coarse) {
+  .aa-NavigationCommands > * {
+    display: none;
+  }
+}
+
+.aa-NavigationCommandList {
+  display: grid;
+  gap: var(--aa-spacing);
+  grid-template-columns: repeat(3, auto);
+  margin: 0;
+  padding: 0;
+}
+
+.aa-NavigationCommandListItem {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.aa-NavigationCommandLabel,
+.aa-SearchByAlgoliaLabel {
+  color: rgba(var(--aa-muted-color-rgb),1);
+  font-size: 0.75em;
+  line-height: 1.6em;
+}
+
+.aa-SearchByAlgolia {
+  align-items: center;
+  display: grid;
+  gap: var(--aa-spacing-half);
+  grid-template-columns: repeat(2, auto);
+  text-decoration: none;
+}
+
+.aa-SearchByAlgoliaLogo {
+  color: rgb(84, 104, 255);
+}
+
+.aa-Key {
+  align-items: center;
+  background: var(--aa-key-background);
+  border-radius: 3px;
+  box-shadow: var(--aa-key-shadow);
+  color: rgba(var(--aa-muted-color-rgb),1);
+  display: flex;
+  height: 20px;
+  justify-content: center;
+  margin-right: 8px;
+  position: relative;
+  top: -1px;
+  width: 20px;
 }
