@@ -57,7 +57,7 @@ export function createCategoriesPlugin({
             },
             item({ item, components }) {
               return (
-                <Fragment>
+                <div className="aa-ItemWrapper">
                   <div className="aa-ItemContent">
                     <div className="aa-ItemIcon aa-ItemIcon--noBorder">
                       <svg
@@ -80,7 +80,7 @@ export function createCategoriesPlugin({
                       <components.Highlight hit={item} attribute="label" />
                     </div>
                   </div>
-                </Fragment>
+                </div>
               );
             },
           },

@@ -63,13 +63,13 @@ export function createGitHubReposPlugin(
                 return item.html_url;
               },
               templates: {
-                item({ item, Fragment }) {
+                item({ item }) {
                   const stars = new Intl.NumberFormat('en-US').format(
                     item.stargazers_count
                   );
 
                   return (
-                    <Fragment>
+                    <div className="aa-ItemWrapper">
                       <div className="aa-ItemContent">
                         <div className="aa-ItemIcon aa-ItemIcon--alignTop">
                           <img
@@ -139,7 +139,7 @@ export function createGitHubReposPlugin(
                           </svg>
                         </button>
                       </div>
-                    </Fragment>
+                    </div>
                   );
                 },
               },

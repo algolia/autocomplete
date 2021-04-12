@@ -89,7 +89,7 @@ type ProductItemProps = {
 
 function AutocompleteProductItem({ hit, components }: ProductItemProps) {
   return (
-    <Fragment>
+    <div className="aa-ItemWrapper">
       <div className="aa-ItemIcon aa-ItemIcon--alignTop">
         <img src={hit.image} alt={hit.name} width="40" height="40" />
       </div>
@@ -109,6 +109,6 @@ function AutocompleteProductItem({ hit, components }: ProductItemProps) {
           </svg>
         </button>
       </div>
-    </Fragment>
+    </div>
   );
 }
