@@ -20,7 +20,7 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
       ...source,
       templates: {
         ...source.templates,
-        header({ items, state }) {
+        header({ items }) {
           if (items.length === 0) {
             return null;
           }
