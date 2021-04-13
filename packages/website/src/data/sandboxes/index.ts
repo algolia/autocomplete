@@ -20,13 +20,6 @@ export const sandboxes: Sandbox[] = [
     preview: null,
   },
   {
-    name: 'GitHub repositories',
-    tags: ['Plugin'],
-    url:
-      'https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/github-repositories-custom-plugin?file=/app.tsx',
-    preview: null,
-  },
-  {
     name: 'Query Suggestions',
     tags: ['Query Suggestions'],
     url:
@@ -62,10 +55,24 @@ export const sandboxes: Sandbox[] = [
     preview: null,
   },
   {
+    name: 'Query Suggestions with recent searches and categories',
+    tags: ['Query Suggestions', 'Recent searches'],
+    url:
+      'https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/query-suggestions-with-recent-searches-and-categories?file=/app.tsx',
+    preview: null,
+  },
+  {
     name: 'Recently viewed items',
     tags: ['Plugin'],
     url:
       'https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/recently-viewed-items?file=/app.tsx',
+    preview: null,
+  },
+  {
+    name: 'GitHub repositories',
+    tags: ['Plugin'],
+    url:
+      'https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/github-repositories-custom-plugin?file=/app.tsx',
     preview: null,
   },
   {
