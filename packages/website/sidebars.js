@@ -10,7 +10,6 @@ module.exports = {
       'state',
       'context',
       'keyboard-navigation',
-      // 'prop-getters',
       'plugins',
       'detached-mode',
     ],

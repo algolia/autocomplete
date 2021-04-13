@@ -85,7 +85,7 @@ import CreateAutocompleteProps from './partials/createAutocomplete-props.md'
 
 ## Returns
 
-The `createAutocomplete` function returns [prop getters](prop-getters), [state setters](state#setters), and a `refresh` method that updates the UI state.
+The `createAutocomplete` function returns prop getters, [state setters](state#setters), and a `refresh` method that updates the UI state.
 
 ```js
 const {

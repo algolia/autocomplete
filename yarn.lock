@@ -1795,22 +1795,7 @@
   resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-3.0.0-alpha.34.tgz#5d5c39955956e237884a9997eb29e28c8adc99fa"
   integrity sha512-ZUbmxbN9gQp3vuBo9GDnm+ywB9aZQSh0ogjt6865PmeRUvyCCvgSwyZktliLPvAztoGX56qewQjxNcso3RrSow==
 
-"@docsearch/css@3.0.0-alpha.35":
-  version "3.0.0-alpha.35"
-  resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-3.0.0-alpha.35.tgz#17579a6649cae7303ecac400795e84b1a906a5ed"
-  integrity sha512-Qaft+2qy7VYzy3j02OqurXtm1tCNXAfTO1u8R7ww4qB9+1Ns80kn9tJejbtQclgBbFCGf7kn7JShxwlpEMLUzw==
-
-"@docsearch/react@3.0.0-alpha.35":
-  version "3.0.0-alpha.35"
-  resolved "https://registry.yarnpkg.com/@docsearch/react/-/react-3.0.0-alpha.35.tgz#ce7c2480384c4721976dc49f0962701e98b309d2"
-  integrity sha512-gL3CsZDvRhrrte2zjUFfnKC/jG2o2S6W9+v+m46Ro0juzfdSoKnVLyCr6MUi94asE6yF1zjCX1Z9xcpw0wq8YA==
-  dependencies:
-    "@algolia/autocomplete-core" "1.0.0-alpha.44"
-    "@algolia/autocomplete-preset-algolia" "1.0.0-alpha.44"
-    "@docsearch/css" "3.0.0-alpha.35"
-    algoliasearch "^4.0.0"
-
-"@docsearch/react@^3.0.0-alpha.33":
+"@docsearch/react@3.0.0-alpha.34", "@docsearch/react@^3.0.0-alpha.33":
   version "3.0.0-alpha.34"
   resolved "https://registry.yarnpkg.com/@docsearch/react/-/react-3.0.0-alpha.34.tgz#fb7e31e31593c26dadb607b9451d274b84b0b05a"
   integrity sha512-BBVxu2qY1fyhxJfrGZvknFL6j1fJ3wLZvf2DsmVfmihu/RhYYnf8/C1gbc7RWX2fSoSzbQCcSuNbn4RvjuUJ+A==
