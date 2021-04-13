@@ -8,6 +8,7 @@ The state drives the behavior of the autocomplete experience.
 The state is an underlying set of properties that drives the autocomplete behavior. For example, `query` contains the value typed in the search input. As the query changes, the retrieved items from the [sources](/docs/sources) change.
 
 The state contains:
+
 - `query`: the search input value
 - `activeItemId`: which item is active
 - `completion`: the completed version of the query
@@ -174,3 +175,23 @@ Sets the collections of items of the autocomplete.
 Sets the context passed to lifecycle hooks.
 
 See more in [**Context**](context).
+
+## Helpers
+
+### `refresh`
+
+> `() => void`
+
+Updates the UI state. You must call this function whenever you mutate the state with setters.
+
+### `update`
+
+> `(updatedOptions: Partial<AutocompleteOptions<TItem>>) => void`
+
+Updates the Autocomplete experience with new options.
+
+### `destroy`
+
+> `() => void`
+
+Destroys the Autocomplete instance, cleans up the DOM mutations and event listeners.

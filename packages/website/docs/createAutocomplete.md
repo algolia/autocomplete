@@ -103,5 +103,7 @@ const {
   setStatus,
   setContext,
   refresh,
+  update,
+  destroy,
 } = createAutocomplete(options);
 ```

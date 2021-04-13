@@ -343,5 +343,7 @@ const {
   setStatus,
   setContext,
   refresh,
+  update,
+  destroy,
 } = autocomplete(options);
 ```
