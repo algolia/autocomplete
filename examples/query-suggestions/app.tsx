@@ -22,6 +22,5 @@ autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
-  debug: true,
   plugins: [querySuggestionsPlugin],
 });
