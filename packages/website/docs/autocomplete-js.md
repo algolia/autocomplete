@@ -347,3 +347,23 @@ const {
   destroy,
 } = autocomplete(options);
 ```
+
+## Helpers
+
+### `refresh`
+
+> `() => void`
+
+Updates the UI state. You must call this function whenever you mutate the state with setters.
+
+### `update`
+
+> `(updatedOptions: Partial<AutocompleteOptions<TItem>>) => void`
+
+Updates the Autocomplete experience with new options.
+
+### `destroy`
+
+> `() => void`
+
+Destroys the Autocomplete instance, cleans up the DOM mutations and event listeners.
