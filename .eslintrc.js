@@ -1,3 +1,7 @@
+const OFF = 0;
+// const WARNING = 1;
+const ERROR = 2;
+
 module.exports = {
   extends: ['algolia', 'algolia/jest', 'algolia/react', 'algolia/typescript'],
   globals: {
@@ -17,27 +21,27 @@ module.exports = {
   },
   rules: {
     curly: 2,
-    'no-param-reassign': 0,
-    'valid-jsdoc': 0,
-    'no-shadow': 0,
-    'prefer-template': 0,
-    'jest/no-disabled-tests': 0,
-    'react/prop-types': 0,
-    'react/no-unescaped-entities': 0,
-    'new-cap': 0,
-    'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
-    'import/extensions': 0,
+    'no-param-reassign': OFF,
+    'valid-jsdoc': OFF,
+    'no-shadow': OFF,
+    'prefer-template': OFF,
+    'jest/no-disabled-tests': OFF,
+    'react/prop-types': OFF,
+    'react/no-unescaped-entities': OFF,
+    'new-cap': OFF,
+    'eslint-comments/disable-enable-pair': [ERROR, { allowWholeFile: true }],
+    'import/extensions': OFF,
     '@typescript-eslint/camelcase': [
-      'error',
+      ERROR,
       {
         allow: ['__autocomplete_'],
       },
     ],
     // Useful to call functions like `nodeItem?.scrollIntoView()`.
-    'no-unused-expressions': 0,
-    complexity: 0,
+    'no-unused-expressions': OFF,
+    complexity: OFF,
     'import/order': [
-      'error',
+      ERROR,
       {
         alphabetize: {
           order: 'asc',
@@ -60,25 +64,29 @@ module.exports = {
     {
       files: ['test/**/*'],
       rules: {
-        'import/no-extraneous-dependencies': 0,
+        'import/no-extraneous-dependencies': OFF,
       },
     },
     {
       files: ['packages/autocomplete-js/**/*/setProperties.ts'],
       rules: {
-        'eslint-comments/no-unlimited-disable': 0,
+        'eslint-comments/no-unlimited-disable': OFF,
       },
     },
     {
       files: ['packages/website/**/*'],
       rules: {
-        'import/no-extraneous-dependencies': 0,
+        'import/no-extraneous-dependencies': OFF,
+        'import/no-unresolved': [
+          ERROR,
+          { ignore: ['^@theme', '^@docusaurus', '^@generated'] },
+        ],
       },
     },
     {
       files: ['**/rollup.config.js', 'stories/**/*', '**/__tests__/**'],
       rules: {
-        'import/no-extraneous-dependencies': 0,
+        'import/no-extraneous-dependencies': OFF,
       },
     },
     {
@@ -88,21 +96,21 @@ module.exports = {
         'cypress/globals': true,
       },
       rules: {
-        'jest/expect-expect': 0,
-        'spaced-comment': 0,
-        '@typescript-eslint/triple-slash-reference': 0,
+        'jest/expect-expect': OFF,
+        'spaced-comment': OFF,
+        '@typescript-eslint/triple-slash-reference': OFF,
       },
     },
     {
       files: ['scripts/**/*', '*.config.js'],
       rules: {
-        'import/no-commonjs': 0,
+        'import/no-commonjs': OFF,
       },
     },
     {
       files: ['examples/**/*'],
       rules: {
-        'spaced-comment': 0,
+        'spaced-comment': OFF,
       },
     },
   ],
