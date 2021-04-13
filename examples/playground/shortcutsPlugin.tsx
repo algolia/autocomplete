@@ -88,8 +88,12 @@ export const shortcutsPlugin: AutocompletePlugin<DarkModeItem, undefined> = {
                 ),
                 createElement(
                   'div',
-                  { className: 'aa-ItemContentTitle' },
-                  item.label
+                  { className: 'aa-ItemContentBody' },
+                  createElement(
+                    'div',
+                    { className: 'aa-ItemContentTitle' },
+                    item.label
+                  )
                 )
               )
             );

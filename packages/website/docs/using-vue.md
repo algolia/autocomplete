@@ -157,23 +157,25 @@ Next, to display the results from Algolia, you need to define an [`item` templat
                   item({ item, components }) {
                     return (
                       <div className="aa-ItemWrapper">
-                        <div className="aa-ItemIcon">
-                          <img
-                            src={hit.image}
-                            alt={hit.name}
-                            width="40"
-                            height="40"
-                          />
-                        </div>
                         <div className="aa-ItemContent">
-                          <div className="aa-ItemContentTitle">
-                            <components.Snippet hit={item} attribute="name" />
-                          </div>
-                          <div className="aa-ItemContentDescription">
-                            <components.Snippet
-                              hit={item}
-                              attribute="description"
+                          <div className="aa-ItemIcon">
+                            <img
+                              src={hit.image}
+                              alt={hit.name}
+                              width="40"
+                              height="40"
                             />
+                          </div>
+                          <div className="aa-ItemContentBody">
+                            <div className="aa-ItemContentTitle">
+                              <components.Snippet hit={item} attribute="name" />
+                            </div>
+                            <div className="aa-ItemContentDescription">
+                              <components.Snippet
+                                hit={item}
+                                attribute="description"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>

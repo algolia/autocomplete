@@ -76,8 +76,10 @@ export function createCategoriesPlugin({
                       </svg>
                     </div>
 
-                    <div className="aa-ItemContentTitle">
-                      <components.Highlight hit={item} attribute="label" />
+                    <div className="aa-ItemContentBody">
+                      <div className="aa-ItemContentTitle">
+                        <components.Highlight hit={item} attribute="label" />
+                      </div>
                     </div>
                   </div>
                 </div>
