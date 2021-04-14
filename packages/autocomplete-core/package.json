@@ -36,6 +36,6 @@
   },
   "devDependencies": {
     "@algolia/client-search": "4.8.6",
-    "algoliasearch": "4.8.6"
+    "algoliasearch": "4.9.0"
   }
 }
