@@ -1,5 +1,6 @@
 import { invariant } from '@algolia/autocomplete-shared';
 
+import { mapToAlgoliaResponse } from './requesters/mapToAlgoliaResponse';
 import { resolve } from './resolve';
 import {
   AutocompleteScopeApi,
@@ -119,33 +120,14 @@ export function onInput<TItem extends BaseItem>({
           const flattenedResponse = flatten(response);
 
           return sources.map((source) => {
-            const matches = flattenedResponse.filter((response) => {
-              return response.__autocomplete_sourceId === source.sourceId;
-            });
-
+            const matches = flattenedResponse.filter(
+              (response) => response.__autocomplete_sourceId === source.sourceId
+            );
             const { __autocomplete_transformResponse } = matches[0];
-
             const results = matches.map(({ items }) => items);
-
-            const items = __autocomplete_transformResponse({
-              results,
-              hits: results.map((result) => result.hits).filter(Boolean),
-              facetHits: results
-                .map((result) =>
-                  result.facetHits?.map((facetHit) => {
-                    return {
-                      label: facetHit.value,
-                      count: facetHit.count,
-                      _highlightResult: {
-                        label: {
-                          value: facetHit.highlighted,
-                        },
-                      },
-                    };
-                  })
-                )
-                .filter(Boolean),
-            });
+            const items = __autocomplete_transformResponse(
+              mapToAlgoliaResponse(results)
+            );
 
             invariant(
               Array.isArray(items),
