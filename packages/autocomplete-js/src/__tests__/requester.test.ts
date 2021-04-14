@@ -72,6 +72,7 @@ describe('requester', () => {
       panelContainer,
       getSources({ query }) {
         // @TODO: change order to ensure proper distribution
+        // @TODO: add static source
         return [
           {
             sourceId: 'custom',
