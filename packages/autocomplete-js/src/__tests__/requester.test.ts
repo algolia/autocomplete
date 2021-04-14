@@ -7,6 +7,7 @@ import {
   createSearchClient,
 } from '../../../../test/utils';
 
+// @TODO: instantiate locally
 const searchClient = createSearchClient({
   search: jest.fn(() =>
     Promise.resolve(
@@ -427,4 +428,5 @@ describe('requester', () => {
       `);
     });
   });
+  test.todo('properly maps response based on Algolia data type');
 });
