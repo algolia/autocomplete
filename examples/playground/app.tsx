@@ -114,9 +114,7 @@ autocomplete({
             );
           },
           noResults() {
-            return (
-              <div className="aa-ItemContent">No products for this query.</div>
-            );
+            return 'No products for this query.';
           },
         },
       },
