@@ -890,6 +890,7 @@ body {
     .aa-PanelLayout {
       max-height: var(--aa-detached-modal-max-height);
       padding-bottom: var(--aa-spacing-half);
+      position: static;
     }
   }
 }
