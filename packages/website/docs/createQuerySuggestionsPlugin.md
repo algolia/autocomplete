@@ -20,10 +20,15 @@ Then import it in your project:
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 ```
 
-If you don't use a package manager, you can use a standalone endpoint:
+If you don't use a package manager, you can use the HTML `script` element:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-query-suggestions@alpha"></script>
+<script>
+  const { createQuerySuggestionsPlugin } = window[
+    '@algolia/autocomplete-plugin-query-suggestions'
+  ];
+</script>
 ```
 
 ## Example
@@ -104,7 +109,7 @@ A function returning [Algolia search parameters](https://www.algolia.com/doc/api
 
 ### `transformSource`
 
-> `(params: { source: AutocompleteSource, onTapAhead: () => void })`
+> `(params: { source: AutocompleteSource, state: AutocompleteState, onTapAhead: () => void })`
 
 A function to transform the provided source.
 

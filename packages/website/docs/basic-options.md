@@ -21,10 +21,12 @@ autocomplete({
       {
         sourceId: 'links',
         getItems({ query }) {
-          return [
+          const items = [
             { label: 'Twitter', url: 'https://twitter.com' },
             { label: 'GitHub', url: 'https://github.com' },
-          ].filter(({ label }) =>
+          ];
+
+          return items.filter(({ label }) =>
             label.toLowerCase().includes(query.toLowerCase())
           );
         },
@@ -48,7 +50,7 @@ The `container` options refers to where to inject the autocomplete in your HTML.
 <div id="autocomplete"></div>
 ```
 
-This is all you need to build a [fully functional, accessible, keyboard-navigable autocomplete](https://codesandbox.io/s/vigilant-dew-g2ezl).
+This is all you need to build a [fully functional, accessible, keyboard-navigable autocomplete](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/starter?file=/app.tsx).
 
 Now, this is a great start, but **you can go much further**. Here are some of the options you'll probably want to use next:
 - Use [`placeholder`](autocomplete-js#placeholder) to define the text that appears in the input before the user types anything.

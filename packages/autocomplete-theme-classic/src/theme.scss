@@ -171,7 +171,6 @@ body {
     display: flex;
     line-height: 1em;
     margin: 0;
-    padding: 0 calc(var(--aa-spacing) - 2px) 0 calc(var(--aa-spacing) - 1px);
     position: relative;
     width: 100%;
     &:focus-within {
@@ -189,28 +188,47 @@ body {
       align-items: center;
       display: flex;
       flex-shrink: 0;
+      height: var(--aa-search-input-height);
       order: 1;
       // Container for search and loading icons
       @at-root .aa-Label,
         .aa-LoadingIndicator {
         cursor: initial;
         flex-shrink: 0;
+        height: 100%;
         padding: 0;
         text-align: left;
-        width: calc(var(--aa-icon-size) + var(--aa-spacing));
-        button {
-          appearance: none;
-          background: none;
-          border: 0;
-          margin: 0;
-          padding: 2px;
-        }
         svg {
           color: rgba(var(--aa-primary-color-rgb), 1);
           height: auto;
           max-height: var(--aa-input-icon-size);
           stroke-width: var(--aa-icon-stroke-width);
           width: var(--aa-input-icon-size);
+        }
+      }
+      @at-root .aa-SubmitButton,
+        .aa-LoadingIndicator {
+        height: 100%;
+        padding-left: calc(var(--aa-spacing) * 0.75 - 1px);
+        padding-right: var(--aa-spacing-half);
+        width: calc(var(--aa-spacing) * 1.75 + var(--aa-icon-size) - 1px);
+        @media (hover: none) and (pointer: coarse) {
+          padding-left: calc(var(--aa-spacing-half) / 2 - 1px);
+          width: calc(var(--aa-icon-size) + (var(--aa-spacing) * 1.25) - 1px);
+        }
+      }
+      @at-root .aa-SubmitButton {
+        appearance: none;
+        background: none;
+        border: 0;
+        margin: 0;
+      }
+      @at-root .aa-LoadingIndicator {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        &[hidden] {
+          display: none;
         }
       }
     }
@@ -226,6 +244,7 @@ body {
         color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
         font: inherit;
         height: var(--aa-search-input-height);
+        padding: 0;
         width: 100%;
         &::placeholder {
           color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
@@ -249,6 +268,7 @@ body {
     @at-root .aa-InputWrapperSuffix {
       align-items: center;
       display: flex;
+      height: var(--aa-search-input-height);
       order: 4;
       // Accelerator to clear the query
       @at-root .aa-ClearButton {
@@ -258,8 +278,12 @@ body {
         color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
         cursor: pointer;
         display: flex;
+        height: 100%;
         margin: 0;
-        padding: 2px;
+        padding: 0 calc(var(--aa-spacing) * (5 / 6) - 0.5px);
+        @media (hover: none) and (pointer: coarse) {
+          padding: 0 calc(var(--aa-spacing) * (2 / 3) - 0.5px);
+        }
         &:hover,
         &:focus {
           color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
@@ -479,10 +503,6 @@ body {
   align-items: center;
   border-radius: 3px;
   cursor: pointer;
-  display: grid;
-  gap: calc(var(--aa-spacing-half) / 2);
-  grid-auto-flow: column;
-  justify-content: space-between;
   min-height: calc(var(--aa-spacing) * 2.5);
   padding: calc(var(--aa-spacing-half) / 2);
   // When the result is active
@@ -669,8 +689,10 @@ body {
     .aa-ItemLink {
     align-items: center;
     color: inherit;
-    display: flex;
-    text-decoration: none;
+    display: grid;
+    gap: calc(var(--aa-spacing-half) / 2);
+    grid-auto-flow: column;
+    justify-content: space-between;
     width: 100%;
   }
   @at-root .aa-ItemLink {

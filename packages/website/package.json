@@ -1,6 +1,6 @@
 {
   "name": "@algolia/autocomplete-website",
-  "version": "1.0.0-alpha.44",
+  "version": "1.0.0-alpha.45",
   "private": true,
   "scripts": {
     "start": "docusaurus start",
@@ -9,9 +9,9 @@
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@docsearch/react": "1.0.0-alpha.28",
-    "@docusaurus/core": "2.0.0-alpha.70",
-    "@docusaurus/preset-classic": "2.0.0-alpha.70",
+    "@docsearch/react": "3.0.0-alpha.34",
+    "@docusaurus/core": "2.0.0-alpha.72",
+    "@docusaurus/preset-classic": "2.0.0-alpha.72",
     "classnames": "2.2.6",
     "react": "17.0.1",
     "react-dom": "17.0.1"

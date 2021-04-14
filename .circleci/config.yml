@@ -202,16 +202,16 @@ workflows:
       - test_size:
           requires:
             - build
-      - test_cypress:
-          requires:
-            - build
+      # - test_cypress:
+      #     requires:
+      #       - build
       - release:
           requires:
             - test_unit
             - test_lint
             - test_types
             - test_size
-            - test_cypress
+            # - test_cypress
             - build
           filters:
             branches:

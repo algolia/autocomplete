@@ -26,10 +26,15 @@ Then import it in your project:
 import { parseAlgoliaHitSnippet } from '@algolia/autocomplete-preset-algolia';
 ```
 
-If you don't use a package manager, you can use a standalone endpoint:
+If you don't use a package manager, you can use the HTML `script` element:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-preset-algolia@alpha"></script>
+<script>
+  const { parseAlgoliaHitSnippet } = window[
+    '@algolia/autocomplete-preset-algolia'
+  ];
+</script>
 ```
 
 ## Examples

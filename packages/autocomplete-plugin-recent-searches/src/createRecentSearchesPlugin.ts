@@ -1,5 +1,6 @@
 import {
   AutocompletePlugin,
+  AutocompleteState,
   PluginSubscribeParams,
 } from '@algolia/autocomplete-core';
 import { AutocompleteSource } from '@algolia/autocomplete-js';
@@ -12,15 +13,34 @@ import { RecentSearchesItem, Storage, StorageApi } from './types';
 
 export interface RecentSearchesPluginData<TItem extends RecentSearchesItem>
   extends StorageApi<TItem> {
+  /**
+   * Optimized [Algolia search parameters](https://www.algolia.com/doc/api-reference/search-api-parameters/). This is useful when using the plugin along with the [Query Suggestions](createQuerySuggestionsPlugin) plugin.
+   *
+   * This function enhances the provided search parameters by:
+   * - Excluding Query Suggestions that are already displayed in recent searches.
+   * - Using a shared `hitsPerPage` value to get a group limit of Query Suggestions and recent searches.
+   * @link https://autocomplete.algolia.com/docs/createLocalStorageRecentSearchesPlugin#getalgoliasearchparams
+   */
   getAlgoliaSearchParams(params?: SearchOptions): SearchOptions;
 }
 
 export type CreateRecentSearchesPluginParams<
   TItem extends RecentSearchesItem
 > = {
+  /**
+   * The storage to fetch from and save recent searches into.
+   *
+   * @link https://autocomplete.algolia.com/docs/createRecentSearchesPlugin#storage
+   */
   storage: Storage<TItem>;
+  /**
+   * A function to transform the provided source.
+   *
+   * @link https://autocomplete.algolia.com/docs/createRecentSearchesPlugin#transformsource
+   */
   transformSource?(params: {
     source: AutocompleteSource<TItem>;
+    state: AutocompleteState<TItem>;
     onRemove(id: string): void;
     onTapAhead(item: TItem): void;
   }): AutocompleteSource<TItem>;
@@ -70,7 +90,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
         store.addItem(recentItem as TItem);
       }
     },
-    getSources({ query, setQuery, refresh }) {
+    getSources({ query, setQuery, refresh, state }) {
       lastItemsRef.current = store.getAll(query);
 
       function onRemove(id: string) {
@@ -102,6 +122,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
             },
             onRemove,
             onTapAhead,
+            state,
           }),
         ];
       });

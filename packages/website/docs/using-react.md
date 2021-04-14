@@ -86,7 +86,7 @@ The usage below sets [`openOnFocus`](autocomplete-js#openonfocus) and [sources](
 
 ```jsx title=App.jsx"
 import React, { createElement } from 'react';
-import { getAlgoliaHits } from 'autocomplete-js';
+import { getAlgoliaHits } from '@algolia/autocomplete-js';
 import algoliasearch from "algoliasearch";
 import { Autocomplete } from './components/Autocomplete';
 import { ProductItem } from './components/ProductItem';
@@ -122,7 +122,7 @@ function App() {
                 }
               }
             }
-          ];
+          ]
         }
       />
     </div>

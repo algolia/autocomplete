@@ -13,30 +13,29 @@ export function getTemplates<TItem extends RecentSearchesItem>({
   onTapAhead,
 }: GetTemplatesParams<TItem>): SourceTemplates<TItem> {
   return {
-    item({ item, createElement, Fragment, components }) {
+    item({ item, createElement, components }) {
       return (
-        <Fragment>
+        <div className="aa-ItemWrapper">
           <div className="aa-ItemContent">
             <div className="aa-ItemIcon aa-ItemIcon--noBorder">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12.516 6.984v5.25l4.5 2.672-0.75 1.266-5.25-3.188v-6h1.5zM12 20.016q3.281 0 5.648-2.367t2.367-5.648-2.367-5.648-5.648-2.367-5.648 2.367-2.367 5.648 2.367 5.648 5.648 2.367zM12 2.016q4.125 0 7.055 2.93t2.93 7.055-2.93 7.055-7.055 2.93-7.055-2.93-2.93-7.055 2.93-7.055 7.055-2.93z" />
               </svg>
             </div>
-
-            <div className="aa-ItemContentTitle">
-              <components.ReverseHighlight hit={item} attribute="label" />
-
-              {item.category && (
-                <span className="aa-ItemContentSubtitle aa-ItemContentSubtitle--inline">
-                  <span className="aa-ItemContentSubtitleIcon" /> in{' '}
-                  <span className="aa-ItemContentSubtitleCategory">
-                    {item.category}
+            <div className="aa-ItemContentBody">
+              <div className="aa-ItemContentTitle">
+                <components.ReverseHighlight hit={item} attribute="label" />
+                {item.category && (
+                  <span className="aa-ItemContentSubtitle aa-ItemContentSubtitle--inline">
+                    <span className="aa-ItemContentSubtitleIcon" /> in{' '}
+                    <span className="aa-ItemContentSubtitleCategory">
+                      {item.category}
+                    </span>
                   </span>
-                </span>
-              )}
+                )}
+              </div>
             </div>
           </div>
-
           <div className="aa-ItemActions">
             <button
               className="aa-ItemActionButton"
@@ -65,7 +64,7 @@ export function getTemplates<TItem extends RecentSearchesItem>({
               </svg>
             </button>
           </div>
-        </Fragment>
+        </div>
       );
     },
   };

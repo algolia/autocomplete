@@ -65,16 +65,18 @@ autocomplete({
   templates: {
     item({ item, components }) {
       return (
-        <Fragment>
-          <div className="aa-ItemIcon">
-            <img src={item.image} alt={item.name} width="40" height="40" />
-          </div>
+        <div className="aa-ItemWrapper">
           <div className="aa-ItemContent">
-            <div className="aa-ItemContentTitle">
-              <components.Snippet hit={item} attribute="name" />
+            <div className="aa-ItemIcon">
+              <img src={item.image} alt={item.name} width="40" height="40" />
             </div>
-            <div className="aa-ItemContentDescription">
-              <components.Snippet hit={item} attribute="description" />
+            <div className="aa-ItemContentBody">
+              <div className="aa-ItemContentTitle">
+                <components.Snippet hit={item} attribute="name" />
+              </div>
+              <div className="aa-ItemContentDescription">
+                <components.Snippet hit={item} attribute="description" />
+              </div>
             </div>
           </div>
           <div className="aa-ItemActions">
@@ -93,18 +95,16 @@ autocomplete({
               </svg>
             </button>
           </div>
-        </Fragment>
+        </div>
       );
     },
   },
 });
 ```
 
-If your renderer doesn't support `Fragment`s, you can use `div.aa-ItemWrapper`.
-
 ### Link item
 
-To wrap an item within a link, use the `.aa-ItemLink` class.
+To wrap an item within a link, use the `.aa-ItemLink` class in place of the element with `.aa-ItemWrapper`. **Make sure not to use both together.**
 
 ```jsx
 autocomplete({

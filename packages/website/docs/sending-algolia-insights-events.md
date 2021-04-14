@@ -77,16 +77,18 @@ autocomplete({
 
 function ProductItem({ hit, components }) {
   return (
-    <Fragment>
-      <div className="aa-ItemIcon">
-        <img src={hit.image} alt={hit.name} width="40" height="40" />
-      </div>
+    <div className="aa-ItemWrapper">
       <div className="aa-ItemContent">
-        <div className="aa-ItemContentTitle">
-          <components.Highlight hit={hit} attribute="name" />
+        <div className="aa-ItemIcon">
+          <img src={hit.image} alt={hit.name} width="40" height="40" />
         </div>
-        <div className="aa-ItemContentDescription">
-          <components.Highlight hit={hit} attribute="description" />
+        <div className="aa-ItemContentBody">
+          <div className="aa-ItemContentTitle">
+            <components.Highlight hit={hit} attribute="name" />
+          </div>
+          <div className="aa-ItemContentDescription">
+            <components.Highlight hit={hit} attribute="description" />
+          </div>
         </div>
       </div>
       <button
@@ -98,7 +100,7 @@ function ProductItem({ hit, components }) {
           <path d="M18.984 6.984h2.016v6h-15.188l3.609 3.609-1.406 1.406-6-6 6-6 1.406 1.406-3.609 3.609h13.172v-4.031z"></path>
         </svg>
       </button>
-    </Fragment>
+    </div>
   );
 }
 ```
@@ -249,7 +251,7 @@ Once available to your templates, you can use it to send events using [Insights 
 ```jsx title="ProductItem.jsx"
 function ProductItem({ hit, insights, components }) {
   return (
-    <Fragment>
+    <div className="aa-ItemWrapper">
       <div className="aa-ItemIcon">
         <img src={hit.image} alt={hit.name} width="40" height="40" />
       </div>
@@ -293,7 +295,7 @@ function ProductItem({ hit, insights, components }) {
           </svg>
         </button>
       </div>
-    </Fragment>
+    </div>
   );
 }
 ```

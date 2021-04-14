@@ -97,18 +97,30 @@ If you want to package and distribute your plugin for other people to use, you m
 
 ```js title="createGitHubReposPlugin.js"
 import qs from 'qs';
-import unfetch from 'unfetch';
-import debounce from 'debounce-promise';
 
-const debouncedFetch = debounce(unfetch, 300);
+function debouncePromise(fn, time) {
+  let timerId = undefined;
+
+  return function (...args) {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
+    return new Promise((resolve) => {
+      timerId = setTimeout(() => resolve(fn(...args)), time);
+    });
+  };
+}
+
+const debouncedFetch = debouncePromise(fetch, 300);
+
+const baseUrl = `https://api.github.com/search/repositories`;
 
 export function createGitHubReposPlugin(options) {
   return {
     getSources({ query }) {
-      const endpoint = [
-        'https://api.github.com/search/repositories',
-        qs.stringify({ ...options, q: query }),
-      ].join('?');
+      const queryParameters = qs.stringify({ ...options, q: query });
+      const endpoint = [baseUrl, queryParameters].join('?');
 
       return debouncedFetch(endpoint)
         .then((response) => response.json())
@@ -147,7 +159,7 @@ import { autocomplete } from '@algolia/autocomplete-js';
 import { createGitHubReposPlugin } from './createGitHubReposPlugin';
 
 const gitHubReposPlugin = createGitHubReposPlugin({
-  per_page: 10,
+  per_page: 5,
 });
 
 autocomplete({
@@ -226,19 +238,19 @@ The function called when the internal state changes.
 
 > `(params: { state: AutocompleteState, event: Event, ...setters: AutocompleteSetters }) => void`
 
-The function called when the Autocomplete form is submitted.
+The function called when submitting the Autocomplete form.
 
 ### `onReset`
 
 > `(params: { state: AutocompleteState, event: Event, ...setters: AutocompleteSetters }) => void`
 
-The function called when the Autocomplete form is reset.
+The function called when resetting the Autocomplete form.
 
 ### `getSources`
 
 > `(params: { query: string, state: AutocompleteState, ...setters: AutocompleteSetters }) => Array<AutocompleteSource> | Promise<Array<AutocompleteSource>>`
 
-The sources to get the suggestions from.
+The [sources](sources) to get the suggestions from.
 
 When defined, they're merged with the sources of your Autocomplete instance.
 

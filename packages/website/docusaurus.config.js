@@ -6,6 +6,8 @@ module.exports = {
   favicon: 'img/logo.png',
   organizationName: 'algolia',
   projectName: 'autocomplete',
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
   themeConfig: {
     sidebarCollapsible: true,
     navbar: {
@@ -18,6 +20,16 @@ module.exports = {
         {
           label: 'Docs',
           to: 'docs/introduction',
+          position: 'right',
+        },
+        {
+          label: 'Showcase',
+          to: 'showcase',
+          position: 'right',
+        },
+        {
+          label: 'Sandboxes',
+          to: 'sandboxes',
           position: 'right',
         },
         {

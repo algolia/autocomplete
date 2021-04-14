@@ -23,10 +23,13 @@ Then import it in your project:
 import { autocomplete } from '@algolia/autocomplete-js';
 ```
 
-If you don't use a package manager, you can use a standalone endpoint:
+If you don't use a package manager, you can use the HTML `script` element:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js@alpha"></script>
+<script>
+  const { autocomplete } = window['@algolia/autocomplete-js'];
+</script>
 ```
 
 ## Example
@@ -141,6 +144,60 @@ type ClassNames = Partial<{
 }>;
 ```
 
+### `components`
+
+Components to register in the Autocomplete rendering lifecycles. Registered components become available in [`templates`](templates), [`render`](#render), and in [`renderNoResults`](#rendernoresults).
+
+```jsx
+import { render } from 'preact';
+import { MyComponent } from './my-components';
+
+autocomplete({
+  // ...
+  components: {
+    MyComponent,
+  },
+  render({ sections, components }, root) {
+    render(
+      <Fragment>
+        <div className="aa-PanelLayout aa-Panel--scollable">{sections}</div>
+        <components.MyComponent />
+      </Fragment>,
+      root
+    );
+  },
+});
+```
+
+Four components are registered by default:
+
+- `Highlight` to highlight matches in Algolia results
+- `Snippet` to snippet matches in Algolia results
+- `ReverseHighlight` to reverse highlight matches in Algolia results
+- `ReverseSnippet` to reverse highlight and snippet matches in Algolia results
+
+```jsx
+autocomplete({
+  // ...
+  getSources({ query }) {
+    return [
+      {
+        getItems() {
+          return [
+            /* ... */
+          ];
+        },
+        templates: {
+          item({ item, components }) {
+            return <components.Highlight hit={item} attribute="name" />;
+          },
+        },
+      },
+    ];
+  },
+});
+```
+
 ### `render`
 
 > `(params: { children: VNode, elements: Elements, sections: VNode[], state: AutocompleteState<TItem>, createElement: Pragma, Fragment: PragmaFrag }) => void`
@@ -245,6 +302,8 @@ autocomplete({
 
 ### `renderer`
 
+The virtual DOM implementation to plug to Autocomplete. It defaults to Preact.
+
 #### `createElement`
 
 > `(type: any, props: Record<string, any> | null, ...children: ComponentChildren[]) => VNode` | defaults to `preact.createElement`
@@ -260,6 +319,14 @@ It uses [Preact 10](https://preactjs.com/guide/v10/whats-new/)'s `createElement`
 The component to use to create fragments.
 
 It uses [Preact 10](https://preactjs.com/guide/v10/whats-new/)'s `Fragment` by default, but you can provide your own implementation.
+
+### `detachedMediaQuery`
+
+> `string` | defaults to `"(max-width: 680px)"`
+
+The Detached Mode turns the dropdown display into a full screen, modal experience.
+
+See [**Detached Mode**](detached-mode) for more information.
 
 ## Returns
 

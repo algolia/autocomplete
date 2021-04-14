@@ -43,21 +43,34 @@ const sendViewedObjectIDs = debounce<SendViewedObjectIDsParams>(
 export type CreateAlgoliaInsightsPluginParams = {
   /**
    * The initialized Search Insights client.
+   *
+   * @link https://autocomplete.algolia.com/docs/createAlgoliaInsightsPlugin#insightsclient
    */
   insightsClient: InsightsClient;
   /**
    * Hook to send an Insights event when the items change.
    *
-   * This hook is debounced every 400ms to better reflect when items are
-   * acknowledged by the user.
+   * By default, it sends a `viewedObjectIDs` event.
+   *
+   * In as-you-type experiences, items change as the user types. This hook is debounced every 400ms to reflect actual items that users notice and avoid generating too many events for items matching "in progress" queries.
+   *
+   * @link https://autocomplete.algolia.com/docs/createAlgoliaInsightsPlugin#onitemschange
    */
   onItemsChange?(params: OnItemsChangeParams): void;
   /**
    * Hook to send an Insights event when an item is selected.
+   *
+   * By default, it sends a clickedObjectIDsAfterSearch event.
+   *
+   * @link https://autocomplete.algolia.com/docs/createAlgoliaInsightsPlugin#onselect
    */
   onSelect?(params: OnSelectParams): void;
   /**
    * Hook to send an Insights event when an item is active.
+   *
+   * By default, it doesn't send any events.
+   *
+   * @link https://autocomplete.algolia.com/docs/createAlgoliaInsightsPlugin#onactive
    */
   onActive?(params: OnActiveParams): void;
 };

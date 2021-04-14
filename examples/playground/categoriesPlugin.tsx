@@ -57,7 +57,7 @@ export function createCategoriesPlugin({
             },
             item({ item, components }) {
               return (
-                <Fragment>
+                <div className="aa-ItemWrapper">
                   <div className="aa-ItemContent">
                     <div className="aa-ItemIcon aa-ItemIcon--noBorder">
                       <svg
@@ -76,11 +76,13 @@ export function createCategoriesPlugin({
                       </svg>
                     </div>
 
-                    <div className="aa-ItemContentTitle">
-                      <components.Highlight hit={item} attribute="label" />
+                    <div className="aa-ItemContentBody">
+                      <div className="aa-ItemContentTitle">
+                        <components.Highlight hit={item} attribute="label" />
+                      </div>
                     </div>
                   </div>
-                </Fragment>
+                </div>
               );
             },
           },

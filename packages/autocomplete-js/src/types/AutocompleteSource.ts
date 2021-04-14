@@ -5,15 +5,14 @@ import {
 } from '@algolia/autocomplete-core';
 
 import { AutocompleteComponents } from './AutocompleteComponents';
-import { Pragma, PragmaFrag, VNode } from './AutocompleteRenderer';
+import { AutocompleteRenderer, VNode } from './AutocompleteRenderer';
 import { AutocompleteState } from './AutocompleteState';
 
 type Template<TParams> = (
-  params: TParams & {
-    createElement: Pragma;
-    Fragment: PragmaFrag;
-    components: AutocompleteComponents;
-  }
+  params: TParams &
+    AutocompleteRenderer & {
+      components: AutocompleteComponents;
+    }
 ) => VNode | string;
 
 /**
@@ -23,14 +22,18 @@ type Template<TParams> = (
  */
 export type SourceTemplates<TItem extends BaseItem> = {
   /**
-   * The template for the suggestion item.
+   * A function that returns the template for each item of the source.
+   *
+   * @link https://autocomplete.algolia.com/docs/templates/#item
    */
   item: Template<{
     item: TItem;
     state: AutocompleteState<TItem>;
   }>;
   /**
-   * The template for the section header.
+   * A function that returns the template for the header (before the list of items).
+   *
+   * @link https://autocomplete.algolia.com/docs/templates/#header
    */
   header?: Template<{
     state: AutocompleteState<TItem>;
@@ -38,7 +41,9 @@ export type SourceTemplates<TItem extends BaseItem> = {
     items: TItem[];
   }>;
   /**
-   * The template for the section footer.
+   * A function that returns the template for the footer (after the list of items).
+   *
+   * @link https://autocomplete.algolia.com/docs/templates/#footer
    */
   footer?: Template<{
     state: AutocompleteState<TItem>;
@@ -46,7 +51,9 @@ export type SourceTemplates<TItem extends BaseItem> = {
     items: TItem[];
   }>;
   /**
-   * The template for the no results section.
+   * A function that returns the template for when there are no items.
+   *
+   * @link https://autocomplete.algolia.com/docs/templates/#noresults
    */
   noResults?: Template<{
     state: AutocompleteState<TItem>;
@@ -55,13 +62,21 @@ export type SourceTemplates<TItem extends BaseItem> = {
 };
 
 type WithTemplates<TType, TItem extends BaseItem> = TType & {
+  /**
+   * A set of templates to customize how sections and their items are displayed.
+   *
+   * See [**Displaying items with Templates**](templates) for more information.
+   *
+   * @link https://autocomplete.algolia.com/docs/sources/#templates
+   */
   templates: SourceTemplates<TItem>;
 };
 
 export interface AutocompleteCoreSourceWithDocs<TItem extends BaseItem>
   extends AutocompleteCoreSource<TItem> {
   /**
-   * Identifier for the source.
+   * Unique identifier for the source.
+   *
    * It is used as value for the `data-autocomplete-source-id` attribute of the source `section` container.
    */
   sourceId: string;
