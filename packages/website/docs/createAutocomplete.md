@@ -118,7 +118,7 @@ Updates the UI state. You must call this function whenever you mutate the state 
 
 > `(updatedOptions: Partial<AutocompleteOptions<TItem>>) => void`
 
-Updates the Autocomplete experience with new options.
+Updates the Autocomplete instance with new options.
 
 ### `destroy`
 
