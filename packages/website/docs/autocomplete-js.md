@@ -352,15 +352,15 @@ const {
 
 ### `refresh`
 
-> `() => void`
+> `() => Promise<void>`
 
-Updates the UI state. You must call this function whenever you mutate the state with setters.
+Updates the UI state. You must call this function whenever you mutate the state with setters and want to reflect the changes in the UI.
 
 ### `update`
 
-> `(updatedOptions: Partial<AutocompleteOptions<TItem>>) => void`
+> `(updatedOptions: Partial<AutocompleteOptions>) => void`
 
-Updates the Autocomplete experience with new options.
+Updates the Autocomplete instance with new options.
 
 ### `destroy`
 
