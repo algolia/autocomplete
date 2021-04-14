@@ -425,9 +425,6 @@ body {
     font-size: 1em;
     margin: 0;
     padding: var(--aa-spacing);
-    .aa-ItemContent {
-      cursor: default;
-    }
   }
   // List of results inside the source
   @at-root .aa-List {
