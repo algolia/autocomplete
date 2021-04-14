@@ -81,9 +81,9 @@ autocomplete({
   plugins: [
     shortcutsPlugin,
     algoliaInsightsPlugin,
-    // recentSearchesPlugin,
-    // querySuggestionsPlugin,
-    // categoriesPlugin,
+    recentSearchesPlugin,
+    querySuggestionsPlugin,
+    categoriesPlugin,
   ],
   getSources({ query, state }) {
     if (!query) {
@@ -91,44 +91,6 @@ autocomplete({
     }
 
     return [
-      {
-        sourceId: 'categories',
-        getItems() {
-          return getAlgoliaFacets({
-            searchClient,
-            queries: [
-              {
-                indexName: 'instant_search',
-                type: 'facet',
-                facet: 'categories',
-                params: {
-                  facetQuery: query,
-                  clickAnalytics: true,
-                },
-              },
-            ],
-          });
-        },
-        templates: {
-          header() {
-            return (
-              <Fragment>
-                <span className="aa-SourceHeaderTitle">Categories</span>
-                <div className="aa-SourceHeaderLine" />
-              </Fragment>
-            );
-          },
-          item({ item, components }) {
-            return (
-              <div className="aa-ItemContent">
-                <div className="aa-ItemContentTitle">
-                  <components.Highlight hit={item} attribute="label" />
-                </div>
-              </div>
-            );
-          },
-        },
-      },
       {
         sourceId: 'github',
         getItems() {

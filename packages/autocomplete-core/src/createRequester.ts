@@ -1,3 +1,5 @@
+import { createFetcher } from './createFetcher';
+
 export type TransformResponse<TResponse, TTransformedResponse> = (
   response: TResponse
 ) => TTransformedResponse;
@@ -11,42 +13,38 @@ export type TransformedResponse<TItem, TResponse, TTransformedResponse> = {
   >;
 };
 
-export type Description<TFetcher> = {
-  fetcher: TFetcher;
-};
-
-export type RequesterParams<TQuery> = {
-  queries: TQuery[];
-};
-
-type Requester<TFetcher, TParams, TQuery> = (
-  params: RequesterParams<TQuery> & TParams
-) => Promise<Description<TFetcher>>;
-
-type CreateRequesterParams<TFetcher, TResponse, TTransformedResponse> = {
+export type Description<TFetcher, TResponse, TTransformedResponse> = {
   fetcher: TFetcher;
   transformResponse: TransformResponse<TResponse, TTransformedResponse>;
 };
 
+export type RequesterParams<TResponse, TTransformedResponse> = {
+  transformResponse: TransformResponse<TResponse, TTransformedResponse>;
+};
+
+type Requester<TFetcher, TFetchParams, TResponse, TTransformedResponse> = (
+  params: RequesterParams<TResponse, TTransformedResponse>
+) => (
+  fetchParams: any
+) => Promise<Description<TFetcher, TResponse, TTransformedResponse>>;
+
 export function createRequester<
   TFetcher,
-  TParams,
-  TQuery,
+  TFetchParams,
   TResponse,
   TTransformedResponse
->({
-  fetcher,
-  transformResponse,
-}: CreateRequesterParams<TFetcher, TResponse, TTransformedResponse>): Requester<
-  TFetcher,
-  TParams,
-  TQuery
-> {
-  return function requester(params) {
-    return Promise.resolve({
-      fetcher,
-      transformResponse,
-      ...params,
-    });
+>(
+  fetcher: TFetcher
+): Requester<TFetcher, TFetchParams, TResponse, TTransformedResponse> {
+  const requesterFetcher = createFetcher<any, any, any, any>(fetcher);
+
+  return function requester(requesterParams) {
+    return function fetch(fetchParams) {
+      return Promise.resolve({
+        fetcher: requesterFetcher,
+        ...requesterParams,
+        ...fetchParams,
+      });
+    };
   };
 }

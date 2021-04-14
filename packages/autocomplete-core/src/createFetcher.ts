@@ -4,12 +4,8 @@ type FetcherParams<TQuery, TResponse, TItem> = {
   queries: Array<FetcherQuery<TQuery, TResponse, TItem>>;
 };
 
-export type FetcherRequestParams<TQuery> = {
-  queries: TQuery[];
-};
-
-export type Fetcher<TRequesterParams, TQuery, TResponse, TItem> = (
-  params: FetcherParams<TQuery, TResponse, TItem> & TRequesterParams
+export type Fetcher<TFetcherParams, TQuery, TResponse, TItem> = (
+  params: FetcherParams<TQuery, TResponse, TItem> & TFetcherParams
 ) => Promise<Array<FetcherResult<TResponse, TItem>>>;
 
 export type FetcherQuery<TQuery, TResponse, TItem> = {
@@ -24,30 +20,32 @@ type FetcherResult<TResponse, TItem> = {
   __autocomplete_transformResponse: TransformResponse<TResponse, TItem[][]>;
 };
 
-type CreateFetcherParams<TRequesterParams, TQuery, TResponse, TItem> = {
-  request: (
-    params: FetcherRequestParams<TQuery> & TRequesterParams
-  ) => Promise<TResponse[]>;
-  mapToItems: (
-    results: TResponse[],
-    initialQueries: Array<FetcherQuery<TQuery, TResponse, TItem>>
-  ) => Array<FetcherResult<TResponse, TItem>>;
-};
+type Request = (params: any) => Promise<any[]>;
 
-export function createFetcher<TRequesterParams, TQuery, TResponse, TItem>({
-  request,
-  mapToItems,
-}: CreateFetcherParams<TRequesterParams, TQuery, TResponse, TItem>): Fetcher<
-  FetcherParams<TQuery, TResponse, TItem>,
+export function createFetcher<
+  TRequest extends Request,
   TQuery,
   TResponse,
   TItem
-> {
+>(
+  request: TRequest
+): Fetcher<FetcherParams<TQuery, TResponse, TItem>, TQuery, TResponse, TItem> {
   return function fetcher(params) {
     const mappedQueries = params.queries.map((x) => x.query);
 
     return request({ ...params, queries: mappedQueries }).then((results) =>
-      mapToItems(results, params.queries)
+      results.map((result, index) => {
+        const {
+          __autocomplete_sourceId,
+          __autocomplete_transformResponse,
+        } = params.queries[index];
+
+        return {
+          items: result,
+          __autocomplete_sourceId,
+          __autocomplete_transformResponse,
+        };
+      })
     );
   };
 }
