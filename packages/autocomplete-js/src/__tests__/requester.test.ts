@@ -7,6 +7,17 @@ import {
   createSearchClient,
 } from '../../../../test/utils';
 
+function shuffle<TItem>(arr: TItem[]) {
+  const cloned = [...arr];
+
+  for (let i = cloned.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
+  }
+
+  return cloned;
+}
+
 describe('requester', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
@@ -459,5 +470,118 @@ describe('requester', () => {
       `);
     });
   });
-  test.todo('properly maps response based on Algolia data type');
+  test('properly maps response based on the expected Algolia data type', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    const searchClient = createSearchClient({
+      search: jest.fn(() =>
+        Promise.resolve(
+          createMultiSearchResponse<{ label: string }>(
+            {
+              hits: [{ objectID: '1', label: 'Hit 1' }],
+            },
+            { facetHits: [{ count: 2, value: 'Hit 2' }] }
+          )
+        )
+      ),
+    });
+
+    autocomplete({
+      container,
+      panelContainer,
+      getSources({ query }) {
+        return [
+          {
+            sourceId: 'hits',
+            getItems() {
+              return getAlgoliaResults({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    query,
+                  },
+                ],
+                transformResponse({ results, hits, facetHits }) {
+                  return hits.map((hit) => ({
+                    ...hit,
+                    results,
+                    facetHits,
+                  }));
+                },
+              });
+            },
+            templates: {
+              item({ item }) {
+                return JSON.stringify(item);
+              },
+            },
+          },
+          {
+            sourceId: 'facets',
+            getItems() {
+              return getAlgoliaFacets({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    type: 'facet',
+                    facet: 'categories',
+                    params: {
+                      facetQuery: query,
+                    },
+                  },
+                ],
+                transformResponse({ results, hits, facetHits }) {
+                  return facetHits.map((hit) => ({
+                    ...hit,
+                    results,
+                    facetHits,
+                  }));
+                },
+              });
+            },
+            templates: {
+              item({ item }) {
+                return JSON.stringify(item);
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(() => {
+      expect(
+        within(
+          panelContainer.querySelector('[data-autocomplete-source-id="hits"]')
+        )
+          .getAllByRole('option')
+          .map((node) => node.textContent)
+      ).toMatchInlineSnapshot(`
+        Array [
+          "{\\"0\\":{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\"},\\"results\\":[{\\"page\\":0,\\"hitsPerPage\\":20,\\"nbHits\\":1,\\"nbPages\\":1,\\"processingTimeMS\\":0,\\"hits\\":[{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\"}],\\"query\\":\\"\\",\\"params\\":\\"\\",\\"exhaustiveNbHits\\":true,\\"exhaustiveFacetsCount\\":true}],\\"facetHits\\":[],\\"__autocomplete_id\\":0}",
+        ]
+      `);
+
+      expect(
+        within(
+          panelContainer.querySelector('[data-autocomplete-source-id="facets"]')
+        )
+          .getAllByRole('option')
+          .map((node) => node.textContent)
+      ).toMatchInlineSnapshot(`
+        Array [
+          "{\\"0\\":{\\"label\\":\\"Hit 2\\",\\"count\\":2,\\"_highlightResult\\":{\\"label\\":{}}},\\"results\\":[{\\"page\\":0,\\"hitsPerPage\\":20,\\"nbHits\\":0,\\"nbPages\\":0,\\"processingTimeMS\\":0,\\"hits\\":[],\\"query\\":\\"\\",\\"params\\":\\"\\",\\"exhaustiveNbHits\\":true,\\"exhaustiveFacetsCount\\":true,\\"facetHits\\":[{\\"count\\":2,\\"value\\":\\"Hit 2\\"}]}],\\"facetHits\\":[[{\\"label\\":\\"Hit 2\\",\\"count\\":2,\\"_highlightResult\\":{\\"label\\":{}}}]],\\"__autocomplete_id\\":1}",
+        ]
+      `);
+    });
+  });
 });
