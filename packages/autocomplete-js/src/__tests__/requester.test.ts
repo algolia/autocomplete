@@ -7,17 +7,6 @@ import {
   createSearchClient,
 } from '../../../../test/utils';
 
-const customFetch = jest.fn(() =>
-  Promise.resolve([
-    {
-      label: 'Label 1',
-    },
-    {
-      label: 'Label 2',
-    },
-  ])
-);
-
 describe('requester', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
@@ -29,6 +18,16 @@ describe('requester', () => {
 
     document.body.appendChild(panelContainer);
 
+    const customFetch = jest.fn(() =>
+      Promise.resolve([
+        {
+          label: 'Label 1',
+        },
+        {
+          label: 'Label 2',
+        },
+      ])
+    );
     const searchClient = createSearchClient({
       search: jest.fn(() =>
         Promise.resolve(
@@ -43,7 +42,6 @@ describe('requester', () => {
         )
       ),
     });
-
     const searchClient2 = createSearchClient({
       search: jest.fn(() =>
         Promise.resolve(
