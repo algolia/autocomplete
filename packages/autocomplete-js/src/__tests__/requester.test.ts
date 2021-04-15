@@ -67,19 +67,7 @@ describe('requester', () => {
       container,
       panelContainer,
       getSources({ query }) {
-        // @TODO: change order to ensure proper distribution
         return [
-          {
-            sourceId: 'custom',
-            getItems() {
-              return customFetch();
-            },
-            templates: {
-              item({ item }) {
-                return JSON.stringify(item);
-              },
-            },
-          },
           {
             sourceId: 'hits',
             getItems() {
@@ -115,6 +103,17 @@ describe('requester', () => {
                   },
                 ],
               });
+            },
+            templates: {
+              item({ item }) {
+                return JSON.stringify(item);
+              },
+            },
+          },
+          {
+            sourceId: 'custom',
+            getItems() {
+              return customFetch();
             },
             templates: {
               item({ item }) {
@@ -232,8 +231,8 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"label\\":\\"Label 1\\",\\"__autocomplete_id\\":0}",
-          "{\\"label\\":\\"Label 2\\",\\"__autocomplete_id\\":1}",
+          "{\\"label\\":\\"Label 1\\",\\"__autocomplete_id\\":2}",
+          "{\\"label\\":\\"Label 2\\",\\"__autocomplete_id\\":3}",
         ]
       `);
 
@@ -280,7 +279,7 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\",\\"__autocomplete_id\\":2}",
+          "{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\",\\"__autocomplete_id\\":0}",
         ]
       `);
 
@@ -292,7 +291,7 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"label\\":\\"Hit 2\\",\\"count\\":2,\\"_highlightResult\\":{\\"label\\":{}},\\"__autocomplete_id\\":3}",
+          "{\\"label\\":\\"Hit 2\\",\\"count\\":2,\\"_highlightResult\\":{\\"label\\":{}},\\"__autocomplete_id\\":1}",
         ]
       `);
 
