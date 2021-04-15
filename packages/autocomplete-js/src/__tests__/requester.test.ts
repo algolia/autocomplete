@@ -7,17 +7,6 @@ import {
   createSearchClient,
 } from '../../../../test/utils';
 
-function shuffle<TItem>(arr: TItem[]) {
-  const cloned = [...arr];
-
-  for (let i = cloned.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
-  }
-
-  return cloned;
-}
-
 describe('requester', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
@@ -122,6 +111,25 @@ describe('requester', () => {
             },
           },
           {
+            sourceId: 'differentClient',
+            getItems() {
+              return getAlgoliaResults({
+                searchClient: searchClient2,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    query,
+                  },
+                ],
+              });
+            },
+            templates: {
+              item({ item }) {
+                return JSON.stringify(item);
+              },
+            },
+          },
+          {
             sourceId: 'multi',
             getItems() {
               return getAlgoliaResults({
@@ -172,25 +180,6 @@ describe('requester', () => {
             },
           },
           {
-            sourceId: 'differentClient',
-            getItems() {
-              return getAlgoliaResults({
-                searchClient: searchClient2,
-                queries: [
-                  {
-                    indexName: 'indexName',
-                    query,
-                  },
-                ],
-              });
-            },
-            templates: {
-              item({ item }) {
-                return JSON.stringify(item);
-              },
-            },
-          },
-          {
             sourceId: 'static',
             getItems() {
               return [
@@ -222,19 +211,6 @@ describe('requester', () => {
       ).toBeInTheDocument();
 
       expect(customFetch).toHaveBeenCalledTimes(1);
-
-      expect(
-        within(
-          panelContainer.querySelector('[data-autocomplete-source-id="custom"]')
-        )
-          .getAllByRole('option')
-          .map((node) => node.textContent)
-      ).toMatchInlineSnapshot(`
-        Array [
-          "{\\"label\\":\\"Label 1\\",\\"__autocomplete_id\\":2}",
-          "{\\"label\\":\\"Label 2\\",\\"__autocomplete_id\\":3}",
-        ]
-      `);
 
       expect(searchClient.search).toHaveBeenNthCalledWith(1, [
         expect.objectContaining({
@@ -271,6 +247,13 @@ describe('requester', () => {
         }),
       ]);
 
+      expect(searchClient2.search).toHaveBeenNthCalledWith(1, [
+        expect.objectContaining({
+          indexName: 'indexName',
+          query: 'a',
+        }),
+      ]);
+
       expect(
         within(
           panelContainer.querySelector('[data-autocomplete-source-id="hits"]')
@@ -297,14 +280,41 @@ describe('requester', () => {
 
       expect(
         within(
+          panelContainer.querySelector('[data-autocomplete-source-id="custom"]')
+        )
+          .getAllByRole('option')
+          .map((node) => node.textContent)
+      ).toMatchInlineSnapshot(`
+        Array [
+          "{\\"label\\":\\"Label 1\\",\\"__autocomplete_id\\":2}",
+          "{\\"label\\":\\"Label 2\\",\\"__autocomplete_id\\":3}",
+        ]
+      `);
+
+      expect(
+        within(
+          panelContainer.querySelector(
+            '[data-autocomplete-source-id="differentClient"]'
+          )
+        )
+          .getAllByRole('option')
+          .map((node) => node.textContent)
+      ).toMatchInlineSnapshot(`
+        Array [
+          "{\\"objectID\\":\\"7\\",\\"label\\":\\"Hit 7\\",\\"__autocomplete_id\\":4}",
+        ]
+      `);
+
+      expect(
+        within(
           panelContainer.querySelector('[data-autocomplete-source-id="multi"]')
         )
           .getAllByRole('option')
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"objectID\\":\\"3\\",\\"label\\":\\"Hit 3\\",\\"__autocomplete_id\\":4}",
-          "{\\"objectID\\":\\"4\\",\\"label\\":\\"Hit 4\\",\\"__autocomplete_id\\":5}",
+          "{\\"objectID\\":\\"3\\",\\"label\\":\\"Hit 3\\",\\"__autocomplete_id\\":5}",
+          "{\\"objectID\\":\\"4\\",\\"label\\":\\"Hit 4\\",\\"__autocomplete_id\\":6}",
         ]
       `);
 
@@ -318,28 +328,7 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"objectID\\":\\"5\\",\\"label\\":\\"Hit 5\\",\\"__autocomplete_id\\":6}",
-        ]
-      `);
-
-      expect(searchClient2.search).toHaveBeenNthCalledWith(1, [
-        expect.objectContaining({
-          indexName: 'indexName',
-          query: 'a',
-        }),
-      ]);
-
-      expect(
-        within(
-          panelContainer.querySelector(
-            '[data-autocomplete-source-id="differentClient"]'
-          )
-        )
-          .getAllByRole('option')
-          .map((node) => node.textContent)
-      ).toMatchInlineSnapshot(`
-        Array [
-          "{\\"objectID\\":\\"7\\",\\"label\\":\\"Hit 7\\",\\"__autocomplete_id\\":7}",
+          "{\\"objectID\\":\\"5\\",\\"label\\":\\"Hit 5\\",\\"__autocomplete_id\\":7}",
         ]
       `);
 
