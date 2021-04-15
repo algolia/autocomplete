@@ -2,34 +2,28 @@ import {
   createMultiSearchResponse,
   createSearchClient,
 } from '../../../../test/utils';
-import { getAlgoliaHits as originalGetAlgoliaHits } from '../../../autocomplete-preset-algolia/src/search/getAlgoliaHits';
-import { createFetcher } from '../createFetcher';
+import { fetchAlgoliaResults } from '../../../autocomplete-preset-algolia';
 import { createRequester } from '../createRequester';
-
-function createTestSearchClient() {
-  return createSearchClient({
-    search: jest.fn(() =>
-      Promise.resolve(
-        createMultiSearchResponse<{ label: string }>(
-          { hits: [{ objectID: '1', label: 'Hit 1' }] },
-          { hits: [{ objectID: '2', label: 'Hit 2' }] }
-        )
-      )
-    ),
-  });
-}
 
 describe('createRequester', () => {
   test('returns a description', async () => {
-    const searchClient = createTestSearchClient();
-    const fetchAlgoliaHits = createFetcher({
-      request: originalGetAlgoliaHits,
-    });
-    const getAlgoliaHits = createRequester({
-      fetcher: fetchAlgoliaHits,
+    const searchClient = createSearchClient({
+      search: jest.fn(() =>
+        Promise.resolve(
+          createMultiSearchResponse<{ label: string }>(
+            { hits: [{ objectID: '1', label: 'Hit 1' }] },
+            { hits: [{ objectID: '2', label: 'Hit 2' }] }
+          )
+        )
+      ),
     });
 
-    const description = await getAlgoliaHits({
+    const transformResponse = ({ hits }) => hits;
+
+    const createAlgoliaRequester = createRequester(fetchAlgoliaResults);
+    const getAlgoliaResults = createAlgoliaRequester({ transformResponse });
+
+    const description = await getAlgoliaResults({
       searchClient,
       queries: [
         {
@@ -44,7 +38,8 @@ describe('createRequester', () => {
     });
 
     expect(description).toEqual({
-      fetcher: fetchAlgoliaHits,
+      fetcher: expect.any(Function),
+      transformResponse,
       searchClient,
       queries: [
         {
