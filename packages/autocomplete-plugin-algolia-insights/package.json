@@ -31,8 +31,11 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@algolia/autocomplete-core": "1.0.0-alpha.45",
+    "@algolia/autocomplete-js": "1.0.0-alpha.45",
     "@algolia/autocomplete-shared": "1.0.0-alpha.45"
+  },
+  "devDependencies": {
+    "@algolia/autocomplete-core": "1.0.0-alpha.45"
   },
   "peerDependencies": {
     "search-insights": "^1.0.0"

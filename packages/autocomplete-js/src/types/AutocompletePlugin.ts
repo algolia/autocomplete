@@ -14,5 +14,5 @@ export type AutocompletePlugin<TItem extends BaseItem, TData> = Omit<
    *
    * @link https://autocomplete.algolia.com/docs/plugins#onstatechange
    */
-  getSources: AutocompleteOptions<TItem>['getSources'];
+  getSources?: AutocompleteOptions<TItem>['getSources'];
 };

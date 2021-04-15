@@ -1,8 +1,9 @@
 import {
-  AutocompletePlugin,
   AutocompleteState,
-} from '@algolia/autocomplete-core';
-import { AutocompleteSource, getAlgoliaHits } from '@algolia/autocomplete-js';
+  AutocompleteSource,
+  AutocompletePlugin,
+  getAlgoliaHits,
+} from '@algolia/autocomplete-js';
 import { getAttributeValueByPath } from '@algolia/autocomplete-shared';
 import { SearchOptions } from '@algolia/client-search';
 import { SearchClient } from 'algoliasearch/lite';
@@ -100,7 +101,9 @@ export function createQuerySuggestionsPlugin<
                   {
                     indexName,
                     query,
-                    params: getSearchParams({ state }),
+                    params: getSearchParams({
+                      state: state as AutocompleteState<TItem>,
+                    }),
                   },
                 ],
               }).then(([hits]) => {
@@ -142,7 +145,7 @@ export function createQuerySuggestionsPlugin<
             templates: getTemplates({ onTapAhead }),
           },
           onTapAhead,
-          state,
+          state: state as AutocompleteState<TItem>,
         }),
       ];
     },

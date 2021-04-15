@@ -9,29 +9,19 @@ import {
   createAlgoliaInsightsPlugin,
 } from '@algolia/autocomplete-plugin-algolia-insights';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
-import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch';
 import { h, Fragment } from 'preact';
 import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
 
-type Product = {
-  brand: string;
-  categories: string[];
-  description: string;
-  image: string;
-  name: string;
-  price: number;
-  rating: number;
-  __autocomplete_indexName: string;
-  __autocomplete_queryID: string;
-};
-type ProductHit = Hit<Product>;
+import { ProductHit } from './types';
 
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
+
+// @ts-expect-error type error in search-insights
 insightsClient('init', { appId, apiKey });
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
@@ -46,7 +36,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   },
 });
 
-autocomplete({
+autocomplete<ProductHit>({
   container: '#autocomplete',
   placeholder: 'Search',
   debug: true,
@@ -61,7 +51,7 @@ autocomplete({
       {
         sourceId: 'products',
         getItems() {
-          return getAlgoliaHits<Product>({
+          return getAlgoliaHits<ProductHit>({
             searchClient,
             queries: [
               {

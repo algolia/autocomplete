@@ -18,11 +18,13 @@ import '@algolia/autocomplete-theme-classic';
 
 import { createCategoriesPlugin } from './categoriesPlugin';
 import { shortcutsPlugin } from './shortcutsPlugin';
-import { ProductHit, ProductRecord } from './types';
+import { ProductHit } from './types';
 
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
+
+// @ts-expect-error type error in search-insights
 insightsClient('init', { appId, apiKey });
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
@@ -49,7 +51,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 });
 const categoriesPlugin = createCategoriesPlugin({ searchClient });
 
-autocomplete({
+autocomplete<ProductHit>({
   container: '#autocomplete',
   placeholder: 'Search',
   debug: true,
@@ -70,7 +72,7 @@ autocomplete({
       {
         sourceId: 'products',
         getItems() {
-          return getAlgoliaHits<ProductRecord>({
+          return getAlgoliaHits<ProductHit>({
             searchClient,
             queries: [
               {
@@ -91,7 +93,7 @@ autocomplete({
               // eslint-disable-next-line @typescript-eslint/camelcase
               sale_price: hit.free_shipping
                 ? (hit.price - hit.price / 10).toFixed(2)
-                : hit.price,
+                : hit.price.toString(),
             }));
           });
         },

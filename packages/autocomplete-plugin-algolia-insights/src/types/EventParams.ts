@@ -1,4 +1,4 @@
-import { AutocompleteState } from '@algolia/autocomplete-core';
+import { AutocompleteState } from '@algolia/autocomplete-js';
 
 import {
   ClickedObjectIDsAfterSearchParams,
