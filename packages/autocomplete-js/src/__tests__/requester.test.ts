@@ -181,6 +181,24 @@ describe('requester', () => {
               },
             },
           },
+          {
+            sourceId: 'static',
+            getItems() {
+              return [
+                {
+                  label: 'Static label 1',
+                },
+                {
+                  label: 'Static label 2',
+                },
+              ];
+            },
+            templates: {
+              item({ item }) {
+                return JSON.stringify(item);
+              },
+            },
+          },
         ];
       },
     });
@@ -313,6 +331,19 @@ describe('requester', () => {
       ).toMatchInlineSnapshot(`
         Array [
           "{\\"objectID\\":\\"7\\",\\"label\\":\\"Hit 7\\",\\"__autocomplete_id\\":7}",
+        ]
+      `);
+
+      expect(
+        within(
+          panelContainer.querySelector('[data-autocomplete-source-id="static"]')
+        )
+          .getAllByRole('option')
+          .map((node) => node.textContent)
+      ).toMatchInlineSnapshot(`
+        Array [
+          "{\\"label\\":\\"Static label 1\\",\\"__autocomplete_id\\":8}",
+          "{\\"label\\":\\"Static label 2\\",\\"__autocomplete_id\\":9}",
         ]
       `);
     });
