@@ -56,7 +56,6 @@ autocomplete<ProductHit>({
             label: item.name,
             image: item.image,
             url: item.url,
-            _highlightResult: item._highlightResult,
           });
         },
         templates: {
