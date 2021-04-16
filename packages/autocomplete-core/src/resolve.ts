@@ -1,71 +1,99 @@
 import type { SearchClient } from 'algoliasearch/lite';
 
-import { Fetcher } from './createFetcher';
-import { RequesterDescription } from './types/RequesterDescription';
 import {
-  assertIsRequesterDescription,
-  isRequesterDescription,
-} from './utils/isRequesterDescription';
+  RequesterDescription,
+  RequestParams,
+  Fetcher,
+} from './createRequester';
+import { AlgoliaRequesterTransformedResponse } from './requesters';
 
-type FetcherDescription<TItem> = {
+type FetcherDescriptionAlgolia<THit> = RequestParams<THit> & {
+  fetcher: Fetcher<never, never>;
+};
+
+type FetchDescriptionCustom<TItem> = {
+  items: TItem[];
+  __autocomplete_sourceId: string;
+  __autocomplete_transformResponse: (response: any) => any[];
+};
+
+type PackedDescription<TItem> = {
+  fetcher: Fetcher<never, never>;
   searchClient: SearchClient;
-  fetcher: Fetcher<any, any, any, any>;
   items: TItem[];
 };
 
-function isFetcherDescription(
+function isFetcherDescription<THit>(
   description: any
-): description is FetcherDescription<any> {
+): description is FetcherDescriptionAlgolia<THit> {
   return Boolean(description.fetcher);
 }
 
-function assertIsFetcherDescription(
+function assertIsFetcherDescription<THit>(
   _description: any
-): asserts _description is FetcherDescription<any> {}
+): asserts _description is FetcherDescriptionAlgolia<THit> {}
 
-function pack<TItem>(items: Array<FetcherDescription<TItem> | TItem>) {
-  return items.reduce<Array<TItem | FetcherDescription<TItem>>>(
-    (acc, current) => {
-      if (!isRequesterDescription(current)) {
-        acc.push(current);
-        return acc;
-      }
-
-      assertIsRequesterDescription(current);
-
-      const { searchClient, fetcher, queries } = current;
-
-      const index = acc.findIndex((item) => {
-        return (
-          isFetcherDescription(current) &&
-          isFetcherDescription(item) &&
-          item.searchClient === searchClient &&
-          item.fetcher === fetcher
-        );
-      });
-
-      const container = acc[index];
-      assertIsFetcherDescription(container);
-
-      if (index > -1) {
-        container.items.push(...queries);
-      } else {
-        acc.push({
-          searchClient,
-          fetcher,
-          items: searchClient ? queries : [current],
-        });
-      }
-
-      return acc;
-    },
-    []
-  );
+function isRequesterDescription(
+  description: any
+): description is RequesterDescription<any> {
+  return Boolean(description.fetcher);
 }
 
-export function resolve<TQuery, TResult, TItem>(
-  items: Array<RequesterDescription<TQuery, TResult> | TItem>
-): Promise<TItem[][]> {
+function assertIsRequesterDescription(
+  _description: any
+): asserts _description is RequesterDescription<any> {}
+
+function pack<TItem>(
+  items: Array<FetcherDescriptionAlgolia<TItem> | FetchDescriptionCustom<TItem>>
+) {
+  return items.reduce<
+    Array<PackedDescription<TItem> | FetchDescriptionCustom<TItem>>
+  >((acc, current) => {
+    if (!isRequesterDescription(current)) {
+      acc.push(current);
+      return acc;
+    }
+
+    assertIsRequesterDescription(current);
+
+    const { searchClient, fetcher, queries } = current;
+
+    const index = acc.findIndex((item) => {
+      return (
+        isFetcherDescription(current) &&
+        isFetcherDescription(item) &&
+        item.searchClient === searchClient &&
+        item.fetcher === fetcher
+      );
+    });
+
+    const container = acc[index];
+    assertIsFetcherDescription(container);
+
+    if (index > -1) {
+      container.items.push(...queries);
+    } else {
+      acc.push({
+        searchClient,
+        fetcher,
+        items: searchClient ? queries : [current],
+      });
+    }
+
+    return acc;
+  }, []);
+}
+
+export function resolve<TItem>(
+  items: Array<
+    | {
+        fetcher: any;
+        searchClient: SearchClient;
+        queries: any[];
+      }
+    | AlgoliaRequesterTransformedResponse<TItem>
+  >
+) {
   const packed = pack(items);
 
   return Promise.all(

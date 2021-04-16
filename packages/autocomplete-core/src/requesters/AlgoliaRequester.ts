@@ -1,3 +1,4 @@
+import { fetchAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 import type {
   FacetHit,
   Hit,
@@ -5,10 +6,20 @@ import type {
   SearchForFacetValuesResponse,
   SearchResponse,
 } from '@algolia/client-search';
-import type { SearchClient } from 'algoliasearch/lite';
 
-export type AlgoliaRequesterParams = {
-  searchClient: SearchClient;
+export type AlgoliaFetchParams = Pick<
+  Parameters<typeof fetchAlgoliaResults>[0],
+  'searchClient' | 'queries'
+>;
+
+export type AlgoliaFetchResponse<
+  THit
+> = AlgoliaRequesterTransformedResponse<THit>;
+
+export type AlgoliaRequesterParams<THit> = {
+  transformResponse(
+    response: AlgoliaRequesterResponse<THit>
+  ): AlgoliaRequesterTransformedResponse<THit>;
 };
 
 export type AlgoliaRequesterQuery = MultipleQueriesQuery;

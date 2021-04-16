@@ -123,7 +123,8 @@ export function onInput<TItem extends BaseItem>({
             const matches = flattenedResponse.filter(
               (response) => response.__autocomplete_sourceId === source.sourceId
             );
-            const { __autocomplete_transformResponse } = matches[0];
+            const __autocomplete_transformResponse = matches[0]
+              .__autocomplete_transformResponse!;
             const results = matches.map(({ items }) => items);
             const items = __autocomplete_transformResponse(
               mapToAlgoliaResponse(results)

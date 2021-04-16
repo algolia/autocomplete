@@ -1,49 +1,100 @@
-import { createFetcher } from './createFetcher';
+import { MultipleQueriesQuery } from '@algolia/client-search';
+import { SearchClient } from 'algoliasearch/lite';
 
-export type TransformResponse<TResponse, TTransformedResponse> = (
+import {
+  AlgoliaFetchParams,
+  AlgoliaFetchResponse,
+  AlgoliaRequesterParams,
+  AlgoliaRequesterResponse,
+  AlgoliaRequesterTransformedResponse,
+} from './requesters';
+
+type TransformResponse<TResponse, TRequesterResponse> = (
   response: TResponse
-) => TTransformedResponse;
+) => TRequesterResponse;
 
-export type TransformedResponse<TItem, TResponse, TTransformedResponse> = {
-  items: TItem[];
+type Fetcher<TParams, TResponse> = (params: TParams) => Promise<TResponse>;
+
+type FetcherParamsQuery<THit> = {
+  query: MultipleQueriesQuery;
   __autocomplete_sourceId: string;
   __autocomplete_transformResponse: TransformResponse<
-    TResponse,
-    TTransformedResponse
+    AlgoliaRequesterResponse<THit>,
+    AlgoliaRequesterTransformedResponse<THit>
   >;
 };
 
-export type Description<TFetcher, TResponse, TTransformedResponse> = {
-  fetcher: TFetcher;
-  transformResponse: TransformResponse<TResponse, TTransformedResponse>;
+type FetcherParams<THit> = {
+  searchClient: SearchClient;
+  queries: Array<FetcherParamsQuery<THit>>;
 };
 
-export type RequesterParams<TResponse, TTransformedResponse> = {
-  transformResponse: TransformResponse<TResponse, TTransformedResponse>;
+export type RequestParams<THit> = AlgoliaFetchParams & {
+  transformResponse: TransformResponse<
+    AlgoliaRequesterResponse<THit>,
+    AlgoliaRequesterTransformedResponse<THit>
+  >;
 };
 
-type Requester<TFetcher, TFetchParams, TResponse, TTransformedResponse> = (
-  params: RequesterParams<TResponse, TTransformedResponse>
-) => (
-  fetchParams: any
-) => Promise<Description<TFetcher, TResponse, TTransformedResponse>>;
+export type RequesterDescription<THit> = {
+  searchClient: SearchClient;
+  queries: MultipleQueriesQuery[];
+  transformResponse: TransformResponse<
+    AlgoliaRequesterResponse<THit>,
+    AlgoliaRequesterTransformedResponse<THit>
+  >;
+  fetcher: (
+    fetcherParams: FetcherParams<THit>
+  ) => Promise<
+    Array<{
+      items: AlgoliaRequesterTransformedResponse<THit>;
+      __autocomplete_sourceId: string;
+      __autocomplete_transformResponse: TransformResponse<
+        AlgoliaRequesterResponse<THit>,
+        AlgoliaRequesterTransformedResponse<THit>
+      >;
+    }>
+  >;
+};
 
-export function createRequester<
-  TFetcher,
-  TFetchParams,
-  TResponse,
-  TTransformedResponse
->(
-  fetcher: TFetcher
-): Requester<TFetcher, TFetchParams, TResponse, TTransformedResponse> {
-  const requesterFetcher = createFetcher<any, any, any, any>(fetcher);
-
-  return function requester(requesterParams) {
-    return function fetch(fetchParams) {
+export function createRequester(
+  fetcher: Fetcher<AlgoliaFetchParams, AlgoliaFetchResponse<{}>>
+) {
+  return function createSpecifiedRequester(
+    requesterParams: AlgoliaRequesterParams<{}>
+  ) {
+    return function requester<THit>(
+      requestParams: RequestParams<THit>
+    ): Promise<RequesterDescription<THit>> {
       return Promise.resolve({
-        fetcher: requesterFetcher,
+        fetcher: (fetcherParams: FetcherParams<THit>) => {
+          // console.log({
+          //   requesterParams,
+          //   requestParams,
+          //   // queries -> requests
+          //   fetcherParams,
+          // });
+
+          return fetcher({
+            ...fetcherParams,
+            queries: fetcherParams.queries.map((x) => x.query),
+          }).then((results) =>
+            results.map((result, index) => {
+              const {
+                __autocomplete_sourceId,
+                __autocomplete_transformResponse,
+              } = fetcherParams.queries[index];
+
+              return {
+                items: result,
+                __autocomplete_sourceId,
+                __autocomplete_transformResponse,
+              };
+            })
+          );
+        },
         ...requesterParams,
-        ...fetchParams,
+        ...requestParams,
       });
     };
   };
