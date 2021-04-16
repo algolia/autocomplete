@@ -10,7 +10,7 @@ import { h, Fragment } from 'preact';
 import '@algolia/autocomplete-theme-classic';
 
 import { createLocalStorageRecentlyViewedItems } from './recentlyViewedItemsPlugin';
-import { ProductItem, ProductHit } from './types/ProductHit';
+import { ProductHit } from './types';
 
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
@@ -21,7 +21,7 @@ const recentlyViewedItems = createLocalStorageRecentlyViewedItems({
   limit: 5,
 });
 
-autocomplete({
+autocomplete<ProductHit>({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
@@ -35,7 +35,7 @@ autocomplete({
       {
         sourceId: 'products',
         getItems() {
-          return getAlgoliaHits<ProductItem>({
+          return getAlgoliaHits<ProductHit>({
             searchClient,
             queries: [
               {
@@ -55,6 +55,8 @@ autocomplete({
             id: item.objectID,
             label: item.name,
             image: item.image,
+            url: item.url,
+            _highlightResult: item._highlightResult,
           });
         },
         templates: {

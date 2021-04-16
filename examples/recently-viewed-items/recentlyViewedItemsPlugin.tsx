@@ -1,36 +1,47 @@
 /** @jsx h */
-import { AutocompletePlugin } from '@algolia/autocomplete-js';
+import {
+  AutocompletePlugin,
+  AutocompleteSource,
+  AutocompleteState,
+} from '@algolia/autocomplete-js';
 import {
   createLocalStorageRecentSearchesPlugin,
   search,
+  SearchParams,
 } from '@algolia/autocomplete-plugin-recent-searches';
+import { MaybePromise } from '@algolia/autocomplete-shared';
 import { h, Fragment } from 'preact';
 
-type RecentlyViewedItem = {
+import { Highlighted } from './types';
+
+type RecentlyViewedRecord = {
   id: string;
   label: string;
+  url: string;
   image: string;
-  _highlightResult: {
-    label: {
-      value: string;
-    };
-  };
 };
 
-type CreateLocalStorageRecentlyViewedItemsParams<TItem> = {
+type CreateLocalStorageRecentlyViewedItemsParams<
+  TItem extends RecentlyViewedRecord
+> = {
   key: string;
   limit?: number;
-  search?(params: any): any[];
+  search?(params: SearchParams<TItem>): Array<Highlighted<TItem>>;
+  transformSource?(params: {
+    source: AutocompleteSource<TItem>;
+    state: AutocompleteState<TItem>;
+    onRemove(id: string): void;
+  }): AutocompleteSource<TItem>;
 };
 
-type RecentlyViewedItemsPluginData<TItem> = {
+type RecentlyViewedItemsPluginData<TItem extends RecentlyViewedRecord> = {
   addItem(item: TItem): void;
   removeItem(id: string): void;
-  getAll(query?: string): any[];
+  getAll(query?: string): MaybePromise<Array<Highlighted<TItem>>>;
 };
 
 export function createLocalStorageRecentlyViewedItems<
-  TItem extends RecentlyViewedItem
+  TItem extends RecentlyViewedRecord
 >(
   params: CreateLocalStorageRecentlyViewedItemsParams<TItem>
 ): AutocompletePlugin<TItem, RecentlyViewedItemsPluginData<TItem>> {
@@ -39,7 +50,7 @@ export function createLocalStorageRecentlyViewedItems<
     onSubmit,
     subscribe,
     ...plugin
-  } = createLocalStorageRecentSearchesPlugin({
+  } = createLocalStorageRecentSearchesPlugin<TItem>({
     ...params,
     search(params) {
       if (params.query) {
