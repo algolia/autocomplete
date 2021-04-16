@@ -14,6 +14,7 @@
     "/examples/query-suggestions",
     "/examples/react-renderer",
     "/examples/recently-viewed-items",
+    "/examples/starter-algolia",
     "/examples/starter"
   ],
   "node": "14"
