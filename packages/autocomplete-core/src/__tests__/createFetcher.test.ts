@@ -2,7 +2,7 @@ import {
   createMultiSearchResponse,
   createSearchClient,
 } from '../../../../test/utils';
-import { getAlgoliaHits } from '../../../autocomplete-preset-algolia/src/search/getAlgoliaHits';
+import { fetchAlgoliaResults } from '../../../autocomplete-preset-algolia';
 import { createFetcher } from '../createFetcher';
 
 function createTestSearchClient() {
@@ -19,13 +19,11 @@ function createTestSearchClient() {
 }
 
 describe('createFetcher', () => {
-  test('uses the passed `request` function to fetch data', async () => {
+  test('remaps queries and returns fetched data along with metadata', async () => {
     const searchClient = createTestSearchClient();
-    const fetchAlgoliaHits = createFetcher({
-      request: getAlgoliaHits,
-    });
+    const fetchFn = createFetcher(fetchAlgoliaResults);
 
-    const results = await fetchAlgoliaHits({
+    const results = await fetchFn({
       searchClient,
       queries: [
         {
@@ -33,12 +31,16 @@ describe('createFetcher', () => {
             indexName: 'indexName',
             query: 'query',
           },
+          __autocomplete_sourceId: 'source1',
+          __autocomplete_transformResponse: (response) => response,
         },
         {
           query: {
             indexName: 'indexName2',
             query: 'query',
           },
+          __autocomplete_sourceId: 'source2',
+          __autocomplete_transformResponse: (response) => response,
         },
       ],
     });
@@ -54,65 +56,20 @@ describe('createFetcher', () => {
       }),
     ]);
     expect(results).toEqual([
-      [{ objectID: '1', label: 'Hit 1' }],
-      [{ objectID: '2', label: 'Hit 2' }],
-    ]);
-  });
-  test('uses the passed `transform` function to transform the retrieved results', async () => {
-    const searchClient = createTestSearchClient();
-    const fetchAlgoliaHits = createFetcher({
-      request: getAlgoliaHits,
-      mapToItems: (collections, initialQueries) => {
-        return collections.map((hits, index) => {
-          const { __autocomplete_sourceId } = initialQueries[index];
-
-          return {
-            hits,
-            __autocomplete_sourceId,
-          };
-        });
-      },
-    });
-
-    const results = await fetchAlgoliaHits({
-      searchClient,
-      queries: [
-        {
-          query: {
-            indexName: 'indexName',
-            query: 'query',
-          },
-          __autocomplete_sourceId: 'products',
-        },
-        {
-          query: {
-            indexName: 'indexName2',
-            query: 'query',
-          },
-          __autocomplete_sourceId: 'suggestions',
-        },
-      ],
-    });
-
-    expect(searchClient.search).toHaveBeenNthCalledWith(1, [
       expect.objectContaining({
-        indexName: 'indexName',
-        query: 'query',
+        items: expect.objectContaining({
+          hits: expect.arrayContaining([{ objectID: '1', label: 'Hit 1' }]),
+        }),
+        __autocomplete_sourceId: 'source1',
+        __autocomplete_transformResponse: expect.any(Function),
       }),
       expect.objectContaining({
-        indexName: 'indexName2',
-        query: 'query',
+        items: expect.objectContaining({
+          hits: expect.arrayContaining([{ objectID: '2', label: 'Hit 2' }]),
+        }),
+        __autocomplete_sourceId: 'source2',
+        __autocomplete_transformResponse: expect.any(Function),
       }),
-    ]);
-    expect(results).toEqual([
-      {
-        hits: [{ objectID: '1', label: 'Hit 1' }],
-        __autocomplete_sourceId: 'products',
-      },
-      {
-        hits: [{ objectID: '2', label: 'Hit 2' }],
-        __autocomplete_sourceId: 'suggestions',
-      },
     ]);
   });
 });
