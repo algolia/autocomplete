@@ -28,6 +28,7 @@ const voiceSearchPlugin = createVoiceSearchPlugin();
 autocomplete<AutocompleteItem>({
   container: '#autocomplete',
   placeholder: 'Search',
+  detachedMediaQuery: 'none',
   plugins: [voiceSearchPlugin],
   getSources({ query }) {
     return [
