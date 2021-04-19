@@ -25,7 +25,7 @@ export interface AutocompleteComponents extends PublicAutocompleteComponents {
    */
   ReverseSnippet: AutocompleteHighlightComponent;
   /**
-   * Snippet matches in an Algolia hit.
+   * Highlight and snippet matches in an Algolia hit.
    */
   Snippet: AutocompleteHighlightComponent;
 }

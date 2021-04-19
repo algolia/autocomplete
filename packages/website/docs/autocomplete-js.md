@@ -172,7 +172,7 @@ autocomplete({
 Four components are registered by default:
 
 - `Highlight` to highlight matches in an Algolia hit
-- `Snippet` to snippet matches in an Algolia hit
+- `Snippet` to highlight and snippet matches in an Algolia hit
 - `ReverseHighlight` to reverse-highlight matches in an Algolia hit
 - `ReverseSnippet` to reverse-highlight and snippet matches in an Algolia hit
 
