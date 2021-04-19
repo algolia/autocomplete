@@ -12,8 +12,20 @@ export type PublicAutocompleteComponents = Record<
 >;
 
 export interface AutocompleteComponents extends PublicAutocompleteComponents {
+  /**
+   * Highlight matches in an Algolia hit.
+   */
   Highlight: AutocompleteHighlightComponent;
+  /**
+   * Reverse-highlight matches in an Algolia hit.
+   */
   ReverseHighlight: AutocompleteHighlightComponent;
+  /**
+   * Reverse-highlight and snippets matches in an Algolia hit.
+   */
   ReverseSnippet: AutocompleteHighlightComponent;
+  /**
+   * Snippet matches in an Algolia hit.
+   */
   Snippet: AutocompleteHighlightComponent;
 }
