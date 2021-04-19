@@ -1,11 +1,11 @@
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 
-import { autocomplete } from '../autocomplete';
-import { getAlgoliaResults, getAlgoliaFacets } from '../requesters';
 import {
   createMultiSearchResponse,
   createSearchClient,
 } from '../../../../test/utils';
+import { autocomplete } from '../autocomplete';
+import { getAlgoliaResults, getAlgoliaFacets } from '../requesters';
 
 describe('requester', () => {
   beforeEach(() => {
@@ -523,7 +523,7 @@ describe('requester', () => {
                     },
                   },
                 ],
-                transformResponse({ results, hits, facetHits }) {
+                transformResponse({ results, facetHits }) {
                   return facetHits.map((hit) => ({
                     ...hit,
                     results,
