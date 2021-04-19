@@ -23,7 +23,7 @@ type AutocompleteItem = Hit<{
   url: string;
 }>;
 
-const voiceSearchPlugin = createVoiceSearchPlugin({});
+const voiceSearchPlugin = createVoiceSearchPlugin();
 
 autocomplete<AutocompleteItem>({
   container: '#autocomplete',
