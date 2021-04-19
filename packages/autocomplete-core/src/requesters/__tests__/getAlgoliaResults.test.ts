@@ -2,7 +2,6 @@ import {
   createMultiSearchResponse,
   createSearchClient,
 } from '../../../../../test/utils';
-import { fetchAlgoliaResults } from '../../fetchers/fetchAlgoliaResults';
 import { getAlgoliaResults } from '../getAlgoliaResults';
 
 function createTestSearchClient() {
@@ -36,7 +35,8 @@ describe('getAlgoliaResults', () => {
     });
 
     expect(description).toEqual({
-      fetcher: fetchAlgoliaResults,
+      fetcher: expect.any(Function),
+      transformResponse: expect.any(Function),
       searchClient,
       queries: [
         {
