@@ -1,0 +1,27 @@
+{
+  "name": "@algolia/autocomplete-example-voice-search",
+  "description": "Autocomplete example with Voice Search",
+  "version": "1.0.0-alpha.45",
+  "private": true,
+  "license": "MIT",
+  "main": "index.html",
+  "scripts": {
+    "build": "parcel build index.html",
+    "start": "parcel index.html"
+  },
+  "dependencies": {
+    "@algolia/autocomplete-js": "1.0.0-alpha.45",
+    "@algolia/autocomplete-theme-classic": "1.0.0-alpha.45",
+    "algoliasearch": "4.8.6",
+    "preact": "10.5.13"
+  },
+  "devDependencies": {
+    "@algolia/client-search": "4.8.6",
+    "parcel": "2.0.0-beta.2"
+  },
+  "keywords": [
+    "algolia",
+    "autocomplete",
+    "javascript"
+  ]
+}
