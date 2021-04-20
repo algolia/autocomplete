@@ -95,7 +95,7 @@ export function onInput<TItem extends BaseItem>({
               ...setters,
             })
           ).then((itemsOrDescription) => {
-            if (isRequesterDescription(itemsOrDescription)) {
+            if (isRequesterDescription<TItem>(itemsOrDescription)) {
               return {
                 ...itemsOrDescription,
                 queries: itemsOrDescription.queries.map((query) => ({
@@ -110,7 +110,9 @@ export function onInput<TItem extends BaseItem>({
             return {
               items: itemsOrDescription,
               __autocomplete_sourceId: source.sourceId,
-              __autocomplete_transformResponse: (x) => x.results,
+              __autocomplete_transformResponse: (x: {
+                results: TItem[] | TItem[][];
+              }) => x.results,
             };
           });
         })

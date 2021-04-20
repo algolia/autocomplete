@@ -1,11 +1,12 @@
-import { RequesterDescription } from '../types/RequesterDescription';
+import { RequesterDescription } from '../createRequester';
+import { BaseItem } from '../types';
 
-export function isRequesterDescription(
-  description: any
-): description is RequesterDescription<any, any> {
-  return Boolean(description.fetcher);
+export function isRequesterDescription<TItem extends BaseItem>(
+  description: TItem[] | TItem[][] | RequesterDescription<TItem>
+): description is RequesterDescription<TItem> {
+  return Boolean((description as RequesterDescription<TItem>).fetcher);
 }
 
-export function assertIsRequesterDescription(
-  _description: any
-): asserts _description is RequesterDescription<any, any> {}
+export function assertIsRequesterDescription<TItem extends BaseItem>(
+  _description: TItem[] | TItem[][] | RequesterDescription<TItem>
+): asserts _description is RequesterDescription<TItem> {}

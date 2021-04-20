@@ -1,11 +1,6 @@
 import type { SearchClient } from 'algoliasearch/lite';
 
-import {
-  RequesterDescription,
-  RequestParams,
-  Fetcher,
-} from './createRequester';
-import { AlgoliaRequesterTransformedResponse } from './requesters';
+import { RequesterDescription, RequestParams } from './createRequester';
 
 type FetcherDescriptionAlgolia<THit> = RequestParams<THit> & {
   fetcher: Fetcher<never, never>;

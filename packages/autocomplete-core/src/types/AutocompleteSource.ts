@@ -1,9 +1,10 @@
 import { MaybePromise } from '@algolia/autocomplete-shared';
 
+import { RequesterDescription } from '../createRequester';
+
 import { AutocompleteScopeApi, BaseItem } from './AutocompleteApi';
 import { GetSourcesParams } from './AutocompleteOptions';
 import { AutocompleteState } from './AutocompleteState';
-import { RequesterDescription } from './RequesterDescription';
 
 export interface OnSelectParams<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
@@ -55,7 +56,7 @@ export interface AutocompleteSource<TItem extends BaseItem> {
    */
   getItems(
     params: GetSourcesParams<TItem>
-  ): MaybePromise<TItem[] | TItem[][] | RequesterDescription<any, any>>;
+  ): MaybePromise<TItem[] | TItem[][] | RequesterDescription<TItem>>;
   /**
    * The function called whenever an item is selected.
    */
