@@ -28,7 +28,6 @@ export function createVoiceSearchPlugin({
 
         const voiceSearch = createVoiceSearch({
           language,
-          searchAsYouSpeak: false,
           onTranscript(transcript) {
             setQuery(transcript);
             setIsOpen(true);

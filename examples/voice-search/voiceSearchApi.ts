@@ -10,11 +10,10 @@ type VoiceSearchState = {
   status: VoiceSearchStatus;
   transcript: string;
   isSpeechFinal: boolean;
-  errorCode?: string;
+  errorCode: string | null;
 };
 
 type CreateVoiceSearchParams = {
-  searchAsYouSpeak: boolean;
   language?: string;
   onStateChange(state: VoiceSearchState): void;
   onTranscript(transcript: string): void;
@@ -31,13 +30,12 @@ function createState(state: Partial<VoiceSearchState>): VoiceSearchState {
     status: 'initial',
     transcript: '',
     isSpeechFinal: false,
-    errorCode: undefined,
+    errorCode: null,
     ...state,
   };
 }
 
 export function createVoiceSearch({
-  searchAsYouSpeak,
   language,
   onTranscript,
   onStateChange,
@@ -75,13 +73,10 @@ export function createVoiceSearch({
         '',
       isSpeechFinal: event.results[0] && event.results[0].isFinal,
     });
-    if (searchAsYouSpeak && state.transcript) {
-      onTranscript(state.transcript);
-    }
   }
 
   function onEnd() {
-    if (!state.errorCode && state.transcript && !searchAsYouSpeak) {
+    if (!state.errorCode && state.transcript) {
       onTranscript(state.transcript);
     }
 
