@@ -19,7 +19,6 @@ type CreateVoiceSearchParams = {
 
 type VoiceSearchApi = {
   isBrowserSupported(): boolean;
-  getState(): VoiceSearchState;
   start(): void;
   stop(): void;
 };
@@ -46,10 +45,6 @@ export function createVoiceSearch({
 
   function isBrowserSupported() {
     return Boolean(SpeechRecognitionAPI);
-  }
-
-  function getState() {
-    return state;
   }
 
   function setState(newState: Partial<VoiceSearchState>) {
@@ -121,7 +116,6 @@ export function createVoiceSearch({
 
   return {
     isBrowserSupported,
-    getState,
     start,
     stop,
   };
