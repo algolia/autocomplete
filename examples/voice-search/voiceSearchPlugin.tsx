@@ -41,7 +41,7 @@ export function createVoiceSearchPlugin({
             refresh();
           },
           onStateChange(state) {
-            if (state.status === 'finished' || state.status === 'error') {
+            if (state.status === 'INITIAL') {
               document.body.removeChild(voiceSearchOverlayContainer);
               requestAnimationFrame(() => {
                 input.focus();
@@ -51,7 +51,7 @@ export function createVoiceSearchPlugin({
                 <VoiceSearchOverlay
                   status={state.status}
                   transcript={state.transcript}
-                  onCancel={voiceSearch.stopListening}
+                  onCancel={voiceSearch.stop}
                 />,
                 voiceSearchOverlayContainer
               );
@@ -62,14 +62,13 @@ export function createVoiceSearchPlugin({
         if (!voiceSearch.isBrowserSupported()) {
           return;
         }
-
         const voiceSearchContainer = document.createElement('div');
         voiceSearchContainer.classList.add('aa-VoiceSearch');
 
         render(
           <VoiceSearchButton
             onClick={() => {
-              voiceSearch.startListening();
+              voiceSearch.start();
               document.body.appendChild(voiceSearchOverlayContainer);
             }}
           />,
@@ -86,7 +85,7 @@ export function createVoiceSearchPlugin({
             return;
           }
 
-          voiceSearch.stopListening();
+          voiceSearch.stop();
         });
       });
     },
@@ -125,12 +124,14 @@ function VoiceSearchIcon(props: h.JSX.SVGAttributes<SVGSVGElement>) {
 
 function getStatusText(status: VoiceSearchStatus) {
   switch (status) {
-    case 'waiting':
+    case 'LISTENING':
       return 'Listening...';
-    case 'recognizing':
+    case 'RECOGNIZING':
       return 'Recognizing...';
-    case 'askingPermission':
+    case 'REQUESTING_PERMISSION':
       return 'Asking permission...';
+    case 'ERROR':
+      return 'Microphone access is blocked.';
     default:
       return status;
   }

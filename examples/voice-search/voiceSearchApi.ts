@@ -1,16 +1,14 @@
 export type VoiceSearchStatus =
-  | 'initial'
-  | 'askingPermission'
-  | 'waiting'
-  | 'recognizing'
-  | 'finished'
-  | 'error';
+  | 'INITIAL'
+  | 'REQUESTING_PERMISSION'
+  | 'LISTENING'
+  | 'RECOGNIZING'
+  | 'ERROR';
 
 type VoiceSearchState = {
   status: VoiceSearchStatus;
   transcript: string;
-  isSpeechFinal: boolean;
-  errorCode: string | null;
+  errorCode: SpeechRecognitionErrorCode | null;
 };
 
 type CreateVoiceSearchParams = {
@@ -21,15 +19,15 @@ type CreateVoiceSearchParams = {
 
 type VoiceSearchApi = {
   isBrowserSupported(): boolean;
-  startListening(): void;
-  stopListening(): void;
+  getState(): VoiceSearchState;
+  start(): void;
+  stop(): void;
 };
 
 function createState(state: Partial<VoiceSearchState>): VoiceSearchState {
   return {
-    status: 'initial',
+    status: 'INITIAL',
     transcript: '',
-    isSpeechFinal: false,
     errorCode: null,
     ...state,
   };
@@ -50,28 +48,31 @@ export function createVoiceSearch({
     return Boolean(SpeechRecognitionAPI);
   }
 
+  function getState() {
+    return state;
+  }
+
   function setState(newState: Partial<VoiceSearchState>) {
     state = { ...state, ...newState };
     onStateChange(state);
   }
 
   function onStart() {
-    setState({ status: 'waiting' });
+    setState({ status: 'LISTENING' });
   }
 
   function onError(event: SpeechRecognitionErrorEvent) {
-    setState({ status: 'error', errorCode: event.error });
+    setState({ status: 'ERROR', errorCode: event.error });
   }
 
   function onResult(event: SpeechRecognitionEvent) {
     setState({
-      status: 'recognizing',
+      status: 'RECOGNIZING',
       transcript:
         (event.results[0] &&
           event.results[0][0] &&
           event.results[0][0].transcript) ||
         '',
-      isSpeechFinal: event.results[0] && event.results[0].isFinal,
     });
   }
 
@@ -80,18 +81,18 @@ export function createVoiceSearch({
       onTranscript(state.transcript);
     }
 
-    if (state.status !== 'error') {
-      setState({ status: 'finished' });
+    if (state.status !== 'ERROR') {
+      setState(createState({ status: 'INITIAL' }));
     }
   }
 
-  function startListening() {
+  function start() {
     recognition = new SpeechRecognitionAPI();
     if (!recognition) {
       return;
     }
 
-    setState(createState({ status: 'askingPermission' }));
+    setState(createState({ status: 'REQUESTING_PERMISSION' }));
     recognition.interimResults = true;
     if (language) {
       recognition.lang = language;
@@ -103,7 +104,7 @@ export function createVoiceSearch({
     recognition.start();
   }
 
-  function stopListening() {
+  function stop() {
     if (!recognition) {
       return;
     }
@@ -115,15 +116,13 @@ export function createVoiceSearch({
     recognition.removeEventListener('end', onEnd);
     recognition = undefined;
 
-    // Because `destroy` removes event listeners, `end` listener is not called.
-    // So we're setting the `status` as `finished` here.
-    // If we don't do it, it will be still `waiting` or `recognizing`.
-    setState(createState({ status: 'finished' }));
+    setState(createState({ status: 'INITIAL' }));
   }
 
   return {
     isBrowserSupported,
-    startListening,
-    stopListening,
+    getState,
+    start,
+    stop,
   };
 }
