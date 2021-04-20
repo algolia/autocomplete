@@ -16,8 +16,8 @@ type VoiceSearchState = {
 type CreateVoiceSearchParams = {
   searchAsYouSpeak: boolean;
   language?: string;
-  onQueryChange(query: string): void;
   onStateChange(state: VoiceSearchState): void;
+  onTranscript(transcript: string): void;
 };
 
 type VoiceSearchApi = {
@@ -40,7 +40,7 @@ function createState(state: Partial<VoiceSearchState>): VoiceSearchState {
 export function createVoiceSearch({
   searchAsYouSpeak,
   language,
-  onQueryChange,
+  onTranscript,
   onStateChange,
 }: CreateVoiceSearchParams): VoiceSearchApi {
   const SpeechRecognitionAPI: new () => SpeechRecognition =
@@ -53,7 +53,7 @@ export function createVoiceSearch({
     return Boolean(SpeechRecognitionAPI);
   }
 
-  function setState(newState: Partial<VoiceSearchState> = {}) {
+  function setState(newState: Partial<VoiceSearchState>) {
     state = { ...state, ...newState };
     onStateChange(state);
   }
@@ -77,13 +77,13 @@ export function createVoiceSearch({
       isSpeechFinal: event.results[0] && event.results[0].isFinal,
     });
     if (searchAsYouSpeak && state.transcript) {
-      onQueryChange(state.transcript);
+      onTranscript(state.transcript);
     }
   }
 
   function onEnd() {
     if (!state.errorCode && state.transcript && !searchAsYouSpeak) {
-      onQueryChange(state.transcript);
+      onTranscript(state.transcript);
     }
 
     if (state.status !== 'error') {
@@ -97,7 +97,7 @@ export function createVoiceSearch({
       return;
     }
 
-    setState(createState({ status: 'askingPermission' }));
+    setState({ status: 'askingPermission' });
     recognition.interimResults = true;
     if (language) {
       recognition.lang = language;
@@ -127,7 +127,7 @@ export function createVoiceSearch({
     // Because `destroy` removes event listeners, `end` listener is not called.
     // So we're setting the `status` as `finished` here.
     // If we don't do it, it will be still `waiting` or `recognizing`.
-    setState(createState({ status: 'finished' }));
+    setState({ status: 'finished' });
   }
 
   return {

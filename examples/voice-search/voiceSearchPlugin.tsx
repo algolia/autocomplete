@@ -18,11 +18,12 @@ export function createVoiceSearchPlugin(): AutocompletePlugin<any, undefined> {
 
         const input = document.querySelector<HTMLInputElement>('.aa-Input');
         const voiceSearchOverlayContainer = document.createElement('div');
+        voiceSearchOverlayContainer.classList.add('aa-VoiceSearchOverlay');
 
         const voiceSearch = createVoiceSearch({
           searchAsYouSpeak: false,
-          onQueryChange(query) {
-            setQuery(query);
+          onTranscript(transcript) {
+            setQuery(transcript);
             setIsOpen(true);
             refresh();
             requestAnimationFrame(() => {
@@ -50,21 +51,18 @@ export function createVoiceSearchPlugin(): AutocompletePlugin<any, undefined> {
 
         const voiceSearchContainer = document.createElement('div');
         voiceSearchContainer.classList.add('aa-VoiceSearch');
-        const voiceSearchButton = document.createElement('button');
-        voiceSearchButton.setAttribute('title', 'Voice Search');
-        voiceSearchButton.classList.add('aa-VoiceSearchButton');
 
-        render(<VoiceSearchIcon />, voiceSearchButton);
-        voiceSearchContainer.appendChild(voiceSearchButton);
+        render(
+          <VoiceSearchButton
+            onClick={() => {
+              voiceSearch.startListening();
+              document.body.appendChild(voiceSearchOverlayContainer);
+            }}
+          />,
+          voiceSearchContainer
+        );
+
         inputWrapperSuffix.appendChild(voiceSearchContainer);
-
-        voiceSearchOverlayContainer.classList.add('aa-VoiceSearchOverlay');
-
-        voiceSearchButton.addEventListener('click', (event) => {
-          event.preventDefault();
-          voiceSearch.startListening();
-          document.body.appendChild(voiceSearchOverlayContainer);
-        });
       });
     },
     getSources() {
@@ -73,9 +71,24 @@ export function createVoiceSearchPlugin(): AutocompletePlugin<any, undefined> {
   };
 }
 
-function VoiceSearchIcon() {
+function VoiceSearchButton({ onClick }) {
   return (
-    <svg fill="currentColor" viewBox="0 0 24 24">
+    <button
+      className="aa-VoiceSearchButton"
+      title="Voice Search"
+      onClick={(event) => {
+        event.preventDefault();
+        onClick();
+      }}
+    >
+      <VoiceSearchIcon />
+    </button>
+  );
+}
+
+function VoiceSearchIcon(props: h.JSX.SVGAttributes<SVGSVGElement>) {
+  return (
+    <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
