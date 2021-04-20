@@ -39,7 +39,6 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 autocomplete<ProductHit>({
   container: '#autocomplete',
   placeholder: 'Search',
-  debug: true,
   openOnFocus: true,
   plugins: [algoliaInsightsPlugin, querySuggestionsPlugin],
   getSources({ query, state }) {
@@ -103,7 +102,7 @@ type ProductItemProps = {
 
 function ProductItem({ hit, insights, components }: ProductItemProps) {
   return (
-    <div className="aa-ItemWrapper">
+    <a href={hit.url} className="aa-ItemLink">
       <div className="aa-ItemContent">
         <div className="aa-ItemIcon aa-ItemIcon--picture aa-ItemIcon--alignTop">
           <img src={hit.image} alt={hit.name} width="40" height="40" />
@@ -177,6 +176,6 @@ function ProductItem({ hit, insights, components }: ProductItemProps) {
           </svg>
         </button>
       </div>
-    </div>
+    </a>
   );
 }

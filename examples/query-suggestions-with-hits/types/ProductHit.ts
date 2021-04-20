@@ -8,6 +8,7 @@ type ProductRecord = {
   name: string;
   price: number;
   rating: number;
+  url: string;
 };
 
 type WithAutocompleteAnalytics<THit> = THit & {
