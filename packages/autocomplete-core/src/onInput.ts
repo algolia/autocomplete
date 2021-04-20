@@ -120,13 +120,11 @@ export function onInput<TItem extends BaseItem>({
             const matches = flattenedResponse.filter(
               (response) => response.__autocomplete_sourceId === source.sourceId
             );
-            const __autocomplete_transformResponse = matches[0]
-              .__autocomplete_transformResponse!;
+            const transform = matches[0].__autocomplete_transformResponse!;
             const results = matches.map(({ items }) => items);
+
             const items = areSearchResponses<TItem>(results)
-              ? __autocomplete_transformResponse(
-                  mapToAlgoliaResponse<TItem>(results)
-                )
+              ? transform(mapToAlgoliaResponse<TItem>(results))
               : results;
 
             invariant(
@@ -221,10 +219,12 @@ function preresolve<TItem extends BaseItem>(
 }
 
 function areSearchResponses<THit extends BaseItem>(
-  responses:
+  responses: (
     | THit[]
     | THit[][]
-    | Array<SearchResponse<THit> | SearchForFacetValuesResponse>
+    | SearchForFacetValuesResponse
+    | SearchResponse<THit>
+  )[]
 ): responses is Array<SearchResponse<THit> | SearchForFacetValuesResponse> {
   return (responses as Array<
     SearchResponse<THit> | SearchForFacetValuesResponse

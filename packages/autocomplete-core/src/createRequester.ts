@@ -9,6 +9,16 @@ import { SearchClient } from 'algoliasearch/lite';
 
 type Fetcher = typeof fetchAlgoliaResults;
 
+type FacetHit = {
+  label: string;
+  count: number;
+  _highlightResult: {
+    label: {
+      value: string;
+    };
+  };
+};
+
 export type FetcherParams = Pick<
   Parameters<Fetcher>[0],
   'searchClient' | 'queries'
@@ -21,14 +31,14 @@ type RequesterParams<THit> = {
 };
 
 type TransformResponseParams<THit> = {
-  results: Array<SearchResponse<THit>>;
+  results: Array<SearchResponse<THit> | SearchForFacetValuesResponse>;
   hits: Array<SearchResponse<THit>['hits']>;
-  facetHits: Array<SearchForFacetValuesResponse['facetHits']>;
+  facetHits: Array<FacetHit[]>;
 };
 
 type TransformedRequesterResponse<THit> =
   | Array<SearchResponse<THit>['hits']>
-  | Array<SearchForFacetValuesResponse['facetHits']>;
+  | Array<FacetHit[]>;
 
 export type TransformResponse<THit> = (
   response: TransformResponseParams<THit>
