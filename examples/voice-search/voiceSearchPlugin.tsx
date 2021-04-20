@@ -4,7 +4,13 @@ import { h, render } from 'preact';
 
 import { createVoiceSearch, VoiceSearchStatus } from './voiceSearchApi';
 
-export function createVoiceSearchPlugin(): AutocompletePlugin<any, undefined> {
+type CreateVoiceSearchPluginParams = {
+  language?: string;
+};
+
+export function createVoiceSearchPlugin({
+  language,
+}: CreateVoiceSearchPluginParams): AutocompletePlugin<any, undefined> {
   return {
     subscribe({ setQuery, setIsOpen, refresh }) {
       requestAnimationFrame(() => {
@@ -21,6 +27,7 @@ export function createVoiceSearchPlugin(): AutocompletePlugin<any, undefined> {
         voiceSearchOverlayContainer.classList.add('aa-VoiceSearchOverlay');
 
         const voiceSearch = createVoiceSearch({
+          language,
           searchAsYouSpeak: false,
           onTranscript(transcript) {
             setQuery(transcript);
