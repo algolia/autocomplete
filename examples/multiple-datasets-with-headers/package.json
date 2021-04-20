@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "index.html",
   "scripts": {
-    "build": "parcel build index.html",
+    "build": "parcel build index.html --dist-dir ./dist",
     "start": "parcel index.html"
   },
   "dependencies": {
