@@ -71,8 +71,17 @@ body {
 
 .aa-VoiceSearchWrapper {
   align-items: center;
+  color: rgba(var(--aa-muted-color-rgb), 1);
   display: flex;
   justify-content: space-between;
-  max-width: 300px;
+  max-width: 480px;
   width: 100%;
+}
+
+.aa-VoiceSearchListeningButton {
+  background: none;
+  border: 1px solid rgba(var(--aa-muted-color-rgb), 0.5);
+  border-radius: 50%;
+  color: red;
+  padding: 2rem;
 }

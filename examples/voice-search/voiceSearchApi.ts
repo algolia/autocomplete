@@ -24,7 +24,6 @@ type VoiceSearchApi = {
   isBrowserSupported(): boolean;
   startListening(): void;
   stopListening(): void;
-  destroy(): void;
 };
 
 function createState(state: Partial<VoiceSearchState>): VoiceSearchState {
@@ -97,7 +96,7 @@ export function createVoiceSearch({
       return;
     }
 
-    setState({ status: 'askingPermission' });
+    setState(createState({ status: 'askingPermission' }));
     recognition.interimResults = true;
     if (language) {
       recognition.lang = language;
@@ -109,7 +108,7 @@ export function createVoiceSearch({
     recognition.start();
   }
 
-  function destroy() {
+  function stopListening() {
     if (!recognition) {
       return;
     }
@@ -120,20 +119,16 @@ export function createVoiceSearch({
     recognition.removeEventListener('result', onResult);
     recognition.removeEventListener('end', onEnd);
     recognition = undefined;
-  }
 
-  function stopListening() {
-    destroy();
     // Because `destroy` removes event listeners, `end` listener is not called.
     // So we're setting the `status` as `finished` here.
     // If we don't do it, it will be still `waiting` or `recognizing`.
-    setState({ status: 'finished' });
+    setState(createState({ status: 'finished' }));
   }
 
   return {
     isBrowserSupported,
     startListening,
     stopListening,
-    destroy,
   };
 }
