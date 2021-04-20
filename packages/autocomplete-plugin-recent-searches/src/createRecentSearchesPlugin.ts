@@ -1,9 +1,9 @@
+import { PluginSubscribeParams } from '@algolia/autocomplete-core';
 import {
-  AutocompletePlugin,
+  AutocompleteSource,
   AutocompleteState,
-  PluginSubscribeParams,
-} from '@algolia/autocomplete-core';
-import { AutocompleteSource } from '@algolia/autocomplete-js';
+  AutocompletePlugin,
+} from '@algolia/autocomplete-js';
 import { createRef, MaybePromise, warn } from '@algolia/autocomplete-shared';
 import { SearchOptions } from '@algolia/client-search';
 
@@ -122,7 +122,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
             },
             onRemove,
             onTapAhead,
-            state,
+            state: state as AutocompleteState<TItem>,
           }),
         ];
       });

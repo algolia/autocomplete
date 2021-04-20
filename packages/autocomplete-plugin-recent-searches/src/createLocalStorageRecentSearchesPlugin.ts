@@ -1,4 +1,4 @@
-import { AutocompletePlugin } from '@algolia/autocomplete-core';
+import { AutocompletePlugin } from '@algolia/autocomplete-js';
 
 import { LOCAL_STORAGE_KEY } from './constants';
 import { createLocalStorage } from './createLocalStorage';

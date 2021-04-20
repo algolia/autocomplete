@@ -2,7 +2,12 @@ import { autocomplete } from '@algolia/autocomplete-js';
 
 import '@algolia/autocomplete-theme-classic';
 
-autocomplete({
+type AutocompleteItem = {
+  label: string;
+  url: string;
+};
+
+autocomplete<AutocompleteItem>({
   container: '#autocomplete',
   getSources() {
     return [

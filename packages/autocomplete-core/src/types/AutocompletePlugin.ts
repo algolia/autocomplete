@@ -14,17 +14,15 @@ export type AutocompletePlugin<
   TItem extends BaseItem,
   TData = unknown
 > = Partial<
-  Pick<
-    AutocompleteOptions<TItem>,
-    'onStateChange' | 'onSubmit' | 'onReset' | 'getSources'
-  >
+  Pick<AutocompleteOptions<any>, 'onStateChange' | 'onSubmit' | 'onReset'> &
+    Pick<AutocompleteOptions<TItem>, 'getSources'>
 > & {
   /**
    * The function called when Autocomplete starts.
    *
    * It lets you subscribe to lifecycle hooks and interact with the instance's state and context.
    */
-  subscribe?(params: PluginSubscribeParams<TItem>): void;
+  subscribe?(params: PluginSubscribeParams<any>): void;
   /**
    * An extra plugin object to expose properties and functions as APIs.
    */
