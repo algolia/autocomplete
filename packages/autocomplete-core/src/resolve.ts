@@ -1,108 +1,92 @@
 import type { SearchClient } from 'algoliasearch/lite';
 
-import { RequesterDescription, RequestParams } from './createRequester';
+import { InternalFetcher, InternalFetcherResponse } from './createRequester';
+import {
+  RequestDescriptionPreResolved,
+  RequestDescriptionPreResolvedCustom,
+} from './onInput';
+import { BaseItem } from './types';
 
-type FetcherDescriptionAlgolia<THit> = RequestParams<THit> & {
-  fetcher: Fetcher<never, never>;
-};
+function isDescription<TItem extends BaseItem>(
+  item:
+    | RequestDescriptionPreResolved<TItem>
+    | RequestDescriptionPreResolvedCustom<TItem>
+    | PackedDescription<TItem>
+): item is RequestDescriptionPreResolved<TItem> {
+  return Boolean((item as RequestDescriptionPreResolved<TItem>).fetcher);
+}
 
-type FetchDescriptionCustom<TItem> = {
-  items: TItem[];
-  __autocomplete_sourceId: string;
-  __autocomplete_transformResponse: (response: any) => any[];
-};
-
-type PackedDescription<TItem> = {
-  fetcher: Fetcher<never, never>;
+type PackedDescription<TItem extends BaseItem> = {
   searchClient: SearchClient;
-  items: TItem[];
+  fetcher: InternalFetcher<TItem>;
+  items: RequestDescriptionPreResolved<TItem>['queries'];
 };
 
-function isFetcherDescription<THit>(
-  description: any
-): description is FetcherDescriptionAlgolia<THit> {
-  return Boolean(description.fetcher);
-}
-
-function assertIsFetcherDescription<THit>(
-  _description: any
-): asserts _description is FetcherDescriptionAlgolia<THit> {}
-
-function isRequesterDescription(
-  description: any
-): description is RequesterDescription<any> {
-  return Boolean(description.fetcher);
-}
-
-function assertIsRequesterDescription(
-  _description: any
-): asserts _description is RequesterDescription<any> {}
-
-function pack<TItem>(
-  items: Array<FetcherDescriptionAlgolia<TItem> | FetchDescriptionCustom<TItem>>
+export function resolve<TItem extends BaseItem>(
+  items: Array<
+    | RequestDescriptionPreResolved<TItem>
+    | RequestDescriptionPreResolvedCustom<TItem>
+  >
 ) {
-  return items.reduce<
-    Array<PackedDescription<TItem> | FetchDescriptionCustom<TItem>>
+  const packed = items.reduce<
+    Array<RequestDescriptionPreResolvedCustom<TItem> | PackedDescription<TItem>>
   >((acc, current) => {
-    if (!isRequesterDescription(current)) {
+    if (!isDescription(current)) {
       acc.push(current);
       return acc;
     }
 
-    assertIsRequesterDescription(current);
-
     const { searchClient, fetcher, queries } = current;
 
-    const index = acc.findIndex((item) => {
-      return (
-        isFetcherDescription(current) &&
-        isFetcherDescription(item) &&
-        item.searchClient === searchClient &&
-        item.fetcher === fetcher
-      );
-    });
+    const container = acc.find<PackedDescription<TItem>>(
+      (item): item is PackedDescription<TItem> => {
+        return (
+          isDescription(current) &&
+          isDescription(item) &&
+          item.searchClient === searchClient &&
+          item.fetcher === fetcher
+        );
+      }
+    );
 
-    const container = acc[index];
-    assertIsFetcherDescription(container);
-
-    if (index > -1) {
+    if (container) {
       container.items.push(...queries);
     } else {
-      acc.push({
+      const request: PackedDescription<TItem> = {
         searchClient,
         fetcher,
-        items: searchClient ? queries : [current],
-      });
+        items: queries,
+        // items: searchClient ? queries : [current],
+      };
+      acc.push(request);
     }
 
     return acc;
   }, []);
-}
 
-export function resolve<TItem>(
-  items: Array<
-    | {
-        fetcher: any;
-        searchClient: SearchClient;
-        queries: any[];
-      }
-    | AlgoliaRequesterTransformedResponse<TItem>
-  >
-) {
-  const packed = pack(items);
+  const values = packed.map<
+    | Promise<RequestDescriptionPreResolvedCustom<TItem>>
+    | ReturnType<InternalFetcher<TItem>>
+  >((maybeDescription) => {
+    if (!isDescription<TItem>(maybeDescription)) {
+      return Promise.resolve(
+        maybeDescription as RequestDescriptionPreResolvedCustom<TItem>
+      );
+    }
 
-  return Promise.all(
-    packed.map((maybeDescription) => {
-      if (!isFetcherDescription(maybeDescription)) {
-        return Promise.resolve([maybeDescription]);
-      }
+    const {
+      fetcher,
+      searchClient,
+      items,
+    } = maybeDescription as PackedDescription<TItem>;
 
-      const { fetcher, searchClient, items } = maybeDescription;
+    return fetcher({
+      searchClient,
+      queries: items,
+    });
+  });
 
-      return fetcher({
-        searchClient,
-        queries: items,
-      });
-    })
-  );
+  return Promise.all<
+    RequestDescriptionPreResolvedCustom<TItem> | InternalFetcherResponse<TItem>
+  >(values);
 }

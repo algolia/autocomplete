@@ -1,5 +1,15 @@
 import { invariant } from '@algolia/autocomplete-shared';
+import {
+  MultipleQueriesQuery,
+  SearchForFacetValuesResponse,
+  SearchResponse,
+} from '@algolia/client-search';
 
+import {
+  InternalFetcherResponse,
+  RequesterDescription,
+  TransformResponse,
+} from './createRequester';
 import { mapToAlgoliaResponse } from './requesters/mapToAlgoliaResponse';
 import { resolve } from './resolve';
 import {
@@ -94,32 +104,17 @@ export function onInput<TItem extends BaseItem>({
               state: store.getState(),
               ...setters,
             })
-          ).then((itemsOrDescription) => {
-            if (isRequesterDescription<TItem>(itemsOrDescription)) {
-              return {
-                ...itemsOrDescription,
-                queries: itemsOrDescription.queries.map((query) => ({
-                  query,
-                  __autocomplete_sourceId: source.sourceId,
-                  __autocomplete_transformResponse:
-                    itemsOrDescription.transformResponse,
-                })),
-              };
-            }
-
-            return {
-              items: itemsOrDescription,
-              __autocomplete_sourceId: source.sourceId,
-              __autocomplete_transformResponse: (x: {
-                results: TItem[] | TItem[][];
-              }) => x.results,
-            };
-          });
+          ).then((itemsOrDescription) =>
+            preresolve<TItem>(itemsOrDescription, source.sourceId)
+          );
         })
       )
         .then(resolve)
         .then((response) => {
-          const flattenedResponse = flatten(response);
+          const flattenedResponse: Array<
+            | RequestDescriptionPreResolvedCustom<TItem>
+            | InternalFetcherResponse<TItem>[0]
+          > = flatten<any>(response);
 
           return sources.map((source) => {
             const matches = flattenedResponse.filter(
@@ -128,9 +123,11 @@ export function onInput<TItem extends BaseItem>({
             const __autocomplete_transformResponse = matches[0]
               .__autocomplete_transformResponse!;
             const results = matches.map(({ items }) => items);
-            const items = __autocomplete_transformResponse(
-              mapToAlgoliaResponse(results)
-            );
+            const items = areSearchResponses<TItem>(results)
+              ? __autocomplete_transformResponse(
+                  mapToAlgoliaResponse<TItem>(results)
+                )
+              : results;
 
             invariant(
               Array.isArray(items),
@@ -179,4 +176,57 @@ export function onInput<TItem extends BaseItem>({
           }
         });
     });
+}
+
+export type RequestDescriptionPreResolved<TItem extends BaseItem> = Pick<
+  RequesterDescription<TItem>,
+  'fetcher' | 'searchClient' | 'transformResponse'
+> & {
+  queries: Array<{
+    query: MultipleQueriesQuery;
+    __autocomplete_sourceId: string;
+    __autocomplete_transformResponse: TransformResponse<TItem>;
+  }>;
+};
+
+export type RequestDescriptionPreResolvedCustom<TItem extends BaseItem> = {
+  items: TItem[] | TItem[][];
+  __autocomplete_sourceId: string;
+  __autocomplete_transformResponse: TransformResponse<TItem>;
+};
+
+function preresolve<TItem extends BaseItem>(
+  itemsOrDescription: TItem[] | TItem[][] | RequesterDescription<TItem>,
+  sourceId: string
+):
+  | RequestDescriptionPreResolved<TItem>
+  | RequestDescriptionPreResolvedCustom<TItem> {
+  if (isRequesterDescription<TItem>(itemsOrDescription)) {
+    return {
+      ...itemsOrDescription,
+      queries: itemsOrDescription.queries.map((query) => ({
+        query,
+        __autocomplete_sourceId: sourceId,
+        __autocomplete_transformResponse: itemsOrDescription.transformResponse,
+      })),
+    };
+  }
+
+  return {
+    items: itemsOrDescription,
+    __autocomplete_sourceId: sourceId,
+    // @TODO: make this work with custom descriptions
+    __autocomplete_transformResponse: (response) => response.hits,
+  };
+}
+
+function areSearchResponses<THit extends BaseItem>(
+  responses:
+    | THit[]
+    | THit[][]
+    | Array<SearchResponse<THit> | SearchForFacetValuesResponse>
+): responses is Array<SearchResponse<THit> | SearchForFacetValuesResponse> {
+  return (responses as Array<
+    SearchResponse<THit> | SearchForFacetValuesResponse
+  >).every((response) => response.hasOwnProperty('processingTimeMS'));
 }

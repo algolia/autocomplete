@@ -7,8 +7,10 @@ import {
 } from '@algolia/client-search';
 import { SearchClient } from 'algoliasearch/lite';
 
+type Fetcher = typeof fetchAlgoliaResults;
+
 export type FetcherParams = Pick<
-  Parameters<typeof fetchAlgoliaResults>[0],
+  Parameters<Fetcher>[0],
   'searchClient' | 'queries'
 >;
 
@@ -28,7 +30,7 @@ type TransformedRequesterResponse<THit> =
   | Array<SearchResponse<THit>['hits']>
   | Array<SearchForFacetValuesResponse['facetHits']>;
 
-type TransformResponse<THit> = (
+export type TransformResponse<THit> = (
   response: TransformResponseParams<THit>
 ) => TransformedRequesterResponse<THit>;
 
@@ -38,10 +40,16 @@ type FetcherParamsQuery<THit> = {
   __autocomplete_transformResponse: TransformResponse<THit>;
 };
 
-type InternalFetcherParams<THit> = {
+export type InternalFetcher<THit> = (params: {
   searchClient: SearchClient;
   queries: Array<FetcherParamsQuery<THit>>;
-};
+}) => Promise<InternalFetcherResponse<THit>>;
+
+export type InternalFetcherResponse<THit> = Array<{
+  items: SearchResponse<THit> | SearchForFacetValuesResponse; // @TODO: should it be an array?
+  __autocomplete_sourceId: string;
+  __autocomplete_transformResponse: TransformResponse<THit>;
+}>;
 
 export type RequestParams<THit> = FetcherParams & {
   transformResponse: TransformResponse<THit>;
@@ -51,15 +59,7 @@ export type RequesterDescription<THit> = {
   searchClient: SearchClient;
   queries: MultipleQueriesQuery[];
   transformResponse: TransformResponse<THit>;
-  fetcher: (
-    fetcherParams: InternalFetcherParams<THit>
-  ) => Promise<
-    Array<{
-      items: SearchResponse<THit>;
-      __autocomplete_sourceId: string;
-      __autocomplete_transformResponse: TransformResponse<THit>;
-    }>
-  >;
+  fetcher: InternalFetcher<THit>;
 };
 
 export function createRequester(fetcher: typeof fetchAlgoliaResults) {
@@ -71,7 +71,7 @@ export function createRequester(fetcher: typeof fetchAlgoliaResults) {
     ): Promise<RequesterDescription<THit>> {
       return Promise.resolve({
         // @TODO: rename `execute`
-        fetcher: (fetcherParams: InternalFetcherParams<THit>) => {
+        fetcher: (fetcherParams) => {
           // @TODO: rename queries to requests?
           return fetcher<THit>({
             searchClient: fetcherParams.searchClient,
