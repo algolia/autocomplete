@@ -1,4 +1,4 @@
-import { fetchAlgoliaResults } from '@algolia/autocomplete-preset-algolia/src/search/fetchAlgoliaResults';
+import { fetchAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 
 import { createRequester } from '../createRequester';
 

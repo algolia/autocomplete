@@ -1,5 +1,4 @@
-// @TODO: simplify import
-import { fetchAlgoliaResults } from '@algolia/autocomplete-preset-algolia/src/search/fetchAlgoliaResults';
+import { fetchAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 import {
   MultipleQueriesQuery,
   SearchForFacetValuesResponse,
@@ -33,12 +32,12 @@ type RequesterParams<THit> = {
 type TransformResponseParams<THit> = {
   results: Array<SearchResponse<THit> | SearchForFacetValuesResponse>;
   hits: Array<SearchResponse<THit>['hits']>;
-  facetHits: Array<FacetHit[]>;
+  facetHits: FacetHit[][];
 };
 
 type TransformedRequesterResponse<THit> =
   | Array<SearchResponse<THit>['hits']>
-  | Array<FacetHit[]>;
+  | FacetHit[][];
 
 export type TransformResponse<THit> = (
   response: TransformResponseParams<THit>
@@ -56,13 +55,13 @@ export type InternalFetcher<THit> = (params: {
 }) => Promise<InternalFetcherResponse<THit>>;
 
 export type InternalFetcherResponse<THit> = Array<{
-  items: SearchResponse<THit> | SearchForFacetValuesResponse; // @TODO: should it be an array?
+  items: SearchResponse<THit> | SearchForFacetValuesResponse;
   __autocomplete_sourceId: string;
   __autocomplete_transformResponse: TransformResponse<THit>;
 }>;
 
 export type RequestParams<THit> = FetcherParams & {
-  transformResponse: TransformResponse<THit>;
+  transformResponse?: TransformResponse<THit>;
 };
 
 export type RequesterDescription<THit> = {
@@ -72,7 +71,28 @@ export type RequesterDescription<THit> = {
   fetcher: InternalFetcher<THit>;
 };
 
-export function createRequester(fetcher: typeof fetchAlgoliaResults) {
+export function createRequester(fetcher: Fetcher) {
+  function execute(fetcherParams) {
+    // @TODO: rename queries to requests?
+    return fetcher<any>({
+      searchClient: fetcherParams.searchClient,
+      queries: fetcherParams.queries.map((x) => x.query),
+    }).then((responses) =>
+      responses.map((response, index) => {
+        const {
+          __autocomplete_sourceId,
+          __autocomplete_transformResponse,
+        } = fetcherParams.queries[index];
+
+        return {
+          items: response,
+          __autocomplete_sourceId,
+          __autocomplete_transformResponse,
+        };
+      })
+    );
+  }
+
   return function createSpecifiedRequester(
     requesterParams: RequesterParams<any>
   ) {
@@ -81,26 +101,7 @@ export function createRequester(fetcher: typeof fetchAlgoliaResults) {
     ): RequesterDescription<THit> {
       return {
         // @TODO: rename `execute`
-        fetcher: (fetcherParams) => {
-          // @TODO: rename queries to requests?
-          return fetcher<THit>({
-            searchClient: fetcherParams.searchClient,
-            queries: fetcherParams.queries.map((x) => x.query),
-          }).then((responses) =>
-            responses.map((response, index) => {
-              const {
-                __autocomplete_sourceId,
-                __autocomplete_transformResponse,
-              } = fetcherParams.queries[index];
-
-              return {
-                items: response,
-                __autocomplete_sourceId,
-                __autocomplete_transformResponse,
-              };
-            })
-          );
-        },
+        fetcher: execute,
         ...requesterParams,
         ...requestParams,
       };

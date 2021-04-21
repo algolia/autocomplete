@@ -213,18 +213,15 @@ function preresolve<TItem extends BaseItem>(
   return {
     items: itemsOrDescription,
     __autocomplete_sourceId: sourceId,
-    // @TODO: make this work with custom descriptions
+    // @TODO: we shouldn't need this
     __autocomplete_transformResponse: (response) => response.hits,
   };
 }
 
 function areSearchResponses<THit extends BaseItem>(
-  responses: (
-    | THit[]
-    | THit[][]
-    | SearchForFacetValuesResponse
-    | SearchResponse<THit>
-  )[]
+  responses: Array<
+    THit[] | THit[][] | SearchForFacetValuesResponse | SearchResponse<THit>
+  >
 ): responses is Array<SearchResponse<THit> | SearchForFacetValuesResponse> {
   return (responses as Array<
     SearchResponse<THit> | SearchForFacetValuesResponse
