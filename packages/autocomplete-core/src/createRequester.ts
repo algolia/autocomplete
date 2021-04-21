@@ -78,8 +78,8 @@ export function createRequester(fetcher: typeof fetchAlgoliaResults) {
   ) {
     return function requester<THit>(
       requestParams: RequestParams<THit>
-    ): Promise<RequesterDescription<THit>> {
-      return Promise.resolve({
+    ): RequesterDescription<THit> {
+      return {
         // @TODO: rename `execute`
         fetcher: (fetcherParams) => {
           // @TODO: rename queries to requests?
@@ -103,7 +103,7 @@ export function createRequester(fetcher: typeof fetchAlgoliaResults) {
         },
         ...requesterParams,
         ...requestParams,
-      });
+      };
     };
   };
 }
