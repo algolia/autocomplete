@@ -5,4 +5,3 @@ export * from './highlight/parseAlgoliaHitReverseSnippet';
 export * from './highlight/parseAlgoliaHitSnippet';
 export * from './highlight/SnippetedHit';
 export * from './search/fetchAlgoliaResults';
-export type { SearchParams } from './search/search';
