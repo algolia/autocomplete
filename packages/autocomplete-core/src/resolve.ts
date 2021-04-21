@@ -29,14 +29,14 @@ function isDescription<TItem extends BaseItem>(
 type PackedDescription<TItem extends BaseItem> = {
   searchClient: SearchClient;
   execute: Execute<TItem>;
-  items: RequestDescriptionPreResolved<TItem>['queries'];
+  items: RequestDescriptionPreResolved<TItem>['requests'];
 };
 
 type RequestDescriptionPreResolved<TItem extends BaseItem> = Pick<
   RequesterDescription<TItem>,
   'execute' | 'searchClient' | 'transformResponse'
 > & {
-  queries: Array<{
+  requests: Array<{
     query: MultipleQueriesQuery;
     sourceId: string;
     transformResponse: TransformResponse<TItem>;
@@ -58,9 +58,9 @@ export function preResolve<TItem extends BaseItem>(
   if (isRequesterDescription<TItem>(itemsOrDescription)) {
     return {
       ...itemsOrDescription,
-      queries: itemsOrDescription.queries.map((query) => ({
+      requests: itemsOrDescription.queries.map((query) => ({
         query,
-        sourceId: sourceId,
+        sourceId,
         transformResponse: itemsOrDescription.transformResponse,
       })),
     };
@@ -68,7 +68,7 @@ export function preResolve<TItem extends BaseItem>(
 
   return {
     items: itemsOrDescription,
-    sourceId: sourceId,
+    sourceId,
     // @TODO: we shouldn't need this
     transformResponse: (response) => response.hits,
   };
@@ -88,7 +88,7 @@ export function resolve<TItem extends BaseItem>(
       return acc;
     }
 
-    const { searchClient, execute, queries } = current;
+    const { searchClient, execute, requests } = current;
 
     const container = acc.find<PackedDescription<TItem>>(
       (item): item is PackedDescription<TItem> => {
@@ -102,11 +102,11 @@ export function resolve<TItem extends BaseItem>(
     );
 
     if (container) {
-      container.items.push(...queries);
+      container.items.push(...requests);
     } else {
       const request: PackedDescription<TItem> = {
         execute,
-        items: queries,
+        items: requests,
         searchClient,
       };
       acc.push(request);
@@ -133,7 +133,7 @@ export function resolve<TItem extends BaseItem>(
 
     return execute({
       searchClient,
-      queries: items,
+      requests: items,
     });
   });
 

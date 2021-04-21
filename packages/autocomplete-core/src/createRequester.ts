@@ -49,10 +49,14 @@ type FetcherParamsQuery<THit> = {
   transformResponse: TransformResponse<THit>;
 };
 
-export type Execute<THit> = (params: {
+type ExecuteParams<THit> = {
   searchClient: SearchClient;
-  queries: Array<FetcherParamsQuery<THit>>;
-}) => Promise<ExecuteResponse<THit>>;
+  requests: Array<FetcherParamsQuery<THit>>;
+};
+
+export type Execute<THit> = (
+  params: ExecuteParams<THit>
+) => Promise<ExecuteResponse<THit>>;
 
 export type ExecuteResponse<THit> = Array<{
   items: SearchResponse<THit> | SearchForFacetValuesResponse;
@@ -72,14 +76,13 @@ export type RequesterDescription<THit> = {
 };
 
 export function createRequester(fetcher: Fetcher) {
-  function execute(fetcherParams) {
-    // @TODO: rename queries to requests?
+  function execute<THit>(fetcherParams: ExecuteParams<THit>) {
     return fetcher<any>({
       searchClient: fetcherParams.searchClient,
-      queries: fetcherParams.queries.map((x) => x.query),
+      queries: fetcherParams.requests.map((x) => x.query),
     }).then((responses) =>
       responses.map((response, index) => {
-        const { sourceId, transformResponse } = fetcherParams.queries[index];
+        const { sourceId, transformResponse } = fetcherParams.requests[index];
 
         return {
           items: response,
