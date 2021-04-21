@@ -1,11 +1,21 @@
+import { invariant } from '@algolia/autocomplete-shared';
+import {
+  MultipleQueriesQuery,
+  SearchForFacetValuesResponse,
+  SearchResponse,
+} from '@algolia/client-search';
 import type { SearchClient } from 'algoliasearch/lite';
 
-import { Execute, InternalFetcherResponse } from './createRequester';
 import {
-  RequestDescriptionPreResolved,
-  RequestDescriptionPreResolvedCustom,
-} from './onInput';
-import { BaseItem } from './types';
+  Execute,
+  ExecuteResponse,
+  RequesterDescription,
+  TransformResponse,
+} from './createRequester';
+import { mapToAlgoliaResponse } from './requesters/mapToAlgoliaResponse';
+import { BaseItem, InternalAutocompleteSource } from './types';
+import { flatten } from './utils';
+import { isRequesterDescription } from './utils/isRequesterDescription';
 
 function isDescription<TItem extends BaseItem>(
   item:
@@ -21,6 +31,48 @@ type PackedDescription<TItem extends BaseItem> = {
   execute: Execute<TItem>;
   items: RequestDescriptionPreResolved<TItem>['queries'];
 };
+
+type RequestDescriptionPreResolved<TItem extends BaseItem> = Pick<
+  RequesterDescription<TItem>,
+  'execute' | 'searchClient' | 'transformResponse'
+> & {
+  queries: Array<{
+    query: MultipleQueriesQuery;
+    __autocomplete_sourceId: string;
+    __autocomplete_transformResponse: TransformResponse<TItem>;
+  }>;
+};
+
+type RequestDescriptionPreResolvedCustom<TItem extends BaseItem> = {
+  items: TItem[] | TItem[][];
+  __autocomplete_sourceId: string;
+  __autocomplete_transformResponse: TransformResponse<TItem>;
+};
+
+export function preResolve<TItem extends BaseItem>(
+  itemsOrDescription: TItem[] | TItem[][] | RequesterDescription<TItem>,
+  sourceId: string
+):
+  | RequestDescriptionPreResolved<TItem>
+  | RequestDescriptionPreResolvedCustom<TItem> {
+  if (isRequesterDescription<TItem>(itemsOrDescription)) {
+    return {
+      ...itemsOrDescription,
+      queries: itemsOrDescription.queries.map((query) => ({
+        query,
+        __autocomplete_sourceId: sourceId,
+        __autocomplete_transformResponse: itemsOrDescription.transformResponse,
+      })),
+    };
+  }
+
+  return {
+    items: itemsOrDescription,
+    __autocomplete_sourceId: sourceId,
+    // @TODO: we shouldn't need this
+    __autocomplete_transformResponse: (response) => response.hits,
+  };
+}
 
 export function resolve<TItem extends BaseItem>(
   items: Array<
@@ -86,6 +138,51 @@ export function resolve<TItem extends BaseItem>(
   });
 
   return Promise.all<
-    RequestDescriptionPreResolvedCustom<TItem> | InternalFetcherResponse<TItem>
-  >(values);
+    RequestDescriptionPreResolvedCustom<TItem> | ExecuteResponse<TItem>
+  >(values).then((responses) =>
+    flatten<
+      RequestDescriptionPreResolvedCustom<TItem> | ExecuteResponse<TItem>[0]
+    >(responses)
+  );
+}
+
+export function postResolve<TItem extends BaseItem>(
+  responses: Array<
+    RequestDescriptionPreResolvedCustom<TItem> | ExecuteResponse<TItem>[0]
+  >,
+  sources: InternalAutocompleteSource<TItem>[]
+) {
+  return sources.map((source) => {
+    const matches = responses.filter(
+      (response) => response.__autocomplete_sourceId === source.sourceId
+    );
+    const transform = matches[0].__autocomplete_transformResponse!;
+    const results = matches.map(({ items }) => items);
+
+    const items = areSearchResponses<TItem>(results)
+      ? transform(mapToAlgoliaResponse<TItem>(results))
+      : results;
+
+    invariant(
+      Array.isArray(items),
+      `The \`getItems\` function must return an array of items but returned type ${JSON.stringify(
+        typeof items
+      )}:\n\n${JSON.stringify(items, null, 2)}`
+    );
+
+    return {
+      source,
+      items,
+    };
+  });
+}
+
+function areSearchResponses<THit extends BaseItem>(
+  responses: Array<
+    THit[] | THit[][] | SearchForFacetValuesResponse | SearchResponse<THit>
+  >
+): responses is Array<SearchResponse<THit> | SearchForFacetValuesResponse> {
+  return (responses as Array<
+    SearchResponse<THit> | SearchForFacetValuesResponse
+  >).every((response) => response.hasOwnProperty('processingTimeMS'));
 }

@@ -52,9 +52,9 @@ type FetcherParamsQuery<THit> = {
 export type Execute<THit> = (params: {
   searchClient: SearchClient;
   queries: Array<FetcherParamsQuery<THit>>;
-}) => Promise<InternalFetcherResponse<THit>>;
+}) => Promise<ExecuteResponse<THit>>;
 
-export type InternalFetcherResponse<THit> = Array<{
+export type ExecuteResponse<THit> = Array<{
   items: SearchResponse<THit> | SearchForFacetValuesResponse;
   __autocomplete_sourceId: string;
   __autocomplete_transformResponse: TransformResponse<THit>;
