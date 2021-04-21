@@ -56,7 +56,6 @@ export function resolve<TItem extends BaseItem>(
         searchClient,
         fetcher,
         items: queries,
-        // items: searchClient ? queries : [current],
       };
       acc.push(request);
     }
