@@ -38,7 +38,7 @@ describe('createRequester', () => {
     });
 
     expect(description).toEqual({
-      fetcher: expect.any(Function),
+      execute: expect.any(Function),
       transformResponse,
       searchClient,
       queries: [

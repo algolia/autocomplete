@@ -1,6 +1,6 @@
 import type { SearchClient } from 'algoliasearch/lite';
 
-import { InternalFetcher, InternalFetcherResponse } from './createRequester';
+import { Execute, InternalFetcherResponse } from './createRequester';
 import {
   RequestDescriptionPreResolved,
   RequestDescriptionPreResolvedCustom,
@@ -13,12 +13,12 @@ function isDescription<TItem extends BaseItem>(
     | RequestDescriptionPreResolvedCustom<TItem>
     | PackedDescription<TItem>
 ): item is RequestDescriptionPreResolved<TItem> {
-  return Boolean((item as RequestDescriptionPreResolved<TItem>).fetcher);
+  return Boolean((item as RequestDescriptionPreResolved<TItem>).execute);
 }
 
 type PackedDescription<TItem extends BaseItem> = {
   searchClient: SearchClient;
-  fetcher: InternalFetcher<TItem>;
+  execute: Execute<TItem>;
   items: RequestDescriptionPreResolved<TItem>['queries'];
 };
 
@@ -36,7 +36,7 @@ export function resolve<TItem extends BaseItem>(
       return acc;
     }
 
-    const { searchClient, fetcher, queries } = current;
+    const { searchClient, execute, queries } = current;
 
     const container = acc.find<PackedDescription<TItem>>(
       (item): item is PackedDescription<TItem> => {
@@ -44,7 +44,7 @@ export function resolve<TItem extends BaseItem>(
           isDescription(current) &&
           isDescription(item) &&
           item.searchClient === searchClient &&
-          item.fetcher === fetcher
+          item.execute === execute
         );
       }
     );
@@ -53,9 +53,9 @@ export function resolve<TItem extends BaseItem>(
       container.items.push(...queries);
     } else {
       const request: PackedDescription<TItem> = {
-        searchClient,
-        fetcher,
+        execute,
         items: queries,
+        searchClient,
       };
       acc.push(request);
     }
@@ -65,7 +65,7 @@ export function resolve<TItem extends BaseItem>(
 
   const values = packed.map<
     | Promise<RequestDescriptionPreResolvedCustom<TItem>>
-    | ReturnType<InternalFetcher<TItem>>
+    | ReturnType<Execute<TItem>>
   >((maybeDescription) => {
     if (!isDescription<TItem>(maybeDescription)) {
       return Promise.resolve(
@@ -74,12 +74,12 @@ export function resolve<TItem extends BaseItem>(
     }
 
     const {
-      fetcher,
-      searchClient,
+      execute,
       items,
+      searchClient,
     } = maybeDescription as PackedDescription<TItem>;
 
-    return fetcher({
+    return execute({
       searchClient,
       queries: items,
     });

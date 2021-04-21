@@ -178,7 +178,7 @@ export function onInput<TItem extends BaseItem>({
 
 export type RequestDescriptionPreResolved<TItem extends BaseItem> = Pick<
   RequesterDescription<TItem>,
-  'fetcher' | 'searchClient' | 'transformResponse'
+  'execute' | 'searchClient' | 'transformResponse'
 > & {
   queries: Array<{
     query: MultipleQueriesQuery;

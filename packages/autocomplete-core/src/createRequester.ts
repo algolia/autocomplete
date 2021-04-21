@@ -49,7 +49,7 @@ type FetcherParamsQuery<THit> = {
   __autocomplete_transformResponse: TransformResponse<THit>;
 };
 
-export type InternalFetcher<THit> = (params: {
+export type Execute<THit> = (params: {
   searchClient: SearchClient;
   queries: Array<FetcherParamsQuery<THit>>;
 }) => Promise<InternalFetcherResponse<THit>>;
@@ -68,7 +68,7 @@ export type RequesterDescription<THit> = {
   searchClient: SearchClient;
   queries: MultipleQueriesQuery[];
   transformResponse: TransformResponse<THit>;
-  fetcher: InternalFetcher<THit>;
+  execute: Execute<THit>;
 };
 
 export function createRequester(fetcher: Fetcher) {
@@ -100,8 +100,7 @@ export function createRequester(fetcher: Fetcher) {
       requestParams: RequestParams<THit>
     ): RequesterDescription<THit> {
       return {
-        // @TODO: rename `execute`
-        fetcher: execute,
+        execute,
         ...requesterParams,
         ...requestParams,
       };

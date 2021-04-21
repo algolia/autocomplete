@@ -20,7 +20,7 @@ describe('getAlgoliaFacets', () => {
     });
 
     expect(description).toEqual({
-      fetcher: expect.any(Function),
+      execute: expect.any(Function),
       transformResponse: expect.any(Function),
       searchClient,
       queries: [
