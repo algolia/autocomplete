@@ -38,15 +38,15 @@ type RequestDescriptionPreResolved<TItem extends BaseItem> = Pick<
 > & {
   queries: Array<{
     query: MultipleQueriesQuery;
-    __autocomplete_sourceId: string;
-    __autocomplete_transformResponse: TransformResponse<TItem>;
+    sourceId: string;
+    transformResponse: TransformResponse<TItem>;
   }>;
 };
 
 type RequestDescriptionPreResolvedCustom<TItem extends BaseItem> = {
   items: TItem[] | TItem[][];
-  __autocomplete_sourceId: string;
-  __autocomplete_transformResponse: TransformResponse<TItem>;
+  sourceId: string;
+  transformResponse: TransformResponse<TItem>;
 };
 
 export function preResolve<TItem extends BaseItem>(
@@ -60,17 +60,17 @@ export function preResolve<TItem extends BaseItem>(
       ...itemsOrDescription,
       queries: itemsOrDescription.queries.map((query) => ({
         query,
-        __autocomplete_sourceId: sourceId,
-        __autocomplete_transformResponse: itemsOrDescription.transformResponse,
+        sourceId: sourceId,
+        transformResponse: itemsOrDescription.transformResponse,
       })),
     };
   }
 
   return {
     items: itemsOrDescription,
-    __autocomplete_sourceId: sourceId,
+    sourceId: sourceId,
     // @TODO: we shouldn't need this
-    __autocomplete_transformResponse: (response) => response.hits,
+    transformResponse: (response) => response.hits,
   };
 }
 
@@ -154,9 +154,9 @@ export function postResolve<TItem extends BaseItem>(
 ) {
   return sources.map((source) => {
     const matches = responses.filter(
-      (response) => response.__autocomplete_sourceId === source.sourceId
+      (response) => response.sourceId === source.sourceId
     );
-    const transform = matches[0].__autocomplete_transformResponse!;
+    const transform = matches[0].transformResponse!;
     const results = matches.map(({ items }) => items);
 
     const items = areSearchResponses<TItem>(results)

@@ -45,8 +45,8 @@ export type TransformResponse<THit> = (
 
 type FetcherParamsQuery<THit> = {
   query: MultipleQueriesQuery;
-  __autocomplete_sourceId: string;
-  __autocomplete_transformResponse: TransformResponse<THit>;
+  sourceId: string;
+  transformResponse: TransformResponse<THit>;
 };
 
 export type Execute<THit> = (params: {
@@ -56,8 +56,8 @@ export type Execute<THit> = (params: {
 
 export type ExecuteResponse<THit> = Array<{
   items: SearchResponse<THit> | SearchForFacetValuesResponse;
-  __autocomplete_sourceId: string;
-  __autocomplete_transformResponse: TransformResponse<THit>;
+  sourceId: string;
+  transformResponse: TransformResponse<THit>;
 }>;
 
 export type RequestParams<THit> = FetcherParams & {
@@ -79,15 +79,12 @@ export function createRequester(fetcher: Fetcher) {
       queries: fetcherParams.queries.map((x) => x.query),
     }).then((responses) =>
       responses.map((response, index) => {
-        const {
-          __autocomplete_sourceId,
-          __autocomplete_transformResponse,
-        } = fetcherParams.queries[index];
+        const { sourceId, transformResponse } = fetcherParams.queries[index];
 
         return {
           items: response,
-          __autocomplete_sourceId,
-          __autocomplete_transformResponse,
+          sourceId,
+          transformResponse,
         };
       })
     );
