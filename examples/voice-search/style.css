@@ -1,0 +1,88 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(244, 244, 249);
+  color: rgb(65, 65, 65);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 1rem;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 640px;
+  width: 100%;
+}
+
+.aa-VoiceSearch {
+  border-left: 1px solid rgba(var(--aa-muted-color-rgb), 0.5);
+  display: flex;
+  height: 100%;
+}
+
+.aa-VoiceSearchButton {
+  align-items: center;
+  background: none;
+  border: 0;
+  color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
+  cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  padding: 0 calc(var(--aa-spacing) * 0.83333 - 0.5px);
+}
+
+.aa-VoiceSearchButton:hover svg,
+.aa-VoiceSearchButton:focus svg {
+  color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .aa-VoiceSearchButton:hover svg {
+    color: inherit;
+  }
+}
+
+.aa-VoiceSearchButton svg {
+  color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
+  margin: 0;
+  margin: calc(var(--aa-spacing) / 3);
+  stroke-width: var(--aa-icon-stroke-width);
+  width: var(--aa-action-icon-size);
+}
+
+.aa-VoiceSearchOverlay {
+  align-items: center;
+  background: #fff;
+  bottom: 0;
+  display: flex;
+  font-size: 2rem;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: var(--aa-base-z-index);
+}
+
+.aa-VoiceSearchWrapper {
+  align-items: center;
+  color: rgba(var(--aa-muted-color-rgb), 1);
+  display: flex;
+  justify-content: space-between;
+  max-width: 480px;
+  width: 100%;
+}
+
+.aa-VoiceSearchListeningButton {
+  background: none;
+  border: 1px solid rgba(var(--aa-muted-color-rgb), 0.5);
+  border-radius: 50%;
+  color: red;
+  cursor: pointer;
+  padding: 2rem;
+}

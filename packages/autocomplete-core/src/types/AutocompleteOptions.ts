@@ -164,7 +164,7 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    *
    * @link https://autocomplete.algolia.com/docs/autocomplete-js#plugins
    */
-  plugins?: Array<AutocompletePlugin<TItem, unknown>>;
+  plugins?: Array<AutocompletePlugin<any, any>>;
 }
 
 // Props manipulated internally with default values.
@@ -182,7 +182,7 @@ export interface InternalAutocompleteOptions<TItem extends BaseItem>
   getSources: InternalGetSources<TItem>;
   environment: AutocompleteEnvironment;
   navigator: AutocompleteNavigator<TItem>;
-  plugins: Array<AutocompletePlugin<TItem, unknown>>;
+  plugins: Array<AutocompletePlugin<any, any>>;
   shouldPanelOpen(params: { state: AutocompleteState<TItem> }): boolean;
   onSubmit(params: OnSubmitParams<TItem>): void;
   onReset(params: OnResetParams<TItem>): void;

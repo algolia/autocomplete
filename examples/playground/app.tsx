@@ -2,7 +2,6 @@
 import {
   autocomplete,
   AutocompleteComponents,
-  getAlgoliaFacets,
   getAlgoliaResults,
 } from '@algolia/autocomplete-js';
 import {
@@ -19,7 +18,7 @@ import '@algolia/autocomplete-theme-classic';
 
 import { createCategoriesPlugin } from './categoriesPlugin';
 import { shortcutsPlugin } from './shortcutsPlugin';
-import { ProductHit, ProductRecord } from './types';
+import { ProductHit } from './types';
 
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
@@ -28,6 +27,8 @@ const searchClient2 = algoliasearch(
   'GZV6PDPKZY',
   'b81a40a29d53e9d7d5ae6e919cce610d'
 );
+
+// @ts-expect-error type error in search-insights
 insightsClient('init', { appId, apiKey });
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
@@ -73,7 +74,7 @@ function debouncePromise<TParams extends unknown[], TResponse>(
 
 const debouncedFetch = debouncePromise(fetch, 300);
 
-autocomplete({
+autocomplete<ProductHit>({
   container: '#autocomplete',
   placeholder: 'Search',
   debug: true,
@@ -165,7 +166,7 @@ autocomplete({
       {
         sourceId: 'products',
         getItems() {
-          return getAlgoliaResults<ProductRecord>({
+          return getAlgoliaResults<ProductHit>({
             searchClient,
             queries: [
               {
@@ -198,7 +199,7 @@ autocomplete({
                   // eslint-disable-next-line @typescript-eslint/camelcase
                   sale_price: hit.free_shipping
                     ? (hit.price - hit.price / 10).toFixed(2)
-                    : hit.price,
+                    : hit.price.toString(),
                 }))
                 .concat(imdbHits);
             },
@@ -229,9 +230,7 @@ autocomplete({
             );
           },
           noResults() {
-            return (
-              <div className="aa-ItemContent">No products for this query.</div>
-            );
+            return 'No products for this query.';
           },
         },
       },

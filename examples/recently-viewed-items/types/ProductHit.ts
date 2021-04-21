@@ -3,6 +3,7 @@ import { Hit } from '@algolia/client-search';
 export type ProductItem = {
   name: string;
   image: string;
+  url: string;
   description: string;
 };
 

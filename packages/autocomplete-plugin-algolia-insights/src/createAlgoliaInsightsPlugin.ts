@@ -1,7 +1,7 @@
 import {
-  AutocompletePlugin,
   AutocompleteState,
-} from '@algolia/autocomplete-core';
+  AutocompletePlugin,
+} from '@algolia/autocomplete-js';
 import { createRef, debounce, isEqual } from '@algolia/autocomplete-shared';
 
 import { createClickedEvent } from './createClickedEvent';
@@ -125,7 +125,7 @@ export function createAlgoliaInsightsPlugin({
         }
 
         onSelectEvent({
-          state,
+          state: state as AutocompleteState<any>,
           event,
           insights,
           item,
@@ -144,7 +144,7 @@ export function createAlgoliaInsightsPlugin({
         }
 
         onActiveEvent({
-          state,
+          state: state as AutocompleteState<any>,
           event,
           insights,
           item,
@@ -158,7 +158,7 @@ export function createAlgoliaInsightsPlugin({
       });
     },
     onStateChange({ state }) {
-      debouncedOnStateChange({ state });
+      debouncedOnStateChange({ state: state as AutocompleteState<any> });
     },
   };
 }

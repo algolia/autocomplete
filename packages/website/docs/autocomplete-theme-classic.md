@@ -151,7 +151,7 @@ autocomplete({
   // ...
   templates: {
     noResults() {
-      return <div className="aa-ItemContent">No results for this query.</div>;
+      return 'No products for this query.';
     },
     // ...
   },

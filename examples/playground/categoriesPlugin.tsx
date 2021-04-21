@@ -3,14 +3,10 @@ import { AutocompletePlugin, getAlgoliaFacets } from '@algolia/autocomplete-js';
 import { SearchClient } from 'algoliasearch/lite';
 import { h, Fragment } from 'preact';
 
-import { Highlighted } from './types';
-
 type CategoryRecord = {
   label: string;
   count: number;
 };
-
-type CategoryHit = Highlighted<CategoryRecord>;
 
 type CreateCategoriesPluginProps = {
   searchClient: SearchClient;
@@ -18,7 +14,7 @@ type CreateCategoriesPluginProps = {
 
 export function createCategoriesPlugin({
   searchClient,
-}: CreateCategoriesPluginProps): AutocompletePlugin<CategoryHit, undefined> {
+}: CreateCategoriesPluginProps): AutocompletePlugin<CategoryRecord, undefined> {
   return {
     getSources({ query }) {
       return [

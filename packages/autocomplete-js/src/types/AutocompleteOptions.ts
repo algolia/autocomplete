@@ -50,14 +50,14 @@ export interface AutocompleteOptions<TItem extends BaseItem>
   /**
    * The Media Query to turn Autocomplete into a detached experience.
    *
-   * @default "(hover: none) and (pointer: coarse)"
+   * @default "(max-width: 680px)"
    * @link https://autocomplete.algolia.com/docs/autocomplete-js#detachedmediaquery
    * @link https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries
    */
   detachedMediaQuery?: string;
   getSources?: (
     params: GetSourcesParams<TItem>
-  ) => MaybePromise<Array<AutocompleteSource<TItem>>>;
+  ) => MaybePromise<Array<AutocompleteSource<TItem> | boolean | undefined>>;
   /**
    * The panel's horizontal position.
    *
@@ -97,7 +97,7 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * @link https://autocomplete.algolia.com/docs/autocomplete-js#renderer
    */
   renderer?: AutocompleteRenderer;
-  plugins?: Array<AutocompletePlugin<TItem, unknown>>;
+  plugins?: Array<AutocompletePlugin<any, any>>;
   /**
    * Components to register in the Autocomplete rendering lifecycles.
    *
