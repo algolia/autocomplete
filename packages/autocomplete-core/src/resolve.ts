@@ -184,5 +184,5 @@ function areSearchResponses<THit extends BaseItem>(
 ): responses is Array<SearchResponse<THit> | SearchForFacetValuesResponse> {
   return (responses as Array<
     SearchResponse<THit> | SearchForFacetValuesResponse
-  >).every((response) => response.hasOwnProperty('processingTimeMS'));
+  >).some((response) => !Array.isArray(response));
 }
