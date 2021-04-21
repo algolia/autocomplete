@@ -1,5 +1,3 @@
-import { Hit } from '@algolia/client-search';
-
 type ProductRecord = {
   brand: string;
   categories: string[];
@@ -32,4 +30,4 @@ type WithAutocompleteAnalytics<THit> = THit & {
   __autocomplete_queryID: string;
 };
 
-export type ProductHit = WithAutocompleteAnalytics<Hit<ProductRecord>>;
+export type ProductHit = WithAutocompleteAnalytics<ProductRecord>;

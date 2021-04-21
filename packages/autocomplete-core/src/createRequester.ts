@@ -37,7 +37,9 @@ type TransformResponseParams<THit> = {
 
 export type TransformedRequesterResponse<THit> =
   | Array<SearchResponse<THit>['hits']>
-  | FacetHit[][];
+  | SearchResponse<THit>['hits']
+  | FacetHit[][]
+  | FacetHit[];
 
 export type TransformResponse<THit> = (
   response: TransformResponseParams<THit>
@@ -96,9 +98,9 @@ export function createRequester(fetcher: Fetcher) {
   return function createSpecifiedRequester(
     requesterParams: RequesterParams<any>
   ) {
-    return function requester<THit>(
-      requestParams: RequestParams<THit>
-    ): RequesterDescription<THit> {
+    return function requester<TTHit>(
+      requestParams: RequestParams<TTHit>
+    ): RequesterDescription<TTHit> {
       return {
         execute,
         ...requesterParams,

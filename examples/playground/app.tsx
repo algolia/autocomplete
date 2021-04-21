@@ -74,7 +74,7 @@ function debouncePromise<TParams extends unknown[], TResponse>(
 
 const debouncedFetch = debouncePromise(fetch, 300);
 
-autocomplete({
+autocomplete<any>({
   container: '#autocomplete',
   placeholder: 'Search',
   debug: true,
