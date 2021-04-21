@@ -41,7 +41,7 @@
     "algoliasearch": "4.9.0"
   },
   "peerDependencies": {
-    "@algolia/client-search": "^4.5.1",
-    "algoliasearch": "^4.5.1"
+    "@algolia/client-search": "^4.9.0",
+    "algoliasearch": "^4.9.0"
   }
 }
