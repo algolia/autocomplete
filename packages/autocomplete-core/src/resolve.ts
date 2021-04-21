@@ -46,7 +46,7 @@ type RequestDescriptionPreResolved<TItem extends BaseItem> = Pick<
 type RequestDescriptionPreResolvedCustom<TItem extends BaseItem> = {
   items: TItem[] | TItem[][];
   sourceId: string;
-  transformResponse: TransformResponse<TItem>;
+  transformResponse?: undefined;
 };
 
 export function preResolve<TItem extends BaseItem>(
@@ -69,8 +69,6 @@ export function preResolve<TItem extends BaseItem>(
   return {
     items: itemsOrDescription,
     sourceId,
-    // @TODO: we shouldn't need this
-    transformResponse: (response) => response.hits,
   };
 }
 
@@ -150,17 +148,22 @@ export function postResolve<TItem extends BaseItem>(
   responses: Array<
     RequestDescriptionPreResolvedCustom<TItem> | ExecuteResponse<TItem>[0]
   >,
-  sources: InternalAutocompleteSource<TItem>[]
+  sources: Array<InternalAutocompleteSource<TItem>>
 ) {
   return sources.map((source) => {
     const matches = responses.filter(
       (response) => response.sourceId === source.sourceId
     );
-    const transform = matches[0].transformResponse!;
     const results = matches.map(({ items }) => items);
-
-    const items = areSearchResponses<TItem>(results)
-      ? transform(mapToAlgoliaResponse<TItem>(results))
+    const transform = matches[0].transformResponse;
+    const items = transform
+      ? transform(
+          mapToAlgoliaResponse(
+            results as Array<
+              SearchForFacetValuesResponse | SearchResponse<TItem>
+            >
+          )
+        )
       : results;
 
     invariant(
@@ -175,14 +178,4 @@ export function postResolve<TItem extends BaseItem>(
       items,
     };
   });
-}
-
-function areSearchResponses<THit extends BaseItem>(
-  responses: Array<
-    THit[] | THit[][] | SearchForFacetValuesResponse | SearchResponse<THit>
-  >
-): responses is Array<SearchResponse<THit> | SearchForFacetValuesResponse> {
-  return (responses as Array<
-    SearchResponse<THit> | SearchForFacetValuesResponse
-  >).some((response) => !Array.isArray(response));
 }

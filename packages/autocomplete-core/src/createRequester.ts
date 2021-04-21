@@ -35,7 +35,7 @@ type TransformResponseParams<THit> = {
   facetHits: FacetHit[][];
 };
 
-type TransformedRequesterResponse<THit> =
+export type TransformedRequesterResponse<THit> =
   | Array<SearchResponse<THit>['hits']>
   | FacetHit[][];
 
@@ -77,7 +77,7 @@ export type RequesterDescription<THit> = {
 
 export function createRequester(fetcher: Fetcher) {
   function execute<THit>(fetcherParams: ExecuteParams<THit>) {
-    return fetcher<any>({
+    return fetcher<THit>({
       searchClient: fetcherParams.searchClient,
       queries: fetcherParams.requests.map((x) => x.query),
     }).then((responses) =>
