@@ -2,7 +2,7 @@
 import {
   autocomplete,
   AutocompleteComponents,
-  getAlgoliaHits,
+  getAlgoliaResults,
 } from '@algolia/autocomplete-js';
 import {
   AutocompleteInsightsApi,
@@ -78,7 +78,7 @@ autocomplete({
       {
         sourceId: 'products',
         getItems() {
-          return getAlgoliaHits<Product>({
+          return getAlgoliaResults<Product>({
             searchClient,
             queries: [
               {
