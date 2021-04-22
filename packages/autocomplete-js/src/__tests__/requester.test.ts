@@ -346,6 +346,7 @@ describe('requester', () => {
       `);
     });
   });
+
   test('transforms the response before forwarding it to the state', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
@@ -458,6 +459,7 @@ describe('requester', () => {
       `);
     });
   });
+
   test('properly maps response based on the expected Algolia data type', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
