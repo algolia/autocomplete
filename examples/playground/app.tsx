@@ -18,15 +18,11 @@ import '@algolia/autocomplete-theme-classic';
 
 import { createCategoriesPlugin } from './categoriesPlugin';
 import { shortcutsPlugin } from './shortcutsPlugin';
-import { ProductHit } from './types';
+import { ProductRecord, ProductHit } from './types';
 
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
-const searchClient2 = algoliasearch(
-  'GZV6PDPKZY',
-  'b81a40a29d53e9d7d5ae6e919cce610d'
-);
 
 // @ts-expect-error type error in search-insights
 insightsClient('init', { appId, apiKey });
@@ -55,26 +51,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 });
 const categoriesPlugin = createCategoriesPlugin({ searchClient });
 
-function debouncePromise<TParams extends unknown[], TResponse>(
-  fn: (...params: TParams) => Promise<TResponse>,
-  time: number
-) {
-  let timerId: ReturnType<typeof setTimeout> | undefined = undefined;
-
-  return function (...args: TParams) {
-    if (timerId) {
-      clearTimeout(timerId);
-    }
-
-    return new Promise<TResponse>((resolve) => {
-      timerId = setTimeout(() => resolve(fn(...args)), time);
-    });
-  };
-}
-
-const debouncedFetch = debouncePromise(fetch, 300);
-
-autocomplete<any>({
+autocomplete<ProductHit>({
   container: '#autocomplete',
   placeholder: 'Search',
   debug: true,
@@ -93,80 +70,9 @@ autocomplete<any>({
 
     return [
       {
-        sourceId: 'github',
-        getItems() {
-          return debouncedFetch(
-            `https://api.github.com/search/repositories?q=${query}&per_page=5`
-          )
-            .then((response) => response.json())
-            .then((result) => result.items || []);
-        },
-        templates: {
-          header() {
-            return (
-              <Fragment>
-                <span className="aa-SourceHeaderTitle">GitHub</span>
-                <div className="aa-SourceHeaderLine" />
-              </Fragment>
-            );
-          },
-          item({ item }) {
-            return item.full_name;
-          },
-        },
-      },
-      {
-        sourceId: 'suggestions',
-        getItems({ setContext }) {
-          return getAlgoliaResults({
-            searchClient,
-            queries: [
-              {
-                indexName: 'instant_search_demo_query_suggestions',
-                query,
-                params: {
-                  clickAnalytics: true,
-                },
-              },
-            ],
-            transformResponse({ hits, results }) {
-              const [suggestions] = results;
-
-              setContext({
-                suggestionsProcessingTime: suggestions.processingTimeMS,
-              });
-
-              return hits;
-            },
-          });
-        },
-        templates: {
-          header({ state }) {
-            return (
-              <Fragment>
-                <span className="aa-SourceHeaderTitle">
-                  Suggestions (processed in{' '}
-                  {state.context.suggestionsProcessingTime} ms)
-                </span>
-                <div className="aa-SourceHeaderLine" />
-              </Fragment>
-            );
-          },
-          item({ item, components }) {
-            return (
-              <div className="aa-ItemContent">
-                <div className="aa-ItemContentTitle">
-                  <components.ReverseHighlight hit={item} attribute="query" />
-                </div>
-              </div>
-            );
-          },
-        },
-      },
-      {
         sourceId: 'products',
         getItems() {
-          return getAlgoliaResults<ProductHit>({
+          return getAlgoliaResults<ProductRecord>({
             searchClient,
             queries: [
               {
@@ -176,32 +82,21 @@ autocomplete<any>({
                   clickAnalytics: true,
                   attributesToSnippet: ['name:10', 'description:35'],
                   snippetEllipsisText: '…',
-                  hitsPerPage: 5,
-                },
-              },
-              {
-                indexName: 'instant_search_movies',
-                query,
-                params: {
-                  clickAnalytics: true,
-                  hitsPerPage: 5,
                 },
               },
             ],
             transformResponse({ hits }) {
-              const [bestBuyHits, imdbHits] = hits;
+              const [bestBuyHits] = hits;
 
-              return bestBuyHits
-                .map((hit) => ({
-                  ...hit,
-                  comments: hit.popularity % 100,
-                  sale: hit.free_shipping,
-                  // eslint-disable-next-line @typescript-eslint/camelcase
-                  sale_price: hit.free_shipping
-                    ? (hit.price - hit.price / 10).toFixed(2)
-                    : hit.price.toString(),
-                }))
-                .concat(imdbHits);
+              return bestBuyHits.map((hit) => ({
+                ...hit,
+                comments: hit.popularity % 100,
+                sale: hit.free_shipping,
+                // eslint-disable-next-line @typescript-eslint/camelcase
+                sale_price: hit.free_shipping
+                  ? (hit.price - hit.price / 10).toFixed(2)
+                  : hit.price.toString(),
+              }));
             },
           });
         },
@@ -209,18 +104,12 @@ autocomplete<any>({
           header() {
             return (
               <Fragment>
-                <span className="aa-SourceHeaderTitle">
-                  Products &amp; Movies
-                </span>
+                <span className="aa-SourceHeaderTitle">Products</span>
                 <div className="aa-SourceHeaderLine" />
               </Fragment>
             );
           },
           item({ item, components }) {
-            if (item.title) {
-              return item.title;
-            }
-
             return (
               <ProductItem
                 hit={item}
@@ -231,49 +120,6 @@ autocomplete<any>({
           },
           noResults() {
             return 'No products for this query.';
-          },
-        },
-      },
-      {
-        sourceId: 'soccer',
-        getItems() {
-          return getAlgoliaResults({
-            searchClient: searchClient2,
-            queries: [
-              {
-                indexName: 'world-cup-2018',
-                query,
-                params: {
-                  clickAnalytics: true,
-                  hitsPerPage: 5,
-                },
-              },
-            ],
-          });
-        },
-        templates: {
-          header() {
-            return (
-              <Fragment>
-                <span className="aa-SourceHeaderTitle">World Cup</span>
-                <div className="aa-SourceHeaderLine" />
-              </Fragment>
-            );
-          },
-          item({ item, components }) {
-            return (
-              <div className="aa-ItemContent">
-                <div className="aa-ItemContentTitle">
-                  <components.Highlight hit={item} attribute="home_team" /> –{' '}
-                  <components.Highlight hit={item} attribute="away_team" />
-                </div>
-              </div>
-            );
-          },
-          noResults() {
-            return (
-              <div className="aa-ItemContent">No games for this query.</div>
-            );
           },
         },
       },
