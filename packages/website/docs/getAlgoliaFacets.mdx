@@ -145,7 +145,7 @@ The function to transform the Algolia response before passing it to the Autocomp
 This is the default implementation:
 
 ```js
-getAlgoliaResults({
+getAlgoliaFacets({
   // ...
   transformResponse({ facetHits }) {
     return facetHits;
