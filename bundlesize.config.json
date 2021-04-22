@@ -10,7 +10,7 @@
     },
     {
       "path": "packages/autocomplete-preset-algolia/dist/umd/index.production.js",
-      "maxSize": "2.05 kB"
+      "maxSize": "2.25 kB"
     },
     {
       "path": "packages/autocomplete-plugin-algolia-insights/dist/umd/index.production.js",

@@ -5,7 +5,7 @@ import { RequestParams } from './createRequester';
 
 export function getAlgoliaFacets<TTHit>(requestParams: RequestParams<TTHit>) {
   const requester = createAlgoliaRequester({
-    transformResponse: (result) => result.facetHits,
+    transformResponse: (response) => response.facetHits,
   });
 
   const queries = requestParams.queries.map((query) => ({
