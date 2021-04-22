@@ -39,4 +39,46 @@ describe('mapToAlgoliaResponse', () => {
 
     expect(facetHits).toEqual([]);
   });
+
+  test('returns formatted facet hits', () => {
+    const { facetHits } = mapToAlgoliaResponse([
+      createSFFVResponse({
+        facetHits: [
+          {
+            count: 1,
+            value: 'Label 1',
+            highlighted: 'Label 1',
+          },
+          {
+            count: 2,
+            value: 'Label 2',
+            highlighted: 'Label 2',
+          },
+        ],
+      }),
+    ]);
+
+    expect(facetHits).toEqual([
+      [
+        {
+          count: 1,
+          label: 'Label 1',
+          _highlightResult: {
+            label: {
+              value: 'Label 1',
+            },
+          },
+        },
+        {
+          count: 2,
+          label: 'Label 2',
+          _highlightResult: {
+            label: {
+              value: 'Label 2',
+            },
+          },
+        },
+      ],
+    ]);
+  });
 });
