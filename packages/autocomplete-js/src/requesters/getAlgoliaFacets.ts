@@ -1,5 +1,5 @@
+import { createGetAlgoliaFacets } from '@algolia/autocomplete-preset-algolia';
+
 import { createAlgoliaRequester } from './createAlgoliaRequester';
 
-export const getAlgoliaFacets = createAlgoliaRequester({
-  transformResponse: (result) => result.facetHits,
-});
+export const getAlgoliaFacets = createGetAlgoliaFacets(createAlgoliaRequester);

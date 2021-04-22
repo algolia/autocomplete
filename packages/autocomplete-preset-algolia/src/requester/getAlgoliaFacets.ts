@@ -1,5 +1,4 @@
 import { createAlgoliaRequester } from './createAlgoliaRequester';
+import { createGetAlgoliaFacets } from './createGetAlgoliaFacets';
 
-export const getAlgoliaFacets = createAlgoliaRequester({
-  transformResponse: (result) => result.facetHits,
-});
+export const getAlgoliaFacets = createGetAlgoliaFacets(createAlgoliaRequester);
