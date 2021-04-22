@@ -101,6 +101,20 @@ The queries to search for, with the following parameters:
 
 The index name.
 
+#### `type`
+
+> `"default" | "facet"` | required
+
+The type of query to perform. When using `getAlgoliaFacets`, this should be set to `"facet"`.
+
+#### `facet`
+
+> `string` | required
+
+The attribute name to search facet values into.
+
+Note that for this to work, it must be declared in the [`attributesForFaceting`](https://www.algolia.com/doc/api-reference/api-parameters/attributesForFaceting/) index setting with the `searchable()` modifier.
+
 #### `params`
 
 > [`SearchOptions`](https://www.algolia.com/doc/api-reference/search-api-parameters/)
