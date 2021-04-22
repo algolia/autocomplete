@@ -2,18 +2,19 @@ import { createSearchClient } from '../../../../../test/utils';
 import { getAlgoliaFacets } from '../getAlgoliaFacets';
 
 describe('getAlgoliaFacets', () => {
-  test('returns the description', async () => {
+  test('returns the description', () => {
     const searchClient = createSearchClient({
       search: jest.fn(),
     });
-    const description = await getAlgoliaFacets({
+    const description = getAlgoliaFacets({
       searchClient,
       queries: [
         {
           indexName: 'indexName',
+          facet: 'categories',
           params: {
-            facetName: 'categories',
             facetQuery: 'query',
+            maxFacetHits: 10,
           },
         },
       ],
@@ -26,27 +27,30 @@ describe('getAlgoliaFacets', () => {
       queries: [
         {
           indexName: 'indexName',
+          type: 'facet',
+          facet: 'categories',
           params: {
-            facetName: 'categories',
             facetQuery: 'query',
+            maxFacetHits: 10,
           },
         },
       ],
     });
   });
 
-  test('defaults transformItems to retrieve facetHits', async () => {
+  test('defaults transformItems to retrieve facetHits', () => {
     const searchClient = createSearchClient({
       search: jest.fn(),
     });
-    const description = await getAlgoliaFacets({
+    const description = getAlgoliaFacets({
       searchClient,
       queries: [
         {
           indexName: 'indexName',
+          facet: 'categories',
           params: {
-            facetName: 'categories',
             facetQuery: 'query',
+            maxFacetHits: 10,
           },
         },
       ],
