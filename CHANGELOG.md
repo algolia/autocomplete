@@ -1,23 +1,21 @@
-# [](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.45...v) (2021-04-22)
+# [v1.0.0-alpha.46](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.45...v1.0.0-alpha.46) (2021-04-22)
 
+This new version introduces the Requester API, which **transparently batches calls to the same Algolia application.** The `getAlgoliaHits` function is replaced by `getAlgoliaResults`, and `getAlgoliaFacetHits` by `getAlgoliaFacets`. Both functions no longer return a promise that resolves to the fetched records, but expose a `transformResponse` method that exposes the results, hits and facet hits for you to manipulate and return if need be. Learn more in the [documentation](https://autocomplete.algolia.com/docs/getAlgoliaResults).
 
 ### Bug Fixes
 
-* **classic-theme:** fix modal display in Detached Mode ([#531](https://github.com/algolia/autocomplete/issues/531)) ([abf98ef](https://github.com/algolia/autocomplete/commit/abf98ef2c332c5f44988b521811e17a093adfd6a))
-* **classic-theme:** remove pointer cursor on no result item content ([#529](https://github.com/algolia/autocomplete/issues/529)) ([b241df4](https://github.com/algolia/autocomplete/commit/b241df426fce5e062139fcc48fbee26765aba0e3))
-* **examples:** update build command ([#539](https://github.com/algolia/autocomplete/issues/539)) ([f5254e9](https://github.com/algolia/autocomplete/commit/f5254e9a3e2c63962af87beea8e939319f12e619))
-* **js:** compute panel top position with `getBoundingClientRect` ([#536](https://github.com/algolia/autocomplete/issues/536)) ([492e058](https://github.com/algolia/autocomplete/commit/492e058c66f0c9972206ef4417ba7d0c8edf92a2))
-* **types:** fix collision between js/core and plugins ([#532](https://github.com/algolia/autocomplete/issues/532)) ([ac79f67](https://github.com/algolia/autocomplete/commit/ac79f6790f34cabe911492dbe24aad4633d9d949))
-* adjust examples ([#527](https://github.com/algolia/autocomplete/issues/527)) ([32bd2bc](https://github.com/algolia/autocomplete/commit/32bd2bc08c14c06faa3551f11253da6b14af5450))
-* **theme-classic:** wrap item content when there's no link ([#522](https://github.com/algolia/autocomplete/issues/522)) ([c6afe42](https://github.com/algolia/autocomplete/commit/c6afe4256047b234a5b4b0e45a1cfa61b1e82c6d))
-
+- **classic-theme:** fix modal display in Detached Mode ([#531](https://github.com/algolia/autocomplete/issues/531)) ([abf98ef](https://github.com/algolia/autocomplete/commit/abf98ef2c332c5f44988b521811e17a093adfd6a))
+- **classic-theme:** remove pointer cursor on no result item content ([#529](https://github.com/algolia/autocomplete/issues/529)) ([b241df4](https://github.com/algolia/autocomplete/commit/b241df426fce5e062139fcc48fbee26765aba0e3))
+- **examples:** update build command ([#539](https://github.com/algolia/autocomplete/issues/539)) ([f5254e9](https://github.com/algolia/autocomplete/commit/f5254e9a3e2c63962af87beea8e939319f12e619))
+- **js:** compute panel top position with `getBoundingClientRect` ([#536](https://github.com/algolia/autocomplete/issues/536)) ([492e058](https://github.com/algolia/autocomplete/commit/492e058c66f0c9972206ef4417ba7d0c8edf92a2))
+- **types:** fix collision between js/core and plugins ([#532](https://github.com/algolia/autocomplete/issues/532)) ([ac79f67](https://github.com/algolia/autocomplete/commit/ac79f6790f34cabe911492dbe24aad4633d9d949))
+- adjust examples ([#527](https://github.com/algolia/autocomplete/issues/527)) ([32bd2bc](https://github.com/algolia/autocomplete/commit/32bd2bc08c14c06faa3551f11253da6b14af5450))
+- **theme-classic:** wrap item content when there's no link ([#522](https://github.com/algolia/autocomplete/issues/522)) ([c6afe42](https://github.com/algolia/autocomplete/commit/c6afe4256047b234a5b4b0e45a1cfa61b1e82c6d))
 
 ### Features
 
-* **core:** introduce Requester API ([#540](https://github.com/algolia/autocomplete/issues/540)) ([be1cee7](https://github.com/algolia/autocomplete/commit/be1cee7003ef6e804a22a62415f0711ec9f583a4))
-* **qs:** append space to query on tap-ahead ([#525](https://github.com/algolia/autocomplete/issues/525)) ([06358bc](https://github.com/algolia/autocomplete/commit/06358bc8c295ffb7439d49c5959034dc5772f467))
-
-
+- **core:** introduce Requester API ([#540](https://github.com/algolia/autocomplete/issues/540)) ([be1cee7](https://github.com/algolia/autocomplete/commit/be1cee7003ef6e804a22a62415f0711ec9f583a4))
+- **qs:** append space to query on tap-ahead ([#525](https://github.com/algolia/autocomplete/issues/525)) ([06358bc](https://github.com/algolia/autocomplete/commit/06358bc8c295ffb7439d49c5959034dc5772f467))
 
 # [1.0.0-alpha.45](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.44...v1.0.0-alpha.45) (2021-04-09)
 
