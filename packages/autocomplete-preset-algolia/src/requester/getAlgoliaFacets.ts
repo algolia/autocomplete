@@ -1,5 +1,20 @@
-import { createAlgoliaRequester } from './createAlgoliaRequester';
+import { MultipleQueriesQuery } from '@algolia/client-search';
 
-export const getAlgoliaFacets = createAlgoliaRequester({
-  transformResponse: (result) => result.facetHits,
-});
+import { createAlgoliaRequester } from './createAlgoliaRequester';
+import { RequestParams } from './createRequester';
+
+export function getAlgoliaFacets<TTHit>(requestParams: RequestParams<TTHit>) {
+  const requester = createAlgoliaRequester({
+    transformResponse: (response) => response.facetHits,
+  });
+
+  const queries = requestParams.queries.map((query) => ({
+    ...query,
+    type: 'facet',
+  })) as MultipleQueriesQuery[];
+
+  return requester({
+    ...requestParams,
+    queries,
+  });
+}
