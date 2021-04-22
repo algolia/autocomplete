@@ -24,7 +24,7 @@ function isDescription<TItem extends BaseItem>(
   return Boolean((item as RequestDescriptionPreResolved<TItem>).execute);
 }
 
-export function isRequesterDescription<TItem extends BaseItem>(
+function isRequesterDescription<TItem extends BaseItem>(
   description: TItem[] | TItem[][] | RequesterDescription<TItem>
 ): description is RequesterDescription<TItem> {
   return Boolean((description as RequesterDescription<TItem>).execute);
