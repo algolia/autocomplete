@@ -147,8 +147,8 @@ This is the default implementation:
 ```js
 getAlgoliaResults({
   // ...
-  transformResponse({ hits }) {
-    return hits;
+  transformResponse({ facetHits }) {
+    return facetHits;
   },
 });
 ```
