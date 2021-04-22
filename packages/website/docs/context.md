@@ -29,7 +29,7 @@ autocomplete({
       ],
       transformResponse({ results, hits }) {
         setContext({
-          nbProducts: results.nbHits,
+          nbProducts: results[0].nbHits,
         });
 
         // You can now use `state.context.nbProducts`

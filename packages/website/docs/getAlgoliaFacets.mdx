@@ -2,10 +2,10 @@
 id: getAlgoliaFacets
 ---
 
-import GetAlgoliaFacetHitsIntro from './partials/preset-algolia/getAlgoliaFacets/intro.md';
+import GetAlgoliaFacetsIntro from './partials/preset-algolia/getAlgoliaFacets/intro.md';
 import PresetAlgoliaNote from './partials/preset-algolia/note.md';
 
-<GetAlgoliaFacetHitsIntro />
+<GetAlgoliaFacetsIntro />
 
 <PresetAlgoliaNote />
 
@@ -91,7 +91,7 @@ The initialized Algolia search client.
 
 ### `queries`
 
-> `FacetQuery[]` | required
+> `MultipleQueriesQuery[]` | required
 
 The queries to search for, with the following parameters:
 
@@ -103,7 +103,7 @@ The index name.
 
 #### `params`
 
-> [`SearchForFacetValuesQueryParams` & `SearchOptions`](https://www.algolia.com/doc/api-reference/api-methods/search-for-facet-values/#parameters)
+> [`SearchOptions`](https://www.algolia.com/doc/api-reference/search-api-parameters/)
 
 Algolia search for facet values parameters.
 
@@ -126,7 +126,7 @@ If you override `highlightPreTag` and `highlightPostTag`, you won't be able to u
 
 > `(response: { results: Array<SearchResponse<THit> | SearchForFacetValuesResponse>, hits: MaybeArray<Hit<THit>[]>, facetHits: MaybeArray<FacetHit[]> }) => MaybeArray<Hit<THit>[] | FacetHit[]>`
 
-The function to transform the Algolia response before passing it to the Autocomplete state. You have access to the full Algolia results, as well as the pre-compiled hits and facet hits. This is useful to manipulate the hits, or store data from the results in the [context](context).
+The function to transform the Algolia response before passing it to the Autocomplete state. You have access to the full Algolia results, as well as the pre-computed hits and facet hits. This is useful to manipulate the hits, or store data from the results in the [context](context).
 
 This is the default implementation:
 
