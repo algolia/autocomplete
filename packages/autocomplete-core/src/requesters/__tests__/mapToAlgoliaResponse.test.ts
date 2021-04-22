@@ -17,24 +17,26 @@ describe('mapToAlgoliaResponse', () => {
     expect(response).toEqual({
       results: expect.arrayContaining([
         expect.objectContaining({
-          hits: expect.any(Object),
+          hits: expect.any(Array),
         }),
         expect.objectContaining({
-          hits: expect.any(Object),
+          hits: expect.any(Array),
         }),
       ]),
-      hits: expect.arrayContaining([[], []]),
-      facetHits: expect.arrayContaining([[]]),
+      hits: [[], []],
+      facetHits: [[]],
     });
   });
+
   test('returns an empty array when there are no hits', () => {
     const { hits } = mapToAlgoliaResponse([createSFFVResponse()]);
 
-    expect(hits).toHaveLength(0);
+    expect(hits).toEqual([]);
   });
+
   test('returns an empty array when there are no facet hits', () => {
     const { facetHits } = mapToAlgoliaResponse([createSingleSearchResponse()]);
 
-    expect(facetHits).toHaveLength(0);
+    expect(facetHits).toEqual([]);
   });
 });
