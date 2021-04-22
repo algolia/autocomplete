@@ -106,7 +106,7 @@ You can find more on the [documentation](https://autocomplete.algolia.com).
 | [`autocomplete-plugin-recent-searches`](packages/autocomplete-plugin-recent-searches) | A plugin to add recent searches to Algolia Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/createLocalStorageRecentSearchesPlugin) |
 | [`autocomplete-plugin-query-suggestions`](packages/autocomplete-plugin-query-suggestions) | A plugin to add query suggestions to Algolia Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/createQuerySuggestionsPlugin) |
 | [`autocomplete-plugin-algolia-insights`](packages/autocomplete-plugin-algolia-insights) | A plugin to add Algolia Insights to Algolia Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/createAlgoliaInsightsPlugin) |
-| [`autocomplete-preset-algolia`](packages/autocomplete-preset-algolia) | Presets to use Algolia features with Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/getAlgoliaHits) |
+| [`autocomplete-preset-algolia`](packages/autocomplete-preset-algolia) | Presets to use Algolia features with Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/getAlgoliaResults) |
 | [`autocomplete-theme-classic`](packages/autocomplete-theme-classic) | Classic theme for Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/autocomplete-theme-classic) |
 
 ## Showcase

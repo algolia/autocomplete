@@ -17,12 +17,12 @@ Building a custom renderer is an advanced pattern that leverages the [`autocompl
 
 ## Importing the package
 
-Begin by importing [`createAutocomplete`](createAutocomplete) from the [core package](createAutocomplete) and [`getAlgoliaHits`](getAlgoliaHits) from the [Algolia preset](getAlgoliaHits). The preset—[`autocomplete-preset-algolia`](autocomplete-js)—is a utility function to retrieve items from an Algolia index.
+Begin by importing [`createAutocomplete`](createAutocomplete) from the [core package](createAutocomplete) and [`getAlgoliaResults`](getAlgoliaResults) from the [Algolia preset](getAlgoliaResults). The preset—[`autocomplete-preset-algolia`](autocomplete-js)—is a utility function to retrieve items from an Algolia index.
 
 ```js title="Autocomplete.jsx"
 import algoliasearch from 'algoliasearch/lite';
 import { createAutocomplete } from '@algolia/autocomplete-core';
-import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
+import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 
 // ...
 ```
@@ -56,7 +56,7 @@ function Autocomplete() {
                 return item.query;
               },
               getItems({ query }) {
-                return getAlgoliaHits({
+                return getAlgoliaResults({
                   searchClient,
                   queries: [
                     {

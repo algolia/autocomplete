@@ -39,12 +39,12 @@ If you don't use a package manager, you can use the HTML `script` element:
 
 ## Example
 
-This example uses the package along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client and [`getAlgoliaHits`](getAlgoliaHits) function from the Autocomplete Algolia preset. It returns [a set of functions](#returns) to build an autocomplete experience.
+This example uses the package along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client and [`getAlgoliaResults`](getAlgoliaResults) function from the Autocomplete Algolia preset. It returns [a set of functions](#returns) to build an autocomplete experience.
 
 ```js
 import algoliasearch from 'algoliasearch/lite';
 import { createAutocomplete } from '@algolia/autocomplete-core';
-import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
+import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 
 const searchClient = algoliasearch(
   'latency',
@@ -58,7 +58,7 @@ const autocomplete = createAutocomplete({
         sourceId: 'querySuggestions',
         getItemInputValue: ({ item }) => item.query,
         getItems({ query }) {
-          return getAlgoliaHits({
+          return getAlgoliaResults({
             searchClient,
             queries: [
               {

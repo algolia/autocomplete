@@ -39,7 +39,7 @@ Presets provide utilities to use in Autocomplete experiences. They facilitate in
 
 We currently provide a single preset:
 
-- [`autocomplete-preset-algolia`](getAlgoliaHits) provides fetching and highlighting utilities for usage with Algolia.
+- [`autocomplete-preset-algolia`](getAlgoliaResults) provides fetching and highlighting utilities for usage with Algolia.
 
 ## Themes
 
