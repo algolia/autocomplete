@@ -37,7 +37,7 @@ describe('getAlgoliaResults', () => {
     });
   });
 
-  test('defaults transformItems to retrieve hits', async () => {
+  test('defaults transformItems to retrieve hits', () => {
     const searchClient = createSearchClient({
       search: jest.fn(),
     });
