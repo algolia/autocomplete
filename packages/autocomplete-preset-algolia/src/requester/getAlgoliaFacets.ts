@@ -1,7 +1,7 @@
 import { MultipleQueriesQuery } from '@algolia/client-search';
 
-import { RequestParams } from './createRequester';
 import { createAlgoliaRequester } from './createAlgoliaRequester';
+import { RequestParams } from './createRequester';
 
 export function getAlgoliaFacets<TTHit>(requestParams: RequestParams<TTHit>) {
   const requester = createAlgoliaRequester({
