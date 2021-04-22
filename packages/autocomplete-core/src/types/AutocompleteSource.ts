@@ -1,6 +1,5 @@
-import { MaybePromise } from '@algolia/autocomplete-shared';
-
-import { RequesterDescription } from '../createRequester';
+import type { RequesterDescription } from '@algolia/autocomplete-preset-algolia';
+import type { MaybePromise } from '@algolia/autocomplete-shared';
 
 import { AutocompleteScopeApi, BaseItem } from './AutocompleteApi';
 import { GetSourcesParams } from './AutocompleteOptions';

@@ -1,10 +1,11 @@
-import { fetchAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 import {
   MultipleQueriesQuery,
   SearchForFacetValuesResponse,
   SearchResponse,
 } from '@algolia/client-search';
 import { SearchClient } from 'algoliasearch/lite';
+
+import { fetchAlgoliaResults } from '../search';
 
 type Fetcher = typeof fetchAlgoliaResults;
 

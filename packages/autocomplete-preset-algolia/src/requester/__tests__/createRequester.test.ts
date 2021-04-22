@@ -3,7 +3,7 @@ import { fetchAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 import {
   createMultiSearchResponse,
   createSearchClient,
-} from '../../../../test/utils';
+} from '../../../../../test/utils';
 import { createRequester } from '../createRequester';
 
 describe('createRequester', () => {

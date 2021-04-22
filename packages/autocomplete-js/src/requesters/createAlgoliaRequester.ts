@@ -1,5 +1,7 @@
-import { createRequester } from '@algolia/autocomplete-core';
-import { fetchAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
+import {
+  createRequester,
+  fetchAlgoliaResults,
+} from '@algolia/autocomplete-preset-algolia';
 
 import { version } from '../version';
 

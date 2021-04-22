@@ -1,3 +1,9 @@
+import type {
+  Execute,
+  ExecuteResponse,
+  RequesterDescription,
+  TransformResponse,
+} from '@algolia/autocomplete-preset-algolia';
 import { invariant } from '@algolia/autocomplete-shared';
 import {
   MultipleQueriesQuery,
@@ -6,16 +12,8 @@ import {
 } from '@algolia/client-search';
 import type { SearchClient } from 'algoliasearch/lite';
 
-import {
-  Execute,
-  ExecuteResponse,
-  RequesterDescription,
-  TransformResponse,
-} from './createRequester';
-import { mapToAlgoliaResponse } from './requesters/mapToAlgoliaResponse';
 import { BaseItem, InternalAutocompleteSource } from './types';
-import { flatten } from './utils';
-import { isRequesterDescription } from './utils/isRequesterDescription';
+import { flatten, mapToAlgoliaResponse } from './utils';
 
 function isDescription<TItem extends BaseItem>(
   item:
@@ -24,6 +22,12 @@ function isDescription<TItem extends BaseItem>(
     | PackedDescription<TItem>
 ): item is RequestDescriptionPreResolved<TItem> {
   return Boolean((item as RequestDescriptionPreResolved<TItem>).execute);
+}
+
+export function isRequesterDescription<TItem extends BaseItem>(
+  description: TItem[] | TItem[][] | RequesterDescription<TItem>
+): description is RequesterDescription<TItem> {
+  return Boolean((description as RequesterDescription<TItem>).execute);
 }
 
 type PackedDescription<TItem extends BaseItem> = {

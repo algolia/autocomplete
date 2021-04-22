@@ -8,7 +8,7 @@ import type { SearchClient } from 'algoliasearch/lite';
 import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from '../constants';
 import { version } from '../version';
 
-import { UserAgent } from './UserAgent';
+type UserAgent = { segment: string; version?: string };
 
 export interface SearchParams {
   searchClient: SearchClient;
