@@ -84,6 +84,19 @@ describe('Panel positioning', () => {
     });
   });
 
+  afterAll(() => {
+    Object.defineProperty(document.documentElement, 'clientWidth', {
+      get() {
+        return 0;
+      },
+    });
+    Object.defineProperty(document.documentElement, 'clientHeight', {
+      get() {
+        return 0;
+      },
+    });
+  });
+
   afterEach(() => {
     document.body.innerHTML = '';
   });
@@ -101,11 +114,6 @@ describe('Panel positioning', () => {
     });
 
     const root = document.querySelector<HTMLDivElement>('.aa-Autocomplete');
-    Object.defineProperty(root, 'offsetTop', {
-      writable: true,
-      configurable: true,
-      value: 40,
-    });
     root.getBoundingClientRect = jest.fn().mockReturnValue(rootPosition);
     const form = document.querySelector<HTMLFormElement>('.aa-Form');
     form.getBoundingClientRect = jest.fn().mockReturnValue(formPosition);
@@ -116,7 +124,7 @@ describe('Panel positioning', () => {
     await waitFor(() => getByTestId(panelContainer, 'panel'));
 
     expect(getByTestId(panelContainer, 'panel')).toHaveStyle({
-      top: '60px',
+      top: '40px',
       left: '300px',
       right: '1020px',
     });
@@ -136,11 +144,6 @@ describe('Panel positioning', () => {
 
     const root = document.querySelector<HTMLDivElement>('.aa-Autocomplete');
     root.getBoundingClientRect = jest.fn().mockReturnValue(rootPosition);
-    Object.defineProperty(root, 'offsetTop', {
-      writable: true,
-      configurable: true,
-      value: 40,
-    });
     const form = document.querySelector<HTMLFormElement>('.aa-Form');
     form.getBoundingClientRect = jest.fn().mockReturnValue(formPosition);
 
@@ -150,7 +153,7 @@ describe('Panel positioning', () => {
     await waitFor(() => getByTestId(panelContainer, 'panel'));
 
     expect(getByTestId(panelContainer, 'panel')).toHaveStyle({
-      top: '60px',
+      top: '40px',
       left: '300px',
       right: '1020px',
     });
@@ -158,11 +161,9 @@ describe('Panel positioning', () => {
     input.blur();
 
     // Move the root vertically
-    Object.defineProperty(root, 'offsetTop', {
-      writable: true,
-      configurable: true,
-      value: 90,
-    });
+    root.getBoundingClientRect = jest
+      .fn()
+      .mockReturnValue({ ...rootPosition, top: 90 });
 
     input.focus();
 

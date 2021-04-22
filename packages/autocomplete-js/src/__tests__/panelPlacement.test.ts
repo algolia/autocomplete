@@ -2,10 +2,8 @@ import { waitFor } from '@testing-library/dom';
 
 import { autocomplete } from '../autocomplete';
 
-// Arbitrary values to mock `getBoundingClientRect`, `offsetTop` and `clientWidth`
+// Arbitrary values to mock `getBoundingClientRect` and `clientWidth`
 // (by default jest mock everything to 0 but we cannot properly check the calculations if everything is set to 0)
-const OFFSET_TOP = 2;
-const CLIENT_WIDTH = 3;
 const BOTTOM = 5;
 const HEIGHT = 7;
 const LEFT = 11;
@@ -28,15 +26,15 @@ describe('panelPlacement', () => {
   });
 
   beforeAll(() => {
-    Object.defineProperty(window.HTMLElement.prototype, 'offsetTop', {
-      get() {
-        return OFFSET_TOP;
-      },
-    });
     Object.defineProperty(document.documentElement, 'clientWidth', {
       get() {
-        return CLIENT_WIDTH;
+        return 1920;
       },
+    });
+    Object.defineProperty(document.documentElement, 'clientHeight', {
+      writable: true,
+      configurable: true,
+      value: 1080,
     });
   });
 
@@ -50,11 +48,6 @@ describe('panelPlacement', () => {
   });
 
   afterAll(() => {
-    Object.defineProperty(window.HTMLElement.prototype, 'offsetTop', {
-      get() {
-        return 0;
-      },
-    });
     Object.defineProperty(document.documentElement, 'clientWidth', {
       get() {
         return 0;
@@ -82,9 +75,9 @@ describe('panelPlacement', () => {
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '9px', // OFFSET_TOP + HEIGHT
+          top: '24px', // TOP + HEIGHT
           left: '11px', // LEFT
-          right: '-27px', // CLIENT_WIDTH - (LEFT + WIDTH)
+          right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
           width: 'unset',
           'max-width': 'unset',
         });
@@ -112,7 +105,7 @@ describe('panelPlacement', () => {
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '9px', // OFFSET_TOP + HEIGHT
+          top: '24px', // TOP + HEIGHT
           left: '11px', // LEFT
         });
       });
@@ -139,8 +132,8 @@ describe('panelPlacement', () => {
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '9px', // OFFSET_TOP + HEIGHT
-          right: '-27px', // CLIENT_WIDTH - (LEFT + WIDTH)
+          top: '24px', // TOP + HEIGHT
+          right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
         });
       });
     });
@@ -166,7 +159,7 @@ describe('panelPlacement', () => {
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '9px', // OFFSET_TOP + HEIGHT
+          top: '24px', // TOP + HEIGHT
           left: 0,
           right: 0,
           width: 'unset',
@@ -194,9 +187,9 @@ describe('panelPlacement', () => {
 
     await waitFor(() => {
       expect(document.querySelector('.aa-Panel')).toHaveStyle({
-        top: '9px', // OFFSET_TOP + HEIGHT
+        top: '24px', // TOP + HEIGHT
         left: '11px', // LEFT
-        right: '-27px', // CLIENT_WIDTH - (LEFT + WIDTH)
+        right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
         width: 'unset',
         'max-width': 'unset',
       });
