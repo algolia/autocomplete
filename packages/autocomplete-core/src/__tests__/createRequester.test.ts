@@ -1,8 +1,9 @@
+import { fetchAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
+
 import {
   createMultiSearchResponse,
   createSearchClient,
 } from '../../../../test/utils';
-import { fetchAlgoliaResults } from '../../../autocomplete-preset-algolia';
 import { createRequester } from '../createRequester';
 
 describe('createRequester', () => {
