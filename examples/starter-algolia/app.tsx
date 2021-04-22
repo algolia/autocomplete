@@ -1,5 +1,5 @@
 /** @jsx h */
-import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
+import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch';
 import { h } from 'preact';
@@ -30,7 +30,7 @@ autocomplete<AutocompleteItem>({
       {
         sourceId: 'products',
         getItems() {
-          return getAlgoliaHits<AutocompleteItem>({
+          return getAlgoliaResults<AutocompleteItem>({
             searchClient,
             queries: [
               {
