@@ -2,11 +2,11 @@ import { createSearchClient } from '../../../../../test/utils';
 import { getAlgoliaResults } from '../getAlgoliaResults';
 
 describe('getAlgoliaResults', () => {
-  test('returns the description', async () => {
+  test('returns the description', () => {
     const searchClient = createSearchClient({
       search: jest.fn(),
     });
-    const description = await getAlgoliaResults({
+    const description = getAlgoliaResults({
       searchClient,
       queries: [
         {
@@ -41,7 +41,7 @@ describe('getAlgoliaResults', () => {
     const searchClient = createSearchClient({
       search: jest.fn(),
     });
-    const description = await getAlgoliaResults<{ label: string }>({
+    const description = getAlgoliaResults<{ label: string }>({
       searchClient,
       queries: [
         {
