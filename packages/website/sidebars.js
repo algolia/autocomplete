@@ -32,9 +32,8 @@ module.exports = {
         label: 'autocomplete-js',
         items: [
           'autocomplete-js',
-          'getAlgoliaHits-js',
           'getAlgoliaResults-js',
-          'getAlgoliaFacetHits-js',
+          'getAlgoliaFacets-js',
         ],
       },
       {
@@ -64,9 +63,8 @@ module.exports = {
         type: 'category',
         label: 'autocomplete-preset-algolia',
         items: [
-          'getAlgoliaHits',
           'getAlgoliaResults',
-          'getAlgoliaFacetHits',
+          'getAlgoliaFacets',
           'parseAlgoliaHitHighlight',
           'parseAlgoliaHitSnippet',
           'parseAlgoliaHitReverseHighlight',

@@ -1,11 +1,11 @@
 ---
-id: getAlgoliaResults
+id: getAlgoliaFacets
 ---
 
-import GetAlgoliaResultsIntro from './partials/preset-algolia/getAlgoliaResults/intro.md';
+import GetAlgoliaFacetHitsIntro from './partials/preset-algolia/getAlgoliaFacetHits/intro.md';
 import PresetAlgoliaNote from './partials/preset-algolia/note.md';
 
-<GetAlgoliaResultsIntro />
+<GetAlgoliaFacetHitsIntro />
 
 <PresetAlgoliaNote />
 
@@ -22,7 +22,7 @@ npm install @algolia/autocomplete-preset-algolia@alpha
 Then import it in your project:
 
 ```js
-import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
+import { getAlgoliaFacets } from '@algolia/autocomplete-preset-algolia';
 ```
 
 If you don't use a package manager, you can use the HTML `script` element:
@@ -30,13 +30,11 @@ If you don't use a package manager, you can use the HTML `script` element:
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-preset-algolia@alpha"></script>
 <script>
-  const { getAlgoliaResults } = window['@algolia/autocomplete-preset-algolia'];
+  const { getAlgoliaFacets } = window['@algolia/autocomplete-preset-algolia'];
 </script>
 ```
 
 ## Example
-
-This example uses the function along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client.
 
 ```js
 import algoliasearch from 'algoliasearch/lite';
@@ -53,16 +51,18 @@ const autocomplete = createAutocomplete({
   getSources() {
     return [
       {
-        sourceId: 'products',
+        sourceId: 'categories',
         getItems({ query }) {
-          getAlgoliaResults({
+          getAlgoliaFacets({
             searchClient,
             queries: [
               {
                 indexName: 'instant_search',
-                query,
+                type: 'facet',
+                facet: 'categories',
                 params: {
-                  hitsPerPage: 5,
+                  facetQuery: query,
+                  maxFacetHits: 10,
                 },
               },
             ],
@@ -77,7 +77,7 @@ const autocomplete = createAutocomplete({
 
 :::info
 
-When using `getAlgoliaResults` and [`getAlgoliaFacets`](getAlgoliaFacets) with the same search client in different sources or plugins, Autocomplete batches all queries into a single network call to Algolia. If you're using the same search client for different sources or plugins, **make sure to use the same instance to leverage the internal cache and batching mechanism.**
+When using `getAlgoliaFacets` and [`getAlgoliaResults`](getAlgoliaResults) with the same search client in different sources or plugins, Autocomplete batches all queries into a single network call to Algolia. If you're using the same search client for different sources or plugins, **make sure to use the same instance to leverage the internal cache and batching mechanism.**
 
 :::
 
@@ -91,33 +91,32 @@ The initialized Algolia search client.
 
 ### `queries`
 
-> `MultipleQueriesQuery[]` | required
+> `FacetQuery[]` | required
 
-The queries to perform, with the following parameters:
+The queries to search for, with the following parameters:
 
 #### `indexName`
 
 > `string` | required
 
-The index name to search into.
-
-#### `query`
-
-> `string`
-
-The query to search for.
+The index name.
 
 #### `params`
 
-> [`SearchParameters`](https://www.algolia.com/doc/api-reference/search-api-parameters/)
+> [`SearchForFacetValuesQueryParams` & `SearchOptions`](https://www.algolia.com/doc/api-reference/api-methods/search-for-facet-values/#parameters)
 
-Algolia search parameters.
+Algolia search for facet values parameters.
 
-These are the default search parameters. You can leave them as is and specify other parameters, or override them.
+These are the default parameters. You can leave them as is and specify other parameters, or override them.
+
+:::info
+
+If you override `highlightPreTag` and `highlightPostTag`, you won't be able to use the built-in highlighting components such as `Highlight`.
+
+:::
 
 ```json
 {
-  "hitsPerPage": 5,
   "highlightPreTag": "__aa-highlight__",
   "highlightPostTag": "__/aa-highlight__"
 }
