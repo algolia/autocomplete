@@ -58,7 +58,6 @@ const autocomplete = createAutocomplete({
             queries: [
               {
                 indexName: 'instant_search',
-                type: 'facet',
                 facet: 'categories',
                 params: {
                   facetQuery: query,
@@ -100,12 +99,6 @@ The queries to search for, with the following parameters:
 > `string` | required
 
 The index name.
-
-#### `type`
-
-> `"default" | "facet"` | required
-
-The type of query to perform. When using `getAlgoliaFacets`, this should be set to `"facet"`.
 
 #### `facet`
 
