@@ -32,5 +32,10 @@
   },
   "dependencies": {
     "@algolia/autocomplete-shared": "1.0.0-alpha.45"
+  },
+  "devDependencies": {
+    "@algolia/autocomplete-preset-algolia": "1.0.0-alpha.45",
+    "@algolia/client-search": "4.9.0",
+    "algoliasearch": "4.9.0"
   }
 }

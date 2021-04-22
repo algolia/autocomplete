@@ -112,6 +112,38 @@ describe('getNormalizedSources', () => {
     );
   });
 
+  test('with duplicate `sourceId`s throws', async () => {
+    const getSources = () => [
+      {
+        sourceId: 'testSource',
+        getItems() {
+          return [];
+        },
+        templates: {
+          item() {},
+        },
+      },
+      {
+        sourceId: 'testSource',
+        getItems() {
+          return [];
+        },
+        templates: {
+          item() {},
+        },
+      },
+    ];
+    const params = {
+      query: '',
+      state: createState({}),
+      ...createScopeApi(),
+    };
+
+    await expect(getNormalizedSources(getSources, params)).rejects.toEqual(
+      new Error('[Autocomplete] The `sourceId` "testSource" is not unique.')
+    );
+  });
+
   test('provides a default implementation for getItemInputValue which returns the query', async () => {
     const getSources = () => [{ sourceId: 'testSource', getItems: () => [] }];
     const params = {

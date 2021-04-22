@@ -203,7 +203,7 @@ describe('panelPlacement', () => {
       (error) => {
         error.preventDefault();
         expect(error.message).toEqual(
-          'The `panelPlacement` value "invalid" is not valid.'
+          '[Autocomplete] The `panelPlacement` value "invalid" is not valid.'
         );
         done();
       },

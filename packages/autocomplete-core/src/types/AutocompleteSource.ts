@@ -1,4 +1,5 @@
-import { MaybePromise } from '@algolia/autocomplete-shared';
+import type { RequesterDescription } from '@algolia/autocomplete-preset-algolia';
+import type { MaybePromise } from '@algolia/autocomplete-shared';
 
 import { AutocompleteScopeApi, BaseItem } from './AutocompleteApi';
 import { GetSourcesParams } from './AutocompleteOptions';
@@ -52,7 +53,9 @@ export interface AutocompleteSource<TItem extends BaseItem> {
    *
    * You can use this function to filter the items based on the query.
    */
-  getItems(params: GetSourcesParams<TItem>): MaybePromise<TItem[] | TItem[][]>;
+  getItems(
+    params: GetSourcesParams<TItem>
+  ): MaybePromise<TItem[] | TItem[][] | RequesterDescription<TItem>>;
   /**
    * The function called whenever an item is selected.
    */

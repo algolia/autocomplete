@@ -1,8 +1,5 @@
 /** @jsx h */
-import {
-  AutocompletePlugin,
-  getAlgoliaFacetHits,
-} from '@algolia/autocomplete-js';
+import { AutocompletePlugin, getAlgoliaFacets } from '@algolia/autocomplete-js';
 import { SearchClient } from 'algoliasearch/lite';
 import { h, Fragment } from 'preact';
 
@@ -24,7 +21,7 @@ export function createCategoriesPlugin({
         {
           sourceId: 'categoriesPlugin',
           getItems() {
-            return getAlgoliaFacetHits({
+            return getAlgoliaFacets({
               searchClient,
               queries: [
                 {

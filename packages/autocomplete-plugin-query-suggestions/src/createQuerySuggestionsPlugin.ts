@@ -2,7 +2,7 @@ import {
   AutocompleteState,
   AutocompleteSource,
   AutocompletePlugin,
-  getAlgoliaHits,
+  getAlgoliaResults,
 } from '@algolia/autocomplete-js';
 import { getAttributeValueByPath } from '@algolia/autocomplete-shared';
 import { SearchOptions } from '@algolia/client-search';
@@ -95,7 +95,7 @@ export function createQuerySuggestionsPlugin<
               return item.query;
             },
             getItems() {
-              return getAlgoliaHits<QuerySuggestionsHit<typeof indexName>>({
+              return getAlgoliaResults({
                 searchClient,
                 queries: [
                   {
@@ -106,40 +106,45 @@ export function createQuerySuggestionsPlugin<
                     }),
                   },
                 ],
-              }).then(([hits]) => {
-                if (!query || !categoryAttribute) {
-                  return hits as any;
-                }
-
-                return hits.reduce<
-                  Array<AutocompleteQuerySuggestionsHit<typeof indexName>>
-                >((acc, current, i) => {
-                  const items: Array<
+                transformResponse({ hits }) {
+                  const querySuggestionsHits: Array<
                     AutocompleteQuerySuggestionsHit<typeof indexName>
-                  > = [current];
+                  > = hits[0];
 
-                  if (i <= itemsWithCategories - 1) {
-                    const categories = getAttributeValueByPath(
-                      current,
-                      Array.isArray(categoryAttribute)
-                        ? categoryAttribute
-                        : [categoryAttribute]
-                    )
-                      .map((x) => x.value)
-                      .slice(0, categoriesPerItem);
-
-                    for (const category of categories) {
-                      items.push({
-                        __autocomplete_qsCategory: category,
-                        ...current,
-                      } as any);
-                    }
+                  if (!query || !categoryAttribute) {
+                    return querySuggestionsHits as any;
                   }
 
-                  acc.push(...items);
+                  return querySuggestionsHits.reduce<
+                    Array<AutocompleteQuerySuggestionsHit<typeof indexName>>
+                  >((acc, current, i) => {
+                    const items: Array<
+                      AutocompleteQuerySuggestionsHit<typeof indexName>
+                    > = [current];
 
-                  return acc;
-                }, []);
+                    if (i <= itemsWithCategories - 1) {
+                      const categories = getAttributeValueByPath(
+                        current,
+                        Array.isArray(categoryAttribute)
+                          ? categoryAttribute
+                          : [categoryAttribute]
+                      )
+                        .map((x) => x.value)
+                        .slice(0, categoriesPerItem);
+
+                      for (const category of categories) {
+                        items.push({
+                          __autocomplete_qsCategory: category,
+                          ...current,
+                        } as any);
+                      }
+                    }
+
+                    acc.push(...items);
+
+                    return acc;
+                  }, []);
+                },
               });
             },
             templates: getTemplates({ onTapAhead }),

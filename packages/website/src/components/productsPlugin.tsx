@@ -2,7 +2,7 @@ import {
   AutocompleteComponents,
   AutocompletePlugin,
   AutocompleteSource,
-  getAlgoliaHits,
+  getAlgoliaResults,
 } from '@algolia/autocomplete-js';
 import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch/lite';
@@ -34,7 +34,7 @@ export function createProductsPlugin({
         transformSource({
           sourceId: 'products',
           getItems() {
-            return getAlgoliaHits({
+            return getAlgoliaResults({
               searchClient,
               queries: [
                 {

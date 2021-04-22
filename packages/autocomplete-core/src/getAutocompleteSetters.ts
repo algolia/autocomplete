@@ -29,7 +29,7 @@ export function getAutocompleteSetters<TItem extends BaseItem>({
     let baseItemId = 0;
     const value = rawValue.map<AutocompleteCollection<TItem>>((collection) => ({
       ...collection,
-      // We flatten the stored items to support calling `getAlgoliaHits`
+      // We flatten the stored items to support calling `getAlgoliaResults`
       // from the source itself.
       items: flatten(collection.items as any).map((item: any) => ({
         ...item,

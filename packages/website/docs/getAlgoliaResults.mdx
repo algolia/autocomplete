@@ -39,29 +39,47 @@ If you don't use a package manager, you can use the HTML `script` element:
 This example uses the function along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client.
 
 ```js
-import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 import algoliasearch from 'algoliasearch/lite';
+import { createAutocomplete } from '@algolia/autocomplete-core';
+import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 
 const searchClient = algoliasearch(
   'latency',
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
-getAlgoliaResults({
-  searchClient,
-  queries: [
-    {
-      indexName: 'instant_search',
-      query,
-      params: {
-        hitsPerPage: 3,
+const autocomplete = createAutocomplete({
+  // ...
+  getSources() {
+    return [
+      {
+        sourceId: 'products',
+        getItems({ query }) {
+          getAlgoliaResults({
+            searchClient,
+            queries: [
+              {
+                indexName: 'instant_search',
+                query,
+                params: {
+                  hitsPerPage: 5,
+                },
+              },
+            ],
+          });
+        },
+        // ...
       },
-    },
-  ],
-}).then((results) => {
-  console.log(results);
+    ];
+  },
 });
 ```
+
+:::info
+
+When using `getAlgoliaResults` and [`getAlgoliaFacets`](getAlgoliaFacets) with the same search client in different sources or plugins, Autocomplete batches all queries into a single network call to Algolia. If you're using the same search client for different sources or plugins, **make sure to use the same instance to leverage the internal cache and batching mechanism.**
+
+:::
 
 ## Parameters
 
@@ -105,35 +123,32 @@ These are the default search parameters. You can leave them as is and specify ot
 }
 ```
 
+### `transformResponse`
+
+> `(response: { results: Array<SearchResponse<THit> | SearchForFacetValuesResponse>, hits: MaybeArray<Hit<THit>[]>, facetHits: MaybeArray<FacetHit[]> }) => MaybeArray<Hit<THit>[] | FacetHit[]>`
+
+The function to transform the Algolia response before passing it to the Autocomplete state. You have access to the full Algolia results, as well as the pre-compiled hits and facet hits. This is useful to manipulate the hits, or store data from the results in the [context](context).
+
+This is the default implementation:
+
+```js
+getAlgoliaResults({
+  // ...
+  transformResponse({ hits }) {
+    return hits;
+  },
+});
+```
+
 ## Returns
 
-The function returns a promise that resolves to a response with the following schema:
+The function returns a description with the following interface:
 
-```json
+```ts
 {
-  "hits": [
-    {
-      "objectID": "433",
-      "firstname": "Jimmie",
-      "lastname": "Barninger",
-      "_highlightResult": {
-        "firstname": {
-          "value": "&lt;em&gt;Jimmie&lt;/em&gt;",
-          "matchLevel": "partial"
-        },
-        "lastname": {
-          "value": "Barninger",
-          "matchLevel": "none"
-        }
-      }
-    }
-  ],
-  "page": 0,
-  "nbHits": 1,
-  "nbPages": 1,
-  "hitsPerPage": 20,
-  "processingTimeMS": 1,
-  "query": "jimmie paint",
-  "params": "query=jimmie+paint&attributesToRetrieve=firstname,lastname&hitsPerPage=20"
+  searchClient: SearchClient;
+  queries: MultipleQueriesQuery[];
+  transformResponse: TransformResponse<THit>;
+  execute: Execute<THit>;
 }
 ```

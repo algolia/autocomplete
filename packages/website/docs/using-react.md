@@ -86,13 +86,13 @@ The usage below sets [`openOnFocus`](autocomplete-js#openonfocus) and [sources](
 
 ```jsx title=App.jsx"
 import React, { createElement } from 'react';
-import { getAlgoliaHits } from '@algolia/autocomplete-js';
-import algoliasearch from "algoliasearch";
+import { getAlgoliaResults } from '@algolia/autocomplete-js';
+import algoliasearch from 'algoliasearch';
 import { Autocomplete } from './components/Autocomplete';
 import { ProductItem } from './components/ProductItem';
 
-const appId = "latency";
-const apiKey = "6be0576ff61c053d5f9a3225e2a90f76";
+const appId = 'latency';
+const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
 
 function App() {
@@ -101,29 +101,27 @@ function App() {
       <h1>React Application</h1>
       <Autocomplete
         openOnFocus={true}
-        getSources={({ query }) =>
-          [
-            {
-              sourceId: 'products',
-              getItems() {
-                return getAlgoliaHits({
-                  searchClient,
-                  queries: [
-                    {
-                      indexName: "instant_search",
-                      query,
-                    }
-                  ]
-                });
+        getSources={({ query }) => [
+          {
+            sourceId: 'products',
+            getItems() {
+              return getAlgoliaResults({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'instant_search',
+                    query,
+                  },
+                ],
+              });
+            },
+            templates: {
+              item({ item, components }) {
+                return <ProductItem hit={item} components={components} />;
               },
-              templates: {
-                item({ item, components }) {
-                  return <ProductItem hit={item} components={components} />;
-                }
-              }
-            }
-          ]
-        }
+            },
+          },
+        ]}
       />
     </div>
   );

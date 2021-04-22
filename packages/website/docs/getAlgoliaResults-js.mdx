@@ -12,29 +12,46 @@ import GetAlgoliaResultsIntro from './partials/preset-algolia/getAlgoliaResults/
 This example uses the function along with the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) API client.
 
 ```js
-import { getAlgoliaResults } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch/lite';
+import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 
 const searchClient = algoliasearch(
   'latency',
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
-getAlgoliaResults({
-  searchClient,
-  queries: [
-    {
-      indexName: 'instant_search',
-      query,
-      params: {
-        hitsPerPage: 3,
+autocomplete({
+  // ...
+  getSources({ query }) {
+    return [
+      {
+        sourceId: 'products',
+        getItems({ query }) {
+          getAlgoliaResults({
+            searchClient,
+            queries: [
+              {
+                indexName: 'instant_search',
+                query,
+                params: {
+                  hitsPerPage: 5,
+                },
+              },
+            ],
+          });
+        },
+        // ...
       },
-    },
-  ],
-}).then((results) => {
-  console.log(results);
+    ];
+  },
 });
 ```
+
+:::info
+
+When using `getAlgoliaResults` and [`getAlgoliaFacets`](getAlgoliaFacets-js) with the same search client in different sources or plugins, Autocomplete batches all queries into a single network call to Algolia. If you're using the same search client for different sources or plugins, **make sure to use the same instance to leverage the internal cache and batching mechanism.**
+
+:::
 
 ## Parameters
 

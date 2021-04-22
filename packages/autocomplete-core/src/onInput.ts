@@ -1,5 +1,4 @@
-import { invariant } from '@algolia/autocomplete-shared';
-
+import { preResolve, resolve, postResolve } from './resolve';
 import {
   AutocompleteScopeApi,
   AutocompleteState,
@@ -82,7 +81,6 @@ export function onInput<TItem extends BaseItem>({
     .then((sources) => {
       setStatus('loading');
 
-      // @TODO: convert `Promise.all` to fetching strategy.
       return Promise.all(
         sources.map((source) => {
           return Promise.resolve(
@@ -92,18 +90,13 @@ export function onInput<TItem extends BaseItem>({
               state: store.getState(),
               ...setters,
             })
-          ).then((items) => {
-            invariant(
-              Array.isArray(items),
-              `The \`getItems\` function must return an array of items but returned type ${JSON.stringify(
-                typeof items
-              )}:\n\n${JSON.stringify(items, null, 2)}`
-            );
-
-            return { source, items };
-          });
+          ).then((itemsOrDescription) =>
+            preResolve<TItem>(itemsOrDescription, source.sourceId)
+          );
         })
       )
+        .then(resolve)
+        .then((responses) => postResolve(responses, sources))
         .then((collections) => {
           setStatus('idle');
           setCollections(collections as any);

@@ -35,7 +35,7 @@ Begin by adding a container for your autocomplete menu. This example adds a `div
 </template>
 ```
 
-Then, import the necessary packages for a basic implementation. Since the example queries an Algolia index, it imports the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) package, [`autocomplete`](autocomplete-js) and [`getAlgoliaHits`](getAlgoliaHits-js) from the [`autocomplete-js`](autocomplete-js) package. Finally, it imports [`autocomplete-theme-classic`](autocomplete-theme-classic) package for some out of the box styling.
+Then, import the necessary packages for a basic implementation. Since the example queries an Algolia index, it imports the [`algoliasearch`](https://www.npmjs.com/package/algoliasearch) package, [`autocomplete`](autocomplete-js) and [`getAlgoliaResults`](getAlgoliaResults-js) from the [`autocomplete-js`](autocomplete-js) package. Finally, it imports [`autocomplete-theme-classic`](autocomplete-theme-classic) package for some out of the box styling.
 
 Depending on your desired [sources](sources), you may need to import other packages including [plugins](plugins).
 
@@ -52,7 +52,7 @@ Include some boilerplate to insert the autocomplete into:
 <script>
   import { h, Fragment, render, onMounted } from 'vue';
   import algoliasearch from 'algoliasearch/lite';
-  import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
+  import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 
   import '@algolia/autocomplete-theme-classic';
 
@@ -64,9 +64,9 @@ Include some boilerplate to insert the autocomplete into:
 
 ## Adding an Algolia source
 
-The [`autocomplete-js`](autocomplete-js) package provides a built-in [`getAlgoliaHits`](getAlgoliaHits-js) function for querying an Algolia index. It requires an [Algolia search client](https://www.algolia.com/doc/api-client/getting-started/install/javascript/) initialized with an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id). It lets you search into your Algolia index using an array of `queries`, which defines one or more queries to send to the index.
+The [`autocomplete-js`](autocomplete-js) package provides a built-in [`getAlgoliaResults`](getAlgoliaResults-js) function for querying an Algolia index. It requires an [Algolia search client](https://www.algolia.com/doc/api-client/getting-started/install/javascript/) initialized with an [Algolia application ID and API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id). It lets you search into your Algolia index using an array of `queries`, which defines one or more queries to send to the index.
 
-For more information how to use the [`getAlgoliaHits`](getAlgoliaHits-js) function, see the [Getting Started guide](getting-started).
+For more information how to use the [`getAlgoliaResults`](getAlgoliaResults-js) function, see the [Getting Started guide](getting-started).
 
 ## Mounting the autocomplete
 
@@ -85,7 +85,7 @@ This is because the default Autocomplete implementation uses [Preact's](https://
 <script>
   import { h, Fragment, render, onMounted } from 'vue';
   import algoliasearch from 'algoliasearch/lite';
-  import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
+  import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 
   import '@algolia/autocomplete-theme-classic';
 
@@ -101,7 +101,7 @@ This is because the default Autocomplete implementation uses [Preact's](https://
               {
                 sourceId: 'products',
                 getItems() {
-                  return getAlgoliaHits({
+                  return getAlgoliaResults({
                     searchClient,
                     queries: [
                       {

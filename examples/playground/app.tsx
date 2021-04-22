@@ -2,7 +2,7 @@
 import {
   autocomplete,
   AutocompleteComponents,
-  getAlgoliaHits,
+  getAlgoliaResults,
 } from '@algolia/autocomplete-js';
 import {
   AutocompleteInsightsApi,
@@ -18,7 +18,7 @@ import '@algolia/autocomplete-theme-classic';
 
 import { createCategoriesPlugin } from './categoriesPlugin';
 import { shortcutsPlugin } from './shortcutsPlugin';
-import { ProductHit } from './types';
+import { ProductRecord, ProductHit } from './types';
 
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
@@ -72,7 +72,7 @@ autocomplete<ProductHit>({
       {
         sourceId: 'products',
         getItems() {
-          return getAlgoliaHits<ProductHit>({
+          return getAlgoliaResults<ProductRecord>({
             searchClient,
             queries: [
               {
@@ -85,16 +85,19 @@ autocomplete<ProductHit>({
                 },
               },
             ],
-          }).then(([hits]) => {
-            return hits.map((hit) => ({
-              ...hit,
-              comments: hit.popularity % 100,
-              sale: hit.free_shipping,
-              // eslint-disable-next-line @typescript-eslint/camelcase
-              sale_price: hit.free_shipping
-                ? (hit.price - hit.price / 10).toFixed(2)
-                : hit.price.toString(),
-            }));
+            transformResponse({ hits }) {
+              const [bestBuyHits] = hits;
+
+              return bestBuyHits.map((hit) => ({
+                ...hit,
+                comments: hit.popularity % 100,
+                sale: hit.free_shipping,
+                // eslint-disable-next-line @typescript-eslint/camelcase
+                sale_price: hit.free_shipping
+                  ? (hit.price - hit.price / 10).toFixed(2)
+                  : hit.price.toString(),
+              }));
+            },
           });
         },
         templates: {
