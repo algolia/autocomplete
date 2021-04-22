@@ -1,4 +1,4 @@
-# [v1.0.0-alpha.46](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.45...v1.0.0-alpha.46) (2021-04-22)
+# [1.0.0-alpha.46](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.45...v1.0.0-alpha.46) (2021-04-22)
 
 This new version introduces the Requester API, which **transparently batches calls to the same Algolia application.** The `getAlgoliaHits` function is replaced by `getAlgoliaResults`, and `getAlgoliaFacetHits` by `getAlgoliaFacets`. Both functions no longer return a promise that resolves to the fetched records, but expose a `transformResponse` method that exposes the results, hits and facet hits for you to manipulate and return if need be. Learn more in the [documentation](https://autocomplete.algolia.com/docs/getAlgoliaResults).
 
