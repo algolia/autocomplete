@@ -84,7 +84,6 @@ describe('requester', () => {
                 queries: [
                   {
                     indexName: 'indexName',
-                    type: 'facet',
                     facet: 'categories',
                     params: {
                       facetQuery: query,
@@ -404,7 +403,6 @@ describe('requester', () => {
                 queries: [
                   {
                     indexName: 'indexName',
-                    type: 'facet',
                     facet: 'categories',
                     params: {
                       facetQuery: query,
@@ -518,7 +516,6 @@ describe('requester', () => {
                 queries: [
                   {
                     indexName: 'indexName',
-                    type: 'facet',
                     facet: 'categories',
                     params: {
                       facetQuery: query,

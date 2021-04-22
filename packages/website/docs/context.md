@@ -27,17 +27,16 @@ autocomplete({
           query,
         },
       ],
-    }).then(([products]) => {
-      setContext({
-        nbProducts: products.nbHits,
-      });
+      transformResponse({ results, hits }) {
+        setContext({
+          nbProducts: results[0].nbHits,
+        });
 
-      // You can now use `state.context.nbProducts`
-      // anywhere where you have access to `state`.
+        // You can now use `state.context.nbProducts`
+        // anywhere where you have access to `state`.
 
-      return [
-        // ...
-      ];
+        return hits;
+      },
     });
   },
 });
@@ -65,6 +64,7 @@ function createAutocompletePlugin() {
 The `setContext` function is accessible on your `autocomplete` instance.
 
 It's also provided in:
+
 - [`getSources`](createAutocomplete#getsources)
 - [`onInput`](createAutocomplete#oninput)
 - [`onSubmit`](createAutocomplete#onsubmit)

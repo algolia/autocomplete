@@ -46,7 +46,7 @@ This boilerplate assumes you want to insert the autocomplete into a DOM element 
 
 ```js title="index.js"
 import algoliasearch from 'algoliasearch/lite';
-import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
+import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 
 const searchClient = algoliasearch(
   'latency',
@@ -83,7 +83,7 @@ autocomplete({
       {
         sourceId: 'products',
         getItems() {
-          return getAlgoliaHits({
+          return getAlgoliaResults({
             searchClient,
             queries: [
               {

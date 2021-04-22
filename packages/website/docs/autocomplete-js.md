@@ -44,7 +44,7 @@ This example uses Autocomplete with an Algolia index, along with the [`algoliase
 
 ```jsx title="JavaScript"
 import algoliasearch from 'algoliasearch/lite';
-import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
+import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 
 const searchClient = algoliasearch(
   'latency',
@@ -59,7 +59,7 @@ const autocompleteSearch = autocomplete({
         sourceId: 'querySuggestions',
         getItemInputValue: ({ item }) => item.query,
         getItems({ query }) {
-          return getAlgoliaHits({
+          return getAlgoliaResults({
             searchClient,
             queries: [
               {

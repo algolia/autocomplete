@@ -24,7 +24,7 @@ export type FetcherParams = Pick<
   'searchClient' | 'queries'
 >;
 
-type RequesterParams<THit> = {
+export type RequesterParams<THit> = {
   transformResponse(
     response: TransformResponseParams<THit>
   ): TransformedRequesterResponse<THit>;

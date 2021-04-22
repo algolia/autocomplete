@@ -35,7 +35,7 @@ If you haven't implemented an autocomplete using Algolia as a source yet, follow
 First, begin with some boilerplate for the autocomplete implementation. Create a file called `index.js` in your `src` directory, and add the boilerplate below:
 
 ```js title="index.js"
-import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
+import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
 import { h, Fragment } from 'preact';
 
@@ -52,7 +52,7 @@ autocomplete({
       {
         sourceId: 'products',
         getItems() {
-          return getAlgoliaHits({
+          return getAlgoliaResults({
             searchClient,
             queries: [
               {
@@ -107,7 +107,7 @@ function ProductItem({ hit, components }) {
 
 This boilerplate assumes you want to insert the autocomplete into a DOM element with `autocomplete` as an [`id`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id). You should change the [`container`](autocomplete-js/#container) to [match your markup](basic-options). Setting [`openOnFocus`](autocomplete-js/#openonfocus) to `true` ensures that the dropdown appears as soon as a user focuses the input.
 
-The autocomplete searches into an [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) of [e-commerce products](https://github.com/algolia/datasets/tree/master/ecommerce) using the [`getAlgoliaHits`](getAlgoliaHits) function. Refer to the example in the [Getting Started guide](getting-started) for more information.
+The autocomplete searches into an [Algolia index](https://www.algolia.com/doc/faq/basics/what-is-an-index/) of [e-commerce products](https://github.com/algolia/datasets/tree/master/ecommerce) using the [`getAlgoliaResults`](getAlgoliaResults) function. Refer to the example in the [Getting Started guide](getting-started) for more information.
 
 :::note
 
@@ -124,7 +124,7 @@ The [`autocomplete-plugin-algolia-insights`](createAlgoliaInsightsPlugin) packag
 It requires an [Algolia Insights client](https://www.algolia.com/doc/guides/getting-insights-and-analytics/search-analytics/click-and-conversion-analytics/how-to/sending-events-with-api-client/#initializing-the-insights-client) initialized with an [Algolia application ID and Search API key](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id).
 
 ```js title="index.js"
-import { autocomplete, getAlgoliaHits } from '@algolia/autocomplete-js';
+import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
 import { h, Fragment } from 'preact';
 import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';

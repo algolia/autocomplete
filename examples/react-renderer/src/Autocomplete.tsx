@@ -3,7 +3,7 @@ import {
   AutocompleteState,
   createAutocomplete,
 } from '@algolia/autocomplete-core';
-import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
+import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch/lite';
 import React from 'react';
@@ -54,7 +54,7 @@ export function Autocomplete(
             {
               sourceId: 'products',
               getItems({ query }) {
-                return getAlgoliaHits({
+                return getAlgoliaResults({
                   searchClient,
                   queries: [
                     {

@@ -129,12 +129,12 @@ autocomplete({
 
 Static sources can be useful, especially [when the user hasn't typed anything yet](changing-behavior-based-on-query). However, you might want more robust search capabilities beyond exact matches in strings.
 
-In this case, you could search into one or more Algolia indices using the built-in [`getAlgoliaHits`](getAlgoliaHits) function from the `autocomplete-preset-algolia` preset.
+In this case, you could search into one or more Algolia indices using the built-in [`getAlgoliaResults`](getAlgoliaResults) function from the `autocomplete-preset-algolia` preset.
 
 ```js
 import algoliasearch from 'algoliasearch/lite';
 import { autocomplete } from '@algolia/autocomplete-js';
-import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
+import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 
 const searchClient = algoliasearch(
   'latency',
@@ -148,7 +148,7 @@ autocomplete({
       {
         sourceId: 'products',
         getItems({ query }) {
-          return getAlgoliaHits({
+          return getAlgoliaResults({
             searchClient,
             queries: [
               {
@@ -210,7 +210,7 @@ For example, you may want to display Algolia search results and [Query Suggestio
 ```js
 import algoliasearch from 'algoliasearch/lite';
 import { autocomplete } from '@algolia/autocomplete-js';
-import { getAlgoliaHits } from '@algolia/autocomplete-preset-algolia';
+import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 
 const searchClient = algoliasearch(
   'latency',
@@ -220,7 +220,7 @@ const searchClient = algoliasearch(
 autocomplete({
   // ...
   getSources({ query }) {
-    return getAlgoliaHits({
+    return getAlgoliaResults({
       searchClient,
       queries: [
         {
