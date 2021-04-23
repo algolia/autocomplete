@@ -983,6 +983,8 @@ body {
     rgba(var(--aa-background-color-rgb), 0),
     rgba(var(--aa-background-color-rgb), 1)
   );
+  border-bottom-left-radius: calc(var(--aa-spacing) / 4);
+  border-bottom-right-radius: calc(var(--aa-spacing) / 4);
   bottom: 0;
 }
 
