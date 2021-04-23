@@ -503,6 +503,7 @@ body {
   align-items: center;
   border-radius: 3px;
   cursor: pointer;
+  display: grid;
   min-height: calc(var(--aa-spacing) * 2.5);
   padding: calc(var(--aa-spacing-half) / 2);
   // When the result is active
