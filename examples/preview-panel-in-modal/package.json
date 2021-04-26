@@ -1,6 +1,6 @@
 {
-  "name": "@algolia/autocomplete-example-preview-panel",
-  "description": "Autocomplete example with a preview panel",
+  "name": "@algolia/autocomplete-example-preview-panel-in-modal",
+  "description": "Autocomplete example with a preview panel in a modal",
   "version": "1.0.0-alpha.45",
   "private": true,
   "license": "MIT",
