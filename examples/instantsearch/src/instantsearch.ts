@@ -148,6 +148,7 @@ export function setInstantSearchUiState(indexUiState) {
     ...uiState,
     [instantSearchIndexName]: {
       ...uiState[instantSearchIndexName],
+      page: 1,
       ...indexUiState,
     },
   }));
