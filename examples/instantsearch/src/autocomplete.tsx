@@ -7,6 +7,7 @@ import { h, Fragment } from 'preact';
 import {
   debouncedSetInstantSearchUiState,
   getInstantSearchActiveCategory,
+  getInstantSearchUiState,
   getInstantSearchUrl,
   hierarchicalAttribute,
   instantSearchIndexName,
@@ -251,36 +252,43 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   },
 });
 
-export const autocompleteSearch = autocomplete({
-  container: '#autocomplete',
-  placeholder: 'Search for products',
-  openOnFocus: true,
-  plugins: [
-    recentSearchesPlugin,
-    querySuggestionsPluginInCategory,
-    querySuggestionsPlugin,
-  ],
-  detachedMediaQuery: 'none',
-  navigator: {
-    navigate() {
-      // We don't navigate to a new page because we leverage the InstantSearch
-      // UI state API.
+const searchPageState = getInstantSearchUiState();
+
+export function startAutocomplete() {
+  autocomplete({
+    container: '#autocomplete',
+    placeholder: 'Search for products',
+    openOnFocus: true,
+    plugins: [
+      recentSearchesPlugin,
+      querySuggestionsPluginInCategory,
+      querySuggestionsPlugin,
+    ],
+    detachedMediaQuery: 'none',
+    initialState: {
+      query: searchPageState.query || '',
     },
-  },
-  onSubmit({ state }) {
-    setInstantSearchUiState({ query: state.query });
-  },
-  onReset() {
-    setInstantSearchUiState({
-      query: '',
-      hierarchicalMenu: {
-        [hierarchicalAttribute]: [],
+    navigator: {
+      navigate() {
+        // We don't navigate to a new page because we leverage the InstantSearch
+        // UI state API.
       },
-    });
-  },
-  onStateChange({ prevState, state }) {
-    if (prevState.query !== state.query) {
-      debouncedSetInstantSearchUiState({ query: state.query });
-    }
-  },
-});
+    },
+    onSubmit({ state }) {
+      setInstantSearchUiState({ query: state.query });
+    },
+    onReset() {
+      setInstantSearchUiState({
+        query: '',
+        hierarchicalMenu: {
+          [hierarchicalAttribute]: [],
+        },
+      });
+    },
+    onStateChange({ prevState, state }) {
+      if (prevState.query !== state.query) {
+        debouncedSetInstantSearchUiState({ query: state.query });
+      }
+    },
+  });
+}
