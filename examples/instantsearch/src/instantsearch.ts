@@ -160,8 +160,9 @@ export const debouncedSetInstantSearchUiState = debounce(
 );
 
 export function getInstantSearchActiveCategory() {
-  const indexUiState = search.renderState[instantSearchIndexName];
-  const hierarchicalMenuUiState = indexUiState && indexUiState.hierarchicalMenu;
+  const indexRenderState = search.renderState[instantSearchIndexName];
+  const hierarchicalMenuUiState =
+    indexRenderState && indexRenderState.hierarchicalMenu;
   const categories =
     (hierarchicalMenuUiState &&
       hierarchicalMenuUiState[hierarchicalAttribute] &&
