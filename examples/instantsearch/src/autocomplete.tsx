@@ -188,7 +188,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
     });
   },
   categoryAttribute: [
-    'instant_search',
+    instantSearchIndexName,
     'facets',
     'exact_matches',
     hierarchicalAttribute,
