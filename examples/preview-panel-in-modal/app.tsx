@@ -14,7 +14,6 @@ autocomplete({
   container: '#autocomplete',
   detachedMediaQuery: '',
   defaultActiveItemId: 0,
-  debug: true,
   getSources() {
     return [
       {
@@ -92,7 +91,9 @@ autocomplete({
 
             return (
               <Fragment>
-                <span className="aa-SourceHeaderTitle">Suggestions</span>
+                <span className="aa-SourceHeaderTitle">
+                  Can't find what you're looking for?
+                </span>
                 <div className="aa-SourceHeaderLine" />
               </Fragment>
             );

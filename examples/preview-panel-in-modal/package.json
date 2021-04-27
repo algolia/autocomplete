@@ -1,10 +1,9 @@
 {
   "name": "@algolia/autocomplete-example-preview-panel-in-modal",
   "description": "Autocomplete example with a preview panel in a modal",
-  "version": "1.0.0-alpha.45",
+  "version": "1.0.0-alpha.46",
   "private": true,
   "license": "MIT",
-  "main": "index.html",
   "scripts": {
     "build": "parcel build index.html",
     "start": "parcel index.html"
