@@ -1,7 +1,7 @@
 /** @jsx h */
-import { h, render } from 'preact';
-import algoliasearch from 'algoliasearch/lite';
 import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
+import algoliasearch from 'algoliasearch/lite';
+import { h, render } from 'preact';
 
 import '@algolia/autocomplete-theme-classic';
 
