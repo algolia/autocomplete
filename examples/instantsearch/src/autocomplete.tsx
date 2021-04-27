@@ -106,6 +106,7 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
     };
   },
 });
+
 const querySuggestionsPluginInCategory = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'instant_search_demo_query_suggestions',
@@ -174,6 +175,7 @@ const querySuggestionsPluginInCategory = createQuerySuggestionsPlugin({
     };
   },
 });
+
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'instant_search_demo_query_suggestions',
