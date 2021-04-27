@@ -1,0 +1,39 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css" />
+
+    <title>Panel placement | Autocomplete</title>
+  </head>
+
+  <body>
+    <form>
+      Panel placement:
+      <input
+        type="radio"
+        value="input-wrapper-width"
+        name="placement"
+        checked
+      />
+      <label for="input-wrapper-width">input-wrapper-width</label>
+      <input type="radio" value="start" name="placement" />
+      <label for="start">start</label>
+      <input type="radio" value="end" name="placement" />
+      <label for="end">end</label>
+      <input type="radio" value="full-width" name="placement" />
+      <label for="full-width">full-width</label>
+    </form>
+
+    <div class="container">
+      <div id="autocomplete-left"></div>
+      <div id="autocomplete"></div>
+      <div id="autocomplete-right"></div>
+    </div>
+
+    <script src="env.ts"></script>
+    <script src="app.tsx"></script>
+  </body>
+</html>
