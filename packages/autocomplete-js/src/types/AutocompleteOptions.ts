@@ -27,6 +27,10 @@ export interface OnStateChangeProps<TItem extends BaseItem>
   prevState: AutocompleteState<TItem>;
 }
 
+export type GetSources<TItem extends BaseItem> = (
+  params: GetSourcesParams<TItem>
+) => MaybePromise<Array<AutocompleteSource<TItem> | boolean | undefined>>;
+
 export interface AutocompleteOptions<TItem extends BaseItem>
   extends AutocompleteCoreOptions<TItem>,
     Partial<AutocompletePropGetters<TItem>> {
@@ -55,9 +59,7 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * @link https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries
    */
   detachedMediaQuery?: string;
-  getSources?: (
-    params: GetSourcesParams<TItem>
-  ) => MaybePromise<Array<AutocompleteSource<TItem> | boolean | undefined>>;
+  getSources?: GetSources<TItem>;
   /**
    * The panel's horizontal position.
    *
