@@ -78,11 +78,12 @@ body[data-theme='dark'] {
   background: none;
 }
 
-.aa-DetachedFormContainer {
+.aa-DetachedContainer .aa-DetachedFormContainer {
   background: rgba(
     var(--aa-background-color-rgb),
     var(--aa-background-color-alpha)
   );
+  padding: calc(var(--aa-spacing-half) * 1.5);
 }
 
 .aa-DetachedContainer .aa-Preview {
