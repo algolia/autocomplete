@@ -146,7 +146,7 @@ export function Autocomplete(
             .join(' ')}
           {...autocomplete.getPanelProps({})}
         >
-          <div className="aa-PanelLayout">
+          <div className="aa-PanelLayout aa-Panel--scrollable">
             {autocompleteState.collections.map((collection, index) => {
               const { source, items } = collection;
 
