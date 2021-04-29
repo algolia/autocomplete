@@ -82,7 +82,9 @@ export function createGitHubReposPlugin(
                         <div className="aa-ItemContentBody">
                           <div className="aa-ItemContentTitle">
                             <div style={{ display: 'flex' }}>
-                              <div>{item.full_name}</div>
+                              <div style={{ fontWeight: 500 }}>
+                                {item.full_name}
+                              </div>
                               <div
                                 style={{
                                   alignItems: 'center',
