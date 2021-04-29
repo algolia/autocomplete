@@ -101,8 +101,8 @@ You can find more on the [documentation](https://autocomplete.algolia.com).
 
 | Package | Description | Documentation |
 | --- | --- | --- |
-| [`autocomplete-core`](packages/autocomplete-core) | Core primitives to build an Autocomplete experience | [Documentation](https://autocomplete.algolia.com/docs/createAutocomplete) |
 | [`autocomplete-js`](packages/autocomplete-js) | JavaScript package for Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/autocomplete-js) |
+| [`autocomplete-core`](packages/autocomplete-core) | Core primitives to build an Autocomplete experience | [Documentation](https://autocomplete.algolia.com/docs/createAutocomplete) |
 | [`autocomplete-plugin-recent-searches`](packages/autocomplete-plugin-recent-searches) | A plugin to add recent searches to Algolia Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/createLocalStorageRecentSearchesPlugin) |
 | [`autocomplete-plugin-query-suggestions`](packages/autocomplete-plugin-query-suggestions) | A plugin to add query suggestions to Algolia Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/createQuerySuggestionsPlugin) |
 | [`autocomplete-plugin-algolia-insights`](packages/autocomplete-plugin-algolia-insights) | A plugin to add Algolia Insights to Algolia Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/createAlgoliaInsightsPlugin) |
