@@ -1,16 +1,12 @@
-# [](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.46...v) (2021-04-29)
-
+# [1.0.0-alpha.47](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.46...v1.0.0-alpha.47) (2021-04-29)
 
 ### Bug Fixes
 
-* **theme-classic:** various fixes ([#546](https://github.com/algolia/autocomplete/issues/546)) ([6b4bc12](https://github.com/algolia/autocomplete/commit/6b4bc120f4eecfac3f7d2ab8b49067dacc833b55))
-
+- **theme-classic:** various fixes ([#546](https://github.com/algolia/autocomplete/issues/546)) ([6b4bc12](https://github.com/algolia/autocomplete/commit/6b4bc120f4eecfac3f7d2ab8b49067dacc833b55))
 
 ### Features
 
-* **js:** expose `GetSources` type ([#551](https://github.com/algolia/autocomplete/issues/551)) ([3d1bf26](https://github.com/algolia/autocomplete/commit/3d1bf269c02a7e35b100dda0b1d148805731a3ed))
-
-
+- **js:** expose `GetSources` type ([#551](https://github.com/algolia/autocomplete/issues/551)) ([3d1bf26](https://github.com/algolia/autocomplete/commit/3d1bf269c02a7e35b100dda0b1d148805731a3ed))
 
 # [1.0.0-alpha.46](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.45...v1.0.0-alpha.46) (2021-04-22)
 
