@@ -130,6 +130,7 @@ export function createGitHubReposPlugin(
                           className="aa-ItemActionButton aa-DesktopOnly aa-ActiveOnly"
                           type="button"
                           title="Select"
+                          style={{ pointerEvents: 'none' }}
                         >
                           <svg
                             viewBox="0 0 24 24"
