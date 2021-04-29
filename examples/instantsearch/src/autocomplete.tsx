@@ -6,19 +6,18 @@ import { h, Fragment } from 'preact';
 
 import {
   debouncedSetInstantSearchUiState,
-  getInstantSearchActiveCategory,
+  getInstantSearchCurrentCategory,
   getInstantSearchUiState,
   getInstantSearchUrl,
-  hierarchicalAttribute,
-  instantSearchIndexName,
+  INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE,
+  INSTANT_SEARCH_INDEX_NAME,
   setInstantSearchUiState,
 } from './instantsearch';
 import { isModifierEvent } from './isModifierEvent';
 import { searchClient } from './searchClient';
 
 function onSelect({ setIsOpen, setQuery, event, query, category }) {
-  // We support selecting an item with a modifier key so that it doesn't
-  // reflect on the current tab.
+  // You want to trigger the default browser behavior if the event is modified.
   if (isModifierEvent(event)) {
     return;
   }
@@ -28,7 +27,7 @@ function onSelect({ setIsOpen, setQuery, event, query, category }) {
   setInstantSearchUiState({
     query,
     hierarchicalMenu: {
-      [hierarchicalAttribute]: [category],
+      [INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE]: [category],
     },
   });
 }
@@ -37,7 +36,7 @@ function getItemUrl({ query, category }) {
   return getInstantSearchUrl({
     query,
     hierarchicalMenu: {
-      [hierarchicalAttribute]: [category],
+      [INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE]: [category],
     },
   });
 }
@@ -46,7 +45,7 @@ function ItemWrapper({ children, query, category }) {
   const uiState = {
     query,
     hierarchicalMenu: {
-      [hierarchicalAttribute]: [category],
+      [INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE]: [category],
     },
   };
 
@@ -56,7 +55,7 @@ function ItemWrapper({ children, query, category }) {
       href={getInstantSearchUrl(uiState)}
       onClick={(event) => {
         if (!isModifierEvent(event)) {
-          // We bypass the original link behavior if there's no event modifier
+          // Bypass the original link behavior if there's no event modifier
           // to set the InstantSearch UI state without reloading the page.
           event.preventDefault();
         }
@@ -90,6 +89,8 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
       },
       templates: {
         ...source.templates,
+        // Update the default `item` template to wrap it with a link
+        // and plug it to the InstantSearch router.
         item(params) {
           const { children } = (source.templates.item(params) as any).props;
 
@@ -111,17 +112,17 @@ const querySuggestionsPluginInCategory = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'instant_search_demo_query_suggestions',
   getSearchParams() {
-    const activeCategory = getInstantSearchActiveCategory();
+    const currentCategory = getInstantSearchCurrentCategory();
 
     return recentSearchesPlugin.data.getAlgoliaSearchParams({
-      hitsPerPage: activeCategory ? 3 : 6,
+      hitsPerPage: 3,
       facetFilters: [
-        `${instantSearchIndexName}.facets.exact_matches.${hierarchicalAttribute}.value:${activeCategory}`,
+        `${INSTANT_SEARCH_INDEX_NAME}.facets.exact_matches.${INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE}.value:${currentCategory}`,
       ],
     });
   },
   transformSource({ source }) {
-    const activeCategory = getInstantSearchActiveCategory();
+    const currentCategory = getInstantSearchCurrentCategory();
 
     return {
       ...source,
@@ -129,7 +130,7 @@ const querySuggestionsPluginInCategory = createQuerySuggestionsPlugin({
       getItemUrl({ item }) {
         return getItemUrl({
           query: item.query,
-          category: activeCategory,
+          category: currentCategory,
         });
       },
       onSelect({ setIsOpen, setQuery, event, item }) {
@@ -138,11 +139,11 @@ const querySuggestionsPluginInCategory = createQuerySuggestionsPlugin({
           setIsOpen,
           event,
           query: item.query,
-          category: activeCategory,
+          category: currentCategory,
         });
       },
       getItems(params) {
-        if (!activeCategory) {
+        if (!currentCategory) {
           return [];
         }
 
@@ -157,7 +158,7 @@ const querySuggestionsPluginInCategory = createQuerySuggestionsPlugin({
 
           return (
             <Fragment>
-              <span className="aa-SourceHeaderTitle">In {activeCategory}</span>
+              <span className="aa-SourceHeaderTitle">In {currentCategory}</span>
               <div className="aa-SourceHeaderLine" />
             </Fragment>
           );
@@ -166,7 +167,7 @@ const querySuggestionsPluginInCategory = createQuerySuggestionsPlugin({
           const { children } = (source.templates.item(params) as any).props;
 
           return (
-            <ItemWrapper query={params.item.query} category={activeCategory}>
+            <ItemWrapper query={params.item.query} category={currentCategory}>
               {children}
             </ItemWrapper>
           );
@@ -180,23 +181,29 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'instant_search_demo_query_suggestions',
   getSearchParams() {
-    const activeCategory = getInstantSearchActiveCategory();
+    const currentCategory = getInstantSearchCurrentCategory();
+
+    if (!currentCategory) {
+      return recentSearchesPlugin.data.getAlgoliaSearchParams({
+        hitsPerPage: 6,
+      });
+    }
 
     return recentSearchesPlugin.data.getAlgoliaSearchParams({
-      hitsPerPage: activeCategory ? 3 : 6,
+      hitsPerPage: 3,
       facetFilters: [
-        `${instantSearchIndexName}.facets.exact_matches.${hierarchicalAttribute}.value:-${activeCategory}`,
+        `${INSTANT_SEARCH_INDEX_NAME}.facets.exact_matches.${INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE}.value:-${currentCategory}`,
       ],
     });
   },
   categoryAttribute: [
-    instantSearchIndexName,
+    INSTANT_SEARCH_INDEX_NAME,
     'facets',
     'exact_matches',
-    hierarchicalAttribute,
+    INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE,
   ],
   transformSource({ source }) {
-    const activeCategory = getInstantSearchActiveCategory();
+    const currentCategory = getInstantSearchCurrentCategory();
 
     return {
       ...source,
@@ -226,7 +233,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
       templates: {
         ...source.templates,
         header({ items }) {
-          if (!activeCategory || items.length === 0) {
+          if (!currentCategory || items.length === 0) {
             return null;
           }
 
@@ -283,7 +290,7 @@ export function startAutocomplete() {
       setInstantSearchUiState({
         query: '',
         hierarchicalMenu: {
-          [hierarchicalAttribute]: [],
+          [INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE]: [],
         },
       });
     },

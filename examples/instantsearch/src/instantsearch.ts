@@ -12,14 +12,15 @@ import {
 import { debounce } from '../src/debounce';
 import { searchClient } from '../src/searchClient';
 
-export const instantSearchIndexName = 'instant_search';
-export const hierarchicalAttribute = 'hierarchicalCategories.lvl0';
+export const INSTANT_SEARCH_INDEX_NAME = 'instant_search';
+export const INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE =
+  'hierarchicalCategories.lvl0';
 
 const instantSearchRouter = historyRouter();
 
 export const search = instantsearch({
   searchClient,
-  indexName: instantSearchIndexName,
+  indexName: INSTANT_SEARCH_INDEX_NAME,
   routing: instantSearchRouter,
 });
 const virtualSearchBox = connectSearchBox(() => {});
@@ -32,12 +33,15 @@ search.addWidgets([
     attributesToSnippet: ['name:7', 'description:15'],
     snippetEllipsisText: '…',
   }),
-  // We mount a virtual search box to manipulate InstantSearch's `query` UI
+  // Mount a virtual search box to manipulate InstantSearch's `query` UI
   // state parameter.
   virtualSearchBox(),
   hierarchicalMenuWithHeader({
     container: '#categories',
-    attributes: [hierarchicalAttribute, 'hierarchicalCategories.lvl1'],
+    attributes: [
+      INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE,
+      'hierarchicalCategories.lvl1',
+    ],
   }),
   hits({
     container: '#hits',
@@ -143,11 +147,13 @@ search.addWidgets([
   }),
 ]);
 
+// Set the InstantSearch index UI state from external events.
 export function setInstantSearchUiState(indexUiState) {
   search.setUiState((uiState) => ({
     ...uiState,
-    [instantSearchIndexName]: {
-      ...uiState[instantSearchIndexName],
+    [INSTANT_SEARCH_INDEX_NAME]: {
+      ...uiState[INSTANT_SEARCH_INDEX_NAME],
+      // We reset the page when the search state changes.
       page: 1,
       ...indexUiState,
     },
@@ -159,30 +165,33 @@ export const debouncedSetInstantSearchUiState = debounce(
   500
 );
 
-export function getInstantSearchActiveCategory() {
-  const indexRenderState = search.renderState[instantSearchIndexName];
+// Get the current category from InstantSearch.
+export function getInstantSearchCurrentCategory() {
+  const indexRenderState = search.renderState[INSTANT_SEARCH_INDEX_NAME];
   const hierarchicalMenuUiState =
     indexRenderState && indexRenderState.hierarchicalMenu;
   const categories =
     (hierarchicalMenuUiState &&
-      hierarchicalMenuUiState[hierarchicalAttribute] &&
-      hierarchicalMenuUiState[hierarchicalAttribute].items) ||
+      hierarchicalMenuUiState[INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE] &&
+      hierarchicalMenuUiState[INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE].items) ||
     [];
   const refinedCategory = categories.find((category) => category.isRefined);
 
   return refinedCategory && refinedCategory.value;
 }
 
+// Build URLs that InstantSearch understands.
 export function getInstantSearchUrl(indexUiState) {
   return `${instantSearchRouter
     .createURL({
-      [instantSearchIndexName]: indexUiState,
+      [INSTANT_SEARCH_INDEX_NAME]: indexUiState,
     })
     .replace(window.location.origin + window.location.pathname, '')}`;
 }
 
+// Return the InstantSearch index UI state.
 export function getInstantSearchUiState() {
   const uiState = instantSearchRouter.read();
 
-  return (uiState && uiState[instantSearchIndexName]) || {};
+  return (uiState && uiState[INSTANT_SEARCH_INDEX_NAME]) || {};
 }
