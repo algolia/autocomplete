@@ -46,17 +46,21 @@ export function autocomplete<TItem extends BaseItem>(
   const autocomplete = reactive(() =>
     createAutocomplete<TItem>({
       ...props.value.core,
-      onStateChange(options) {
-        hasNoResultsSourceTemplateRef.current = options.state.collections.some(
+      onStateChange(params) {
+        hasNoResultsSourceTemplateRef.current = params.state.collections.some(
           (collection) =>
             (collection.source as AutocompleteSource<TItem>).templates.noResults
         );
-        onStateChangeRef.current?.(options as any);
-        props.value.core.onStateChange?.(options as any);
+        onStateChangeRef.current?.(params as any);
+        props.value.core.onStateChange?.(params as any);
       },
       shouldPanelOpen:
         optionsRef.current.shouldPanelOpen ||
         (({ state }) => {
+          if (isDetached.value) {
+            return true;
+          }
+
           const hasItems = getItemsCount(state) > 0;
 
           if (!props.value.core.openOnFocus && !state.query) {
@@ -111,6 +115,7 @@ export function autocomplete<TItem extends BaseItem>(
       isDetached: isDetached.value,
       placeholder: props.value.core.placeholder,
       propGetters,
+      setIsModalOpen,
       state: lastStateRef.current,
     })
   );
@@ -188,7 +193,7 @@ export function autocomplete<TItem extends BaseItem>(
       : dom.value.panel;
 
     if (isDetached.value && lastStateRef.current.isOpen) {
-      dom.value.openDetachedOverlay();
+      setIsModalOpen(true);
     }
 
     scheduleRender(lastStateRef.current);
@@ -217,11 +222,15 @@ export function autocomplete<TItem extends BaseItem>(
     }, 0);
 
     onStateChangeRef.current = ({ state, prevState }) => {
+      if (isDetached.value && prevState.isOpen !== state.isOpen) {
+        setIsModalOpen(state.isOpen);
+      }
+
       // The outer DOM might have changed since the last time the panel was
       // positioned. The layout might have shifted vertically for instance.
       // It's therefore safer to re-calculate the panel position before opening
       // it again.
-      if (state.isOpen && !prevState.isOpen) {
+      if (!isDetached.value && state.isOpen && !prevState.isOpen) {
         setPanelPosition();
       }
 
@@ -322,6 +331,27 @@ export function autocomplete<TItem extends BaseItem>(
 
     autocomplete.value.refresh().then(() => {
       scheduleRender(lastStateRef.current);
+    });
+  }
+
+  function setIsModalOpen(value: boolean) {
+    requestAnimationFrame(() => {
+      const prevValue = document.body.contains(dom.value.detachedOverlay);
+
+      if (value === prevValue) {
+        return;
+      }
+
+      if (value) {
+        document.body.appendChild(dom.value.detachedOverlay);
+        document.body.classList.add('aa-Detached');
+        dom.value.input.focus();
+      } else {
+        document.body.removeChild(dom.value.detachedOverlay);
+        document.body.classList.remove('aa-Detached');
+        autocomplete.value.setQuery('');
+        autocomplete.value.refresh();
+      }
     });
   }
 

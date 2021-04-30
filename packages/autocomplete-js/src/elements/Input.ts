@@ -37,6 +37,7 @@ export const Input: AutocompleteElement<InputProps, HTMLInputElement> = ({
     ...inputProps,
     onKeyDown(event: KeyboardEvent) {
       if (onDetachedEscape && event.key === 'Escape') {
+        event.preventDefault();
         onDetachedEscape();
         return;
       }
