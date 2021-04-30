@@ -21,11 +21,8 @@ type CreateDomProps<TItem extends BaseItem> = {
   isDetached: boolean;
   placeholder?: string;
   propGetters: AutocompletePropGetters<TItem>;
+  setIsModalOpen(value: boolean): void;
   state: AutocompleteState<TItem>;
-};
-
-type CreateAutocompleteDomReturn = AutocompleteDom & {
-  openDetachedOverlay(): void;
 };
 
 export function createAutocompleteDom<TItem extends BaseItem>({
@@ -35,15 +32,9 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   isDetached,
   placeholder = 'Search',
   propGetters,
+  setIsModalOpen,
   state,
-}: CreateDomProps<TItem>): CreateAutocompleteDomReturn {
-  function onDetachedOverlayClose() {
-    autocomplete.setQuery('');
-    autocomplete.setIsOpen(false);
-    autocomplete.refresh();
-    document.body.classList.remove('aa-Detached');
-  }
-
+}: CreateDomProps<TItem>): AutocompleteDom {
   const rootProps = propGetters.getRootProps({
     state,
     props: autocomplete.getRootProps({}),
@@ -63,8 +54,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     class: classNames.detachedOverlay,
     children: [detachedContainer],
     onMouseDown() {
-      document.body.removeChild(detachedOverlay);
-      onDetachedOverlayClose();
+      setIsModalOpen(false);
     },
   });
 
@@ -103,8 +93,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     autocompleteScopeApi,
     onDetachedEscape: isDetached
       ? () => {
-          document.body.removeChild(detachedOverlay);
-          onDetachedOverlayClose();
+          setIsModalOpen(false);
         }
       : undefined,
   });
@@ -148,12 +137,6 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     });
   }
 
-  function openDetachedOverlay() {
-    document.body.appendChild(detachedOverlay);
-    document.body.classList.add('aa-Detached');
-    input.focus();
-  }
-
   if (isDetached) {
     const detachedSearchButtonIcon = createDomElement('div', {
       class: classNames.detachedSearchButtonIcon,
@@ -167,7 +150,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
       class: classNames.detachedSearchButton,
       onClick(event: MouseEvent) {
         event.preventDefault();
-        openDetachedOverlay();
+        setIsModalOpen(true);
       },
       children: [detachedSearchButtonIcon, detachedSearchButtonPlaceholder],
     });
@@ -175,8 +158,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
       class: classNames.detachedCancelButton,
       textContent: 'Cancel',
       onClick() {
-        document.body.removeChild(detachedOverlay);
-        onDetachedOverlayClose();
+        setIsModalOpen(false);
       },
     });
     const detachedFormContainer = createDomElement('div', {
@@ -191,7 +173,6 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   }
 
   return {
-    openDetachedOverlay,
     detachedContainer,
     detachedOverlay,
     inputWrapper,
