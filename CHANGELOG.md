@@ -1,3 +1,9 @@
+# [1.0.0-alpha.48](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.47...v1.0.0-alpha.48) (2021-04-30)
+
+### Features
+
+- **js:** sync detached mode open state ([#556](https://github.com/algolia/autocomplete/issues/556)) ([1239b63](https://github.com/algolia/autocomplete/commit/1239b63e80dd2351771d74e91b275eda19fb997f))
+
 # [1.0.0-alpha.47](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.46...v1.0.0-alpha.47) (2021-04-29)
 
 ### Bug Fixes

@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-plugin-algolia-insights",
   "description": "A plugin to add Algolia Insights to Algolia Autocomplete.",
-  "version": "1.0.0-alpha.47",
+  "version": "1.0.0-alpha.48",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete",
   "repository": "algolia/autocomplete",
@@ -31,11 +31,11 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.0.0-alpha.47",
-    "@algolia/autocomplete-shared": "1.0.0-alpha.47"
+    "@algolia/autocomplete-js": "1.0.0-alpha.48",
+    "@algolia/autocomplete-shared": "1.0.0-alpha.48"
   },
   "devDependencies": {
-    "@algolia/autocomplete-core": "1.0.0-alpha.47"
+    "@algolia/autocomplete-core": "1.0.0-alpha.48"
   },
   "peerDependencies": {
     "search-insights": "^1.0.0"
