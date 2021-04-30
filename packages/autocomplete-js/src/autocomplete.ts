@@ -47,13 +47,6 @@ export function autocomplete<TItem extends BaseItem>(
     createAutocomplete<TItem>({
       ...props.value.core,
       onStateChange(params) {
-        if (
-          isDetached.value &&
-          params.prevState.isOpen !== params.state.isOpen
-        ) {
-          setIsModalOpen(params.state.isOpen);
-        }
-
         hasNoResultsSourceTemplateRef.current = params.state.collections.some(
           (collection) =>
             (collection.source as AutocompleteSource<TItem>).templates.noResults
@@ -229,6 +222,10 @@ export function autocomplete<TItem extends BaseItem>(
     }, 0);
 
     onStateChangeRef.current = ({ state, prevState }) => {
+      if (isDetached.value && prevState.isOpen !== state.isOpen) {
+        setIsModalOpen(state.isOpen);
+      }
+
       // The outer DOM might have changed since the last time the panel was
       // positioned. The layout might have shifted vertically for instance.
       // It's therefore safer to re-calculate the panel position before opening
@@ -338,22 +335,25 @@ export function autocomplete<TItem extends BaseItem>(
   }
 
   function setIsModalOpen(value: boolean) {
-    const prevValue = document.body.contains(dom.value.detachedOverlay);
+    requestAnimationFrame(() => {
+      const prevValue = document.body.contains(dom.value.detachedOverlay);
 
-    if (value === prevValue) {
-      return;
-    }
+      if (value === prevValue) {
+        return;
+      }
 
-    if (value) {
-      document.body.appendChild(dom.value.detachedOverlay);
-      document.body.classList.add('aa-Detached');
-      dom.value.input.focus();
-    } else {
-      document.body.removeChild(dom.value.detachedOverlay);
-      document.body.classList.remove('aa-Detached');
-      autocomplete.value.setQuery('');
-      autocomplete.value.refresh();
-    }
+      if (value) {
+        document.body.appendChild(dom.value.detachedOverlay);
+        document.body.classList.add('aa-Detached');
+        dom.value.input.focus();
+      } else {
+        document.body.removeChild(dom.value.detachedOverlay);
+
+        document.body.classList.remove('aa-Detached');
+        autocomplete.value.setQuery('');
+        autocomplete.value.refresh();
+      }
+    });
   }
 
   return {

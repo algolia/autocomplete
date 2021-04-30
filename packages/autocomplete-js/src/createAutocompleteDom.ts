@@ -55,6 +55,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     children: [detachedContainer],
     onMouseDown() {
       setIsModalOpen(false);
+      autocomplete.setIsOpen(false);
     },
   });
 
@@ -93,6 +94,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     autocompleteScopeApi,
     onDetachedEscape: isDetached
       ? () => {
+          autocomplete.setIsOpen(false);
           setIsModalOpen(false);
         }
       : undefined,
@@ -158,6 +160,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
       class: classNames.detachedCancelButton,
       textContent: 'Cancel',
       onClick() {
+        autocomplete.setIsOpen(false);
         setIsModalOpen(false);
       },
     });
