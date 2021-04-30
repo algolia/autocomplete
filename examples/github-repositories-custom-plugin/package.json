@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-github-repositories-custom-plugin",
   "description": "Autocomplete example with custom GitHub Repositories plugin",
-  "version": "1.0.0-alpha.47",
+  "version": "1.0.0-alpha.48",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,8 +9,8 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.0.0-alpha.47",
-    "@algolia/autocomplete-theme-classic": "1.0.0-alpha.47",
+    "@algolia/autocomplete-js": "1.0.0-alpha.48",
+    "@algolia/autocomplete-theme-classic": "1.0.0-alpha.48",
     "preact": "10.5.13",
     "qs": "6.10.1"
   },
