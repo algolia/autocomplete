@@ -348,7 +348,6 @@ export function autocomplete<TItem extends BaseItem>(
         dom.value.input.focus();
       } else {
         document.body.removeChild(dom.value.detachedOverlay);
-
         document.body.classList.remove('aa-Detached');
         autocomplete.value.setQuery('');
         autocomplete.value.refresh();
