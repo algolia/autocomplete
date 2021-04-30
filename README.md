@@ -41,15 +41,15 @@ Otherwise, you can install the [`autocomplete-core`](https://www.algolia.com/doc
 All Autocomplete packages are available on the [npm](https://www.npmjs.com) registry.
 
 ```bash
-yarn add @algolia/autocomplete-js@alpha
+yarn add @algolia/autocomplete-js
 # or
-npm install @algolia/autocomplete-js@alpha
+npm install @algolia/autocomplete-js
 ```
 
 If you don't use a package manager, you can use the HTML `script` element:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js@alpha"></script>
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
 <script>
   const { autocomplete } = window['@algolia/autocomplete-js'];
 </script>
@@ -98,10 +98,10 @@ You can find more on the [documentation](https://www.algolia.com/doc/ui-librarie
 | Package | Description | Documentation |
 | --- | --- | --- |
 | [`autocomplete-js`](packages/autocomplete-js) | JavaScript package for Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js) |
-| [`autocomplete-core`](packages/autocomplete-core) | Core primitives to build an Autocomplete experience | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-core) |
-| [`autocomplete-plugin-recent-searches`](packages/autocomplete-plugin-recent-searches) | A plugin to add recent searches to Algolia Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches) |
-| [`autocomplete-plugin-query-suggestions`](packages/autocomplete-plugin-query-suggestions) | A plugin to add query suggestions to Algolia Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions) |
-| [`autocomplete-plugin-algolia-insights`](packages/autocomplete-plugin-algolia-insights) | A plugin to add Algolia Insights to Algolia Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights) |
+| [`autocomplete-core`](packages/autocomplete-core) | JavaScript core primitives to build an autocomplete experience | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-core) |
+| [`autocomplete-plugin-recent-searches`](packages/autocomplete-plugin-recent-searches) | A plugin to add recent searches to Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches) |
+| [`autocomplete-plugin-query-suggestions`](packages/autocomplete-plugin-query-suggestions) | A plugin to add query suggestions to Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions) |
+| [`autocomplete-plugin-algolia-insights`](packages/autocomplete-plugin-algolia-insights) | A plugin to add Algolia Insights to Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights) |
 | [`autocomplete-preset-algolia`](packages/autocomplete-preset-algolia) | Presets to use Algolia features with Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-preset-algolia) |
 | [`autocomplete-theme-classic`](packages/autocomplete-theme-classic) | Classic theme for Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-theme-classic) |
 
