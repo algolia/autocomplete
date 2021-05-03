@@ -1,3 +1,9 @@
+# [v1.0.0](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.49...v1.0.0) (2021-05-03)
+
+[![Banner](https://user-images.githubusercontent.com/6137112/116869321-ce911180-ac10-11eb-91fe-0965c9dbb52a.png)](http://alg.li/autocomplete)
+
+Read the [**Upgrading**](https://algolia.com/doc/ui-libraries/autocomplete/guides/upgrading/) guide to migrate from Autocomplete v0 to v1.
+
 # [1.0.0-alpha.49](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.48...v1.0.0-alpha.49) (2021-05-03)
 
 ### Bug Fixes
