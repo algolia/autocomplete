@@ -1,5 +1,5 @@
 <div align="center">
-	<a href="https://autocomplete.algolia.com"><img src="./media/banner.png" alt="Autocomplete" width="1280"></a>
+	<a href="https://www.algolia.com/doc/ui-libraries/autocomplete/introduction/what-is-autocomplete"><img src="./media/banner.png" alt="Autocomplete" width="1280"></a>
 	<p>
 		<strong>A JavaScript library that lets you quickly build autocomplete experiences</strong>
 	</p>
@@ -8,19 +8,15 @@
 
 </div>
 
-> 🚧 Autocomplete v1 is in an alpha phase and early feedback is welcome.
->
-> **If you're looking for Autocomplete v0, which has been the production-ready version for the last years, [head over to the `master` branch](https://github.com/algolia/autocomplete/tree/master).**
-
 All you need to get started is:
 
 - A container to inject the experience into
 - Data to fill the autocomplete with
 - Any Virtual DOM solution (JavaScript, Preact, React, Vue, etc.)
 
-The data that populates the autocomplete results are called [sources](https://autocomplete.algolia.com/docs/sources). You can use whatever you want in your sources: a static set of searches terms, search results from an external source like an [Algolia](<[Algolia](https://www.algolia.com/doc/guides/getting-started/what-is-algolia/)>) index, recent searches, and more.
+The data that populates the autocomplete results are called [sources](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/sources). You can use whatever you want in your sources: a static set of searches terms, search results from an external source like an [Algolia](https://www.algolia.com/doc/guides/getting-started/what-is-algolia/) index, recent searches, and more.
 
-By configuring just those two required parameters ([`container`](https://autocomplete.algolia.com/docs/autocomplete-js/#container) and [`getSources`](https://autocomplete.algolia.com/docs/autocomplete-js/#getsources)) you can have an interactive autocomplete experience. **The library creates an input and provides the interactivity and accessibility attributes, but you're in full control of the DOM elements to output**.
+By configuring just those two required parameters ([`container`](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-container) and [`getSources`](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-getsources)) you can have an interactive autocomplete experience. **The library creates an input and provides the interactivity and accessibility attributes, but you're in full control of the DOM elements to output**.
 
 <p align="center">
   <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx">
@@ -29,30 +25,30 @@ By configuring just those two required parameters ([`container`](https://autocom
   <br>
   <br>
   <strong>
-  <a href="https://autocomplete.algolia.com/docs/introduction">Documentation</a> •
-  <a href="https://autocomplete.algolia.com/docs/api">API</a> •
+  <a href="https://www.algolia.com/doc/ui-libraries/autocomplete/introduction/what-is-autocomplete">Documentation</a> •
+  <a href="https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete">API</a> •
   <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx">Playground</a>
   </strong>
 </p>
 
 ## Installation
 
-The recommended way to get started is with the [`autocomplete-js`](https://autocomplete.algolia.com/docs/autocomplete-js) package. It includes everything you need to render a JavaScript autocomplete experience.
+The recommended way to get started is with the [`autocomplete-js`](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js) package. It includes everything you need to render a JavaScript autocomplete experience.
 
-Otherwise, you can install the [`autocomplete-core`](https://autocomplete.algolia.com/docs/createAutocomplete) package if you want to [build a renderer](https://autocomplete.algolia.com/docs/creating-a-renderer) from scratch.
+Otherwise, you can install the [`autocomplete-core`](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-core) package if you want to [build a renderer](https://www.algolia.com/doc/ui-libraries/autocomplete/guides/creating-a-renderer) from scratch.
 
 All Autocomplete packages are available on the [npm](https://www.npmjs.com) registry.
 
 ```bash
-yarn add @algolia/autocomplete-js@alpha
+yarn add @algolia/autocomplete-js
 # or
-npm install @algolia/autocomplete-js@alpha
+npm install @algolia/autocomplete-js
 ```
 
 If you don't use a package manager, you can use the HTML `script` element:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js@alpha"></script>
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
 <script>
   const { autocomplete } = window['@algolia/autocomplete-js'];
 </script>
@@ -66,7 +62,7 @@ To get started, you need a container for your autocomplete to go in. If you don'
 <div id="autocomplete"></div>
 ```
 
-Then, insert your autocomplete into it by calling the [`autocomplete`](autocomplete-js) function and providing the [`container`](autocomplete-js/#container). It can be a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement).
+Then, insert your autocomplete into it by calling the [`autocomplete`](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/) function and providing the [`container`](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-container). It can be a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement).
 
 Make sure to provide a container (e.g., a `div`), not an `input`. Autocomplete generates a fully accessible search box for you.
 
@@ -79,18 +75,18 @@ autocomplete({
 });
 ```
 
-Continue reading our [**Getting Started**](https://autocomplete.algolia.com/docs/getting-started#defining-where-to-put-your-autocomplete) guide.
+Continue reading our [**Getting Started**](https://www.algolia.com/doc/ui-libraries/autocomplete/introduction/getting-started/#defining-where-to-put-your-autocomplete) guide.
 
 ## Documentation
 
-The [documentation](https://autocomplete.algolia.com) offers a few ways to learn about the Autocomplete library:
+The [documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/introduction/what-is-autocomplete) offers a few ways to learn about the Autocomplete library:
 
-- Read the [**Core Concepts**](https://autocomplete.algolia.com/docs/basic-options) to learn more about underlying principles, like [**Sources**](https://autocomplete.algolia.com/docs/sources) and [**State**](https://autocomplete.algolia.com/docs/state).
-- Follow the [**Guides**](https://autocomplete.algolia.com/docs/adding-suggested-searches) to understand how to build common UX patterns.
-- Refer to [**API reference**](https://autocomplete.algolia.com/docs/api) for a comprehensive list of parameters and options.
+- Read the [**Core Concepts**](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/basic-configuration-options/) to learn more about underlying principles, like [**Sources**](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/sources/) and [**State**](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/state/).
+- Follow the [**Guides**](https://www.algolia.com/doc/ui-libraries/autocomplete/guides/adding-suggested-searches) to understand how to build common UX patterns.
+- Refer to [**API reference**](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js) for a comprehensive list of parameters and options.
 - Try out the [**Playground**](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx) where you can fork a basic implementation and play around.
 
-You can find more on the [documentation](https://autocomplete.algolia.com).
+You can find more on the [documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/introduction/what-is-autocomplete).
 
 ## Support
 
@@ -100,13 +96,13 @@ You can find more on the [documentation](https://autocomplete.algolia.com).
 
 | Package | Description | Documentation |
 | --- | --- | --- |
-| [`autocomplete-js`](packages/autocomplete-js) | JavaScript package for Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/autocomplete-js) |
-| [`autocomplete-core`](packages/autocomplete-core) | Core primitives to build an Autocomplete experience | [Documentation](https://autocomplete.algolia.com/docs/createAutocomplete) |
-| [`autocomplete-plugin-recent-searches`](packages/autocomplete-plugin-recent-searches) | A plugin to add recent searches to Algolia Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/createLocalStorageRecentSearchesPlugin) |
-| [`autocomplete-plugin-query-suggestions`](packages/autocomplete-plugin-query-suggestions) | A plugin to add query suggestions to Algolia Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/createQuerySuggestionsPlugin) |
-| [`autocomplete-plugin-algolia-insights`](packages/autocomplete-plugin-algolia-insights) | A plugin to add Algolia Insights to Algolia Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/createAlgoliaInsightsPlugin) |
-| [`autocomplete-preset-algolia`](packages/autocomplete-preset-algolia) | Presets to use Algolia features with Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/getAlgoliaResults) |
-| [`autocomplete-theme-classic`](packages/autocomplete-theme-classic) | Classic theme for Autocomplete | [Documentation](https://autocomplete.algolia.com/docs/autocomplete-theme-classic) |
+| [`autocomplete-js`](packages/autocomplete-js) | JavaScript package for Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js) |
+| [`autocomplete-core`](packages/autocomplete-core) | JavaScript core primitives to build an autocomplete experience | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-core) |
+| [`autocomplete-plugin-recent-searches`](packages/autocomplete-plugin-recent-searches) | A plugin to add recent searches to Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches) |
+| [`autocomplete-plugin-query-suggestions`](packages/autocomplete-plugin-query-suggestions) | A plugin to add query suggestions to Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions) |
+| [`autocomplete-plugin-algolia-insights`](packages/autocomplete-plugin-algolia-insights) | A plugin to add Algolia Insights to Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights) |
+| [`autocomplete-preset-algolia`](packages/autocomplete-preset-algolia) | Presets to use Algolia features with Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-preset-algolia) |
+| [`autocomplete-theme-classic`](packages/autocomplete-theme-classic) | Classic theme for Autocomplete | [Documentation](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-theme-classic) |
 
 ## Showcase
 
@@ -116,56 +112,11 @@ See the awesome experiences people built with Autocomplete:
 | --- | --- |
 | <div align="center"><a href="https://docsearch.algolia.com">DocSearch</a></div> | <div align="center"><a href="https://algolia.com/doc">Algolia Documentation</a></div> |
 
+Find more in our [**Showcase**](https://www.algolia.com/doc/ui-libraries/autocomplete/introduction/showcase/).
+
 ## Sandboxes
 
-Check out sandboxes using Autocomplete:
-
-<table>
-  <thead>
-    <tr>
-      <th align="center">
-        <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx">
-          <img src="./media/screenshot.png" alt="E-commerce" width="460">
-        </a>
-      </th>
-      <th align="center">
-        <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/react-renderer?file=/src/Autocomplete.tsx">
-          <img src="./media/sandboxes/react-renderer.png" alt="React renderer" width="460">
-        </a>
-      </th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr>
-      <td align="center">
-        <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx">
-          E-commerce
-        </a>
-      </td>
-      <td align="center">
-        <a href="https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/react-renderer?file=/src/Autocomplete.tsx">
-          React renderer
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td align="center">
-        <img src="https://img.shields.io/badge/Recent_Searches-green" alt="Recent Searches">
-        <img src="https://img.shields.io/badge/Query_Suggestions-blueviolet" alt="Query Suggestions">
-        <img src="https://img.shields.io/badge/Algolia_index-blue" alt="Algolia Index">
-        <img src="https://img.shields.io/badge/Algolia_Insights-red" alt="Algolia Insights">
-        <img src="https://img.shields.io/badge/Preact-cyan" alt="Preact">
-      </td>
-      <td align="center">
-        <img src="https://img.shields.io/badge/Algolia_index-blue" alt="Algolia Index">
-        <img src="https://img.shields.io/badge/React-lightblue" alt="React">
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-You can [find more sandboxes on CodeSandbox](https://codesandbox.io/search?refinementList%5Bnpm_dependencies.dependency%5D%5B0%5D=%40algolia%2Fautocomplete-core).
+Check out [sandboxes using Autocomplete](https://www.algolia.com/doc/ui-libraries/autocomplete/introduction/sandboxes).
 
 ## License
 

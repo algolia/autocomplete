@@ -1,11 +1,15 @@
 # @algolia/autocomplete-plugin-recent-searches
 
-A plugin to add recent searches to Algolia Autocomplete.
+The Recent Searches plugin displays a list of the latest searches the user made.
 
 ## Installation
 
 ```sh
-yarn add @algolia/autocomplete-plugin-recent-searches@alpha
+yarn add @algolia/autocomplete-plugin-recent-searches
 # or
-npm install @algolia/autocomplete-plugin-recent-searches@alpha
+npm install @algolia/autocomplete-plugin-recent-searches
 ```
+
+## Documentation
+
+See [**Documentation**](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches).

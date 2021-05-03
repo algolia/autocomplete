@@ -1,11 +1,15 @@
 # @algolia/autocomplete-plugin-algolia-insights
 
-A plugin to add Algolia Insights to Algolia Autocomplete.
+The Algolia Insights plugin automatically sends click and conversion events to the [Algolia Insights API](https://www.algolia.com/doc/rest-api/insights]) whenever a user interacts with the autocomplete.
 
 ## Installation
 
 ```sh
-yarn add @algolia/autocomplete-plugin-algolia-insights@alpha
+yarn add @algolia/autocomplete-plugin-algolia-insights
 # or
-npm install @algolia/autocomplete-plugin-algolia-insights@alpha
+npm install @algolia/autocomplete-plugin-algolia-insights
 ```
+
+## Documentation
+
+See [**Documentation**](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights).
