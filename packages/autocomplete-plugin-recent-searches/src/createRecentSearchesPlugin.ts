@@ -19,7 +19,7 @@ export interface RecentSearchesPluginData<TItem extends RecentSearchesItem>
    * This function enhances the provided search parameters by:
    * - Excluding Query Suggestions that are already displayed in recent searches.
    * - Using a shared `hitsPerPage` value to get a group limit of Query Suggestions and recent searches.
-   * @link https://autocomplete.algolia.com/docs/createLocalStorageRecentSearchesPlugin#getalgoliasearchparams
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createLocalStorageRecentSearchesPlugin/#param-getalgoliasearchparams
    */
   getAlgoliaSearchParams(params?: SearchOptions): SearchOptions;
 }
@@ -30,13 +30,13 @@ export type CreateRecentSearchesPluginParams<
   /**
    * The storage to fetch from and save recent searches into.
    *
-   * @link https://autocomplete.algolia.com/docs/createRecentSearchesPlugin#storage
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createRecentSearchesPlugin/#param-storage
    */
   storage: Storage<TItem>;
   /**
    * A function to transform the provided source.
    *
-   * @link https://autocomplete.algolia.com/docs/createRecentSearchesPlugin#transformsource
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createRecentSearchesPlugin/#param-transformsource
    */
   transformSource?(params: {
     source: AutocompleteSource<TItem>;

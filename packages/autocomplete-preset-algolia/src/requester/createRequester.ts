@@ -71,7 +71,7 @@ export type RequestParams<THit> = FetcherParams & {
   /**
    * The function to transform the Algolia response before passing it to the Autocomplete state. You have access to the full Algolia results, as well as the pre-computed hits and facet hits.
    *
-   * This is useful to manipulate the hits, or store data from the results in the [context](https://autocomplete.algolia.com/docs/context).
+   * This is useful to manipulate the hits, or store data from the results in the [context](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/context/).
    */
   transformResponse?: TransformResponse<THit>;
 };

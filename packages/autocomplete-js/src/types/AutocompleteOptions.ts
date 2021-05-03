@@ -39,7 +39,7 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    *
    * You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). If there are several containers matching the selector, Autocomplete picks up the first one.
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#container
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-container
    */
   container: string | HTMLElement;
   /**
@@ -48,14 +48,14 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * You can either pass a [CSS selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) or an [Element](https://developer.mozilla.org/docs/Web/API/HTMLElement). If there are several containers matching the selector, Autocomplete picks up the first one.
    *
    * @default document.body
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#panelcontainer
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-panelcontainer
    */
   panelContainer?: string | HTMLElement;
   /**
    * The Media Query to turn Autocomplete into a detached experience.
    *
    * @default "(max-width: 680px)"
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#detachedmediaquery
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-detachedmediaquery
    * @link https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries
    */
   detachedMediaQuery?: string;
@@ -64,7 +64,7 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * The panel's horizontal position.
    *
    * @default "input-wrapper-width"
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#panelplacement
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-panelplacement
    */
   panelPlacement?: 'start' | 'end' | 'full-width' | 'input-wrapper-width';
   /**
@@ -72,7 +72,7 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    *
    * This is useful to style your autocomplete with external CSS frameworks.
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#classnames
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-classnames
    */
   classNames?: Partial<AutocompleteClassNames>;
   /**
@@ -80,7 +80,7 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    *
    * This is useful to customize the rendering, for example, using multi-row or multi-column layouts.
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#render
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-render
    */
   render?: AutocompleteRender<TItem>;
   /**
@@ -88,7 +88,7 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    *
    * This is useful to let the user know that the query returned no results.
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#rendernoresults
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-rendernoresults
    */
   renderNoResults?: AutocompleteRender<TItem>;
   initialState?: Partial<AutocompleteState<TItem>>;
@@ -96,16 +96,16 @@ export interface AutocompleteOptions<TItem extends BaseItem>
   /**
    * The virtual DOM implementation to plug to Autocomplete. It defaults to Preact.
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#renderer
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-renderer
    */
   renderer?: AutocompleteRenderer;
   plugins?: Array<AutocompletePlugin<any, any>>;
   /**
    * Components to register in the Autocomplete rendering lifecycles.
    *
-   * Registered components become available in [`templates`](https://autocomplete.algolia.com/docs/autocomplete-jstemplates), [`render`](https://autocomplete.algolia.com/docs/autocomplete-js#render), and in [`renderNoResults`](https://autocomplete.algolia.com/docs/autocomplete-js#rendernoresults).
+   * Registered components become available in [`templates`](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/templates/), [`render`](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-render), and in [`renderNoResults`](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-rendernoresults).
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#components
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-components
    */
   components?: PublicAutocompleteComponents;
 }

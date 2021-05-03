@@ -24,7 +24,7 @@ export type SourceTemplates<TItem extends BaseItem> = {
   /**
    * A function that returns the template for each item of the source.
    *
-   * @link https://autocomplete.algolia.com/docs/templates/#item
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/templates/#param-item
    */
   item: Template<{
     item: TItem;
@@ -33,7 +33,7 @@ export type SourceTemplates<TItem extends BaseItem> = {
   /**
    * A function that returns the template for the header (before the list of items).
    *
-   * @link https://autocomplete.algolia.com/docs/templates/#header
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/templates/#param-header
    */
   header?: Template<{
     state: AutocompleteState<TItem>;
@@ -43,7 +43,7 @@ export type SourceTemplates<TItem extends BaseItem> = {
   /**
    * A function that returns the template for the footer (after the list of items).
    *
-   * @link https://autocomplete.algolia.com/docs/templates/#footer
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/templates/#param-footer
    */
   footer?: Template<{
     state: AutocompleteState<TItem>;
@@ -53,7 +53,7 @@ export type SourceTemplates<TItem extends BaseItem> = {
   /**
    * A function that returns the template for when there are no items.
    *
-   * @link https://autocomplete.algolia.com/docs/templates/#noresults
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/templates/#param-noresults
    */
   noResults?: Template<{
     state: AutocompleteState<TItem>;
@@ -67,7 +67,7 @@ type WithTemplates<TType, TItem extends BaseItem> = TType & {
    *
    * See [**Displaying items with Templates**](templates) for more information.
    *
-   * @link https://autocomplete.algolia.com/docs/sources/#templates
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/sources/#param-templates
    */
   templates: SourceTemplates<TItem>;
 };

@@ -24,7 +24,7 @@ export type CreateRecentSearchesLocalStorageOptions<
    * The plugin namespaces all keys to avoid collisions.
    *
    * @example "top_searchbar"
-   * @link https://autocomplete.algolia.com/docs/createLocalStorageRecentSearchesPlugin#key
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createLocalStorageRecentSearchesPlugin/#param-key
    */
   key: string;
 
@@ -32,16 +32,16 @@ export type CreateRecentSearchesLocalStorageOptions<
    * The number of recent searches to display.
    *
    * @default 5
-   * @link https://autocomplete.algolia.com/docs/createLocalStorageRecentSearchesPlugin#limit
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createLocalStorageRecentSearchesPlugin/#param-limit
    */
   limit?: number;
 
   /**
    * A search function to retrieve recent searches from.
    *
-   * This function is called in [`storage.getAll`](https://autocomplete.algolia.com/docs/createRecentSearchesPlugin#storage) to retrieve recent searches and is useful to filter and highlight recent searches when typing a query.
+   * This function is called in [`storage.getAll`](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createRecentSearchesPlugin/#param-storage) to retrieve recent searches and is useful to filter and highlight recent searches when typing a query.
    *
-   * @link https://autocomplete.algolia.com/docs/createLocalStorageRecentSearchesPlugin#search
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createLocalStorageRecentSearchesPlugin/#param-search
    */
   search?(params: SearchParams<TItem>): Array<Highlighted<TItem>>;
 };

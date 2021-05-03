@@ -21,10 +21,14 @@ export type AutocompletePlugin<
    * The function called when Autocomplete starts.
    *
    * It lets you subscribe to lifecycle hooks and interact with the instance's state and context.
+   *
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/plugins/#param-subscribe
    */
   subscribe?(params: PluginSubscribeParams<any>): void;
   /**
    * An extra plugin object to expose properties and functions as APIs.
+   *
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/plugins/#param-data
    */
   data?: TData;
 };

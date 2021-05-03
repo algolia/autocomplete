@@ -10,9 +10,11 @@ export type AutocompletePlugin<TItem extends BaseItem, TData> = Omit<
   'getSources'
 > & {
   /**
-   * The function called when the internal state changes.
+   * The [sources](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/sources/) to get the suggestions from.
    *
-   * @link https://autocomplete.algolia.com/docs/plugins#onstatechange
+   * When defined, they’re merged with the sources of your Autocomplete instance.
+   *
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/plugins/#param-getsources
    */
   getSources?: AutocompleteOptions<TItem>['getSources'];
 };
