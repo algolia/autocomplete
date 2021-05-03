@@ -1,6 +1,5 @@
 <div align="center">
-	<a href="https://autocomplete.algolia.com"><img src="./media/illustration.png" alt="Autocomplete" width="200" height="200"></a>
-	<h1>Autocomplete</h1>
+	<a href="https://autocomplete.algolia.com"><img src="./media/banner.png" alt="Autocomplete" width="1280"></a>
 	<p>
 		<strong>A JavaScript library that lets you quickly build autocomplete experiences</strong>
 	</p>
