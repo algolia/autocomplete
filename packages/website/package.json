@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "docusaurus start",
-    "build": "docusaurus build",
+    "build": "docusaurus build && cp ./_redirects ./build/_redirects",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy"
   },
