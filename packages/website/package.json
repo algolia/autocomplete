@@ -1,6 +1,6 @@
 {
   "name": "@algolia/autocomplete-website",
-  "version": "1.0.0-alpha.48",
+  "version": "1.0.0-alpha.49",
   "private": true,
   "scripts": {
     "start": "docusaurus start",
