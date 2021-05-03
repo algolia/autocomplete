@@ -39,7 +39,7 @@ export interface AutocompleteSource<TItem extends BaseItem> {
   /**
    * The function called to get the URL of the item.
    *
-   * The value is used to add [keyboard accessibility](https://autocomplete.algolia.com/docs/keyboard-navigation) features to let users open items in the current tab, a new tab, or a new window.
+   * The value is used to add [keyboard accessibility](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/keyboard-navigation/) features to let users open items in the current tab, a new tab, or a new window.
    */
   getItemUrl?({
     item,

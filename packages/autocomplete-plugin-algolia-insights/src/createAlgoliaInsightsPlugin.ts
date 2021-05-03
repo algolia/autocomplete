@@ -44,7 +44,7 @@ export type CreateAlgoliaInsightsPluginParams = {
   /**
    * The initialized Search Insights client.
    *
-   * @link https://autocomplete.algolia.com/docs/createAlgoliaInsightsPlugin#insightsclient
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/#param-insightsclient
    */
   insightsClient: InsightsClient;
   /**
@@ -54,7 +54,7 @@ export type CreateAlgoliaInsightsPluginParams = {
    *
    * In as-you-type experiences, items change as the user types. This hook is debounced every 400ms to reflect actual items that users notice and avoid generating too many events for items matching "in progress" queries.
    *
-   * @link https://autocomplete.algolia.com/docs/createAlgoliaInsightsPlugin#onitemschange
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/#param-onitemschange
    */
   onItemsChange?(params: OnItemsChangeParams): void;
   /**
@@ -62,7 +62,7 @@ export type CreateAlgoliaInsightsPluginParams = {
    *
    * By default, it sends a clickedObjectIDsAfterSearch event.
    *
-   * @link https://autocomplete.algolia.com/docs/createAlgoliaInsightsPlugin#onselect
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/#param-onselect
    */
   onSelect?(params: OnSelectParams): void;
   /**
@@ -70,7 +70,7 @@ export type CreateAlgoliaInsightsPluginParams = {
    *
    * By default, it doesn't send any events.
    *
-   * @link https://autocomplete.algolia.com/docs/createAlgoliaInsightsPlugin#onactive
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/#param-onactive
    */
   onActive?(params: OnActiveParams): void;
 };

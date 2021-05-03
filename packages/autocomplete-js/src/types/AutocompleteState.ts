@@ -12,7 +12,7 @@ export type AutocompleteState<TItem extends BaseItem> = Omit<
   /**
    * The collections of items.
    *
-   * @link https://autocomplete.algolia.com/docs/state/#collections
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/state/#param-collections
    */
   collections: Array<AutocompleteCollection<TItem>>;
 };

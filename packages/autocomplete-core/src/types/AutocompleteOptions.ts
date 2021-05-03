@@ -51,10 +51,10 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    *
    * This is useful while developing because it keeps the panel open even when the blur event occurs. **Make sure to disable it in production.**
    *
-   * See [**Debugging**](https://autocomplete.algolia.com/docs/debugging) for more information.
+   * See [**Debugging**](https://www.algolia.com/doc/ui-libraries/autocomplete/guides/debugging/) for more information.
    *
    * @default false
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#debug
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-debug
    */
   debug?: boolean;
   /**
@@ -63,26 +63,26 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    * It is incremented by default when creating a new Autocomplete instance.
    *
    * @default "autocomplete-0"
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#id
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-id
    */
   id?: string;
   /**
    * The function called when the internal state changes.
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#onstatechange
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-onstatechange
    */
   onStateChange?(props: OnStateChangeProps<TItem>): void;
   /**
    * The placeholder text to show in the search input when there's no query.
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#placeholder
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-placeholder
    */
   placeholder?: string;
   /**
    * Whether to focus the search input or not when the page is loaded.
    *
    * @default false
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#autofocus
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-autofocus
    */
   autoFocus?: boolean;
   /**
@@ -91,33 +91,33 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    * We recommend using `0` when the autocomplete is used to open links, instead of triggering a search in an application.
    *
    * @default null
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#defaultactiveitemid
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-defaultactiveitemid
    */
   defaultActiveItemId?: number | null;
   /**
    * Whether to open the panel on focus when there's no query.
    *
    * @default false
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#openonfocus
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-openonfocus
    */
   openOnFocus?: boolean;
   /**
-   * How many milliseconds must elapse before considering the autocomplete experience [stalled](https://autocomplete.algolia.com/docs/state#status).
+   * How many milliseconds must elapse before considering the autocomplete experience [stalled](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/state/#param-status).
    *
    * @default 300
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#stallthreshold
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-stallthreshold
    */
   stallThreshold?: number;
   /**
    * The initial state to apply when autocomplete is created.
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#initialstate
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-initialstate
    */
   initialState?: Partial<AutocompleteState<TItem>>;
   /**
-   * The [sources](https://autocomplete.algolia.com/docs/sources) to get the suggestions from.
+   * The [sources](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/sources/) to get the suggestions from.
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#getsources
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-getsources
    */
   getSources?: GetSources<TItem>;
   /**
@@ -126,15 +126,15 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    * This is useful if you're using autocomplete in a different context than `window`.
    *
    * @default window
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#environment
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-environment
    */
   environment?: AutocompleteEnvironment;
   /**
    * An implementation of Autocomplete's Navigator API to redirect the user when opening a link.
    *
-   * Learn more on the [**Navigator API**](https://autocomplete.algolia.com/docs/keyboard-navigation) documentation.
+   * Learn more on the [**Navigator API**](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/keyboard-navigation/) documentation.
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#navigator
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-navigator
    */
   navigator?: Partial<AutocompleteNavigator<TItem>>;
   /**
@@ -142,27 +142,27 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    *
    * By default, the panel opens when there are items in the state.
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#shouldpanelopen
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-shouldpanelopen
    */
   shouldPanelOpen?(params: { state: AutocompleteState<TItem> }): boolean;
   /**
    * The function called when submitting the Autocomplete form.
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#onsubmit
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-onsubmit
    */
   onSubmit?(params: OnSubmitParams<TItem>): void;
   /**
    * The function called when resetting the Autocomplete form.
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#onreset
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-onreset
    */
   onReset?(params: OnResetParams<TItem>): void;
   /**
    * The plugins that encapsulate and distribute custom Autocomplete behaviors.
    *
-   * See [**Plugins**](https://autocomplete.algolia.com/docs/plugins) for more information.
+   * See [**Plugins**](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/plugins/) for more information.
    *
-   * @link https://autocomplete.algolia.com/docs/autocomplete-js#plugins
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-plugins
    */
   plugins?: Array<AutocompletePlugin<any, any>>;
 }

@@ -13,19 +13,19 @@ export interface AutocompleteSetters<TItem extends BaseItem> {
    *
    * Pass `null` to unselect items.
    *
-   * @link https://autocomplete.algolia.com/docs/state#setactiveitemid
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/state/#param-setactiveitemid
    */
   setActiveItemId: StateUpdater<AutocompleteState<TItem>['activeItemId']>;
   /**
    * Sets the query.
    *
-   * @link https://autocomplete.algolia.com/docs/state#setquery
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/state/#param-setquery
    */
   setQuery: StateUpdater<AutocompleteState<TItem>['query']>;
   /**
    * Sets the collections.
    *
-   * @link https://autocomplete.algolia.com/docs/state#setcollections
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/state/#param-setcollections
    */
   setCollections: StateUpdater<
     Array<
@@ -35,21 +35,21 @@ export interface AutocompleteSetters<TItem extends BaseItem> {
   /**
    * Sets whether the panel is open or not.
    *
-   * @link https://autocomplete.algolia.com/docs/state#setisopen
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/state/#param-setisopen
    */
   setIsOpen: StateUpdater<AutocompleteState<TItem>['isOpen']>;
   /**
    * Sets the status of the autocomplete.
    *
-   * @link https://autocomplete.algolia.com/docs/state#setisopen
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/state/#param-setisopen
    */
   setStatus: StateUpdater<AutocompleteState<TItem>['status']>;
   /**
    * Sets the context passed to lifecycle hooks.
    *
-   * See more in [**Context**](https://autocomplete.algolia.com/docs/context).
+   * See more in [**Context**](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/context/).
    *
-   * @link https://autocomplete.algolia.com/docs/state#setcontext
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/state/#param-setcontext
    */
   setContext: StateUpdater<AutocompleteState<TItem>['context']>;
 }
