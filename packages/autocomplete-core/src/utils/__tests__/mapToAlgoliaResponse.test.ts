@@ -40,6 +40,138 @@ describe('mapToAlgoliaResponse', () => {
     expect(facetHits).toEqual([]);
   });
 
+  test('returns formatted results', () => {
+    const { results } = mapToAlgoliaResponse([
+      createSingleSearchResponse({
+        index: 'indexName',
+        queryID: 'queryID',
+        hits: [
+          {
+            objectID: '1',
+            label: 'Label 1',
+          },
+          {
+            objectID: '2',
+            label: 'Label 2',
+          },
+        ],
+      }),
+      createSingleSearchResponse({
+        index: 'indexName',
+        queryID: 'queryID',
+        hits: [
+          {
+            objectID: '3',
+            label: 'Label 3',
+          },
+          {
+            objectID: '4',
+            label: 'Label 4',
+          },
+        ],
+      }),
+    ]);
+
+    expect(results).toEqual([
+      expect.objectContaining({
+        hits: [
+          {
+            __autocomplete_indexName: 'indexName',
+            __autocomplete_queryID: 'queryID',
+            label: 'Label 1',
+            objectID: '1',
+          },
+          {
+            __autocomplete_indexName: 'indexName',
+            __autocomplete_queryID: 'queryID',
+            label: 'Label 2',
+            objectID: '2',
+          },
+        ],
+      }),
+      expect.objectContaining({
+        hits: [
+          {
+            __autocomplete_indexName: 'indexName',
+            __autocomplete_queryID: 'queryID',
+            label: 'Label 3',
+            objectID: '3',
+          },
+          {
+            __autocomplete_indexName: 'indexName',
+            __autocomplete_queryID: 'queryID',
+            label: 'Label 4',
+            objectID: '4',
+          },
+        ],
+      }),
+    ]);
+  });
+
+  test('returns formatted hits', () => {
+    const { hits } = mapToAlgoliaResponse([
+      createSingleSearchResponse({
+        index: 'indexName',
+        queryID: 'queryID',
+        hits: [
+          {
+            objectID: '1',
+            label: 'Label 1',
+          },
+          {
+            objectID: '2',
+            label: 'Label 2',
+          },
+        ],
+      }),
+      createSingleSearchResponse({
+        index: 'indexName',
+        queryID: 'queryID',
+        hits: [
+          {
+            objectID: '3',
+            label: 'Label 3',
+          },
+          {
+            objectID: '4',
+            label: 'Label 4',
+          },
+        ],
+      }),
+    ]);
+
+    expect(hits).toEqual([
+      [
+        {
+          __autocomplete_indexName: 'indexName',
+          __autocomplete_queryID: 'queryID',
+          label: 'Label 1',
+          objectID: '1',
+        },
+        {
+          __autocomplete_indexName: 'indexName',
+          __autocomplete_queryID: 'queryID',
+          label: 'Label 2',
+          objectID: '2',
+        },
+      ],
+      [
+        {
+          __autocomplete_indexName: 'indexName',
+          __autocomplete_queryID: 'queryID',
+          label: 'Label 3',
+          objectID: '3',
+        },
+        {
+          __autocomplete_indexName: 'indexName',
+          __autocomplete_queryID: 'queryID',
+          label: 'Label 4',
+          objectID: '4',
+        },
+      ],
+    ]);
+  });
+
   test('returns formatted facet hits', () => {
     const { facetHits } = mapToAlgoliaResponse([
       createSFFVResponse({
