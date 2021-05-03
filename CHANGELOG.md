@@ -1,11 +1,8 @@
-# [](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.48...v) (2021-05-03)
-
+# [1.0.0-alpha.49](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.48...v1.0.0-alpha.49) (2021-05-03)
 
 ### Bug Fixes
 
-* **core:** support Insights in requesters ([#562](https://github.com/algolia/autocomplete/issues/562)) ([c305ab4](https://github.com/algolia/autocomplete/commit/c305ab4e974f18991cf4cbcf4189a4c81c47fa8a))
-
-
+- **core:** support Insights in requesters ([#562](https://github.com/algolia/autocomplete/issues/562)) ([c305ab4](https://github.com/algolia/autocomplete/commit/c305ab4e974f18991cf4cbcf4189a4c81c47fa8a))
 
 # [1.0.0-alpha.48](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.47...v1.0.0-alpha.48) (2021-04-30)
 
