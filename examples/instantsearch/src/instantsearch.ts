@@ -182,11 +182,7 @@ export function getInstantSearchCurrentCategory() {
 
 // Build URLs that InstantSearch understands.
 export function getInstantSearchUrl(indexUiState) {
-  return `${instantSearchRouter
-    .createURL({
-      [INSTANT_SEARCH_INDEX_NAME]: indexUiState,
-    })
-    .replace(window.location.origin + window.location.pathname, '')}`;
+  return search.createURL({ [INSTANT_SEARCH_INDEX_NAME]: indexUiState });
 }
 
 // Return the InstantSearch index UI state.
