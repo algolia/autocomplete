@@ -1,3 +1,7 @@
+# [](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.49...v) (2021-05-03)
+
+
+
 # [1.0.0-alpha.49](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.48...v1.0.0-alpha.49) (2021-05-03)
 
 ### Bug Fixes
