@@ -1,0 +1,52 @@
+# Introduction
+
+/docs/introduction https://algolia.com/doc/ui-libraries/autocomplete/introduction/what-is-autocomplete/
+/docs/getting-started https://algolia.com/doc/ui-libraries/autocomplete/introduction/getting-started/
+/showcase https://algolia.com/doc/ui-libraries/autocomplete/introduction/showcase/
+/sandboxes https://algolia.com/doc/ui-libraries/autocomplete/introduction/sandboxes/
+/docs/help https://github.com/algolia/autocomplete/issues/new/choose
+
+# Core Concepts
+
+/docs/basic-options https://algolia.com/doc/ui-libraries/autocomplete/core-concepts/basic-configuration-options/
+/docs/sources https://algolia.com/doc/ui-libraries/autocomplete/core-concepts/sources/
+/docs/templates https://algolia.com/doc/ui-libraries/autocomplete/core-concepts/templates/
+/docs/state https://algolia.com/doc/ui-libraries/autocomplete/core-concepts/state/
+/docs/context https://algolia.com/doc/ui-libraries/autocomplete/core-concepts/context/
+/docs/keyboard-navigation https://algolia.com/doc/ui-libraries/autocomplete/core-concepts/keyboard-navigation/
+/docs/plugins https://algolia.com/doc/ui-libraries/autocomplete/core-concepts/plugins/
+/docs/detached-mode https://algolia.com/doc/ui-libraries/autocomplete/core-concepts/detached-mode/
+
+# Guides
+
+/docs/adding-suggested-searches https://algolia.com/doc/ui-libraries/autocomplete/guides/adding-suggested-searches/
+/docs/adding-recent-searches https://algolia.com/doc/ui-libraries/autocomplete/guides/adding-recent-searches/
+/docs/including-multiple-result-types https://algolia.com/doc/ui-libraries/autocomplete/guides/including-multiple-result-types/
+/docs/changing-behavior-based-on-query https://algolia.com/doc/ui-libraries/autocomplete/guides/changing-behavior-based-on-query/
+/docs/sending-algolia-insights-events https://algolia.com/doc/ui-libraries/autocomplete/guides/sending-algolia-insights-events/
+/docs/using-react https://algolia.com/doc/ui-libraries/autocomplete/guides/using-react/
+/docs/using-vue https://algolia.com/doc/ui-libraries/autocomplete/guides/using-vue/
+/docs/creating-a-renderer https://algolia.com/doc/ui-libraries/autocomplete/guides/creating-a-renderer/
+/docs/upgrading https://algolia.com/doc/ui-libraries/autocomplete/guides/upgrading/
+/docs/debugging https://algolia.com/doc/ui-libraries/autocomplete/guides/debugging/
+
+# API Reference
+
+/docs/api https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/
+/docs/autocomplete-js https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/
+/docs/getAlgoliaResults-js https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/getAlgoliaResults/
+/docs/getAlgoliaFacets-js https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/getAlgoliaFacets/
+/docs/createAutocomplete https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-core/createAutocomplete/
+/docs/createRecentSearchesPlugin https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createRecentSearchesPlugin/
+/docs/createLocalStorageRecentSearchesPlugin https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createLocalStorageRecentSearchesPlugin/
+/docs/createQuerySuggestionsPlugin https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions/createQuerySuggestionsPlugin/
+/docs/createAlgoliaInsightsPlugin https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/
+/docs/parseAlgoliaHitHighlight https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-preset-algolia/parseAlgoliaHitHighlight/
+/docs/parseAlgoliaHitSnippet https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-preset-algolia/parseAlgoliaHitSnippet/
+/docs/parseAlgoliaHitReverseHighlight https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-preset-algolia/parseAlgoliaHitReverseHighlight/
+/docs/parseAlgoliaHitReverseSnippet https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-preset-algolia/parseAlgoliaHitReverseSnippet/
+/docs/autocomplete-theme-classic https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-theme-classic/
+
+# Global
+
+/* https://algolia.com/doc/ui-libraries/autocomplete/introduction/what-is-autocomplete/

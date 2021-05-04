@@ -1,6 +1,5 @@
 [build]
-  command="yarn run website:build"
-  publish="packages/website/build"
+  publish="website"
 
 [build.environment]
   YARN_VERSION = "1.22.5"
