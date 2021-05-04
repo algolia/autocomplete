@@ -1,8 +1,12 @@
+import { AutocompleteEnvironment } from '@algolia/autocomplete-core';
 import { invariant } from '@algolia/autocomplete-shared';
 
-export function getHTMLElement(value: string | HTMLElement): HTMLElement {
+export function getHTMLElement(
+  environment: AutocompleteEnvironment,
+  value: string | HTMLElement
+): HTMLElement {
   if (typeof value === 'string') {
-    const element = document.querySelector<HTMLElement>(value);
+    const element = environment.document.querySelector<HTMLElement>(value);
 
     invariant(
       element !== null,
