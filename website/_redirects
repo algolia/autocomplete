@@ -34,17 +34,17 @@
 
 /docs/api https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/
 /docs/autocomplete-js https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/
-/docs/getalgoliaresults-js https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/getAlgoliaResults/
-/docs/getalgoliafacets-js https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/getAlgoliaFacets/
-/docs/createautocomplete https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-core/createAutocomplete/
-/docs/createrecentsearchesplugin https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createRecentSearchesPlugin/
-/docs/createlocalstoragerecentsearchesplugin https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createLocalStorageRecentSearchesPlugin/
-/docs/createquerysuggestionsplugin https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions/createQuerySuggestionsPlugin/
-/docs/createalgoliainsightsplugin https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/
-/docs/parsealgoliahithighlight https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-preset-algolia/parseAlgoliaHitHighlight/
-/docs/parsealgoliahitsnippet https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-preset-algolia/parseAlgoliaHitSnippet/
-/docs/parsealgoliahitreversehighlight https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-preset-algolia/parseAlgoliaHitReverseHighlight/
-/docs/parsealgoliahitreversesnippet https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-preset-algolia/parseAlgoliaHitReverseSnippet/
+/docs/getAlgoliaResults-js https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/getAlgoliaResults/
+/docs/getAlgoliaFacets-js https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/getAlgoliaFacets/
+/docs/createAutocomplete https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-core/createAutocomplete/
+/docs/createRecentSearchesPlugin https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createRecentSearchesPlugin/
+/docs/createLocalStorageRecentSearchesPlugin https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createLocalStorageRecentSearchesPlugin/
+/docs/createQuerySuggestionsPlugin https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions/createQuerySuggestionsPlugin/
+/docs/createAlgoliaInsightsPlugin https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/
+/docs/parseAlgoliaHitHighlight https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-preset-algolia/parseAlgoliaHitHighlight/
+/docs/parseAlgoliaHitSnippet https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-preset-algolia/parseAlgoliaHitSnippet/
+/docs/parseAlgoliaHitReverseHighlight https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-preset-algolia/parseAlgoliaHitReverseHighlight/
+/docs/parseAlgoliaHitReverseSnippet https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-preset-algolia/parseAlgoliaHitReverseSnippet/
 /docs/autocomplete-theme-classic https://algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-theme-classic/
 
 # Global
