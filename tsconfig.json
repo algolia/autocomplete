@@ -22,7 +22,6 @@
     "**/__tests__/**/*",
     "**/dist",
     "**/node_modules",
-    "website",
     "stories",
     "examples",
     "cypress"
