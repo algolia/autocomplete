@@ -74,6 +74,31 @@ module.exports = {
       },
     },
     {
+      files: [
+        'packages/autocomplete-core/**/*',
+        'packages/autocomplete-js/**/*',
+      ],
+      rules: {
+        'no-restricted-globals': [
+          'error',
+          {
+            name: 'window',
+            message: 'Use the `environment` param to access this property.',
+          },
+          {
+            name: 'document',
+            message: 'Use the `environment` param to access this property.',
+          },
+        ],
+      },
+    },
+    {
+      files: ['**/__tests__/**'],
+      rules: {
+        'no-restricted-globals': OFF,
+      },
+    },
+    {
       files: ['**/rollup.config.js', 'stories/**/*', '**/__tests__/**'],
       rules: {
         'import/no-extraneous-dependencies': OFF,

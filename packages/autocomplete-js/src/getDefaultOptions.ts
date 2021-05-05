@@ -92,9 +92,11 @@ export function getDefaultOptions<TItem extends BaseItem>(
     'The `container` option does not support `input` elements. You need to change the container to a `div`.'
   );
 
+  /* eslint-disable no-restricted-globals */
   const environment = (typeof window !== 'undefined'
     ? window
     : {}) as typeof window;
+  /* eslint-enable no-restricted-globals */
   const defaultedRenderer = renderer ?? defaultRenderer;
   const defaultComponents: AutocompleteComponents = {
     Highlight: createHighlightComponent(defaultedRenderer),
