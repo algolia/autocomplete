@@ -14,7 +14,7 @@ export function createSnippetComponent({
     return createElement(
       Fragment,
       {},
-      ...parseAlgoliaHitSnippet<THit>({ hit, attribute }).map((x, index) =>
+      parseAlgoliaHitSnippet<THit>({ hit, attribute }).map((x, index) =>
         x.isHighlighted
           ? createElement(tagName, { key: index }, x.value)
           : x.value
