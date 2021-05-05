@@ -1,5 +1,6 @@
-node_modules
-dist
-build
-.docusaurus
 .cache
+.parcel-cache
+build
+coverage
+dist
+node_modules
