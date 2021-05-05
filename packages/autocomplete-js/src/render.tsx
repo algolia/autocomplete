@@ -109,7 +109,9 @@ export function renderPanel<TItem extends BaseItem>(
         </div>
       )}
 
-      {items.length === 0 && source.templates.noResults && state.query ? (
+      {!items.length &&
+      source.templates.noResults &&
+      (state.query || state.isOpen) ? (
         <div className={classNames.sourceNoResults}>
           {source.templates.noResults({
             components,
