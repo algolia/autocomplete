@@ -19,7 +19,8 @@
     "/examples/recently-viewed-items",
     "/examples/starter-algolia",
     "/examples/starter",
-    "/examples/voice-search"
+    "/examples/voice-search",
+    "/examples/vue"
   ],
   "node": "14"
 }

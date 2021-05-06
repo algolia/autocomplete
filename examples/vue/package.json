@@ -1,0 +1,27 @@
+{
+  "name": "@algolia/autocomplete-example-vue",
+  "description": "Autocomplete with Vue",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "parcel build index.html",
+    "start": "parcel index.html"
+  },
+  "dependencies": {
+    "@algolia/autocomplete-js": "1.0.0",
+    "@algolia/autocomplete-theme-classic": "1.0.0",
+    "algoliasearch": "4.9.1",
+    "vue": "3.0.11"
+  },
+  "devDependencies": {
+    "@algolia/client-search": "4.9.1",
+    "@parcel/transformer-vue": "2.0.0-beta.2",
+    "parcel": "2.0.0-beta.2"
+  },
+  "keywords": [
+    "algolia",
+    "autocomplete",
+    "javascript"
+  ]
+}
