@@ -12,7 +12,3 @@ body {
   -moz-osx-font-smoothing: grayscale;
   padding: 1rem 0;
 }
-
-strong {
-  font-weight: bold;
-}
