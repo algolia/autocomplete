@@ -17,10 +17,11 @@ const searchClient = algoliasearch(
 );
 
 type AutocompleteItem = Hit<{
-  objectID: string;
-  name: string;
-  description: string;
+  brand: string;
+  categories: string[];
   image: string;
+  name: string;
+  objectID: string;
   url: string;
 }>;
 
@@ -64,8 +65,6 @@ export function Autocomplete(
                         hitsPerPage: 5,
                         highlightPreTag: '<mark>',
                         highlightPostTag: '</mark>',
-                        attributesToSnippet: ['name:10', 'description:35'],
-                        snippetEllipsisText: '…',
                       },
                     },
                   ],
@@ -163,7 +162,7 @@ export function Autocomplete(
                           >
                             <div className="aa-ItemWrapper">
                               <div className="aa-ItemContent">
-                                <div className="aa-ItemIcon">
+                                <div className="aa-ItemIcon aa-ItemIcon--picture aa-ItemIcon--alignTop">
                                   <img
                                     src={item.image}
                                     alt={item.name}
@@ -175,16 +174,14 @@ export function Autocomplete(
                                   <div
                                     className="aa-ItemContentTitle"
                                     dangerouslySetInnerHTML={{
-                                      __html: item._snippetResult!.name.value,
-                                    }}
-                                  />
-                                  <div
-                                    className="aa-ItemContentDescription"
-                                    dangerouslySetInnerHTML={{
-                                      __html: item._snippetResult!.description
+                                      __html: item._highlightResult!.name!
                                         .value,
                                     }}
                                   />
+                                  <div className="aa-ItemContentDescription">
+                                    By <strong>{item.brand}</strong> in{' '}
+                                    <strong>{item.categories[0]}</strong>
+                                  </div>
                                 </div>
                               </div>
                               <div className="aa-ItemActions">
