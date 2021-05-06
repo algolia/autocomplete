@@ -278,7 +278,7 @@ describe('autocomplete-js', () => {
     });
   });
 
-  test("doesn't render noResults template on no query when openOnFocus is false", async () => {
+  test("doesn't render noResults template on empty query when openOnFocus is false", async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -309,7 +309,7 @@ describe('autocomplete-js', () => {
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, { target: { value: '' } });
+    fireEvent.focus(input);
 
     await waitFor(() => {
       expect(
@@ -318,7 +318,47 @@ describe('autocomplete-js', () => {
     });
   });
 
-  test('render noResults template on query when openOnFocus is false', async () => {
+  test('renders noResults template on empty query when openOnFocus is true', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      openOnFocus: true,
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+              noResults() {
+                return 'No results template';
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.focus(input);
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toHaveTextContent('No results template');
+    });
+  });
+
+  test('renders noResults template on query when openOnFocus is false', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 

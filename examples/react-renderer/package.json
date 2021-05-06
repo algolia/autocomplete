@@ -9,9 +9,9 @@
     "@algolia/autocomplete-theme-classic": "1.0.0",
     "@algolia/client-search": "4.9.1",
     "algoliasearch": "4.9.1",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "react-scripts": "4.0.1"
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-scripts": "4.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
