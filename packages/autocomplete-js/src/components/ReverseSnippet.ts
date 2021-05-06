@@ -14,7 +14,7 @@ export function createReverseSnippetComponent({
     return createElement(
       Fragment,
       {},
-      ...parseAlgoliaHitReverseSnippet<THit>({
+      parseAlgoliaHitReverseSnippet<THit>({
         hit,
         attribute,
       }).map((x, index) =>

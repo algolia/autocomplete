@@ -14,7 +14,7 @@ export function createHighlightComponent({
     return createElement(
       Fragment,
       {},
-      ...parseAlgoliaHitHighlight<THit>({ hit, attribute }).map((x, index) =>
+      parseAlgoliaHitHighlight<THit>({ hit, attribute }).map((x, index) =>
         x.isHighlighted
           ? createElement(tagName, { key: index }, x.value)
           : x.value
