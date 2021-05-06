@@ -4,7 +4,7 @@ import {
   AutocompleteScopeApi,
 } from '@algolia/autocomplete-core';
 
-import { createDomElement } from '../createDomElement';
+import { getCreateDomElement } from '../getCreateDomElement';
 import { AutocompletePropGetters, AutocompleteState } from '../types';
 import { AutocompleteElement } from '../types/AutocompleteElement';
 import { setProperties } from '../utils';
@@ -28,7 +28,8 @@ export const Input: AutocompleteElement<InputProps, HTMLInputElement> = ({
   state,
   ...props
 }) => {
-  const element = createDomElement(environment, 'input', props);
+  const createDomElement = getCreateDomElement(environment);
+  const element = createDomElement('input', props);
   const inputProps = getInputProps({
     state,
     props: getInputPropsCore({ inputElement: element }),

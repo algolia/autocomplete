@@ -5,8 +5,8 @@ import {
   BaseItem,
 } from '@algolia/autocomplete-core';
 
-import { createDomElement } from './createDomElement';
 import { ClearIcon, Input, LoadingIcon, SearchIcon } from './elements';
+import { getCreateDomElement } from './getCreateDomElement';
 import {
   AutocompleteClassNames,
   AutocompleteDom,
@@ -38,22 +38,24 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   setIsModalOpen,
   state,
 }: CreateDomProps<TItem>): AutocompleteDom {
+  const createDomElement = getCreateDomElement(environment);
+
   const rootProps = propGetters.getRootProps({
     state,
     props: autocomplete.getRootProps({}),
     ...autocompleteScopeApi,
   });
-  const root = createDomElement(environment, 'div', {
+  const root = createDomElement('div', {
     class: classNames.root,
     ...rootProps,
   });
-  const detachedContainer = createDomElement(environment, 'div', {
+  const detachedContainer = createDomElement('div', {
     class: classNames.detachedContainer,
     onMouseDown(event: MouseEvent) {
       event.stopPropagation();
     },
   });
-  const detachedOverlay = createDomElement(environment, 'div', {
+  const detachedOverlay = createDomElement('div', {
     class: classNames.detachedOverlay,
     children: [detachedContainer],
     onMouseDown() {
@@ -67,24 +69,24 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     props: autocomplete.getLabelProps({}),
     ...autocompleteScopeApi,
   });
-  const submitButton = createDomElement(environment, 'button', {
+  const submitButton = createDomElement('button', {
     class: classNames.submitButton,
     type: 'submit',
     title: 'Submit',
     children: [SearchIcon({ environment })],
   });
-  const label = createDomElement(environment, 'label', {
+  const label = createDomElement('label', {
     class: classNames.label,
     children: [submitButton],
     ...labelProps,
   });
-  const clearButton = createDomElement(environment, 'button', {
+  const clearButton = createDomElement('button', {
     class: classNames.clearButton,
     type: 'reset',
     title: 'Clear',
     children: [ClearIcon({ environment })],
   });
-  const loadingIndicator = createDomElement(environment, 'div', {
+  const loadingIndicator = createDomElement('div', {
     class: classNames.loadingIndicator,
     children: [LoadingIcon({ environment })],
   });
@@ -104,15 +106,15 @@ export function createAutocompleteDom<TItem extends BaseItem>({
       : undefined,
   });
 
-  const inputWrapperPrefix = createDomElement(environment, 'div', {
+  const inputWrapperPrefix = createDomElement('div', {
     class: classNames.inputWrapperPrefix,
     children: [label, loadingIndicator],
   });
-  const inputWrapperSuffix = createDomElement(environment, 'div', {
+  const inputWrapperSuffix = createDomElement('div', {
     class: classNames.inputWrapperSuffix,
     children: [clearButton],
   });
-  const inputWrapper = createDomElement(environment, 'div', {
+  const inputWrapper = createDomElement('div', {
     class: classNames.inputWrapper,
     children: [input],
   });
@@ -122,7 +124,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     props: autocomplete.getFormProps({ inputElement: input }),
     ...autocompleteScopeApi,
   });
-  const form = createDomElement(environment, 'form', {
+  const form = createDomElement('form', {
     class: classNames.form,
     children: [inputWrapperPrefix, inputWrapper, inputWrapperSuffix],
     ...formProps,
@@ -132,7 +134,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     props: autocomplete.getPanelProps({}),
     ...autocompleteScopeApi,
   });
-  const panel = createDomElement(environment, 'div', {
+  const panel = createDomElement('div', {
     class: classNames.panel,
     ...panelProps,
   });
@@ -144,19 +146,15 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   }
 
   if (isDetached) {
-    const detachedSearchButtonIcon = createDomElement(environment, 'div', {
+    const detachedSearchButtonIcon = createDomElement('div', {
       class: classNames.detachedSearchButtonIcon,
       children: [SearchIcon({ environment })],
     });
-    const detachedSearchButtonPlaceholder = createDomElement(
-      environment,
-      'div',
-      {
-        class: classNames.detachedSearchButtonPlaceholder,
-        textContent: placeholder,
-      }
-    );
-    const detachedSearchButton = createDomElement(environment, 'button', {
+    const detachedSearchButtonPlaceholder = createDomElement('div', {
+      class: classNames.detachedSearchButtonPlaceholder,
+      textContent: placeholder,
+    });
+    const detachedSearchButton = createDomElement('button', {
       class: classNames.detachedSearchButton,
       onClick(event: MouseEvent) {
         event.preventDefault();
@@ -164,7 +162,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
       },
       children: [detachedSearchButtonIcon, detachedSearchButtonPlaceholder],
     });
-    const detachedCancelButton = createDomElement(environment, 'button', {
+    const detachedCancelButton = createDomElement('button', {
       class: classNames.detachedCancelButton,
       textContent: 'Cancel',
       onClick() {
@@ -172,7 +170,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
         setIsModalOpen(false);
       },
     });
-    const detachedFormContainer = createDomElement(environment, 'div', {
+    const detachedFormContainer = createDomElement('div', {
       class: classNames.detachedFormContainer,
       children: [form, detachedCancelButton],
     });
