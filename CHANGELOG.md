@@ -1,4 +1,12 @@
-# [v1.0.0](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.49...v1.0.0) (2021-05-03)
+# [1.0.1](https://github.com/algolia/autocomplete/compare/v1.0.0...v1.0.1) (2021-05-07)
+
+### Bug Fixes
+
+- **js:** pass children as array in highlight components ([#575](https://github.com/algolia/autocomplete/issues/575)) ([7d3402e](https://github.com/algolia/autocomplete/commit/7d3402e0b157533aea74ad4b00115a1ae9ca09d1)), closes [#574](https://github.com/algolia/autocomplete/issues/574)
+- **js:** rely on `environment` instead of global object ([#572](https://github.com/algolia/autocomplete/issues/572)) ([0a33b44](https://github.com/algolia/autocomplete/commit/0a33b442a48f5888412e2ae19326afd7f8ba3fb8))
+- **js:** render `noResults` template when `openOnFocus` is `true` ([#573](https://github.com/algolia/autocomplete/issues/573)) ([f2154c8](https://github.com/algolia/autocomplete/commit/f2154c80c7e54dec8107bc158c13ae21f01f8b5f))
+
+# [1.0.0](https://github.com/algolia/autocomplete/compare/v1.0.0-alpha.49...v1.0.0) (2021-05-03)
 
 [![Banner](https://user-images.githubusercontent.com/6137112/116869321-ce911180-ac10-11eb-91fe-0965c9dbb52a.png)](http://alg.li/autocomplete)
 
