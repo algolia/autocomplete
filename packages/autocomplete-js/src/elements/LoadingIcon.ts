@@ -1,7 +1,15 @@
+import { AutocompleteEnvironment } from '@algolia/autocomplete-core';
+
 import { AutocompleteElement } from '../types/AutocompleteElement';
 
-export const LoadingIcon: AutocompleteElement<{}, SVGSVGElement> = () => {
-  const element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+export const LoadingIcon: AutocompleteElement<
+  { environment: AutocompleteEnvironment },
+  SVGSVGElement
+> = ({ environment }) => {
+  const element = environment.document.createElementNS(
+    'http://www.w3.org/2000/svg',
+    'svg'
+  );
   element.setAttribute('class', 'aa-LoadingIcon');
   element.setAttribute('viewBox', '0 0 100 100');
   element.setAttribute('width', '20');

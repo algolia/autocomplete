@@ -16,9 +16,11 @@ export function getDefaultProps<TItem extends BaseItem>(
   props: AutocompleteOptions<TItem>,
   pluginSubscribers: AutocompleteSubscribers<TItem>
 ): InternalAutocompleteOptions<TItem> {
+  /* eslint-disable no-restricted-globals */
   const environment: AutocompleteEnvironment = (typeof window !== 'undefined'
     ? window
     : {}) as typeof window;
+  /* eslint-enable no-restricted-globals */
   const plugins = props.plugins || [];
 
   return {

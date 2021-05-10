@@ -167,17 +167,13 @@ export const debouncedSetInstantSearchUiState = debounce(
 
 // Get the current category from InstantSearch.
 export function getInstantSearchCurrentCategory() {
-  const indexRenderState = search.renderState[INSTANT_SEARCH_INDEX_NAME];
-  const hierarchicalMenuUiState =
-    indexRenderState && indexRenderState.hierarchicalMenu;
-  const categories =
-    (hierarchicalMenuUiState &&
-      hierarchicalMenuUiState[INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE] &&
-      hierarchicalMenuUiState[INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE].items) ||
-    [];
-  const refinedCategory = categories.find((category) => category.isRefined);
+  const indexUiState = search.getUiState()[INSTANT_SEARCH_INDEX_NAME];
+  const hierarchicalMenuUiState = indexUiState && indexUiState.hierarchicalMenu;
+  const currentCategories =
+    hierarchicalMenuUiState &&
+    hierarchicalMenuUiState[INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE];
 
-  return refinedCategory && refinedCategory.value;
+  return currentCategories && currentCategories[0];
 }
 
 // Build URLs that InstantSearch understands.

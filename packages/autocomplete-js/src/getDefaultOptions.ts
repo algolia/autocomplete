@@ -1,4 +1,4 @@
-import { BaseItem } from '@algolia/autocomplete-core';
+import { AutocompleteEnvironment, BaseItem } from '@algolia/autocomplete-core';
 import {
   generateAutocompleteId,
   invariant,
@@ -87,16 +87,18 @@ export function getDefaultOptions<TItem extends BaseItem>(
     ...core
   } = options;
 
-  const containerElement = getHTMLElement(container);
+  /* eslint-disable no-restricted-globals */
+  const environment: AutocompleteEnvironment = (typeof window !== 'undefined'
+    ? window
+    : {}) as typeof window;
+  /* eslint-enable no-restricted-globals */
+  const containerElement = getHTMLElement(environment, container);
 
   invariant(
     containerElement.tagName !== 'INPUT',
     'The `container` option does not support `input` elements. You need to change the container to a `div`.'
   );
 
-  const environment = (typeof window !== 'undefined'
-    ? window
-    : {}) as typeof window;
   const defaultedRenderer = renderer ?? defaultRenderer;
   const defaultComponents: AutocompleteComponents = {
     Highlight: createHighlightComponent(defaultedRenderer),
@@ -126,8 +128,8 @@ export function getDefaultOptions<TItem extends BaseItem>(
       getPanelProps: getPanelProps ?? (({ props }) => props),
       getRootProps: getRootProps ?? (({ props }) => props),
       panelContainer: panelContainer
-        ? getHTMLElement(panelContainer)
-        : document.body,
+        ? getHTMLElement(environment, panelContainer)
+        : environment.document.body,
       panelPlacement: panelPlacement ?? 'input-wrapper-width',
       render: render ?? defaultRender,
       renderNoResults,

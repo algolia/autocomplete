@@ -1,11 +1,12 @@
 import {
   AutocompleteApi as AutocompleteCoreApi,
+  AutocompleteEnvironment,
   AutocompleteScopeApi,
   BaseItem,
 } from '@algolia/autocomplete-core';
 
-import { createDomElement } from './createDomElement';
 import { ClearIcon, Input, LoadingIcon, SearchIcon } from './elements';
+import { getCreateDomElement } from './getCreateDomElement';
 import {
   AutocompleteClassNames,
   AutocompleteDom,
@@ -19,6 +20,7 @@ type CreateDomProps<TItem extends BaseItem> = {
   autocomplete: AutocompleteCoreApi<TItem>;
   autocompleteScopeApi: AutocompleteScopeApi<TItem>;
   classNames: AutocompleteClassNames;
+  environment: AutocompleteEnvironment;
   isDetached: boolean;
   placeholder?: string;
   propGetters: AutocompletePropGetters<TItem>;
@@ -31,6 +33,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   autocomplete,
   autocompleteScopeApi,
   classNames,
+  environment,
   isDetached,
   placeholder = 'Search',
   propGetters,
@@ -38,6 +41,8 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   state,
   translations,
 }: CreateDomProps<TItem>): AutocompleteDom {
+  const createDomElement = getCreateDomElement(environment);
+
   const rootProps = propGetters.getRootProps({
     state,
     props: autocomplete.getRootProps({}),
@@ -71,7 +76,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     class: classNames.submitButton,
     type: 'submit',
     title: translations.submitButtonTitle,
-    children: [SearchIcon({})],
+    children: [SearchIcon({ environment })],
   });
   const label = createDomElement('label', {
     class: classNames.label,
@@ -82,15 +87,16 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     class: classNames.clearButton,
     type: 'reset',
     title: translations.clearButtonTitle,
-    children: [ClearIcon({})],
+    children: [ClearIcon({ environment })],
   });
   const loadingIndicator = createDomElement('div', {
     class: classNames.loadingIndicator,
-    children: [LoadingIcon({})],
+    children: [LoadingIcon({ environment })],
   });
 
   const input = Input({
     class: classNames.input,
+    environment,
     state,
     getInputProps: propGetters.getInputProps,
     getInputPropsCore: autocomplete.getInputProps,
@@ -145,7 +151,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   if (isDetached) {
     const detachedSearchButtonIcon = createDomElement('div', {
       class: classNames.detachedSearchButtonIcon,
-      children: [SearchIcon({})],
+      children: [SearchIcon({ environment })],
     });
     const detachedSearchButtonPlaceholder = createDomElement('div', {
       class: classNames.detachedSearchButtonPlaceholder,

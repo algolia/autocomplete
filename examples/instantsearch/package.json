@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-instantsearch",
   "description": "Autocomplete with InstantSearch example",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,13 +9,13 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.0.0",
-    "@algolia/autocomplete-plugin-query-suggestions": "1.0.0",
-    "@algolia/autocomplete-plugin-recent-searches": "1.0.0",
-    "@algolia/autocomplete-theme-classic": "1.0.0",
+    "@algolia/autocomplete-js": "1.0.1",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.0.1",
+    "@algolia/autocomplete-plugin-recent-searches": "1.0.1",
+    "@algolia/autocomplete-theme-classic": "1.0.1",
     "@algolia/client-search": "4.9.1",
     "algoliasearch": "4.9.1",
-    "instantsearch.js": "4.21.0",
+    "instantsearch.js": "4.22.0",
     "preact": "10.5.13"
   },
   "devDependencies": {

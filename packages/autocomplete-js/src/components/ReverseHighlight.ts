@@ -14,7 +14,7 @@ export function createReverseHighlightComponent({
     return createElement(
       Fragment,
       {},
-      ...parseAlgoliaHitReverseHighlight<THit>({
+      parseAlgoliaHitReverseHighlight<THit>({
         hit,
         attribute,
       }).map((x, index) =>

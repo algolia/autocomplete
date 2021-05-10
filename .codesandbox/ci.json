@@ -5,21 +5,13 @@
   "sandboxes": [
     "/examples/github-repositories-custom-plugin",
     "/examples/instantsearch",
-    "/examples/multiple-datasets-with-headers",
     "/examples/playground",
     "/examples/preview-panel-in-modal",
-    "/examples/query-suggestions-with-categories",
-    "/examples/query-suggestions-with-hits",
-    "/examples/query-suggestions-with-inline-categories",
-    "/examples/query-suggestions-with-recent-searches-and-categories",
-    "/examples/query-suggestions-with-recent-searches",
-    "/examples/query-suggestions",
-    "/examples/panel-placement",
     "/examples/react-renderer",
-    "/examples/recently-viewed-items",
     "/examples/starter-algolia",
     "/examples/starter",
-    "/examples/voice-search"
+    "/examples/voice-search",
+    "/examples/vue"
   ],
   "node": "14"
 }

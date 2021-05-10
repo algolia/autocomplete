@@ -112,6 +112,7 @@ export function autocomplete<TItem extends BaseItem>(
       autocomplete: autocomplete.value,
       autocompleteScopeApi,
       classNames: props.value.renderer.classNames,
+      environment: props.value.core.environment,
       isDetached: isDetached.value,
       placeholder: props.value.core.placeholder,
       propGetters,
@@ -238,7 +239,7 @@ export function autocomplete<TItem extends BaseItem>(
       // We scroll to the top of the panel whenever the query changes (i.e. new
       // results come in) so that users don't have to.
       if (state.query !== prevState.query) {
-        const scrollablePanels = document.querySelectorAll(
+        const scrollablePanels = props.value.core.environment.document.querySelectorAll(
           '.aa-Panel--scrollable'
         );
         scrollablePanels.forEach((scrollablePanel) => {
@@ -337,19 +338,27 @@ export function autocomplete<TItem extends BaseItem>(
 
   function setIsModalOpen(value: boolean) {
     requestAnimationFrame(() => {
-      const prevValue = document.body.contains(dom.value.detachedOverlay);
+      const prevValue = props.value.core.environment.document.body.contains(
+        dom.value.detachedOverlay
+      );
 
       if (value === prevValue) {
         return;
       }
 
       if (value) {
-        document.body.appendChild(dom.value.detachedOverlay);
-        document.body.classList.add('aa-Detached');
+        props.value.core.environment.document.body.appendChild(
+          dom.value.detachedOverlay
+        );
+        props.value.core.environment.document.body.classList.add('aa-Detached');
         dom.value.input.focus();
       } else {
-        document.body.removeChild(dom.value.detachedOverlay);
-        document.body.classList.remove('aa-Detached');
+        props.value.core.environment.document.body.removeChild(
+          dom.value.detachedOverlay
+        );
+        props.value.core.environment.document.body.classList.remove(
+          'aa-Detached'
+        );
         autocomplete.value.setQuery('');
         autocomplete.value.refresh();
       }

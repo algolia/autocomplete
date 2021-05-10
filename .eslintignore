@@ -1,7 +1,6 @@
 .cache
-.docusaurus
+.parcel-cache
 build
 coverage
 dist
 node_modules
-.parcel-cache
