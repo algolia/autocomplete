@@ -14,6 +14,7 @@ import { AutocompleteRender } from './AutocompleteRender';
 import { AutocompleteRenderer } from './AutocompleteRenderer';
 import { AutocompleteSource } from './AutocompleteSource';
 import { AutocompleteState } from './AutocompleteState';
+import { AutocompleteTranslations } from './AutocompleteTranslations';
 
 export interface OnStateChangeProps<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
@@ -108,4 +109,10 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-components
    */
   components?: PublicAutocompleteComponents;
+  /**
+   * Overrides the default text values.
+   *
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-translations
+   */
+  translations?: Partial<AutocompleteTranslations>;
 }
