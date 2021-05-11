@@ -110,7 +110,9 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    */
   components?: PublicAutocompleteComponents;
   /**
-   * Overrides the default text values.
+   * A mapping of translation strings.
+   *
+   * Defaults to English values.
    *
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-translations
    */
