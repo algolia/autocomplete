@@ -280,7 +280,7 @@ describe('api', () => {
       const container = document.createElement('div');
       document.body.appendChild(container);
 
-      const ac = autocomplete<{ label: string }>({
+      const { update } = autocomplete<{ label: string }>({
         container,
       });
 
@@ -288,7 +288,7 @@ describe('api', () => {
         document.querySelector<HTMLButtonElement>('.aa-SubmitButton')
       ).toHaveAttribute('title', 'Submit');
 
-      ac.update({
+      update({
         translations: {
           submitButtonTitle: 'Envoyer',
         },

@@ -36,7 +36,7 @@ describe('translations', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
 
-    const ac = autocomplete<{ label: string }>({
+    const { destroy } = autocomplete<{ label: string }>({
       container,
       detachedMediaQuery: '',
     });
@@ -65,14 +65,14 @@ describe('translations', () => {
       document.querySelector<HTMLButtonElement>('.aa-SubmitButton')
     ).toHaveAttribute('title', 'Submit');
 
-    ac.destroy();
+    destroy();
   });
 
   test('allows custom translations', async () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
 
-    const ac = autocomplete({
+    const { destroy } = autocomplete({
       container,
       detachedMediaQuery: '',
       translations: {
@@ -106,6 +106,6 @@ describe('translations', () => {
       document.querySelector<HTMLButtonElement>('.aa-DetachedCancelButton')
     ).toHaveTextContent('Annuler');
 
-    ac.destroy();
+    destroy();
   });
 });
