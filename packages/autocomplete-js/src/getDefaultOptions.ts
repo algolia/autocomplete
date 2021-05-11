@@ -21,6 +21,7 @@ import {
   AutocompleteOptions,
   AutocompleteRender,
   AutocompleteRenderer,
+  AutocompleteTranslations,
 } from './types';
 import { getHTMLElement, mergeClassNames } from './utils';
 
@@ -82,6 +83,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
     renderer,
     detachedMediaQuery,
     components,
+    translations,
     ...core
   } = options;
 
@@ -103,6 +105,11 @@ export function getDefaultOptions<TItem extends BaseItem>(
     ReverseHighlight: createReverseHighlightComponent(defaultedRenderer),
     ReverseSnippet: createReverseSnippetComponent(defaultedRenderer),
     Snippet: createSnippetComponent(defaultedRenderer),
+  };
+  const defaultTranslations: AutocompleteTranslations = {
+    clearButtonTitle: 'Clear',
+    detachedCancelButtonText: 'Cancel',
+    submitButtonTitle: 'Submit',
   };
 
   return {
@@ -135,6 +142,10 @@ export function getDefaultOptions<TItem extends BaseItem>(
       components: {
         ...defaultComponents,
         ...components,
+      },
+      translations: {
+        ...defaultTranslations,
+        ...translations,
       },
     },
     core: {

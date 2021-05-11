@@ -5,6 +5,10 @@ import { createCollection } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
 
 describe('api', () => {
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
   describe('setActiveItemId', () => {
     test('sets `activeItemId` value in the state', () => {
       const onStateChange = jest.fn();
@@ -270,6 +274,29 @@ describe('api', () => {
           document.body.querySelector('#bestSearchExperience-label')
         ).toBeInTheDocument();
       });
+    });
+
+    test('overrides the default translations', () => {
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const { update } = autocomplete<{ label: string }>({
+        container,
+      });
+
+      expect(
+        document.querySelector<HTMLButtonElement>('.aa-SubmitButton')
+      ).toHaveAttribute('title', 'Submit');
+
+      update({
+        translations: {
+          submitButtonTitle: 'Envoyer',
+        },
+      });
+
+      expect(
+        document.querySelector<HTMLButtonElement>('.aa-SubmitButton')
+      ).toHaveAttribute('title', 'Envoyer');
     });
   });
 

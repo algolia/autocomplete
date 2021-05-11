@@ -118,6 +118,7 @@ export function autocomplete<TItem extends BaseItem>(
       propGetters,
       setIsModalOpen,
       state: lastStateRef.current,
+      translations: props.value.renderer.translations,
     })
   );
 

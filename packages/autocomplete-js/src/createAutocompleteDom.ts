@@ -12,6 +12,7 @@ import {
   AutocompleteDom,
   AutocompletePropGetters,
   AutocompleteState,
+  AutocompleteTranslations,
 } from './types';
 import { setProperties } from './utils';
 
@@ -25,6 +26,7 @@ type CreateDomProps<TItem extends BaseItem> = {
   propGetters: AutocompletePropGetters<TItem>;
   setIsModalOpen(value: boolean): void;
   state: AutocompleteState<TItem>;
+  translations: AutocompleteTranslations;
 };
 
 export function createAutocompleteDom<TItem extends BaseItem>({
@@ -37,6 +39,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   propGetters,
   setIsModalOpen,
   state,
+  translations,
 }: CreateDomProps<TItem>): AutocompleteDom {
   const createDomElement = getCreateDomElement(environment);
 
@@ -72,7 +75,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   const submitButton = createDomElement('button', {
     class: classNames.submitButton,
     type: 'submit',
-    title: 'Submit',
+    title: translations.submitButtonTitle,
     children: [SearchIcon({ environment })],
   });
   const label = createDomElement('label', {
@@ -83,7 +86,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   const clearButton = createDomElement('button', {
     class: classNames.clearButton,
     type: 'reset',
-    title: 'Clear',
+    title: translations.clearButtonTitle,
     children: [ClearIcon({ environment })],
   });
   const loadingIndicator = createDomElement('div', {
@@ -164,7 +167,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     });
     const detachedCancelButton = createDomElement('button', {
       class: classNames.detachedCancelButton,
-      textContent: 'Cancel',
+      textContent: translations.detachedCancelButtonText,
       onClick() {
         autocomplete.setIsOpen(false);
         setIsModalOpen(false);
