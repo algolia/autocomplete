@@ -9,7 +9,7 @@
     "name": "Algolia, Inc.",
     "url": "https://www.algolia.com"
   },
-  "sideEffects": false,
+  "sideEffects": ["*.css"],
   "files": [
     "dist/"
   ],
