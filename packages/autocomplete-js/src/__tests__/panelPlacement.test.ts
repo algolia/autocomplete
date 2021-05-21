@@ -1,4 +1,4 @@
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 
 import { autocomplete } from '../autocomplete';
 
@@ -10,6 +10,7 @@ const LEFT = 11;
 const RIGHT = 13;
 const TOP = 17;
 const WIDTH = 19;
+const SCROLL = 100;
 
 describe('panelPlacement', () => {
   let container: HTMLDivElement;
@@ -45,6 +46,7 @@ describe('panelPlacement', () => {
 
   afterEach(() => {
     document.body.innerHTML = '';
+    fireEvent.scroll(document.body, { target: { scrollTop: 0 } });
   });
 
   afterAll(() => {
@@ -75,7 +77,37 @@ describe('panelPlacement', () => {
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '24px', // TOP + HEIGHT
+          top: '24px', // TOP + HEIGHT + SCROLL
+          left: '11px', // LEFT
+          right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
+          width: 'unset',
+          'max-width': 'unset',
+        });
+      });
+    });
+
+    test('keeps the panel positionned after scrolling', async () => {
+      autocomplete({
+        container,
+        panelPlacement: 'input-wrapper-width',
+        initialState: {
+          isOpen: true,
+        },
+      });
+
+      fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
+
+      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+      document.querySelector(
+        '.aa-Form'
+      ).getBoundingClientRect = mockedGetBoundingClientRect;
+      document.querySelector(
+        '.aa-Autocomplete'
+      ).getBoundingClientRect = mockedGetBoundingClientRect;
+
+      await waitFor(() => {
+        expect(document.querySelector('.aa-Panel')).toHaveStyle({
+          top: '124px', // TOP + HEIGHT + SCROLL
           left: '11px', // LEFT
           right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
           width: 'unset',
@@ -105,7 +137,34 @@ describe('panelPlacement', () => {
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '24px', // TOP + HEIGHT
+          top: '24px', // TOP + HEIGHT + SCROLL
+          left: '11px', // LEFT
+        });
+      });
+    });
+
+    test('keeps the panel positionned after scrolling', async () => {
+      autocomplete({
+        container,
+        panelPlacement: 'start',
+        initialState: {
+          isOpen: true,
+        },
+      });
+
+      fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
+
+      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+      document.querySelector(
+        '.aa-Form'
+      ).getBoundingClientRect = mockedGetBoundingClientRect;
+      document.querySelector(
+        '.aa-Autocomplete'
+      ).getBoundingClientRect = mockedGetBoundingClientRect;
+
+      await waitFor(() => {
+        expect(document.querySelector('.aa-Panel')).toHaveStyle({
+          top: '124px', // TOP + HEIGHT + SCROLL
           left: '11px', // LEFT
         });
       });
@@ -132,7 +191,34 @@ describe('panelPlacement', () => {
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '24px', // TOP + HEIGHT
+          top: '24px', // TOP + HEIGHT + SCROLL
+          right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
+        });
+      });
+    });
+
+    test('keeps the panel positionned after scrolling', async () => {
+      autocomplete({
+        container,
+        panelPlacement: 'end',
+        initialState: {
+          isOpen: true,
+        },
+      });
+
+      fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
+
+      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+      document.querySelector(
+        '.aa-Form'
+      ).getBoundingClientRect = mockedGetBoundingClientRect;
+      document.querySelector(
+        '.aa-Autocomplete'
+      ).getBoundingClientRect = mockedGetBoundingClientRect;
+
+      await waitFor(() => {
+        expect(document.querySelector('.aa-Panel')).toHaveStyle({
+          top: '124px', // TOP + HEIGHT + SCROLL
           right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
         });
       });
@@ -159,7 +245,37 @@ describe('panelPlacement', () => {
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '24px', // TOP + HEIGHT
+          top: '24px', // TOP + HEIGHT + SCROLL
+          left: 0,
+          right: 0,
+          width: 'unset',
+          'max-width': 'unset',
+        });
+      });
+    });
+
+    test('keeps the panel positionned after scrolling', async () => {
+      autocomplete({
+        container,
+        panelPlacement: 'full-width',
+        initialState: {
+          isOpen: true,
+        },
+      });
+
+      fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
+
+      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+      document.querySelector(
+        '.aa-Form'
+      ).getBoundingClientRect = mockedGetBoundingClientRect;
+      document.querySelector(
+        '.aa-Autocomplete'
+      ).getBoundingClientRect = mockedGetBoundingClientRect;
+
+      await waitFor(() => {
+        expect(document.querySelector('.aa-Panel')).toHaveStyle({
+          top: '124px', // TOP + HEIGHT + SCROLL
           left: 0,
           right: 0,
           width: 'unset',
@@ -187,7 +303,7 @@ describe('panelPlacement', () => {
 
     await waitFor(() => {
       expect(document.querySelector('.aa-Panel')).toHaveStyle({
-        top: '24px', // TOP + HEIGHT
+        top: '24px', // TOP + HEIGHT + SCROLL
         left: '11px', // LEFT
         right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
         width: 'unset',
@@ -221,6 +337,35 @@ describe('panelPlacement', () => {
 
     await waitFor(() => {
       expect(document.querySelector('.aa-Panel')).toHaveStyle({});
+    });
+  });
+
+  test('default value keeps the panel positionned after scrolling', async () => {
+    autocomplete({
+      container,
+      initialState: {
+        isOpen: true,
+      },
+    });
+
+    fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
+
+    // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+    document.querySelector(
+      '.aa-Form'
+    ).getBoundingClientRect = mockedGetBoundingClientRect;
+    document.querySelector(
+      '.aa-Autocomplete'
+    ).getBoundingClientRect = mockedGetBoundingClientRect;
+
+    await waitFor(() => {
+      expect(document.querySelector('.aa-Panel')).toHaveStyle({
+        top: '124px', // TOP + HEIGHT + SCROLL
+        left: '11px', // LEFT
+        right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
+        width: 'unset',
+        'max-width': 'unset',
+      });
     });
   });
 });

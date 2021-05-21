@@ -1,5 +1,5 @@
 import { AutocompletePlugin } from '@algolia/autocomplete-core';
-import { waitFor, getByTestId } from '@testing-library/dom';
+import { waitFor, getByTestId, fireEvent } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
 import { autocomplete } from '../';
@@ -128,6 +128,39 @@ describe('Panel positioning', () => {
       left: '300px',
       right: '1020px',
     });
+  });
+
+  test('keeps the panel positionned after scrolling', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.body;
+    document.body.appendChild(container);
+
+    autocomplete({
+      id: 'autocomplete-0',
+      container,
+      panelContainer,
+      plugins: [querySuggestionsFixturePlugin],
+    });
+
+    const root = document.querySelector<HTMLDivElement>('.aa-Autocomplete');
+    root.getBoundingClientRect = jest.fn().mockReturnValue(rootPosition);
+    const form = document.querySelector<HTMLFormElement>('.aa-Form');
+    form.getBoundingClientRect = jest.fn().mockReturnValue(formPosition);
+
+    const input = document.querySelector<HTMLInputElement>('.aa-Input');
+    userEvent.type(input, 'a');
+
+    fireEvent.scroll(document.body, { target: { scrollTop: 100 } });
+
+    await waitFor(() => getByTestId(panelContainer, 'panel'));
+
+    expect(getByTestId(panelContainer, 'panel')).toHaveStyle({
+      top: '140px',
+      left: '300px',
+      right: '1020px',
+    });
+
+    fireEvent.scroll(document.body, { target: { scrollTop: 0 } });
   });
 
   test('repositions the panel below the root element after a UI change', async () => {
