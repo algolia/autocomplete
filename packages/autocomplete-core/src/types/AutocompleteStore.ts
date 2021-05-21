@@ -18,7 +18,7 @@ type Action<TItem extends BaseItem, TPayload> = {
   payload: TPayload;
 };
 
-type ActionType =
+export type ActionType =
   | 'setActiveItemId'
   | 'setQuery'
   | 'setCollections'

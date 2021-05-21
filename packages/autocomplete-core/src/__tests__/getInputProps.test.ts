@@ -1,3 +1,4 @@
+import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
 import {
@@ -785,6 +786,134 @@ describe('getInputProps', () => {
         userEvent.type(inputElement, '{arrowup}');
         expect(onActive).toHaveBeenCalledTimes(1);
       });
+
+      test('ArrowDown opens the panel when closed with openOnFocus', () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+          initialState: {
+            collections: [
+              createCollection({
+                items: [{ label: '1' }, { label: '2' }],
+              }),
+            ],
+          },
+        });
+
+        inputElement.focus();
+        userEvent.type(inputElement, '{esc}{arrowdown}');
+
+        waitFor(() => {
+          expect(onStateChange).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+              prevState: expect.objectContaining({
+                isOpen: false,
+              }),
+              state: expect.objectContaining({
+                isOpen: true,
+                activeItemId: null,
+              }),
+            })
+          );
+        });
+      });
+
+      test('ArrowDown opens the panel when closed with a query', () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          initialState: {
+            query: 'a',
+            collections: [
+              createCollection({
+                items: [{ label: '1' }, { label: '2' }],
+              }),
+            ],
+          },
+        });
+
+        inputElement.focus();
+        userEvent.type(inputElement, '{esc}{arrowdown}');
+
+        waitFor(() => {
+          expect(onStateChange).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+              prevState: expect.objectContaining({
+                isOpen: false,
+              }),
+              state: expect.objectContaining({
+                isOpen: true,
+                activeItemId: null,
+              }),
+            })
+          );
+        });
+      });
+
+      test('ArrowUp opens the panel when closed with openOnFocus', () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+          initialState: {
+            collections: [
+              createCollection({
+                items: [{ label: '1' }, { label: '2' }],
+              }),
+            ],
+          },
+        });
+
+        inputElement.focus();
+        userEvent.type(inputElement, '{esc}{arrowup}');
+
+        waitFor(() => {
+          expect(onStateChange).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+              prevState: expect.objectContaining({
+                isOpen: false,
+              }),
+              state: expect.objectContaining({
+                isOpen: true,
+                activeItemId: 1,
+              }),
+            })
+          );
+        });
+      });
+
+      test('ArrowUp opens the panel when closed with a query', () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          initialState: {
+            query: 'a',
+            collections: [
+              createCollection({
+                items: [{ label: '1' }, { label: '2' }],
+              }),
+            ],
+          },
+        });
+
+        inputElement.focus();
+        userEvent.type(inputElement, '{esc}{arrowup}');
+
+        waitFor(() => {
+          expect(onStateChange).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+              prevState: expect.objectContaining({
+                isOpen: false,
+              }),
+              state: expect.objectContaining({
+                isOpen: true,
+                activeItemId: 1,
+              }),
+            })
+          );
+        });
+      });
     });
 
     describe('Escape', () => {
@@ -860,6 +989,7 @@ describe('getInputProps', () => {
             state: expect.objectContaining({
               query: '',
               status: 'idle',
+              activeItemId: null,
               collections: [],
             }),
           })

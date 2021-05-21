@@ -1,5 +1,6 @@
 import { onInput } from './onInput';
 import {
+  ActionType,
   AutocompleteScopeApi,
   AutocompleteStore,
   BaseItem,
@@ -22,39 +23,72 @@ export function onKeyDown<TItem extends BaseItem>({
   ...setters
 }: OnKeyDownOptions<TItem>): void {
   if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+    // eslint-disable-next-line no-inner-declarations
+    function triggerScrollIntoView() {
+      const nodeItem = props.environment.document.getElementById(
+        `${props.id}-item-${store.getState().activeItemId}`
+      );
+
+      if (nodeItem) {
+        if ((nodeItem as any).scrollIntoViewIfNeeded) {
+          (nodeItem as any).scrollIntoViewIfNeeded(false);
+        } else {
+          nodeItem.scrollIntoView(false);
+        }
+      }
+    }
+
+    // eslint-disable-next-line no-inner-declarations
+    function triggerOnActive() {
+      const highlightedItem = getActiveItem(store.getState());
+
+      if (store.getState().activeItemId !== null && highlightedItem) {
+        const { item, itemInputValue, itemUrl, source } = highlightedItem;
+
+        source.onActive({
+          event,
+          item,
+          itemInputValue,
+          itemUrl,
+          refresh,
+          source,
+          state: store.getState(),
+          ...setters,
+        });
+      }
+    }
+
     // Default browser behavior changes the caret placement on ArrowUp and
     // Arrow down.
     event.preventDefault();
 
-    store.dispatch(event.key, null);
-
-    const nodeItem = props.environment.document.getElementById(
-      `${props.id}-item-${store.getState().activeItemId}`
-    );
-
-    if (nodeItem) {
-      if ((nodeItem as any).scrollIntoViewIfNeeded) {
-        (nodeItem as any).scrollIntoViewIfNeeded(false);
-      } else {
-        nodeItem.scrollIntoView(false);
-      }
-    }
-
-    const highlightedItem = getActiveItem(store.getState());
-
-    if (store.getState().activeItemId !== null && highlightedItem) {
-      const { item, itemInputValue, itemUrl, source } = highlightedItem;
-
-      source.onActive({
+    // When re-opening the panel, we need to split the logic to keep the actions
+    // synchronized as `onInput` returns a promise.
+    if (
+      store.getState().isOpen === false &&
+      (props.openOnFocus || Boolean(store.getState().query))
+    ) {
+      onInput({
         event,
-        item,
-        itemInputValue,
-        itemUrl,
+        props,
+        query: store.getState().query,
         refresh,
-        source,
-        state: store.getState(),
+        store,
         ...setters,
+      }).then(() => {
+        store.dispatch(event.key as ActionType, {
+          nextActiveItemId: props.defaultActiveItemId,
+        });
+
+        // We need to wait for the panel to open.
+        setTimeout(triggerScrollIntoView, 0);
+        triggerOnActive();
       });
+    } else {
+      store.dispatch(event.key, {});
+
+      triggerScrollIntoView();
+      triggerOnActive();
     }
   } else if (event.key === 'Escape') {
     // This prevents the default browser behavior on `input[type="search"]`

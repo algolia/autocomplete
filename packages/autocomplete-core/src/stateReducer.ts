@@ -55,12 +55,14 @@ export const stateReducer: Reducer = (state, action) => {
     case 'ArrowDown': {
       const nextState = {
         ...state,
-        activeItemId: getNextActiveItemId(
-          1,
-          state.activeItemId,
-          getItemsCount(state),
-          action.props.defaultActiveItemId
-        ),
+        activeItemId: action.payload.hasOwnProperty('nextActiveItemId')
+          ? action.payload.nextActiveItemId
+          : getNextActiveItemId(
+              1,
+              state.activeItemId,
+              getItemsCount(state),
+              action.props.defaultActiveItemId
+            ),
       };
 
       return {
@@ -90,6 +92,7 @@ export const stateReducer: Reducer = (state, action) => {
       if (state.isOpen) {
         return {
           ...state,
+          activeItemId: null,
           isOpen: false,
           completion: null,
         };
@@ -97,6 +100,7 @@ export const stateReducer: Reducer = (state, action) => {
 
       return {
         ...state,
+        activeItemId: null,
         query: '',
         status: 'idle',
         collections: [],
