@@ -20,11 +20,7 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
       ...source,
       templates: {
         ...source.templates,
-        header({ items }) {
-          if (items.length === 0) {
-            return null;
-          }
-
+        header() {
           return (
             <Fragment>
               <span className="aa-SourceHeaderTitle">Your searches</span>
@@ -49,11 +45,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
       ...source,
       templates: {
         ...source.templates,
-        header({ items, state }) {
-          if (items.length === 0) {
-            return null;
-          }
-
+        header({ state }) {
           return (
             <Fragment>
               <span className="aa-SourceHeaderTitle">

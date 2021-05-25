@@ -19,8 +19,8 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
       ...source,
       templates: {
         ...source.templates,
-        header({ items, state }) {
-          if (Boolean(state.query) || items.length === 0) {
+        header({ state }) {
+          if (state.query) {
             return null;
           }
 
@@ -48,8 +48,8 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
       ...source,
       templates: {
         ...source.templates,
-        header({ items, state }) {
-          if (Boolean(state.query) || items.length === 0) {
+        header({ state }) {
+          if (state.query) {
             return null;
           }
 

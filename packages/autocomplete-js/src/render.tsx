@@ -90,87 +90,91 @@ export function renderPanel<TItem extends BaseItem>(
 
   dom.panel.classList.toggle('aa-Panel--stalled', state.status === 'stalled');
 
-  const sections = state.collections.map(({ source, items }, sourceIndex) => (
-    <section
-      key={sourceIndex}
-      className={classNames.source}
-      data-autocomplete-source-id={source.sourceId}
-    >
-      {source.templates.header && (
-        <div className={classNames.sourceHeader}>
-          {source.templates.header({
-            components,
-            createElement,
-            Fragment,
-            items,
-            source,
-            state,
-          })}
-        </div>
-      )}
-
-      {source.templates.noResults && items.length === 0 ? (
-        <div className={classNames.sourceNoResults}>
-          {source.templates.noResults({
-            components,
-            createElement,
-            Fragment,
-            source,
-            state,
-          })}
-        </div>
-      ) : (
-        <ul
-          className={classNames.list}
-          {...propGetters.getListProps({
-            state,
-            props: autocomplete.getListProps({}),
-            ...autocompleteScopeApi,
-          })}
-        >
-          {items.map((item) => {
-            const itemProps = autocomplete.getItemProps({
-              item,
+  const sections = state.collections
+    .filter(
+      ({ source, items }) => source.templates.noResults || items.length > 0
+    )
+    .map(({ source, items }, sourceIndex) => (
+      <section
+        key={sourceIndex}
+        className={classNames.source}
+        data-autocomplete-source-id={source.sourceId}
+      >
+        {source.templates.header && (
+          <div className={classNames.sourceHeader}>
+            {source.templates.header({
+              components,
+              createElement,
+              Fragment,
+              items,
               source,
-            });
+              state,
+            })}
+          </div>
+        )}
 
-            return (
-              <li
-                key={itemProps.id}
-                className={classNames.item}
-                {...propGetters.getItemProps({
-                  state,
-                  props: itemProps,
-                  ...autocompleteScopeApi,
-                })}
-              >
-                {source.templates.item({
-                  components,
-                  createElement,
-                  Fragment,
-                  item,
-                  state,
-                })}
-              </li>
-            );
-          })}
-        </ul>
-      )}
+        {source.templates.noResults && items.length === 0 ? (
+          <div className={classNames.sourceNoResults}>
+            {source.templates.noResults({
+              components,
+              createElement,
+              Fragment,
+              source,
+              state,
+            })}
+          </div>
+        ) : (
+          <ul
+            className={classNames.list}
+            {...propGetters.getListProps({
+              state,
+              props: autocomplete.getListProps({}),
+              ...autocompleteScopeApi,
+            })}
+          >
+            {items.map((item) => {
+              const itemProps = autocomplete.getItemProps({
+                item,
+                source,
+              });
 
-      {source.templates.footer && (
-        <div className={classNames.sourceFooter}>
-          {source.templates.footer({
-            components,
-            createElement,
-            Fragment,
-            items,
-            source,
-            state,
-          })}
-        </div>
-      )}
-    </section>
-  ));
+              return (
+                <li
+                  key={itemProps.id}
+                  className={classNames.item}
+                  {...propGetters.getItemProps({
+                    state,
+                    props: itemProps,
+                    ...autocompleteScopeApi,
+                  })}
+                >
+                  {source.templates.item({
+                    components,
+                    createElement,
+                    Fragment,
+                    item,
+                    state,
+                  })}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+
+        {source.templates.footer && (
+          <div className={classNames.sourceFooter}>
+            {source.templates.footer({
+              components,
+              createElement,
+              Fragment,
+              items,
+              source,
+              state,
+            })}
+          </div>
+        )}
+      </section>
+    ));
 
   const children = (
     <Fragment>

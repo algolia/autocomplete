@@ -151,11 +151,7 @@ const querySuggestionsPluginInCategory = createQuerySuggestionsPlugin({
       },
       templates: {
         ...source.templates,
-        header({ items }) {
-          if (items.length === 0) {
-            return null;
-          }
-
+        header() {
           return (
             <Fragment>
               <span className="aa-SourceHeaderTitle">In {currentCategory}</span>
@@ -232,8 +228,8 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
       },
       templates: {
         ...source.templates,
-        header({ items }) {
-          if (!currentCategory || items.length === 0) {
+        header() {
+          if (!currentCategory) {
             return null;
           }
 
