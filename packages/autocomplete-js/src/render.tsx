@@ -92,7 +92,7 @@ export function renderPanel<TItem extends BaseItem>(
 
   const sections = state.collections
     .filter(
-      ({ source, items }) => source.templates.noResults || items.length !== 0
+      ({ source, items }) => source.templates.noResults || items.length > 0
     )
     .map(({ source, items }, sourceIndex) => (
       <section
