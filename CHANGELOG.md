@@ -1,19 +1,15 @@
 # [1.1.0](https://github.com/algolia/autocomplete/compare/v1.0.1...v1.1.0) (2021-05-27)
 
-
 ### Bug Fixes
 
-* **css:** mark as side effects ([#587](https://github.com/algolia/autocomplete/issues/587)) ([67e7bbf](https://github.com/algolia/autocomplete/commit/67e7bbf3629936513852284e965979ecdc0f6404)), closes [#586](https://github.com/algolia/autocomplete/issues/586)
-* **js:** do not render empty sections ([#594](https://github.com/algolia/autocomplete/issues/594)) ([527670e](https://github.com/algolia/autocomplete/commit/527670e6e71872e09fa98694f443b572847a89ae))
-* **js:** fix panel placement after scroll ([#593](https://github.com/algolia/autocomplete/issues/593)) ([ca396ad](https://github.com/algolia/autocomplete/commit/ca396adfbbca3db6d9c94e2076d3982925b57508))
-* **js:** support panel scroll top position in all browsers ([#595](https://github.com/algolia/autocomplete/issues/595)) ([cce4b5f](https://github.com/algolia/autocomplete/commit/cce4b5f63f23410ffb3f14aa147f837835bbae4e))
-
+- **css:** mark as side effects ([#587](https://github.com/algolia/autocomplete/issues/587)) ([67e7bbf](https://github.com/algolia/autocomplete/commit/67e7bbf3629936513852284e965979ecdc0f6404)), closes [#586](https://github.com/algolia/autocomplete/issues/586)
+- **js:** do not render empty sections ([#594](https://github.com/algolia/autocomplete/issues/594)) ([527670e](https://github.com/algolia/autocomplete/commit/527670e6e71872e09fa98694f443b572847a89ae))
+- **js:** fix panel placement after scroll ([#593](https://github.com/algolia/autocomplete/issues/593)) ([ca396ad](https://github.com/algolia/autocomplete/commit/ca396adfbbca3db6d9c94e2076d3982925b57508)), closes [#591](https://github.com/algolia/autocomplete/issues/591)
+- **js:** support panel scroll top position in all browsers ([#595](https://github.com/algolia/autocomplete/issues/595)) ([cce4b5f](https://github.com/algolia/autocomplete/commit/cce4b5f63f23410ffb3f14aa147f837835bbae4e)), closes [#591](https://github.com/algolia/autocomplete/issues/591)
 
 ### Features
 
-* **js:** introduce Translations API ([#581](https://github.com/algolia/autocomplete/issues/581)) ([970ee6a](https://github.com/algolia/autocomplete/commit/970ee6acfcb0b7cbb699acbe274fec4e5e1c3a4e))
-
-
+- **js:** introduce Translations API ([#581](https://github.com/algolia/autocomplete/issues/581)) ([970ee6a](https://github.com/algolia/autocomplete/commit/970ee6acfcb0b7cbb699acbe274fec4e5e1c3a4e))
 
 # [1.0.1](https://github.com/algolia/autocomplete/compare/v1.0.0...v1.0.1) (2021-05-07)
 
