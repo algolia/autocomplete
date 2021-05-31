@@ -196,6 +196,7 @@ export function renderPanel<TItem extends BaseItem>(
       createElement,
       Fragment,
       components,
+      ...autocompleteScopeApi,
     },
     dom.panel
   );

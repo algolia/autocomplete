@@ -536,6 +536,48 @@ describe('render', () => {
     });
   });
 
+  test('provides the scoped API', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      initialState: {
+        isOpen: true,
+      },
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [{ label: '1' }];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+      render(params, _root) {
+        expect(params).toEqual(
+          expect.objectContaining({
+            refresh: expect.any(Function),
+            setActiveItemId: expect.any(Function),
+            setCollections: expect.any(Function),
+            setContext: expect.any(Function),
+            setIsOpen: expect.any(Function),
+            setQuery: expect.any(Function),
+            setStatus: expect.any(Function),
+          })
+        );
+      },
+    });
+  });
+
   test('does not render the sections without results and noResults template on multi sources', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
