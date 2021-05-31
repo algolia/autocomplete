@@ -562,7 +562,7 @@ describe('render', () => {
           },
         ];
       },
-      render(params, _root) {
+      render(params) {
         expect(params).toEqual(
           expect.objectContaining({
             refresh: expect.any(Function),
