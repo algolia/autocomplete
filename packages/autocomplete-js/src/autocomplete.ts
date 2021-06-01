@@ -301,10 +301,16 @@ export function autocomplete<TItem extends BaseItem>(
 
     toggleModalClassname(isModalDetachedMql.matches);
 
-    isModalDetachedMql.addEventListener('change', onChange);
+    const hasModernEventListener = Boolean(isModalDetachedMql.addEventListener);
+
+    hasModernEventListener
+      ? isModalDetachedMql.addEventListener('change', onChange)
+      : isModalDetachedMql.addListener(onChange);
 
     return () => {
-      isModalDetachedMql.removeEventListener('change', onChange);
+      hasModernEventListener
+        ? isModalDetachedMql.removeEventListener('change', onChange)
+        : isModalDetachedMql.removeListener(onChange);
     };
   });
 
