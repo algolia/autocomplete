@@ -59,7 +59,7 @@ export function onKeyDown<TItem extends BaseItem>({
     }
 
     // Default browser behavior changes the caret placement on ArrowUp and
-    // Arrow down.
+    // ArrowDown.
     event.preventDefault();
 
     // When re-opening the panel, we need to split the logic to keep the actions
@@ -80,15 +80,17 @@ export function onKeyDown<TItem extends BaseItem>({
           nextActiveItemId: props.defaultActiveItemId,
         });
 
-        // We need to wait for the panel to open.
-        setTimeout(triggerScrollIntoView, 0);
         triggerOnActive();
+        // Since we rely on the DOM, we need to wait for all the micro tasks to
+        // finish (which include re-opening the panel) to make sure all the
+        // elements are available.
+        setTimeout(triggerScrollIntoView, 0);
       });
     } else {
       store.dispatch(event.key, {});
 
-      triggerScrollIntoView();
       triggerOnActive();
+      triggerScrollIntoView();
     }
   } else if (event.key === 'Escape') {
     // This prevents the default browser behavior on `input[type="search"]`
