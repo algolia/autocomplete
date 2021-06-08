@@ -6,6 +6,7 @@ import {
   runAllMicroTasks,
 } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
+import * as handlers from '../onInput';
 
 describe('getSources', () => {
   test('gets calls on input', () => {
@@ -109,5 +110,26 @@ describe('getSources', () => {
     await runAllMicroTasks();
 
     expect(onStateChange.mock.calls.pop()[0].state.collections).toHaveLength(2);
+  });
+
+  test('with nothing returned from getItems throws', async () => {
+    const spy = jest.spyOn(handlers, 'onInput');
+
+    const { inputElement } = createPlayground(createAutocomplete, {
+      getSources() {
+        return [createSource({ getItems: () => {} })];
+      },
+    });
+
+    await expect(() => {
+      inputElement.focus();
+      userEvent.type(inputElement, 'a');
+
+      return spy.mock.results[0].value;
+    }).rejects.toThrow(
+      '[Autocomplete] The `getItems` function should return or resolve to an array of items.'
+    );
+
+    spy.mockRestore();
   });
 });
