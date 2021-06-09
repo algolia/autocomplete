@@ -92,14 +92,9 @@ export function onInput<TItem extends BaseItem>({
               state: store.getState(),
               ...setters,
             })
-          ).then((itemsOrDescription) => {
-            invariant(
-              itemsOrDescription !== undefined,
-              'The `getItems` function should return or resolve to an array of items.'
-            );
-
-            return preResolve<TItem>(itemsOrDescription, source.sourceId);
-          });
+          ).then((itemsOrDescription) =>
+            preResolve<TItem>(itemsOrDescription, source.sourceId)
+          );
         })
       )
         .then(resolve)
