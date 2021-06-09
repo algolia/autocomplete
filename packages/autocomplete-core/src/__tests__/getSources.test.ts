@@ -117,7 +117,7 @@ describe('getSources', () => {
 
     const { inputElement } = createPlayground(createAutocomplete, {
       getSources() {
-        return [createSource({ getItems: () => {} })];
+        return [createSource({ sourceId: 'source1', getItems: () => {} })];
       },
     });
 
@@ -127,7 +127,7 @@ describe('getSources', () => {
 
       return spy.mock.results[0].value;
     }).rejects.toThrow(
-      '[Autocomplete] The `getItems` function should return or resolve to an array of items.'
+      '[Autocomplete] The `getItems` function must return an array of items but returned type "object":\n\n[\n  null\n]'
     );
 
     spy.mockRestore();

@@ -27,7 +27,7 @@ function isDescription<TItem extends BaseItem>(
 function isRequesterDescription<TItem extends BaseItem>(
   description: TItem[] | TItem[][] | RequesterDescription<TItem>
 ): description is RequesterDescription<TItem> {
-  return Boolean((description as RequesterDescription<TItem>).execute);
+  return Boolean((description as RequesterDescription<TItem>)?.execute);
 }
 
 type PackedDescription<TItem extends BaseItem> = {
@@ -171,7 +171,7 @@ export function postResolve<TItem extends BaseItem>(
       : results;
 
     invariant(
-      Array.isArray(items),
+      Array.isArray(items) && (items as Array<typeof items>).every(Boolean),
       `The \`getItems\` function must return an array of items but returned type ${JSON.stringify(
         typeof items
       )}:\n\n${JSON.stringify(items, null, 2)}`
