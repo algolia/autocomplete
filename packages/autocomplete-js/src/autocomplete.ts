@@ -301,6 +301,9 @@ export function autocomplete<TItem extends BaseItem>(
 
     toggleModalClassname(isModalDetachedMql.matches);
 
+    // Prior to Safari 14, `MediaQueryList` isn't based on `EventTarget`,
+    // so we must use `addListener` and `removeListener` to observe media query lists.
+    // See https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList/addListener
     const hasModernEventListener = Boolean(isModalDetachedMql.addEventListener);
 
     hasModernEventListener
