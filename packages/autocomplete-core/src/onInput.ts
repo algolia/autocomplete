@@ -1,5 +1,3 @@
-import { invariant } from '@algolia/autocomplete-shared';
-
 import { preResolve, resolve, postResolve } from './resolve';
 import {
   AutocompleteScopeApi,
