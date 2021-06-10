@@ -84,11 +84,7 @@ autocomplete({
           refresh();
         },
         templates: {
-          header({ items, Fragment }) {
-            if (items.length === 0) {
-              return null;
-            }
-
+          header({ Fragment }) {
             return (
               <Fragment>
                 <span className="aa-SourceHeaderTitle">

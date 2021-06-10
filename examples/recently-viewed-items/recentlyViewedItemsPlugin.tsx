@@ -71,11 +71,7 @@ export function createLocalStorageRecentlyViewedItems<
         },
         templates: {
           ...transformedSource.templates,
-          header({ items }) {
-            if (items.length === 0) {
-              return null;
-            }
-
+          header() {
             return (
               <Fragment>
                 <span className="aa-SourceHeaderTitle">Recently viewed</span>

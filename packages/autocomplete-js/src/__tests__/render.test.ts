@@ -9,6 +9,9 @@ import {
 import { autocomplete } from '../autocomplete';
 
 describe('render', () => {
+  const sourceId1 = 'testSource1';
+  const sourceId2 = 'testSource2';
+
   beforeEach(() => {
     document.body.innerHTML = '';
   });
@@ -181,8 +184,6 @@ describe('render', () => {
   });
 
   test('provides the elements', async () => {
-    const sourceId1 = 'testSource1';
-    const sourceId2 = 'testSource2';
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -253,8 +254,6 @@ describe('render', () => {
   });
 
   test('provides the sections', async () => {
-    const sourceId1 = 'testSource1';
-    const sourceId2 = 'testSource2';
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -534,6 +533,119 @@ describe('render', () => {
         createElement: preactCreateElement,
         Fragment: CustomFragment,
       },
+    });
+  });
+
+  test('provides the scoped API', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      initialState: {
+        isOpen: true,
+      },
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [{ label: '1' }];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+      render(params) {
+        expect(params).toEqual(
+          expect.objectContaining({
+            refresh: expect.any(Function),
+            setActiveItemId: expect.any(Function),
+            setCollections: expect.any(Function),
+            setContext: expect.any(Function),
+            setIsOpen: expect.any(Function),
+            setQuery: expect.any(Function),
+            setStatus: expect.any(Function),
+          })
+        );
+      },
+    });
+  });
+
+  test('does not render the sections without results and noResults template on multi sources', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      openOnFocus: true,
+      getSources() {
+        return [
+          {
+            sourceId: sourceId1,
+            getItems() {
+              return [];
+            },
+            templates: {
+              header() {
+                return sourceId1;
+              },
+              item({ item }) {
+                return item.label;
+              },
+              footer() {
+                return sourceId1;
+              },
+            },
+          },
+          {
+            sourceId: sourceId2,
+            getItems() {
+              return [{ label: '2' }];
+            },
+            templates: {
+              header() {
+                return sourceId2;
+              },
+              item({ item }) {
+                return item.label;
+              },
+              footer() {
+                return sourceId2;
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+
+      expect(
+        panelContainer.querySelector(
+          `[data-autocomplete-source-id="${sourceId1}"]`
+        )
+      ).not.toBeInTheDocument();
+      expect(
+        panelContainer.querySelector(
+          `[data-autocomplete-source-id="${sourceId2}"]`
+        )
+      ).toBeInTheDocument();
     });
   });
 });
