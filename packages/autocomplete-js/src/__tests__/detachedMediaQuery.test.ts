@@ -1,4 +1,4 @@
-import { createMatchMedia } from '../../../../test/utils';
+import { createMatchMedia, createSource } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
 
 describe('detachedMediaQuery', () => {
@@ -30,10 +30,7 @@ describe('detachedMediaQuery', () => {
       getSources() {
         return [
           {
-            sourceId: 'testSource',
-            getItems() {
-              return [{ label: 'Item 1' }];
-            },
+            ...createSource({}),
             templates: {
               item({ item }) {
                 return item.label;
