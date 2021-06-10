@@ -127,7 +127,7 @@ describe('getSources', () => {
 
       return spy.mock.results[0].value;
     }).rejects.toThrow(
-      '[Autocomplete] The `getItems` function must return an array of items but returned type "object":\n\n[\n  null\n]'
+      '[Autocomplete] The `getItems` function from source "source1" must return an array of items but returned type "object":\n\n[\n  null\n]'
     );
 
     spy.mockRestore();

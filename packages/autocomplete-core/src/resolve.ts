@@ -172,7 +172,9 @@ export function postResolve<TItem extends BaseItem>(
 
     invariant(
       Array.isArray(items) && (items as Array<typeof items>).every(Boolean),
-      `The \`getItems\` function must return an array of items but returned type ${JSON.stringify(
+      `The \`getItems\` function from source "${
+        source.sourceId
+      }" must return an array of items but returned type ${JSON.stringify(
         typeof items
       )}:\n\n${JSON.stringify(items, null, 2)}`
     );
