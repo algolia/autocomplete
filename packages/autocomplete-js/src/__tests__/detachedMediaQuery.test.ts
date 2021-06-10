@@ -27,7 +27,7 @@ describe('detachedMediaQuery', () => {
     });
   });
 
-  test('fallback to the deprecated `addListener` if `addEventListener` is undefined', () => {
+  test('falls back to the deprecated `addListener` if `addEventListener` is undefined', () => {
     const addListener = jest.fn();
 
     Object.defineProperty(window, 'matchMedia', {
