@@ -1,29 +1,11 @@
+import { createMatchMedia } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
 
 describe('detachedMediaQuery', () => {
-  const originalMatchMedia = window.matchMedia;
-  const addEventListener = jest.fn();
-
-  beforeAll(() => {
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: jest.fn((query) => ({
-        matches: true,
-        media: query,
-        onchange: null,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        addEventListener,
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      })),
-    });
-  });
-
   afterAll(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
-      value: originalMatchMedia,
+      value: createMatchMedia({}),
     });
   });
 
@@ -32,14 +14,11 @@ describe('detachedMediaQuery', () => {
 
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
-      value: jest.fn((query) => ({
+      value: createMatchMedia({
         matches: true,
-        media: query,
-        onchange: null,
         addListener,
-        removeListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      })),
+        addEventListener: undefined,
+      }),
     });
 
     const container = document.createElement('div');
@@ -66,6 +45,5 @@ describe('detachedMediaQuery', () => {
     });
 
     expect(addListener).toHaveBeenCalledTimes(1);
-    expect(addEventListener).not.toHaveBeenCalled();
   });
 });

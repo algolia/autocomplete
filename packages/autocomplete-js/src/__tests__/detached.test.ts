@@ -1,30 +1,20 @@
 import { fireEvent, waitFor } from '@testing-library/dom';
 
+import { createMatchMedia } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
 
 describe('detached', () => {
-  const originalMatchMedia = window.matchMedia;
-
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
-      value: jest.fn((query) => ({
-        matches: true,
-        media: query,
-        onchange: null,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      })),
+      value: createMatchMedia({ matches: true }),
     });
   });
 
   afterAll(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
-      value: originalMatchMedia,
+      value: createMatchMedia({}),
     });
   });
 

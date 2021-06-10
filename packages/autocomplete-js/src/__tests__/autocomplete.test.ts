@@ -1,7 +1,7 @@
 import * as autocompleteShared from '@algolia/autocomplete-shared';
 import { fireEvent, waitFor } from '@testing-library/dom';
 
-import { castToJestMock } from '../../../../test/utils';
+import { castToJestMock, createMatchMedia } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
 
 jest.mock('@algolia/autocomplete-shared', () => {
@@ -210,27 +210,16 @@ describe('autocomplete-js', () => {
       initialNbCalls
     );
 
-    const originalMatchMedia = window.matchMedia;
-
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
-      value: jest.fn((query) => ({
-        matches: true,
-        media: query,
-        onchange: null,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      })),
+      value: createMatchMedia({ matches: true }),
     });
 
     update({ detachedMediaQuery: '' });
 
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
-      value: originalMatchMedia,
+      value: createMatchMedia({}),
     });
 
     expect(autocompleteShared.generateAutocompleteId).toHaveBeenCalledTimes(
