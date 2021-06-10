@@ -171,12 +171,25 @@ export function postResolve<TItem extends BaseItem>(
       : results;
 
     invariant(
-      Array.isArray(items) && (items as Array<typeof items>).every(Boolean),
+      Array.isArray(items),
       `The \`getItems\` function from source "${
         source.sourceId
       }" must return an array of items but returned type ${JSON.stringify(
         typeof items
       )}:\n\n${JSON.stringify(items, null, 2)}`
+    );
+
+    invariant(
+      (items as Array<typeof items>).every(Boolean),
+      `The \`getItems\` function from source "${
+        source.sourceId
+      }" must return an array of items but returned ${JSON.stringify(
+        undefined
+      )}.
+
+Did you forget to return items?
+
+See: https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/sources/#param-getitems`
     );
 
     return {
