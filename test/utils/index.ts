@@ -1,6 +1,7 @@
 export * from './castToJestMock';
 export * from './createApiResponse';
 export * from './createCollection';
+export * from './createMatchMedia';
 export * from './createNavigator';
 export * from './createPlayground';
 export * from './createScopeApi';
