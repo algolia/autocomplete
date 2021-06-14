@@ -176,7 +176,9 @@ export function postResolve<TItem extends BaseItem>(
         source.sourceId
       }" must return an array of items but returned type ${JSON.stringify(
         typeof items
-      )}:\n\n${JSON.stringify(items, null, 2)}`
+      )}:\n\n${JSON.stringify(items, null, 2)}.
+
+See: https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/sources/#param-getitems`
     );
 
     invariant(
