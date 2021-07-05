@@ -787,29 +787,31 @@ describe('getInputProps', () => {
         expect(onActive).toHaveBeenCalledTimes(1);
       });
 
-      test('ArrowDown opens the panel when closed with openOnFocus', () => {
+      test('ArrowDown opens the panel when closed with openOnFocus and selects defaultActiveItemId', async () => {
         const onStateChange = jest.fn();
         const { inputElement } = createPlayground(createAutocomplete, {
           onStateChange,
           openOnFocus: true,
-          initialState: {
-            collections: [
-              createCollection({
-                items: [{ label: '1' }, { label: '2' }],
+          getSources() {
+            return [
+              createSource({
+                getItems() {
+                  return [{ label: '1' }, { label: '2' }];
+                },
               }),
-            ],
+            ];
           },
         });
 
         inputElement.focus();
-        userEvent.type(inputElement, '{esc}{arrowdown}');
+        await runAllMicroTasks();
 
-        waitFor(() => {
+        userEvent.type(inputElement, '{esc}{arrowdown}');
+        await runAllMicroTasks();
+
+        await waitFor(() => {
           expect(onStateChange).toHaveBeenLastCalledWith(
             expect.objectContaining({
-              prevState: expect.objectContaining({
-                isOpen: false,
-              }),
               state: expect.objectContaining({
                 isOpen: true,
                 activeItemId: null,
@@ -819,29 +821,33 @@ describe('getInputProps', () => {
         });
       });
 
-      test('ArrowDown opens the panel when closed with a query', () => {
+      test('ArrowDown opens the panel when closed with a query and selects defaultActiveItemId', async () => {
         const onStateChange = jest.fn();
         const { inputElement } = createPlayground(createAutocomplete, {
           onStateChange,
           initialState: {
             query: 'a',
-            collections: [
-              createCollection({
-                items: [{ label: '1' }, { label: '2' }],
+          },
+          getSources() {
+            return [
+              createSource({
+                getItems() {
+                  return [{ label: '1' }, { label: '2' }];
+                },
               }),
-            ],
+            ];
           },
         });
 
         inputElement.focus();
-        userEvent.type(inputElement, '{esc}{arrowdown}');
+        await runAllMicroTasks();
 
-        waitFor(() => {
+        userEvent.type(inputElement, '{esc}{arrowdown}');
+        await runAllMicroTasks();
+
+        await waitFor(() => {
           expect(onStateChange).toHaveBeenLastCalledWith(
             expect.objectContaining({
-              prevState: expect.objectContaining({
-                isOpen: false,
-              }),
               state: expect.objectContaining({
                 isOpen: true,
                 activeItemId: null,
@@ -851,29 +857,31 @@ describe('getInputProps', () => {
         });
       });
 
-      test('ArrowUp opens the panel when closed with openOnFocus', () => {
+      test('ArrowUp opens the panel when closed with openOnFocus and selects the last item', async () => {
         const onStateChange = jest.fn();
         const { inputElement } = createPlayground(createAutocomplete, {
           onStateChange,
           openOnFocus: true,
-          initialState: {
-            collections: [
-              createCollection({
-                items: [{ label: '1' }, { label: '2' }],
+          getSources() {
+            return [
+              createSource({
+                getItems() {
+                  return [{ label: '1' }, { label: '2' }];
+                },
               }),
-            ],
+            ];
           },
         });
 
         inputElement.focus();
-        userEvent.type(inputElement, '{esc}{arrowup}');
+        await runAllMicroTasks();
 
-        waitFor(() => {
+        userEvent.type(inputElement, '{esc}{arrowup}');
+        await runAllMicroTasks();
+
+        await waitFor(() => {
           expect(onStateChange).toHaveBeenLastCalledWith(
             expect.objectContaining({
-              prevState: expect.objectContaining({
-                isOpen: false,
-              }),
               state: expect.objectContaining({
                 isOpen: true,
                 activeItemId: 1,
@@ -883,29 +891,33 @@ describe('getInputProps', () => {
         });
       });
 
-      test('ArrowUp opens the panel when closed with a query', () => {
+      test('ArrowUp opens the panel when closed with a query and selects the last item', async () => {
         const onStateChange = jest.fn();
         const { inputElement } = createPlayground(createAutocomplete, {
           onStateChange,
           initialState: {
             query: 'a',
-            collections: [
-              createCollection({
-                items: [{ label: '1' }, { label: '2' }],
+          },
+          getSources() {
+            return [
+              createSource({
+                getItems() {
+                  return [{ label: '1' }, { label: '2' }];
+                },
               }),
-            ],
+            ];
           },
         });
 
         inputElement.focus();
-        userEvent.type(inputElement, '{esc}{arrowup}');
+        await runAllMicroTasks();
 
-        waitFor(() => {
+        userEvent.type(inputElement, '{esc}{arrowup}');
+        await runAllMicroTasks();
+
+        await waitFor(() => {
           expect(onStateChange).toHaveBeenLastCalledWith(
             expect.objectContaining({
-              prevState: expect.objectContaining({
-                isOpen: false,
-              }),
               state: expect.objectContaining({
                 isOpen: true,
                 activeItemId: 1,
