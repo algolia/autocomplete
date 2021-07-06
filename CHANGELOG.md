@@ -1,18 +1,14 @@
-# [](https://github.com/algolia/autocomplete/compare/v1.1.0...v) (2021-07-06)
-
+# [1.2.0](https://github.com/algolia/autocomplete/compare/v1.1.0...v1.2.0) (2021-07-06)
 
 ### Bug Fixes
 
-* **core:** open closed panel on `ArrowDown` and `ArrowUp` ([#599](https://github.com/algolia/autocomplete/issues/599)) ([37ebefe](https://github.com/algolia/autocomplete/commit/37ebefe637cd20c9e51c0242ef6126fd619cb53e))
-* **core:** trigger invariant when user doesn't return anything from `getItems` ([#607](https://github.com/algolia/autocomplete/issues/607)) ([e019b4d](https://github.com/algolia/autocomplete/commit/e019b4dd7968f23ba500235e866e74f05fbed9de))
-* **js:** provide fallback method for `addEventListener` on media queries ([#600](https://github.com/algolia/autocomplete/issues/600)) ([760f8e7](https://github.com/algolia/autocomplete/commit/760f8e79d71281c7176b7cd43917a77f89204b10))
-
+- **core:** open closed panel on `ArrowDown` and `ArrowUp` ([#599](https://github.com/algolia/autocomplete/issues/599)) ([37ebefe](https://github.com/algolia/autocomplete/commit/37ebefe637cd20c9e51c0242ef6126fd619cb53e))
+- **core:** trigger invariant when user doesn't return anything from `getItems` ([#607](https://github.com/algolia/autocomplete/issues/607)) ([e019b4d](https://github.com/algolia/autocomplete/commit/e019b4dd7968f23ba500235e866e74f05fbed9de))
+- **js:** provide fallback method for `addEventListener` on media queries ([#600](https://github.com/algolia/autocomplete/issues/600)) ([760f8e7](https://github.com/algolia/autocomplete/commit/760f8e79d71281c7176b7cd43917a77f89204b10))
 
 ### Features
 
-* **js:** provide setters and refresh to `render` API ([#598](https://github.com/algolia/autocomplete/issues/598)) ([3e78566](https://github.com/algolia/autocomplete/commit/3e785660d65d568e611542dec8de20eb87a001b0))
-
-
+- **js:** provide setters and refresh to `render` API ([#598](https://github.com/algolia/autocomplete/issues/598)) ([3e78566](https://github.com/algolia/autocomplete/commit/3e785660d65d568e611542dec8de20eb87a001b0))
 
 # [1.1.0](https://github.com/algolia/autocomplete/compare/v1.0.1...v1.1.0) (2021-05-27)
 
