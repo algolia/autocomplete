@@ -796,7 +796,7 @@ describe('getInputProps', () => {
             return [
               createSource({
                 getItems() {
-                  return [{ label: '1' }, { label: '2' }];
+                  return [{ label: '1' }];
                 },
               }),
             ];
@@ -832,7 +832,7 @@ describe('getInputProps', () => {
             return [
               createSource({
                 getItems() {
-                  return [{ label: '1' }, { label: '2' }];
+                  return [{ label: '1' }];
                 },
               }),
             ];
@@ -857,6 +857,44 @@ describe('getInputProps', () => {
         });
       });
 
+      test('ArrowDown opens the panel when closed with openOnFocus and selects defaultActiveItemId with scrollIntoView', async () => {
+        const onStateChange = jest.fn();
+        const { inputElement, item } = setupTestWithItem({
+          onStateChange,
+          defaultActiveItemId: 0,
+          getSources() {
+            return [
+              createSource({
+                getItems() {
+                  return [{ label: '1' }];
+                },
+              }),
+            ];
+          },
+        });
+        item.scrollIntoView = jest.fn();
+
+        inputElement.focus();
+        await runAllMicroTasks();
+
+        userEvent.type(inputElement, '{esc}{arrowdown}');
+        await runAllMicroTasks();
+
+        await waitFor(() => {
+          expect(onStateChange).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+              state: expect.objectContaining({
+                isOpen: true,
+                activeItemId: 0,
+              }),
+            })
+          );
+
+          expect(item.scrollIntoView).toHaveBeenCalledTimes(1);
+          expect(item.scrollIntoView).toHaveBeenCalledWith(false);
+        });
+      });
+
       test('ArrowUp opens the panel when closed with openOnFocus and selects the last item', async () => {
         const onStateChange = jest.fn();
         const { inputElement } = createPlayground(createAutocomplete, {
@@ -866,7 +904,7 @@ describe('getInputProps', () => {
             return [
               createSource({
                 getItems() {
-                  return [{ label: '1' }, { label: '2' }];
+                  return [{ label: '1' }];
                 },
               }),
             ];
@@ -884,7 +922,7 @@ describe('getInputProps', () => {
             expect.objectContaining({
               state: expect.objectContaining({
                 isOpen: true,
-                activeItemId: 1,
+                activeItemId: 0,
               }),
             })
           );
@@ -902,7 +940,7 @@ describe('getInputProps', () => {
             return [
               createSource({
                 getItems() {
-                  return [{ label: '1' }, { label: '2' }];
+                  return [{ label: '1' }];
                 },
               }),
             ];
@@ -920,10 +958,47 @@ describe('getInputProps', () => {
             expect.objectContaining({
               state: expect.objectContaining({
                 isOpen: true,
-                activeItemId: 1,
+                activeItemId: 0,
               }),
             })
           );
+        });
+      });
+
+      test('ArrowUp opens the panel when closed with openOnFocus and selects the last item with scrollIntoView', async () => {
+        const onStateChange = jest.fn();
+        const { inputElement, item } = setupTestWithItem({
+          onStateChange,
+          getSources() {
+            return [
+              createSource({
+                getItems() {
+                  return [{ label: '1' }];
+                },
+              }),
+            ];
+          },
+        });
+        item.scrollIntoView = jest.fn();
+
+        inputElement.focus();
+        await runAllMicroTasks();
+
+        userEvent.type(inputElement, '{esc}{arrowup}');
+        await runAllMicroTasks();
+
+        await waitFor(() => {
+          expect(onStateChange).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+              state: expect.objectContaining({
+                isOpen: true,
+                activeItemId: 0,
+              }),
+            })
+          );
+
+          expect(item.scrollIntoView).toHaveBeenCalledTimes(1);
+          expect(item.scrollIntoView).toHaveBeenCalledWith(false);
         });
       });
     });
