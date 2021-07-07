@@ -10,7 +10,7 @@ Opening an issue is very effective way to contribute because many users might al
 
 Before reporting an issue, first check that there is not an already open issue for the same topic using the [issues page](https://github.com/algolia/autocomplete/issues). Don't hesitate to thumb up an issue that corresponds to the problem you have.
 
-Another element that will help us go faster at solving the issue is to provide a reproducible test case. We recommend to [use this CodeSandbox template](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground?file=/app.tsx).
+Another element that will help us go faster at solving the issue is to provide a reproducible test case. We recommend to [use this CodeSandbox template](https://codesandbox.io/s/github/algolia/autocomplete/tree/main/examples/playground?file=/app.tsx).
 
 ## Code contribution
 
@@ -37,7 +37,7 @@ This project follows the [conventional changelog](https://conventionalcommits.or
 type(scope): description
 ```
 
-This convention is used to generate the [changelog](https://github.com/algolia/autocomplete/tree/next/CHANGELOG.md).
+This convention is used to generate the [changelog](https://github.com/algolia/autocomplete/tree/main/CHANGELOG.md).
 
 In most cases, we use the following types:
 
