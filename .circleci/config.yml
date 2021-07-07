@@ -215,4 +215,4 @@ workflows:
             - build
           filters:
             branches:
-              only: next
+              only: main
