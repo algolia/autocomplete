@@ -1,3 +1,12 @@
+# [](https://github.com/algolia/autocomplete/compare/v1.2.0...v) (2021-07-08)
+
+
+### Bug Fixes
+
+* **completion:** prevent error when getting `activeItem` with an empty collection ([#623](https://github.com/algolia/autocomplete/issues/623)) ([0e0ce81](https://github.com/algolia/autocomplete/commit/0e0ce81405c4c71b31e5689820bc3909eaec5908))
+
+
+
 # [1.2.0](https://github.com/algolia/autocomplete/compare/v1.1.0...v1.2.0) (2021-07-06)
 
 ### Bug Fixes
