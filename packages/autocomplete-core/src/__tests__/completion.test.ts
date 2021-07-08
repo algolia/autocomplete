@@ -1,6 +1,10 @@
 import userEvent from '@testing-library/user-event';
 
-import { createCollection, createPlayground } from '../../../../test/utils';
+import {
+  createCollection,
+  createPlayground,
+  runAllMicroTasks,
+} from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 describe('completion', () => {
@@ -46,6 +50,33 @@ describe('completion', () => {
 
     userEvent.type(inputElement, '{arrowdown}');
 
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          completion: null,
+        }),
+      })
+    );
+  });
+
+  test('does not throw without collections with panel open', async () => {
+    const onStateChange = jest.fn();
+    const { inputElement } = createPlayground(createAutocomplete, {
+      onStateChange,
+      openOnFocus: true,
+      initialState: {
+        collections: [],
+      },
+      shouldPanelOpen() {
+        return true;
+      },
+    });
+
+    inputElement.focus();
+    await runAllMicroTasks();
+
+    userEvent.type(inputElement, '{arrowup}');
+    await runAllMicroTasks();
     expect(onStateChange).toHaveBeenLastCalledWith(
       expect.objectContaining({
         state: expect.objectContaining({

@@ -12,7 +12,5 @@ export function getCompletion<TItem extends BaseItem>({
     return null;
   }
 
-  const { itemInputValue } = getActiveItem(state)!;
-
-  return itemInputValue || null;
+  return getActiveItem(state)?.itemInputValue || null;
 }

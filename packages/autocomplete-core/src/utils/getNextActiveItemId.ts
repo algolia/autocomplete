@@ -20,6 +20,10 @@ export function getNextActiveItemId(
   itemCount: number,
   defaultActiveItemId: number | null
 ): number | null {
+  if (!itemCount) {
+    return null;
+  }
+
   if (
     moveAmount < 0 &&
     (baseIndex === null || (defaultActiveItemId !== null && baseIndex === 0))
