@@ -44,7 +44,7 @@ const defaultClassNames: AutocompleteClassNames = {
   list: 'aa-List',
   loadingIndicator: 'aa-LoadingIndicator',
   panel: 'aa-Panel',
-  panelLayout: 'aa-PanelLayout',
+  panelLayout: 'aa-PanelLayout aa-Panel--scrollable',
   root: 'aa-Autocomplete',
   source: 'aa-Source',
   sourceFooter: 'aa-SourceFooter',
