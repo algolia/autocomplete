@@ -1,3 +1,12 @@
+# [](https://github.com/algolia/autocomplete/compare/v1.2.1...v) (2021-07-19)
+
+
+### Bug Fixes
+
+* **css:** use user-provided panelLayout class ([#628](https://github.com/algolia/autocomplete/issues/628)) ([c3aeb9f](https://github.com/algolia/autocomplete/commit/c3aeb9f817dda921f77a40a9b9c9010557cfd1c0)), closes [#627](https://github.com/algolia/autocomplete/issues/627)
+
+
+
 # [1.2.1](https://github.com/algolia/autocomplete/compare/v1.2.0...v1.2.1) (2021-07-08)
 
 ### Bug Fixes
