@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-vue",
   "description": "Autocomplete with Vue",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,8 +9,8 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.2.1",
-    "@algolia/autocomplete-theme-classic": "1.2.1",
+    "@algolia/autocomplete-js": "1.2.2",
+    "@algolia/autocomplete-theme-classic": "1.2.2",
     "algoliasearch": "4.9.1",
     "vue": "3.0.11"
   },

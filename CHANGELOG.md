@@ -1,3 +1,9 @@
+# [1.2.2](https://github.com/algolia/autocomplete/compare/v1.2.1...v1.2.2) (2021-07-19)
+
+### Bug Fixes
+
+- **js:** use user-provided "panelLayout" CSS class in `classNames` ([#628](https://github.com/algolia/autocomplete/issues/628)) ([c3aeb9f](https://github.com/algolia/autocomplete/commit/c3aeb9f817dda921f77a40a9b9c9010557cfd1c0)), closes [#627](https://github.com/algolia/autocomplete/issues/627)
+
 # [1.2.1](https://github.com/algolia/autocomplete/compare/v1.2.0...v1.2.1) (2021-07-08)
 
 ### Bug Fixes
