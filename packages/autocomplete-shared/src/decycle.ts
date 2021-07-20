@@ -1,8 +1,9 @@
 /**
  * Decycles objects with circular references.
+ * This is used to print cyclic structures in development environment only.
  */
 export function decycle(obj: any, seen: any[] = []) {
-  if (!obj || typeof obj !== 'object') {
+  if (!__DEV__ || !obj || typeof obj !== 'object') {
     return obj;
   }
 
