@@ -112,6 +112,29 @@ describe('getSources', () => {
     expect(onStateChange.mock.calls.pop()[0].state.collections).toHaveLength(2);
   });
 
+  test('with circular references returned from getItems does not throw', () => {
+    const { inputElement } = createPlayground(createAutocomplete, {
+      getSources() {
+        return [
+          createSource({
+            sourceId: 'source1',
+            getItems: () => {
+              const obj = { a: 'b', self: null };
+              obj.self = obj;
+
+              return [obj];
+            },
+          }),
+        ];
+      },
+    });
+
+    expect(() => {
+      inputElement.focus();
+      userEvent.type(inputElement, 'a');
+    }).not.toThrow();
+  });
+
   test('with nothing returned from getItems throws', async () => {
     const spy = jest.spyOn(handlers, 'onInput');
 

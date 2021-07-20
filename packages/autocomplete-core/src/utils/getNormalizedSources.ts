@@ -1,4 +1,4 @@
-import { invariant } from '@algolia/autocomplete-shared';
+import { invariant, decycle } from '@algolia/autocomplete-shared';
 
 import {
   AutocompleteSource,
@@ -22,7 +22,7 @@ export function getNormalizedSources<TItem extends BaseItem>(
       Array.isArray(sources),
       `The \`getSources\` function must return an array of sources but returned type ${JSON.stringify(
         typeof sources
-      )}:\n\n${JSON.stringify(sources, null, 2)}`
+      )}:\n\n${JSON.stringify(decycle(sources), null, 2)}`
     );
 
     return Promise.all(
