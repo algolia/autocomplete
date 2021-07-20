@@ -3,12 +3,17 @@
  * This is used to make development a better experience to provide guidance as
  * to where the error comes from.
  */
-export function invariant(condition: boolean, message: string) {
+export function invariant(
+  condition: boolean,
+  message: string | (() => string)
+) {
   if (!__DEV__) {
     return;
   }
 
   if (!condition) {
-    throw new Error(`[Autocomplete] ${message}`);
+    const _message = typeof message === 'string' ? message : message();
+
+    throw new Error(`[Autocomplete] ${_message}`);
   }
 }

@@ -172,7 +172,7 @@ export function postResolve<TItem extends BaseItem>(
 
     invariant(
       Array.isArray(items),
-      `The \`getItems\` function from source "${
+      () => `The \`getItems\` function from source "${
         source.sourceId
       }" must return an array of items but returned type ${JSON.stringify(
         typeof items

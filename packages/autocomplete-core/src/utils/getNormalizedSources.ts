@@ -20,9 +20,10 @@ export function getNormalizedSources<TItem extends BaseItem>(
   return Promise.resolve(getSources(params)).then((sources) => {
     invariant(
       Array.isArray(sources),
-      `The \`getSources\` function must return an array of sources but returned type ${JSON.stringify(
-        typeof sources
-      )}:\n\n${JSON.stringify(decycle(sources), null, 2)}`
+      () =>
+        `The \`getSources\` function must return an array of sources but returned type ${JSON.stringify(
+          typeof sources
+        )}:\n\n${JSON.stringify(decycle(sources), null, 2)}`
     );
 
     return Promise.all(
