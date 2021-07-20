@@ -67,10 +67,10 @@ describe('getNormalizedSources', () => {
   });
 
   test('with wrong `getSources` function return type containing circular references triggers invariant', async () => {
-    const cyclic = { self: null };
-    cyclic.self = cyclic;
+    const circular = { self: null };
+    circular.self = circular;
 
-    const getSources = () => cyclic;
+    const getSources = () => circular;
     const params = {
       query: '',
       state: createState({}),

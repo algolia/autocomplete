@@ -119,10 +119,10 @@ describe('getSources', () => {
           createSource({
             sourceId: 'source1',
             getItems: () => {
-              const obj = { a: 'b', self: null };
-              obj.self = obj;
+              const circular = { a: 'b', self: null };
+              circular.self = circular;
 
-              return [obj];
+              return [circular];
             },
           }),
         ];

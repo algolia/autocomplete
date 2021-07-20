@@ -3,13 +3,13 @@ import { decycle } from '../decycle';
 describe('decycle', () => {
   if (__DEV__) {
     test('leaves objects with no circular references intact', () => {
-      const obj = { a: 1 };
-      const subject = {
+      const ref = { a: 1 };
+      const obj = {
         a: 'b',
-        c: { d: [obj, () => {}, null, false, undefined] },
+        c: { d: [ref, () => {}, null, false, undefined] },
       };
 
-      expect(decycle(subject)).toEqual({
+      expect(decycle(obj)).toEqual({
         a: 'b',
         c: { d: [{ a: 1 }, expect.any(Function), null, false, undefined] },
       });
