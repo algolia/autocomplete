@@ -12,6 +12,8 @@ export function invariant(
   }
 
   if (!condition) {
-    throw new Error(`[Autocomplete] ${typeof message === 'function' ? message() : message}`);
+    throw new Error(
+      `[Autocomplete] ${typeof message === 'function' ? message() : message}`
+    );
   }
 }
