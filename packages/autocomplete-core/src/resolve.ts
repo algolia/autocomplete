@@ -4,7 +4,7 @@ import type {
   RequesterDescription,
   TransformResponse,
 } from '@algolia/autocomplete-preset-algolia';
-import { invariant } from '@algolia/autocomplete-shared';
+import { decycle, invariant } from '@algolia/autocomplete-shared';
 import {
   MultipleQueriesQuery,
   SearchForFacetValuesResponse,
@@ -172,11 +172,11 @@ export function postResolve<TItem extends BaseItem>(
 
     invariant(
       Array.isArray(items),
-      `The \`getItems\` function from source "${
+      () => `The \`getItems\` function from source "${
         source.sourceId
       }" must return an array of items but returned type ${JSON.stringify(
         typeof items
-      )}:\n\n${JSON.stringify(items, null, 2)}.
+      )}:\n\n${JSON.stringify(decycle(items), null, 2)}.
 
 See: https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/sources/#param-getitems`
     );

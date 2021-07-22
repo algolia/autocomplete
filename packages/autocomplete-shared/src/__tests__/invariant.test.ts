@@ -13,5 +13,22 @@ describe('invariant', () => {
         invariant(true, 'invariant');
       }).not.toThrow();
     });
+
+    test('lazily instantiates message', () => {
+      const spy1 = jest.fn(() => 'invariant');
+      const spy2 = jest.fn(() => 'invariant');
+
+      expect(() => {
+        invariant(false, spy1);
+      }).toThrow('[Autocomplete] invariant');
+
+      expect(spy1).toHaveBeenCalledTimes(1);
+
+      expect(() => {
+        invariant(true, spy2);
+      }).not.toThrow('[Autocomplete] invariant');
+
+      expect(spy2).not.toHaveBeenCalled();
+    });
   }
 });

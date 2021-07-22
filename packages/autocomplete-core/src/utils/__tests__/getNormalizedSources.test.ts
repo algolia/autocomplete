@@ -66,6 +66,25 @@ describe('getNormalizedSources', () => {
     );
   });
 
+  test('with wrong `getSources` function return type containing circular references triggers invariant', async () => {
+    const circular = { self: null };
+    circular.self = circular;
+
+    const getSources = () => circular;
+    const params = {
+      query: '',
+      state: createState({}),
+      ...createScopeApi(),
+    };
+
+    // @ts-expect-error
+    await expect(getNormalizedSources(getSources, params)).rejects.toEqual(
+      new Error(
+        '[Autocomplete] The `getSources` function must return an array of sources but returned type "object":\n\n{\n  "self": "[Circular]"\n}'
+      )
+    );
+  });
+
   test('with missing `sourceId` triggers invariant', async () => {
     const getSources = () => [
       {
