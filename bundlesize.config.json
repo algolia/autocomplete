@@ -25,7 +25,7 @@
       "maxSize": "4 kB"
     },
     {
-      "path": "packages/autocomplete-theme-classic/dist/theme.css",
+      "path": "packages/autocomplete-theme-classic/dist/theme.min.css",
       "maxSize": "4.25 kB"
     }
   ]
