@@ -1,3 +1,5 @@
+/** @jsx React.createElement */
+
 import { autocomplete } from '@algolia/autocomplete-js';
 import React, { createElement, Fragment, useEffect, useRef } from 'react';
 import { render } from 'react-dom';
