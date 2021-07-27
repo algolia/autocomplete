@@ -1,0 +1,25 @@
+em {
+  background: cyan;
+  font-style: normal;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.search-panel {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2rem;
+}
+
+.aa-Form {
+  margin-bottom: 1rem;
+}
+
+.pagination {
+  margin: 2rem auto;
+  text-align: center;
+}
