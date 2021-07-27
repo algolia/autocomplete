@@ -24,7 +24,7 @@ import {
 
 import { Autocomplete } from './Autocomplete';
 
-import '@algolia/autocomplete-theme-classic';
+import '@algolia/autocomplete-theme-classic/dist/theme.css';
 import './App.css';
 
 const searchClient = algoliasearch(
