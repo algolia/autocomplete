@@ -80,27 +80,24 @@ export function App() {
       query: '',
     }));
   }, []);
-  const recentSearchesPlugin = useMemo(
-    () =>
-      createLocalStorageRecentSearchesPlugin({
-        key: 'search',
-        limit: 3,
-        transformSource({ source }) {
-          return {
-            ...source,
-            onSelect(params) {
-              setSearchState((searchState) => ({
-                ...searchState,
-                query: params.item.label,
-              }));
-            },
-          };
-        },
-      }),
-    []
-  );
-  const plugins = useMemo(
-    () => [
+  const plugins = useMemo(() => {
+    const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+      key: 'search',
+      limit: 3,
+      transformSource({ source }) {
+        return {
+          ...source,
+          onSelect(params) {
+            setSearchState((searchState) => ({
+              ...searchState,
+              query: params.item.label,
+            }));
+          },
+        };
+      },
+    });
+
+    return [
       recentSearchesPlugin,
       createQuerySuggestionsPlugin({
         searchClient,
@@ -122,9 +119,8 @@ export function App() {
           };
         },
       }),
-    ],
-    []
-  );
+    ];
+  }, []);
 
   return (
     <div className="container">
