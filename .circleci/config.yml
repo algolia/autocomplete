@@ -29,8 +29,8 @@ aliases:
       mkdir -p packages/autocomplete-preset-algolia/dist
       mkdir -p packages/autocomplete-plugin-algolia-insights/dist
       mkdir -p packages/autocomplete-plugin-recent-searches/dist
-      mkdir -p packages/autocomplete-plugin-tags/dist
       mkdir -p packages/autocomplete-plugin-query-suggestions/dist
+      mkdir -p packages/autocomplete-plugin-tags/dist
 
       cp -R /tmp/workspace/packages/autocomplete-shared/dist packages/autocomplete-shared
       cp -R /tmp/workspace/packages/autocomplete-core/dist packages/autocomplete-core
@@ -38,8 +38,8 @@ aliases:
       cp -R /tmp/workspace/packages/autocomplete-preset-algolia/dist packages/autocomplete-preset-algolia
       cp -R /tmp/workspace/packages/autocomplete-plugin-algolia-insights/dist packages/autocomplete-plugin-algolia-insights
       cp -R /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist packages/autocomplete-plugin-recent-searches
-      cp -R /tmp/workspace/packages/autocomplete-plugin-tags/dist packages/autocomplete-plugin-tags
       cp -R /tmp/workspace/packages/autocomplete-plugin-query-suggestions/dist packages/autocomplete-plugin-query-suggestions
+      cp -R /tmp/workspace/packages/autocomplete-plugin-tags/dist packages/autocomplete-plugin-tags
 
 defaults: &defaults
   working_directory: ~/autocomplete
@@ -83,8 +83,8 @@ jobs:
             mkdir -p /tmp/workspace/packages/autocomplete-preset-algolia/dist
             mkdir -p /tmp/workspace/packages/autocomplete-plugin-algolia-insights/dist
             mkdir -p /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist
-            mkdir -p /tmp/workspace/packages/autocomplete-plugin-tags/dist
             mkdir -p /tmp/workspace/packages/autocomplete-plugin-query-suggestions/dist
+            mkdir -p /tmp/workspace/packages/autocomplete-plugin-tags/dist
 
             cp -R packages/autocomplete-shared/dist /tmp/workspace/packages/autocomplete-shared
             cp -R packages/autocomplete-core/dist /tmp/workspace/packages/autocomplete-core
@@ -92,8 +92,8 @@ jobs:
             cp -R packages/autocomplete-preset-algolia/dist /tmp/workspace/packages/autocomplete-preset-algolia
             cp -R packages/autocomplete-plugin-algolia-insights/dist /tmp/workspace/packages/autocomplete-plugin-algolia-insights
             cp -R packages/autocomplete-plugin-recent-searches/dist /tmp/workspace/packages/autocomplete-plugin-recent-searches
-            cp -R packages/autocomplete-plugin-tags/dist /tmp/workspace/packages/autocomplete-plugin-tags
             cp -R packages/autocomplete-plugin-query-suggestions/dist /tmp/workspace/packages/autocomplete-plugin-query-suggestions
+            cp -R packages/autocomplete-plugin-tags/dist /tmp/workspace/packages/autocomplete-plugin-tags
       - persist_to_workspace:
           root: *workspace_root
           paths:
