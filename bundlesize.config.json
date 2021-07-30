@@ -25,6 +25,10 @@
       "maxSize": "4 kB"
     },
     {
+      "path": "packages/autocomplete-plugin-tags/dist/umd/index.production.js",
+      "maxSize": "0 kB"
+    },
+    {
       "path": "packages/autocomplete-theme-classic/dist/theme.min.css",
       "maxSize": "4.25 kB"
     }
