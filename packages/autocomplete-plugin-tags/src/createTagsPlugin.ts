@@ -1,10 +1,11 @@
+import { PluginSubscribeParams } from '@algolia/autocomplete-core';
 import {
   AutocompletePlugin,
   AutocompleteSource,
   AutocompleteState,
 } from '@algolia/autocomplete-js';
 
-import { createTags } from './createTags';
+import { createTags, OnTagsChangeParams } from './createTags';
 import { getTemplates } from './getTemplates';
 import type { BaseTag, Tag } from './types';
 
@@ -24,7 +25,9 @@ export type CreateTagsPluginParams<TTag extends Record<string, any>> = {
     source: AutocompleteSource<Tag<TTag>>;
     state: AutocompleteState<Tag<TTag>>;
   }): AutocompleteSource<Tag<TTag>>;
-  onChange?(): void;
+  onChange?(
+    params: PluginSubscribeParams<any> & OnTagsChangeParams<TTag>
+  ): void;
 };
 
 export function createTagsPlugin<TTag>({
@@ -40,7 +43,8 @@ export function createTagsPlugin<TTag>({
   const tagsApi = { setTags: tags.set, addTags: tags.add };
 
   return {
-    subscribe({ setContext, setIsOpen, onSelect, refresh }) {
+    subscribe(params) {
+      const { setContext, onSelect, setIsOpen, refresh } = params;
       const subscribers = getTagsSubscribers();
 
       setContext({ tagsPlugin: { ...tagsApi, tags: tags.get() } });
@@ -55,13 +59,13 @@ export function createTagsPlugin<TTag>({
         }
       });
 
-      tags.onChange(() => {
+      tags.onChange(({ prevTags }) => {
         setContext({
           tagsPlugin: { ...tagsApi, tags: tags.get() },
         });
 
         setIsOpen(true);
-        onChange();
+        onChange({ ...params, prevTags, tags: tags.get() });
         refresh();
       });
     },
