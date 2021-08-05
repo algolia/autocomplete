@@ -12,5 +12,5 @@ export function groupBy<TItem>(
     acc[key].push(item);
 
     return acc;
-  }, {});
+  }, {} as Record<string, TItem[]>);
 }
