@@ -1,0 +1,92 @@
+import {
+  AutocompletePlugin,
+  AutocompleteSource,
+  AutocompleteState,
+} from '@algolia/autocomplete-js';
+
+import { createTags } from './createTags';
+import { getTemplates } from './getTemplates';
+import type { BaseTag, Tag } from './types';
+
+type TagsPluginData<TTag> = {
+  readonly tags: Array<Tag<TTag>>;
+  setTags: (tags: Array<BaseTag<TTag>>) => void;
+  addTags: (tags: Array<BaseTag<TTag>>) => void;
+};
+
+export type CreateTagsPluginParams<TTag extends Record<string, any>> = {
+  initialTags?: Array<BaseTag<TTag>>;
+  getTagsSubscribers?(): Array<{
+    sourceId: string;
+    getTag(params: { item: Tag<TTag> }): BaseTag<TTag>;
+  }>;
+  transformSource?(params: {
+    source: AutocompleteSource<Tag<TTag>>;
+    state: AutocompleteState<Tag<TTag>>;
+  }): AutocompleteSource<Tag<TTag>>;
+  onChange?(): void;
+};
+
+export function createTagsPlugin<TTag>({
+  initialTags = [],
+  getTagsSubscribers = () => [],
+  transformSource = ({ source }) => source,
+  onChange = () => {},
+}: CreateTagsPluginParams<TTag>): AutocompletePlugin<
+  Tag<TTag>,
+  TagsPluginData<TTag>
+> {
+  const tags = createTags({ initialTags });
+  const tagsApi = { setTags: tags.set, addTags: tags.add };
+
+  return {
+    subscribe({ setContext, setIsOpen, onSelect, refresh }) {
+      const subscribers = getTagsSubscribers();
+
+      setContext({ tagsPlugin: { ...tagsApi, tags: tags.get() } });
+
+      onSelect(({ source, item }) => {
+        const subscriber = subscribers.find(
+          ({ sourceId }) => sourceId === source.sourceId
+        );
+
+        if (subscriber) {
+          tags.add([subscriber.getTag({ item })]);
+        }
+      });
+
+      tags.onChange(() => {
+        setContext({
+          tagsPlugin: { ...tagsApi, tags: tags.get() },
+        });
+
+        setIsOpen(true);
+        onChange();
+        refresh();
+      });
+    },
+    getSources({ state }) {
+      return [
+        transformSource({
+          source: {
+            sourceId: 'tagsPlugin',
+            getItems() {
+              return tags.get();
+            },
+            onSelect({ item }) {
+              item.remove();
+            },
+            templates: getTemplates(),
+          },
+          state: state as AutocompleteState<Tag<TTag>>,
+        }),
+      ];
+    },
+    data: {
+      ...tagsApi,
+      get tags() {
+        return tags.get();
+      },
+    },
+  };
+}

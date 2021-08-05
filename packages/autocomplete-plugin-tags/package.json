@@ -29,5 +29,9 @@
     "on:change": "concurrently \"yarn build:esm\" \"yarn build:types\"",
     "prepare": "yarn run build:esm && yarn build:types",
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
+  },
+  "devDependencies": {
+    "@algolia/autocomplete-js": "1.2.2",
+    "@algolia/autocomplete-shared": "1.2.2"
   }
 }
