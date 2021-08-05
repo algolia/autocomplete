@@ -91,7 +91,7 @@ autocomplete<ProductHit | Tag<TagExtraData>>({
   openOnFocus: true,
   plugins: [algoliaInsightsPlugin, tagsPlugin],
   getSources({ query, state }) {
-    const groupedTags = groupBy(
+    const groupedTags = groupBy<Tag<TagExtraData>>(
       state.context.tagsPlugin.tags,
       ({ facet }) => facet
     );
