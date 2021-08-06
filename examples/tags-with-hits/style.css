@@ -39,9 +39,9 @@ body {
   .aa-SearchBoxWrapper {
     display: block;
   }
+
   .aa-SearchBoxWrapper .aa-Select {
-    width: 100%;
-    margin-bottom: var(--aa-spacing-half);
+    display: none;
   }
 }
 
@@ -49,6 +49,10 @@ body {
   .aa-SearchBoxWrapper .aa-Select {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+  }
+
+  [data-autocomplete-source-id='categories'] {
+    display: none;
   }
 }
 

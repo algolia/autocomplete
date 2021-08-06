@@ -52,11 +52,6 @@ const tagsPlugin = createTagsPlugin<TagExtraData>({
   transformSource({ source }) {
     return {
       ...source,
-      getItems(params) {
-        return (source.getItems(params) as Array<Tag<TagExtraData>>).filter(
-          (item) => item.facet !== 'categories'
-        );
-      },
       templates: {
         ...source.templates,
         header() {
@@ -70,30 +65,24 @@ const tagsPlugin = createTagsPlugin<TagExtraData>({
       },
     };
   },
-  onChange({ setIsOpen, prevTags, tags }) {
-    const tagsDiff = tags
-      .filter((x) => {
-        return !prevTags.find(
-          (tag) => JSON.stringify(tag) === JSON.stringify(x)
-        );
-      })
-      .concat(
-        prevTags.filter((x) => {
-          return !tags.find((tag) => JSON.stringify(tag) === JSON.stringify(x));
-        })
-      );
-
-    if (tagsDiff[0].facet === 'categories') {
-      setIsOpen(false);
-    }
-  },
 });
+
+const categoriesSelect = document.getElementById(
+  'categories'
+) as HTMLSelectElement;
 
 autocomplete<ProductHit | Tag<TagExtraData>>({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
+  debug: true,
   plugins: [algoliaInsightsPlugin, tagsPlugin],
+  onStateChange({ state }) {
+    const tags = state.context.tagsPlugin?.tags || [];
+    const currentCategory = tags.find(({ facet }) => facet === 'categories');
+
+    categoriesSelect.value = currentCategory?.label || '';
+  },
   getSources({ query, state }) {
     const tagsByFacet = groupBy<Tag<TagExtraData>>(
       state.context.tagsPlugin.tags,
@@ -173,6 +162,90 @@ autocomplete<ProductHit | Tag<TagExtraData>>({
           },
           noResults() {
             return 'No brands for this query.';
+          },
+        },
+      },
+      {
+        sourceId: 'categories',
+        onSelect({ item, state, setQuery }) {
+          const newTags = state.context.tagsPlugin.tags.filter(
+            (tag) => !(tag.facet === 'categories' && tag.label !== item.label)
+          );
+
+          state.context.tagsPlugin.setTags(newTags);
+
+          if (item.label.toLowerCase().includes(state.query.toLowerCase())) {
+            setQuery('');
+          }
+        },
+        getItems({ query }) {
+          return getAlgoliaFacets({
+            searchClient,
+            queries: [
+              {
+                indexName: 'instant_search',
+                facet: 'categories',
+                params: {
+                  facetQuery: query,
+                  maxFacetHits: 3,
+                  filters: mapToAlgoliaNegativeFilters(
+                    state.context.tagsPlugin.tags,
+                    ['categories']
+                  ),
+                },
+              },
+            ],
+            transformResponse({ facetHits }) {
+              return facetHits[0].map((hit) => ({
+                ...hit,
+                facet: 'categories',
+              }));
+            },
+          });
+        },
+        templates: {
+          header() {
+            return (
+              <Fragment>
+                <span className="aa-SourceHeaderTitle">Categories</span>
+                <div className="aa-SourceHeaderLine" />
+              </Fragment>
+            );
+          },
+          item({ item, components }) {
+            return (
+              <div className="aa-ItemWrapper">
+                <div className="aa-ItemContent">
+                  <div className="aa-ItemContentBody">
+                    <div className="aa-ItemContentTitle">
+                      Filter on{' '}
+                      <components.Highlight hit={item} attribute="label" />
+                    </div>
+                  </div>
+                </div>
+                <div className="aa-ItemActions">
+                  <button
+                    className="aa-ItemActionButton aa-DesktopOnly aa-ActiveOnly"
+                    type="button"
+                    title={`Filter on ${item.label}`}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            );
+          },
+          noResults() {
+            return 'No categories for this query.';
           },
         },
       },
@@ -309,7 +382,7 @@ function ProductItem({ hit, insights, components }: ProductItemProps) {
   );
 }
 
-document.getElementById('categories').addEventListener('change', (event) => {
+categoriesSelect.addEventListener('change', (event) => {
   const value = (event.target as HTMLSelectElement).value;
   const tags = tagsPlugin.data.tags.filter((tag) => tag.facet !== 'categories');
 
