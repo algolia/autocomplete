@@ -1,4 +1,4 @@
-import { PluginSubscribeParams } from '@algolia/autocomplete-core';
+import { BaseItem, PluginSubscribeParams } from '@algolia/autocomplete-core';
 import {
   AutocompletePlugin,
   AutocompleteSource,
@@ -9,33 +9,33 @@ import { createTags, OnTagsChangeParams } from './createTags';
 import { getTemplates } from './getTemplates';
 import type { BaseTag, Tag } from './types';
 
+type OnChangeParams<TTag> = PluginSubscribeParams<any> & OnTagsChangeParams<TTag>;
+
 type TagsPluginData<TTag> = {
   readonly tags: Array<Tag<TTag>>;
   setTags: (tags: Array<BaseTag<TTag>>) => void;
   addTags: (tags: Array<BaseTag<TTag>>) => void;
 };
 
-export type CreateTagsPluginParams<TTag extends Record<string, any>> = {
+export type CreateTagsPluginParams<TTag extends Record<string, any>, TItem extends BaseItem> = {
   initialTags?: Array<BaseTag<TTag>>;
   getTagsSubscribers?(): Array<{
     sourceId: string;
-    getTag(params: { item: Tag<TTag> }): BaseTag<TTag>;
+    getTag(params: { item: TItem }): BaseTag<TTag>;
   }>;
   transformSource?(params: {
     source: AutocompleteSource<Tag<TTag>>;
     state: AutocompleteState<Tag<TTag>>;
-  }): AutocompleteSource<Tag<TTag>>;
-  onChange?(
-    params: PluginSubscribeParams<any> & OnTagsChangeParams<TTag>
-  ): void;
+  }): AutocompleteSource<Tag<TTag>> | null;
+  onChange?(params: OnChangeParams<TTag>): void;
 };
 
-export function createTagsPlugin<TTag>({
+export function createTagsPlugin<TTag, TItem extends BaseItem>({
   initialTags = [],
   getTagsSubscribers = () => [],
   transformSource = ({ source }) => source,
   onChange = () => {},
-}: CreateTagsPluginParams<TTag>): AutocompletePlugin<
+}: CreateTagsPluginParams<TTag, TItem>): AutocompletePlugin<
   Tag<TTag>,
   TagsPluginData<TTag>
 > {
