@@ -9,7 +9,8 @@ import { createTags, OnTagsChangeParams } from './createTags';
 import { getTemplates } from './getTemplates';
 import type { BaseTag, Tag } from './types';
 
-type OnChangeParams<TTag> = PluginSubscribeParams<any> & OnTagsChangeParams<TTag>;
+type OnChangeParams<TTag> = PluginSubscribeParams<any> &
+  OnTagsChangeParams<TTag>;
 
 type TagsPluginData<TTag> = {
   readonly tags: Array<Tag<TTag>>;
@@ -17,7 +18,10 @@ type TagsPluginData<TTag> = {
   addTags: (tags: Array<BaseTag<TTag>>) => void;
 };
 
-export type CreateTagsPluginParams<TTag extends Record<string, any>, TItem extends BaseItem> = {
+export type CreateTagsPluginParams<
+  TTag extends Record<string, any>,
+  TItem extends BaseItem
+> = {
   initialTags?: Array<BaseTag<TTag>>;
   getTagsSubscribers?(): Array<{
     sourceId: string;
