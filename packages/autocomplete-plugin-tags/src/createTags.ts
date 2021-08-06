@@ -1,3 +1,4 @@
+import { BaseItem } from '@algolia/autocomplete-core';
 import { createRef } from '@algolia/autocomplete-shared';
 
 import { CreateTagsPluginParams } from './createTagsPlugin';
@@ -10,9 +11,9 @@ export type OnTagsChangeParams<TTag> = {
 
 type OnTagsChangeListener<TTag> = (params: OnTagsChangeParams<TTag>) => void;
 
-type CreateTagsParams<TTag> = Pick<CreateTagsPluginParams<TTag>, 'initialTags'>;
+type CreateTagsParams<TTag, TItem extends BaseItem> = Pick<CreateTagsPluginParams<TTag, TItem>, 'initialTags'>;
 
-export function createTags<TTag>({ initialTags = [] }: CreateTagsParams<TTag>) {
+export function createTags<TTag, TItem extends BaseItem>({ initialTags = [] }: CreateTagsParams<TTag, TItem>) {
   const tagsRef = createRef(toTags(initialTags));
   const onChangeListeners: Array<OnTagsChangeListener<TTag>> = [];
 
