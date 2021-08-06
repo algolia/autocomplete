@@ -26,7 +26,7 @@ export type CreateTagsPluginParams<TTag extends Record<string, any>, TItem exten
   transformSource?(params: {
     source: AutocompleteSource<Tag<TTag>>;
     state: AutocompleteState<Tag<TTag>>;
-  }): AutocompleteSource<Tag<TTag>> | null;
+  }): AutocompleteSource<Tag<TTag>> | undefined;
   onChange?(params: OnChangeParams<TTag>): void;
 };
 
