@@ -1,6 +1,7 @@
 import {
   getItemsCount,
   generateAutocompleteId,
+  flatten,
 } from '@algolia/autocomplete-shared';
 
 import {
@@ -10,7 +11,7 @@ import {
   BaseItem,
   InternalAutocompleteOptions,
 } from './types';
-import { getNormalizedSources, flatten } from './utils';
+import { getNormalizedSources } from './utils';
 
 export function getDefaultProps<TItem extends BaseItem>(
   props: AutocompleteOptions<TItem>,
@@ -32,6 +33,7 @@ export function getDefaultProps<TItem extends BaseItem>(
     stallThreshold: 300,
     environment,
     shouldPanelOpen: ({ state }) => getItemsCount(state) > 0,
+    reshape: ({ sources }) => sources,
     ...props,
     // Since `generateAutocompleteId` triggers a side effect (it increments
     // an internal counter), we don't want to execute it if unnecessary.

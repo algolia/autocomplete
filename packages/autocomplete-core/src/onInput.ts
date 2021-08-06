@@ -1,3 +1,4 @@
+import { reshape } from './reshape';
 import { preResolve, resolve, postResolve } from './resolve';
 import {
   AutocompleteScopeApi,
@@ -97,6 +98,9 @@ export function onInput<TItem extends BaseItem>({
       )
         .then(resolve)
         .then((responses) => postResolve(responses, sources))
+        .then((collections) =>
+          reshape({ collections, props, state: store.getState() })
+        )
         .then((collections) => {
           setStatus('idle');
           setCollections(collections as any);

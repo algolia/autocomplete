@@ -1,10 +1,11 @@
+import { flatten } from '@algolia/autocomplete-shared';
+
 import {
   AutocompleteApi,
   AutocompleteCollection,
   AutocompleteStore,
   BaseItem,
 } from './types';
-import { flatten } from './utils';
 
 interface GetAutocompleteSettersOptions<TItem extends BaseItem> {
   store: AutocompleteStore<TItem>;
