@@ -17,7 +17,11 @@ import insightsClient from 'search-insights';
 import '@algolia/autocomplete-theme-classic';
 
 import { ProductHit, TagExtraData } from './types';
-import { groupBy } from './utils';
+import {
+  groupBy,
+  mapToAlgoliaFilters,
+  mapToAlgoliaNegativeFilters,
+} from './utils';
 
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
@@ -91,9 +95,9 @@ autocomplete<ProductHit | Tag<TagExtraData>>({
   openOnFocus: true,
   plugins: [algoliaInsightsPlugin, tagsPlugin],
   getSources({ query, state }) {
-    const groupedTags = groupBy<Tag<TagExtraData>>(
+    const tagsByFacet = groupBy<Tag<TagExtraData>>(
       state.context.tagsPlugin.tags,
-      ({ facet }) => facet
+      (tag) => tag.facet
     );
 
     return [
@@ -114,15 +118,10 @@ autocomplete<ProductHit | Tag<TagExtraData>>({
                 params: {
                   facetQuery: query,
                   maxFacetHits: 3,
-                  filters: state.context.tagsPlugin.tags
-                    .flatMap(({ label, facet }) => {
-                      if (facet === 'brand') {
-                        return [`NOT ${facet}:"${label}"`];
-                      }
-
-                      return [`${facet}:"${label}"`];
-                    })
-                    .join(' AND '),
+                  filters: mapToAlgoliaNegativeFilters(
+                    state.context.tagsPlugin.tags,
+                    ['brand']
+                  ),
                 },
               },
             ],
@@ -190,13 +189,7 @@ autocomplete<ProductHit | Tag<TagExtraData>>({
                   clickAnalytics: true,
                   attributesToSnippet: ['name:10'],
                   snippetEllipsisText: '…',
-                  filters: Object.keys(groupedTags)
-                    .map((facet) => {
-                      return `(${groupedTags[facet]
-                        .map(({ label }) => `${facet}:"${label}"`)
-                        .join(' OR ')})`;
-                    })
-                    .join(' AND '),
+                  filters: mapToAlgoliaFilters(tagsByFacet),
                 },
               },
             ],
