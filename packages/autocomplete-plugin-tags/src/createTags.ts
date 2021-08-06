@@ -11,9 +11,14 @@ export type OnTagsChangeParams<TTag> = {
 
 type OnTagsChangeListener<TTag> = (params: OnTagsChangeParams<TTag>) => void;
 
-type CreateTagsParams<TTag, TItem extends BaseItem> = Pick<CreateTagsPluginParams<TTag, TItem>, 'initialTags'>;
+type CreateTagsParams<TTag, TItem extends BaseItem> = Pick<
+  CreateTagsPluginParams<TTag, TItem>,
+  'initialTags'
+>;
 
-export function createTags<TTag, TItem extends BaseItem>({ initialTags = [] }: CreateTagsParams<TTag, TItem>) {
+export function createTags<TTag, TItem extends BaseItem>({
+  initialTags = [],
+}: CreateTagsParams<TTag, TItem>) {
   const tagsRef = createRef(toTags(initialTags));
   const onChangeListeners: Array<OnTagsChangeListener<TTag>> = [];
 
