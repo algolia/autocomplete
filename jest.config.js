@@ -14,4 +14,7 @@ module.exports = {
     __DEV__: true,
     __TEST__: true,
   },
+  moduleNameMapper: {
+    '^@algolia/autocomplete-(.*)$': '<rootDir>/packages/autocomplete-$1/src/',
+  },
 };
