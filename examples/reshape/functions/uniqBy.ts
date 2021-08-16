@@ -18,14 +18,14 @@ export const uniqBy: AutocompleteReshapeFunction<UniqByPredicate<any>> = <
 ) => {
   return function runUniqBy(...rawSources) {
     const sources = normalizeReshapeSources(rawSources);
-    const seen: TItem[] = [];
+    const seen = new Set<TItem>();
 
     return sources.map((source) => {
       const items = source.getItems().filter((item) => {
         const appliedItem = predicate({ source, item });
-        const hasSeen = seen.includes(appliedItem);
+        const hasSeen = seen.has(appliedItem);
 
-        seen.push(appliedItem);
+        seen.add(appliedItem);
 
         return !hasSeen;
       });
