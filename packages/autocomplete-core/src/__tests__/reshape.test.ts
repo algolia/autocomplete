@@ -11,7 +11,7 @@ const recentSearchesPlugin = {
           return [
             { label: 'macbook' },
             { label: 'macbook pro' },
-            { label: 'iphone' },
+            { label: 'macbook air' },
           ];
         },
       },
@@ -26,9 +26,9 @@ const querySuggestionsPlugin = {
         sourceId: 'querySuggestionsPlugin',
         getItems() {
           return [
-            { query: 'macbook' },
-            { query: 'macbook air' },
-            { query: 'macbook pro' },
+            { query: 'iphone' },
+            { query: 'iphone pro' },
+            { query: 'iphone pro max' },
           ];
         },
       },
@@ -142,7 +142,7 @@ describe('reshape', () => {
               items: [{ __autocomplete_id: 0, label: 'macbook' }],
             }),
             expect.objectContaining({
-              items: [{ __autocomplete_id: 1, query: 'macbook' }],
+              items: [{ __autocomplete_id: 1, query: 'iphone' }],
             }),
           ],
         }),
@@ -173,7 +173,7 @@ describe('reshape', () => {
               items: [{ __autocomplete_id: 0, label: 'macbook' }],
             }),
             expect.objectContaining({
-              items: [{ __autocomplete_id: 1, query: 'macbook' }],
+              items: [{ __autocomplete_id: 1, query: 'iphone' }],
             }),
           ],
         }),
@@ -203,7 +203,7 @@ describe('reshape', () => {
               items: [{ __autocomplete_id: 0, label: 'macbook' }],
             }),
             expect.objectContaining({
-              items: [{ __autocomplete_id: 1, query: 'macbook' }],
+              items: [{ __autocomplete_id: 1, query: 'iphone' }],
             }),
           ],
         }),
