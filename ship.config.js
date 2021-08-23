@@ -12,6 +12,7 @@ module.exports = {
       'packages/autocomplete-plugin-algolia-insights',
       'packages/autocomplete-plugin-query-suggestions',
       'packages/autocomplete-plugin-recent-searches',
+      'packages/autocomplete-plugin-tags',
       'packages/autocomplete-preset-algolia',
       'packages/autocomplete-shared',
       'packages/autocomplete-theme-classic',
