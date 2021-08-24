@@ -74,7 +74,7 @@ export function createTagsPlugin<TTag, TItem extends BaseItem>({
   getTagsSubscribers = () => [],
   transformSource = ({ source }) => source,
   onChange = () => {},
-}: CreateTagsPluginParams<TTag, TItem>): AutocompletePlugin<
+}: CreateTagsPluginParams<TTag, TItem> = {}): AutocompletePlugin<
   Tag<TTag>,
   TagsPluginData<TTag>
 > {
