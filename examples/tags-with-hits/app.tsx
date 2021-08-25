@@ -18,7 +18,6 @@ import insightsClient from 'search-insights';
 import '@algolia/autocomplete-theme-classic';
 
 import { ProductHit, TagExtraData } from './types';
-import { mapToAlgoliaFilters, mapToAlgoliaNegativeFilters } from './utils';
 
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
@@ -376,6 +375,33 @@ function ProductItem({ hit, insights, components }: ProductItemProps) {
       </div>
     </a>
   );
+}
+
+function mapToAlgoliaFilters(
+  tagsByFacet: Record<string, Array<Tag<TagExtraData>>>,
+  operator = 'AND'
+) {
+  return Object.keys(tagsByFacet)
+    .map((facet) => {
+      return `(${tagsByFacet[facet]
+        .map(({ label }) => `${facet}:"${label}"`)
+        .join(' OR ')})`;
+    })
+    .join(` ${operator} `);
+}
+
+function mapToAlgoliaNegativeFilters(
+  tags: Array<Tag<TagExtraData>>,
+  facetsToNegate: string[],
+  operator = 'AND'
+) {
+  return tags
+    .map(({ label, facet }) => {
+      const filter = `${facet}:"${label}"`;
+
+      return facetsToNegate.includes(facet) ? `NOT ${filter}` : filter;
+    })
+    .join(` ${operator} `);
 }
 
 categoriesSelect.addEventListener('change', (event) => {
