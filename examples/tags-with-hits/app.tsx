@@ -12,16 +12,13 @@ import {
 import { createTagsPlugin, Tag } from '@algolia/autocomplete-plugin-tags';
 import algoliasearch from 'algoliasearch';
 import { h, Fragment } from 'preact';
+import groupBy from 'ramda/src/groupBy';
 import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
 
 import { ProductHit, TagExtraData } from './types';
-import {
-  groupBy,
-  mapToAlgoliaFilters,
-  mapToAlgoliaNegativeFilters,
-} from './utils';
+import { mapToAlgoliaFilters, mapToAlgoliaNegativeFilters } from './utils';
 
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
@@ -84,8 +81,8 @@ autocomplete<ProductHit | Tag<TagExtraData>>({
   },
   getSources({ query, state }) {
     const tagsByFacet = groupBy<Tag<TagExtraData>>(
-      state.context.tagsPlugin.tags,
-      (tag) => tag.facet
+      (tag) => tag.facet,
+      state.context.tagsPlugin.tags
     );
 
     return [
