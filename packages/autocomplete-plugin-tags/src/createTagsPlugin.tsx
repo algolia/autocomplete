@@ -18,7 +18,7 @@ type TagsPluginData<TTag> = {
    *
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-tags/createtagsplugin/#param-tags
    */
-  readonly tags: Array<Tag<TTag>>;
+  tags: Array<Tag<TTag>>;
   /**
    * Adds tags to the list.
    *
