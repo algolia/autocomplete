@@ -75,7 +75,6 @@ autocomplete<ProductHit | Tag<TagExtraData>>({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
-  debug: true,
   plugins: [algoliaInsightsPlugin, tagsPlugin],
   onStateChange({ state }) {
     const tags = state.context.tagsPlugin?.tags || [];
