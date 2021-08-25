@@ -5,6 +5,7 @@ import {
   AutocompleteSource,
   AutocompleteState,
 } from '@algolia/autocomplete-js';
+import { noop } from '@algolia/autocomplete-shared';
 
 import { createTags, OnTagsChangeParams } from './createTags';
 import type { BaseTag, Tag } from './types';
@@ -73,7 +74,7 @@ export function createTagsPlugin<TTag, TItem extends BaseItem>({
   initialTags = [],
   getTagsSubscribers = () => [],
   transformSource = ({ source }) => source,
-  onChange = () => {},
+  onChange = noop,
 }: CreateTagsPluginParams<TTag, TItem> = {}): AutocompletePlugin<
   Tag<TTag>,
   TagsPluginData<TTag>

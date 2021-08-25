@@ -7,4 +7,5 @@ export * from './getItemsCount';
 export * from './invariant';
 export * from './isEqual';
 export * from './MaybePromise';
+export * from './noop';
 export * from './warn';
