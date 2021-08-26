@@ -16,7 +16,18 @@ export type Reshape<
   TItem extends BaseItem,
   TState extends AutocompleteState<TItem> = AutocompleteState<TItem>
 > = (params: {
+  /**
+   * The resolved sources provided by [`getSources`](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/sources/#param-getsources)
+   */
   sources: Array<AutocompleteReshapeSource<TItem>>;
+  /**
+   * The resolved sources grouped by [`sourceId`](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/sources/#param-sourceid)s
+   */
   sourcesBySourceId: AutocompleteReshapeSourcesBySourceId<TItem>;
+  /**
+   * The current Autocomplete state.
+   *
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/state
+   */
   state: TState;
 }) => Array<AutocompleteReshapeSource<TItem>>;
