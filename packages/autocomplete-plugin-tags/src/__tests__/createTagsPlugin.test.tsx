@@ -302,7 +302,7 @@ describe('createTagsPlugin', () => {
     });
   });
 
-  test('exposes an API', () => {
+  test('returns the tags', () => {
     const tagsPlugin = createTagsPlugin({
       initialTags: [
         {
@@ -314,6 +314,16 @@ describe('createTagsPlugin', () => {
     expect(tagsPlugin.data.tags).toEqual([
       expect.objectContaining({ label: 'iPhone 12' }),
     ]);
+  });
+
+  test('adds tags', () => {
+    const tagsPlugin = createTagsPlugin({
+      initialTags: [
+        {
+          label: 'iPhone 12',
+        },
+      ],
+    });
 
     tagsPlugin.data.addTags([{ label: 'Samsung Galaxy S' }]);
 
@@ -321,6 +331,16 @@ describe('createTagsPlugin', () => {
       expect.objectContaining({ label: 'iPhone 12' }),
       expect.objectContaining({ label: 'Samsung Galaxy S' }),
     ]);
+  });
+
+  test('sets tags', () => {
+    const tagsPlugin = createTagsPlugin({
+      initialTags: [
+        {
+          label: 'iPhone 12',
+        },
+      ],
+    });
 
     tagsPlugin.data.setTags([{ label: 'Samsung Galaxy S' }]);
 
