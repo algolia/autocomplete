@@ -42,10 +42,7 @@ export const groupBy: AutocompleteReshapeFunction = <
       return acc;
     }, {});
 
-    const groupNames = Object.keys(groupedItems);
-
-    return groupNames.map((groupName) => {
-      const groupItems = groupedItems[groupName];
+    return Object.entries(groupedItems).map(([groupName, groupItems]) => {
       const userSource = options.getSource({
         name: groupName,
         items: groupItems,
