@@ -120,7 +120,7 @@ describe('reshape', () => {
     ]);
   });
 
-  test('supports a reshape function in return', async () => {
+  test('supports a reshaped source in return', async () => {
     const onStateChange = jest.fn();
     const { inputElement } = createPlayground(createAutocomplete, {
       openOnFocus: true,
@@ -150,7 +150,7 @@ describe('reshape', () => {
     );
   });
 
-  test('supports an array of reshape functions in return', async () => {
+  test('supports an array of reshaped sources in return', async () => {
     const onStateChange = jest.fn();
 
     const { inputElement } = createPlayground(createAutocomplete, {
