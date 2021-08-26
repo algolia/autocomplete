@@ -25,7 +25,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   },
 });
 
-const combineSuggestions = pipe(
+const dedupeAndLimitSuggestions = pipe(
   uniqBy(({ source, item }) =>
     source.sourceId === 'querySuggestionsPlugin' ? item.query : item.label
   ),
@@ -66,7 +66,7 @@ autocomplete({
     } = sourcesBySourceId;
 
     return [
-      combineSuggestions(recentSearchesPlugin, querySuggestionsPlugin),
+      dedupeAndLimitSuggestions(recentSearchesPlugin, querySuggestionsPlugin),
       groupByCategory(products),
       Object.values(rest),
     ];
