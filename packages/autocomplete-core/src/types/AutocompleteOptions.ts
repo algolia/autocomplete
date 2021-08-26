@@ -169,6 +169,10 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
   /**
    * The function called to reshape the sources after they're resolved.
    *
+   * This is useful to transform sources before rendering them. You can group sources by attribute, remove duplicates, create shared limits between sources, etc.
+   *
+   * See [**Reshaping sources**](https://www.algolia.com/doc/ui-libraries/autocomplete/guides/reshaping-sources/) for more information.
+   *
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-reshape
    */
   reshape?: Reshape<TItem>;
