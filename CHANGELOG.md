@@ -1,17 +1,13 @@
-# [](https://github.com/algolia/autocomplete/compare/v1.2.2...v) (2021-08-26)
-
+# [1.3.0](https://github.com/algolia/autocomplete/compare/v1.2.2...v1.3.0) (2021-08-26)
 
 ### Bug Fixes
 
-* decycle potentially cyclic structures before serializing ([#634](https://github.com/algolia/autocomplete/issues/634)) ([99f7c84](https://github.com/algolia/autocomplete/commit/99f7c84695160e05c29dcf2f38ce6d916d5f21ee))
-
+- decycle potentially cyclic structures before serializing ([#634](https://github.com/algolia/autocomplete/issues/634)) ([99f7c84](https://github.com/algolia/autocomplete/commit/99f7c84695160e05c29dcf2f38ce6d916d5f21ee))
 
 ### Features
 
-* **core:** introduce Reshape API ([#647](https://github.com/algolia/autocomplete/issues/647)) ([d6180d2](https://github.com/algolia/autocomplete/commit/d6180d26921200378b9eaa55b26078d20c6ea480))
-* **theme:** provide non-minified theme ([#635](https://github.com/algolia/autocomplete/issues/635)) ([ca49d60](https://github.com/algolia/autocomplete/commit/ca49d60c1d29cf2673a35dc7bed290e0c5d2cdb6))
-
-
+- **core:** introduce Reshape API ([#647](https://github.com/algolia/autocomplete/issues/647)) ([d6180d2](https://github.com/algolia/autocomplete/commit/d6180d26921200378b9eaa55b26078d20c6ea480))
+- **theme:** provide non-minified theme ([#635](https://github.com/algolia/autocomplete/issues/635)) ([ca49d60](https://github.com/algolia/autocomplete/commit/ca49d60c1d29cf2673a35dc7bed290e0c5d2cdb6))
 
 # [1.2.2](https://github.com/algolia/autocomplete/compare/v1.2.1...v1.2.2) (2021-07-19)
 
