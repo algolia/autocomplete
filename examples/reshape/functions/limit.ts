@@ -9,14 +9,10 @@ export const limit: AutocompleteReshapeFunction<number> = (value) => {
 
     return sources.map((source, index) => {
       const isLastSource = index === sources.length - 1;
-      const items = source
-        .getItems()
-        .slice(
-          0,
-          isLastSource
-            ? sharedLimitRemaining
-            : Math.min(limitPerSource, sharedLimitRemaining)
-        );
+      const sourceLimit = isLastSource
+        ? sharedLimitRemaining
+        : Math.min(limitPerSource, sharedLimitRemaining);
+      const items = source.getItems().slice(0, sourceLimit);
       sharedLimitRemaining = Math.max(sharedLimitRemaining - items.length, 0);
 
       return {
