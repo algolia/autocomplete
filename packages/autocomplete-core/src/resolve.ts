@@ -4,7 +4,7 @@ import type {
   RequesterDescription,
   TransformResponse,
 } from '@algolia/autocomplete-preset-algolia';
-import { decycle, invariant } from '@algolia/autocomplete-shared';
+import { decycle, flatten, invariant } from '@algolia/autocomplete-shared';
 import {
   MultipleQueriesQuery,
   SearchForFacetValuesResponse,
@@ -13,7 +13,7 @@ import {
 import type { SearchClient } from 'algoliasearch/lite';
 
 import { BaseItem, InternalAutocompleteSource } from './types';
-import { flatten, mapToAlgoliaResponse } from './utils';
+import { mapToAlgoliaResponse } from './utils';
 
 function isDescription<TItem extends BaseItem>(
   item:

@@ -6,6 +6,7 @@ export * from './AutocompleteOptions';
 export * from './AutocompleteSource';
 export * from './AutocompletePropGetters';
 export * from './AutocompletePlugin';
+export * from './AutocompleteReshape';
 export * from './AutocompleteSetters';
 export * from './AutocompleteState';
 export * from './AutocompleteStore';

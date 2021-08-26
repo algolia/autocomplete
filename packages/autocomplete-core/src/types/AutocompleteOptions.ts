@@ -4,6 +4,7 @@ import { AutocompleteScopeApi, BaseItem } from './AutocompleteApi';
 import { AutocompleteEnvironment } from './AutocompleteEnvironment';
 import { AutocompleteNavigator } from './AutocompleteNavigator';
 import { AutocompletePlugin } from './AutocompletePlugin';
+import { Reshape } from './AutocompleteReshape';
 import {
   AutocompleteSource,
   InternalAutocompleteSource,
@@ -165,6 +166,16 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-plugins
    */
   plugins?: Array<AutocompletePlugin<any, any>>;
+  /**
+   * The function called to reshape the sources after they're resolved.
+   *
+   * This is useful to transform sources before rendering them. You can group sources by attribute, remove duplicates, create shared limits between sources, etc.
+   *
+   * See [**Reshaping sources**](https://www.algolia.com/doc/ui-libraries/autocomplete/guides/reshaping-sources/) for more information.
+   *
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-reshape
+   */
+  reshape?: Reshape<TItem>;
 }
 
 // Props manipulated internally with default values.
@@ -186,4 +197,5 @@ export interface InternalAutocompleteOptions<TItem extends BaseItem>
   shouldPanelOpen(params: { state: AutocompleteState<TItem> }): boolean;
   onSubmit(params: OnSubmitParams<TItem>): void;
   onReset(params: OnResetParams<TItem>): void;
+  reshape: Reshape<TItem>;
 }
