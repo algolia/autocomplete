@@ -50,9 +50,7 @@ const tagsPlugin = createTagsPlugin<TagExtraData>({
   },
   onChange({ tags }) {
     requestAnimationFrame(() => {
-      const inputWrapperSuffix = document.querySelector(
-        '.aa-InputWrapperPrefix'
-      );
+      const container = document.querySelector('.aa-InputWrapperPrefix');
       const oldTagsContainer = document.querySelector('.aa-Tags');
 
       const tagsContainer = document.createElement('div');
@@ -68,10 +66,10 @@ const tagsPlugin = createTagsPlugin<TagExtraData>({
       );
 
       if (oldTagsContainer) {
-        inputWrapperSuffix.removeChild(oldTagsContainer);
+        container.removeChild(oldTagsContainer);
       }
 
-      inputWrapperSuffix.appendChild(tagsContainer);
+      container.appendChild(tagsContainer);
     });
   },
 });
