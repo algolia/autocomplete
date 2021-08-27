@@ -1,4 +1,4 @@
-import { invariant, decycle } from '@algolia/autocomplete-shared';
+import { invariant, decycle, noop } from '@algolia/autocomplete-shared';
 
 import {
   AutocompleteSource,
@@ -8,8 +8,6 @@ import {
   InternalAutocompleteSource,
   InternalGetSources,
 } from '../types';
-
-import { noop } from './noop';
 
 export function getNormalizedSources<TItem extends BaseItem>(
   getSources: GetSources<TItem>,
