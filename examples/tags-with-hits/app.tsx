@@ -16,6 +16,7 @@ import groupBy from 'ramda/src/groupBy';
 import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
+import '@algolia/autocomplete-plugin-tags/dist/theme.min.css';
 
 import { ProductHit, TagExtraData } from './types';
 
@@ -44,22 +45,6 @@ const tagsPlugin = createTagsPlugin<TagExtraData>({
         },
       },
     ];
-  },
-  transformSource({ source }) {
-    return {
-      ...source,
-      templates: {
-        ...source.templates,
-        header() {
-          return (
-            <Fragment>
-              <span className="aa-SourceHeaderTitle">Active filters</span>
-              <div className="aa-SourceHeaderLine" />
-            </Fragment>
-          );
-        },
-      },
-    };
   },
 });
 
