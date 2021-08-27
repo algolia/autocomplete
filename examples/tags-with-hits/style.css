@@ -32,28 +32,9 @@ body {
   flex-grow: 0;
   width: 200px;
   padding: 0 calc(var(--aa-spacing) * 0.75 - 1px);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
   cursor: pointer;
-}
-
-@media (max-width: 680px) {
-  .aa-SearchBoxWrapper {
-    display: block;
-  }
-
-  .aa-SearchBoxWrapper .aa-Select {
-    display: none;
-  }
-}
-
-@media (min-width: 681px) {
-  .aa-SearchBoxWrapper .aa-Select {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  [data-autocomplete-source-id='categories'] {
-    display: none;
-  }
 }
 
 .aa-Autocomplete .aa-Form {
