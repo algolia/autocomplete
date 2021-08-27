@@ -1,16 +1,16 @@
 [data-autocomplete-source-id='tagsPlugin'] {
   .aa-List {
     display: flex;
-    margin: calc(var(--aa-spacing-half) / 2 * -1);
     flex-wrap: wrap;
+    margin: calc(var(--aa-spacing-half) / 2 * -1);
   }
   .aa-Item {
     background-color: rgba(
       var(--aa-selected-color-rgb),
       var(--aa-selected-color-alpha)
     );
-    min-height: auto;
     margin: calc(var(--aa-spacing-half) / 2);
+    min-height: auto;
     &[aria-selected='true'] {
       background-color: rgba(var(--aa-selected-color-rgb), 0.55);
     }
@@ -18,8 +18,8 @@
 }
 
 .aa-TagsPlugin-Tag {
-  display: flex;
   align-items: center;
+  display: flex;
   padding-left: var(--aa-spacing-half);
 }
 
