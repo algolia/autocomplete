@@ -359,7 +359,8 @@ function mapToAlgoliaNegativeFilters(
     .map(({ label, facet }) => {
       const filter = `${facet}:"${label}"`;
 
-      return facetsToNegate.includes(facet) ? `NOT ${filter}` : filter;
+      return facetsToNegate.includes(facet) && `NOT ${filter}`;
     })
+    .filter(Boolean)
     .join(` ${operator} `);
 }
