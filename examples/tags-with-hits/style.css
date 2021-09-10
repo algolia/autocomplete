@@ -1,0 +1,62 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(244, 244, 249);
+  color: rgb(65, 65, 65);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 1rem;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 640px;
+  width: 100%;
+}
+
+#autocomplete {
+  flex-shrink: 0;
+  flex-grow: 1;
+}
+
+.aa-SearchBoxWrapper {
+  display: flex;
+}
+
+.aa-SearchBoxWrapper .aa-Select {
+  flex-grow: 0;
+  width: 200px;
+  padding: 0 calc(var(--aa-spacing) * 0.75 - 1px);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  cursor: pointer;
+}
+
+.aa-Autocomplete .aa-Form {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 0;
+}
+
+.aa-Select .aa-InputWrapper {
+  display: flex;
+}
+
+.aa-Select select {
+  cursor: pointer;
+  text-overflow: ellipsis;
+}
+
+.aa-SelectIcon {
+  order: 4;
+}
+
+.aa-SelectIcon svg {
+  width: var(--aa-spacing);
+  height: var(--aa-spacing);
+}
