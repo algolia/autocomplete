@@ -41,15 +41,12 @@ describe('createTagsPlugin', () => {
           panelContainer.querySelector(
             '[data-autocomplete-source-id="tagsPlugin"]'
           )
-        ).getAllByRole('option')
+        )
+          .getAllByRole('option')
+          .map((option) => option.children)
       ).toMatchInlineSnapshot(`
         Array [
-          <li
-            aria-selected="false"
-            class="aa-Item"
-            id="autocomplete-0-item-0"
-            role="option"
-          >
+          HTMLCollection [
             <div
               class="aa-TagsPlugin-Tag"
             >
@@ -78,8 +75,8 @@ describe('createTagsPlugin', () => {
                   />
                 </svg>
               </button>
-            </div>
-          </li>,
+            </div>,
+          ],
         ]
       `);
     });
