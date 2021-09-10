@@ -12,7 +12,8 @@
     "/examples/starter",
     "/examples/reshape",
     "/examples/vue",
-    "/examples/tags-with-hits"
+    "/examples/tags-with-hits",
+    "/examples/tags-in-searchbox"
   ],
   "node": "14"
 }
