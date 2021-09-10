@@ -1,2 +1,2 @@
-export type { Tag } from './types';
+export * from './types';
 export * from './createTagsPlugin';
