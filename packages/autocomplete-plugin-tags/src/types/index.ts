@@ -1,2 +1,2 @@
-export * from './declarations';
+export * from './AutocompleteContext';
 export * from './Tag';
