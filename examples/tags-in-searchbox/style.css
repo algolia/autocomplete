@@ -1,0 +1,81 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(244, 244, 249);
+  color: rgb(65, 65, 65);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 1rem;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 640px;
+  width: 100%;
+}
+
+.aa-Tags {
+  margin-right: 8px;
+}
+
+.aa-Tags:empty {
+  display: none;
+}
+
+.aa-TagsList {
+  display: flex;
+  margin: 0 calc((var(--aa-spacing) / 5) * -1);
+}
+
+.aa-Tag {
+  background-color: rgba(
+    var(--aa-selected-color-rgb),
+    var(--aa-selected-color-alpha)
+  );
+  align-items: center;
+  display: flex;
+  margin: 0 calc(var(--aa-spacing) / 5);
+  padding-left: var(--aa-spacing-half);
+  border-radius: calc(var(--aa-spacing) / 4);
+}
+
+.aa-Tag:hover,
+.aa-Tag:focus {
+  background-color: rgba(var(--aa-selected-color-rgb), 0.55);
+}
+
+.aa-TagLabel {
+  font-size: 0.8em;
+}
+
+.aa-TagRemoveButton {
+  cursor: pointer;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.aa-TagRemoveButton svg {
+  color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
+  margin: 0;
+  margin: calc(var(--aa-spacing) / 2.5);
+  stroke-width: var(--aa-icon-stroke-width);
+  width: calc(var(--aa-action-icon-size) / 1.5);
+}
+
+.aa-TagRemoveButton:hover svg,
+.aa-TagRemoveButton:focus svg {
+  color: rgba(var(--aa-text-color-rgb), var(--aa-text-color-alpha));
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .aa-TagRemoveButton:hover,
+  .aa-TagRemoveButton:focus {
+    color: inherit;
+  }
+}
