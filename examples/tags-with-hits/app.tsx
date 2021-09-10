@@ -29,7 +29,7 @@ insightsClient('init', { appId, apiKey });
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
 
-const tagsPlugin = createTagsPlugin<TagExtraData>({
+const tagsPlugin = createTagsPlugin<any, TagExtraData>({
   getTagsSubscribers() {
     return [
       {
