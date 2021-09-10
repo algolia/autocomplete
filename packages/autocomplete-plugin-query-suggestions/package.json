@@ -37,8 +37,8 @@
     "@algolia/autocomplete-shared": "1.3.0"
   },
   "devDependencies": {
-    "@algolia/client-search": "4.9.1",
-    "algoliasearch": "4.9.1"
+    "@algolia/client-search": "4.10.5",
+    "algoliasearch": "4.10.5"
   },
   "peerDependencies": {
     "@algolia/client-search": "^4.9.1",
