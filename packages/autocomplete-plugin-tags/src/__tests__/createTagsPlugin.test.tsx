@@ -122,19 +122,10 @@ describe('createTagsPlugin', () => {
           panelContainer.querySelector(
             '[data-autocomplete-source-id="tagsPlugin"]'
           )
-        ).getAllByRole('option')
-      ).toMatchInlineSnapshot(`
-        Array [
-          <li
-            aria-selected="false"
-            class="aa-Item"
-            id="autocomplete-1-item-0"
-            role="option"
-          >
-            iPhone 12
-          </li>,
-        ]
-      `);
+        )
+          .getAllByRole('option')
+          .map((option) => option.textContent)
+      ).toEqual(['iPhone 12']);
     });
   });
 
