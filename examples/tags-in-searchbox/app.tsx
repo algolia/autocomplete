@@ -66,10 +66,10 @@ const tagsPlugin = createTagsPlugin<TagExtraData>({
       );
 
       if (oldTagsContainer) {
-        container.removeChild(oldTagsContainer);
+        container.replaceChild(tagsContainer, oldTagsContainer);
+      } else {
+        container.appendChild(tagsContainer);
       }
-
-      container.appendChild(tagsContainer);
     });
   },
 });
