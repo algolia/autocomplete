@@ -19,10 +19,10 @@ type CreateTagsParams<TTag, TItem extends BaseItem> = Pick<
 export function createTags<TTag, TItem extends BaseItem>({
   initialTags = [],
 }: CreateTagsParams<TTag, TItem>) {
-  const tagsRef = createRef(toTags(initialTags));
+  const tagsRef = createRef(mapToTags(initialTags));
   const onChangeListeners: Array<OnTagsChangeListener<TTag>> = [];
 
-  function toTags<TTag>(baseTags: Array<BaseTag<TTag>>): Array<Tag<TTag>> {
+  function mapToTags<TTag>(baseTags: Array<BaseTag<TTag>>): Array<Tag<TTag>> {
     return baseTags.map((baseTag) => {
       const tag = {
         ...baseTag,
@@ -49,7 +49,7 @@ export function createTags<TTag, TItem extends BaseItem>({
     },
     set(baseTags: Array<BaseTag<TTag>>) {
       const prevTags = tagsRef.current.slice();
-      const newTags = toTags(baseTags);
+      const newTags = mapToTags(baseTags);
 
       tagsRef.current = newTags;
       onChangeListeners.forEach((listener) =>
@@ -58,7 +58,7 @@ export function createTags<TTag, TItem extends BaseItem>({
     },
     add(baseTags: Array<BaseTag<TTag>>) {
       const prevTags = tagsRef.current.slice();
-      const newTags = toTags(baseTags);
+      const newTags = mapToTags(baseTags);
 
       tagsRef.current.push(...newTags);
       onChangeListeners.forEach((listener) =>
