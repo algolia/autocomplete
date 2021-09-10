@@ -11,9 +11,7 @@
     "/examples/starter-algolia",
     "/examples/starter",
     "/examples/reshape",
-    "/examples/vue",
-    "/examples/tags-with-hits",
-    "/examples/tags-in-searchbox"
+    "/examples/vue"
   ],
   "node": "14"
 }
