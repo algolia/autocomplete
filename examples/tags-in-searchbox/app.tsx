@@ -117,7 +117,9 @@ autocomplete<ProductHit | Tag<TagExtraData>>({
       {
         sourceId: 'brands',
         onSelect({ item, state, setQuery }) {
-          if (item.label.toLowerCase().includes(state.query.toLowerCase().trim())) {
+          if (
+            item.label.toLowerCase().includes(state.query.toLowerCase().trim())
+          ) {
             setQuery('');
           }
         },
