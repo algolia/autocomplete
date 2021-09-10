@@ -32,7 +32,6 @@
   cursor: pointer;
   svg {
     color: rgba(var(--aa-muted-color-rgb), var(--aa-muted-color-alpha));
-    margin: 0;
     margin: calc(var(--aa-spacing) / 3);
     stroke-width: var(--aa-icon-stroke-width);
     width: calc(var(--aa-action-icon-size) / 1.5);
