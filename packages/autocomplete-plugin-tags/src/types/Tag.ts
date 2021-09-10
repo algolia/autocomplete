@@ -1,5 +1,7 @@
-export type BaseTag<TTag = Record<string, unknown>> = TTag & { label: string };
+export type DefaultTagType = Record<string, unknown>;
 
-export type Tag<TTag = Record<string, unknown>> = BaseTag<TTag> & {
+export type BaseTag<TTag = DefaultTagType> = TTag & { label: string };
+
+export type Tag<TTag = DefaultTagType> = BaseTag<TTag> & {
   remove: () => void;
 };

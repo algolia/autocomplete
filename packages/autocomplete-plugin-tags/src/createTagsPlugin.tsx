@@ -8,12 +8,12 @@ import {
 import { noop } from '@algolia/autocomplete-shared';
 
 import { createTags, OnTagsChangeParams } from './createTags';
-import type { BaseTag, Tag } from './types';
+import type { DefaultTagType, BaseTag, Tag } from './types';
 
-type OnChangeParams<TTag> = PluginSubscribeParams<any> &
+type OnChangeParams<TTag = DefaultTagType> = PluginSubscribeParams<any> &
   OnTagsChangeParams<TTag>;
 
-type TagsPluginData<TTag> = {
+type TagsPluginData<TTag = DefaultTagType> = {
   /**
    * Returns the current list of tags.
    *
@@ -34,9 +34,11 @@ type TagsPluginData<TTag> = {
   setTags: (tags: Array<BaseTag<TTag>>) => void;
 };
 
+export type TagsApi<TTag = DefaultTagType> = TagsPluginData<TTag>;
+
 export type CreateTagsPluginParams<
-  TTag extends Record<string, any>,
-  TItem extends BaseItem
+  TItem extends BaseItem,
+  TTag extends Record<string, any> = DefaultTagType
 > = {
   /**
    * A set of initial tags to pass to the plugin.
@@ -70,12 +72,15 @@ export type CreateTagsPluginParams<
   onChange?(params: OnChangeParams<TTag>): void;
 };
 
-export function createTagsPlugin<TTag, TItem extends BaseItem>({
+export function createTagsPlugin<
+  TItem extends BaseItem,
+  TTag = DefaultTagType
+>({
   initialTags = [],
   getTagsSubscribers = () => [],
   transformSource = ({ source }) => source,
   onChange = noop,
-}: CreateTagsPluginParams<TTag, TItem> = {}): AutocompletePlugin<
+}: CreateTagsPluginParams<TItem, TTag> = {}): AutocompletePlugin<
   Tag<TTag>,
   TagsPluginData<TTag>
 > {
