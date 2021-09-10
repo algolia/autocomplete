@@ -28,13 +28,12 @@ export function createTags<TTag, TItem extends BaseItem>({
         ...baseTag,
         remove() {
           const prevTags = tagsRef.current.slice();
-          const newTags = tagsRef.current.filter(
+
+          tagsRef.current = tagsRef.current.filter(
             (tagRef) => tag !== ((tagRef as unknown) as Tag<TTag>)
           );
-
-          tagsRef.current = newTags;
           onChangeListeners.forEach((listener) =>
-            listener({ prevTags, tags: newTags })
+            listener({ prevTags, tags: tagsRef.current })
           );
         },
       };
@@ -49,18 +48,16 @@ export function createTags<TTag, TItem extends BaseItem>({
     },
     set(baseTags: Array<BaseTag<TTag>>) {
       const prevTags = tagsRef.current.slice();
-      const newTags = mapToTags(baseTags);
 
-      tagsRef.current = newTags;
+      tagsRef.current = mapToTags(baseTags);
       onChangeListeners.forEach((listener) =>
         listener({ prevTags, tags: tagsRef.current })
       );
     },
     add(baseTags: Array<BaseTag<TTag>>) {
       const prevTags = tagsRef.current.slice();
-      const newTags = mapToTags(baseTags);
 
-      tagsRef.current.push(...newTags);
+      tagsRef.current.push(...mapToTags(baseTags));
       onChangeListeners.forEach((listener) =>
         listener({ prevTags, tags: tagsRef.current })
       );
