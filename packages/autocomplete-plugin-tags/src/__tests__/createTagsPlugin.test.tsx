@@ -1,9 +1,9 @@
 /** @jsx h */
+import { autocomplete } from '@algolia/autocomplete-js';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { h, render, createElement, Fragment } from 'preact';
 
-import { autocomplete } from '../../../autocomplete-js';
 import { createTagsPlugin } from '../createTagsPlugin';
 
 beforeEach(() => {
