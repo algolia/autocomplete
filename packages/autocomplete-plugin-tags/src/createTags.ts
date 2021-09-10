@@ -4,27 +4,30 @@ import { createRef } from '@algolia/autocomplete-shared';
 import { CreateTagsPluginParams } from './createTagsPlugin';
 import { DefaultTagType, BaseTag, Tag } from './types';
 
-export type OnTagsChangeParams<TTag = DefaultTagType> = {
+export type OnTagsChangeParams<TTag extends DefaultTagType = DefaultTagType> = {
   prevTags: Array<Tag<TTag>>;
   tags: Array<Tag<TTag>>;
 };
 
-type OnTagsChangeListener<TTag = DefaultTagType> = (
+type OnTagsChangeListener<TTag extends DefaultTagType = DefaultTagType> = (
   params: OnTagsChangeParams<TTag>
 ) => void;
 
-type CreateTagsParams<TItem extends BaseItem, TTag = DefaultTagType> = Pick<
-  CreateTagsPluginParams<TItem, TTag>,
-  'initialTags'
->;
+type CreateTagsParams<
+  TItem extends BaseItem,
+  TTag extends DefaultTagType = DefaultTagType
+> = Pick<CreateTagsPluginParams<TItem, TTag>, 'initialTags'>;
 
-export function createTags<TTag, TItem extends BaseItem>({
-  initialTags = [],
-}: CreateTagsParams<TItem, TTag>) {
+export function createTags<
+  TItem extends BaseItem,
+  TTag extends DefaultTagType = DefaultTagType
+>({ initialTags = [] }: CreateTagsParams<TItem, TTag>) {
   const tagsRef = createRef(mapToTags(initialTags));
   const onChangeListeners: Array<OnTagsChangeListener<TTag>> = [];
 
-  function mapToTags<TTag>(baseTags: Array<BaseTag<TTag>>): Array<Tag<TTag>> {
+  function mapToTags<TTag extends DefaultTagType = DefaultTagType>(
+    baseTags: Array<BaseTag<TTag>>
+  ): Array<Tag<TTag>> {
     return baseTags.map((baseTag) => {
       const tag = {
         ...baseTag,

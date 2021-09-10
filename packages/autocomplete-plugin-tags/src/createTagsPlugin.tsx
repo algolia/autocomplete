@@ -10,10 +10,13 @@ import { noop } from '@algolia/autocomplete-shared';
 import { createTags, OnTagsChangeParams } from './createTags';
 import type { DefaultTagType, BaseTag, Tag } from './types';
 
-type OnChangeParams<TTag = DefaultTagType> = PluginSubscribeParams<any> &
-  OnTagsChangeParams<TTag>;
+type OnChangeParams<
+  TTag extends DefaultTagType = DefaultTagType
+> = PluginSubscribeParams<any> & OnTagsChangeParams<TTag>;
 
-type TagsPluginData<TTag = DefaultTagType> = {
+type GetTagParams<TItem extends BaseItem> = { item: TItem };
+
+type TagsPluginData<TTag extends DefaultTagType = DefaultTagType> = {
   /**
    * Returns the current list of tags.
    *
@@ -34,11 +37,13 @@ type TagsPluginData<TTag = DefaultTagType> = {
   setTags: (tags: Array<BaseTag<TTag>>) => void;
 };
 
-export type TagsApi<TTag = DefaultTagType> = TagsPluginData<TTag>;
+export type TagsApi<
+  TTag extends DefaultTagType = DefaultTagType
+> = TagsPluginData<TTag>;
 
 export type CreateTagsPluginParams<
   TItem extends BaseItem,
-  TTag extends Record<string, any> = DefaultTagType
+  TTag extends DefaultTagType
 > = {
   /**
    * A set of initial tags to pass to the plugin.
@@ -53,7 +58,7 @@ export type CreateTagsPluginParams<
    */
   getTagsSubscribers?(): Array<{
     sourceId: string;
-    getTag(params: { item: TItem }): BaseTag<TTag>;
+    getTag(params: GetTagParams<TItem>): BaseTag<TTag>;
   }>;
   /**
    * A function to transform the returned tags source.
@@ -74,7 +79,7 @@ export type CreateTagsPluginParams<
 
 export function createTagsPlugin<
   TItem extends BaseItem,
-  TTag = DefaultTagType
+  TTag extends DefaultTagType = DefaultTagType
 >({
   initialTags = [],
   getTagsSubscribers = () => [],
