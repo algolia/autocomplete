@@ -48,7 +48,7 @@
     "@testing-library/jest-dom": "5.11.6",
     "@testing-library/preact": "2.0.1",
     "@testing-library/user-event": "12.5.0",
-    "@types/jest": "^26.0.16",
+    "@types/jest": "^27.0.0",
     "@types/jest-diff": "^24.3.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
