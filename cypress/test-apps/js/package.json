@@ -19,7 +19,7 @@
     "@algolia/client-search": "4.9.1",
     "algoliasearch": "4.9.1",
     "preact": "10.5.13",
-    "search-insights": "1.7.1"
+    "search-insights": "1.8.0"
   },
   "devDependencies": {
     "parcel": "2.0.0-beta.2"

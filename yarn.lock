@@ -16595,6 +16595,11 @@ search-insights@1.7.1:
   resolved "https://registry.yarnpkg.com/search-insights/-/search-insights-1.7.1.tgz#eddfa56910e28cbbb0df80aec2ab8acf0a86cb6b"
   integrity sha512-CSuSKIJp+WcSwYrD9GgIt1e3xmI85uyAefC4/KYGgtvNEm6rt4kBGilhVRmTJXxRE2W1JknvP598Q7SMhm7qKA==
 
+search-insights@1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/search-insights/-/search-insights-1.8.0.tgz#682e1f9a560ed12e06322a9f81ab608f80c8ba7f"
+  integrity sha512-4sd6oS/sLH/UxiZ4vMoDbcpJP01pcoNI4mm3ZsUfDAMCPKxDda1R8SFZUv618og3NYBvvWvwmf8VRC0rNYuTkg==
+
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
