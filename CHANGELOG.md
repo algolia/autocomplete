@@ -1,3 +1,12 @@
+# [](https://github.com/algolia/autocomplete/compare/v1.3.0...v) (2021-09-13)
+
+
+### Features
+
+* **plugins:** introduce Tags plugin ([#644](https://github.com/algolia/autocomplete/issues/644)) ([d3cd9c3](https://github.com/algolia/autocomplete/commit/d3cd9c37ae4230227834ab4fabf7b00423b5cff2))
+
+
+
 # [1.3.0](https://github.com/algolia/autocomplete/compare/v1.2.2...v1.3.0) (2021-08-26)
 
 ### Bug Fixes
