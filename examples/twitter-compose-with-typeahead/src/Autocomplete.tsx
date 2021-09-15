@@ -1,4 +1,3 @@
-import React, { Fragment, useRef } from 'react';
 import { AutocompleteOptions } from '@algolia/autocomplete-core';
 import {
   getAlgoliaResults,
@@ -6,6 +5,7 @@ import {
 } from '@algolia/autocomplete-preset-algolia';
 import type { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch/lite';
+import React, { Fragment, useRef } from 'react';
 import getCaretCoordinates from 'textarea-caret';
 
 import { useAutocomplete } from './hooks';

@@ -1,8 +1,8 @@
-import type {
+import {
   AutocompleteOptions,
   AutocompleteState,
+  createAutocomplete,
 } from '@algolia/autocomplete-core';
-import { createAutocomplete } from '@algolia/autocomplete-core';
 import { useMemo, useState } from 'react';
 
 import type { AutocompleteItem } from '../types';
