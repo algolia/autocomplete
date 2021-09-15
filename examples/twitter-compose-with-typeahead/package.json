@@ -1,6 +1,6 @@
 {
   "name": "@algolia/autocomplete-example-twitter-compose-with-typeahead",
-  "description": "Autocomplete example powering a Twitter compose box with mentions and hashtags typeahead.",
+  "description": "Autocomplete example powering a Twitter compose box with mentions typeahead.",
   "version": "1.4.0",
   "private": true,
   "license": "MIT",
