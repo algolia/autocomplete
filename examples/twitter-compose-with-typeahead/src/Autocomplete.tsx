@@ -9,7 +9,7 @@ import React, { Fragment, useRef } from 'react';
 import getCaretCoordinates from 'textarea-caret';
 
 import { useAutocomplete } from './hooks';
-import type { QueryToken, Account, AutocompleteItem } from './types';
+import type { Account, AutocompleteItem } from './types';
 import { isValidTwitterUsername, replaceAt } from './utils';
 
 const searchClient = algoliasearch(
@@ -34,7 +34,7 @@ export function Autocomplete(
           const end = start + word.length;
 
           return acc.concat([{ word, range: [start, end] }]);
-        }, [] as QueryToken[]);
+        }, [] as Array<{ word: string; range: [number, number] }>);
 
       if (cursorPosition) {
         const activeToken = tokenizedQuery.find((token) =>
