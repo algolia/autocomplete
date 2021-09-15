@@ -4,7 +4,7 @@ import { Autocomplete } from './Autocomplete';
 
 import './App.css';
 
-export const App = () => {
+export function App() {
   return (
     <div className="container">
       <Autocomplete
@@ -14,4 +14,4 @@ export const App = () => {
       />
     </div>
   );
-};
+}
