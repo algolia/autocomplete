@@ -1,6 +1,6 @@
 {
-  "short_name": "Twitter compose box with typeahead",
-  "name": "Twitter compose box with typeahead | Autocomplete",
+  "short_name": "Twitter mentions",
+  "name": "Twitter compose box with mentions typeahead | Autocomplete",
   "icons": [
     {
       "src": "favicon.ico",
