@@ -84,7 +84,7 @@ export function Autocomplete(
       <div className="box">
         <div className="box-body">
           <div className="box-avatar">
-            <img src="https://robohash.org/autocomplete" alt="" />
+            <img src="https://robohash.org/autocomplete" alt="You" />
           </div>
           <div className="box-compose">
             <form
