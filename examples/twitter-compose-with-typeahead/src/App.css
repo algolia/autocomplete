@@ -143,27 +143,6 @@ body {
   background-color: rgba(31, 41, 55, 1);
 }
 
-.account-follow-status {
-  display: flex;
-  align-items: center;
-}
-
-.account-follow-status > :not([hidden]) ~ :not([hidden]) {
-  margin-right: calc(0.25rem * 0);
-  margin-left: calc(0.25rem * calc(1 - 0));
-}
-
-.account-follow-status {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  color: rgba(75, 85, 99, 1);
-}
-
-.account-follow-status-icon {
-  height: 1rem;
-  width: auto;
-}
-
 .account-body {
   display: flex;
   align-items: center;
@@ -175,16 +154,6 @@ body {
 }
 
 .account-name {
-  display: flex;
-  align-items: center;
-}
-
-.account-name > :not([hidden]) ~ :not([hidden]) {
-  margin-right: calc(0.25rem * 0);
-  margin-left: calc(0.25rem * calc(1 - 0));
-}
-
-.account-name {
   font-weight: 600;
   color: rgba(255, 255, 255, 1);
 }
@@ -193,12 +162,6 @@ body {
   border-radius: 0.125rem;
   background-color: rgba(55, 65, 81, 1);
   color: currentColor;
-}
-
-.account-icon {
-  margin-top: 0.125rem;
-  height: 1.25rem;
-  width: 1.25rem;
 }
 
 .account-avatar,
