@@ -222,11 +222,7 @@ function AccountItem({ hit }: AccountItemProps) {
       </div>
       <div>
         <div className="account-name">
-          {hit.name !== '' && (
-            <span>
-              <Highlight hit={hit} attribute="name" />
-            </span>
-          )}
+          <Highlight hit={hit} attribute="name" />
         </div>
         <div className="account-handle">
           @<Highlight hit={hit} attribute="handle" />
