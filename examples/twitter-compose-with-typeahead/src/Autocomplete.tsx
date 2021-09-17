@@ -10,7 +10,7 @@ import getCaretCoordinates from 'textarea-caret';
 
 import { useAutocomplete } from './hooks';
 import type { Account, AutocompleteItem } from './types';
-import { isValidTwitterUsername, replaceAt } from './utils';
+import { getActiveToken, isValidTwitterUsername, replaceAt } from './utils';
 
 const searchClient = algoliasearch(
   'latency',
@@ -25,59 +25,58 @@ export function Autocomplete(
     ...props,
     id: 'twitter-autocomplete',
     getSources({ query }) {
-      const cursorPosition = inputRef.current?.selectionEnd;
-      const tokenizedQuery = query
-        .split(/[\s\n]/)
-        .reduce((acc, word, index) => {
-          const previous = acc[index - 1];
-          const start = index === 0 ? index : previous.range[1] + 1;
-          const end = start + word.length;
+      const cursorPosition = inputRef.current?.selectionEnd || 0;
+      const activeToken = getActiveToken(query, cursorPosition);
 
-          return acc.concat([{ word, range: [start, end] }]);
-        }, [] as Array<{ word: string; range: [number, number] }>);
+      if (activeToken?.word && isValidTwitterUsername(activeToken?.word)) {
+        return [
+          {
+            sourceId: 'accounts',
+            onSelect({ item, setQuery }) {
+              const [index] = activeToken.range;
+              const replacement = `@${item.handle}`;
+              const newQuery = replaceAt(query, replacement, index);
 
-      if (cursorPosition) {
-        const activeToken = tokenizedQuery.find((token) =>
-          token.range.includes(cursorPosition)
-        );
-
-        if (activeToken?.word && isValidTwitterUsername(activeToken?.word)) {
-          return [
-            {
-              sourceId: 'accounts',
-              onSelect({ item, setQuery }) {
-                const [index] = activeToken.range;
-                const replacement = `@${item.handle}`;
-                const newQuery = replaceAt(query, replacement, index);
-
-                setQuery(newQuery);
-              },
-              getItems() {
-                return getAlgoliaResults({
-                  searchClient,
-                  queries: [
-                    {
-                      indexName: 'autocomplete_twitter_accounts',
-                      query: activeToken.word.slice(1),
-                      params: {
-                        hitsPerPage: 8,
-                      },
-                    },
-                  ],
-                });
-              },
+              setQuery(newQuery);
             },
-          ];
-        }
+            getItems() {
+              return getAlgoliaResults({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'autocomplete_twitter_accounts',
+                    query: activeToken.word.slice(1),
+                    params: {
+                      hitsPerPage: 8,
+                    },
+                  },
+                ],
+              });
+            },
+          },
+        ];
       }
 
       return [];
     },
   });
 
+  function onInputNavigate() {
+    const cursorPosition = inputRef.current?.selectionEnd || 0;
+    const activeToken = getActiveToken(state.query, cursorPosition);
+    const shouldOpen = isValidTwitterUsername(activeToken?.word || '');
+
+    autocomplete.setIsOpen(shouldOpen);
+    autocomplete.refresh();
+  }
+
   const { top, height } = inputRef.current
     ? getCaretCoordinates(inputRef.current, inputRef.current?.selectionEnd)
     : { top: 0, height: 0 };
+
+  const inputProps = autocomplete.getInputProps({
+    inputElement: (inputRef.current as unknown) as HTMLInputElement,
+  });
 
   return (
     <div {...autocomplete.getRootProps({})}>
@@ -95,12 +94,20 @@ export function Autocomplete(
               <textarea
                 className="box-textbox"
                 ref={inputRef}
-                {...autocomplete.getInputProps({
-                  inputElement: (inputRef.current as unknown) as HTMLInputElement,
-                })}
+                {...inputProps}
                 spellCheck={false}
                 autoFocus={true}
                 maxLength={280}
+                onKeyUp={(event) => {
+                  if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+                    onInputNavigate();
+                  }
+                }}
+                onClick={(event) => {
+                  inputProps.onClick(event);
+
+                  onInputNavigate();
+                }}
               />
             </form>
             <div
