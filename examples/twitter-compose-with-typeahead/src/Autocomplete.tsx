@@ -35,9 +35,18 @@ export function Autocomplete(
             onSelect({ item, setQuery }) {
               const [index] = activeToken.range;
               const replacement = `@${item.handle}`;
-              const newQuery = replaceAt(query, replacement, index);
+              const newQuery = replaceAt(
+                query,
+                replacement,
+                index,
+                activeToken.word.length
+              );
 
               setQuery(newQuery);
+
+              if (inputRef.current) {
+                inputRef.current.selectionEnd = index + replacement.length;
+              }
             },
             getItems() {
               return getAlgoliaResults({
