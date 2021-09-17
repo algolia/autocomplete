@@ -44,7 +44,7 @@ aliases:
 defaults: &defaults
   working_directory: ~/autocomplete
   docker:
-    - image: circleci/node:14.15.0
+    - image: circleci/node:15.14.0
 
 cypress: &cypress
   working_directory: ~/autocomplete
