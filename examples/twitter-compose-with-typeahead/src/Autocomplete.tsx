@@ -85,7 +85,6 @@ export function Autocomplete(
 
   const inputProps = autocomplete.getInputProps({
     inputElement: (inputRef.current as unknown) as HTMLInputElement,
-    spellCheck: false,
     autoFocus: true,
     maxLength: 280,
   });
