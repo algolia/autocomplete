@@ -1,5 +1,5 @@
-export function getActiveToken(query: string, cursorPosition: number) {
-  const tokenizedQuery = query.split(/[\s\n]/).reduce((acc, word, index) => {
+export function getActiveToken(input: string, cursorPosition: number) {
+  const tokenizedQuery = input.split(/[\s\n]/).reduce((acc, word, index) => {
     const previous = acc[index - 1];
     const start = index === 0 ? index : previous.range[1] + 1;
     const end = start + word.length;
