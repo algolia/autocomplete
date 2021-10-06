@@ -3,24 +3,31 @@ import userEvent from '@testing-library/user-event';
 import { createSource, defer } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
-describe.skip('concurrency', () => {
+describe('concurrency', () => {
   test('resolves the responses in order from getSources', async () => {
     // These delays make the second query come back after the third one.
-    const delays = [100, 300, 200];
-    let deferCount = -1;
+    const sourcesDelays = [100, 150, 200];
+    const itemsDelays = [0, 150, 0];
+    let deferSourcesCount = -1;
+    let deferItemsCount = -1;
 
     const getSources = ({ query }) => {
-      deferCount++;
+      deferSourcesCount++;
 
       return defer(() => {
         return [
           createSource({
             getItems() {
-              return [{ label: query }];
+              deferItemsCount++;
+
+              return defer(
+                () => [{ label: query }],
+                itemsDelays[deferItemsCount]
+              );
             },
           }),
         ];
-      }, delays[deferCount]);
+      }, sourcesDelays[deferSourcesCount]);
     };
     const onStateChange = jest.fn();
     const autocomplete = createAutocomplete({ getSources, onStateChange });
@@ -33,7 +40,8 @@ describe.skip('concurrency', () => {
     userEvent.type(input, 'b');
     userEvent.type(input, 'c');
 
-    await defer(() => {}, Math.max(...delays));
+    await defer(() => {},
+    Math.max(...sourcesDelays.map((delay, index) => delay + itemsDelays[index])));
 
     const itemsHistory: Array<{ label: string }> = (onStateChange.mock
       .calls as any).flatMap((x) =>
