@@ -6,12 +6,14 @@ import { MaybePromise } from '@algolia/autocomplete-shared';
  * This is useful to prevent older promises to resolve after a newer promise,
  * otherwise resulting in stale resolved values.
  */
-export function createConcurrentSafePromise<TValue>() {
+export function createConcurrentSafePromise() {
   let basePromiseId = -1;
   let latestResolvedId = -1;
-  let latestResolvedValue: TValue | undefined = undefined;
+  let latestResolvedValue: unknown = undefined;
 
-  return function runConcurrentSafePromise(promise: MaybePromise<TValue>) {
+  return function runConcurrentSafePromise<TValue>(
+    promise: MaybePromise<TValue>
+  ) {
     basePromiseId++;
     const currentPromiseId = basePromiseId;
 
@@ -30,7 +32,7 @@ export function createConcurrentSafePromise<TValue>() {
       // | run(3) +--------> R3             |
       // +----------------------------------+
       if (latestResolvedValue && currentPromiseId < latestResolvedId) {
-        return latestResolvedValue;
+        return latestResolvedValue as TValue;
       }
 
       latestResolvedId = currentPromiseId;
