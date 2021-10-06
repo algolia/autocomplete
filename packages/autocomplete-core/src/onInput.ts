@@ -7,7 +7,7 @@ import {
   BaseItem,
   InternalAutocompleteOptions,
 } from './types';
-import { getActiveItem } from './utils';
+import { createConcurrentSafePromise, getActiveItem } from './utils';
 
 let lastStalledId: number | null = null;
 
@@ -26,6 +26,8 @@ interface OnInputParams<TItem extends BaseItem>
   query: string;
   store: AutocompleteStore<TItem>;
 }
+
+const runConcurrentSafePromise = createConcurrentSafePromise();
 
 export function onInput<TItem extends BaseItem>({
   event,
@@ -52,18 +54,24 @@ export function onInput<TItem extends BaseItem>({
   setActiveItemId(props.defaultActiveItemId);
 
   if (!query && props.openOnFocus === false) {
+    const newCollections = store.getState().collections.map((collection) => ({
+      ...collection,
+      items: [],
+    }));
+
     setStatus('idle');
-    setCollections(
-      store.getState().collections.map((collection) => ({
-        ...collection,
-        items: [],
-      }))
-    );
+    setCollections(newCollections);
     setIsOpen(
       nextState.isOpen ?? props.shouldPanelOpen({ state: store.getState() })
     );
 
-    return Promise.resolve();
+    // We to make sure to update the latest resolved value of the tracked
+    // promises to keep late resolving promises from "cancelling" the state
+    // updates performed in this code path.
+    // We chain with a void promise to respect `onInput`'s expected return type.
+    return runConcurrentSafePromise(newCollections).then(() =>
+      Promise.resolve()
+    );
   }
 
   setStatus('loading');
@@ -72,67 +80,74 @@ export function onInput<TItem extends BaseItem>({
     setStatus('stalled');
   }, props.stallThreshold);
 
-  return props
-    .getSources({
-      query,
-      refresh,
-      state: store.getState(),
-      ...setters,
-    })
-    .then((sources) => {
-      setStatus('loading');
+  // We track the entire promise chain triggered by `onInput` before mutating
+  // the Autocomplete state to make sure that any state manipulation is based on
+  // fresh data regardless of when promises individually resolve.
+  // We don't track nested promises and only rely on the full chain reoslution,
+  // meaning we should only ever manipulate the state outside of this call.
+  return runConcurrentSafePromise(
+    props
+      .getSources({
+        query,
+        refresh,
+        state: store.getState(),
+        ...setters,
+      })
+      .then((sources) => {
+        setStatus('loading');
 
-      return Promise.all(
-        sources.map((source) => {
-          return Promise.resolve(
-            source.getItems({
-              query,
-              refresh,
-              state: store.getState(),
-              ...setters,
-            })
-          ).then((itemsOrDescription) =>
-            preResolve<TItem>(itemsOrDescription, source.sourceId)
-          );
-        })
-      )
-        .then(resolve)
-        .then((responses) => postResolve(responses, sources))
-        .then((collections) =>
-          reshape({ collections, props, state: store.getState() })
+        return Promise.all(
+          sources.map((source) => {
+            return Promise.resolve(
+              source.getItems({
+                query,
+                refresh,
+                state: store.getState(),
+                ...setters,
+              })
+            ).then((itemsOrDescription) =>
+              preResolve<TItem>(itemsOrDescription, source.sourceId)
+            );
+          })
         )
-        .then((collections) => {
-          setStatus('idle');
-          setCollections(collections as any);
-          const isPanelOpen = props.shouldPanelOpen({
-            state: store.getState(),
-          });
-          setIsOpen(
-            nextState.isOpen ??
-              ((props.openOnFocus && !query && isPanelOpen) || isPanelOpen)
+          .then(resolve)
+          .then((responses) => postResolve(responses, sources))
+          .then((collections) =>
+            reshape({ collections, props, state: store.getState() })
           );
+      })
+  )
+    .then((collections) => {
+      setStatus('idle');
+      setCollections(collections as any);
+      const isPanelOpen = props.shouldPanelOpen({
+        state: store.getState(),
+      });
+      setIsOpen(
+        nextState.isOpen ??
+          ((props.openOnFocus && !query && isPanelOpen) || isPanelOpen)
+      );
 
-          const highlightedItem = getActiveItem(store.getState());
+      const highlightedItem = getActiveItem(store.getState());
 
-          if (store.getState().activeItemId !== null && highlightedItem) {
-            const { item, itemInputValue, itemUrl, source } = highlightedItem;
+      if (store.getState().activeItemId !== null && highlightedItem) {
+        const { item, itemInputValue, itemUrl, source } = highlightedItem;
 
-            source.onActive({
-              event,
-              item,
-              itemInputValue,
-              itemUrl,
-              refresh,
-              source,
-              state: store.getState(),
-              ...setters,
-            });
-          }
-        })
-        .finally(() => {
-          if (lastStalledId) {
-            props.environment.clearTimeout(lastStalledId);
-          }
+        source.onActive({
+          event,
+          item,
+          itemInputValue,
+          itemUrl,
+          refresh,
+          source,
+          state: store.getState(),
+          ...setters,
         });
+      }
+    })
+    .finally(() => {
+      if (lastStalledId) {
+        props.environment.clearTimeout(lastStalledId);
+      }
     });
 }
