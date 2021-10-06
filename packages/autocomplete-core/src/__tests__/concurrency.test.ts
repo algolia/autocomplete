@@ -1,7 +1,12 @@
 import userEvent from '@testing-library/user-event';
 
+import { AutocompleteState } from '..';
 import { createSource, defer } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
+
+type Item = {
+  label: string;
+};
 
 describe('concurrency', () => {
   test('resolves the responses in order from getSources', async () => {
@@ -40,12 +45,17 @@ describe('concurrency', () => {
     userEvent.type(input, 'b');
     userEvent.type(input, 'c');
 
-    await defer(() => {},
-    Math.max(...sourcesDelays.map((delay, index) => delay + itemsDelays[index])));
+    const timeout = Math.max(
+      ...sourcesDelays.map((delay, index) => delay + itemsDelays[index])
+    );
 
-    const itemsHistory: Array<{ label: string }> = (onStateChange.mock
-      .calls as any).flatMap((x) =>
-      x[0].state.collections.flatMap((x) => x.items)
+    await defer(() => {}, timeout);
+
+    const stateHistory: Array<AutocompleteState<Item>> = (onStateChange.mock
+      .calls as any).flatMap((x) => x[0].state);
+
+    const itemsHistory: Item[] = stateHistory.flatMap(({ collections }) =>
+      collections.flatMap((x) => x.items)
     );
 
     // The first query should have brought results.
@@ -56,6 +66,28 @@ describe('concurrency', () => {
     // The last item must be the one corresponding to the last query.
     expect(itemsHistory[itemsHistory.length - 1]).toEqual(
       expect.objectContaining({ label: 'abc' })
+    );
+
+    expect(stateHistory[stateHistory.length - 1]).toEqual(
+      expect.objectContaining({ isOpen: true })
+    );
+
+    userEvent.type(input, '{backspace}'.repeat(3));
+
+    await defer(() => {}, timeout);
+
+    stateHistory.push(
+      ...(onStateChange.mock.calls as any).flatMap((x) => x[0].state)
+    );
+
+    // The collections are empty despite late resolving promises.
+    expect(stateHistory[stateHistory.length - 1].collections).toEqual([
+      expect.objectContaining({ items: [] }),
+    ]);
+
+    // The panel closes despite late resolving promises.
+    expect(stateHistory[stateHistory.length - 1]).toEqual(
+      expect.objectContaining({ isOpen: false })
     );
 
     document.body.removeChild(input);
