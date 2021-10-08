@@ -82,7 +82,8 @@ export function onInput<TItem extends BaseItem>({
   // the Autocomplete state to make sure that any state manipulation is based on
   // fresh data regardless of when promises individually resolve.
   // We don't track nested promises and only rely on the full chain resolution,
-  // meaning we should only ever manipulate the state outside of this call.
+  // meaning we should only ever manipulate the state once this concurrent-safe
+  // promise is resolved.
   return runConcurrentSafePromise(
     props
       .getSources({
