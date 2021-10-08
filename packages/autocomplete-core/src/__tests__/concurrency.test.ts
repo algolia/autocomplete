@@ -51,8 +51,9 @@ describe('concurrency', () => {
 
     await defer(() => {}, timeout);
 
-    const stateHistory: Array<AutocompleteState<Item>> = (onStateChange.mock
-      .calls as any).flatMap((x) => x[0].state);
+    const stateHistory: Array<
+      AutocompleteState<Item>
+    > = onStateChange.mock.calls.flatMap((x) => x[0].state);
 
     const itemsHistory: Item[] = stateHistory.flatMap(({ collections }) =>
       collections.flatMap((x) => x.items)
