@@ -54,13 +54,13 @@ export function onInput<TItem extends BaseItem>({
   setActiveItemId(props.defaultActiveItemId);
 
   if (!query && props.openOnFocus === false) {
-    const newCollections = store.getState().collections.map((collection) => ({
+    const collections = store.getState().collections.map((collection) => ({
       ...collection,
       items: [],
     }));
 
     setStatus('idle');
-    setCollections(newCollections);
+    setCollections(collections);
     setIsOpen(
       nextState.isOpen ?? props.shouldPanelOpen({ state: store.getState() })
     );
@@ -69,9 +69,7 @@ export function onInput<TItem extends BaseItem>({
     // promises to keep late resolving promises from "cancelling" the state
     // updates performed in this code path.
     // We chain with a void promise to respect `onInput`'s expected return type.
-    return runConcurrentSafePromise(newCollections).then(() =>
-      Promise.resolve()
-    );
+    return runConcurrentSafePromise(collections).then(() => Promise.resolve());
   }
 
   setStatus('loading');
