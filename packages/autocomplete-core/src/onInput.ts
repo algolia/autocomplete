@@ -92,8 +92,6 @@ export function onInput<TItem extends BaseItem>({
         ...setters,
       })
       .then((sources) => {
-        setStatus('loading');
-
         return Promise.all(
           sources.map((source) => {
             return Promise.resolve(
