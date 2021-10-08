@@ -1,26 +1,38 @@
 import userEvent from '@testing-library/user-event';
 
+import { AutocompleteState } from '..';
 import { createSource, defer } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
-describe.skip('concurrency', () => {
+type Item = {
+  label: string;
+};
+
+describe('concurrency', () => {
   test('resolves the responses in order from getSources', async () => {
     // These delays make the second query come back after the third one.
-    const delays = [100, 300, 200];
-    let deferCount = -1;
+    const sourcesDelays = [100, 150, 200];
+    const itemsDelays = [0, 150, 0];
+    let deferSourcesCount = -1;
+    let deferItemsCount = -1;
 
     const getSources = ({ query }) => {
-      deferCount++;
+      deferSourcesCount++;
 
       return defer(() => {
         return [
           createSource({
             getItems() {
-              return [{ label: query }];
+              deferItemsCount++;
+
+              return defer(
+                () => [{ label: query }],
+                itemsDelays[deferItemsCount]
+              );
             },
           }),
         ];
-      }, delays[deferCount]);
+      }, sourcesDelays[deferSourcesCount]);
     };
     const onStateChange = jest.fn();
     const autocomplete = createAutocomplete({ getSources, onStateChange });
@@ -33,11 +45,18 @@ describe.skip('concurrency', () => {
     userEvent.type(input, 'b');
     userEvent.type(input, 'c');
 
-    await defer(() => {}, Math.max(...delays));
+    const timeout = Math.max(
+      ...sourcesDelays.map((delay, index) => delay + itemsDelays[index])
+    );
 
-    const itemsHistory: Array<{ label: string }> = (onStateChange.mock
-      .calls as any).flatMap((x) =>
-      x[0].state.collections.flatMap((x) => x.items)
+    await defer(() => {}, timeout);
+
+    let stateHistory: Array<
+      AutocompleteState<Item>
+    > = onStateChange.mock.calls.flatMap((x) => x[0].state);
+
+    const itemsHistory: Item[] = stateHistory.flatMap(({ collections }) =>
+      collections.flatMap((x) => x.items)
     );
 
     // The first query should have brought results.
@@ -48,6 +67,26 @@ describe.skip('concurrency', () => {
     // The last item must be the one corresponding to the last query.
     expect(itemsHistory[itemsHistory.length - 1]).toEqual(
       expect.objectContaining({ label: 'abc' })
+    );
+
+    expect(stateHistory[stateHistory.length - 1]).toEqual(
+      expect.objectContaining({ isOpen: true })
+    );
+
+    userEvent.type(input, '{backspace}'.repeat(3));
+
+    await defer(() => {}, timeout);
+
+    stateHistory = onStateChange.mock.calls.flatMap((x) => x[0].state);
+
+    // The collections are empty despite late resolving promises.
+    expect(stateHistory[stateHistory.length - 1].collections).toEqual([
+      expect.objectContaining({ items: [] }),
+    ]);
+
+    // The panel closes despite late resolving promises.
+    expect(stateHistory[stateHistory.length - 1]).toEqual(
+      expect.objectContaining({ isOpen: false })
     );
 
     document.body.removeChild(input);
