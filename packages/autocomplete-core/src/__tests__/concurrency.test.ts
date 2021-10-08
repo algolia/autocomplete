@@ -77,9 +77,7 @@ describe('concurrency', () => {
 
     await defer(() => {}, timeout);
 
-    stateHistory.push(
-      ...(onStateChange.mock.calls as any).flatMap((x) => x[0].state)
-    );
+    stateHistory.push(...onStateChange.mock.calls.flatMap((x) => x[0].state));
 
     // The collections are empty despite late resolving promises.
     expect(stateHistory[stateHistory.length - 1].collections).toEqual([
