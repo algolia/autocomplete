@@ -65,7 +65,7 @@ export function onInput<TItem extends BaseItem>({
       nextState.isOpen ?? props.shouldPanelOpen({ state: store.getState() })
     );
 
-    // We to make sure to update the latest resolved value of the tracked
+    // We make sure to update the latest resolved value of the tracked
     // promises to keep late resolving promises from "cancelling" the state
     // updates performed in this code path.
     // We chain with a void promise to respect `onInput`'s expected return type.
@@ -83,7 +83,7 @@ export function onInput<TItem extends BaseItem>({
   // We track the entire promise chain triggered by `onInput` before mutating
   // the Autocomplete state to make sure that any state manipulation is based on
   // fresh data regardless of when promises individually resolve.
-  // We don't track nested promises and only rely on the full chain reoslution,
+  // We don't track nested promises and only rely on the full chain resolution,
   // meaning we should only ever manipulate the state outside of this call.
   return runConcurrentSafePromise(
     props
