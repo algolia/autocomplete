@@ -22,7 +22,7 @@ import {
   AutocompleteSource,
   AutocompleteState,
 } from './types';
-import { mergeDeep, setProperties } from './utils';
+import { focusAndOpenKeyboard, mergeDeep, setProperties } from './utils';
 
 export function autocomplete<TItem extends BaseItem>(
   options: AutocompleteOptions<TItem>
@@ -360,7 +360,7 @@ export function autocomplete<TItem extends BaseItem>(
           dom.value.detachedOverlay
         );
         props.value.core.environment.document.body.classList.add('aa-Detached');
-        dom.value.input.focus();
+        focusAndOpenKeyboard(dom.value.input);
       } else {
         props.value.core.environment.document.body.removeChild(
           dom.value.detachedOverlay
