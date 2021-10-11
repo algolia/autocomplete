@@ -14,6 +14,7 @@ This sample shows how to build an Autocomplete [plugin](https://www.algolia.com/
 
 ```sh
 git clone git@github.com:algolia/autocomplete.git
+```
 
 ### 2. Navigate to this sample folder
 
