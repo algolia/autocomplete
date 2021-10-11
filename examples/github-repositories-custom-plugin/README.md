@@ -18,7 +18,12 @@ git clone git@github.com:algolia/autocomplete.git
 
 ### 2. Install the dependencies and run the server
 
-**With NPM**
+```sh
+yarn
+yarn workspace @algolia/autocomplete-example-github-repositories-custom-plugin start
+```
+
+Alternatively, you may use NPM:
 
 ```sh
 cd examples/github-repositories-custom-plugin
@@ -27,13 +32,6 @@ cd examples/github-repositories-custom-plugin
 ```sh
 npm install
 npm start
-```
-
-**With Yarn**
-
-```sh
-yarn
-yarn workspace @algolia/autocomplete-example-github-repositories-custom-plugin start
 ```
 
 Open <http://localhost:1234> to see your app.
