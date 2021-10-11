@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-tags-with-hits",
   "description": "Autocomplete example with Tags and hits",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,10 +9,10 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.4.0",
-    "@algolia/autocomplete-plugin-algolia-insights": "1.4.0",
-    "@algolia/autocomplete-plugin-tags": "1.4.0",
-    "@algolia/autocomplete-theme-classic": "1.4.0",
+    "@algolia/autocomplete-js": "1.4.1",
+    "@algolia/autocomplete-plugin-algolia-insights": "1.4.1",
+    "@algolia/autocomplete-plugin-tags": "1.4.1",
+    "@algolia/autocomplete-theme-classic": "1.4.1",
     "@algolia/client-search": "4.9.1",
     "algoliasearch": "4.9.1",
     "preact": "10.5.13",

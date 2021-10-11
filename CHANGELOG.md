@@ -1,3 +1,25 @@
+# [](https://github.com/algolia/autocomplete/compare/v1.4.0...v) (2021-10-11)
+
+
+### Bug Fixes
+
+* **ci:** update docker image ([#752](https://github.com/algolia/autocomplete/issues/752)) ([82d1c20](https://github.com/algolia/autocomplete/commit/82d1c206d6e4128ab93d9cd1ce7b59a3760b16ec))
+* **concurrency:** ensure responses resolve in order ([#753](https://github.com/algolia/autocomplete/issues/753)) ([d15c404](https://github.com/algolia/autocomplete/commit/d15c404845a1446ad2cc8673c44be4dbfa68723f))
+* **examples:** remove redundant setting ([8c1eede](https://github.com/algolia/autocomplete/commit/8c1eedeb84812422b92d8d953bb24d875a4ebc6e))
+* prevent global linter from linting example ([3be822a](https://github.com/algolia/autocomplete/commit/3be822a24d7e93539bb0a7e93195fa5cf9549343))
+
+
+### Features
+
+* **examples:** add Twitter example ([#709](https://github.com/algolia/autocomplete/issues/709)) ([5054d81](https://github.com/algolia/autocomplete/commit/5054d81b17df938025e7f88c002c990f7c59a367))
+
+
+### Reverts
+
+* revert "fix: prevent global linter from linting example" ([fa3bb61](https://github.com/algolia/autocomplete/commit/fa3bb6121e0da1ddc1f7846109bc60453a4e31ba))
+
+
+
 # [1.4.0](https://github.com/algolia/autocomplete/compare/v1.3.0...v1.4.0) (2021-09-13)
 
 ### Features
