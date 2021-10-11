@@ -27,9 +27,6 @@ Alternatively, you may use npm:
 
 ```sh
 cd examples/github-repositories-custom-plugin
-```
-
-```sh
 npm install
 npm start
 ```
