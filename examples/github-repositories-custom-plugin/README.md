@@ -23,7 +23,7 @@ yarn
 yarn workspace @algolia/autocomplete-example-github-repositories-custom-plugin start
 ```
 
-Alternatively, you may use NPM:
+Alternatively, you may use npm:
 
 ```sh
 cd examples/github-repositories-custom-plugin
