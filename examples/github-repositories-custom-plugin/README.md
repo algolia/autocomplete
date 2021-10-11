@@ -16,24 +16,24 @@ This sample shows how to build an Autocomplete [plugin](https://www.algolia.com/
 git clone git@github.com:algolia/autocomplete.git
 ```
 
-### 2. Navigate to this sample folder
+### 2. Install the dependencies and run the server
 
-```
+**With NPM**
+
+```sh
 cd examples/github-repositories-custom-plugin
 ```
 
-### 3. Install the dependencies and run the server
-
-```
+```sh
 npm install
 npm start
 ```
 
-Alternatively, you may use Yarn:
+**With Yarn**
 
-```
+```sh
 yarn
-yarn start
+yarn workspace @algolia/autocomplete-example-github-repositories-custom-plugin start
 ```
 
 Open <http://localhost:1234> to see your app.
