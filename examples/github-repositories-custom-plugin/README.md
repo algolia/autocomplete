@@ -1,4 +1,4 @@
-# Autocomplete GitHub repositories custom plugin sample
+# Autocomplete GitHub repositories custom plugin example
 
 This example shows how to build an Autocomplete [plugin](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/plugins/) fetching GitHub repositories.
 
