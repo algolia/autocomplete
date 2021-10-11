@@ -12,9 +12,8 @@ This sample shows how to build an Autocomplete [plugin](https://www.algolia.com/
 
 ### 1. Clone this repository
 
-```
+```sh
 git clone git@github.com:algolia/autocomplete.git
-```
 
 ### 2. Navigate to this sample folder
 
