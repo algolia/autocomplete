@@ -23,7 +23,7 @@ import {
   AutocompleteState,
 } from './types';
 import { userAgents } from './userAgents';
-import { mergeDeep, setProperties } from './utils';
+import { focusAndOpenKeyboard, mergeDeep, setProperties } from './utils';
 
 export function autocomplete<TItem extends BaseItem>(
   options: AutocompleteOptions<TItem>
@@ -351,32 +351,31 @@ export function autocomplete<TItem extends BaseItem>(
   }
 
   function setIsModalOpen(value: boolean) {
-    requestAnimationFrame(() => {
-      const prevValue = props.value.core.environment.document.body.contains(
+    const prevValue = props.value.core.environment.document.body.contains(
+      dom.value.detachedOverlay
+    );
+
+    if (value === prevValue) {
+      return;
+    }
+
+    if (value) {
+      props.value.core.environment.document.body.appendChild(
         dom.value.detachedOverlay
       );
+      props.value.core.environment.document.body.classList.add('aa-Detached');
 
-      if (value === prevValue) {
-        return;
-      }
-
-      if (value) {
-        props.value.core.environment.document.body.appendChild(
-          dom.value.detachedOverlay
-        );
-        props.value.core.environment.document.body.classList.add('aa-Detached');
-        dom.value.input.focus();
-      } else {
-        props.value.core.environment.document.body.removeChild(
-          dom.value.detachedOverlay
-        );
-        props.value.core.environment.document.body.classList.remove(
-          'aa-Detached'
-        );
-        autocomplete.value.setQuery('');
-        autocomplete.value.refresh();
-      }
-    });
+      focusAndOpenKeyboard(props.value.core.environment, dom.value.input);
+    } else {
+      props.value.core.environment.document.body.removeChild(
+        dom.value.detachedOverlay
+      );
+      props.value.core.environment.document.body.classList.remove(
+        'aa-Detached'
+      );
+      autocomplete.value.setQuery('');
+      autocomplete.value.refresh();
+    }
   }
 
   return {
