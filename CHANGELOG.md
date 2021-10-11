@@ -9,11 +9,6 @@
 * prevent global linter from linting example ([3be822a](https://github.com/algolia/autocomplete/commit/3be822a24d7e93539bb0a7e93195fa5cf9549343))
 
 
-### Features
-
-* **examples:** add Twitter example ([#709](https://github.com/algolia/autocomplete/issues/709)) ([5054d81](https://github.com/algolia/autocomplete/commit/5054d81b17df938025e7f88c002c990f7c59a367))
-
-
 ### Reverts
 
 * revert "fix: prevent global linter from linting example" ([fa3bb61](https://github.com/algolia/autocomplete/commit/fa3bb6121e0da1ddc1f7846109bc60453a4e31ba))
