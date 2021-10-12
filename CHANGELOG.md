@@ -1,4 +1,4 @@
-# [](https://github.com/algolia/autocomplete/compare/v1.4.0...v) (2021-10-11)
+# [1.4.1](https://github.com/algolia/autocomplete/compare/v1.4.0...v1.4.1) (2021-10-11)
 
 ### Bug Fixes
 
