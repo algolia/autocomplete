@@ -1,11 +1,8 @@
 # [](https://github.com/algolia/autocomplete/compare/v1.4.0...v) (2021-10-11)
 
-
 ### Bug Fixes
 
 * **concurrency:** ensure responses resolve in order ([#753](https://github.com/algolia/autocomplete/issues/753)) ([d15c404](https://github.com/algolia/autocomplete/commit/d15c404845a1446ad2cc8673c44be4dbfa68723f))
-
-
 
 # [1.4.0](https://github.com/algolia/autocomplete/compare/v1.3.0...v1.4.0) (2021-09-13)
 
