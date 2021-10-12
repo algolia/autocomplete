@@ -35,7 +35,7 @@ export function Autocomplete(
             sourceId: 'accounts',
             onSelect({ item, setQuery }) {
               const [index] = activeToken.range;
-              const replacement = `@${item.handle}`;
+              const replacement = `@${item.handle} `;
               const newQuery = replaceAt(
                 query,
                 replacement,
