@@ -93,6 +93,7 @@ export function createTagsPlugin<
   const tagsApi = { setTags: tags.set, addTags: tags.add };
 
   return {
+    name: 'aa.tagsPlugin',
     subscribe(params) {
       const { setContext, onSelect, setIsOpen, refresh } = params;
       const subscribers = getTagsSubscribers();

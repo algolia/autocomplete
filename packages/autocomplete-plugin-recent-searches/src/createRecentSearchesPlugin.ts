@@ -78,6 +78,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
   const lastItemsRef = createRef<MaybePromise<TItem[]>>([]);
 
   return {
+    name: 'aa.recentSearchesPlugin',
     subscribe: subscribe ?? getDefaultSubcribe(store),
     onSubmit({ state }) {
       const { query } = state;

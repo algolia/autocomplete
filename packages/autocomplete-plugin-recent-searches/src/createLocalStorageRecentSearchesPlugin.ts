@@ -72,9 +72,14 @@ export function createLocalStorageRecentSearchesPlugin<
     search,
   });
 
-  return createRecentSearchesPlugin({
+  const recentSearchesPlugin = createRecentSearchesPlugin({
     transformSource,
     storage,
     subscribe,
   });
+
+  return {
+    ...recentSearchesPlugin,
+    name: 'aa.localStorageRecentSearchesPlugin',
+  };
 }

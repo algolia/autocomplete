@@ -11,6 +11,11 @@ beforeEach(() => {
 });
 
 describe('createTagsPlugin', () => {
+  test('has a name', () => {
+    const tagsPlugin = createTagsPlugin();
+
+    expect(tagsPlugin.name).toBe('aa.tagsPlugin');
+  });
   test('adds a tags source', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');

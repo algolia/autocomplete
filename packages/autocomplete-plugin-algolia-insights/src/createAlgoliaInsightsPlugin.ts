@@ -116,6 +116,7 @@ export function createAlgoliaInsightsPlugin({
   }, 0);
 
   return {
+    name: 'aa.algoliaInsightsPlugin',
     subscribe({ setContext, onSelect, onActive }) {
       setContext({ algoliaInsightsPlugin: { insights } });
 

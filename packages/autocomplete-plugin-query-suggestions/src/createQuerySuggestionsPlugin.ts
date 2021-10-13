@@ -81,6 +81,7 @@ export function createQuerySuggestionsPlugin<
   undefined
 > {
   return {
+    name: 'aa.querySuggestionsPlugin',
     getSources({ query, setQuery, refresh, state }) {
       function onTapAhead(item: TItem) {
         setQuery(`${item.query} `);
