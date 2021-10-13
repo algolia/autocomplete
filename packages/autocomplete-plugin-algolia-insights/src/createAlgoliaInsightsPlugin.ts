@@ -2,7 +2,12 @@ import {
   AutocompleteState,
   AutocompletePlugin,
 } from '@algolia/autocomplete-js';
-import { createRef, debounce, isEqual } from '@algolia/autocomplete-shared';
+import {
+  createRef,
+  debounce,
+  isEqual,
+  noop,
+} from '@algolia/autocomplete-shared';
 
 import { createClickedEvent } from './createClickedEvent';
 import { createSearchInsightsApi } from './createSearchInsightsApi';
@@ -75,16 +80,16 @@ export type CreateAlgoliaInsightsPluginParams = {
   onActive?(params: OnActiveParams): void;
 };
 
-export function createAlgoliaInsightsPlugin({
-  insightsClient,
-  onItemsChange = ({ insights, insightsEvents }) => {
-    insights.viewedObjectIDs(...insightsEvents);
-  },
-  onSelect: onSelectEvent = ({ insights, insightsEvents }) => {
-    insights.clickedObjectIDsAfterSearch(...insightsEvents);
-  },
-  onActive: onActiveEvent = () => {},
-}: CreateAlgoliaInsightsPluginParams): AutocompletePlugin<any, undefined> {
+export function createAlgoliaInsightsPlugin(
+  options: CreateAlgoliaInsightsPluginParams
+): AutocompletePlugin<any, undefined> {
+  const {
+    insightsClient,
+    onItemsChange,
+    onSelect: onSelectEvent,
+    onActive: onActiveEvent,
+  } = getOptions(options);
+
   const insights = createSearchInsightsApi(insightsClient);
   const previousItems = createRef<AlgoliaInsightsHit[]>([]);
 
@@ -161,5 +166,19 @@ export function createAlgoliaInsightsPlugin({
     onStateChange({ state }) {
       debouncedOnStateChange({ state: state as AutocompleteState<any> });
     },
+    __autocomplete_pluginOptions: options,
+  };
+}
+
+function getOptions(options: CreateAlgoliaInsightsPluginParams) {
+  return {
+    onItemsChange({ insights, insightsEvents }) {
+      insights.viewedObjectIDs(...insightsEvents);
+    },
+    onSelect({ insights, insightsEvents }) {
+      insights.clickedObjectIDsAfterSearch(...insightsEvents);
+    },
+    onActive: noop,
+    ...options,
   };
 }

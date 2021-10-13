@@ -11,6 +11,18 @@ describe('createRecentSearchesPlugin', () => {
     expect(plugin.name).toBe('aa.recentSearchesPlugin');
   });
 
+  test('exposes passed options and excludes default ones', () => {
+    const plugin = createRecentSearchesPlugin({
+      storage: { onAdd: noop, onRemove: noop, getAll: () => [] },
+      transformSource: ({ source }) => source,
+    });
+
+    expect(plugin.__autocomplete_pluginOptions).toEqual({
+      storage: expect.any(Object),
+      transformSource: expect.any(Function),
+    });
+  });
+
   test.todo('saves the query on select');
 
   test.todo('does not save the query on select without item input value');

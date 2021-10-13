@@ -66,14 +66,10 @@ function getDefaultSubcribe<TItem extends RecentSearchesItem>(
   };
 }
 
-export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
-  storage,
-  transformSource = ({ source }) => source,
-  subscribe,
-}: CreateRecentSearchesPluginParams<TItem>): AutocompletePlugin<
-  TItem,
-  RecentSearchesPluginData<TItem>
-> {
+export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>(
+  options: CreateRecentSearchesPluginParams<TItem>
+): AutocompletePlugin<TItem, RecentSearchesPluginData<TItem>> {
+  const { storage, transformSource, subscribe } = getOptions(options);
   const store = createStorageApi<TItem>(storage);
   const lastItemsRef = createRef<MaybePromise<TItem[]>>([]);
 
@@ -159,5 +155,15 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>({
         };
       },
     },
+    __autocomplete_pluginOptions: options,
+  };
+}
+
+function getOptions<TItem extends RecentSearchesItem>(
+  options: CreateRecentSearchesPluginParams<TItem>
+) {
+  return {
+    transformSource: ({ source }) => source,
+    ...options,
   };
 }

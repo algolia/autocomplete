@@ -13,6 +13,20 @@ describe('createQuerySuggestionsPlugin', () => {
     expect(plugin.name).toBe('aa.querySuggestionsPlugin');
   });
 
+  test('exposes passed options and excludes default ones', () => {
+    const plugin = createQuerySuggestionsPlugin({
+      searchClient,
+      indexName: 'indexName',
+      transformSource: ({ source }) => source,
+    });
+
+    expect(plugin.__autocomplete_pluginOptions).toEqual({
+      searchClient: expect.any(Object),
+      indexName: expect.any(String),
+      transformSource: expect.any(Function),
+    });
+  });
+
   test.todo('adds a source');
 
   test.todo('fills the input with the query item key');
