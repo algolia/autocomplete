@@ -1,5 +1,5 @@
-import { createQuerySuggestionsPlugin } from '../createQuerySuggestionsPlugin';
 import { createSearchClient } from '../../../../test/utils';
+import { createQuerySuggestionsPlugin } from '../createQuerySuggestionsPlugin';
 
 const searchClient = createSearchClient();
 
