@@ -1,9 +1,10 @@
+import { version } from '@algolia/autocomplete-shared';
+
 import {
   createSFFVResponse,
   createMultiSearchResponse,
   createSearchClient,
 } from '../../../../../test/utils';
-import { version } from '../../version';
 import { fetchAlgoliaResults } from '../fetchAlgoliaResults';
 
 function createTestSearchClient() {
