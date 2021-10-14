@@ -8,5 +8,6 @@ describe('createAlgoliaInsightsPlugin', () => {
 
     expect(plugin.name).toBe('aa.algoliaInsightsPlugin');
   });
+
   test.todo('tests');
 });

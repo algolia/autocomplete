@@ -16,6 +16,7 @@ describe('createTagsPlugin', () => {
 
     expect(tagsPlugin.name).toBe('aa.tagsPlugin');
   });
+
   test('adds a tags source', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
