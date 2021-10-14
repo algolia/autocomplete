@@ -31,4 +31,10 @@ export type AutocompletePlugin<
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/plugins/#param-data
    */
   data?: TData;
+  /**
+   * A name to identify the plugin.
+   *
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/plugins/#param-name
+   */
+  name?: string;
 };

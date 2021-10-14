@@ -1,4 +1,18 @@
+import { createSearchClient } from '../../../../test/utils';
+import { createQuerySuggestionsPlugin } from '../createQuerySuggestionsPlugin';
+
+const searchClient = createSearchClient();
+
 describe('createQuerySuggestionsPlugin', () => {
+  test('has a name', () => {
+    const plugin = createQuerySuggestionsPlugin({
+      searchClient,
+      indexName: 'indexName',
+    });
+
+    expect(plugin.name).toBe('aa.querySuggestionsPlugin');
+  });
+
   test.todo('adds a source');
 
   test.todo('fills the input with the query item key');

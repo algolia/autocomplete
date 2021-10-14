@@ -1,4 +1,16 @@
+import { noop } from '@algolia/autocomplete-shared';
+
+import { createRecentSearchesPlugin } from '../createRecentSearchesPlugin';
+
 describe('createRecentSearchesPlugin', () => {
+  test('has a name', () => {
+    const plugin = createRecentSearchesPlugin({
+      storage: { onAdd: noop, onRemove: noop, getAll: () => [] },
+    });
+
+    expect(plugin.name).toBe('aa.recentSearchesPlugin');
+  });
+
   test.todo('saves the query on select');
 
   test.todo('does not save the query on select without item input value');
