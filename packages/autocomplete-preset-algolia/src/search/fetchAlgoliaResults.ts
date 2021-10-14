@@ -1,3 +1,4 @@
+import { userAgents as coreUserAgents } from '@algolia/autocomplete-shared';
 import {
   MultipleQueriesQuery,
   SearchForFacetValuesResponse,
@@ -6,7 +7,6 @@ import {
 import type { SearchClient } from 'algoliasearch/lite';
 
 import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from '../constants';
-import { version } from '../version';
 
 type UserAgent = { segment: string; version?: string };
 
@@ -35,10 +35,7 @@ export function fetchAlgoliaResults<TRecord>({
   Array<SearchResponse<TRecord> | SearchForFacetValuesResponse>
 > {
   if (typeof searchClient.addAlgoliaAgent === 'function') {
-    const algoliaAgents: UserAgent[] = [
-      { segment: 'autocomplete-core', version },
-      ...userAgents,
-    ];
+    const algoliaAgents: UserAgent[] = [...coreUserAgents, ...userAgents];
 
     algoliaAgents.forEach(({ segment, version }) => {
       searchClient.addAlgoliaAgent(segment, version);

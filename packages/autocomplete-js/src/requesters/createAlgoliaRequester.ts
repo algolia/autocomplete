@@ -3,11 +3,11 @@ import {
   fetchAlgoliaResults,
 } from '@algolia/autocomplete-preset-algolia';
 
-import { version } from '../version';
+import { userAgents } from '../userAgents';
 
 export const createAlgoliaRequester = createRequester((params) =>
   fetchAlgoliaResults({
     ...params,
-    userAgents: [{ segment: 'autocomplete-js', version }],
+    userAgents,
   })
 );
