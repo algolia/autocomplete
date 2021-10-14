@@ -68,18 +68,19 @@ export type CreateQuerySuggestionsPluginParams<
 
 export function createQuerySuggestionsPlugin<
   TItem extends AutocompleteQuerySuggestionsHit
->({
-  searchClient,
-  indexName,
-  getSearchParams = () => ({}),
-  transformSource = ({ source }) => source,
-  categoryAttribute,
-  itemsWithCategories = 1,
-  categoriesPerItem = 1,
-}: CreateQuerySuggestionsPluginParams<TItem>): AutocompletePlugin<
-  TItem,
-  undefined
-> {
+>(
+  options: CreateQuerySuggestionsPluginParams<TItem>
+): AutocompletePlugin<TItem, undefined> {
+  const {
+    searchClient,
+    indexName,
+    getSearchParams,
+    transformSource,
+    categoryAttribute,
+    itemsWithCategories,
+    categoriesPerItem,
+  } = getOptions(options);
+
   return {
     name: 'aa.querySuggestionsPlugin',
     getSources({ query, setQuery, refresh, state }) {
@@ -155,5 +156,18 @@ export function createQuerySuggestionsPlugin<
         }),
       ];
     },
+    __autocomplete_pluginOptions: options,
+  };
+}
+
+function getOptions<TItem extends AutocompleteQuerySuggestionsHit>(
+  options: CreateQuerySuggestionsPluginParams<TItem>
+) {
+  return {
+    getSearchParams: () => ({}),
+    transformSource: ({ source }) => source,
+    itemsWithCategories: 1,
+    categoriesPerItem: 1,
+    ...options,
   };
 }

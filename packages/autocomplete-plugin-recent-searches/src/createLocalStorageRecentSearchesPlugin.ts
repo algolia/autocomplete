@@ -56,23 +56,19 @@ type LocalStorageRecentSearchesPluginOptions<
 
 export function createLocalStorageRecentSearchesPlugin<
   TItem extends RecentSearchesItem
->({
-  key,
-  limit = 5,
-  transformSource,
-  search = defaultSearch,
-  subscribe,
-}: LocalStorageRecentSearchesPluginOptions<TItem>): AutocompletePlugin<
-  TItem,
-  RecentSearchesPluginData<TItem>
-> {
-  const storage = createLocalStorage({
+>(
+  options: LocalStorageRecentSearchesPluginOptions<TItem>
+): AutocompletePlugin<TItem, RecentSearchesPluginData<TItem>> {
+  const { key, limit, transformSource, search, subscribe } = getOptions(
+    options
+  );
+  const storage = createLocalStorage<TItem>({
     key: [LOCAL_STORAGE_KEY, key].join(':'),
     limit,
     search,
   });
 
-  const recentSearchesPlugin = createRecentSearchesPlugin({
+  const recentSearchesPlugin = createRecentSearchesPlugin<TItem>({
     transformSource,
     storage,
     subscribe,
@@ -81,5 +77,16 @@ export function createLocalStorageRecentSearchesPlugin<
   return {
     ...recentSearchesPlugin,
     name: 'aa.localStorageRecentSearchesPlugin',
+    __autocomplete_pluginOptions: options,
+  };
+}
+
+function getOptions<TItem extends RecentSearchesItem>(
+  options: LocalStorageRecentSearchesPluginOptions<TItem>
+) {
+  return {
+    limit: 5,
+    search: defaultSearch,
+    ...options,
   };
 }

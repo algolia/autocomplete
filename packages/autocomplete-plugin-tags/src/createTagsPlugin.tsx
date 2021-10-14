@@ -80,15 +80,15 @@ export type CreateTagsPluginParams<
 export function createTagsPlugin<
   TItem extends BaseItem,
   TTag extends DefaultTagType = DefaultTagType
->({
-  initialTags = [],
-  getTagsSubscribers = () => [],
-  transformSource = ({ source }) => source,
-  onChange = noop,
-}: CreateTagsPluginParams<TItem, TTag> = {}): AutocompletePlugin<
-  Tag<TTag>,
-  TagsPluginData<TTag>
-> {
+>(
+  options: CreateTagsPluginParams<TItem, TTag> = {}
+): AutocompletePlugin<Tag<TTag>, TagsPluginData<TTag>> {
+  const {
+    initialTags,
+    getTagsSubscribers,
+    transformSource,
+    onChange,
+  } = getOptions(options);
   const tags = createTags({ initialTags });
   const tagsApi = { setTags: tags.set, addTags: tags.add };
 
@@ -167,5 +167,19 @@ export function createTagsPlugin<
         return tags.get();
       },
     },
+    __autocomplete_pluginOptions: options,
+  };
+}
+
+function getOptions<
+  TItem extends BaseItem,
+  TTag extends DefaultTagType = DefaultTagType
+>(options: CreateTagsPluginParams<TItem, TTag>) {
+  return {
+    initialTags: [],
+    getTagsSubscribers: () => [],
+    transformSource: ({ source }) => source,
+    onChange: noop,
+    ...options,
   };
 }

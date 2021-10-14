@@ -17,6 +17,16 @@ describe('createTagsPlugin', () => {
     expect(tagsPlugin.name).toBe('aa.tagsPlugin');
   });
 
+  test('exposes passed options and excludes default ones', () => {
+    const tagsPlugin = createTagsPlugin({
+      initialTags: [],
+    });
+
+    expect(tagsPlugin.__autocomplete_pluginOptions).toEqual({
+      initialTags: expect.any(Array),
+    });
+  });
+
   test('adds a tags source', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
