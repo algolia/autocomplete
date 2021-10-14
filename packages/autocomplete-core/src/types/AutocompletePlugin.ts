@@ -37,5 +37,8 @@ export type AutocompletePlugin<
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/plugins/#param-name
    */
   name?: string;
+  /**
+   * @internal
+   */
   __autocomplete_pluginOptions?: Record<string, any>;
 };
