@@ -1,6 +1,6 @@
 # Autocomplete query suggestions with inline categories example
 
-This example shows how to use Autocomplete with the [query-suggestions plugin](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions/) and display inline categories for each suggestions.
+This example shows how to use Autocomplete with the [Query Suggestions plugin](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions/) and display inline categories for each suggestion.
 
 <p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete query suggestions with inline categories example" /></p>
 
