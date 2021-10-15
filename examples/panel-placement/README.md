@@ -1,6 +1,6 @@
 # Autocomplete panel placement example
 
-This example shows how to use the [panelPlacement parameter](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-panelplacement) of the Autocomplete library.
+This example shows how to use Autocomplete's [`panelPlacement` parameter](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-panelplacement).
 
 <p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete placement demo" /></p>
 
