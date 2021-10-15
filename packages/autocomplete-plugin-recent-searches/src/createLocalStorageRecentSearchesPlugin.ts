@@ -87,6 +87,7 @@ function getOptions<TItem extends RecentSearchesItem>(
   return {
     limit: 5,
     search: defaultSearch,
+    transformSource: ({ source }) => source,
     ...options,
   };
 }
