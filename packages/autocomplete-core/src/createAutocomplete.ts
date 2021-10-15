@@ -3,7 +3,7 @@ import { createStore } from './createStore';
 import { getAutocompleteSetters } from './getAutocompleteSetters';
 import { getDefaultProps } from './getDefaultProps';
 import { getPropGetters } from './getPropGetters';
-import { getMetadata, inlineMetadata, isMetadataEnabled } from './metadata';
+import { getMetadata, inlineMetadata } from './metadata';
 import { onInput } from './onInput';
 import { stateReducer } from './stateReducer';
 import {
