@@ -2,7 +2,7 @@
 
 This example shows a full-featured Autocomplete example with various plugins.
 
-<p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete playground demo" /></p>
+<p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete playground" /></p>
 
 ## Demo
 
