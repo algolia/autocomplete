@@ -2,7 +2,7 @@
 
 This example shows how to integrate Autocomplete with [InstantSearch.js](https://github.com/algolia/instantsearch.js/).
 
-<p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete with InstantSearch.sj demo" /></p>
+<p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete with InstantSearch.js demo" /></p>
 
 ## Demo
 
