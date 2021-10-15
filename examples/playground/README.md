@@ -1,4 +1,4 @@
-# Autocomplete playground example
+# Autocomplete playground
 
 This example shows how to use the Autocomplete library with the following plugins: [autocomplete-plugin-recent-searches
 ](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/), [autocomplete-plugin-query-suggestions](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions/) and [autocomplete-plugin-algolia-insights
