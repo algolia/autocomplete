@@ -1,6 +1,6 @@
 # Autocomplete preview panel in modal example
 
-This example shows how to display a preview in a modal when using the Autocomplete library.
+This example shows how to display a preview panel in a modal with Autocomplete.
 
 <p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete preview panel in modal example" /></p>
 
