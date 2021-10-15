@@ -3,6 +3,7 @@ import { createStore } from './createStore';
 import { getAutocompleteSetters } from './getAutocompleteSetters';
 import { getDefaultProps } from './getDefaultProps';
 import { getPropGetters } from './getPropGetters';
+import { getMetadata, inlineMetadata, isMetadataEnabled } from './metadata';
 import { onInput } from './onInput';
 import { stateReducer } from './stateReducer';
 import {
@@ -12,7 +13,7 @@ import {
   AutocompleteSubscribers,
 } from './types';
 
-interface AutocompleteOptions<TItem extends BaseItem>
+export interface AutocompleteOptionsWithMetadata<TItem extends BaseItem>
   extends AutocompleteCoreOptions<TItem> {
   /**
    * @internal
@@ -26,7 +27,7 @@ export function createAutocomplete<
   TMouseEvent = MouseEvent,
   TKeyboardEvent = KeyboardEvent
 >(
-  options: AutocompleteOptions<TItem>
+  options: AutocompleteOptionsWithMetadata<TItem>
 ): AutocompleteApi<TItem, TEvent, TMouseEvent, TKeyboardEvent> {
   checkOptions(options);
 
@@ -70,6 +71,11 @@ export function createAutocomplete<
       },
     })
   );
+
+  inlineMetadata({
+    metadata: getMetadata({ plugins: props.plugins, options }),
+    environment: props.environment,
+  });
 
   return {
     refresh,
