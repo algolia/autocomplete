@@ -6,7 +6,7 @@ This example shows a full-featured Autocomplete example with various plugins.
 
 ## Demo
 
-[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/master/examples/playground)
+[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/playground)
 
 ## How to run this example locally
 

@@ -6,7 +6,7 @@ This example shows how to use Autocomplete's [`panelPlacement` parameter](https:
 
 ## Demo
 
-[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/master/examples/panel-placement)
+[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/panel-placement)
 
 ## How to run this example locally
 

@@ -6,7 +6,7 @@ This example shows how to use Autocomplete with the [Query Suggestions plugin](h
 
 ## Demo
 
-[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/master/examples/query-suggestions)
+[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/query-suggestions)
 
 ## How to run this example locally
 

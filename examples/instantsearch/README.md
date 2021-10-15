@@ -6,7 +6,7 @@ This example shows how to integrate Autocomplete with [InstantSearch.js](https:/
 
 ## Demo
 
-[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/master/examples/instantsearch)
+[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/instantsearch)
 
 ## How to run this example locally
 

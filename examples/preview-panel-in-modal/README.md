@@ -6,7 +6,7 @@ This example shows how to display a preview panel in a modal with Autocomplete.
 
 ## Demo
 
-[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/master/examples/preview-panel-in-modal)
+[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/preview-panel-in-modal)
 
 ## How to run this example locally
 
