@@ -26,7 +26,7 @@ yarn workspace @algolia/autocomplete-example-panel-placement start
 Alternatively, you may use npm:
 
 ```sh
-cd examples/instantsearch
+cd examples/panel-placement
 npm install
 npm start
 ```
