@@ -1,4 +1,4 @@
-# Autocomplete query suggestions with hits example
+# Autocomplete Query Suggestions with hits example
 
 This example shows how to use Autocomplete with the [query-suggestions plugin](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions/) along with displaying hits.
 
