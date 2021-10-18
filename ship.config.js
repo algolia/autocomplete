@@ -35,12 +35,10 @@ module.exports = {
     updatePackagesVersionFile({
       version,
       files: [
-        path.resolve(dir, 'packages', 'autocomplete-core', 'src', 'version.ts'),
-        path.resolve(dir, 'packages', 'autocomplete-js', 'src', 'version.ts'),
         path.resolve(
           dir,
           'packages',
-          'autocomplete-preset-algolia',
+          'autocomplete-shared',
           'src',
           'version.ts'
         ),

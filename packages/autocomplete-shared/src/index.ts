@@ -9,4 +9,6 @@ export * from './invariant';
 export * from './isEqual';
 export * from './MaybePromise';
 export * from './noop';
+export * from './userAgents';
+export * from './version';
 export * from './warn';

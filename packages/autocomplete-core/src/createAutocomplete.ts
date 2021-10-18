@@ -7,10 +7,18 @@ import { onInput } from './onInput';
 import { stateReducer } from './stateReducer';
 import {
   AutocompleteApi,
-  AutocompleteOptions,
+  AutocompleteOptions as AutocompleteCoreOptions,
   BaseItem,
   AutocompleteSubscribers,
 } from './types';
+
+interface AutocompleteOptions<TItem extends BaseItem>
+  extends AutocompleteCoreOptions<TItem> {
+  /**
+   * @internal
+   */
+  __autocomplete_metadata?: Record<string, unknown>;
+}
 
 export function createAutocomplete<
   TItem extends BaseItem,

@@ -22,6 +22,7 @@ import {
   AutocompleteSource,
   AutocompleteState,
 } from './types';
+import { userAgents } from './userAgents';
 import { mergeDeep, setProperties } from './utils';
 
 export function autocomplete<TItem extends BaseItem>(
@@ -74,6 +75,10 @@ export function autocomplete<TItem extends BaseItem>(
 
           return (!hasItems && hasNoResultsTemplate) || hasItems;
         }),
+      __autocomplete_metadata: {
+        userAgents,
+        options,
+      },
     })
   );
   const lastStateRef = createRef<AutocompleteState<TItem>>({
