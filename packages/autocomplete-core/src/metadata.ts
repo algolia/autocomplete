@@ -64,7 +64,7 @@ export function inlineMetadata({
 
     setTimeout(() => {
       metadataContainer.content = JSON.stringify(metadata);
-      headRef?.appendChild(metadataContainer);
+      headRef!.appendChild(metadataContainer);
     }, 0);
   }
 }
