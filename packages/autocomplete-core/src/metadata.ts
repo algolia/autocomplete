@@ -13,8 +13,8 @@ type AutocompleteMetadata = {
     options: string[];
   }>;
   options: {
-    core: string[];
-    js: string[];
+    aa_core: string[];
+    aa_js: string[];
   };
   ua: UserAgent[];
 };
