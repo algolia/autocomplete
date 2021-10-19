@@ -50,7 +50,7 @@ describe('metadata', () => {
         ).content
       )
     ).toEqual({
-      options: { aa_core: ['environment'], aa_js: [] },
+      options: { 'autocomplete-core': ['environment'] },
       plugins: [],
       ua: [{ segment: 'autocomplete-core', version }],
     });
@@ -88,8 +88,7 @@ describe('metadata', () => {
         ).content
       ).options
     ).toEqual({
-      aa_core: ['openOnFocus', 'placeholder', 'environment'],
-      aa_js: [],
+      'autocomplete-core': ['openOnFocus', 'placeholder', 'environment'],
     });
   });
 

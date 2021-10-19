@@ -2,6 +2,7 @@ import { UserAgent, userAgents } from '@algolia/autocomplete-shared';
 
 import {
   AutocompleteEnvironment,
+  AutocompleteOptions,
   AutocompleteOptionsWithMetadata,
   AutocompletePlugin,
   BaseItem,
@@ -12,10 +13,7 @@ type AutocompleteMetadata = {
     name: string | undefined;
     options: string[];
   }>;
-  options: {
-    aa_core: string[];
-    aa_js: string[];
-  };
+  options: Record<string, string[]>;
   ua: UserAgent[];
 };
 
@@ -28,16 +26,26 @@ export function getMetadata<TItem extends BaseItem, TData = unknown>({
   plugins,
   options,
 }: GetMetadataParams<TItem, TData>) {
+  const optionsKey = ((options.__autocomplete_metadata
+    ?.userAgents as UserAgent[]) || [])[0]?.segment;
+
+  const extraOptions = optionsKey
+    ? {
+        [optionsKey]: Object.keys(
+          (options.__autocomplete_metadata
+            ?.options as AutocompleteOptions<TItem>) || {}
+        ),
+      }
+    : {};
+
   return {
     plugins: plugins.map((plugin) => ({
       name: plugin.name,
       options: Object.keys(plugin.__autocomplete_pluginOptions || []),
     })),
     options: {
-      aa_core: Object.keys(options),
-      aa_js: Object.keys(
-        (options.__autocomplete_metadata?.options as any) || []
-      ),
+      'autocomplete-core': Object.keys(options),
+      ...extraOptions,
     },
     ua: userAgents.concat(
       (options.__autocomplete_metadata?.userAgents as any) || []
