@@ -50,7 +50,7 @@ describe('metadata', () => {
         ).content
       )
     ).toEqual({
-      options: { core: ['environment'], js: [] },
+      options: { aa_core: ['environment'], aa_js: [] },
       plugins: [],
       ua: [{ segment: 'autocomplete-core', version }],
     });
@@ -87,7 +87,10 @@ describe('metadata', () => {
           'meta[name="algolia:metadata"]'
         ).content
       ).options
-    ).toEqual({ core: ['openOnFocus', 'placeholder', 'environment'], js: [] });
+    ).toEqual({
+      aa_core: ['openOnFocus', 'placeholder', 'environment'],
+      aa_js: [],
+    });
   });
 
   test('exposes passed plugins and their passed options', async () => {

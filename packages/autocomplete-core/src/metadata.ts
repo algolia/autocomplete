@@ -34,8 +34,10 @@ export function getMetadata<TItem extends BaseItem, TData = unknown>({
       options: Object.keys(plugin.__autocomplete_pluginOptions || []),
     })),
     options: {
-      core: Object.keys(options),
-      js: Object.keys((options.__autocomplete_metadata?.options as any) || []),
+      aa_core: Object.keys(options),
+      aa_js: Object.keys(
+        (options.__autocomplete_metadata?.options as any) || []
+      ),
     },
     ua: userAgents.concat(
       (options.__autocomplete_metadata?.userAgents as any) || []

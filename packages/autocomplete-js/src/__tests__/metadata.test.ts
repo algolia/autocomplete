@@ -92,7 +92,7 @@ describe('metadata', () => {
         ).content
       ).options
     ).toEqual({
-      core: [
+      aa_core: [
         'id',
         'getSources',
         'environment',
@@ -100,7 +100,7 @@ describe('metadata', () => {
         'shouldPanelOpen',
         '__autocomplete_metadata',
       ],
-      js: ['id', 'container', 'getSources'],
+      aa_js: ['id', 'container', 'getSources'],
     });
   });
 });
