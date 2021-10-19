@@ -46,7 +46,6 @@ describe('metadata', () => {
 
     const container = document.createElement('div');
     autocomplete<{ label: string }>({
-      id: 'autocomplete',
       container,
       getSources() {
         return [createSource()];
