@@ -43,7 +43,13 @@ describe('metadata', () => {
 
     await defer(noop, 0);
 
-    expect(JSON.parse(document.head.querySelector('meta').content)).toEqual({
+    expect(
+      JSON.parse(
+        document.head.querySelector<HTMLMetaElement>(
+          'meta[name="algolia:metadata"]'
+        ).content
+      )
+    ).toEqual({
       options: { core: ['environment'], js: [] },
       plugins: [],
       ua: [{ segment: 'autocomplete-core', version }],
@@ -58,7 +64,11 @@ describe('metadata', () => {
     await defer(noop, 0);
 
     expect(
-      JSON.parse(document.head.querySelector('meta').content).ua
+      JSON.parse(
+        document.head.querySelector<HTMLMetaElement>(
+          'meta[name="algolia:metadata"]'
+        ).content
+      ).ua
     ).toMatchInlineSnapshot(
       [{ version: expect.any(String) }],
       `
@@ -81,8 +91,13 @@ describe('metadata', () => {
 
     await defer(noop, 0);
 
-    expect(JSON.parse(document.head.querySelector('meta').content).options)
-      .toMatchInlineSnapshot(`
+    expect(
+      JSON.parse(
+        document.head.querySelector<HTMLMetaElement>(
+          'meta[name="algolia:metadata"]'
+        ).content
+      ).options
+    ).toMatchInlineSnapshot(`
       Object {
         "core": Array [
           "openOnFocus",
@@ -107,8 +122,13 @@ describe('metadata', () => {
 
     await defer(noop, 0);
 
-    expect(JSON.parse(document.head.querySelector('meta').content).plugins)
-      .toMatchInlineSnapshot(`
+    expect(
+      JSON.parse(
+        document.head.querySelector<HTMLMetaElement>(
+          'meta[name="algolia:metadata"]'
+        ).content
+      ).plugins
+    ).toMatchInlineSnapshot(`
       Array [
         Object {
           "name": "aa.algoliaInsightsPlugin",
@@ -133,8 +153,13 @@ describe('metadata', () => {
 
     await defer(noop, 0);
 
-    expect(JSON.parse(document.head.querySelector('meta').content).plugins)
-      .toMatchInlineSnapshot(`
+    expect(
+      JSON.parse(
+        document.head.querySelector<HTMLMetaElement>(
+          'meta[name="algolia:metadata"]'
+        ).content
+      ).plugins
+    ).toMatchInlineSnapshot(`
       Array [
         Object {
           "name": "customPlugin",
@@ -152,8 +177,13 @@ describe('metadata', () => {
 
     await defer(noop, 0);
 
-    expect(JSON.parse(document.head.querySelector('meta').content).plugins)
-      .toMatchInlineSnapshot(`
+    expect(
+      JSON.parse(
+        document.head.querySelector<HTMLMetaElement>(
+          'meta[name="algolia:metadata"]'
+        ).content
+      ).plugins
+    ).toMatchInlineSnapshot(`
       Array [
         Object {
           "options": Array [],

@@ -72,7 +72,11 @@ describe('metadata', () => {
     await defer(noop, 0);
 
     expect(
-      JSON.parse(document.head.querySelector('meta').content).ua
+      JSON.parse(
+        document.head.querySelector<HTMLMetaElement>(
+          'meta[name="algolia:metadata"]'
+        ).content
+      ).ua
     ).toMatchInlineSnapshot(
       [{ version: expect.any(String) }, { version: expect.any(String) }],
       `
@@ -103,8 +107,13 @@ describe('metadata', () => {
 
     await defer(noop, 0);
 
-    expect(JSON.parse(document.head.querySelector('meta').content).options)
-      .toMatchInlineSnapshot(`
+    expect(
+      JSON.parse(
+        document.head.querySelector<HTMLMetaElement>(
+          'meta[name="algolia:metadata"]'
+        ).content
+      ).options
+    ).toMatchInlineSnapshot(`
       Object {
         "core": Array [
           "id",

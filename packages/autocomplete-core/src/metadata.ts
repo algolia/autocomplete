@@ -60,7 +60,7 @@ export function inlineMetadata({
     const metadataContainer = environment.document.createElement('meta');
     const headRef = environment.document.querySelector('head');
 
-    metadataContainer.name = 'autocomplete:metadata';
+    metadataContainer.name = 'algolia:metadata';
 
     setTimeout(() => {
       metadataContainer.content = JSON.stringify(metadata);
