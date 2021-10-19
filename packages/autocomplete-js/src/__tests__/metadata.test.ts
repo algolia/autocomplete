@@ -1,4 +1,4 @@
-import { noop } from '@algolia/autocomplete-shared';
+import { noop, version } from '@algolia/autocomplete-shared';
 
 import { defer } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
@@ -77,21 +77,16 @@ describe('metadata', () => {
           'meta[name="algolia:metadata"]'
         ).content
       ).ua
-    ).toMatchInlineSnapshot(
-      [{ version: expect.any(String) }, { version: expect.any(String) }],
-      `
-      Array [
-        Object {
-          "segment": "autocomplete-core",
-          "version": Any<String>,
-        },
-        Object {
-          "segment": "autocomplete-js",
-          "version": Any<String>,
-        },
-      ]
-    `
-    );
+    ).toEqual([
+      {
+        segment: 'autocomplete-core',
+        version,
+      },
+      {
+        segment: 'autocomplete-js',
+        version,
+      },
+    ]);
   });
 
   test('exposes passed options', async () => {
@@ -113,22 +108,16 @@ describe('metadata', () => {
           'meta[name="algolia:metadata"]'
         ).content
       ).options
-    ).toMatchInlineSnapshot(`
-      Object {
-        "core": Array [
-          "id",
-          "getSources",
-          "environment",
-          "onStateChange",
-          "shouldPanelOpen",
-          "__autocomplete_metadata",
-        ],
-        "js": Array [
-          "id",
-          "container",
-          "getSources",
-        ],
-      }
-    `);
+    ).toEqual({
+      core: [
+        'id',
+        'getSources',
+        'environment',
+        'onStateChange',
+        'shouldPanelOpen',
+        '__autocomplete_metadata',
+      ],
+      js: ['id', 'container', 'getSources'],
+    });
   });
 });

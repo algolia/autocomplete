@@ -69,17 +69,7 @@ describe('metadata', () => {
           'meta[name="algolia:metadata"]'
         ).content
       ).ua
-    ).toMatchInlineSnapshot(
-      [{ version: expect.any(String) }],
-      `
-      Array [
-        Object {
-          "segment": "autocomplete-core",
-          "version": Any<String>,
-        },
-      ]
-    `
-    );
+    ).toEqual([{ segment: 'autocomplete-core', version }]);
   });
 
   test('exposes passed options', async () => {
@@ -97,16 +87,7 @@ describe('metadata', () => {
           'meta[name="algolia:metadata"]'
         ).content
       ).options
-    ).toMatchInlineSnapshot(`
-      Object {
-        "core": Array [
-          "openOnFocus",
-          "placeholder",
-          "environment",
-        ],
-        "js": Array [],
-      }
-    `);
+    ).toEqual({ core: ['openOnFocus', 'placeholder', 'environment'], js: [] });
   });
 
   test('exposes passed plugins and their passed options', async () => {
@@ -128,17 +109,12 @@ describe('metadata', () => {
           'meta[name="algolia:metadata"]'
         ).content
       ).plugins
-    ).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "name": "aa.algoliaInsightsPlugin",
-          "options": Array [
-            "insightsClient",
-            "onItemsChange",
-          ],
-        },
-      ]
-    `);
+    ).toEqual([
+      {
+        name: 'aa.algoliaInsightsPlugin',
+        options: ['insightsClient', 'onItemsChange'],
+      },
+    ]);
   });
 
   test('exposes custom plugins', async () => {
@@ -159,14 +135,7 @@ describe('metadata', () => {
           'meta[name="algolia:metadata"]'
         ).content
       ).plugins
-    ).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "name": "customPlugin",
-          "options": Array [],
-        },
-      ]
-    `);
+    ).toEqual([{ name: 'customPlugin', options: [] }]);
   });
 
   test('does not set a fallback name for unnamed custom plugins', async () => {
@@ -183,13 +152,7 @@ describe('metadata', () => {
           'meta[name="algolia:metadata"]'
         ).content
       ).plugins
-    ).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "options": Array [],
-        },
-      ]
-    `);
+    ).toEqual([{ options: [] }]);
   });
 });
 
