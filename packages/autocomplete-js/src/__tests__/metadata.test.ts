@@ -1,6 +1,6 @@
 import { noop, version } from '@algolia/autocomplete-shared';
 
-import { defer } from '../../../../test/utils';
+import { createSource, defer } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
 
 const { window } = global;
@@ -49,23 +49,7 @@ describe('metadata', () => {
       id: 'autocomplete',
       container,
       getSources() {
-        return [
-          {
-            sourceId: 'testSource',
-            getItems() {
-              return [
-                { label: 'Item 1' },
-                { label: 'Item 2' },
-                { label: 'Item 3' },
-              ];
-            },
-            templates: {
-              item({ item }) {
-                return item.label;
-              },
-            },
-          },
-        ];
+        return [createSource()];
       },
     });
 
