@@ -1,4 +1,7 @@
-import { userAgents as coreUserAgents } from '@algolia/autocomplete-shared';
+import {
+  userAgents as coreUserAgents,
+  UserAgent,
+} from '@algolia/autocomplete-shared';
 import {
   MultipleQueriesQuery,
   SearchForFacetValuesResponse,
@@ -7,8 +10,6 @@ import {
 import type { SearchClient } from 'algoliasearch/lite';
 
 import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from '../constants';
-
-type UserAgent = { segment: string; version?: string };
 
 export interface SearchParams {
   /**

@@ -34,7 +34,7 @@ module.exports = {
     '@typescript-eslint/camelcase': [
       ERROR,
       {
-        allow: ['__autocomplete_'],
+        allow: ['__autocomplete_', 'aa_core', 'aa_js'],
       },
     ],
     // Useful to call functions like `nodeItem?.scrollIntoView()`.

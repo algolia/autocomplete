@@ -11,4 +11,5 @@ export type AutocompleteEnvironment =
         assign: Location['assign'];
       };
       open: Window['open'];
+      navigator: Window['navigator'];
     };
