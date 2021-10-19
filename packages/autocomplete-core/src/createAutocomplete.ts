@@ -3,7 +3,7 @@ import { createStore } from './createStore';
 import { getAutocompleteSetters } from './getAutocompleteSetters';
 import { getDefaultProps } from './getDefaultProps';
 import { getPropGetters } from './getPropGetters';
-import { getMetadata, inlineMetadata } from './metadata';
+import { getMetadata, injectMetadata } from './metadata';
 import { onInput } from './onInput';
 import { stateReducer } from './stateReducer';
 import {
@@ -72,7 +72,7 @@ export function createAutocomplete<
     })
   );
 
-  inlineMetadata({
+  injectMetadata({
     metadata: getMetadata({ plugins: props.plugins, options }),
     environment: props.environment,
   });

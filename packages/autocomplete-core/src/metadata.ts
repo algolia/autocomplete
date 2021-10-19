@@ -48,7 +48,7 @@ type InlineMetadataParams = {
   environment: AutocompleteEnvironment;
 };
 
-export function inlineMetadata({
+export function injectMetadata({
   metadata,
   environment,
 }: InlineMetadataParams) {
