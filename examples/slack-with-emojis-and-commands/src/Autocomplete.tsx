@@ -2,7 +2,6 @@ import {
   AutocompleteApi,
   AutocompleteOptions,
   AutocompleteReshapeSource,
-  BaseItem,
   InternalAutocompleteSource,
 } from '@algolia/autocomplete-core';
 import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
@@ -12,6 +11,8 @@ import React, { useRef } from 'react';
 import getCaretCoordinates from 'textarea-caret';
 
 import { commands } from './commands';
+import { CommandsSource } from './components/CommandsSource';
+import { EmojisSource } from './components/EmojisSource';
 import { useAutocomplete } from './hooks';
 import { Command, Emoji } from './types';
 import {
@@ -256,106 +257,5 @@ export function Autocomplete(
         </div>
       </div>
     </div>
-  );
-}
-
-type SourceProps<TItem extends BaseItem> = {
-  source: InternalAutocompleteSource<TItem>;
-  items: TItem[];
-  autocomplete: AutocompleteApi<
-    TItem,
-    React.BaseSyntheticEvent<object, any, any>,
-    React.MouseEvent<Element, MouseEvent>,
-    React.KeyboardEvent<Element>
-  >;
-};
-
-function CommandsSource({ source, items, autocomplete }: SourceProps<Command>) {
-  return (
-    <ul
-      {...autocomplete.getListProps()}
-      className="autocomplete-source source-commands"
-    >
-      {items.map((item: any) => {
-        const itemProps = autocomplete.getItemProps({
-          item,
-          source,
-        });
-
-        return (
-          <li
-            key={item.slug}
-            {...itemProps}
-            className={[
-              'autocomplete-item',
-              itemProps['aria-selected'] && 'autocomplete-item-selected',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-          >
-            <div
-              className={[
-                'autocomplete-item-icon',
-                item.slug === 'videochat' && 'autocomplete-item-icon-videochat',
-                item.slug === 'gif' && 'autocomplete-item-icon-gif',
-                item.slug === 'survey' && 'autocomplete-item-icon-survey',
-              ]
-                .filter(Boolean)
-                .join(' ')}
-            >
-              {item.icon}
-            </div>
-            <div className="autocomplete-item-content">
-              <div className="autocomplete-item-title">
-                {item.slug}{' '}
-                {item.commands.length > 0 && `[${item.commands.join(', ')}]`}
-              </div>
-              <div className="autocomplete-item-description">
-                {item.description}
-              </div>
-            </div>
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
-
-function EmojisSource({
-  source,
-  items,
-  autocomplete,
-}: SourceProps<Hit<Emoji>>) {
-  return (
-    <>
-      <h2 className="autocomplete-header">{source.sourceId}</h2>
-      <ul
-        {...autocomplete.getListProps()}
-        className="autocomplete-source source-emojis"
-      >
-        {items.map((item) => {
-          const itemProps = autocomplete.getItemProps({
-            item,
-            source,
-          });
-
-          return (
-            <li
-              key={item.slug}
-              {...itemProps}
-              className={[
-                'autocomplete-item',
-                itemProps['aria-selected'] && 'autocomplete-item-selected',
-              ]
-                .filter(Boolean)
-                .join(' ')}
-              title={item.name}
-            >
-              {item.symbol}
-            </li>
-          );
-        })}
-      </ul>
-    </>
   );
 }
