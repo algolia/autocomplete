@@ -117,7 +117,7 @@ body {
 }
 
 .box-help kbd {
-  color: rgba(156, 163, 175, 1);
+  color: rgba(107, 114, 128, 0.8);
   font-size: 0.75rem;
   line-height: 1rem;
   padding-top: 0.125rem;
