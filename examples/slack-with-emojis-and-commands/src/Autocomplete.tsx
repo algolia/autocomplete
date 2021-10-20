@@ -131,7 +131,7 @@ export function Autocomplete(
         return Object.keys(emojisByGroup).map((group) => {
           return {
             ...emojis,
-            sourceId: group,
+            sourceId: `emojis/${group}`,
             getItems() {
               return emojisByGroup[group];
             },
@@ -226,38 +226,42 @@ export function Autocomplete(
             )}
             {state.isOpen &&
               state.collections.map(({ source, items }) => {
+                if (items.length === 0) {
+                  return null;
+                }
+
                 return (
                   <div key={`source-${source.sourceId}`}>
-                    {items.length > 0 &&
-                      (source.sourceId === 'commands' ? (
-                        <CommandsSource
-                          source={source as InternalAutocompleteSource<Command>}
-                          items={items as Command[]}
-                          autocomplete={
-                            autocomplete as AutocompleteApi<
-                              Command,
-                              React.BaseSyntheticEvent<object, any, any>,
-                              React.MouseEvent<Element, MouseEvent>,
-                              React.KeyboardEvent<Element>
-                            >
-                          }
-                        />
-                      ) : (
-                        <EmojisSource
-                          source={
-                            source as InternalAutocompleteSource<Hit<Emoji>>
-                          }
-                          items={items as Array<Hit<Emoji>>}
-                          autocomplete={
-                            autocomplete as AutocompleteApi<
-                              Hit<Emoji>,
-                              React.BaseSyntheticEvent<object, any, any>,
-                              React.MouseEvent<Element, MouseEvent>,
-                              React.KeyboardEvent<Element>
-                            >
-                          }
-                        />
-                      ))}
+                    {source.sourceId === 'commands' && (
+                      <CommandsSource
+                        source={source as InternalAutocompleteSource<Command>}
+                        items={items as Command[]}
+                        autocomplete={
+                          autocomplete as AutocompleteApi<
+                            Command,
+                            React.BaseSyntheticEvent<object, any, any>,
+                            React.MouseEvent<Element, MouseEvent>,
+                            React.KeyboardEvent<Element>
+                          >
+                        }
+                      />
+                    )}
+                    {source.sourceId.startsWith('emojis/') && (
+                      <EmojisSource
+                        source={
+                          source as InternalAutocompleteSource<Hit<Emoji>>
+                        }
+                        items={items as Array<Hit<Emoji>>}
+                        autocomplete={
+                          autocomplete as AutocompleteApi<
+                            Hit<Emoji>,
+                            React.BaseSyntheticEvent<object, any, any>,
+                            React.MouseEvent<Element, MouseEvent>,
+                            React.KeyboardEvent<Element>
+                          >
+                        }
+                      />
+                    )}
                   </div>
                 );
               })}

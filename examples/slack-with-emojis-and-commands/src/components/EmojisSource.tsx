@@ -6,9 +6,11 @@ export function EmojisSource({
   items,
   autocomplete,
 }: SourceProps<Hit<Emoji>>) {
+  const [, category] = source.sourceId.split('/');
+
   return (
     <>
-      <h2 className="autocomplete-header">{source.sourceId}</h2>
+      <h2 className="autocomplete-header">{category}</h2>
       <ul
         {...autocomplete.getListProps()}
         className="autocomplete-source source-emojis"
