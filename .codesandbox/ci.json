@@ -12,7 +12,7 @@
     "/examples/starter",
     "/examples/reshape",
     "/examples/vue",
-    "/examples/twitter-compose-with-typeahead",
+    "/examples/twitter-compose-with-typeahead"
   ],
   "node": "14"
 }
