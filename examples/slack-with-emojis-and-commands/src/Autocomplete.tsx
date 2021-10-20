@@ -204,7 +204,7 @@ export function Autocomplete(
 
                   if (match) {
                     const [index] = activeToken.range;
-                    const replacement = `${(match as Hit<Emoji>).symbol}`;
+                    const replacement = `${(match as Hit<Emoji>).symbol} `;
                     const newQuery = replaceAt(
                       state.query,
                       replacement,
