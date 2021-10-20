@@ -181,7 +181,48 @@ export function Autocomplete(
             })}
             className="box-form"
           >
-            <textarea className="box-textbox" ref={inputRef} {...inputProps} />
+            <textarea
+              className="box-textbox"
+              ref={inputRef}
+              {...inputProps}
+              onKeyUp={() => {
+                const cursorPosition = inputRef.current?.selectionEnd || 0;
+                const activeToken = getActiveToken(state.query, cursorPosition);
+
+                if (
+                  activeToken?.word &&
+                  isValidEmojiSlug(activeToken.word) &&
+                  activeToken.word.endsWith(':') &&
+                  state.status === 'idle'
+                ) {
+                  const [match] = state.collections.map(({ items }) =>
+                    items.find(
+                      (item) =>
+                        item.slug === activeToken.word.replaceAll(':', '')
+                    )
+                  );
+
+                  if (match) {
+                    const [index] = activeToken.range;
+                    const replacement = `${(match as Hit<Emoji>).symbol}`;
+                    const newQuery = replaceAt(
+                      state.query,
+                      replacement,
+                      index,
+                      activeToken.word.length
+                    );
+
+                    autocomplete.setQuery(newQuery);
+                    autocomplete.setIsOpen(false);
+
+                    if (inputRef.current) {
+                      inputRef.current.selectionEnd =
+                        index + replacement.length;
+                    }
+                  }
+                }
+              }}
+            />
             <div className="box-help">
               <span>
                 <kbd>:emoji:</kbd> for emojis
