@@ -1,3 +1,3 @@
 export function isValidEmojiSlug(token: string) {
-  return /^:[a-z-]+:?$/.test(token);
+  return /^:[a-z-_]+:?$/.test(token);
 }
