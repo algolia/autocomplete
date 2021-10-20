@@ -180,8 +180,17 @@ export function Autocomplete(
             {...autocomplete.getFormProps({
               inputElement: (inputRef.current as unknown) as HTMLInputElement,
             })}
+            className="box-form"
           >
             <textarea className="box-textbox" ref={inputRef} {...inputProps} />
+            <div className="box-help">
+              <span>
+                <kbd>:emoji_name:</kbd> for emojis
+              </span>
+              <span>
+                <kbd>/</kbd> for commands
+              </span>
+            </div>
           </form>
           <div
             {...autocomplete.getPanelProps({})}
