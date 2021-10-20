@@ -13,7 +13,6 @@
     "/examples/reshape",
     "/examples/vue",
     "/examples/twitter-compose-with-typeahead",
-    "/examples/slack-with-emojis-and-commands"
   ],
   "node": "14"
 }
