@@ -349,6 +349,7 @@ function EmojisSource({
               ]
                 .filter(Boolean)
                 .join(' ')}
+              title={item.name}
             >
               {item.symbol}
             </li>
