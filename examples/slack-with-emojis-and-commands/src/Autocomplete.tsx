@@ -120,12 +120,12 @@ export function Autocomplete(
       return [];
     },
     reshape({ sourcesBySourceId }) {
-      if (sourcesBySourceId.emojis) {
-        const { emojis } = sourcesBySourceId;
+      const { emojis, commands } = sourcesBySourceId;
 
+      if (emojis) {
         const emojisByGroup = groupBy(
           (emojis as AutocompleteReshapeSource<Hit<Emoji>>).getItems(),
-          ({ group }) => group
+          (item) => item.group
         );
 
         return Object.keys(emojisByGroup).map((group) => {
@@ -139,8 +139,8 @@ export function Autocomplete(
         });
       }
 
-      if (sourcesBySourceId.commands) {
-        return [sourcesBySourceId.commands];
+      if (commands) {
+        return [commands];
       }
 
       return [];
