@@ -579,6 +579,4 @@ describe('createAlgoliaInsightsPlugin', () => {
       expect(track).not.toHaveBeenCalled();
     });
   });
-
-  test.todo('test createSearchInsightsApi API');
 });
