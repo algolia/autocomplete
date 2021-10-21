@@ -1,4 +1,6 @@
+import React from 'react';
 import { Hit } from '@algolia/client-search';
+
 import { Emoji, SourceProps } from '../types';
 
 export function EmojisSource({

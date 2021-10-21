@@ -1,3 +1,4 @@
+import React from 'react';
 import { Command, SourceProps } from '../types';
 
 export function CommandsSource({
