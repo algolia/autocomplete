@@ -2,7 +2,7 @@
 
 This example shows how to use Autocomplete with the [Query Suggestions plugin](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions/) and the [Recent Searches plugin](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/).
 
-<p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete query suggestions with recent searches example" /></p>
+<p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete Query Suggestions with recent searches example" /></p>
 
 ## Demo
 
