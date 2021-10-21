@@ -1,24 +1,55 @@
 import { createAutocomplete } from '@algolia/autocomplete-core';
 import { autocomplete } from '@algolia/autocomplete-js';
+import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { noop } from '@algolia/autocomplete-shared';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
-import { createPlayground } from '../../../../test/utils';
+import {
+  createMultiSearchResponse,
+  createPlayground,
+  createSearchClient,
+  runAllMicroTasks,
+} from '../../../../test/utils';
 import { createRecentSearchesPlugin } from '../createRecentSearchesPlugin';
 import { RecentSearchesItem, Storage } from '../types';
+
+const searchClient = createSearchClient({
+  search: jest.fn(() =>
+    Promise.resolve(
+      createMultiSearchResponse({
+        hits: [
+          {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            nb_words: 1,
+            popularity: 1230,
+            query: 'cooktop',
+            objectID: 'cooktop',
+            _highlightResult: {
+              query: {
+                value: 'cooktop',
+                matchLevel: 'none',
+                matchedWords: [],
+              },
+            },
+          },
+        ],
+      })
+    )
+  ),
+});
 
 function createInMemoryStorage<TItem extends RecentSearchesItem>(
   initialItems: TItem[] = []
 ): Storage<TItem> {
-  const storage = [...initialItems];
+  let storage = [...initialItems];
 
   return {
     onAdd(item) {
       storage.push(item);
     },
     onRemove(id) {
-      storage.filter((item) => item.id !== id);
+      storage = storage.filter((item) => item.id !== id);
     },
     getAll() {
       return storage.map((item) => ({
@@ -33,6 +64,8 @@ function createInMemoryStorage<TItem extends RecentSearchesItem>(
   };
 }
 
+const noopStorage = { onAdd: noop, onRemove: noop, getAll: () => [] };
+
 beforeEach(() => {
   document.body.innerHTML = '';
 });
@@ -40,7 +73,7 @@ beforeEach(() => {
 describe('createRecentSearchesPlugin', () => {
   test('has a name', () => {
     const plugin = createRecentSearchesPlugin({
-      storage: { onAdd: noop, onRemove: noop, getAll: () => [] },
+      storage: noopStorage,
     });
 
     expect(plugin.name).toBe('aa.recentSearchesPlugin');
@@ -48,13 +81,26 @@ describe('createRecentSearchesPlugin', () => {
 
   test('exposes passed options and excludes default ones', () => {
     const plugin = createRecentSearchesPlugin({
-      storage: { onAdd: noop, onRemove: noop, getAll: () => [] },
+      storage: noopStorage,
       transformSource: ({ source }) => source,
     });
 
     expect(plugin.__autocomplete_pluginOptions).toEqual({
       storage: expect.any(Object),
       transformSource: expect.any(Function),
+    });
+  });
+
+  test('exposes an API', () => {
+    const recentSearchesPlugin = createRecentSearchesPlugin({
+      storage: noopStorage,
+    });
+
+    expect(recentSearchesPlugin.data).toEqual({
+      getAlgoliaSearchParams: expect.any(Function),
+      addItem: expect.any(Function),
+      removeItem: expect.any(Function),
+      getAll: expect.any(Function),
     });
   });
 
@@ -82,8 +128,6 @@ describe('createRecentSearchesPlugin', () => {
       },
     ]);
   });
-
-  test.todo('does not save the query on select without item input value');
 
   test('saves the query on submit', () => {
     const storage = createInMemoryStorage();
@@ -158,7 +202,6 @@ describe('createRecentSearchesPlugin', () => {
       {
         id: 'query',
         label: 'query',
-        _highlightResult: {},
       },
     ]);
 
@@ -262,7 +305,6 @@ describe('createRecentSearchesPlugin', () => {
       {
         id: 'query',
         label: 'query',
-        _highlightResult: {},
       },
     ]);
 
@@ -309,7 +351,281 @@ describe('createRecentSearchesPlugin', () => {
     });
   });
 
-  test.todo('removes the recent searche on action button click');
+  test('removes the recent search on remove button click', async () => {
+    const storage = createInMemoryStorage([
+      {
+        id: 'query',
+        label: 'query',
+      },
+    ]);
 
-  test.todo('exports `getAlgoliaSearchParams` data');
+    const recentSearchesPlugin = createRecentSearchesPlugin({ storage });
+
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    autocomplete({
+      container,
+      panelContainer,
+      openOnFocus: true,
+      plugins: [recentSearchesPlugin],
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(() => {
+      expect(
+        document.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    userEvent.click(
+      within(panelContainer).getByRole('button', {
+        name: 'Remove this search',
+      })
+    );
+
+    await runAllMicroTasks();
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector(
+          '[data-autocomplete-source-id="recentSearchesPlugin"]'
+        )
+      ).toBeNull();
+    });
+  });
+
+  test('fills the input with the recent search label on tap ahead', async () => {
+    const storage = createInMemoryStorage([
+      {
+        id: 'query',
+        label: 'query',
+      },
+    ]);
+
+    const recentSearchesPlugin = createRecentSearchesPlugin({ storage });
+
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    autocomplete({
+      container,
+      panelContainer,
+      openOnFocus: true,
+      plugins: [recentSearchesPlugin],
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(() => {
+      expect(
+        document.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    userEvent.click(
+      within(panelContainer).getByRole('button', {
+        name: 'Fill query with "query"',
+      })
+    );
+
+    await runAllMicroTasks();
+
+    await waitFor(() => {
+      expect(input.value).toBe('query');
+    });
+  });
+
+  test('exposes `getAlgoliaSearchParams` with defaults', () => {
+    const plugin = createRecentSearchesPlugin({
+      storage: noopStorage,
+      transformSource: ({ source }) => source,
+    });
+
+    expect(plugin.data.getAlgoliaSearchParams()).toEqual({
+      facetFilters: [],
+      hitsPerPage: 10,
+    });
+  });
+
+  test('exposes `getAlgoliaSearchParams` with custom search options', () => {
+    const plugin = createRecentSearchesPlugin({
+      storage: noopStorage,
+      transformSource: ({ source }) => source,
+    });
+
+    expect(
+      plugin.data.getAlgoliaSearchParams({
+        attributesToRetrieve: ['name', 'category'],
+        facetFilters: ['category:Book'],
+        hitsPerPage: 8,
+      })
+    ).toEqual({
+      attributesToRetrieve: ['name', 'category'],
+      facetFilters: ['category:Book'],
+      hitsPerPage: 8,
+    });
+  });
+
+  test('adjusts search parameters based on existing recent searches', () => {
+    const recentSearchesPlugin = createRecentSearchesPlugin({
+      storage: {
+        onAdd: noop,
+        onRemove: noop,
+        getAll: () => [
+          {
+            id: 'query',
+            label: 'query',
+            _highlightResult: {
+              label: {
+                value: 'query',
+              },
+            },
+          },
+        ],
+      },
+      transformSource: ({ source }) => source,
+    });
+
+    const { inputElement } = createPlayground(createAutocomplete, {
+      plugins: [recentSearchesPlugin],
+    });
+
+    inputElement.focus();
+    userEvent.type(inputElement, 'a');
+
+    expect(
+      recentSearchesPlugin.data.getAlgoliaSearchParams({
+        facetFilters: ['category:Book'],
+        hitsPerPage: 8,
+      })
+    ).toEqual({
+      facetFilters: ['category:Book', ['objectID:-query']],
+      hitsPerPage: 7,
+    });
+  });
+
+  test('displays at least one recent search', () => {
+    const recentSearchesPlugin = createRecentSearchesPlugin({
+      storage: {
+        onAdd: noop,
+        onRemove: noop,
+        getAll: () => [
+          {
+            id: 'query',
+            label: 'query',
+            _highlightResult: {
+              label: {
+                value: 'query',
+              },
+            },
+          },
+        ],
+      },
+      transformSource: ({ source }) => source,
+    });
+
+    const { inputElement } = createPlayground(createAutocomplete, {
+      plugins: [recentSearchesPlugin],
+    });
+
+    inputElement.focus();
+    userEvent.type(inputElement, 'a');
+
+    expect(
+      recentSearchesPlugin.data.getAlgoliaSearchParams({
+        facetFilters: ['category:Book'],
+        hitsPerPage: 1,
+      })
+    ).toEqual(
+      expect.objectContaining({
+        hitsPerPage: 1,
+      })
+    );
+  });
+
+  describe('Query Suggestions plugin', () => {
+    test('saves the suggestion as a recent search on select', async () => {
+      const storage = createInMemoryStorage();
+      const recentSearchesPlugin = createRecentSearchesPlugin({ storage });
+      const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+        searchClient,
+        indexName: 'instant_search',
+        getSearchParams() {
+          return recentSearchesPlugin.data.getAlgoliaSearchParams();
+        },
+      });
+
+      const { inputElement } = createPlayground(createAutocomplete, {
+        openOnFocus: true,
+        defaultActiveItemId: 0,
+        plugins: [recentSearchesPlugin, querySuggestionsPlugin],
+      });
+
+      inputElement.focus();
+
+      await runAllMicroTasks();
+
+      userEvent.type(inputElement, '{enter}');
+
+      await runAllMicroTasks();
+
+      expect(storage.getAll()).toEqual([
+        {
+          _highlightResult: {
+            label: {
+              value: 'cooktop',
+            },
+          },
+          category: undefined,
+          id: 'cooktop',
+          label: 'cooktop',
+        },
+      ]);
+    });
+
+    test('does not save the query on select without item input value', async () => {
+      const storage = createInMemoryStorage();
+      const recentSearchesPlugin = createRecentSearchesPlugin({ storage });
+      const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+        searchClient,
+        indexName: 'instant_search',
+        getSearchParams() {
+          return recentSearchesPlugin.data.getAlgoliaSearchParams();
+        },
+        // @ts-expect-error
+        transformSource({ source }) {
+          return {
+            ...source,
+            getItemInputValue: noop,
+          };
+        },
+      });
+
+      const { inputElement } = createPlayground(createAutocomplete, {
+        openOnFocus: true,
+        defaultActiveItemId: 0,
+        plugins: [recentSearchesPlugin, querySuggestionsPlugin],
+      });
+
+      inputElement.focus();
+
+      await runAllMicroTasks();
+
+      userEvent.type(inputElement, '{enter}');
+
+      await runAllMicroTasks();
+
+      expect(storage.getAll()).toEqual([]);
+    });
+  });
 });
