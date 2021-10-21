@@ -1,6 +1,6 @@
 # Autocomplete voice search custom plugin example
 
-This example shows how to build an Autocomplete [plugin](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/plugins/) adding speech to text capabilities.
+This example shows how to build an Autocomplete [plugin](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/plugins/) adding speech-to-text capabilities.
 
 <p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete voice search custom plugin demo" /></p>
 
