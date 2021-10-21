@@ -17,6 +17,7 @@ import { useAutocomplete } from './hooks';
 import { Command, Emoji } from './types';
 import {
   getActiveToken,
+  getCaretCoordinates,
   groupBy,
   isValidCommandSlug,
   isValidEmojiSlug,
