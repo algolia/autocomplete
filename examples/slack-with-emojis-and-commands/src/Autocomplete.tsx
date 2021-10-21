@@ -7,8 +7,7 @@ import {
 import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch/lite';
-import React, { useRef } from 'react';
-import getCaretCoordinates from 'textarea-caret';
+import React, { useEffect, useRef } from 'react';
 
 import { commands } from './commands';
 import { CommandsSource } from './components/CommandsSource';
@@ -147,14 +146,53 @@ export function Autocomplete(
       return [];
     },
   });
-
-  const { top, height } = inputRef.current
-    ? getCaretCoordinates(inputRef.current, inputRef.current?.selectionEnd)
-    : { top: 0, height: 0 };
-
+  const cursorPosition = inputRef.current?.selectionEnd || 0;
+  const activeToken = getActiveToken(state.query, cursorPosition);
+  const { top, height } = getCaretCoordinates(inputRef.current);
   const inputProps = autocomplete.getInputProps({
     inputElement: (inputRef.current as unknown) as HTMLInputElement,
   });
+
+  useEffect(() => {
+    if (
+      activeToken?.word &&
+      isValidEmojiSlug(activeToken.word) &&
+      activeToken.word.endsWith(':') &&
+      state.status === 'idle'
+    ) {
+      const [exactSlugMatch] = state.collections.map(({ items }) =>
+        items.find((item) => item.slug === activeToken.word.replaceAll(':', ''))
+      );
+
+      if (exactSlugMatch) {
+        const [index] = activeToken.range;
+        const replacement = (exactSlugMatch as Hit<Emoji>).symbol;
+        const newQuery = replaceAt(
+          state.query,
+          replacement,
+          index,
+          activeToken.word.length
+        );
+
+        autocomplete.setQuery(newQuery);
+
+        requestAnimationFrame(() => {
+          autocomplete.setIsOpen(false);
+        });
+
+        if (inputRef.current) {
+          inputRef.current.selectionEnd = index + replacement.length;
+        }
+      }
+    }
+  }, [
+    activeToken,
+    state.status,
+    state.collections,
+    autocomplete,
+    inputRef,
+    cursorPosition,
+  ]);
 
   return (
     <div {...autocomplete.getRootProps({})}>
@@ -182,48 +220,7 @@ export function Autocomplete(
             })}
             className="box-form"
           >
-            <textarea
-              className="box-textbox"
-              ref={inputRef}
-              {...inputProps}
-              onKeyUp={() => {
-                const cursorPosition = inputRef.current?.selectionEnd || 0;
-                const activeToken = getActiveToken(state.query, cursorPosition);
-
-                if (
-                  activeToken?.word &&
-                  isValidEmojiSlug(activeToken.word) &&
-                  activeToken.word.endsWith(':') &&
-                  state.status === 'idle'
-                ) {
-                  const [match] = state.collections.map(({ items }) =>
-                    items.find(
-                      (item) =>
-                        item.slug === activeToken.word.replaceAll(':', '')
-                    )
-                  );
-
-                  if (match) {
-                    const [index] = activeToken.range;
-                    const replacement = (match as Hit<Emoji>).symbol;
-                    const newQuery = replaceAt(
-                      state.query,
-                      replacement,
-                      index,
-                      activeToken.word.length
-                    );
-
-                    autocomplete.setQuery(newQuery);
-                    autocomplete.setIsOpen(false);
-
-                    if (inputRef.current) {
-                      inputRef.current.selectionEnd =
-                        index + replacement.length;
-                    }
-                  }
-                }
-              }}
-            />
+            <textarea className="box-textbox" ref={inputRef} {...inputProps} />
             <div className="box-help">
               <span>
                 <kbd>:emoji:</kbd> for emojis
