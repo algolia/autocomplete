@@ -259,6 +259,79 @@ describe('api', () => {
       );
     });
 
+    test('correctly merges DOM Element options', async () => {
+      let inputElement: HTMLInputElement;
+      const onStateChange = jest.fn();
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+      const panelContainer = document.createElement('div');
+      document.body.appendChild(panelContainer);
+      const panelContainer2 = document.createElement('div');
+      document.body.appendChild(panelContainer2);
+
+      const { update } = autocomplete<{ label: string }>({
+        container,
+        onStateChange,
+        panelContainer,
+        shouldPanelOpen: () => true,
+        openOnFocus: true,
+        getSources() {
+          return [
+            {
+              sourceId: 'testSource',
+              getItems() {
+                return [];
+              },
+              templates: {
+                item({ item }) {
+                  return item.label;
+                },
+                noResults() {
+                  return 'No results template';
+                },
+              },
+            },
+          ];
+        },
+      });
+
+      // Focusing the input should render the panel
+      inputElement = container.querySelector('.aa-Input');
+      inputElement.focus();
+
+      // Focusing the input should open the panel
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            isOpen: true,
+          }),
+        })
+      );
+
+      // Panel is rendered into the original container
+      await waitFor(() => {
+        expect(
+          panelContainer.querySelector<HTMLElement>('.aa-Panel')
+        ).toHaveTextContent('No results template');
+      });
+
+      // Update options (set `panelContainer` to a different element)
+      update({
+        panelContainer: panelContainer2,
+      });
+
+      // Focusing the input should render the panel
+      inputElement = container.querySelector('.aa-Input');
+      inputElement.focus();
+
+      // Panel is rendered into the new container
+      await waitFor(() => {
+        expect(
+          panelContainer2.querySelector<HTMLElement>('.aa-Panel')
+        ).toHaveTextContent('No results template');
+      });
+    });
+
     test('overrides the default id', async () => {
       const container = document.createElement('div');
 
