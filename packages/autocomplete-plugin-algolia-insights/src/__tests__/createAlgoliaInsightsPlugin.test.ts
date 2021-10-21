@@ -6,10 +6,11 @@ import insightsClient from 'search-insights';
 import {
   createPlayground,
   createSource,
-  defer,
   runAllMicroTasks,
 } from '../../../../test/utils';
 import { createAlgoliaInsightsPlugin } from '../createAlgoliaInsightsPlugin';
+
+jest.useFakeTimers();
 
 describe('createAlgoliaInsightsPlugin', () => {
   test('has a name', () => {
@@ -90,7 +91,8 @@ describe('createAlgoliaInsightsPlugin', () => {
 
       inputElement.focus();
 
-      await defer(noop, 500);
+      await runAllMicroTasks();
+      jest.runAllTimers();
 
       expect(insightsClient).toHaveBeenCalledWith('viewedObjectIDs', {
         eventName: 'Items Viewed',
@@ -134,7 +136,8 @@ describe('createAlgoliaInsightsPlugin', () => {
 
       inputElement.focus();
 
-      await defer(noop, 500);
+      await runAllMicroTasks();
+      jest.runAllTimers();
 
       expect(insightsClient).toHaveBeenCalledWith('viewedObjectIDs', {
         eventName: 'Product Viewed from Autocomplete',
@@ -174,7 +177,8 @@ describe('createAlgoliaInsightsPlugin', () => {
 
       inputElement.focus();
 
-      await defer(noop, 500);
+      await runAllMicroTasks();
+      jest.runAllTimers();
 
       expect(insightsClient).not.toHaveBeenCalled();
     });
@@ -220,11 +224,13 @@ describe('createAlgoliaInsightsPlugin', () => {
       userEvent.type(inputElement, 'e');
       userEvent.type(inputElement, 'l');
 
-      await defer(noop, 500);
+      await runAllMicroTasks();
+      jest.runAllTimers();
 
       userEvent.type(inputElement, 'p');
 
-      await defer(noop, 500);
+      await runAllMicroTasks();
+      jest.runAllTimers();
 
       // The first calls triggered with "h", "he" and "hel" were debounced,
       // so the item with label "hey" was never reported as viewed.
@@ -262,7 +268,8 @@ describe('createAlgoliaInsightsPlugin', () => {
 
       inputElement.focus();
 
-      await defer(noop, 500);
+      await runAllMicroTasks();
+      jest.runAllTimers();
 
       expect(insightsClient).not.toHaveBeenCalled();
     });
@@ -286,7 +293,8 @@ describe('createAlgoliaInsightsPlugin', () => {
 
       inputElement.focus();
 
-      await defer(noop, 500);
+      await runAllMicroTasks();
+      jest.runAllTimers();
 
       expect(insightsClient).not.toHaveBeenCalled();
     });
