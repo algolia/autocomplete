@@ -94,7 +94,6 @@ describe('createQuerySuggestionsPlugin', () => {
     autocomplete({
       container,
       panelContainer,
-      openOnFocus: true,
       plugins: [querySuggestionsPlugin],
     });
 
@@ -186,7 +185,6 @@ describe('createQuerySuggestionsPlugin', () => {
     autocomplete({
       container,
       panelContainer,
-      openOnFocus: true,
       plugins: [querySuggestionsPlugin],
     });
 
@@ -263,7 +261,6 @@ describe('createQuerySuggestionsPlugin', () => {
     autocomplete({
       container,
       panelContainer,
-      openOnFocus: true,
       plugins: [querySuggestionsPlugin],
     });
 
@@ -313,7 +310,6 @@ describe('createQuerySuggestionsPlugin', () => {
     autocomplete({
       container,
       panelContainer,
-      openOnFocus: true,
       plugins: [querySuggestionsPlugin],
     });
 
@@ -363,7 +359,6 @@ describe('createQuerySuggestionsPlugin', () => {
     autocomplete({
       container,
       panelContainer,
-      openOnFocus: true,
       plugins: [querySuggestionsPlugin],
     });
 
@@ -403,7 +398,6 @@ describe('createQuerySuggestionsPlugin', () => {
     autocomplete({
       container,
       panelContainer,
-      openOnFocus: true,
       plugins: [querySuggestionsPlugin],
     });
 
@@ -459,7 +453,6 @@ describe('createQuerySuggestionsPlugin', () => {
     autocomplete({
       container,
       panelContainer,
-      openOnFocus: true,
       plugins: [querySuggestionsPlugin],
     });
 
@@ -499,18 +492,17 @@ describe('createQuerySuggestionsPlugin', () => {
     });
 
     const { inputElement } = createPlayground(createAutocomplete, {
-      openOnFocus: true,
       plugins: [querySuggestionsPlugin],
     });
 
-    inputElement.focus();
+    userEvent.type(inputElement, 'a');
 
     await runAllMicroTasks();
 
     expect(searchClient.search).toHaveBeenLastCalledWith([
       {
         indexName: 'indexName',
-        query: '',
+        query: 'a',
         params: expect.objectContaining({
           attributesToRetrieve: ['name', 'category'],
         }),
