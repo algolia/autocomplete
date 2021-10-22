@@ -314,8 +314,13 @@ describe('createRecentSearchesPlugin', () => {
         return {
           ...source,
           templates: {
-            item({ item }) {
-              return item.label;
+            item({ item, createElement, Fragment }) {
+              return createElement(
+                Fragment,
+                null,
+                createElement('span', null, item.label),
+                createElement('button', null, `Fill with "${item.label}"`)
+              );
             },
           },
         };
@@ -346,8 +351,19 @@ describe('createRecentSearchesPlugin', () => {
           )
         )
           .getAllByRole('option')
-          .map((option) => option.textContent)
-      ).toEqual(['query']);
+          .map((option) => option.children)
+      ).toMatchInlineSnapshot(`
+        Array [
+          HTMLCollection [
+            <span>
+              query
+            </span>,
+            <button>
+              Fill with "query"
+            </button>,
+          ],
+        ]
+      `);
     });
   });
 
