@@ -280,6 +280,21 @@ describe('createLocalStorageRecentSearchesPlugin', () => {
 
     const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
       key: 'autocomplete',
+      transformSource({ source }) {
+        return {
+          ...source,
+          templates: {
+            item({ item, createElement, Fragment }) {
+              return createElement(
+                Fragment,
+                null,
+                createElement('span', null, item.label),
+                createElement('button', null, `Fill with "${item.label}"`)
+              );
+            },
+          },
+        };
+      },
     });
 
     const container = document.createElement('div');
@@ -306,8 +321,51 @@ describe('createLocalStorageRecentSearchesPlugin', () => {
           )
         )
           .getAllByRole('option')
-          .map((option) => option.textContent)
-      ).toEqual(['apple tv', 'airpods', 'iphone', 'ipad', 'macbook']);
+          .map((option) => option.children)
+      ).toMatchInlineSnapshot(`
+        Array [
+          HTMLCollection [
+            <span>
+              apple tv
+            </span>,
+            <button>
+              Fill with "apple tv"
+            </button>,
+          ],
+          HTMLCollection [
+            <span>
+              airpods
+            </span>,
+            <button>
+              Fill with "airpods"
+            </button>,
+          ],
+          HTMLCollection [
+            <span>
+              iphone
+            </span>,
+            <button>
+              Fill with "iphone"
+            </button>,
+          ],
+          HTMLCollection [
+            <span>
+              ipad
+            </span>,
+            <button>
+              Fill with "ipad"
+            </button>,
+          ],
+          HTMLCollection [
+            <span>
+              macbook
+            </span>,
+            <button>
+              Fill with "macbook"
+            </button>,
+          ],
+        ]
+      `);
     });
   });
 });
