@@ -462,10 +462,7 @@ describe('createRecentSearchesPlugin', () => {
   });
 
   test('exposes `getAlgoliaSearchParams` with defaults', () => {
-    const plugin = createRecentSearchesPlugin({
-      storage: noopStorage,
-      transformSource: ({ source }) => source,
-    });
+    const plugin = createRecentSearchesPlugin({ storage: noopStorage });
 
     expect(plugin.data.getAlgoliaSearchParams()).toEqual({
       facetFilters: [],
@@ -474,10 +471,7 @@ describe('createRecentSearchesPlugin', () => {
   });
 
   test('exposes `getAlgoliaSearchParams` with custom search options', () => {
-    const plugin = createRecentSearchesPlugin({
-      storage: noopStorage,
-      transformSource: ({ source }) => source,
-    });
+    const plugin = createRecentSearchesPlugin({ storage: noopStorage });
 
     expect(
       plugin.data.getAlgoliaSearchParams({
@@ -509,7 +503,6 @@ describe('createRecentSearchesPlugin', () => {
           },
         ],
       },
-      transformSource: ({ source }) => source,
     });
 
     const { inputElement } = createPlayground(createAutocomplete, {
@@ -547,7 +540,6 @@ describe('createRecentSearchesPlugin', () => {
           },
         ],
       },
-      transformSource: ({ source }) => source,
     });
 
     const { inputElement } = createPlayground(createAutocomplete, {
