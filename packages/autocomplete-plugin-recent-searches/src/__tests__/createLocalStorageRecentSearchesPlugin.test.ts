@@ -101,6 +101,8 @@ describe('createLocalStorageRecentSearchesPlugin', () => {
   });
 
   test('limits the number of recent searches to display by default', async () => {
+    expect(recentSearches).toHaveLength(6);
+
     localStorage.setItem(
       'AUTOCOMPLETE_RECENT_SEARCHES:autocomplete',
       JSON.stringify(recentSearches)
@@ -138,6 +140,8 @@ describe('createLocalStorageRecentSearchesPlugin', () => {
   });
 
   test('sets a custom limit of recent searches to display', async () => {
+    expect(recentSearches).toHaveLength(6);
+
     localStorage.setItem(
       'AUTOCOMPLETE_RECENT_SEARCHES:autocomplete',
       JSON.stringify(recentSearches)
