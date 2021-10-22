@@ -610,11 +610,10 @@ describe('createRecentSearchesPlugin', () => {
         getSearchParams() {
           return recentSearchesPlugin.data.getAlgoliaSearchParams();
         },
-        // @ts-expect-error
         transformSource({ source }) {
           return {
             ...source,
-            getItemInputValue: noop,
+            getItemInputValue: () => undefined,
           };
         },
       });
