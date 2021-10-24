@@ -6,7 +6,7 @@ This example shows how to build an Autocomplete [plugin](https://www.algolia.com
 
 ## Demo
 
-[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/master/examples/github-repositories-custom-plugin)
+[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/github-repositories-custom-plugin)
 
 ## How to run this example locally
 
