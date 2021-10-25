@@ -237,7 +237,7 @@ describe('createQuerySuggestionsPlugin', () => {
     castToJestMock(searchClient.search).mockReturnValueOnce(
       Promise.resolve(
         createMultiSearchResponse({
-          hits: Array(2).fill(hits).flat(),
+          hits: [...hits, ...hits],
         })
       )
     );
@@ -277,7 +277,11 @@ describe('createQuerySuggestionsPlugin', () => {
         )
           .getAllByRole('option')
           .map((option) => option.textContent)
-      ).toEqual(['cooktop', 'in Appliances', 'cooktop']);
+      ).toEqual([
+        'cooktop', // Query Suggestions item
+        'in Appliances', // Category item
+        'cooktop', // Query Suggestions item
+      ]);
     });
   });
 
@@ -285,7 +289,7 @@ describe('createQuerySuggestionsPlugin', () => {
     castToJestMock(searchClient.search).mockReturnValueOnce(
       Promise.resolve(
         createMultiSearchResponse({
-          hits: Array(2).fill(hits).flat(),
+          hits: [...hits, ...hits, ...hits],
         })
       )
     );
@@ -326,7 +330,13 @@ describe('createQuerySuggestionsPlugin', () => {
         )
           .getAllByRole('option')
           .map((option) => option.textContent)
-      ).toEqual(['cooktop', 'in Appliances', 'cooktop', 'in Appliances']);
+      ).toEqual([
+        'cooktop', // Query Suggestions item
+        'in Appliances', // Category item
+        'cooktop', // Query Suggestions item
+        'in Appliances', // Category item
+        'cooktop', // Query Suggestions item
+      ]);
     });
   });
 
@@ -334,7 +344,7 @@ describe('createQuerySuggestionsPlugin', () => {
     castToJestMock(searchClient.search).mockReturnValueOnce(
       Promise.resolve(
         createMultiSearchResponse({
-          hits: Array(2).fill(hits).flat(),
+          hits: [...hits, ...hits],
         })
       )
     );
@@ -376,10 +386,10 @@ describe('createQuerySuggestionsPlugin', () => {
           .getAllByRole('option')
           .map((option) => option.textContent)
       ).toEqual([
-        'cooktop',
-        'in Appliances',
-        'in Ranges, Cooktops & Ovens',
-        'cooktop',
+        'cooktop', // Query Suggestions item
+        'in Appliances', // Category item
+        'in Ranges, Cooktops & Ovens', // Category item
+        'cooktop', // Query Suggestions item
       ]);
     });
   });
