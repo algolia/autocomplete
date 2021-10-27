@@ -5,7 +5,7 @@
 </template>
 
 <script lang="jsx">
-import { h, Fragment, render, onMounted } from 'vue';
+import { h, Fragment, render, onMounted, defineComponent } from 'vue';
 import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch/lite';
 
@@ -18,7 +18,7 @@ const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
 
-export default {
+export default defineComponent({
   name: 'App',
   setup() {
     onMounted(() => {
@@ -60,7 +60,7 @@ export default {
       });
     });
   },
-};
+});
 </script>
 
 <style>
