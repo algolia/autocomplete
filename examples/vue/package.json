@@ -5,19 +5,21 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "parcel build index.html",
-    "start": "parcel index.html"
+    "dev": "vite",
+    "serve": "vite start",
+    "build": "vite build"
   },
   "dependencies": {
     "@algolia/autocomplete-js": "1.4.1",
     "@algolia/autocomplete-theme-classic": "1.4.1",
     "algoliasearch": "4.9.1",
-    "vue": "3.0.11"
+    "vue": "3.2.20"
   },
   "devDependencies": {
-    "@algolia/client-search": "4.9.1",
-    "@parcel/transformer-vue": "2.0.0-beta.2",
-    "parcel": "2.0.0-beta.2"
+    "@vitejs/plugin-vue": "1.9.3",
+    "@vitejs/plugin-vue-jsx": "1.2.0",
+    "@vue/compiler-sfc": "3.2.20",
+    "vite": "2.6.4"
   },
   "keywords": [
     "algolia",
