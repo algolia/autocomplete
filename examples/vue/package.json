@@ -5,9 +5,9 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "vite",
-    "build": "vite build",
-    "serve": "vite preview"
+    "dev": "vite",
+    "serve": "vite start",
+    "build": "vite build"
   },
   "dependencies": {
     "@algolia/autocomplete-js": "1.4.1",
