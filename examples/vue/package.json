@@ -13,7 +13,7 @@
     "@algolia/autocomplete-js": "1.4.1",
     "@algolia/autocomplete-theme-classic": "1.4.1",
     "algoliasearch": "4.9.1",
-    "vue": "3.2.16"
+    "vue": "3.2.20"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "1.9.3",
