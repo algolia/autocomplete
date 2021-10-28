@@ -1,6 +1,10 @@
 import { createPlayground } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
+beforeEach(() => {
+  document.body.innerHTML = '';
+});
+
 describe('getEnvironmentProps', () => {
   test('forwards the remaining props', () => {
     const { getEnvironmentProps, formElement, inputElement } = createPlayground(
@@ -76,6 +80,8 @@ describe('getEnvironmentProps', () => {
       inputElement.dispatchEvent(customEvent);
 
       expect(document.activeElement).toBe(inputElement);
+
+      window.removeEventListener('touchstart', onTouchStart);
     });
 
     test('closes panel if the target is outside Autocomplete', () => {
@@ -111,6 +117,8 @@ describe('getEnvironmentProps', () => {
           }),
         })
       );
+
+      window.removeEventListener('touchstart', onTouchStart);
     });
   });
 
@@ -140,6 +148,8 @@ describe('getEnvironmentProps', () => {
       window.dispatchEvent(customEvent);
 
       expect(document.activeElement).toBe(inputElement);
+
+      window.removeEventListener('touchmove', onTouchMove);
     });
 
     test('is a noop when the event target is the input element', () => {
@@ -169,6 +179,8 @@ describe('getEnvironmentProps', () => {
       inputElement.dispatchEvent(customEvent);
 
       expect(document.activeElement).toBe(inputElement);
+
+      window.removeEventListener('touchmove', onTouchMove);
     });
 
     test('is a noop when input is not the active element', () => {
@@ -200,6 +212,8 @@ describe('getEnvironmentProps', () => {
       window.dispatchEvent(customEvent);
 
       expect(document.activeElement).toBe(dummyInputElement);
+
+      window.removeEventListener('touchmove', onTouchMove);
     });
 
     test('blurs input otherwise', () => {
@@ -230,6 +244,8 @@ describe('getEnvironmentProps', () => {
       window.dispatchEvent(customEvent);
 
       expect(document.activeElement).not.toBe(inputElement);
+
+      window.removeEventListener('touchmove', onTouchMove);
     });
   });
 });
