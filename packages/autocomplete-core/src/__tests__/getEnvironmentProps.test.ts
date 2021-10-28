@@ -1,4 +1,8 @@
-import { createPlayground } from '../../../../test/utils';
+import {
+  createPlayground,
+  createSource,
+  runAllMicroTasks,
+} from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 beforeEach(() => {
@@ -84,7 +88,7 @@ describe('getEnvironmentProps', () => {
       window.removeEventListener('touchstart', onTouchStart);
     });
 
-    test('closes panel if the target is outside Autocomplete', () => {
+    test('closes panel if the target is outside Autocomplete', async () => {
       const onStateChange = jest.fn();
       const {
         getEnvironmentProps,
@@ -92,7 +96,14 @@ describe('getEnvironmentProps', () => {
         formElement,
       } = createPlayground(createAutocomplete, {
         onStateChange,
-        initialState: { isOpen: true },
+        openOnFocus: true,
+        getSources() {
+          return [
+            createSource({
+              getItems: () => [{ label: '1' }],
+            }),
+          ];
+        },
       });
       const panelElement = document.createElement('div');
 
@@ -103,6 +114,19 @@ describe('getEnvironmentProps', () => {
       });
       window.addEventListener('touchstart', onTouchStart);
 
+      // Focus input (opens the panel)
+      inputElement.focus();
+
+      await runAllMicroTasks();
+
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            isOpen: true,
+          }),
+        })
+      );
+
       // Dispatch TouchStart event on window (so, outside of Autocomplete)
       const customEvent = new CustomEvent('touchstart', { bubbles: true });
       window.document.dispatchEvent(customEvent);
@@ -110,13 +134,10 @@ describe('getEnvironmentProps', () => {
       expect(onStateChange).toHaveBeenLastCalledWith(
         expect.objectContaining({
           state: expect.objectContaining({
-            activeItemId: null,
             isOpen: false,
           }),
         })
       );
-
-      expect(document.activeElement).toBe(document.body);
 
       window.removeEventListener('touchstart', onTouchStart);
     });
