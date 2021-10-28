@@ -37,6 +37,8 @@ export function getPropGetters<
       // outside of the autocomplete elements.
       // This ensures a working experience on mobile because we blur the input
       // on touch devices when the user starts scrolling (`touchmove`).
+      // @TODO: support cases where there are multiple Autocomplete instances.
+      // Right now, a second instance makes this computation return false.
       onTouchStart(event) {
         if (
           store.getState().isOpen === false ||
@@ -45,17 +47,9 @@ export function getPropGetters<
           return;
         }
 
-        // @TODO: support cases where there are multiple Autocomplete instances.
-        // Right now, a second instance makes this computation return false.
         const isTargetWithinAutocomplete = [formElement, panelElement].some(
           (contextNode) => {
-            return (
-              isOrContainsNode(contextNode, event.target as Node) ||
-              isOrContainsNode(
-                contextNode,
-                props.environment.document.activeElement!
-              )
-            );
+            return isOrContainsNode(contextNode, event.target as Node);
           }
         );
 

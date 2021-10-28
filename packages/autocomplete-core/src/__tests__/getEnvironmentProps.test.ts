@@ -104,9 +104,7 @@ describe('getEnvironmentProps', () => {
       window.addEventListener('touchstart', onTouchStart);
 
       // Dispatch TouchStart event on window (so, outside of Autocomplete)
-      const customEvent = new CustomEvent('touchstart', {
-        bubbles: true,
-      });
+      const customEvent = new CustomEvent('touchstart', { bubbles: true });
       window.document.dispatchEvent(customEvent);
 
       expect(onStateChange).toHaveBeenLastCalledWith(
@@ -117,6 +115,8 @@ describe('getEnvironmentProps', () => {
           }),
         })
       );
+
+      expect(document.activeElement).toBe(document.body);
 
       window.removeEventListener('touchstart', onTouchStart);
     });
