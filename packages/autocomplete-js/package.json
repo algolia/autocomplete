@@ -37,7 +37,7 @@
     "preact": "^10.0.0"
   },
   "devDependencies": {
-    "@algolia/client-search": "4.9.1"
+    "@algolia/client-search": "4.11.0"
   },
   "peerDependencies": {
     "@algolia/client-search": "^4.5.1"

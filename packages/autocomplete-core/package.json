@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@algolia/autocomplete-preset-algolia": "1.4.1",
-    "@algolia/client-search": "4.9.1",
-    "algoliasearch": "4.9.1"
+    "@algolia/client-search": "4.11.0",
+    "algoliasearch": "4.11.0"
   }
 }
