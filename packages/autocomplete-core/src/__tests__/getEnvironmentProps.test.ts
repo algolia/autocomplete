@@ -1,5 +1,13 @@
-import { createPlayground } from '../../../../test/utils';
+import {
+  createPlayground,
+  createSource,
+  runAllMicroTasks,
+} from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
+
+beforeEach(() => {
+  document.body.innerHTML = '';
+});
 
 describe('getEnvironmentProps', () => {
   test('forwards the remaining props', () => {
@@ -23,11 +31,12 @@ describe('getEnvironmentProps', () => {
 
   describe('onTouchStart', () => {
     test('is a noop when panel is not open', () => {
+      const onStateChange = jest.fn();
       const {
         getEnvironmentProps,
         inputElement,
         formElement,
-      } = createPlayground(createAutocomplete, {});
+      } = createPlayground(createAutocomplete, { onStateChange });
       const panelElement = document.createElement('div');
 
       const { onTouchStart } = getEnvironmentProps({
@@ -37,25 +46,31 @@ describe('getEnvironmentProps', () => {
       });
       window.addEventListener('touchstart', onTouchStart);
 
-      // Focus input (with the panel closed)
-      inputElement.focus();
-
       // Dispatch TouchStart event on window
-      const customEvent = new CustomEvent('touchstart', {
-        bubbles: true,
-      });
+      const customEvent = new CustomEvent('touchstart', { bubbles: true });
       window.dispatchEvent(customEvent);
 
-      expect(document.activeElement).toBe(inputElement);
+      expect(onStateChange).not.toHaveBeenCalled();
+
+      window.removeEventListener('touchstart', onTouchStart);
     });
 
-    test('is a noop when the event target is the input element', () => {
+    test('is a noop when the event target is the input element', async () => {
+      const onStateChange = jest.fn();
       const {
         getEnvironmentProps,
         inputElement,
         formElement,
       } = createPlayground(createAutocomplete, {
+        onStateChange,
         openOnFocus: true,
+        getSources() {
+          return [
+            createSource({
+              getItems: () => [{ label: '1' }],
+            }),
+          ];
+        },
       });
       const panelElement = document.createElement('div');
 
@@ -69,16 +84,30 @@ describe('getEnvironmentProps', () => {
       // Focus input (opens the panel)
       inputElement.focus();
 
+      await runAllMicroTasks();
+
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            isOpen: true,
+          }),
+        })
+      );
+
+      onStateChange.mockClear();
+
       // Dispatch TouchStart event on the input (bubbles to window)
-      const customEvent = new CustomEvent('touchstart', {
-        bubbles: true,
-      });
+      const customEvent = new CustomEvent('touchstart', { bubbles: true });
       inputElement.dispatchEvent(customEvent);
 
-      expect(document.activeElement).toBe(inputElement);
+      await runAllMicroTasks();
+
+      expect(onStateChange).not.toHaveBeenCalled();
+
+      window.removeEventListener('touchstart', onTouchStart);
     });
 
-    test('closes panel if the target is outside Autocomplete', () => {
+    test('closes panel if the target is outside Autocomplete', async () => {
       const onStateChange = jest.fn();
       const {
         getEnvironmentProps,
@@ -86,7 +115,14 @@ describe('getEnvironmentProps', () => {
         formElement,
       } = createPlayground(createAutocomplete, {
         onStateChange,
-        initialState: { isOpen: true },
+        openOnFocus: true,
+        getSources() {
+          return [
+            createSource({
+              getItems: () => [{ label: '1' }],
+            }),
+          ];
+        },
       });
       const panelElement = document.createElement('div');
 
@@ -97,23 +133,39 @@ describe('getEnvironmentProps', () => {
       });
       window.addEventListener('touchstart', onTouchStart);
 
+      // Focus input (opens the panel)
+      inputElement.focus();
+
+      await runAllMicroTasks();
+
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            isOpen: true,
+          }),
+        })
+      );
+
+      onStateChange.mockClear();
+
       // Dispatch TouchStart event on window (so, outside of Autocomplete)
-      const customEvent = new CustomEvent('touchstart', {
-        bubbles: true,
-      });
+      const customEvent = new CustomEvent('touchstart', { bubbles: true });
       window.document.dispatchEvent(customEvent);
 
       expect(onStateChange).toHaveBeenLastCalledWith(
         expect.objectContaining({
           state: expect.objectContaining({
-            activeItemId: null,
             isOpen: false,
           }),
         })
       );
+
+      window.removeEventListener('touchstart', onTouchStart);
     });
   });
 
+  // @TODO: rewrite these tests with reliable assertions
+  // `document.activeElement` refers to the previously focused element
   describe('onTouchMove', () => {
     test('is a noop when panel is not open', () => {
       const {
@@ -140,6 +192,8 @@ describe('getEnvironmentProps', () => {
       window.dispatchEvent(customEvent);
 
       expect(document.activeElement).toBe(inputElement);
+
+      window.removeEventListener('touchmove', onTouchMove);
     });
 
     test('is a noop when the event target is the input element', () => {
@@ -169,6 +223,8 @@ describe('getEnvironmentProps', () => {
       inputElement.dispatchEvent(customEvent);
 
       expect(document.activeElement).toBe(inputElement);
+
+      window.removeEventListener('touchmove', onTouchMove);
     });
 
     test('is a noop when input is not the active element', () => {
@@ -200,6 +256,8 @@ describe('getEnvironmentProps', () => {
       window.dispatchEvent(customEvent);
 
       expect(document.activeElement).toBe(dummyInputElement);
+
+      window.removeEventListener('touchmove', onTouchMove);
     });
 
     test('blurs input otherwise', () => {
@@ -230,6 +288,8 @@ describe('getEnvironmentProps', () => {
       window.dispatchEvent(customEvent);
 
       expect(document.activeElement).not.toBe(inputElement);
+
+      window.removeEventListener('touchmove', onTouchMove);
     });
   });
 });
