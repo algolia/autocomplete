@@ -1,3 +1,22 @@
+# [](https://github.com/algolia/autocomplete/compare/v1.4.1...v) (2021-11-02)
+
+
+### Bug Fixes
+
+* **createLocalStorageRecentSearchesPlugin:** set default transformSource ([#771](https://github.com/algolia/autocomplete/issues/771)) ([46887ae](https://github.com/algolia/autocomplete/commit/46887aec8308d3b7e1dc495d9c00a1f2af80d056))
+* **getEnvironmentProps:** remove obsolete check causing tap not to close ([#803](https://github.com/algolia/autocomplete/issues/803)) ([51cfb94](https://github.com/algolia/autocomplete/commit/51cfb943d87a25eb863a48b9444637c49c22aa7c))
+* **js:** support updating Element options ([#777](https://github.com/algolia/autocomplete/issues/777)) ([fe684b3](https://github.com/algolia/autocomplete/commit/fe684b309dffd5b425db3430e5533a8eaac59d4b))
+
+
+### Features
+
+* **core:** introduce metadata ([#774](https://github.com/algolia/autocomplete/issues/774)) ([79212d6](https://github.com/algolia/autocomplete/commit/79212d63c1b6062a22c771e71590709993e71a7a))
+* **core:** pass down metadata from `autocomplete-js` ([#770](https://github.com/algolia/autocomplete/issues/770)) ([798547f](https://github.com/algolia/autocomplete/commit/798547fd8936c8d718f14acdcdee71731ff09713))
+* **plugins:** expose passed options on plugins ([#768](https://github.com/algolia/autocomplete/issues/768)) ([e5630ac](https://github.com/algolia/autocomplete/commit/e5630acd729df67d419ea3b662e2566148f45e36))
+* **plugins:** introduce plugin name ([#767](https://github.com/algolia/autocomplete/issues/767)) ([d50bd4b](https://github.com/algolia/autocomplete/commit/d50bd4b99b2521f0cba2102bd94c1c12d4693ced))
+
+
+
 # [1.4.1](https://github.com/algolia/autocomplete/compare/v1.4.0...v1.4.1) (2021-10-11)
 
 ### Bug Fixes
