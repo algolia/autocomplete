@@ -2,7 +2,7 @@
 
 This example shows how to use Autocomplete with the [Tags plugin](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-tags/) to reproduce the [GitHub notification filtering panel](https://github.com/notifications).
 
-<p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete preview panel in modal example" /></p>
+<p align="center"><img src="capture.png?raw=true" alt="A capture of the GitHub notification filters example" /></p>
 
 ## Demo
 
