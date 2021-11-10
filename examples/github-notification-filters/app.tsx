@@ -1,4 +1,5 @@
-import { render } from 'preact';
+/** @jsx h */
+import { h, render } from 'preact';
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createTagsPlugin, Tag } from '@algolia/autocomplete-plugin-tags';
 import qs from 'qs';
