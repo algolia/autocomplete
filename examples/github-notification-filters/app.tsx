@@ -215,7 +215,7 @@ function onTagsChange(tags: Array<Tag<NotificationFilter>>) {
 function splitQuery(query: string) {
   const [prefix, postfix] = query.split(':');
 
-  return [prefix, postfix] as const;
+  return [prefix, postfix];
 }
 
 function getAlltags(tags: Array<Tag<NotificationFilter>>, query: string) {
