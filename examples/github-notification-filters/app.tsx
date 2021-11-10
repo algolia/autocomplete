@@ -20,14 +20,16 @@ import '@algolia/autocomplete-theme-classic';
 
 const queryParameters = qs.parse(location.search, { ignoreQueryPrefix: true });
 
+const initialTags = Object.entries(queryParameters).flatMap(([token, values]) =>
+  (values as string[]).map((value) => ({
+    token,
+    value,
+    label: `${token}:${value}`,
+  }))
+);
+
 const tagsPlugin = createTagsPlugin<AutocompleteItem, NotificationFilter>({
-  initialTags: Object.entries(queryParameters).flatMap(([token, values]) =>
-    (values as string[]).map((value) => ({
-      token,
-      value,
-      label: `${token}:${value}`,
-    }))
-  ),
+  initialTags,
   getTagsSubscribers() {
     return [
       {
