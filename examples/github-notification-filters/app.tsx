@@ -14,7 +14,7 @@ import {
 } from './components';
 import { items } from './items';
 import { AutocompleteItem, NotificationFilter } from './types';
-import { getAlltags, groupBy, splitQuery } from './utils';
+import { groupBy } from './utils';
 
 import '@algolia/autocomplete-theme-classic';
 
@@ -211,4 +211,25 @@ function onTagsChange(tags: Array<Tag<NotificationFilter>>) {
       container.appendChild(tagsContainer);
     }
   });
+}
+
+function splitQuery(query: string) {
+  const [prefix, postfix] = query.split(':');
+
+  return [prefix, postfix] as const;
+}
+
+function getAlltags(tags: Array<Tag<NotificationFilter>>, query: string) {
+  const [prefix, postfix] = splitQuery(query);
+  const tagFromQuery = postfix
+    ? [
+        {
+          label: `${prefix}:${postfix}`,
+          token: prefix,
+          value: postfix,
+        },
+      ]
+    : [];
+
+  return [...tags, ...tagFromQuery];
 }
