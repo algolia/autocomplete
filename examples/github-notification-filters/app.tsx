@@ -61,7 +61,7 @@ autocomplete<AutocompleteItem>({
     const [prefix, postfix] = splitQuery(query);
     const prefixes = items.filter(({ token }) => token.startsWith(prefix));
 
-    const allTags = getAlltags(state.context.tagsPlugin?.tags || [], query);
+    const allTags = getAlltags(state.context.tagsPlugin.tags || [], query);
     const showQuerySource = allTags.length > 0 && prefixes.length > 0;
     const showPrefixesSource = typeof postfix !== 'string';
     const showPostfixesSource = typeof postfix === 'string';

@@ -4,6 +4,6 @@ import { NotificationFilter } from './types';
 
 declare module '@algolia/autocomplete-core' {
   interface AutocompleteContext {
-    tagsPlugin?: TagsApi<NotificationFilter>;
+    tagsPlugin: TagsApi<NotificationFilter>;
   }
 }
