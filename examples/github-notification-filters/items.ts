@@ -7,7 +7,7 @@ import { Contributor, NotificationFilter, Repository } from './types';
 type SearchParams = {
   query?: string;
   facet?: string;
-  tags?: Tag<NotificationFilter>[];
+  tags?: Array<Tag<NotificationFilter>>;
 };
 
 export const items = [
