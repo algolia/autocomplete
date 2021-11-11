@@ -1,6 +1,6 @@
 /** @jsx h */
 import { h, render } from 'preact';
-import { autocomplete } from '@algolia/autocomplete-js';
+import { autocomplete, AutocompleteSource } from '@algolia/autocomplete-js';
 import { createTagsPlugin, Tag } from '@algolia/autocomplete-plugin-tags';
 import qs from 'qs';
 
@@ -25,6 +25,7 @@ const initialTags = Object.entries(queryParameters).flatMap(([token, values]) =>
     token,
     value,
     label: `${token}:${value}`,
+    attribute: items.find((item) => item.token === token).attribute,
   }))
 );
 
@@ -39,6 +40,7 @@ const tagsPlugin = createTagsPlugin<AutocompleteItem, NotificationFilter>({
             label: `${item.token}:${item.label}`,
             token: item.token,
             value: item.label,
+            attribute: item.attribute,
           };
         },
       },
@@ -62,8 +64,10 @@ autocomplete<AutocompleteItem>({
   getSources({ query, state }) {
     const [prefix, postfix] = splitQuery(query);
     const prefixes = items.filter(({ token }) => token.startsWith(prefix));
+    const tags = state.context.tagsPlugin.tags || [];
+    const tagsByToken = groupBy(tags, (tag) => tag.token);
 
-    const allTags = getAlltags(state.context.tagsPlugin.tags || [], query);
+    const allTags = getAlltags(tags, query);
     const showQuerySource = allTags.length > 0 && prefixes.length > 0;
     const showPrefixesSource = typeof postfix !== 'string';
     const showPostfixesSource = typeof postfix === 'string';
@@ -130,9 +134,11 @@ autocomplete<AutocompleteItem>({
           return [];
         }
 
-        return tag.postfixes
-          .map(({ label }) => ({ token: tag.token, label }))
-          .filter(({ label }) => label.startsWith(postfix));
+        return tag.search({
+          query: postfix,
+          facet: tag.token === 'org' && 'org',
+          tags: tagsByToken[tag.token],
+        });
       },
       templates: {
         header() {
@@ -148,7 +154,7 @@ autocomplete<AutocompleteItem>({
       showQuerySource && querySource,
       showPrefixesSource && prefixesSource,
       showPostfixesSource && postfixesSource,
-    ].filter(Boolean);
+    ].filter(Boolean) as Array<AutocompleteSource<AutocompleteItem>>;
   },
   render({ sections, state }, root) {
     const [prefix] = splitQuery(state.query);
