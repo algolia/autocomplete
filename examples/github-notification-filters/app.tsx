@@ -144,8 +144,8 @@ autocomplete<AutocompleteItem>({
         header() {
           return <FilterHeader />;
         },
-        item({ item }) {
-          return <PostfixItem item={item} />;
+        item({ item, components }) {
+          return <PostfixItem item={item} components={components} />;
         },
       },
     };

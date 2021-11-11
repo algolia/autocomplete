@@ -29,8 +29,6 @@ export const items = [
             query,
             params: {
               hitsPerPage: 10,
-              highlightPreTag: '<mark>',
-              highlightPostTag: '</mark>',
               filters: mapToAlgoliaNegativeFilters(tags, ['name']),
             },
           },
@@ -41,6 +39,10 @@ export const items = [
             token,
             label: hit.name,
             attribute,
+            _highlightResult: {
+              ...hit._highlightResult,
+              label: hit._highlightResult[attribute],
+            },
           }));
         },
       });
@@ -178,8 +180,6 @@ export const items = [
             query,
             params: {
               hitsPerPage: 10,
-              highlightPreTag: '<mark>',
-              highlightPostTag: '</mark>',
               filters: mapToAlgoliaNegativeFilters(tags, ['login']),
             },
           },
@@ -190,6 +190,10 @@ export const items = [
             token,
             label: hit.login,
             attribute,
+            _highlightResult: {
+              ...hit._highlightResult,
+              label: hit._highlightResult[attribute],
+            },
           }));
         },
       });

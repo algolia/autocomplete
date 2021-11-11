@@ -33,6 +33,13 @@ body {
   margin-bottom: calc(var(--aa-spacing-half) * -1);
 }
 
+.aa-ItemContent .aa-ItemContentTitle mark {
+  background: rgba(
+    var(--aa-description-highlight-background-color-rgb),
+    var(--aa-description-highlight-background-color-alpha)
+  );
+}
+
 .aa-Tags {
   margin-right: 8px;
 }
