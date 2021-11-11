@@ -1,5 +1,5 @@
-import { Tag } from '@algolia/autocomplete-plugin-tags';
 import { getAlgoliaResults, getAlgoliaFacets } from '@algolia/autocomplete-js';
+import { Tag } from '@algolia/autocomplete-plugin-tags';
 
 import { searchClient } from './searchClient';
 import { Contributor, NotificationFilter, Repository } from './types';
