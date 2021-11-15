@@ -136,7 +136,7 @@ autocomplete<AutocompleteItem>({
 
         return tag.search({
           query: postfix,
-          facet: tag.token === 'org' && 'org',
+          facet: tag.token === 'org' ? 'org' : undefined,
           tags: tagsByToken[tag.token],
         });
       },
