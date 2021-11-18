@@ -1,3 +1,7 @@
+> **Deprecation notice**
+>
+> "Autocomplete.js" is deprecated. Please use "[@algolia/autocomplete-js](https://github.com/algolia/autocomplete#readme)" instead.
+
 # Autocomplete.js
 
 
