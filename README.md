@@ -1,3 +1,8 @@
+> **⚠️ Deprecation notice**
+>
+> [Autocomplete.js (v0.x)](https://www.npmjs.com/package/autocomplete.js) is deprecated and no longer supported. Please use [Autocomplete](https://github.com/algolia/autocomplete#readme) instead.
+> To upgrade from v0.x, please follow our [upgrade guide](https://www.algolia.com/doc/ui-libraries/autocomplete/guides/upgrading/).
+
 # Autocomplete.js
 
 
