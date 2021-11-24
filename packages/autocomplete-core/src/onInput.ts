@@ -29,6 +29,10 @@ interface OnInputParams<TItem extends BaseItem>
 
 const runConcurrentSafePromise = createConcurrentSafePromise();
 
+let nextStateRef: Partial<AutocompleteState<any>> = {};
+let propsRef = {} as InternalAutocompleteOptions<any>;
+let queryRef = '';
+
 export function onInput<TItem extends BaseItem>({
   event,
   nextState = {},
@@ -38,6 +42,10 @@ export function onInput<TItem extends BaseItem>({
   store,
   ...setters
 }: OnInputParams<TItem>): Promise<void> {
+  nextStateRef = nextState;
+  propsRef = props;
+  queryRef = query;
+
   if (lastStalledId) {
     props.environment.clearTimeout(lastStalledId);
   }
@@ -117,12 +125,12 @@ export function onInput<TItem extends BaseItem>({
     .then((collections) => {
       setStatus('idle');
       setCollections(collections as any);
-      const isPanelOpen = props.shouldPanelOpen({
+      const isPanelOpen = propsRef.shouldPanelOpen({
         state: store.getState(),
       });
       setIsOpen(
-        nextState.isOpen ??
-          ((props.openOnFocus && !query && isPanelOpen) || isPanelOpen)
+        nextStateRef.isOpen ??
+          ((propsRef.openOnFocus && !queryRef && isPanelOpen) || isPanelOpen)
       );
 
       const highlightedItem = getActiveItem(store.getState());
@@ -144,7 +152,7 @@ export function onInput<TItem extends BaseItem>({
     })
     .finally(() => {
       if (lastStalledId) {
-        props.environment.clearTimeout(lastStalledId);
+        propsRef.environment.clearTimeout(lastStalledId);
       }
     });
 }
