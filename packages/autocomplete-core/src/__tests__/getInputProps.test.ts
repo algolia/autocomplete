@@ -1894,7 +1894,7 @@ describe('getInputProps', () => {
   });
 
   describe('onBlur', () => {
-    test('resets activeItemId and isOpen', () => {
+    test('resets activeItemId and isOpen', async () => {
       const onStateChange = jest.fn();
       const { inputElement } = createPlayground(createAutocomplete, {
         onStateChange,
@@ -1904,6 +1904,8 @@ describe('getInputProps', () => {
 
       inputElement.focus();
       inputElement.blur();
+
+      await runAllMicroTasks();
 
       expect(onStateChange).toHaveBeenLastCalledWith(
         expect.objectContaining({

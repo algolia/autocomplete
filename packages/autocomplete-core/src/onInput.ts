@@ -133,6 +133,10 @@ export function onInput<TItem extends BaseItem>({
           ((propsRef.openOnFocus && !queryRef && isPanelOpen) || isPanelOpen)
       );
 
+      if (nextStateRef.activeItemId !== undefined) {
+        setActiveItemId(nextStateRef.activeItemId);
+      }
+
       const highlightedItem = getActiveItem(store.getState());
 
       if (store.getState().activeItemId !== null && highlightedItem) {

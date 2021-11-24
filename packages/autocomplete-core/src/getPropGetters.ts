@@ -194,6 +194,16 @@ export function getPropGetters<
         if (!isTouchDevice) {
           store.dispatch('blur', null);
         }
+
+        onInput({
+          event: new Event('blur'),
+          props,
+          nextState: { isOpen: false, activeItemId: null },
+          query: store.getState().query,
+          refresh,
+          store,
+          ...setters,
+        });
       },
       onClick: (event) => {
         // When the panel is closed and you click on the input while
