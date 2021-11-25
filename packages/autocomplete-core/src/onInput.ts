@@ -62,7 +62,10 @@ export function onInput<TItem extends BaseItem>({
   setQuery(query);
   setActiveItemId(props.defaultActiveItemId);
 
-  if (!query && props.openOnFocus === false) {
+  if (
+    (!query && props.openOnFocus === false) ||
+    (nextState.isOpen === false && store.getState().status !== 'idle')
+  ) {
     const collections = store.getState().collections.map((collection) => ({
       ...collection,
       items: [],
