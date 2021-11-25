@@ -30,6 +30,7 @@ interface OnInputParams<TItem extends BaseItem>
 const runConcurrentSafePromise = createConcurrentSafePromise();
 
 let nextStateRef: Partial<AutocompleteState<any>> = {};
+// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 let propsRef = {} as InternalAutocompleteOptions<any>;
 let queryRef = '';
 
