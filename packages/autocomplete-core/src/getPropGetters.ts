@@ -55,6 +55,18 @@ export function getPropGetters<
 
         if (isTargetWithinAutocomplete === false) {
           store.dispatch('blur', null);
+
+          if (!props.debug) {
+            onInput({
+              event: new Event('blur'),
+              props,
+              nextState: { isOpen: false, activeItemId: null },
+              query: store.getState().query,
+              refresh,
+              store,
+              ...setters,
+            });
+          }
         }
       },
       // When scrolling on touch devices (mobiles, tablets, etc.), we want to
@@ -193,17 +205,19 @@ export function getPropGetters<
         // See explanation in `onTouchStart`.
         if (!isTouchDevice) {
           store.dispatch('blur', null);
-        }
 
-        onInput({
-          event: new Event('blur'),
-          props,
-          nextState: { isOpen: false, activeItemId: null },
-          query: store.getState().query,
-          refresh,
-          store,
-          ...setters,
-        });
+          if (!props.debug) {
+            onInput({
+              event: new Event('blur'),
+              props,
+              nextState: { isOpen: false, activeItemId: null },
+              query: store.getState().query,
+              refresh,
+              store,
+              ...setters,
+            });
+          }
+        }
       },
       onClick: (event) => {
         // When the panel is closed and you click on the input while
