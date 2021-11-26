@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 
 import { AutocompleteState } from '..';
-import { createSource, defer } from '../../../../test/utils';
+import { createPlayground, createSource, defer } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 type Item = {
@@ -90,5 +90,170 @@ describe('concurrency', () => {
     );
 
     document.body.removeChild(input);
+  });
+
+  describe('closing the panel with pending requests', () => {
+    describe('without debug mode', () => {
+      const delay = 300;
+      const onStateChange = jest.fn();
+      const {
+        getEnvironmentProps,
+        inputElement,
+        formElement,
+      } = createPlayground(createAutocomplete, {
+        onStateChange,
+        getSources() {
+          return defer(() => {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }, { label: '2' }],
+              }),
+            ];
+          }, delay);
+        },
+      });
+
+      test('keeps the panel closed on Escape', async () => {
+        userEvent.type(inputElement, 'a');
+        userEvent.type(inputElement, '{esc}');
+
+        await defer(() => {}, delay);
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: false,
+              status: 'idle',
+            }),
+          })
+        );
+      });
+
+      test('keeps the panel closed on blur', async () => {
+        userEvent.type(inputElement, 'a');
+        userEvent.type(inputElement, '{enter}');
+
+        await defer(() => {}, delay);
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: false,
+              status: 'idle',
+            }),
+          })
+        );
+      });
+
+      test('keeps the panel closed on touchstart blur', async () => {
+        const panelElement = document.createElement('div');
+
+        const { onTouchStart } = getEnvironmentProps({
+          inputElement,
+          formElement,
+          panelElement,
+        });
+        window.addEventListener('touchstart', onTouchStart);
+
+        userEvent.type(inputElement, 'a');
+        const customEvent = new CustomEvent('touchstart', { bubbles: true });
+        window.document.dispatchEvent(customEvent);
+
+        await defer(() => {}, delay);
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: false,
+              status: 'idle',
+            }),
+          })
+        );
+
+        window.removeEventListener('touchstart', onTouchStart);
+      });
+    });
+
+    describe('with debug mode', () => {
+      const delay = 300;
+      const onStateChange = jest.fn();
+      const {
+        getEnvironmentProps,
+        inputElement,
+        formElement,
+      } = createPlayground(createAutocomplete, {
+        debug: true,
+        onStateChange,
+        getSources() {
+          return defer(() => {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }, { label: '2' }],
+              }),
+            ];
+          }, delay);
+        },
+      });
+
+      test('keeps the panel closed on Escape', async () => {
+        userEvent.type(inputElement, 'a');
+        userEvent.type(inputElement, '{esc}');
+
+        await defer(() => {}, delay);
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: false,
+              status: 'idle',
+            }),
+          })
+        );
+      });
+
+      test('keeps the panel open on blur', async () => {
+        userEvent.type(inputElement, 'a');
+        userEvent.type(inputElement, '{enter}');
+
+        await defer(() => {}, delay);
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: true,
+              status: 'idle',
+            }),
+          })
+        );
+      });
+
+      test('keeps the panel open on touchstart blur', async () => {
+        const panelElement = document.createElement('div');
+
+        const { onTouchStart } = getEnvironmentProps({
+          inputElement,
+          formElement,
+          panelElement,
+        });
+        window.addEventListener('touchstart', onTouchStart);
+
+        userEvent.type(inputElement, 'a');
+        const customEvent = new CustomEvent('touchstart', { bubbles: true });
+        window.document.dispatchEvent(customEvent);
+
+        await defer(() => {}, delay);
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: true,
+              status: 'idle',
+            }),
+          })
+        );
+
+        window.removeEventListener('touchstart', onTouchStart);
+      });
+    });
   });
 });
