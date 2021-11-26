@@ -2,7 +2,7 @@
   "files": [
     {
       "path": "packages/autocomplete-core/dist/umd/index.production.js",
-      "maxSize": "5.75 kB"
+      "maxSize": "6 kB"
     },
     {
       "path": "packages/autocomplete-js/dist/umd/index.production.js",
