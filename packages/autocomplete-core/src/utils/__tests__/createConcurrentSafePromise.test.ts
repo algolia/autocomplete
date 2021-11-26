@@ -1,3 +1,5 @@
+import { noop } from '@algolia/autocomplete-shared';
+
 import { defer } from '../../../../../test/utils';
 import { createConcurrentSafePromise } from '../createConcurrentSafePromise';
 
@@ -82,14 +84,16 @@ describe('createConcurrentSafePromise', () => {
     expect(runConcurrentSafePromise.isRunning()).toBe(false);
 
     const concurrentSafePromise4 = runConcurrentSafePromise(
-      defer(() => Promise.reject(), 400)
+      defer(() => Promise.reject(new Error()), 400)
     );
 
     expect(runConcurrentSafePromise.isRunning()).toBe(true);
 
     try {
       await concurrentSafePromise4;
-    } catch (err) {}
+    } catch (err) {
+      noop();
+    }
 
     expect(runConcurrentSafePromise.isRunning()).toBe(false);
   });
