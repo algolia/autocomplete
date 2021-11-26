@@ -116,8 +116,7 @@ describe('concurrency', () => {
           getSources,
         });
 
-        userEvent.type(inputElement, 'a');
-        userEvent.type(inputElement, '{esc}');
+        userEvent.type(inputElement, 'a{esc}');
 
         await defer(() => {}, delay);
 
@@ -129,25 +128,26 @@ describe('concurrency', () => {
             }),
           })
         );
+        expect(getSources).toHaveBeenCalledTimes(1);
       });
 
       test('keeps the panel closed on blur', async () => {
         const onStateChange = jest.fn();
+        const getSources = jest.fn(() => {
+          return defer(() => {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }, { label: '2' }],
+              }),
+            ];
+          }, delay);
+        });
         const { inputElement } = createPlayground(createAutocomplete, {
           onStateChange,
-          getSources() {
-            return defer(() => {
-              return [
-                createSource({
-                  getItems: () => [{ label: '1' }, { label: '2' }],
-                }),
-              ];
-            }, delay);
-          },
+          getSources,
         });
 
-        userEvent.type(inputElement, 'a');
-        userEvent.type(inputElement, '{enter}');
+        userEvent.type(inputElement, 'a{enter}');
 
         await defer(() => {}, delay);
 
@@ -159,25 +159,27 @@ describe('concurrency', () => {
             }),
           })
         );
+        expect(getSources).toHaveBeenCalledTimes(1);
       });
 
       test('keeps the panel closed on touchstart blur', async () => {
         const onStateChange = jest.fn();
+        const getSources = jest.fn(() => {
+          return defer(() => {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }, { label: '2' }],
+              }),
+            ];
+          }, delay);
+        });
         const {
           getEnvironmentProps,
           inputElement,
           formElement,
         } = createPlayground(createAutocomplete, {
           onStateChange,
-          getSources() {
-            return defer(() => {
-              return [
-                createSource({
-                  getItems: () => [{ label: '1' }, { label: '2' }],
-                }),
-              ];
-            }, delay);
-          },
+          getSources,
         });
 
         const panelElement = document.createElement('div');
@@ -203,6 +205,7 @@ describe('concurrency', () => {
             }),
           })
         );
+        expect(getSources).toHaveBeenCalledTimes(1);
 
         window.removeEventListener('touchstart', onTouchStart);
       });
@@ -213,22 +216,22 @@ describe('concurrency', () => {
 
       test('keeps the panel closed on Escape', async () => {
         const onStateChange = jest.fn();
+        const getSources = jest.fn(() => {
+          return defer(() => {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }, { label: '2' }],
+              }),
+            ];
+          }, delay);
+        });
         const { inputElement } = createPlayground(createAutocomplete, {
           debug: true,
           onStateChange,
-          getSources() {
-            return defer(() => {
-              return [
-                createSource({
-                  getItems: () => [{ label: '1' }, { label: '2' }],
-                }),
-              ];
-            }, delay);
-          },
+          getSources,
         });
 
-        userEvent.type(inputElement, 'a');
-        userEvent.type(inputElement, '{esc}');
+        userEvent.type(inputElement, 'a{esc}');
 
         await defer(() => {}, delay);
 
@@ -240,26 +243,27 @@ describe('concurrency', () => {
             }),
           })
         );
+        expect(getSources).toHaveBeenCalledTimes(1);
       });
 
       test('keeps the panel open on blur', async () => {
         const onStateChange = jest.fn();
+        const getSources = jest.fn(() => {
+          return defer(() => {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }, { label: '2' }],
+              }),
+            ];
+          }, delay);
+        });
         const { inputElement } = createPlayground(createAutocomplete, {
           debug: true,
           onStateChange,
-          getSources() {
-            return defer(() => {
-              return [
-                createSource({
-                  getItems: () => [{ label: '1' }, { label: '2' }],
-                }),
-              ];
-            }, delay);
-          },
+          getSources,
         });
 
-        userEvent.type(inputElement, 'a');
-        userEvent.type(inputElement, '{enter}');
+        userEvent.type(inputElement, 'a{enter}');
 
         await defer(() => {}, delay);
 
@@ -271,10 +275,20 @@ describe('concurrency', () => {
             }),
           })
         );
+        expect(getSources).toHaveBeenCalledTimes(1);
       });
 
       test('keeps the panel open on touchstart blur', async () => {
         const onStateChange = jest.fn();
+        const getSources = jest.fn(() => {
+          return defer(() => {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }, { label: '2' }],
+              }),
+            ];
+          }, delay);
+        });
         const {
           getEnvironmentProps,
           inputElement,
@@ -282,15 +296,7 @@ describe('concurrency', () => {
         } = createPlayground(createAutocomplete, {
           debug: true,
           onStateChange,
-          getSources() {
-            return defer(() => {
-              return [
-                createSource({
-                  getItems: () => [{ label: '1' }, { label: '2' }],
-                }),
-              ];
-            }, delay);
-          },
+          getSources,
         });
 
         const panelElement = document.createElement('div');
@@ -316,6 +322,7 @@ describe('concurrency', () => {
             }),
           })
         );
+        expect(getSources).toHaveBeenCalledTimes(1);
 
         window.removeEventListener('touchstart', onTouchStart);
       });

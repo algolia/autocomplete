@@ -164,3 +164,5 @@ export function onInput<TItem extends BaseItem>({
       }
     });
 }
+
+onInput.isRunning = runConcurrentSafePromise.isRunning;

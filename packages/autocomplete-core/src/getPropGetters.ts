@@ -58,7 +58,7 @@ export function getPropGetters<
         if (isTargetWithinAutocomplete === false) {
           store.dispatch('blur', null);
 
-          if (!props.debug) {
+          if (!props.debug && onInput.isRunning()) {
             onInput({
               event: new Event('blur'),
               props,
@@ -208,7 +208,7 @@ export function getPropGetters<
         if (!isTouchDevice) {
           store.dispatch('blur', null);
 
-          if (!props.debug) {
+          if (!props.debug && onInput.isRunning()) {
             onInput({
               event: new Event('blur'),
               props,
