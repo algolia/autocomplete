@@ -11,9 +11,7 @@ export function createConcurrentSafePromise() {
   let latestResolvedId = -1;
   let latestResolvedValue: unknown = undefined;
 
-  return function runConcurrentSafePromise<TValue>(
-    promise: MaybePromise<TValue>
-  ) {
+  function runConcurrentSafePromise<TValue>(promise: MaybePromise<TValue>) {
     basePromiseId++;
     const currentPromiseId = basePromiseId;
 
@@ -40,5 +38,9 @@ export function createConcurrentSafePromise() {
 
       return x;
     });
-  };
+  }
+
+  runConcurrentSafePromise.isRunning = () => basePromiseId !== latestResolvedId;
+
+  return runConcurrentSafePromise;
 }

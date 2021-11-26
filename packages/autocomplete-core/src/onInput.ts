@@ -64,7 +64,7 @@ export function onInput<TItem extends BaseItem>({
 
   if (
     (!query && props.openOnFocus === false) ||
-    (nextState.isOpen === false && store.getState().status !== 'idle')
+    (nextState.isOpen === false && runConcurrentSafePromise.isRunning())
   ) {
     const collections = store.getState().collections.map((collection) => ({
       ...collection,
