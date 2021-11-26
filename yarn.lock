@@ -17451,10 +17451,10 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
-shipjs-lib@0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/shipjs-lib/-/shipjs-lib-0.23.0.tgz#f16c2c0e586affde8ca649261f2cfe36e0eae6ea"
-  integrity sha512-vGUVyo+LKxLyE1VqlGLH1yjRI+X2EKXGe2pqzze7ODQ1ZdcPM40DPJzBfkKV2K0+8LL360FeiXlWHlavobvtBA==
+shipjs-lib@0.24.0:
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/shipjs-lib/-/shipjs-lib-0.24.0.tgz#a14ed4f23422e2ae9429ec554f65deb258a1cb46"
+  integrity sha512-2j3rziFNx/rJX7xXDpgQPPUUNXZBXx1S3nMA44ZJ41kbfHJx/XhYCt6V2hZVpNnpCWnZE67lziHBXx8aUKr6tQ==
   dependencies:
     deepmerge "^4.2.2"
     dotenv "^8.1.0"
@@ -17462,10 +17462,10 @@ shipjs-lib@0.23.0:
     semver "6.3.0"
     shelljs "0.8.4"
 
-shipjs@0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/shipjs/-/shipjs-0.23.0.tgz#7072e6dde01ba3f5fe726ecf29bd21097c3d9d85"
-  integrity sha512-aS11OCjCLXjjV+naVHiv702bPmE3lxNzP627JRmlJZxC7jlXkqiwU4M0AxB/Lb1WvZHsV6UW42tIFfs8VGLiYQ==
+shipjs@0.24.0:
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/shipjs/-/shipjs-0.24.0.tgz#480211d2bb353356d33400b75bd8716caf7ae1e2"
+  integrity sha512-OFBQi4hnlHU2N7UU13K/nZvweJI43TLhwwC0RvQ5ZhOYtYfk5t7x7tdLrKmOzTikIuG7wrvBcQrutIXrKUdweg==
   dependencies:
     "@babel/runtime" "^7.6.3"
     "@octokit/rest" "^17.0.0"
@@ -17489,7 +17489,7 @@ shipjs@0.23.0:
     prettier "^2.0.0"
     serialize-javascript "^3.0.0"
     shell-quote "^1.7.2"
-    shipjs-lib "0.23.0"
+    shipjs-lib "0.24.0"
     temp-write "4.0.0"
     tempfile "^3.0.0"
 
