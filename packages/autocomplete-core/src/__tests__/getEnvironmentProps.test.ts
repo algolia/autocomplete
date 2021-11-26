@@ -30,7 +30,7 @@ describe('getEnvironmentProps', () => {
   });
 
   describe('onTouchStart', () => {
-    test('is a noop when panel is not open', () => {
+    test('is a noop when panel is not open and status is idle', () => {
       const onStateChange = jest.fn();
       const {
         getEnvironmentProps,

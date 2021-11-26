@@ -40,8 +40,10 @@ export function getPropGetters<
       // @TODO: support cases where there are multiple Autocomplete instances.
       // Right now, a second instance makes this computation return false.
       onTouchStart(event) {
+        const { isOpen, status, query } = store.getState();
+
         if (
-          store.getState().isOpen === false ||
+          (isOpen === false && status === 'idle') ||
           event.target === inputElement
         ) {
           return;
@@ -61,7 +63,7 @@ export function getPropGetters<
               event: new Event('blur'),
               props,
               nextState: { isOpen: false, activeItemId: null },
-              query: store.getState().query,
+              query,
               refresh,
               store,
               ...setters,
