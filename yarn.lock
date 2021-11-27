@@ -8705,12 +8705,10 @@ eslint-config-algolia@15.0.0:
   resolved "https://registry.yarnpkg.com/eslint-config-algolia/-/eslint-config-algolia-15.0.0.tgz#3fe7de52d1f2d2d97333ade18327c738f72c0292"
   integrity sha512-Lfl9Sy5fQJDTQPtsMQZR6nx6fnjc1Ot9SXxdx8AVMMP+nwu5ljtxcFCI1e2BeI6+6BHX9g5BFjnpE/S7HS/Eug==
 
-eslint-config-prettier@6.15.0:
-  version "6.15.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-6.15.0.tgz#7f93f6cb7d45a92f1537a70ecc06366e1ac6fed9"
-  integrity sha512-a1+kOYLR8wMGustcgAjdydMsQ2A/2ipRPwRKUmfYaSxc9ZPcrku080Ctl6zrZzZNs/U82MjSv+qKREkoq3bJaw==
-  dependencies:
-    get-stdin "^6.0.0"
+eslint-config-prettier@8.3.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.3.0.tgz#f7471b20b6fe8a9a9254cc684454202886a2dd7a"
+  integrity sha512-BgZuLUSeKzvlL/VUjx/Yb787VQ26RU3gGjA3iiFvdsp/2bMfVIWUVP7tjxtjS0e+HP409cPlPvNkQloz8C91ew==
 
 eslint-config-react-app@^6.0.0:
   version "6.0.0"
@@ -10004,11 +10002,6 @@ get-stdin@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-4.0.1.tgz#b968c6b0a04384324902e8bf1a5df32579a450fe"
   integrity sha1-uWjGsKBDhDJJAui/Gl3zJXmkUP4=
-
-get-stdin@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-6.0.0.tgz#9e09bf712b360ab9225e812048f71fde9c89657b"
-  integrity sha512-jp4tHawyV7+fkkSKyvjuLZswblUtz+SQKzSWnBbii16BuZksJlU1wuBYXY75r+duh/llF1ur6oNwi+2ZzjKZ7g==
 
 get-stdin@^8.0.0:
   version "8.0.0"
