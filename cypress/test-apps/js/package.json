@@ -22,7 +22,7 @@
     "search-insights": "1.7.1"
   },
   "devDependencies": {
-    "parcel": "2.0.0-beta.2"
+    "parcel": "2.0.1"
   },
   "keywords": [
     "algolia",
