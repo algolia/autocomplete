@@ -10,11 +10,11 @@ export function createConcurrentSafePromise() {
   let basePromiseId = -1;
   let latestResolvedId = -1;
   let latestResolvedValue: unknown = undefined;
-  let runningPromises = 0;
+  let runningPromisesCount = 0;
 
   function runConcurrentSafePromise<TValue>(promise: MaybePromise<TValue>) {
     basePromiseId++;
-    runningPromises++;
+    runningPromisesCount++;
     const currentPromiseId = basePromiseId;
 
     return Promise.resolve(promise)
@@ -41,10 +41,10 @@ export function createConcurrentSafePromise() {
 
         return x;
       })
-      .finally(() => runningPromises--);
+      .finally(() => runningPromisesCount--);
   }
 
-  runConcurrentSafePromise.isRunning = () => runningPromises > 0;
+  runConcurrentSafePromise.isRunning = () => runningPromisesCount > 0;
 
   return runConcurrentSafePromise;
 }
