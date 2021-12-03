@@ -130,6 +130,12 @@ export function onInput<TItem extends BaseItem>({
   )
     .then((collections) => {
       setStatus('idle');
+
+      if (store.shouldSkipSearch) {
+        store.shouldSkipSearch = false;
+        return;
+      }
+
       setCollections(collections as any);
       const isPanelOpen = lastProps.shouldPanelOpen({
         state: store.getState(),
@@ -138,10 +144,6 @@ export function onInput<TItem extends BaseItem>({
         lastNextState.isOpen ??
           ((lastProps.openOnFocus && !lastQuery && isPanelOpen) || isPanelOpen)
       );
-
-      if (lastNextState.activeItemId !== undefined) {
-        setActiveItemId(lastNextState.activeItemId);
-      }
 
       const highlightedItem = getActiveItem(store.getState());
 

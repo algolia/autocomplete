@@ -98,20 +98,10 @@ export function onKeyDown<TItem extends BaseItem>({
     // panel.
     event.preventDefault();
 
-    const { query } = store.getState();
-
     store.dispatch(event.key, null);
 
     if (onInput.isRunning()) {
-      onInput({
-        event: new Event('keydown'),
-        props,
-        nextState: { isOpen: false },
-        query,
-        refresh,
-        store,
-        ...setters,
-      });
+      store.shouldSkipSearch = true;
     }
   } else if (event.key === 'Enter') {
     // No active item, so we let the browser handle the native `onSubmit` form

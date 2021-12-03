@@ -63,15 +63,7 @@ export function getPropGetters<
           // could reopen the panel once they resolve.
           // We want to avoid any subsequent query and keep the panel closed.
           if (!props.debug && onInput.isRunning()) {
-            onInput({
-              event: new Event('blur'),
-              props,
-              nextState: { isOpen: false, activeItemId: null },
-              query: store.getState().query,
-              refresh,
-              store,
-              ...setters,
-            });
+            store.shouldSkipSearch = true;
           }
         }
       },
@@ -216,15 +208,7 @@ export function getPropGetters<
           // could reopen the panel once they resolve.
           // We want to avoid any subsequent query and keep the panel closed.
           if (!props.debug && onInput.isRunning()) {
-            onInput({
-              event: new Event('blur'),
-              props,
-              nextState: { isOpen: false, activeItemId: null },
-              query: store.getState().query,
-              refresh,
-              store,
-              ...setters,
-            });
+            store.shouldSkipSearch = true;
           }
         }
       },
