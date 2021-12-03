@@ -29,10 +29,10 @@ interface OnInputParams<TItem extends BaseItem>
 
 const runConcurrentSafePromise = createConcurrentSafePromise();
 
-let nextStateRef: Partial<AutocompleteState<any>> = {};
+let lastNextState: Partial<AutocompleteState<any>> = {};
 // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-let propsRef = {} as InternalAutocompleteOptions<any>;
-let queryRef = '';
+let lastProps = {} as InternalAutocompleteOptions<any>;
+let lastQuery = '';
 
 export function onInput<TItem extends BaseItem>({
   event,
@@ -43,9 +43,9 @@ export function onInput<TItem extends BaseItem>({
   store,
   ...setters
 }: OnInputParams<TItem>): Promise<void> {
-  nextStateRef = nextState;
-  propsRef = props;
-  queryRef = query;
+  lastNextState = nextState;
+  lastProps = props;
+  lastQuery = query;
 
   if (lastStalledId) {
     props.environment.clearTimeout(lastStalledId);
@@ -129,16 +129,16 @@ export function onInput<TItem extends BaseItem>({
     .then((collections) => {
       setStatus('idle');
       setCollections(collections as any);
-      const isPanelOpen = propsRef.shouldPanelOpen({
+      const isPanelOpen = lastProps.shouldPanelOpen({
         state: store.getState(),
       });
       setIsOpen(
-        nextStateRef.isOpen ??
-          ((propsRef.openOnFocus && !queryRef && isPanelOpen) || isPanelOpen)
+        lastNextState.isOpen ??
+          ((lastProps.openOnFocus && !lastQuery && isPanelOpen) || isPanelOpen)
       );
 
-      if (nextStateRef.activeItemId !== undefined) {
-        setActiveItemId(nextStateRef.activeItemId);
+      if (lastNextState.activeItemId !== undefined) {
+        setActiveItemId(lastNextState.activeItemId);
       }
 
       const highlightedItem = getActiveItem(store.getState());
@@ -160,7 +160,7 @@ export function onInput<TItem extends BaseItem>({
     })
     .finally(() => {
       if (lastStalledId) {
-        propsRef.environment.clearTimeout(lastStalledId);
+        lastProps.environment.clearTimeout(lastStalledId);
       }
     });
 }
