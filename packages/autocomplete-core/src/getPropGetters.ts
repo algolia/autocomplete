@@ -41,6 +41,9 @@ export function getPropGetters<
       // Right now, a second instance makes this computation return false.
       onTouchStart(event) {
         if (
+          // If requests are still running when the user closes the panel, they
+          // could reopen the panel once they resolve.
+          // We want to avoid any subsequent query and keep the panel closed.
           (store.getState().isOpen === false && !onInput.isRunning()) ||
           event.target === inputElement
         ) {
@@ -56,6 +59,9 @@ export function getPropGetters<
         if (isTargetWithinAutocomplete === false) {
           store.dispatch('blur', null);
 
+          // If requests are still running when the user closes the panel, they
+          // could reopen the panel once they resolve.
+          // We want to avoid any subsequent query and keep the panel closed.
           if (!props.debug && onInput.isRunning()) {
             onInput({
               event: new Event('blur'),
@@ -206,6 +212,9 @@ export function getPropGetters<
         if (!isTouchDevice) {
           store.dispatch('blur', null);
 
+          // If requests are still running when the user closes the panel, they
+          // could reopen the panel once they resolve.
+          // We want to avoid any subsequent query and keep the panel closed.
           if (!props.debug && onInput.isRunning()) {
             onInput({
               event: new Event('blur'),

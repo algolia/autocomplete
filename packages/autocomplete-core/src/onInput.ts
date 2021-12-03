@@ -29,6 +29,8 @@ interface OnInputParams<TItem extends BaseItem>
 
 const runConcurrentSafePromise = createConcurrentSafePromise();
 
+// All three values are used in the `then` callback, but because callbacks can
+// execute in a different order than the call order, the values could be stale.
 let lastNextState: Partial<AutocompleteState<any>> = {};
 // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 let lastProps = {} as InternalAutocompleteOptions<any>;
