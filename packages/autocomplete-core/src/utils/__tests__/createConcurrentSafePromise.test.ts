@@ -1,5 +1,3 @@
-import { noop } from '@algolia/autocomplete-shared';
-
 import { defer } from '../../../../../test/utils';
 import { createConcurrentSafePromise } from '../createConcurrentSafePromise';
 
@@ -91,9 +89,8 @@ describe('createConcurrentSafePromise', () => {
 
     try {
       await concurrentSafePromise4;
-    } catch (err) {
-      noop();
-    }
+      // eslint-disable-next-line no-empty
+    } catch (err) {}
 
     expect(runConcurrentSafePromise.isRunning()).toBe(false);
   });
