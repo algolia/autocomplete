@@ -64,15 +64,7 @@ export function getPropGetters<
           // We want to prevent any subsequent query from reopening the panel because
           // it would result it an unsolicited UI behavior.
           if (!props.debug && onInput.isRunning()) {
-            onInput({
-              event: new Event('blur'),
-              props,
-              nextState: { isOpen: false, activeItemId: null },
-              query: store.getState().query,
-              refresh,
-              store,
-              ...setters,
-            });
+            store.shouldSkipSearch = true;
           }
         }
       },
@@ -217,15 +209,7 @@ export function getPropGetters<
           // could reopen the panel once they resolve.
           // We want to avoid any subsequent query and keep the panel closed.
           if (!props.debug && onInput.isRunning()) {
-            onInput({
-              event: new Event('blur'),
-              props,
-              nextState: { isOpen: false, activeItemId: null },
-              query: store.getState().query,
-              refresh,
-              store,
-              ...setters,
-            });
+            store.shouldSkipSearch = true;
           }
         }
       },
