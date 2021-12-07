@@ -118,6 +118,7 @@ export function onInput<TItem extends BaseItem>({
       // Parameters passed to `onInput` could be stale when the following code
       // executes, because `onInput` calls may not resolve in order.
       // If it becomes a problem we'll need to save the last passed parameters.
+      // See: https://codesandbox.io/s/agitated-cookies-y290z
 
       setStatus('idle');
 
