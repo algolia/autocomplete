@@ -29,14 +29,6 @@ interface OnInputParams<TItem extends BaseItem>
 
 const runConcurrentSafePromise = createConcurrentSafePromise();
 
-// All three values are used in the `then` callback, but because callbacks can
-// execute in a different order than the call order (e.g., on an unstable network),
-// the values could be stale.
-let lastNextState: Partial<AutocompleteState<any>> = {};
-// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-let lastProps = {} as InternalAutocompleteOptions<any>;
-let lastQuery = '';
-
 export function onInput<TItem extends BaseItem>({
   event,
   nextState = {},
@@ -46,10 +38,6 @@ export function onInput<TItem extends BaseItem>({
   store,
   ...setters
 }: OnInputParams<TItem>): Promise<void> {
-  lastNextState = nextState;
-  lastProps = props;
-  lastQuery = query;
-
   if (lastStalledId) {
     props.environment.clearTimeout(lastStalledId);
   }
@@ -127,20 +115,25 @@ export function onInput<TItem extends BaseItem>({
       })
   )
     .then((collections) => {
+      // Parameters passed to `onInput` could be stale when the following code
+      // executes, because `onInput` calls may not resolve in order.
+      // If it becomes a problem we'll need to save the last passed parameters.
+
       setStatus('idle');
 
       if (store.shouldSkipSearch) {
         store.shouldSkipSearch = false;
+
         return;
       }
 
       setCollections(collections as any);
-      const isPanelOpen = lastProps.shouldPanelOpen({
-        state: store.getState(),
-      });
+
+      const isPanelOpen = props.shouldPanelOpen({ state: store.getState() });
+
       setIsOpen(
-        lastNextState.isOpen ??
-          ((lastProps.openOnFocus && !lastQuery && isPanelOpen) || isPanelOpen)
+        nextState.isOpen ??
+          ((props.openOnFocus && !query && isPanelOpen) || isPanelOpen)
       );
 
       const highlightedItem = getActiveItem(store.getState());
@@ -162,7 +155,7 @@ export function onInput<TItem extends BaseItem>({
     })
     .finally(() => {
       if (lastStalledId) {
-        lastProps.environment.clearTimeout(lastStalledId);
+        props.environment.clearTimeout(lastStalledId);
       }
     });
 }
