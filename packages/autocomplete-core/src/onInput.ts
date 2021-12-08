@@ -123,7 +123,9 @@ export function onInput<TItem extends BaseItem>({
       setStatus('idle');
 
       if (store.shouldSkipPendingUpdate) {
-        store.shouldSkipPendingUpdate = false;
+        if (!runConcurrentSafePromise.isRunning()) {
+          store.shouldSkipPendingUpdate = false;
+        }
 
         return;
       }
