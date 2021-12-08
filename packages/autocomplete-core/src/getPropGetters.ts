@@ -61,8 +61,8 @@ export function getPropGetters<
 
           // If requests are still running when the user closes the panel, they
           // could reopen the panel once they resolve.
-          // We want to prevent any subsequent query from reopening the panel because
-          // it would result it an unsolicited UI behavior.
+          // We want to prevent any subsequent query from reopening the panel
+          // because it would result in an unsolicited UI behavior.
           if (!props.debug && onInput.isRunning()) {
             store.shouldSkipPendingUpdate = true;
           }
@@ -207,7 +207,8 @@ export function getPropGetters<
 
           // If requests are still running when the user closes the panel, they
           // could reopen the panel once they resolve.
-          // We want to avoid any subsequent query and keep the panel closed.
+          // We want to prevent any subsequent query from reopening the panel
+          // because it would result in an unsolicited UI behavior.
           if (!props.debug && onInput.isRunning()) {
             store.shouldSkipPendingUpdate = true;
           }
