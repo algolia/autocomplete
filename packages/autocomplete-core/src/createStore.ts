@@ -35,6 +35,6 @@ export function createStore<TItem extends BaseItem>(
 
       onStoreStateChange({ state, prevState });
     },
-    shouldSkipSearch: false,
+    shouldSkipPendingUpdate: false,
   };
 }

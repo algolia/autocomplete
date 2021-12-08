@@ -122,8 +122,8 @@ export function onInput<TItem extends BaseItem>({
 
       setStatus('idle');
 
-      if (store.shouldSkipSearch) {
-        store.shouldSkipSearch = false;
+      if (store.shouldSkipPendingUpdate) {
+        store.shouldSkipPendingUpdate = false;
 
         return;
       }

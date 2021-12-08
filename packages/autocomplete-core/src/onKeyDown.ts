@@ -101,7 +101,7 @@ export function onKeyDown<TItem extends BaseItem>({
     store.dispatch(event.key, null);
 
     if (onInput.isRunning()) {
-      store.shouldSkipSearch = true;
+      store.shouldSkipPendingUpdate = true;
     }
   } else if (event.key === 'Enter') {
     // No active item, so we let the browser handle the native `onSubmit` form

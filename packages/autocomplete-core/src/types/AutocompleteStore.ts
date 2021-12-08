@@ -5,7 +5,7 @@ import { AutocompleteState } from './AutocompleteState';
 export interface AutocompleteStore<TItem extends BaseItem> {
   getState(): AutocompleteState<TItem>;
   dispatch(action: ActionType, payload: any): void;
-  shouldSkipSearch: boolean;
+  shouldSkipPendingUpdate: boolean;
 }
 
 export type Reducer = <TItem extends BaseItem>(
