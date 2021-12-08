@@ -40,13 +40,16 @@ export function getPropGetters<
       // @TODO: support cases where there are multiple Autocomplete instances.
       // Right now, a second instance makes this computation return false.
       onTouchStart(event) {
-        if (
-          // If requests are still running when the user closes the panel, they
-          // could reopen the panel once they resolve.
-          // We want to avoid any subsequent query and keep the panel closed.
-          (store.getState().isOpen === false && !onInput.isRunning()) ||
-          event.target === inputElement
-        ) {
+        // The `onTouchStart` event shouldn't trigger the `blur` handler when
+        // it's not an interaction with Autocomplete. We detect it with the
+        // following heuristics:
+        // - the panel is closed AND there are no running requests
+        //   (no interaction with the autocomplete, no future state updates)
+        // - OR the touched target is the input element (should open the panel)
+        const isNotAutocompleteInteraction =
+          store.getState().isOpen === false && !onInput.isRunning();
+
+        if (isNotAutocompleteInteraction || event.target === inputElement) {
           return;
         }
 
