@@ -1,3 +1,13 @@
+# [](https://github.com/algolia/autocomplete/compare/v1.5.0...v) (2021-12-09)
+
+
+### Bug Fixes
+
+* **concurrency:** ensure panel stays closed after blur ([#829](https://github.com/algolia/autocomplete/issues/829)) ([2dd34e0](https://github.com/algolia/autocomplete/commit/2dd34e0ac1eae19d87105668bd13155b543ca336))
+* **deps:** update dependency preact to v10.6.1 ([#773](https://github.com/algolia/autocomplete/issues/773)) ([12de8bb](https://github.com/algolia/autocomplete/commit/12de8bb21b1847e37e3fd6420c7740e152d2541e))
+
+
+
 # [1.5.0](https://github.com/algolia/autocomplete/compare/v1.4.1...v1.5.0) (2021-11-02)
 
 ### Bug Fixes
