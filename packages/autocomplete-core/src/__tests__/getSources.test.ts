@@ -8,6 +8,10 @@ import {
 import { createAutocomplete } from '../createAutocomplete';
 import * as handlers from '../onInput';
 
+beforeEach(() => {
+  document.body.innerHTML = '';
+});
+
 describe('getSources', () => {
   test('gets calls on input', () => {
     const getSources = jest.fn((..._args: any[]) => {
@@ -140,7 +144,13 @@ describe('getSources', () => {
 
     const { inputElement } = createPlayground(createAutocomplete, {
       getSources() {
-        return [createSource({ sourceId: 'source1', getItems: () => {} })];
+        return [
+          createSource({
+            sourceId: 'source1',
+            // @ts-expect-error
+            getItems: () => {},
+          }),
+        ];
       },
     });
 

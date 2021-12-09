@@ -115,11 +115,25 @@ export function onInput<TItem extends BaseItem>({
       })
   )
     .then((collections) => {
+      // Parameters passed to `onInput` could be stale when the following code
+      // executes, because `onInput` calls may not resolve in order.
+      // If it becomes a problem we'll need to save the last passed parameters.
+      // See: https://codesandbox.io/s/agitated-cookies-y290z
+
       setStatus('idle');
+
+      if (store.shouldSkipPendingUpdate) {
+        if (!runConcurrentSafePromise.isRunning()) {
+          store.shouldSkipPendingUpdate = false;
+        }
+
+        return;
+      }
+
       setCollections(collections as any);
-      const isPanelOpen = props.shouldPanelOpen({
-        state: store.getState(),
-      });
+
+      const isPanelOpen = props.shouldPanelOpen({ state: store.getState() });
+
       setIsOpen(
         nextState.isOpen ??
           ((props.openOnFocus && !query && isPanelOpen) || isPanelOpen)
@@ -148,3 +162,5 @@ export function onInput<TItem extends BaseItem>({
       }
     });
 }
+
+onInput.isRunning = runConcurrentSafePromise.isRunning;

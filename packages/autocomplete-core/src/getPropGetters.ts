@@ -40,10 +40,16 @@ export function getPropGetters<
       // @TODO: support cases where there are multiple Autocomplete instances.
       // Right now, a second instance makes this computation return false.
       onTouchStart(event) {
-        if (
-          store.getState().isOpen === false ||
-          event.target === inputElement
-        ) {
+        // The `onTouchStart` event shouldn't trigger the `blur` handler when
+        // it's not an interaction with Autocomplete. We detect it with the
+        // following heuristics:
+        // - the panel is closed AND there are no running requests
+        //   (no interaction with the autocomplete, no future state updates)
+        // - OR the touched target is the input element (should open the panel)
+        const isNotAutocompleteInteraction =
+          store.getState().isOpen === false && !onInput.isRunning();
+
+        if (isNotAutocompleteInteraction || event.target === inputElement) {
           return;
         }
 
@@ -55,6 +61,14 @@ export function getPropGetters<
 
         if (isTargetWithinAutocomplete === false) {
           store.dispatch('blur', null);
+
+          // If requests are still running when the user closes the panel, they
+          // could reopen the panel once they resolve.
+          // We want to prevent any subsequent query from reopening the panel
+          // because it would result in an unsolicited UI behavior.
+          if (!props.debug && onInput.isRunning()) {
+            store.shouldSkipPendingUpdate = true;
+          }
         }
       },
       // When scrolling on touch devices (mobiles, tablets, etc.), we want to
@@ -193,6 +207,14 @@ export function getPropGetters<
         // See explanation in `onTouchStart`.
         if (!isTouchDevice) {
           store.dispatch('blur', null);
+
+          // If requests are still running when the user closes the panel, they
+          // could reopen the panel once they resolve.
+          // We want to prevent any subsequent query from reopening the panel
+          // because it would result in an unsolicited UI behavior.
+          if (!props.debug && onInput.isRunning()) {
+            store.shouldSkipPendingUpdate = true;
+          }
         }
       },
       onClick: (event) => {
