@@ -1,3 +1,9 @@
+# [1.5.1](https://github.com/algolia/autocomplete/compare/v1.5.0...v1.5.1) (2021-12-09)
+
+### Bug Fixes
+
+* **concurrency:** ensure panel stays closed after blur ([#829](https://github.com/algolia/autocomplete/issues/829)) ([2dd34e0](https://github.com/algolia/autocomplete/commit/2dd34e0ac1eae19d87105668bd13155b543ca336))
+
 # [1.5.0](https://github.com/algolia/autocomplete/compare/v1.4.1...v1.5.0) (2021-11-02)
 
 ### Bug Fixes
