@@ -45,7 +45,7 @@
     "@rollup/plugin-node-resolve": "11.0.0",
     "@rollup/plugin-replace": "2.3.4",
     "@testing-library/dom": "7.28.1",
-    "@testing-library/jest-dom": "5.15.1",
+    "@testing-library/jest-dom": "5.16.1",
     "@testing-library/preact": "2.0.1",
     "@testing-library/user-event": "12.5.0",
     "@types/jest": "^26.0.16",
