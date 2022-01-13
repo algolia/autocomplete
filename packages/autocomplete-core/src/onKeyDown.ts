@@ -104,9 +104,7 @@ export function onKeyDown<TItem extends BaseItem>({
     // autocomplete. At this point, we should ignore any requests that are still
     // running and could reopen the panel once they resolve, because that would
     // result in an unsolicited UI behavior.
-    if (onInput.isRunning()) {
-      store.shouldSkipPendingUpdate = true;
-    }
+    store.pendingRequests.cancelAll();
   } else if (event.key === 'Enter') {
     // No active item, so we let the browser handle the native `onSubmit` form
     // event.

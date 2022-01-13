@@ -43,13 +43,13 @@ export function getPropGetters<
         // The `onTouchStart` event shouldn't trigger the `blur` handler when
         // it's not an interaction with Autocomplete. We detect it with the
         // following heuristics:
-        // - the panel is closed AND there are no running requests
+        // - the panel is closed AND there are no pending requests
         //   (no interaction with the autocomplete, no future state updates)
         // - OR the touched target is the input element (should open the panel)
-        const isNotAutocompleteInteraction =
-          store.getState().isOpen === false && !onInput.isRunning();
+        const isAutocompleteInteraction =
+          store.getState().isOpen === true || !store.pendingRequests.isEmpty();
 
-        if (isNotAutocompleteInteraction || event.target === inputElement) {
+        if (!isAutocompleteInteraction || event.target === inputElement) {
           return;
         }
 
@@ -62,12 +62,12 @@ export function getPropGetters<
         if (isTargetWithinAutocomplete === false) {
           store.dispatch('blur', null);
 
-          // If requests are still running when the user closes the panel, they
+          // If requests are still pending when the user closes the panel, they
           // could reopen the panel once they resolve.
           // We want to prevent any subsequent query from reopening the panel
           // because it would result in an unsolicited UI behavior.
-          if (!props.debug && onInput.isRunning()) {
-            store.shouldSkipPendingUpdate = true;
+          if (!props.debug) {
+            store.pendingRequests.cancelAll();
           }
         }
       },
@@ -212,8 +212,8 @@ export function getPropGetters<
           // could reopen the panel once they resolve.
           // We want to prevent any subsequent query from reopening the panel
           // because it would result in an unsolicited UI behavior.
-          if (!props.debug && onInput.isRunning()) {
-            store.shouldSkipPendingUpdate = true;
+          if (!props.debug) {
+            store.pendingRequests.cancelAll();
           }
         }
       },
