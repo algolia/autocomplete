@@ -83,7 +83,7 @@
     "postcss": "8.1.8",
     "postcss-color-rgb": "2.0.0",
     "postcss-comment": "2.0.0",
-    "postcss-preset-env": "6.7.0",
+    "postcss-preset-env": "7.2.3",
     "prettier": "2.2.1",
     "rollup": "2.61.1",
     "rollup-plugin-babel": "4.4.0",
