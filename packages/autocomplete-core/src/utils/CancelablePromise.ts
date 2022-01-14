@@ -112,18 +112,6 @@ class CancelablePromiseInternal<T = any> {
 }
 
 export class CancelablePromise<T = any> extends CancelablePromiseInternal<T> {
-  static all = function all(iterable: any) {
-    return makeAllCancelable(iterable, Promise.all(iterable));
-  } as CancelablePromiseOverloads['all'];
-
-  static allSettled = function allSettled(iterable: any) {
-    return makeAllCancelable(iterable, Promise.allSettled(iterable));
-  } as CancelablePromiseOverloads['allSettled'];
-
-  static race = function race(iterable) {
-    return makeAllCancelable(iterable, Promise.race(iterable));
-  } as CancelablePromiseOverloads['race'];
-
   static resolve = function resolve(value) {
     return cancelable(Promise.resolve(value));
   } as CancelablePromiseOverloads['resolve'];
@@ -176,18 +164,6 @@ function makeCancelable<T>(promise: Promise<T>, internals: Internals) {
     internals,
     promise,
   }) as CancelablePromise<T>;
-}
-
-function makeAllCancelable(iterable: any, promise: Promise<any>) {
-  const internals = defaultInternals();
-  internals.onCancelList.push(() => {
-    for (const resolvable of iterable) {
-      if (isCancelablePromise(resolvable)) {
-        resolvable.cancel();
-      }
-    }
-  });
-  return new CancelablePromiseInternal({ internals, promise });
 }
 
 function defaultInternals(): Internals {
