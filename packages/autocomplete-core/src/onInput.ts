@@ -1,5 +1,3 @@
-import CancelablePromise, { cancelable } from 'cancelable-promise';
-
 import { reshape } from './reshape';
 import { preResolve, resolve, postResolve } from './resolve';
 import {
@@ -9,7 +7,12 @@ import {
   BaseItem,
   InternalAutocompleteOptions,
 } from './types';
-import { createConcurrentSafePromise, getActiveItem } from './utils';
+import {
+  cancelable,
+  CancelablePromise,
+  createConcurrentSafePromise,
+  getActiveItem,
+} from './utils';
 
 let lastStalledId: number | null = null;
 

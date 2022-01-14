@@ -1,6 +1,4 @@
-import { CancelablePromise } from 'cancelable-promise';
-
-import { createCancelablePromiseList } from '..';
+import { CancelablePromise, createCancelablePromiseList } from '..';
 
 describe('createCancelablePromiseList', () => {
   test('adds cancelable promises to the list', () => {

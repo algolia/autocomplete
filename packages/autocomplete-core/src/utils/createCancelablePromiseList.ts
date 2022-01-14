@@ -1,4 +1,4 @@
-import CancelablePromise from 'cancelable-promise';
+import { CancelablePromise } from '.';
 
 export type CancelablePromiseQueue<TPromise = any> = {
   add(cancelablePromise: CancelablePromise<TPromise>): void;
