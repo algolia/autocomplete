@@ -1,7 +1,13 @@
-import { cancelable, CancelablePromise, isCancelablePromise } from '..';
+import {
+  cancelable,
+  CancelablePromise,
+  createCancelablePromise,
+  isCancelablePromise,
+} from '..';
 
 const delay = async (timeout = 0, callback?: Function) => {
   await new Promise((resolve) => setTimeout(resolve, timeout));
+
   if (callback) {
     return await callback();
   }
@@ -22,9 +28,9 @@ describe('Fulfilled worflow', () => {
         ),
     ],
     [
-      'new CancelablePromise()',
+      'createCancelablePromise',
       () =>
-        new CancelablePromise((resolve) => {
+        createCancelablePromise((resolve) => {
           delay(1, resolve);
         }),
     ],
@@ -87,9 +93,9 @@ describe('Rejected worflow', () => {
         ),
     ],
     [
-      'new CancelablePromise()',
+      'createCancelablePromise',
       () =>
-        new CancelablePromise<any>((resolve, reject) => {
+        createCancelablePromise<any>((resolve, reject) => {
           delay(1, () => reject(new Error('cancelable promise error')));
         }),
     ],
@@ -236,7 +242,7 @@ test('On cancel callbacks should executed in the correct order', async () => {
   const callback = jest.fn();
   const p1 = cancelable(Promise.resolve(callback('resolve p1')));
   p1.then(() => {
-    return new CancelablePromise((resolve, reject, onCancel) => {
+    return createCancelablePromise((resolve, reject, onCancel) => {
       delay(10, resolve);
       onCancel(() => {
         callback('cancel p2');
@@ -246,7 +252,7 @@ test('On cancel callbacks should executed in the correct order', async () => {
     }, true);
   });
   p1.then(() => {
-    return new CancelablePromise((resolve, reject, onCancel) => {
+    return createCancelablePromise((resolve, reject, onCancel) => {
       delay(10, resolve);
       onCancel(() => {
         callback('cancel p3');
@@ -267,19 +273,19 @@ test('On cancel callbacks should executed in the correct order', async () => {
   ]);
 });
 
-test('CancelablePromise.resolve()', async () => {
+test('createCancelablePromise.resolve()', async () => {
   const callback = jest.fn();
   await new Promise<string>((resolve) =>
-    resolve(CancelablePromise.resolve('ok'))
+    resolve(createCancelablePromise.resolve('ok'))
   ).then(callback);
   expect(callback).toHaveBeenCalledTimes(1);
   expect(callback).toHaveBeenCalledWith('ok');
 });
 
-test('CancelablePromise.reject()', async () => {
+test('createCancelablePromise.reject()', async () => {
   const callback = jest.fn();
   await new Promise<string>((resolve) =>
-    resolve(CancelablePromise.reject('ko'))
+    resolve(createCancelablePromise.reject('ko'))
   ).catch(callback);
   expect(callback).toHaveBeenCalledTimes(1);
   expect(callback).toHaveBeenCalledWith('ko');
@@ -299,7 +305,7 @@ describe('Cancelable promises returned by executors', () => {
     let promise1: CancelablePromise<void>;
 
     if (withClass) {
-      promise1 = new CancelablePromise<void>((resolve, reject, onCancel) => {
+      promise1 = createCancelablePromise<void>((resolve, reject, onCancel) => {
         callback('start p1');
         const timer = setTimeout(() => {
           callback('resolve p1');
@@ -335,7 +341,7 @@ describe('Cancelable promises returned by executors', () => {
       ...([
         () => {
           callback('then p2');
-          const promise3 = new CancelablePromise<void>(
+          const promise3 = createCancelablePromise<void>(
             (resolve, reject, onCancel) => {
               callback('start p3');
               const timer = setTimeout(() => {
@@ -354,7 +360,7 @@ describe('Cancelable promises returned by executors', () => {
         !withCatch &&
           (() => {
             callback('error p2');
-            const promise3 = new CancelablePromise<void>(
+            const promise3 = createCancelablePromise<void>(
               (resolve, reject, onCancel) => {
                 callback('start p3');
                 const timer = setTimeout(() => {
@@ -376,7 +382,7 @@ describe('Cancelable promises returned by executors', () => {
     if (withCatch) {
       promise2 = promise2.catch(() => {
         callback('catch p2');
-        const promise3 = new CancelablePromise<void>(
+        const promise3 = createCancelablePromise<void>(
           (resolve, reject, onCancel) => {
             callback('start p3');
             const timer = setTimeout(() => {
@@ -504,7 +510,7 @@ describe('Cancelable promises returned by executors', () => {
         setTimeout(resolve, 1);
       })
     ).then(() => {
-      return new CancelablePromise((resolve) => {
+      return createCancelablePromise((resolve) => {
         setTimeout(resolve, 1);
       }).then(() => {
         return cancelable(
@@ -514,7 +520,7 @@ describe('Cancelable promises returned by executors', () => {
             }, 1);
           })
         ).then(() => {
-          return new CancelablePromise<void>((resolve, reject, onCancel) => {
+          return createCancelablePromise<void>((resolve, reject, onCancel) => {
             const timer = setTimeout(() => {
               callback('it should not resolve');
               resolve();
@@ -544,12 +550,15 @@ describe('Cancelable promises returned by executors', () => {
 
 for (const [label, isCancelable] of [
   ['isCancelablePromise', isCancelablePromise],
-  ['CancelablePromise.isCancelable', CancelablePromise.isCancelable],
+  [
+    'createCancelablePromise.isCancelable',
+    createCancelablePromise.isCancelable,
+  ],
 ] as [string, typeof isCancelablePromise][]) {
   describe(label, () => {
     it('should be cancelable', () => {
       const p1 = cancelable(new Promise(() => {}));
-      const p2 = new CancelablePromise(() => {});
+      const p2 = createCancelablePromise(() => {});
       expect(isCancelable(p1)).toBe(true);
       expect(isCancelable(p2)).toBe(true);
       expect(isCancelable(p1.then(() => {}))).toBe(true);
@@ -563,7 +572,6 @@ for (const [label, isCancelable] of [
       expect(isCancelable(undefined)).toBe(false);
       expect(isCancelable(null)).toBe(false);
       expect(isCancelable({})).toBe(false);
-      expect(isCancelable({ cancel() {} })).toBe(false);
     });
   });
 }

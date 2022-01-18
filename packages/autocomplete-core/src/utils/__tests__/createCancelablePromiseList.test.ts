@@ -1,9 +1,9 @@
-import { CancelablePromise, createCancelablePromiseList } from '..';
+import { createCancelablePromise, createCancelablePromiseList } from '..';
 
 describe('createCancelablePromiseList', () => {
   test('adds cancelable promises to the list', () => {
     const cancelablePromiseList = createCancelablePromiseList();
-    const cancelablePromise = new CancelablePromise(() => {});
+    const cancelablePromise = createCancelablePromise(() => {});
 
     expect(cancelablePromiseList.isEmpty()).toBe(true);
 
@@ -13,7 +13,7 @@ describe('createCancelablePromiseList', () => {
   });
   test('removes the cancelable promise from the list when it resolves', async () => {
     const cancelablePromiseList = createCancelablePromiseList();
-    const cancelablePromise = CancelablePromise.resolve();
+    const cancelablePromise = createCancelablePromise.resolve();
 
     cancelablePromiseList.add(cancelablePromise);
 
@@ -25,7 +25,7 @@ describe('createCancelablePromiseList', () => {
   });
   test('removes the cancelable promise from the list when it rejects', async () => {
     const cancelablePromiseList = createCancelablePromiseList();
-    const cancelablePromise = CancelablePromise.reject();
+    const cancelablePromise = createCancelablePromise.reject();
 
     cancelablePromiseList.add(cancelablePromise);
 
@@ -37,7 +37,7 @@ describe('createCancelablePromiseList', () => {
   });
   test('removes the cancelable promise from the list when it is canceled', () => {
     const cancelablePromiseList = createCancelablePromiseList();
-    const cancelablePromise = CancelablePromise.resolve();
+    const cancelablePromise = createCancelablePromise.resolve();
 
     cancelablePromiseList.add(cancelablePromise);
 
@@ -49,7 +49,7 @@ describe('createCancelablePromiseList', () => {
   });
   test('empties the list when all promises are canceled', () => {
     const cancelablePromiseList = createCancelablePromiseList();
-    const cancelablePromise = CancelablePromise.resolve();
+    const cancelablePromise = createCancelablePromise.resolve();
 
     cancelablePromiseList.add(cancelablePromise);
 
