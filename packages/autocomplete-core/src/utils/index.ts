@@ -1,4 +1,4 @@
-export * from './CancelablePromise';
+export * from './createCancelablePromise';
 export * from './createConcurrentSafePromise';
 export * from './createCancelablePromiseList';
 export * from './getNextActiveItemId';
