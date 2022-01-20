@@ -49,7 +49,7 @@ export type CancelablePromise<TValue> = {
   isCanceled(): boolean;
 };
 
-export function createInternalCancelablePromise<TValue>({
+function createInternalCancelablePromise<TValue>({
   executor = noop,
   initialState = createInitialState(),
   promise = new Promise<TValue>((resolve, reject) => {
