@@ -6,7 +6,7 @@ type PromiseExecutor<TValue> = (
   onCancel: (handler: (...args: any[]) => any) => void
 ) => void;
 
-type CreateCancelablePromiseParams<TValue> = {
+type CreateInternalCancelablePromiseParams<TValue> = {
   executor?: PromiseExecutor<TValue>;
   promise?: Promise<TValue>;
   initialState?: InternalState;
@@ -57,7 +57,7 @@ export function createInternalCancelablePromise<TValue>({
       initialState.onCancelList.push(onCancel);
     });
   }),
-}: CreateCancelablePromiseParams<TValue>): CancelablePromise<TValue> {
+}: CreateInternalCancelablePromiseParams<TValue>): CancelablePromise<TValue> {
   const state = initialState;
 
   return {
