@@ -1,5 +1,10 @@
 import { noop } from '@algolia/autocomplete-shared';
 
+type InternalState = {
+  isCanceled: boolean;
+  onCancelList: Array<((...args: any[]) => any) | null | undefined>;
+};
+
 type PromiseExecutor<TValue> = (
   resolve: (value: TValue | PromiseLike<TValue>) => void,
   reject: (reason?: any) => void,
@@ -10,43 +15,6 @@ type CreateInternalCancelablePromiseParams<TValue> = {
   executor?: PromiseExecutor<TValue>;
   promise?: Promise<TValue>;
   initialState?: InternalState;
-};
-
-export type CancelablePromise<TValue> = {
-  then<TResultFulfilled = TValue, TResultRejected = never>(
-    onfulfilled?:
-      | ((
-          value: TValue
-        ) =>
-          | TResultFulfilled
-          | PromiseLike<TResultFulfilled>
-          | CancelablePromise<TResultFulfilled>)
-      | undefined
-      | null,
-    onrejected?:
-      | ((
-          reason: any
-        ) =>
-          | TResultRejected
-          | PromiseLike<TResultRejected>
-          | CancelablePromise<TResultRejected>)
-      | undefined
-      | null
-  ): CancelablePromise<TResultFulfilled | TResultRejected>;
-  catch<TResult = never>(
-    onrejected?:
-      | ((
-          reason: any
-        ) => TResult | PromiseLike<TResult> | CancelablePromise<TResult>)
-      | undefined
-      | null
-  ): CancelablePromise<TValue | TResult>;
-  finally(
-    onfinally?: (() => void) | undefined | null,
-    runWhenCanceled?: boolean
-  ): CancelablePromise<TValue>;
-  cancel(): void;
-  isCanceled(): boolean;
 };
 
 function createInternalCancelablePromise<TValue>({
@@ -117,17 +85,55 @@ function createInternalCancelablePromise<TValue>({
   };
 }
 
+export type CancelablePromise<TValue> = {
+  then<TResultFulfilled = TValue, TResultRejected = never>(
+    onfulfilled?:
+      | ((
+          value: TValue
+        ) =>
+          | TResultFulfilled
+          | PromiseLike<TResultFulfilled>
+          | CancelablePromise<TResultFulfilled>)
+      | undefined
+      | null,
+    onrejected?:
+      | ((
+          reason: any
+        ) =>
+          | TResultRejected
+          | PromiseLike<TResultRejected>
+          | CancelablePromise<TResultRejected>)
+      | undefined
+      | null
+  ): CancelablePromise<TResultFulfilled | TResultRejected>;
+  catch<TResult = never>(
+    onrejected?:
+      | ((
+          reason: any
+        ) => TResult | PromiseLike<TResult> | CancelablePromise<TResult>)
+      | undefined
+      | null
+  ): CancelablePromise<TValue | TResult>;
+  finally(
+    onfinally?: (() => void) | undefined | null,
+    runWhenCanceled?: boolean
+  ): CancelablePromise<TValue>;
+  cancel(): void;
+  isCanceled(): boolean;
+};
+
 export function createCancelablePromise<TValue>(
   executor: PromiseExecutor<TValue>
 ): CancelablePromise<TValue> {
   return createInternalCancelablePromise({ executor });
 }
 
-createCancelablePromise.resolve = ((value) =>
-  cancelable(Promise.resolve(value))) as CancelablePromiseOverloads['resolve'];
-createCancelablePromise.reject = ((reason) =>
-  cancelable(Promise.reject(reason))) as CancelablePromiseOverloads['reject'];
-createCancelablePromise.isCancelable = isCancelablePromise;
+createCancelablePromise.resolve = <TValue>(
+  value?: TValue | PromiseLike<TValue> | CancelablePromise<TValue>
+) => cancelable(Promise.resolve(value));
+
+createCancelablePromise.reject = (reason?: any) =>
+  cancelable(Promise.reject(reason));
 
 function createCancelable<TValue>(
   promise: Promise<TValue>,
@@ -174,16 +180,4 @@ function createCallback(
 
 function createInitialState(): InternalState {
   return { isCanceled: false, onCancelList: [] };
-}
-
-interface InternalState {
-  isCanceled: boolean;
-  onCancelList: Array<((...args: any[]) => any) | null | undefined>;
-}
-
-interface CancelablePromiseOverloads {
-  resolve<TValue>(
-    value?: TValue | PromiseLike<TValue> | CancelablePromise<TValue>
-  ): CancelablePromise<TValue>;
-  reject<TValue = never>(reason?: any): CancelablePromise<TValue>;
 }
