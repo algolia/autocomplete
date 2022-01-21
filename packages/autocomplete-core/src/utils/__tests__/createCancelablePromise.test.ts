@@ -1,11 +1,7 @@
 import { noop } from '@algolia/autocomplete-shared';
-import {
-  cancelable,
-  CancelablePromise,
-  createCancelablePromise,
-  isCancelablePromise,
-} from '..';
-import { defer, runAllMicroTasks } from '../../../../../test/utils';
+
+import { cancelable, createCancelablePromise, isCancelablePromise } from '..';
+import { runAllMicroTasks } from '../../../../../test/utils';
 
 describe('createCancelablePromise', () => {
   test('returns an immediately resolved cancelable promise', async () => {
@@ -188,7 +184,7 @@ describe('createCancelablePromise', () => {
     const onFinally = jest.fn();
     const onCancelSpy = jest.fn();
     const cancelablePromise = createCancelablePromise((_, reject, onCancel) => {
-      reject();
+      reject(new Error());
       onCancel(onCancelSpy);
     });
 
@@ -215,7 +211,7 @@ describe('createCancelablePromise', () => {
     const onFinally = jest.fn();
     const onCancelSpy = jest.fn();
     const cancelablePromise = createCancelablePromise((_, reject, onCancel) => {
-      reject();
+      reject(new Error());
       onCancel(onCancelSpy);
     });
 
@@ -240,13 +236,13 @@ describe('createCancelablePromise', () => {
     expect(onCancelSpy).toHaveBeenCalledWith();
   });
 
-  test('triggers `finally` handler callback with `runWhenCanceled=false` when the cancelable promise is canceled and it resolves', async () => {
+  test('triggers `finally` handler callback with `runWhenCanceled=false` when the cancelable promise is canceled and it rejects', async () => {
     const onFulfilled = jest.fn();
     const onRejected = jest.fn();
     const onFinally = jest.fn();
     const onCancelSpy = jest.fn();
     const cancelablePromise = createCancelablePromise((_, reject, onCancel) => {
-      reject();
+      reject(new Error());
       onCancel(onCancelSpy);
     });
 
@@ -270,7 +266,7 @@ describe('createCancelablePromise', () => {
     expect(onCancelSpy).toHaveBeenCalledWith();
   });
 
-  test('deeply cancels nested cancelable promises', async () => {
+  test('cancels nested cancelable promises', async () => {
     const onFulfilled = jest.fn();
     const onCancelSpy = jest.fn();
 
@@ -283,12 +279,7 @@ describe('createCancelablePromise', () => {
       createCancelablePromise((resolve) => {
         resolve('ok');
         onFulfilled();
-      }).then(() =>
-        createCancelablePromise((resolve) => {
-          resolve('ok');
-          onFulfilled();
-        }).then(onFulfilled)
-      )
+      })
     );
 
     expect(cancelablePromise.isCanceled()).toBe(false);
@@ -436,7 +427,7 @@ describe('cancelable', () => {
     const onFinally = jest.fn();
     const cancelablePromise = cancelable(
       new Promise((_, reject) => {
-        reject();
+        reject(new Error());
       })
     );
 
@@ -461,7 +452,7 @@ describe('cancelable', () => {
     const onFinally = jest.fn();
     const cancelablePromise = cancelable(
       new Promise((_, reject) => {
-        reject();
+        reject(new Error());
       })
     );
 
@@ -490,7 +481,7 @@ describe('cancelable', () => {
     const onFinally = jest.fn();
     const cancelablePromise = cancelable(
       new Promise((_, reject) => {
-        reject();
+        reject(new Error());
       })
     );
 
@@ -512,7 +503,7 @@ describe('cancelable', () => {
     expect(onFinally).not.toHaveBeenCalled();
   });
 
-  test('deeply cancels nested cancelable promises', async () => {
+  test('cancels nested cancelable promises', async () => {
     const onFulfilled = jest.fn();
 
     const cancelablePromise = cancelable(
@@ -525,13 +516,6 @@ describe('cancelable', () => {
           resolve('ok');
           onFulfilled();
         })
-      ).then(() =>
-        cancelable(
-          new Promise((resolve) => {
-            resolve('ok');
-            onFulfilled();
-          })
-        ).then(onFulfilled)
       )
     );
 
