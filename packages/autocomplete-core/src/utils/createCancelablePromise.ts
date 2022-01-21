@@ -7,8 +7,7 @@ type InternalState = {
 
 type PromiseExecutor<TValue> = (
   resolve: (value: TValue | PromiseLike<TValue>) => void,
-  reject: (reason?: any) => void,
-  onCancel: (handler: (...args: any[]) => any) => void
+  reject: (reason?: any) => void
 ) => void;
 
 type CreateInternalCancelablePromiseParams<TValue> = {
@@ -21,9 +20,7 @@ function createInternalCancelablePromise<TValue>({
   executor = noop,
   initialState = createInitialState(),
   promise = new Promise<TValue>((resolve, reject) => {
-    return executor(resolve, reject, (onCancel) => {
-      initialState.onCancelList.push(onCancel);
-    });
+    return executor(resolve, reject);
   }),
 }: CreateInternalCancelablePromiseParams<TValue>): CancelablePromise<TValue> {
   const state = initialState;
@@ -59,6 +56,7 @@ function createInternalCancelablePromise<TValue>({
                     (callback) => callback !== onfinally
                   );
                 }
+
                 return onfinally();
               }),
             state,
