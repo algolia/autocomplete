@@ -1,6 +1,6 @@
 import { noop } from '@algolia/autocomplete-shared';
 
-type InternalState = {
+type CancelablePromiseInternalState = {
   isCanceled: boolean;
   onCancelList: Array<((...args: any[]) => any) | null | undefined>;
 };
@@ -13,7 +13,7 @@ type PromiseExecutor<TValue> = (
 type CreateInternalCancelablePromiseParams<TValue> = {
   executor?: PromiseExecutor<TValue>;
   promise?: Promise<TValue>;
-  initialState?: InternalState;
+  initialState?: CancelablePromiseInternalState;
 };
 
 function createInternalCancelablePromise<TValue>({
@@ -135,7 +135,7 @@ createCancelablePromise.reject = (reason?: any) =>
 
 function createCancelable<TValue>(
   promise: Promise<TValue>,
-  initialState: InternalState
+  initialState: CancelablePromiseInternalState
 ): CancelablePromise<TValue> {
   return createInternalCancelablePromise<TValue>({ promise, initialState });
 }
@@ -154,7 +154,7 @@ export function isCancelablePromise<TValue>(
 
 function createCallback(
   onResult: ((...args: any[]) => any) | null | undefined,
-  state: InternalState,
+  state: CancelablePromiseInternalState,
   fallback: any
 ) {
   if (onResult) {
@@ -176,6 +176,6 @@ function createCallback(
   return fallback;
 }
 
-function createInitialState(): InternalState {
+function createInitialState(): CancelablePromiseInternalState {
   return { isCanceled: false, onCancelList: [] };
 }
