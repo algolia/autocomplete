@@ -2,7 +2,7 @@ import { noop } from '@algolia/autocomplete-shared';
 
 type CancelablePromiseInternalState = {
   isCanceled: boolean;
-  onCancelList: Array<((...args: any[]) => any) | null | undefined>;
+  onCancelList: Array<(...args: any[]) => any>;
 };
 
 type PromiseExecutor<TValue> = (
@@ -42,7 +42,7 @@ function createInternalCancelablePromise<TValue>({
       );
     },
     finally(onfinally, runWhenCanceled) {
-      if (runWhenCanceled) {
+      if (runWhenCanceled && onfinally) {
         state.onCancelList.push(onfinally);
       }
 
@@ -72,9 +72,7 @@ function createInternalCancelablePromise<TValue>({
       state.onCancelList = [];
 
       for (const callback of callbacks) {
-        if (typeof callback === 'function') {
-          callback();
-        }
+        callback();
       }
     },
     isCanceled() {
