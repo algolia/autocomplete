@@ -1,6 +1,6 @@
 import { noop } from '@algolia/autocomplete-shared';
 
-type CancelablePromiseInternalState = {
+type CancelablePromiseState = {
   isCanceled: boolean;
   onCancelList: Array<(...args: any[]) => any>;
 };
@@ -13,7 +13,7 @@ type PromiseExecutor<TValue> = (
 type CreateInternalCancelablePromiseParams<TValue> = {
   executor?: PromiseExecutor<TValue>;
   promise?: Promise<TValue>;
-  initialState?: CancelablePromiseInternalState;
+  initialState?: CancelablePromiseState;
 };
 
 function createInternalCancelablePromise<TValue>({
@@ -52,9 +52,7 @@ function createInternalCancelablePromise<TValue>({
             onfinally &&
               (() => {
                 if (runWhenCanceled) {
-                  state.onCancelList = state.onCancelList.filter(
-                    (callback) => callback !== onfinally
-                  );
+                  state.onCancelList = [];
                 }
 
                 return onfinally();
@@ -68,12 +66,10 @@ function createInternalCancelablePromise<TValue>({
     },
     cancel() {
       state.isCanceled = true;
-      const callbacks = state.onCancelList;
-      state.onCancelList = [];
 
-      for (const callback of callbacks) {
+      state.onCancelList.forEach((callback) => {
         callback();
-      }
+      });
     },
     isCanceled() {
       return state.isCanceled === true;
@@ -131,49 +127,35 @@ createCancelablePromise.resolve = <TValue>(
 createCancelablePromise.reject = (reason?: any) =>
   cancelable(Promise.reject(reason));
 
+export function cancelable<TValue>(promise: Promise<TValue>) {
+  return createCancelable(promise);
+}
+
 function createCancelable<TValue>(
   promise: Promise<TValue>,
-  initialState: CancelablePromiseInternalState
-): CancelablePromise<TValue> {
+  initialState: CancelablePromiseState = createInitialState()
+) {
   return createInternalCancelablePromise<TValue>({ promise, initialState });
-}
-
-export function cancelable<TValue>(
-  promise: Promise<TValue>
-): CancelablePromise<TValue> {
-  return createCancelable(promise, createInitialState());
-}
-
-export function isCancelablePromise<TValue>(
-  promise: Promise<TValue> | CancelablePromise<TValue>
-): boolean {
-  return promise?.hasOwnProperty('cancel') || false;
 }
 
 function createCallback(
   onResult: ((...args: any[]) => any) | null | undefined,
-  state: CancelablePromiseInternalState,
+  state: CancelablePromiseState,
   fallback: any
 ) {
-  if (onResult) {
-    return (arg?: any) => {
-      if (!state.isCanceled) {
-        const result = onResult(arg);
-
-        if (isCancelablePromise(result)) {
-          state.onCancelList.push(result.cancel);
-        }
-
-        return result;
-      }
-
-      return arg;
-    };
+  if (!onResult) {
+    return fallback;
   }
 
-  return fallback;
+  return function callback(arg?: any) {
+    if (state.isCanceled) {
+      return arg;
+    }
+
+    return onResult(arg);
+  };
 }
 
-function createInitialState(): CancelablePromiseInternalState {
+function createInitialState(): CancelablePromiseState {
   return { isCanceled: false, onCancelList: [] };
 }

@@ -1,6 +1,6 @@
 import { noop } from '@algolia/autocomplete-shared';
 
-import { cancelable, createCancelablePromise, isCancelablePromise } from '..';
+import { cancelable, createCancelablePromise } from '..';
 import { runAllMicroTasks } from '../../../../../test/utils';
 
 describe('createCancelablePromise', () => {
@@ -131,7 +131,7 @@ describe('createCancelablePromise', () => {
     expect(onFinally).toHaveBeenCalledWith();
   });
 
-  test('triggers `finally` handler callback with `runWhenCanceled=false` when the cancelable promise is canceled and it resolves', async () => {
+  test('does not trigger `finally` handler callback with `runWhenCanceled=false` when the cancelable promise is canceled and it resolves', async () => {
     const onFulfilled = jest.fn();
     const onRejected = jest.fn();
     const onFinally = jest.fn();
@@ -155,6 +155,23 @@ describe('createCancelablePromise', () => {
     expect(onFulfilled).not.toHaveBeenCalled();
     expect(onRejected).not.toHaveBeenCalled();
     expect(onFinally).not.toHaveBeenCalled();
+  });
+
+  test('only triggers `finally` handler callback once when the cancelable promise is canceled and it resolves', async () => {
+    const onFulfilled = jest.fn();
+    const cancelablePromise = createCancelablePromise((resolve) => {
+      resolve('ok');
+    }).finally(onFulfilled, true);
+
+    await cancelablePromise;
+
+    expect(onFulfilled).toHaveBeenCalledTimes(1);
+
+    cancelablePromise.cancel();
+
+    await runAllMicroTasks();
+
+    expect(onFulfilled).toHaveBeenCalledTimes(1);
   });
 
   test('does not trigger callbacks when the cancelable promise is canceled and it rejects', async () => {
@@ -207,7 +224,7 @@ describe('createCancelablePromise', () => {
     expect(onFinally).toHaveBeenCalledWith();
   });
 
-  test('triggers `finally` handler callback with `runWhenCanceled=false` when the cancelable promise is canceled and it rejects', async () => {
+  test('does not trigger `finally` handler callback with `runWhenCanceled=false` when the cancelable promise is canceled and it rejects', async () => {
     const onFulfilled = jest.fn();
     const onRejected = jest.fn();
     const onFinally = jest.fn();
@@ -231,6 +248,23 @@ describe('createCancelablePromise', () => {
     expect(onFulfilled).not.toHaveBeenCalled();
     expect(onRejected).not.toHaveBeenCalled();
     expect(onFinally).not.toHaveBeenCalled();
+  });
+
+  test('only triggers `finally` handler callback once when the cancelable promise is canceled and it rejects', async () => {
+    const onFulfilled = jest.fn();
+    const cancelablePromise = createCancelablePromise((_, reject) => {
+      reject(new Error());
+    }).finally(onFulfilled, true);
+
+    await cancelablePromise.catch(noop);
+
+    expect(onFulfilled).toHaveBeenCalledTimes(1);
+
+    cancelablePromise.cancel();
+
+    await runAllMicroTasks();
+
+    expect(onFulfilled).toHaveBeenCalledTimes(1);
   });
 
   test('cancels nested cancelable promises', async () => {
@@ -353,7 +387,7 @@ describe('cancelable', () => {
     expect(onFinally).toHaveBeenCalledWith();
   });
 
-  test('triggers `finally` handler callback with `runWhenCanceled=false` when the cancelable promise is canceled and it resolves', async () => {
+  test('does not trigger `finally` handler callback with `runWhenCanceled=false` when the cancelable promise is canceled and it resolves', async () => {
     const onFulfilled = jest.fn();
     const onRejected = jest.fn();
     const onFinally = jest.fn();
@@ -379,6 +413,25 @@ describe('cancelable', () => {
     expect(onFulfilled).not.toHaveBeenCalled();
     expect(onRejected).not.toHaveBeenCalled();
     expect(onFinally).not.toHaveBeenCalled();
+  });
+
+  test('only triggers `finally` handler callback once when the cancelable promise is canceled and it resolves', async () => {
+    const onFulfilled = jest.fn();
+    const cancelablePromise = cancelable(
+      new Promise((resolve) => {
+        resolve('ok');
+      })
+    ).finally(onFulfilled, true);
+
+    await cancelablePromise;
+
+    expect(onFulfilled).toHaveBeenCalledTimes(1);
+
+    cancelablePromise.cancel();
+
+    await runAllMicroTasks();
+
+    expect(onFulfilled).toHaveBeenCalledTimes(1);
   });
 
   test('does not trigger callbacks when the cancelable promise is canceled and it rejects', async () => {
@@ -435,7 +488,7 @@ describe('cancelable', () => {
     expect(onFinally).toHaveBeenCalledWith();
   });
 
-  test('triggers `finally` handler callback with `runWhenCanceled=false` when the cancelable promise is canceled and it rejects', async () => {
+  test('does not trigger `finally` handler callback with `runWhenCanceled=false` when the cancelable promise is canceled and it rejects', async () => {
     const onFulfilled = jest.fn();
     const onRejected = jest.fn();
     const onFinally = jest.fn();
@@ -463,6 +516,25 @@ describe('cancelable', () => {
     expect(onFinally).not.toHaveBeenCalled();
   });
 
+  test('only triggers `finally` handler callback once when the cancelable promise is canceled and it rejects', async () => {
+    const onFulfilled = jest.fn();
+    const cancelablePromise = cancelable(
+      new Promise((_, reject) => {
+        reject(new Error());
+      })
+    ).finally(onFulfilled, true);
+
+    await cancelablePromise.catch(noop);
+
+    expect(onFulfilled).toHaveBeenCalledTimes(1);
+
+    cancelablePromise.cancel();
+
+    await runAllMicroTasks();
+
+    expect(onFulfilled).toHaveBeenCalledTimes(1);
+  });
+
   test('cancels nested cancelable promises', async () => {
     const onFulfilled = jest.fn();
 
@@ -488,25 +560,5 @@ describe('cancelable', () => {
     await runAllMicroTasks();
 
     expect(onFulfilled).not.toHaveBeenCalled();
-  });
-});
-
-describe('isCancelablePromise', () => {
-  test('should be cancelable', () => {
-    const p1 = cancelable(new Promise(noop));
-    const p2 = createCancelablePromise(noop);
-
-    expect(isCancelablePromise(p1)).toBe(true);
-    expect(isCancelablePromise(p2)).toBe(true);
-    expect(isCancelablePromise(p1.then(noop))).toBe(true);
-    expect(isCancelablePromise(p2.then(noop))).toBe(true);
-    expect(isCancelablePromise(p1.catch(noop))).toBe(true);
-    expect(isCancelablePromise(p2.catch(noop))).toBe(true);
-  });
-
-  test('should not be cancelable', () => {
-    expect(isCancelablePromise(new Promise(noop))).toBe(false);
-    expect(isCancelablePromise(undefined)).toBe(false);
-    expect(isCancelablePromise(null)).toBe(false);
   });
 });
