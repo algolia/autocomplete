@@ -1,6 +1,6 @@
 export * from './createCancelablePromise';
-export * from './createConcurrentSafePromise';
 export * from './createCancelablePromiseList';
+export * from './createConcurrentSafePromise';
 export * from './getNextActiveItemId';
 export * from './getNormalizedSources';
 export * from './getActiveItem';
