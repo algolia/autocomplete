@@ -13,17 +13,13 @@ export function createCancelablePromiseList<
 >(): CancelablePromiseList<TValue> {
   let list: Array<CancelablePromise<TValue>> = [];
 
-  function remove(cancelablePromise: CancelablePromise<TValue>) {
-    list = list.filter((item) => item !== cancelablePromise);
-  }
-
   return {
     add(cancelablePromise) {
       list.push(cancelablePromise);
 
-      cancelablePromise
-        .catch(noop)
-        .finally(() => remove(cancelablePromise), true);
+      cancelablePromise.catch(noop).finally(() => {
+        list = list.filter((item) => item !== cancelablePromise);
+      }, true);
     },
     cancelAll() {
       list.forEach((promise) => promise.cancel());
