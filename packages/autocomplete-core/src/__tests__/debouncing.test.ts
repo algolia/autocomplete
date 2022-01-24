@@ -1,3 +1,4 @@
+import { noop } from '@algolia/autocomplete-shared';
 import userEvent from '@testing-library/user-event';
 
 import { createAutocomplete, InternalAutocompleteSource } from '..';
@@ -5,9 +6,11 @@ import { createPlayground, createSource, defer } from '../../../../test/utils';
 
 type Source = InternalAutocompleteSource<{ label: string }>;
 
+const delay = 10;
+
 const debounced = debouncePromise<Source[][], Source[]>(
   (items) => Promise.resolve(items),
-  100
+  delay
 );
 
 describe('debouncing', () => {
@@ -21,7 +24,7 @@ describe('debouncing', () => {
 
     userEvent.type(inputElement, 'abc');
 
-    await defer(() => {}, 300);
+    await defer(noop, delay);
 
     expect(getItems).toHaveBeenCalledTimes(1);
     expect(onStateChange).toHaveBeenLastCalledWith(
@@ -38,6 +41,7 @@ describe('debouncing', () => {
       })
     );
   });
+
   test('triggers subsequent queries after reopening the panel', async () => {
     const onStateChange = jest.fn();
     const getItems = jest.fn(({ query }) => [{ label: query }]);
@@ -46,25 +50,7 @@ describe('debouncing', () => {
       getSources: () => debounced([createSource({ getItems })]),
     });
 
-    userEvent.type(inputElement, 'abc');
-
-    await defer(() => {}, 300);
-
-    expect(onStateChange).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        state: expect.objectContaining({
-          collections: expect.arrayContaining([
-            expect.objectContaining({
-              items: [{ __autocomplete_id: 0, label: 'abc' }],
-            }),
-          ]),
-          status: 'idle',
-          isOpen: true,
-        }),
-      })
-    );
-
-    userEvent.type(inputElement, '{esc}');
+    userEvent.type(inputElement, 'abc{esc}');
 
     expect(onStateChange).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -77,7 +63,7 @@ describe('debouncing', () => {
 
     userEvent.type(inputElement, 'def');
 
-    await defer(() => {}, 300);
+    await defer(noop, delay);
 
     expect(onStateChange).toHaveBeenLastCalledWith(
       expect.objectContaining({

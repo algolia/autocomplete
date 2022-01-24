@@ -13,6 +13,7 @@ describe('createCancelablePromiseList', () => {
 
     expect(cancelablePromiseList.isEmpty()).toBe(false);
   });
+
   test('removes the cancelable promise from the list when it resolves', async () => {
     const cancelablePromiseList = createCancelablePromiseList();
     const cancelablePromise = createCancelablePromise.resolve();
@@ -25,6 +26,7 @@ describe('createCancelablePromiseList', () => {
 
     expect(cancelablePromiseList.isEmpty()).toBe(true);
   });
+
   test('removes the cancelable promise from the list when it rejects', async () => {
     const cancelablePromiseList = createCancelablePromiseList();
     const cancelablePromise = createCancelablePromise.reject();
@@ -37,6 +39,7 @@ describe('createCancelablePromiseList', () => {
 
     expect(cancelablePromiseList.isEmpty()).toBe(true);
   });
+
   test('removes the cancelable promise from the list when it is canceled', () => {
     const cancelablePromiseList = createCancelablePromiseList();
     const cancelablePromise = createCancelablePromise.resolve();
@@ -49,6 +52,7 @@ describe('createCancelablePromiseList', () => {
 
     expect(cancelablePromiseList.isEmpty()).toBe(true);
   });
+
   test('cancels all promises and empties the list', () => {
     const cancelablePromiseList = createCancelablePromiseList();
     const cancelablePromise1 = createCancelablePromise.resolve();
