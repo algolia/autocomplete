@@ -49,16 +49,26 @@ describe('createCancelablePromiseList', () => {
 
     expect(cancelablePromiseList.isEmpty()).toBe(true);
   });
-  test('empties the list when all promises are canceled', () => {
+  test('cancels all promises and empties the list', () => {
     const cancelablePromiseList = createCancelablePromiseList();
-    const cancelablePromise = createCancelablePromise.resolve();
+    const cancelablePromise1 = createCancelablePromise.resolve();
+    const cancelablePromise2 = createCancelablePromise.reject();
+    const cancelablePromise3 = createCancelablePromise(noop);
 
-    cancelablePromiseList.add(cancelablePromise);
+    cancelablePromiseList.add(cancelablePromise1);
+    cancelablePromiseList.add(cancelablePromise2);
+    cancelablePromiseList.add(cancelablePromise3);
 
+    expect(cancelablePromise1.isCanceled()).toBe(false);
+    expect(cancelablePromise2.isCanceled()).toBe(false);
+    expect(cancelablePromise3.isCanceled()).toBe(false);
     expect(cancelablePromiseList.isEmpty()).toBe(false);
 
     cancelablePromiseList.cancelAll();
 
+    expect(cancelablePromise1.isCanceled()).toBe(true);
+    expect(cancelablePromise2.isCanceled()).toBe(true);
+    expect(cancelablePromise3.isCanceled()).toBe(true);
     expect(cancelablePromiseList.isEmpty()).toBe(true);
   });
 });
