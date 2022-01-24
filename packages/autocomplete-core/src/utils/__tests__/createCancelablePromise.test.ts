@@ -143,6 +143,23 @@ describe('createCancelablePromise', () => {
     expect(onFulfilled).toHaveBeenCalledTimes(1);
   });
 
+  test('only triggers `finally` handler once when the cancelable promise is canceled after rejecting', async () => {
+    const onFulfilled = jest.fn();
+    const cancelablePromise = createCancelablePromise((_, reject) => {
+      reject(new Error());
+    }).finally(onFulfilled);
+
+    await cancelablePromise.catch(noop);
+
+    expect(onFulfilled).toHaveBeenCalledTimes(1);
+
+    cancelablePromise.cancel();
+
+    await runAllMicroTasks();
+
+    expect(onFulfilled).toHaveBeenCalledTimes(1);
+  });
+
   test('only triggers `finally` handler once when calling `cancel` several times', async () => {
     const onFinally = jest.fn();
     const cancelablePromise = createCancelablePromise((resolve) => {
@@ -275,6 +292,25 @@ describe('cancelable', () => {
     expect(onRejected).not.toHaveBeenCalled();
     expect(onFinally).toHaveBeenCalledTimes(1);
     expect(onFinally).toHaveBeenCalledWith();
+  });
+
+  test('only triggers `finally` handler once when the cancelable promise is canceled after resolving', async () => {
+    const onFulfilled = jest.fn();
+    const cancelablePromise = cancelable(
+      new Promise((resolve) => {
+        resolve('ok');
+      })
+    ).finally(onFulfilled);
+
+    await cancelablePromise;
+
+    expect(onFulfilled).toHaveBeenCalledTimes(1);
+
+    cancelablePromise.cancel();
+
+    await runAllMicroTasks();
+
+    expect(onFulfilled).toHaveBeenCalledTimes(1);
   });
 
   test('only triggers `finally` handler once when the cancelable promise is canceled after rejecting', async () => {
