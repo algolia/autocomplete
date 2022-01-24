@@ -2,18 +2,18 @@ import { noop } from '@algolia/autocomplete-shared';
 
 import { CancelablePromise } from '.';
 
-export type CancelablePromiseQueue<TPromise = any> = {
-  add(cancelablePromise: CancelablePromise<TPromise>): void;
+export type CancelablePromiseList<TValue> = {
+  add(cancelablePromise: CancelablePromise<TValue>): void;
   cancelAll(): void;
   isEmpty(): boolean;
 };
 
 export function createCancelablePromiseList<
-  TPromise
->(): CancelablePromiseQueue<TPromise> {
-  let list: Array<CancelablePromise<TPromise>> = [];
+  TValue
+>(): CancelablePromiseList<TValue> {
+  let list: Array<CancelablePromise<TValue>> = [];
 
-  function remove(cancelablePromise: CancelablePromise<TPromise>) {
+  function remove(cancelablePromise: CancelablePromise<TValue>) {
     list = list.filter((promise) => promise !== cancelablePromise);
   }
 
