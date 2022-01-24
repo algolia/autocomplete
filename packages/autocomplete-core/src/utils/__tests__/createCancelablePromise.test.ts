@@ -154,7 +154,7 @@ describe('createCancelablePromise', () => {
     expect(onFinally).not.toHaveBeenCalled();
   });
 
-  test('only triggers `finally` handler once when the cancelable promise is canceled then resolves', async () => {
+  test('only triggers `finally` handler once when the cancelable promise is canceled after resolving', async () => {
     const onFulfilled = jest.fn();
     const cancelablePromise = createCancelablePromise((resolve) => {
       resolve('ok');
@@ -247,7 +247,7 @@ describe('createCancelablePromise', () => {
     expect(onFinally).not.toHaveBeenCalled();
   });
 
-  test('only triggers `finally` handler once when the cancelable promise is canceled then rejects', async () => {
+  test('only triggers `finally` handler once when the cancelable promise is canceled after rejecting', async () => {
     const onFulfilled = jest.fn();
     const cancelablePromise = createCancelablePromise((_, reject) => {
       reject(new Error());
@@ -412,7 +412,7 @@ describe('cancelable', () => {
     expect(onFinally).not.toHaveBeenCalled();
   });
 
-  test('only triggers `finally` handler once when the cancelable promise is canceled then resolves', async () => {
+  test('only triggers `finally` handler once when the cancelable promise is canceled after resolving', async () => {
     const onFulfilled = jest.fn();
     const cancelablePromise = cancelable(
       new Promise((resolve) => {
@@ -513,7 +513,7 @@ describe('cancelable', () => {
     expect(onFinally).not.toHaveBeenCalled();
   });
 
-  test('only triggers `finally` handler once when the cancelable promise is canceled then rejects', async () => {
+  test('only triggers `finally` handler once when the cancelable promise is canceled after rejecting', async () => {
     const onFulfilled = jest.fn();
     const cancelablePromise = cancelable(
       new Promise((_, reject) => {
