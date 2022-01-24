@@ -1,7 +1,13 @@
+import { noop } from '@algolia/autocomplete-shared';
 import userEvent from '@testing-library/user-event';
 
 import { AutocompleteState } from '..';
-import { createPlayground, createSource, defer } from '../../../../test/utils';
+import {
+  createPlayground,
+  createSource,
+  defer,
+  runAllMicroTasks,
+} from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 type Item = {
@@ -31,7 +37,7 @@ describe('concurrency', () => {
     userEvent.type(input, 'b');
     userEvent.type(input, 'c');
 
-    await defer(() => {}, timeout);
+    await defer(noop, timeout);
 
     let stateHistory: Array<
       AutocompleteState<Item>
@@ -57,7 +63,7 @@ describe('concurrency', () => {
 
     userEvent.type(input, '{backspace}'.repeat(3));
 
-    await defer(() => {}, timeout);
+    await defer(noop, timeout);
 
     stateHistory = onStateChange.mock.calls.flatMap((x) => x[0].state);
 
@@ -88,19 +94,44 @@ describe('concurrency', () => {
           getSources,
         });
 
-        userEvent.type(inputElement, 'ab{esc}');
+        userEvent.type(inputElement, 'ab');
 
-        await defer(() => {}, timeout);
-
+        // The search request is triggered
         expect(onStateChange).toHaveBeenLastCalledWith(
           expect.objectContaining({
             state: expect.objectContaining({
-              isOpen: false,
-              status: 'idle',
+              status: 'loading',
+              query: 'ab',
             }),
           })
         );
-        expect(getSources).toHaveBeenCalledTimes(2);
+
+        userEvent.type(inputElement, '{esc}');
+
+        // The status is immediately set to "idle" and the panel is closed
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              status: 'idle',
+              isOpen: false,
+              query: '',
+            }),
+          })
+        );
+
+        await defer(noop, timeout);
+
+        // Once the request is settled, the state remains unchanged
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              status: 'idle',
+              isOpen: false,
+            }),
+          })
+        );
+
+        expect(getSources).toHaveBeenCalledTimes(3);
       });
 
       test('keeps the panel closed on blur', async () => {
@@ -115,19 +146,46 @@ describe('concurrency', () => {
           getSources,
         });
 
-        userEvent.type(inputElement, 'a{enter}');
+        userEvent.type(inputElement, 'a');
 
-        await defer(() => {}, timeout);
+        await runAllMicroTasks();
 
+        // The search request is triggered
         expect(onStateChange).toHaveBeenLastCalledWith(
           expect.objectContaining({
             state: expect.objectContaining({
-              isOpen: false,
-              status: 'idle',
+              status: 'loading',
+              query: 'a',
             }),
           })
         );
-        expect(getSources).toHaveBeenCalledTimes(1);
+
+        userEvent.type(inputElement, '{enter}');
+
+        // The status is immediately set to "idle" and the panel is closed
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              status: 'idle',
+              isOpen: false,
+              query: 'a',
+            }),
+          })
+        );
+
+        await defer(noop, timeout);
+
+        // Once the request is settled, the state remains unchanged
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              status: 'idle',
+              isOpen: false,
+            }),
+          })
+        );
+
+        expect(getSources).toHaveBeenCalledTimes(2);
       });
 
       test('keeps the panel closed on touchstart blur', async () => {
@@ -156,19 +214,45 @@ describe('concurrency', () => {
         window.addEventListener('touchstart', onTouchStart);
 
         userEvent.type(inputElement, 'a');
-        const customEvent = new CustomEvent('touchstart', { bubbles: true });
-        window.document.dispatchEvent(customEvent);
 
-        await defer(() => {}, timeout);
+        await runAllMicroTasks();
 
+        // The search request is triggered
         expect(onStateChange).toHaveBeenLastCalledWith(
           expect.objectContaining({
             state: expect.objectContaining({
-              isOpen: false,
-              status: 'idle',
+              status: 'loading',
+              query: 'a',
             }),
           })
         );
+
+        const customEvent = new CustomEvent('touchstart', { bubbles: true });
+        window.document.dispatchEvent(customEvent);
+
+        // The status is immediately set to "idle" and the panel is closed
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              status: 'idle',
+              isOpen: false,
+              query: 'a',
+            }),
+          })
+        );
+
+        await defer(noop, timeout);
+
+        // Once the request is settled, the state remains unchanged
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              status: 'idle',
+              isOpen: false,
+            }),
+          })
+        );
+
         expect(getSources).toHaveBeenCalledTimes(1);
 
         window.removeEventListener('touchstart', onTouchStart);
@@ -197,7 +281,7 @@ describe('concurrency', () => {
 
         userEvent.type(inputElement, 'a{esc}');
 
-        await defer(() => {}, delay);
+        await defer(noop, delay);
 
         expect(onStateChange).toHaveBeenLastCalledWith(
           expect.objectContaining({
@@ -229,7 +313,7 @@ describe('concurrency', () => {
 
         userEvent.type(inputElement, 'a{enter}');
 
-        await defer(() => {}, delay);
+        await defer(noop, delay);
 
         expect(onStateChange).toHaveBeenLastCalledWith(
           expect.objectContaining({
@@ -276,7 +360,7 @@ describe('concurrency', () => {
         const customEvent = new CustomEvent('touchstart', { bubbles: true });
         window.document.dispatchEvent(customEvent);
 
-        await defer(() => {}, delay);
+        await defer(noop, delay);
 
         expect(onStateChange).toHaveBeenLastCalledWith(
           expect.objectContaining({
