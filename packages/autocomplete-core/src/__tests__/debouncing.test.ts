@@ -3,9 +3,9 @@ import userEvent from '@testing-library/user-event';
 import { createAutocomplete, InternalAutocompleteSource } from '..';
 import { createPlayground, createSource, defer } from '../../../../test/utils';
 
-type DebouncedSource = InternalAutocompleteSource<{ label: string }>;
+type Source = InternalAutocompleteSource<{ label: string }>;
 
-const debounced = debouncePromise<DebouncedSource[][], DebouncedSource[]>(
+const debounced = debouncePromise<Source[][], Source[]>(
   (items) => Promise.resolve(items),
   100
 );
