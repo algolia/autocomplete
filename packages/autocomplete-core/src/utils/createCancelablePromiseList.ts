@@ -19,7 +19,7 @@ export function createCancelablePromiseList<
 
       cancelablePromise.catch(noop).finally(() => {
         list = list.filter((item) => item !== cancelablePromise);
-      }, true);
+      });
     },
     cancelAll() {
       list.forEach((promise) => promise.cancel());

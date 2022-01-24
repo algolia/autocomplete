@@ -167,7 +167,7 @@ export function onInput<TItem extends BaseItem>({
       if (lastStalledId) {
         props.environment.clearTimeout(lastStalledId);
       }
-    }, true);
+    });
 
   store.pendingRequests.add(request);
 

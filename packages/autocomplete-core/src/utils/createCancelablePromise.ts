@@ -41,8 +41,8 @@ function createInternalCancelablePromise<TValue>({
         state
       );
     },
-    finally(onfinally, runWhenCanceled) {
-      if (runWhenCanceled && onfinally) {
+    finally(onfinally) {
+      if (onfinally) {
         state.onCancelList.push(onfinally);
       }
 
@@ -51,9 +51,7 @@ function createInternalCancelablePromise<TValue>({
           createCallback(
             onfinally &&
               (() => {
-                if (runWhenCanceled) {
-                  state.onCancelList = [];
-                }
+                state.onCancelList = [];
 
                 return onfinally();
               }),
@@ -107,8 +105,7 @@ export type CancelablePromise<TValue> = {
       | null
   ): CancelablePromise<TValue | TResult>;
   finally(
-    onfinally?: (() => void) | undefined | null,
-    runWhenCanceled?: boolean
+    onfinally?: (() => void) | undefined | null
   ): CancelablePromise<TValue>;
   cancel(): void;
   isCanceled(): boolean;
