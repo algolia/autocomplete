@@ -14,7 +14,7 @@ export function createCancelablePromiseList<
   let list: Array<CancelablePromise<TValue>> = [];
 
   function remove(cancelablePromise: CancelablePromise<TValue>) {
-    list = list.filter((promise) => promise !== cancelablePromise);
+    list = list.filter((item) => item !== cancelablePromise);
   }
 
   return {
