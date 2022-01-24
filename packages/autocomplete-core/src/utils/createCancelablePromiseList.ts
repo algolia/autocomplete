@@ -1,3 +1,5 @@
+import { noop } from '@algolia/autocomplete-shared';
+
 import { CancelablePromise } from '.';
 
 export type CancelablePromiseQueue<TPromise = any> = {
@@ -19,7 +21,9 @@ export function createCancelablePromiseList<
     add(cancelablePromise) {
       list.push(cancelablePromise);
 
-      cancelablePromise.finally(() => remove(cancelablePromise), true);
+      cancelablePromise
+        .catch(noop)
+        .finally(() => remove(cancelablePromise), true);
     },
     cancelAll() {
       list.forEach((promise) => promise.cancel());
