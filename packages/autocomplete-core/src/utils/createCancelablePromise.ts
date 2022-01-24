@@ -64,8 +64,10 @@ function createInternalCancelablePromise<TValue>({
     },
     cancel() {
       state.isCanceled = true;
+      const callbacks = state.onCancelList;
+      state.onCancelList = [];
 
-      state.onCancelList.forEach((callback) => {
+      callbacks.forEach((callback) => {
         callback();
       });
     },

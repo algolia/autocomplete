@@ -143,6 +143,22 @@ describe('createCancelablePromise', () => {
     expect(onFulfilled).toHaveBeenCalledTimes(1);
   });
 
+  test('only triggers `finally` handler once when calling `cancel` several times', async () => {
+    const onFinally = jest.fn();
+    const cancelablePromise = createCancelablePromise((resolve) => {
+      resolve('ok');
+    });
+
+    cancelablePromise.finally(onFinally);
+
+    cancelablePromise.cancel();
+    cancelablePromise.cancel();
+
+    await runAllMicroTasks();
+
+    expect(onFinally).toHaveBeenCalledTimes(1);
+  });
+
   test('cancels nested cancelable promises', async () => {
     const onFulfilled = jest.fn();
     const cancelablePromise = createCancelablePromise((resolve) => {
@@ -278,6 +294,24 @@ describe('cancelable', () => {
     await runAllMicroTasks();
 
     expect(onFulfilled).toHaveBeenCalledTimes(1);
+  });
+
+  test('only triggers `finally` handler once when calling `cancel` several times', async () => {
+    const onFinally = jest.fn();
+    const cancelablePromise = cancelable(
+      new Promise((resolve) => {
+        resolve('ok');
+      })
+    );
+
+    cancelablePromise.finally(onFinally);
+
+    cancelablePromise.cancel();
+    cancelablePromise.cancel();
+
+    await runAllMicroTasks();
+
+    expect(onFinally).toHaveBeenCalledTimes(1);
   });
 
   test('cancels nested cancelable promises', async () => {
