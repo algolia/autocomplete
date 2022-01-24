@@ -63,11 +63,9 @@ describe('createCancelablePromise', () => {
     const onFulfilled = jest.fn();
     const onRejected = jest.fn();
     const onFinally = jest.fn();
-    const onCancelSpy = jest.fn();
 
-    await createCancelablePromise((_, reject, onCancel) => {
+    await createCancelablePromise((_, reject) => {
       reject(new Error());
-      onCancel(onCancelSpy);
     })
       .then(onFulfilled)
       .catch(onRejected)
@@ -78,7 +76,6 @@ describe('createCancelablePromise', () => {
     expect(onFulfilled).not.toHaveBeenCalled();
     expect(onFinally).toHaveBeenCalledTimes(1);
     expect(onFinally).toHaveBeenCalledWith();
-    expect(onCancelSpy).toHaveBeenCalledTimes(0);
   });
 
   test('does not trigger callbacks when the cancelable promise is canceled and it resolves', async () => {

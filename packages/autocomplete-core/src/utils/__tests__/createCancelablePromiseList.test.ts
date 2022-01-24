@@ -1,9 +1,11 @@
+import { noop } from '@algolia/autocomplete-shared';
+
 import { createCancelablePromise, createCancelablePromiseList } from '..';
 
 describe('createCancelablePromiseList', () => {
   test('adds cancelable promises to the list', () => {
     const cancelablePromiseList = createCancelablePromiseList();
-    const cancelablePromise = createCancelablePromise(() => {});
+    const cancelablePromise = createCancelablePromise(noop);
 
     expect(cancelablePromiseList.isEmpty()).toBe(true);
 
@@ -31,7 +33,7 @@ describe('createCancelablePromiseList', () => {
 
     expect(cancelablePromiseList.isEmpty()).toBe(false);
 
-    await cancelablePromise.catch(() => {});
+    await cancelablePromise.catch(noop);
 
     expect(cancelablePromiseList.isEmpty()).toBe(true);
   });
