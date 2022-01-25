@@ -1,5 +1,3 @@
-import { noop } from '@algolia/autocomplete-shared';
-
 type CancelablePromiseState = {
   isCanceled: boolean;
   onCancelList: Array<(...args: any[]) => any>;
@@ -11,17 +9,13 @@ type PromiseExecutor<TValue> = (
 ) => void;
 
 type CreateInternalCancelablePromiseParams<TValue> = {
-  executor?: PromiseExecutor<TValue>;
-  promise?: Promise<TValue>;
-  initialState?: CancelablePromiseState;
+  promise: Promise<TValue>;
+  initialState: CancelablePromiseState;
 };
 
 function createInternalCancelablePromise<TValue>({
-  executor = noop,
-  initialState = createInitialState(),
-  promise = new Promise<TValue>((resolve, reject) => {
-    return executor(resolve, reject);
-  }),
+  initialState,
+  promise,
 }: CreateInternalCancelablePromiseParams<TValue>): CancelablePromise<TValue> {
   const state = initialState;
 
@@ -116,7 +110,12 @@ export type CancelablePromise<TValue> = {
 export function createCancelablePromise<TValue>(
   executor: PromiseExecutor<TValue>
 ): CancelablePromise<TValue> {
-  return createInternalCancelablePromise({ executor });
+  return createInternalCancelablePromise({
+    initialState: createInitialState(),
+    promise: new Promise<TValue>((resolve, reject) => {
+      return executor(resolve, reject);
+    }),
+  });
 }
 
 createCancelablePromise.resolve = <TValue>(
@@ -134,7 +133,10 @@ function createCancelable<TValue>(
   promise: Promise<TValue>,
   initialState: CancelablePromiseState = createInitialState()
 ) {
-  return createInternalCancelablePromise<TValue>({ promise, initialState });
+  return createInternalCancelablePromise<TValue>({
+    promise,
+    initialState,
+  });
 }
 
 function createCallback(
