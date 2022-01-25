@@ -102,7 +102,7 @@ export function onKeyDown<TItem extends BaseItem>({
 
     // Hitting the `Escape` key signals the end of a user interaction with the
     // autocomplete. At this point, we should ignore any requests that are still
-    // running and could reopen the panel once they resolve, because that would
+    // pending and could reopen the panel once they resolve, because that would
     // result in an unsolicited UI behavior.
     store.pendingRequests.cancelAll();
   } else if (event.key === 'Enter') {

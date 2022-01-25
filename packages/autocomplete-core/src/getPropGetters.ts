@@ -208,7 +208,7 @@ export function getPropGetters<
         if (!isTouchDevice) {
           store.dispatch('blur', null);
 
-          // If requests are still running when the user closes the panel, they
+          // If requests are still pending when the user closes the panel, they
           // could reopen the panel once they resolve.
           // We want to prevent any subsequent query from reopening the panel
           // because it would result in an unsolicited UI behavior.
