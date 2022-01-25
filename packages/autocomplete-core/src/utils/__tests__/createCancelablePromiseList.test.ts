@@ -31,7 +31,7 @@ describe('createCancelablePromiseList', () => {
     const cancelablePromiseList = createCancelablePromiseList();
     const cancelablePromise = createCancelablePromise.reject();
 
-    cancelablePromiseList.add(cancelablePromise);
+    cancelablePromiseList.add(cancelablePromise).catch(noop);
 
     expect(cancelablePromiseList.isEmpty()).toBe(false);
 
@@ -59,9 +59,9 @@ describe('createCancelablePromiseList', () => {
     const cancelablePromise2 = createCancelablePromise.reject();
     const cancelablePromise3 = createCancelablePromise(noop);
 
-    cancelablePromiseList.add(cancelablePromise1);
-    cancelablePromiseList.add(cancelablePromise2);
-    cancelablePromiseList.add(cancelablePromise3);
+    cancelablePromiseList.add(cancelablePromise1).catch(noop);
+    cancelablePromiseList.add(cancelablePromise2).catch(noop);
+    cancelablePromiseList.add(cancelablePromise3).catch(noop);
 
     expect(cancelablePromise1.isCanceled()).toBe(false);
     expect(cancelablePromise2.isCanceled()).toBe(false);

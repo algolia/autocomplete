@@ -169,7 +169,5 @@ export function onInput<TItem extends BaseItem>({
       }
     });
 
-  store.pendingRequests.add(request);
-
-  return request;
+  return store.pendingRequests.add(request);
 }

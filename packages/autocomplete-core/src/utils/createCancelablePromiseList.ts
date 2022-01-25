@@ -1,9 +1,7 @@
-import { noop } from '@algolia/autocomplete-shared';
-
 import { CancelablePromise } from '.';
 
 export type CancelablePromiseList<TValue> = {
-  add(cancelablePromise: CancelablePromise<TValue>): void;
+  add(cancelablePromise: CancelablePromise<TValue>): CancelablePromise<TValue>;
   cancelAll(): void;
   isEmpty(): boolean;
 };
@@ -17,7 +15,7 @@ export function createCancelablePromiseList<
     add(cancelablePromise) {
       list.push(cancelablePromise);
 
-      cancelablePromise.catch(noop).finally(() => {
+      return cancelablePromise.finally(() => {
         list = list.filter((item) => item !== cancelablePromise);
       });
     },
