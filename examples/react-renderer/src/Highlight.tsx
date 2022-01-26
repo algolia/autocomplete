@@ -1,5 +1,5 @@
-import { createElement, Fragment } from "react";
-import { parseAlgoliaHitHighlight } from "@algolia/autocomplete-preset-algolia";
+import { parseAlgoliaHitHighlight } from '@algolia/autocomplete-preset-algolia';
+import { createElement, Fragment } from 'react';
 
 type HighlightHitParams<THit> = {
   /**
@@ -23,14 +23,16 @@ type HighlightHitParams<THit> = {
 export function Highlight<THit>({
   hit,
   attribute,
-  tagName = "mark",
+  tagName = 'mark',
 }: HighlightHitParams<THit>): JSX.Element {
   return createElement(
     Fragment,
     {},
     parseAlgoliaHitHighlight<THit>({ hit, attribute }).map(
       ({ value, isHighlighted }, index) => {
-        if (isHighlighted) return createElement(tagName, { key: index }, value);
+        if (isHighlighted) {
+          return createElement(tagName, { key: index }, value);
+        }
 
         return value;
       }
