@@ -8,8 +8,8 @@ import { Hit } from '@algolia/client-search';
 import algoliasearch from 'algoliasearch/lite';
 import React from 'react';
 
-import { Highlight } from './Highlight';
 import { ClearIcon } from './ClearIcon';
+import { Highlight } from './Highlight';
 import { SearchIcon } from './SearchIcon';
 
 const searchClient = algoliasearch(
@@ -170,9 +170,7 @@ export function Autocomplete(
                                   />
                                 </div>
                                 <div className="aa-ItemContentBody">
-                                  <div
-                                    className="aa-ItemContentTitle"
-                                  >
+                                  <div className="aa-ItemContentTitle">
                                     <Highlight hit={item} attribute="name" />
                                   </div>
                                   <div className="aa-ItemContentDescription">
