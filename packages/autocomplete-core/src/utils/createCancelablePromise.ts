@@ -1,27 +1,22 @@
-type CancelablePromiseState = {
-  isCanceled: boolean;
-  onCancelList: Array<(...args: any[]) => any>;
-};
-
 type PromiseExecutor<TValue> = (
   resolve: (value: TValue | PromiseLike<TValue>) => void,
   reject: (reason?: any) => void
 ) => void;
 
-type CreateInternalCancelablePromiseParams<TValue> = {
-  promise: Promise<TValue>;
-  initialState: CancelablePromiseState;
+type CancelablePromiseState = {
+  isCanceled: boolean;
+  onCancelList: Array<(...args: any[]) => any>;
 };
 
-function createInternalCancelablePromise<TValue>({
-  initialState,
-  promise,
-}: CreateInternalCancelablePromiseParams<TValue>): CancelablePromise<TValue> {
+function createInternalCancelablePromise<TValue>(
+  promise: Promise<TValue>,
+  initialState: CancelablePromiseState
+): CancelablePromise<TValue> {
   const state = initialState;
 
   return {
     then(onfulfilled, onrejected) {
-      return createCancelable(
+      return createInternalCancelablePromise(
         promise.then(
           createCallback(onfulfilled, state, promise),
           createCallback(onrejected, state, promise)
@@ -30,7 +25,7 @@ function createInternalCancelablePromise<TValue>({
       );
     },
     catch(onrejected) {
-      return createCancelable(
+      return createInternalCancelablePromise(
         promise.catch(createCallback(onrejected, state, promise)),
         state
       );
@@ -40,7 +35,7 @@ function createInternalCancelablePromise<TValue>({
         state.onCancelList.push(onfinally);
       }
 
-      return createCancelable<TValue>(
+      return createInternalCancelablePromise<TValue>(
         promise.finally(
           createCallback(
             onfinally &&
@@ -110,12 +105,12 @@ export type CancelablePromise<TValue> = {
 export function createCancelablePromise<TValue>(
   executor: PromiseExecutor<TValue>
 ): CancelablePromise<TValue> {
-  return createInternalCancelablePromise({
-    initialState: createInitialState(),
-    promise: new Promise<TValue>((resolve, reject) => {
+  return createInternalCancelablePromise(
+    new Promise<TValue>((resolve, reject) => {
       return executor(resolve, reject);
     }),
-  });
+    { isCanceled: false, onCancelList: [] }
+  );
 }
 
 createCancelablePromise.resolve = <TValue>(
@@ -126,16 +121,9 @@ createCancelablePromise.reject = (reason?: any) =>
   cancelable(Promise.reject(reason));
 
 export function cancelable<TValue>(promise: Promise<TValue>) {
-  return createCancelable(promise, createInitialState());
-}
-
-function createCancelable<TValue>(
-  promise: Promise<TValue>,
-  initialState: CancelablePromiseState
-) {
-  return createInternalCancelablePromise<TValue>({
-    promise,
-    initialState,
+  return createInternalCancelablePromise(promise, {
+    isCanceled: false,
+    onCancelList: [],
   });
 }
 
@@ -155,8 +143,4 @@ function createCallback(
 
     return onResult(arg);
   };
-}
-
-function createInitialState(): CancelablePromiseState {
-  return { isCanceled: false, onCancelList: [] };
 }
