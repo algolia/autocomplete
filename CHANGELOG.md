@@ -1,3 +1,12 @@
+## [1.5.2](https://github.com/algolia/autocomplete/compare/v1.5.1...v1.5.2) (2022-01-26)
+
+
+### Bug Fixes
+
+* handle late resolving promises with promise cancelation ([#864](https://github.com/algolia/autocomplete/issues/864)) ([9640c2d](https://github.com/algolia/autocomplete/commit/9640c2d927301e88a4fa77b25d2dfeb7d25b8039))
+
+
+
 # [1.5.1](https://github.com/algolia/autocomplete/compare/v1.5.0...v1.5.1) (2021-12-09)
 
 ### Bug Fixes
