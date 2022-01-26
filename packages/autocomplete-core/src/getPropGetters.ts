@@ -47,7 +47,7 @@ export function getPropGetters<
         //   (no interaction with the autocomplete, no future state updates)
         // - OR the touched target is the input element (should open the panel)
         const isAutocompleteInteraction =
-          store.getState().isOpen === true || !store.pendingRequests.isEmpty();
+          store.getState().isOpen || !store.pendingRequests.isEmpty();
 
         if (!isAutocompleteInteraction || event.target === inputElement) {
           return;

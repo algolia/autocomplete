@@ -78,9 +78,7 @@ export function onInput<TItem extends BaseItem>({
       runConcurrentSafePromise(collections).then(() => Promise.resolve())
     );
 
-    store.pendingRequests.add(request);
-
-    return request;
+    return store.pendingRequests.add(request);
   }
 
   setStatus('loading');

@@ -126,12 +126,12 @@ createCancelablePromise.reject = (reason?: any) =>
   cancelable(Promise.reject(reason));
 
 export function cancelable<TValue>(promise: Promise<TValue>) {
-  return createCancelable(promise);
+  return createCancelable(promise, createInitialState());
 }
 
 function createCancelable<TValue>(
   promise: Promise<TValue>,
-  initialState: CancelablePromiseState = createInitialState()
+  initialState: CancelablePromiseState
 ) {
   return createInternalCancelablePromise<TValue>({
     promise,
