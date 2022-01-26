@@ -4,6 +4,8 @@ import { AutocompleteComponents } from './AutocompleteComponents';
 import { Pragma, PragmaFrag, VNode } from './AutocompleteRenderer';
 import { AutocompleteState } from './AutocompleteState';
 
+import { ComponentChild } from '.';
+
 export type AutocompleteRender<TItem extends BaseItem> = (
   params: AutocompleteScopeApi<TItem> & {
     children: VNode;
@@ -13,6 +15,11 @@ export type AutocompleteRender<TItem extends BaseItem> = (
     components: AutocompleteComponents;
     createElement: Pragma;
     Fragment: PragmaFrag;
+    render: (
+      vnode: ComponentChild,
+      containerNode: Element | Document | ShadowRoot | DocumentFragment,
+      replaceNode?: Element | Text | undefined
+    ) => void;
   },
   root: HTMLElement
 ) => void;

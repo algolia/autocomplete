@@ -2,8 +2,9 @@
 import {
   AutocompleteApi as AutocompleteCoreApi,
   AutocompleteScopeApi,
+  BaseItem,
 } from '@algolia/autocomplete-core';
-import { BaseItem } from '@algolia/autocomplete-core/src';
+import { render as preactRender } from 'preact';
 
 import {
   AutocompleteClassNames,
@@ -195,6 +196,7 @@ export function renderPanel<TItem extends BaseItem>(
       elements,
       createElement,
       Fragment,
+      render: preactRender,
       components,
       ...autocompleteScopeApi,
     },
