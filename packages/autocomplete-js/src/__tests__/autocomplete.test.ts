@@ -1,7 +1,11 @@
 import * as autocompleteShared from '@algolia/autocomplete-shared';
 import { fireEvent, waitFor } from '@testing-library/dom';
 
-import { castToJestMock, createMatchMedia } from '../../../../test/utils';
+import {
+  castToJestMock,
+  createMatchMedia,
+  runAllMicroTasks,
+} from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
 
 jest.mock('@algolia/autocomplete-shared', () => {
@@ -524,7 +528,7 @@ describe('autocomplete-js', () => {
     expect(input).toHaveValue('Query');
   });
 
-  test('renders on input', () => {
+  test('renders on input', async () => {
     const container = document.createElement('div');
     autocomplete<{ label: string }>({
       id: 'autocomplete',
@@ -553,6 +557,8 @@ describe('autocomplete-js', () => {
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
     fireEvent.input(input, { target: { value: 'a' } });
+
+    await runAllMicroTasks();
 
     expect(input).toHaveValue('a');
   });

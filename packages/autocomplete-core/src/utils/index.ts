@@ -1,3 +1,5 @@
+export * from './createCancelablePromise';
+export * from './createCancelablePromiseList';
 export * from './createConcurrentSafePromise';
 export * from './getNextActiveItemId';
 export * from './getNormalizedSources';
