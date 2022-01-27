@@ -9,6 +9,7 @@ import algoliasearch from 'algoliasearch/lite';
 import React from 'react';
 
 import { ClearIcon } from './ClearIcon';
+import { Highlight } from './Highlight';
 import { SearchIcon } from './SearchIcon';
 
 const searchClient = algoliasearch(
@@ -63,8 +64,6 @@ export function Autocomplete(
                       query,
                       params: {
                         hitsPerPage: 5,
-                        highlightPreTag: '<mark>',
-                        highlightPostTag: '</mark>',
                       },
                     },
                   ],
@@ -171,13 +170,9 @@ export function Autocomplete(
                                   />
                                 </div>
                                 <div className="aa-ItemContentBody">
-                                  <div
-                                    className="aa-ItemContentTitle"
-                                    dangerouslySetInnerHTML={{
-                                      __html: item._highlightResult!.name!
-                                        .value,
-                                    }}
-                                  />
+                                  <div className="aa-ItemContentTitle">
+                                    <Highlight hit={item} attribute="name" />
+                                  </div>
                                   <div className="aa-ItemContentDescription">
                                     By <strong>{item.brand}</strong> in{' '}
                                     <strong>{item.categories[0]}</strong>

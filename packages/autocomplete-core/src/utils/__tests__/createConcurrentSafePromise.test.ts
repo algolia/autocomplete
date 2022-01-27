@@ -55,43 +55,4 @@ describe('createConcurrentSafePromise', () => {
     expect(await concurrentSafePromise2).toEqual({ value: 3 });
     expect(await concurrentSafePromise3).toEqual({ value: 3 });
   });
-
-  test('returns whether promises are currently running', async () => {
-    const runConcurrentSafePromise = createConcurrentSafePromise();
-    const concurrentSafePromise1 = runConcurrentSafePromise(
-      defer(() => ({ value: 1 }), 0)
-    );
-    const concurrentSafePromise2 = runConcurrentSafePromise(
-      defer(() => ({ value: 2 }), 0)
-    );
-    const concurrentSafePromise3 = runConcurrentSafePromise(
-      defer(() => ({ value: 3 }), 0)
-    );
-
-    jest.runAllTimers();
-
-    expect(runConcurrentSafePromise.isRunning()).toBe(true);
-
-    await concurrentSafePromise1;
-    await concurrentSafePromise2;
-
-    expect(runConcurrentSafePromise.isRunning()).toBe(true);
-
-    await concurrentSafePromise3;
-
-    expect(runConcurrentSafePromise.isRunning()).toBe(false);
-
-    const concurrentSafePromise4 = runConcurrentSafePromise(
-      defer(() => Promise.reject(new Error()), 400)
-    );
-
-    expect(runConcurrentSafePromise.isRunning()).toBe(true);
-
-    try {
-      await concurrentSafePromise4;
-      // eslint-disable-next-line no-empty
-    } catch (err) {}
-
-    expect(runConcurrentSafePromise.isRunning()).toBe(false);
-  });
 });
