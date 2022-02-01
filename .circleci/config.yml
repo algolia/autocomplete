@@ -44,7 +44,7 @@ aliases:
 defaults: &defaults
   working_directory: ~/autocomplete
   docker:
-    - image: cimg/node:14.18.2
+    - image: cimg/node:14.18.3
 
 cypress: &cypress
   working_directory: ~/autocomplete
