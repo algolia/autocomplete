@@ -8,7 +8,7 @@ import {
   INSTANT_SEARCH_INDEX_NAME,
   INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE,
   searchClient,
-} from './instantsearch';
+} from './constants';
 
 import '@algolia/autocomplete-theme-classic';
 
