@@ -1,7 +1,9 @@
 {
   "name": "@algolia/autocomplete-example-vue-instantsearch",
+  "description": "Autocomplete with Vue InstantSearch",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -45,6 +47,9 @@
     "last 2 versions",
     "not dead"
   ],
-  "keywords": [],
-  "description": ""
+  "keywords": [
+    "algolia",
+    "autocomplete",
+    "vue"
+  ]
 }

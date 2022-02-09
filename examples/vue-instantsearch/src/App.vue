@@ -23,7 +23,12 @@
         <div>
           <ais-panel>
             <template v-slot:header>Categories</template>
-            <ais-refinement-list attribute="categories" />
+            <ais-hierarchical-menu
+              :attributes="[
+                'hierarchicalCategories.lvl0',
+                'hierarchicalCategories.lvl1',
+              ]"
+            ></ais-hierarchical-menu>
           </ais-panel>
         </div>
         <div>
@@ -68,6 +73,7 @@ import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-pl
 import '@algolia/autocomplete-theme-classic';
 
 const INSTANT_SEARCH_INDEX_NAME = 'instant_search';
+const INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE = 'hierarchicalCategories.lvl0';
 
 const searchClient = algoliasearch(
   'latency',
@@ -81,15 +87,28 @@ function autocompleteMiddleware({ instantSearchInstance }) {
     const indexRenderState =
       instantSearchInstance.renderState[INSTANT_SEARCH_INDEX_NAME];
 
-    const refinedCategory = indexRenderState?.refinementList?.categories?.items?.find(
-      ({ isRefined }) => isRefined
-    );
+    const refinedCategory = indexRenderState?.hierarchicalMenu?.[
+      INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE
+    ]?.items?.find(({ isRefined }) => isRefined);
 
     return refinedCategory?.value;
   }
 
-  function setInstantSearchUiState({ query, categories }) {
-    const refinementList = categories ? { refinementList: { categories } } : {};
+  function setInstantSearchUiState({ query, category, resetCategory = false }) {
+    let hierarchicalMenu;
+    if (resetCategory) {
+      hierarchicalMenu = {
+        hierarchicalMenu: { [INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE]: [] },
+      };
+    } else if (!category) {
+      hierarchicalMenu = {};
+    } else {
+      hierarchicalMenu = {
+        hierarchicalMenu: {
+          [INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE]: [category],
+        },
+      };
+    }
 
     instantSearchInstance.setUiState((uiState) => ({
       ...uiState,
@@ -97,7 +116,7 @@ function autocompleteMiddleware({ instantSearchInstance }) {
         ...uiState[INSTANT_SEARCH_INDEX_NAME],
         page: 1,
         query,
-        ...refinementList,
+        ...hierarchicalMenu,
       },
     }));
   }
@@ -111,7 +130,7 @@ function autocompleteMiddleware({ instantSearchInstance }) {
         onSelect({ item }) {
           setInstantSearchUiState({
             query: item.label,
-            categories: item.category ? [item.category] : [],
+            category: item.category,
           });
         },
       };
@@ -139,7 +158,7 @@ function autocompleteMiddleware({ instantSearchInstance }) {
         onSelect({ item }) {
           setInstantSearchUiState({
             query: item.query,
-            categories: [currentCategory],
+            category: currentCategory,
           });
         },
         getItems(params) {
@@ -193,7 +212,7 @@ function autocompleteMiddleware({ instantSearchInstance }) {
       'instant_search',
       'facets',
       'exact_matches',
-      'categories',
+      INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE,
     ],
     transformSource({ source }) {
       const currentCategory = getInstantSearchCurrentCategory();
@@ -204,9 +223,7 @@ function autocompleteMiddleware({ instantSearchInstance }) {
         onSelect({ item }) {
           setInstantSearchUiState({
             query: item.query,
-            categories: item.__autocomplete_qsCategory
-              ? [item.__autocomplete_qsCategory]
-              : [],
+            category: item.__autocomplete_qsCategory,
           });
         },
         getItems(params) {
@@ -257,7 +274,7 @@ function autocompleteMiddleware({ instantSearchInstance }) {
           setInstantSearchUiState({ query: state.query });
         },
         onReset() {
-          setInstantSearchUiState({ query: '', categories: [] });
+          setInstantSearchUiState({ query: '', resetCategory: true });
         },
         onStateChange({ prevState, state }) {
           if (prevState.query !== state.query) {
