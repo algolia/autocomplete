@@ -12,6 +12,18 @@ import {
 
 import '@algolia/autocomplete-theme-classic';
 
+function debounce(fn, time) {
+  let timerId;
+
+  return function (...args) {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
+    timerId = setTimeout(() => fn(...args), time);
+  };
+}
+
 export function autocompleteMiddleware({ instantSearchInstance }) {
   let autocompleteInstance;
 
@@ -52,6 +64,11 @@ export function autocompleteMiddleware({ instantSearchInstance }) {
       },
     }));
   }
+
+  const debouncedSetInstantSearchUiState = debounce(
+    setInstantSearchUiState,
+    500
+  );
 
   const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
     key: 'instantsearch',
@@ -210,7 +227,7 @@ export function autocompleteMiddleware({ instantSearchInstance }) {
         },
         onStateChange({ prevState, state }) {
           if (prevState.query !== state.query) {
-            setInstantSearchUiState({ query: state.query });
+            debouncedSetInstantSearchUiState({ query: state.query });
           }
         },
         renderer: {
