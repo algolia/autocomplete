@@ -1,4 +1,4 @@
-import { h, Fragment, render } from 'vue';
+import { Fragment, render } from 'vue';
 
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
@@ -9,6 +9,7 @@ import {
   INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE,
   searchClient,
 } from './constants';
+import { createElement } from './utils/createElement';
 
 import '@algolia/autocomplete-theme-classic';
 
@@ -231,7 +232,7 @@ export function autocompleteMiddleware({ instantSearchInstance }) {
           }
         },
         renderer: {
-          createElement: h,
+          createElement,
           Fragment,
         },
         render({ children }, root) {
