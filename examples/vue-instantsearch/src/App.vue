@@ -63,7 +63,8 @@ import { history as historyRouter } from 'instantsearch.js/es/lib/routers';
 import { singleIndex as singleIndexMapping } from 'instantsearch.js/es/lib/stateMappings';
 
 import { autocompleteMiddleware } from './autocompleteMiddleware';
-import { INSTANT_SEARCH_INDEX_NAME, searchClient } from './constants';
+import { INSTANT_SEARCH_INDEX_NAME } from './constants';
+import { searchClient } from './searchClient';
 
 export default {
   data() {

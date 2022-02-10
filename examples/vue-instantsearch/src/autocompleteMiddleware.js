@@ -7,8 +7,8 @@ import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-pl
 import {
   INSTANT_SEARCH_INDEX_NAME,
   INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE,
-  searchClient,
 } from './constants';
+import { searchClient } from './searchClient';
 import { createElement } from './utils/createElement';
 
 import '@algolia/autocomplete-theme-classic';
