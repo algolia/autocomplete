@@ -97,8 +97,8 @@ export function resolve<TItem extends BaseItem>(
         return (
           isDescription(current) &&
           isDescription(item) &&
-          item.searchClient === searchClient // &&
-          // item.execute === execute
+          item.searchClient === searchClient &&
+          item.execute === execute
         );
       }
     );
