@@ -22,6 +22,7 @@ describe('getAlgoliaFacets', () => {
 
     expect(description).toEqual({
       execute: expect.any(Function),
+      requesterId: 'algolia',
       transformResponse: expect.any(Function),
       searchClient,
       queries: [
