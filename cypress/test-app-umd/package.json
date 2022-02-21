@@ -1,0 +1,22 @@
+{
+  "name": "@algolia/test-apps-umd-js",
+  "description": "Autocomplete JavaScript UMD Test Application",
+  "version": "1.5.2",
+  "private": true,
+  "license": "MIT",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve"
+  },
+  "dependencies": {
+    "algoliasearch": "4.9.1"
+  },
+  "devDependencies": {
+    "serve": "^13.0.2"
+  },
+  "keywords": [
+    "algolia",
+    "autocomplete",
+    "javascript"
+  ]
+}
