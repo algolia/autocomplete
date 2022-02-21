@@ -1,3 +1,7 @@
+import {
+  createRequester,
+  fetchAlgoliaResults,
+} from '@algolia/autocomplete-preset-algolia';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 
 import {
@@ -343,6 +347,93 @@ describe('requester', () => {
           "{\\"label\\":\\"Static label 2\\",\\"__autocomplete_id\\":9}",
         ]
       `);
+    });
+  });
+
+  test('batches calls when possible and re-dispatches results to the right sources across requester instances', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    const searchClient = createSearchClient({
+      search: jest.fn(() =>
+        Promise.resolve(
+          createMultiSearchResponse<{ label: string }>(
+            { hits: [{ objectID: '1', label: 'Hit 1' }] },
+            { hits: [{ objectID: '2', label: 'Hit 2' }] }
+          )
+        )
+      ),
+    });
+
+    const getResults1 = (params) =>
+      createRequester(fetchAlgoliaResults)({
+        transformResponse: (response) => response.hits,
+      })(params);
+
+    const getResults2 = (params) =>
+      createRequester(fetchAlgoliaResults)({
+        transformResponse: (response) => response.hits,
+      })(params);
+
+    autocomplete({
+      container,
+      panelContainer,
+      getSources({ query }) {
+        return [
+          {
+            sourceId: 'hits',
+            getItems() {
+              return getResults1({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    query,
+                  },
+                ],
+              });
+            },
+            templates: {
+              item({ item }) {
+                return JSON.stringify(item);
+              },
+            },
+          },
+          {
+            sourceId: 'other-hits',
+            getItems() {
+              return getResults2({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    query,
+                  },
+                ],
+              });
+            },
+            templates: {
+              item({ item }) {
+                return JSON.stringify(item);
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+
+      expect(searchClient.search).toHaveBeenCalledTimes(1);
     });
   });
 
