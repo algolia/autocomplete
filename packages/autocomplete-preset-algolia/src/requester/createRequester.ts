@@ -80,6 +80,7 @@ export type RequesterDescription<THit> = {
   searchClient: SearchClient;
   queries: MultipleQueriesQuery[];
   transformResponse: TransformResponse<THit>;
+  requesterId: string;
   execute: Execute<THit>;
 };
 
@@ -108,6 +109,7 @@ export function createRequester(fetcher: Fetcher) {
       requestParams: RequestParams<TTHit>
     ): RequesterDescription<TTHit> {
       return {
+        requesterId: 'algolia',
         execute,
         ...requesterParams,
         ...requestParams,
