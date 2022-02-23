@@ -1,3 +1,12 @@
+## [1.5.3](https://github.com/algolia/autocomplete/compare/v1.5.2...v1.5.3) (2022-02-23)
+
+
+### Bug Fixes
+
+* **umd:** batch requests when using plugins via UMD ([#902](https://github.com/algolia/autocomplete/issues/902)) ([1aa3dde](https://github.com/algolia/autocomplete/commit/1aa3ddee25b1df94de17b55c52e6fd06a7e1c5d3))
+
+
+
 ## [1.5.2](https://github.com/algolia/autocomplete/compare/v1.5.1...v1.5.2) (2022-01-26)
 
 ### Bug Fixes
