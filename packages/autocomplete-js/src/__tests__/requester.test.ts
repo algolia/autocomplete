@@ -350,18 +350,21 @@ describe('requester', () => {
     });
   });
 
-  test('batches calls across requesters identified as similar', async () => {
+  test('batches calls across requesters with same id', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
     document.body.appendChild(panelContainer);
 
     const searchClient = createSearchClient({
-      search: jest.fn(() =>
+      search: jest.fn((requests) =>
         Promise.resolve(
           createMultiSearchResponse<{ label: string }>(
-            { hits: [{ objectID: '1', label: 'Hit 1' }] },
-            { hits: [{ objectID: '2', label: 'Hit 2' }] }
+            ...requests.map(({ indexName, params: { query } }) => ({
+              hits: [{ objectID: '1', label: 'Hit 1' }],
+              index: indexName,
+              query,
+            }))
           )
         )
       ),
@@ -383,6 +386,20 @@ describe('requester', () => {
         transformResponse: (response) => response.hits,
       })(params);
 
+    const getResults3 = (params) =>
+      createRequester(
+        fetchAlgoliaResults,
+        'different-requester-id'
+      )({
+        transformResponse: (response) => response.hits,
+      })(params);
+
+    const templates = {
+      item({ item }) {
+        return JSON.stringify(item);
+      },
+    };
+
     autocomplete({
       container,
       panelContainer,
@@ -401,14 +418,10 @@ describe('requester', () => {
                 ],
               });
             },
-            templates: {
-              item({ item }) {
-                return JSON.stringify(item);
-              },
-            },
+            templates,
           },
           {
-            sourceId: 'other-hits',
+            sourceId: 'hits-merged',
             getItems() {
               return getResults2({
                 searchClient,
@@ -420,11 +433,22 @@ describe('requester', () => {
                 ],
               });
             },
-            templates: {
-              item({ item }) {
-                return JSON.stringify(item);
-              },
+            templates,
+          },
+          {
+            sourceId: 'hits-separate',
+            getItems() {
+              return getResults3({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    query,
+                  },
+                ],
+              });
             },
+            templates,
           },
         ];
       },
@@ -439,7 +463,7 @@ describe('requester', () => {
         panelContainer.querySelector<HTMLElement>('.aa-Panel')
       ).toBeInTheDocument();
 
-      expect(searchClient.search).toHaveBeenCalledTimes(1);
+      expect(searchClient.search).toHaveBeenCalledTimes(2);
     });
   });
 
