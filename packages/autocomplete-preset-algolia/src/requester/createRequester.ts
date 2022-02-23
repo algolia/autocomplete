@@ -85,6 +85,7 @@ export type RequesterDescription<THit> = {
    * Identifies requesters to confirm their queries should be batched.
    * This ensures that requesters with the same client but different
    * post-processing functions don't get batched.
+   * When falsy, batching is disabled.
    * For example, the Algolia requesters use "algolia".
    */
   requesterId?: string;
