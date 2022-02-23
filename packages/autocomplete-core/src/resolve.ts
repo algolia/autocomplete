@@ -33,7 +33,7 @@ function isRequesterDescription<TItem extends BaseItem>(
 type PackedDescription<TItem extends BaseItem> = {
   searchClient: SearchClient;
   execute: Execute<TItem>;
-  requesterId: string;
+  requesterId?: string;
   items: RequestDescriptionPreResolved<TItem>['requests'];
 };
 
