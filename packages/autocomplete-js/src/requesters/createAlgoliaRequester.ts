@@ -5,9 +5,11 @@ import {
 
 import { userAgents } from '../userAgents';
 
-export const createAlgoliaRequester = createRequester((params) =>
-  fetchAlgoliaResults({
-    ...params,
-    userAgents,
-  })
+export const createAlgoliaRequester = createRequester(
+  (params) =>
+    fetchAlgoliaResults({
+      ...params,
+      userAgents,
+    }),
+  'algolia'
 );

@@ -40,6 +40,7 @@ describe('createRequester', () => {
 
     expect(description).toEqual({
       execute: expect.any(Function),
+      requesterId: undefined,
       transformResponse,
       searchClient,
       queries: [
