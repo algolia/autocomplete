@@ -99,6 +99,7 @@ export function resolve<TItem extends BaseItem>(
           isDescription(current) &&
           isDescription(item) &&
           item.searchClient === searchClient &&
+          Boolean(requesterId) &&
           item.requesterId === requesterId
         );
       }

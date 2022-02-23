@@ -368,12 +368,18 @@ describe('requester', () => {
     });
 
     const getResults1 = (params) =>
-      createRequester(fetchAlgoliaResults)({
+      createRequester(
+        fetchAlgoliaResults,
+        'custom-requester-id'
+      )({
         transformResponse: (response) => response.hits,
       })(params);
 
     const getResults2 = (params) =>
-      createRequester(fetchAlgoliaResults)({
+      createRequester(
+        fetchAlgoliaResults,
+        'custom-requester-id'
+      )({
         transformResponse: (response) => response.hits,
       })(params);
 
