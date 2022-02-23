@@ -350,7 +350,7 @@ describe('requester', () => {
     });
   });
 
-  test('batches calls when possible and re-dispatches results to the right sources across requester instances', async () => {
+  test('batches calls across requesters identified as similar', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
