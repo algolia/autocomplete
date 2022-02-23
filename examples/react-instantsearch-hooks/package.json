@@ -1,0 +1,34 @@
+{
+  "name": "@algolia/autocomplete-example-react-instantsearch-hooks",
+  "description": "Autocomplete with React InstantSearch Hooks",
+  "version": "1.5.2",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@algolia/autocomplete-js": "1.5.2",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.5.2",
+    "@algolia/autocomplete-plugin-recent-searches": "1.5.2",
+    "@algolia/autocomplete-theme-classic": "1.5.2",
+    "algoliasearch": "4.12.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-instantsearch-hooks": "6.22.0"
+  },
+  "devDependencies": {
+    "@types/react": "17.0.33",
+    "@types/react-dom": "17.0.10",
+    "@vitejs/plugin-react": "1.0.7",
+    "typescript": "4.5.4",
+    "vite": "2.8.0"
+  },
+  "keywords": [
+    "algolia",
+    "autocomplete",
+    "react"
+  ]
+}
