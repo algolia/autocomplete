@@ -77,10 +77,25 @@ export type RequestParams<THit> = FetcherParams & {
 };
 
 export type RequesterDescription<THit> = {
+  /**
+   * The search client used for this request. Multiple queries with the same client will be batched.
+   */
   searchClient: SearchClient;
-  queries: MultipleQueriesQuery[];
-  transformResponse: TransformResponse<THit>;
+  /**
+   * Used to make sure queries should be batched. The Algolia requester uses "algolia" for this.
+   */
   requesterId?: string;
+  /**
+   * The search parameters used for this query
+   */
+  queries: MultipleQueriesQuery[];
+  /**
+   * Change the response of this search before returning it to the caller
+   */
+  transformResponse: TransformResponse<THit>;
+  /**
+   * Batched multi-query function. Is only called for one of the batched calls
+   */
   execute: Execute<THit>;
 };
 
