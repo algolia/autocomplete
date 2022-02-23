@@ -40,7 +40,7 @@ describe('createRequester', () => {
 
     expect(description).toEqual({
       execute: expect.any(Function),
-      requesterId: 'algolia',
+      requesterId: undefined,
       transformResponse,
       searchClient,
       queries: [
