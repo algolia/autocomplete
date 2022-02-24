@@ -209,7 +209,7 @@ export function Autocomplete({
       initialState: { query },
       plugins,
       onReset() {
-        setInstantSearchUiState({ query: '', category: '' });
+        setInstantSearchUiState({ query: '', category: currentCategory });
       },
       onSubmit({ state }) {
         setInstantSearchUiState({ query: state.query });
@@ -218,7 +218,6 @@ export function Autocomplete({
         if (prevState.query !== state.query) {
           debouncedSetInstantSearchUiState({
             query: state.query,
-            category: '',
           });
         }
       },
