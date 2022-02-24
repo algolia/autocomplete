@@ -1,5 +1,6 @@
-import { ReactElement, useCallback, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import type { SearchClient } from 'algoliasearch/lite';
+import type { BaseItem } from '@algolia/autocomplete-core';
 import type { AutocompleteOptions } from '@algolia/autocomplete-js';
 
 import { createElement, Fragment, useEffect, useMemo, useRef } from 'react';
@@ -23,18 +24,22 @@ import {
 
 import '@algolia/autocomplete-theme-classic';
 
-type AutocompleteProps = Partial<
-  AutocompleteOptions<Record<string, string>>
-> & { searchClient: SearchClient };
+type AutocompleteProps = Partial<AutocompleteOptions<BaseItem>> & {
+  searchClient: SearchClient;
+  className?: string;
+};
 
 type SetInstantSearchUiStateOptions = {
   query: string;
   category?: string;
 };
 
-export function Autocomplete(props: AutocompleteProps) {
-  const { searchClient, ...autocompleteProps } = props;
-  const autocompleteContainer = useRef(null);
+export function Autocomplete({
+  searchClient,
+  className,
+  ...autocompleteProps
+}: AutocompleteProps) {
+  const autocompleteContainer = useRef<HTMLDivElement>(null);
 
   const { query, refine: setQuery } = useSearchBox();
   const { items: categories, refine: setCategory } = useHierarchicalMenu({
@@ -200,6 +205,7 @@ export function Autocomplete(props: AutocompleteProps) {
 
     const autocompleteInstance = autocomplete({
       ...autocompleteProps,
+      container: autocompleteContainer.current,
       initialState: { query },
       plugins,
       onReset() {
@@ -223,11 +229,10 @@ export function Autocomplete(props: AutocompleteProps) {
       render({ children }, root) {
         render(children as ReactElement, root);
       },
-      container: autocompleteContainer.current,
     });
 
     return () => autocompleteInstance.destroy();
   }, [plugins]);
 
-  return <div ref={autocompleteContainer} />;
+  return <div className={className} ref={autocompleteContainer} />;
 }
