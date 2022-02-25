@@ -1,9 +1,16 @@
-import { ReactElement, useState } from 'react';
 import type { SearchClient } from 'algoliasearch/lite';
 import type { BaseItem } from '@algolia/autocomplete-core';
 import type { AutocompleteOptions } from '@algolia/autocomplete-js';
 
-import { createElement, Fragment, useEffect, useMemo, useRef } from 'react';
+import {
+  createElement,
+  ReactElement,
+  Fragment,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { render } from 'react-dom';
 
 import {

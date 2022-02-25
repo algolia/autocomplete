@@ -1,4 +1,5 @@
 import { Hit as AlgoliaHit } from '@algolia/client-search';
+
 import { Snippet } from './Snippet';
 
 type HitProps = {

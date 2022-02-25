@@ -1,5 +1,4 @@
 import algoliasearch from 'algoliasearch/lite';
-
 import { Configure, InstantSearch } from 'react-instantsearch-hooks';
 
 import { Autocomplete, Hit } from './components';
