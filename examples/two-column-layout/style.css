@@ -477,6 +477,30 @@ body {
   opacity: 0.6;
 }
 
+/* Faq preview */
+.aa-FaqPreview,
+.aa-FaqPreview .aa-ItemContent {
+  cursor: initial;
+}
+
+.aa-FaqPreview p {
+  margin-right: var(--aa-spacing);
+}
+
+.aa-FaqPreview a {
+  color: #000;
+  font-size: 0.9em;
+}
+
+.aa-FaqPreview h4,
+.aa-FaqPreview h3 {
+  margin: 0;
+}
+
+.aa-FaqPreview h3 {
+  margin-top: var(--aa-spacing-half);
+}
+
 /* Media queries */
 @media screen and (prefers-reduced-motion: reduce) {
   .aa-Item,

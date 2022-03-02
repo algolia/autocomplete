@@ -3,6 +3,7 @@ import { autocomplete } from '@algolia/autocomplete-js';
 import { h, render } from 'preact';
 import { pipe } from 'ramda';
 
+import { FaqPreview } from './components/FaqPreview';
 import { populate, uniqBy } from './functions';
 import { articlesPlugin } from './plugins/articlesPlugin';
 import { brandsPlugin } from './plugins/brandsPlugin';
@@ -13,6 +14,7 @@ import { productsPlugin } from './plugins/productsPlugin';
 import { querySuggestionsPlugin } from './plugins/querySuggestionsPlugin';
 import { quickAccessPlugin } from './plugins/quickAccessPlugin';
 import { recentSearchesPlugin } from './plugins/recentSearchesPlugin';
+import { FaqHit } from './types';
 import { cx } from './utils';
 
 import '@algolia/autocomplete-theme-classic';
@@ -76,7 +78,7 @@ autocomplete({
       Object.values(rest),
     ];
   },
-  render({ elements, state, setContext, refresh }, root) {
+  render({ elements, components, state, setContext, refresh, Fragment }, root) {
     const {
       recentSearchesPlugin: recentSearches,
       querySuggestionsPlugin: querySuggestions,
@@ -95,6 +97,9 @@ autocomplete({
         .reduce((prev, curr) => prev + curr.items.length, 0) > 0;
 
     const previewContext = state.context.preview;
+
+    const faqPreviewContext = previewContext as FaqHit;
+    const isFaqPreview = Boolean(faqPreviewContext?.title);
 
     const onMouseLeave = () => {
       const el = document.querySelector('[data-active=true]');
@@ -126,21 +131,28 @@ autocomplete({
             )}
           </div>
           <div className="aa-PanelSection--right">
-            {products && (
-              <div
-                className={cx(
-                  'aa-PanelSection--products',
-                  previewContext && 'aa-PanelSection--products-preview'
+            {isFaqPreview ? (
+              <FaqPreview components={components} {...faqPreviewContext} />
+            ) : (
+              <Fragment>
+                {products && (
+                  <div
+                    className={cx(
+                      'aa-PanelSection--products',
+                      previewContext && 'aa-PanelSection--products-preview'
+                    )}
+                  >
+                    <div className="aa-PanelSectionSource">{products}</div>
+                  </div>
                 )}
-              >
-                <div className="aa-PanelSectionSource">{products}</div>
-              </div>
+                {articles && (
+                  <div className="aa-PanelSection--articles">
+                    <div className="aa-PanelSectionSource">{articles}</div>
+                  </div>
+                )}
+              </Fragment>
             )}
-            {articles && (
-              <div className="aa-PanelSection--articles">
-                <div className="aa-PanelSectionSource">{articles}</div>
-              </div>
-            )}
+
             {quickAccess && (
               <div className="aa-PanelSection--quickAccess">{quickAccess}</div>
             )}
