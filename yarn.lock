@@ -9,13 +9,6 @@
   dependencies:
     "@algolia/autocomplete-shared" "1.0.0-alpha.44"
 
-"@algolia/autocomplete-core@1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.5.2.tgz#ec0178e07b44fd74a057728ac157291b26cecf37"
-  integrity sha512-DY0bhyczFSS1b/CqJlTE/nQRtnTAHl6IemIkBy0nEWnhDzRDdtdx4p5Uuk3vwAFxwEEgi1WqKwgSSMx6DpNL4A==
-  dependencies:
-    "@algolia/autocomplete-shared" "1.5.2"
-
 "@algolia/autocomplete-js@1.0.0-alpha.44":
   version "1.0.0-alpha.44"
   resolved "https://registry.yarnpkg.com/@algolia/autocomplete-js/-/autocomplete-js-1.0.0-alpha.44.tgz#a252bdbf7ab662dedcc05cfe53e318d6becd7bee"
@@ -24,16 +17,6 @@
     "@algolia/autocomplete-core" "1.0.0-alpha.44"
     "@algolia/autocomplete-preset-algolia" "1.0.0-alpha.44"
     "@algolia/autocomplete-shared" "1.0.0-alpha.44"
-    preact "^10.0.0"
-
-"@algolia/autocomplete-js@1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-js/-/autocomplete-js-1.5.2.tgz#126fbfd800c534eba1404dc05128aeb91355e1c1"
-  integrity sha512-6bVTym+H+KSxuEbFmpCQoLXGdv3kfzxJhTE32YXpGYHWmaH7/R4KbxnnvSPe1Df7bV0Zo+DbVu72Zq2gZRRc0w==
-  dependencies:
-    "@algolia/autocomplete-core" "1.5.2"
-    "@algolia/autocomplete-preset-algolia" "1.5.2"
-    "@algolia/autocomplete-shared" "1.5.2"
     preact "^10.0.0"
 
 "@algolia/autocomplete-plugin-algolia-insights@1.0.0-alpha.44":
@@ -71,32 +54,15 @@
   dependencies:
     "@algolia/autocomplete-shared" "1.0.0-alpha.44"
 
-"@algolia/autocomplete-preset-algolia@1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-preset-algolia/-/autocomplete-preset-algolia-1.5.2.tgz#36c5638cc6dba6ea46a86e5a0314637ca40a77ca"
-  integrity sha512-3MRYnYQFJyovANzSX2CToS6/5cfVjbLLqFsZTKcvF3abhQzxbqwwaMBlJtt620uBUOeMzhdfasKhCc40+RHiZw==
-  dependencies:
-    "@algolia/autocomplete-shared" "1.5.2"
-
 "@algolia/autocomplete-shared@1.0.0-alpha.44":
   version "1.0.0-alpha.44"
   resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.0.0-alpha.44.tgz#db13902ad1667e455711b77d08cae1a0feafaa48"
   integrity sha512-2oQZPERYV+yNx/yoVWYjZZdOqsitJ5dfxXJjL18yczOXH6ujnsq+DTczSrX+RjzjQdVeJ1UAG053EJQF/FOiMg==
 
-"@algolia/autocomplete-shared@1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.5.2.tgz#e157f9ad624ab8fd940ff28bd2094cdf199cdd79"
-  integrity sha512-ylQAYv5H0YKMfHgVWX0j0NmL8XBcAeeeVQUmppnnMtzDbDnca6CzhKj3Q8eF9cHCgcdTDdb5K+3aKyGWA0obug==
-
 "@algolia/autocomplete-theme-classic@1.0.0-alpha.44":
   version "1.0.0-alpha.44"
   resolved "https://registry.yarnpkg.com/@algolia/autocomplete-theme-classic/-/autocomplete-theme-classic-1.0.0-alpha.44.tgz#ce8169afb531ebbb5f277178371f5df6ea98c31e"
   integrity sha512-xAqxcOTXJI8/cKxrNpFvPvvdybve7WfJZNBxpZ0Bo7mH3vwWmSKxvRbNd9C+xsbpDubJMsRSgNeSghmsmCo5xA==
-
-"@algolia/autocomplete-theme-classic@1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-theme-classic/-/autocomplete-theme-classic-1.5.2.tgz#42ad77306804e38a1ec3547202cd08ff6ce85c95"
-  integrity sha512-WZyqRJwotGKOn2Qz/owEIuKk/YrMUMnVIiwJpzrqKk0cD9TnbP92Nt3ioYyBvw/eVxJJAYQSLCOUFobYB4IV6w==
 
 "@algolia/cache-browser-local-storage@4.10.5":
   version "4.10.5"
@@ -4600,15 +4566,6 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@^17.0.39":
-  version "17.0.39"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.39.tgz#d0f4cde092502a6db00a1cded6e6bf2abb7633ce"
-  integrity sha512-UVavlfAxDd/AgAacMa60Azl7ygyQNRwC/DsHZmKgNvPmRR5p70AJ5Q9EAmL2NWOJmeV+vVUI4IAP7GZrN8h8Ug==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
 "@types/resolve@0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-0.0.8.tgz#f26074d238e02659e323ce1a13d041eee280e194"
@@ -5741,7 +5698,7 @@ algoliasearch@4.10.5:
     "@algolia/requester-node-http" "4.10.5"
     "@algolia/transporter" "4.10.5"
 
-algoliasearch@4.12.1, algoliasearch@^4.12.1:
+algoliasearch@4.12.1:
   version "4.12.1"
   resolved "https://registry.yarnpkg.com/algoliasearch/-/algoliasearch-4.12.1.tgz#574a2c5424c4b6681c026928fb810be2d2ec3924"
   integrity sha512-c0dM1g3zZBJrkzE5GA/Nu1y3fFxx3LCzxKzcmp2dgGS8P4CjszB/l3lsSh2MSrrK1Hn/KV4BlbBMXtYgG1Bfrw==
@@ -6618,7 +6575,7 @@ bluebird@3.7.2, bluebird@^3.1.1, bluebird@^3.5.0, bluebird@^3.5.1, bluebird@^3.5
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
 
-blurhash@^1.1.4:
+blurhash@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/blurhash/-/blurhash-1.1.5.tgz#3034104cd5dce5a3e5caa871ae2f0f1f2d0ab566"
   integrity sha512-a+LO3A2DfxTaTztsmkbLYmUzUeApi0LZuKalwbNmqAHR6HhJGMt1qSV/R3wc+w4DL28holjqO3Bg74aUGavGjg==
@@ -17611,11 +17568,6 @@ react-app-polyfill@^2.0.0:
     raf "^3.4.1"
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
-
-react-blurhash@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/react-blurhash/-/react-blurhash-0.1.3.tgz#735f28f8f07fb358d7efe7e7e6dc65a7272bf89e"
-  integrity sha512-Q9lqbXg92NU6/2DoIl/cBM8YWL+Z4X66OiG4aT9ozOgjBwx104LHFCH5stf6aF+s0Q9Wf310Ul+dG+VXJltmPg==
 
 react-dev-utils@^11.0.3:
   version "11.0.4"
