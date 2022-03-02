@@ -2,8 +2,8 @@
 import { autocomplete } from '@algolia/autocomplete-js';
 import { h, render } from 'preact';
 
-import { recentSearchesPlugin } from './plugins/recentSearchesPlugin';
 import { querySuggestionsPlugin } from './plugins/querySuggestionsPlugin';
+import { recentSearchesPlugin } from './plugins/recentSearchesPlugin';
 
 import '@algolia/autocomplete-theme-classic';
 

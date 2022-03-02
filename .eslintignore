@@ -8,4 +8,3 @@ examples/twitter-compose-with-typeahead
 examples/slack-with-emojis-and-commands
 examples/react-instantsearch-hooks
 examples/vue-instantsearch
-examples/two-columns-layout
