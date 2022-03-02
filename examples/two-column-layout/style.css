@@ -80,15 +80,17 @@ body {
   position: relative;
 }
 
-/* Category */
-.aa-ItemWrapper.aa-CategoryItem {
+/* Category and faq */
+.aa-ItemWrapper.aa-CategoryItem,
+.aa-ItemWrapper.aa-FaqItem {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
 }
 
-.aa-CategoryItem .aa-Breadcrumb {
+.aa-CategoryItem .aa-Breadcrumb,
+.aa-FaqItem .aa-Breadcrumb {
   margin-left: calc(var(--aa-icon-size) + var(--aa-spacing));
 }
 

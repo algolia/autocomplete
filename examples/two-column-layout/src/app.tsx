@@ -4,6 +4,7 @@ import { h, render } from 'preact';
 
 import { brandsPlugin } from './plugins/brandsPlugin';
 import { categoriesPlugin } from './plugins/categoriesPlugin';
+import { faqPlugin } from './plugins/faqPlugin';
 import { productsPlugin } from './plugins/productsPlugin';
 import { querySuggestionsPlugin } from './plugins/querySuggestionsPlugin';
 import { recentSearchesPlugin } from './plugins/recentSearchesPlugin';
@@ -20,6 +21,7 @@ autocomplete({
     querySuggestionsPlugin,
     categoriesPlugin,
     brandsPlugin,
+    faqPlugin,
     productsPlugin,
   ],
   render({ elements }, root) {
@@ -28,6 +30,7 @@ autocomplete({
       querySuggestionsPlugin: querySuggestions,
       categoriesPlugin: categories,
       brandsPlugin: brands,
+      faqPlugin: faq,
       productsPlugin: products,
     } = elements;
 
@@ -39,6 +42,7 @@ autocomplete({
             {querySuggestions}
             {categories}
             {brands}
+            {faq}
           </div>
           <div className="aa-PanelSection--right">
             {products && (
