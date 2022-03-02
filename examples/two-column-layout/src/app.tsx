@@ -6,6 +6,7 @@ import { articlesPlugin } from './plugins/articlesPlugin';
 import { brandsPlugin } from './plugins/brandsPlugin';
 import { categoriesPlugin } from './plugins/categoriesPlugin';
 import { faqPlugin } from './plugins/faqPlugin';
+import { popularPlugin } from './plugins/popularPlugin';
 import { productsPlugin } from './plugins/productsPlugin';
 import { querySuggestionsPlugin } from './plugins/querySuggestionsPlugin';
 import { recentSearchesPlugin } from './plugins/recentSearchesPlugin';
@@ -25,8 +26,9 @@ autocomplete({
     faqPlugin,
     productsPlugin,
     articlesPlugin,
+    popularPlugin,
   ],
-  render({ elements }, root) {
+  render({ elements, state }, root) {
     const {
       recentSearchesPlugin: recentSearches,
       querySuggestionsPlugin: querySuggestions,
@@ -35,17 +37,32 @@ autocomplete({
       faqPlugin: faq,
       productsPlugin: products,
       articlesPlugin: articles,
+      popularPlugin: popular,
     } = elements;
+
+    const hasResults = Boolean(
+      state.collections
+        .filter((c) => c.source.sourceId !== 'popularPlugin')
+        .reduce((prev, curr) => prev + curr.items.length, 0) > 0
+    );
 
     render(
       <div className="aa-PanelLayout aa-Panel--scrollable">
         <div className="aa-PanelSections">
           <div className="aa-PanelSection--left">
-            {recentSearches}
-            {querySuggestions}
-            {categories}
-            {brands}
-            {faq}
+            {hasResults && (
+              <div>
+                {recentSearches}
+                {querySuggestions}
+                {categories}
+                {brands}
+                {faq}
+              </div>
+            )}
+
+            {(!hasResults || !state.query) && (
+              <div className="aa-PanelSection--popular">{popular}</div>
+            )}
           </div>
           <div className="aa-PanelSection--right">
             {products && (
