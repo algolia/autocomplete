@@ -2,6 +2,7 @@
 import { autocomplete } from '@algolia/autocomplete-js';
 import { h, render } from 'preact';
 
+import { articlesPlugin } from './plugins/articlesPlugin';
 import { brandsPlugin } from './plugins/brandsPlugin';
 import { categoriesPlugin } from './plugins/categoriesPlugin';
 import { faqPlugin } from './plugins/faqPlugin';
@@ -23,6 +24,7 @@ autocomplete({
     brandsPlugin,
     faqPlugin,
     productsPlugin,
+    articlesPlugin,
   ],
   render({ elements }, root) {
     const {
@@ -32,6 +34,7 @@ autocomplete({
       brandsPlugin: brands,
       faqPlugin: faq,
       productsPlugin: products,
+      articlesPlugin: articles,
     } = elements;
 
     render(
@@ -48,6 +51,11 @@ autocomplete({
             {products && (
               <div className="aa-PanelSection--products">
                 <div className="aa-PanelSectionSource">{products}</div>
+              </div>
+            )}
+            {articles && (
+              <div className="aa-PanelSection--articles">
+                <div className="aa-PanelSectionSource">{articles}</div>
               </div>
             )}
           </div>
