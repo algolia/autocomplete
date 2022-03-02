@@ -515,6 +515,52 @@ body {
   margin-top: var(--aa-spacing-half);
 }
 
+/* Popular categories */
+.aa-PanelSection--popularCategories .aa-List {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: var(--aa-spacing-half);
+  font-size: 0.9em;
+}
+
+.aa-PanelSection--popularCategories .aa-SourceHeader {
+  margin-top: 0;
+}
+
+.aa-PopularCategoryItem .aa-ItemPicture {
+  width: 72px;
+}
+
+.aa-PopularCategoryItem .aa-ItemContentTitle {
+  margin-right: 0;
+}
+
+.aa-PopularCategoryItem .aa-ItemContentTitle span {
+  font-size: 0.8em;
+  color: rgb(var(--aa-muted-color-rgb));
+}
+
+/* No results */
+.aa-NoResultsQuery {
+  font-size: 1.15em;
+  font-weight: bold;
+  margin: var(--aa-spacing) 0 calc(var(--aa-spacing) * 2) 0;
+}
+
+.aa-NoResultsAdvicesTitle {
+  font-weight: bold;
+}
+
+.aa-NoResultsAdvicesList {
+  font-size: 0.9em;
+  padding: 0;
+  margin-left: calc(var(--aa-spacing) * 1.5);
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--aa-spacing-half) * 0.5);
+}
+
 /* Media queries */
 @media screen and (prefers-reduced-motion: reduce) {
   .aa-Item,
@@ -600,6 +646,22 @@ body {
 
   .aa-PanelSection--quickAccess .aa-Item:nth-child(3) {
     display: block;
+  }
+
+  /* Popular categories */
+  .aa-PanelSection--popularCategories .aa-List {
+    display: flex;
+    overflow: auto;
+    scroll-snap-type: x;
+  }
+
+  .aa-PanelSection--popularCategories .aa-Item {
+    scroll-snap-align: start;
+  }
+
+  .aa-PanelSection--popularCategories .aa-ItemContent,
+  .aa-PanelSection--popularCategories .aa-ItemContentTitle {
+    overflow: visible;
   }
 }
 

@@ -9,6 +9,7 @@ import { articlesPlugin } from './plugins/articlesPlugin';
 import { brandsPlugin } from './plugins/brandsPlugin';
 import { categoriesPlugin } from './plugins/categoriesPlugin';
 import { faqPlugin } from './plugins/faqPlugin';
+import { popularCategoriesPlugin } from './plugins/popularCategoriesPlugin';
 import { popularPlugin } from './plugins/popularPlugin';
 import { productsPlugin } from './plugins/productsPlugin';
 import { querySuggestionsPlugin } from './plugins/querySuggestionsPlugin';
@@ -53,6 +54,7 @@ autocomplete({
     articlesPlugin,
     popularPlugin,
     quickAccessPlugin,
+    popularCategoriesPlugin,
   ],
   getInputProps({ props, setContext }) {
     return {
@@ -89,11 +91,16 @@ autocomplete({
       articlesPlugin: articles,
       popularPlugin: popular,
       quickAccessPlugin: quickAccess,
+      popularCategoriesPlugin: popularCategories,
     } = elements;
 
     const hasResults =
       state.collections
-        .filter(({ source }) => source.sourceId !== 'popularPlugin')
+        .filter(
+          ({ source }) =>
+            source.sourceId !== 'popularPlugin' &&
+            source.sourceId !== 'popularCategoriesPlugin'
+        )
         .reduce((prev, curr) => prev + curr.items.length, 0) > 0;
 
     const previewContext = state.context.preview;
@@ -109,15 +116,34 @@ autocomplete({
           refresh();
         }}
       >
+        {!hasResults && (
+          <div className="aa-NoResultsQuery">
+            Sorry, we didn't find any matches for "{state.query}"
+          </div>
+        )}
+
         <div className="aa-PanelSections">
           <div className="aa-PanelSection--left">
-            {hasResults && (
+            {hasResults ? (
               <div>
                 {recentSearches}
                 {querySuggestions}
                 {categories}
                 {brands}
                 {faq}
+              </div>
+            ) : (
+              <div className="aa-NoResultsAdvices">
+                <div className="aa-NoResultsAdvicesTitle">
+                  Try the following:
+                </div>
+                <ul className="aa-NoResultsAdvicesList">
+                  <li>Double check your spelling</li>
+                  <li>Use fewer keywords</li>
+                  <li>
+                    Search fo an item that is less specific and refine results
+                  </li>
+                </ul>
               </div>
             )}
 
@@ -153,6 +179,12 @@ autocomplete({
 
             {quickAccess && (
               <div className="aa-PanelSection--quickAccess">{quickAccess}</div>
+            )}
+
+            {!hasResults && (
+              <div className="aa-PanelSection--popularCategories">
+                {popularCategories}
+              </div>
             )}
           </div>
         </div>

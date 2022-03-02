@@ -13,7 +13,7 @@ export const popularPlugin = createQuerySuggestionsPlugin({
   getSearchParams() {
     return {
       query: '',
-      hitsPerPage: 7,
+      hitsPerPage: 8,
     };
   },
   transformSource({ source }) {
