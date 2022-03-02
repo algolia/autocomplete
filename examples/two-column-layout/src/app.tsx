@@ -1,7 +1,9 @@
 /** @jsx h */
 import { autocomplete } from '@algolia/autocomplete-js';
 import { h, render } from 'preact';
+import { pipe } from 'ramda';
 
+import { populate, uniqBy } from './functions';
 import { articlesPlugin } from './plugins/articlesPlugin';
 import { brandsPlugin } from './plugins/brandsPlugin';
 import { categoriesPlugin } from './plugins/categoriesPlugin';
@@ -28,6 +30,42 @@ autocomplete({
     articlesPlugin,
     popularPlugin,
   ],
+  reshape({ sourcesBySourceId }) {
+    const {
+      recentSearchesPlugin: recentSearches,
+      querySuggestionsPlugin: querySuggestions,
+      categoriesPlugin: categories,
+      brandsPlugin: brands,
+      faqPlugin: faq,
+      ...rest
+    } = sourcesBySourceId;
+
+    const removeDuplicates = uniqBy(({ source, item }) => {
+      if (
+        ['recentSearchesPlugin', 'querySuggestionsPlugin'].indexOf(
+          source.sourceId
+        ) === -1
+      ) {
+        return item;
+      }
+
+      return source.sourceId === 'querySuggestionsPlugin'
+        ? item.query
+        : item.label;
+    });
+
+    const fillWith = populate({
+      mainSourceId: 'querySuggestionsPlugin',
+      limit: 8,
+    });
+
+    const combine = pipe(removeDuplicates, fillWith);
+
+    return [
+      combine(recentSearches, querySuggestions, categories, brands, faq),
+      Object.values(rest),
+    ];
+  },
   render({ elements, state }, root) {
     const {
       recentSearchesPlugin: recentSearches,
