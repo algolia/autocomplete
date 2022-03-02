@@ -11,6 +11,7 @@ import { faqPlugin } from './plugins/faqPlugin';
 import { popularPlugin } from './plugins/popularPlugin';
 import { productsPlugin } from './plugins/productsPlugin';
 import { querySuggestionsPlugin } from './plugins/querySuggestionsPlugin';
+import { quickAccessPlugin } from './plugins/quickAccessPlugin';
 import { recentSearchesPlugin } from './plugins/recentSearchesPlugin';
 
 import '@algolia/autocomplete-theme-classic';
@@ -29,6 +30,7 @@ autocomplete({
     productsPlugin,
     articlesPlugin,
     popularPlugin,
+    quickAccessPlugin,
   ],
   reshape({ sourcesBySourceId }) {
     const {
@@ -76,6 +78,7 @@ autocomplete({
       productsPlugin: products,
       articlesPlugin: articles,
       popularPlugin: popular,
+      quickAccessPlugin: quickAccess,
     } = elements;
 
     const hasResults =
@@ -111,6 +114,9 @@ autocomplete({
               <div className="aa-PanelSection--articles">
                 <div className="aa-PanelSectionSource">{articles}</div>
               </div>
+            )}
+            {quickAccess && (
+              <div className="aa-PanelSection--quickAccess">{quickAccess}</div>
             )}
           </div>
         </div>
