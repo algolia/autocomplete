@@ -80,6 +80,37 @@ body {
   position: relative;
 }
 
+/* Category */
+.aa-ItemWrapper.aa-CategoryItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.aa-CategoryItem .aa-Breadcrumb {
+  margin-left: calc(var(--aa-icon-size) + var(--aa-spacing));
+}
+
+/* Breacrumb */
+.aa-Breadcrumb {
+  color: rgb(var(--aa-muted-color-rgb));
+  display: flex;
+  align-items: center;
+  font-size: 0.8em;
+  text-transform: uppercase;
+}
+
+.aa-Breadcrumb .aa-ItemIcon {
+  width: var(--aa-icon-size);
+  height: var(--aa-icon-size);
+}
+
+.aa-Breadcrumb .aa-ItemIcon svg {
+  width: calc(var(--aa-icon-size) * 0.6);
+  height: calc(var(--aa-icon-size) * 0.6);
+}
+
 /* Products */
 .aa-PanelSection--products {
   transition: background 0.2s ease-out;

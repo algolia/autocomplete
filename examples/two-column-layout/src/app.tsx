@@ -2,6 +2,7 @@
 import { autocomplete } from '@algolia/autocomplete-js';
 import { h, render } from 'preact';
 
+import { categoriesPlugin } from './plugins/categoriesPlugin';
 import { productsPlugin } from './plugins/productsPlugin';
 import { querySuggestionsPlugin } from './plugins/querySuggestionsPlugin';
 import { recentSearchesPlugin } from './plugins/recentSearchesPlugin';
@@ -13,11 +14,17 @@ autocomplete({
   placeholder: 'Search products, articles, and FAQs',
   autoFocus: true,
   openOnFocus: true,
-  plugins: [recentSearchesPlugin, querySuggestionsPlugin, productsPlugin],
+  plugins: [
+    recentSearchesPlugin,
+    querySuggestionsPlugin,
+    categoriesPlugin,
+    productsPlugin,
+  ],
   render({ elements }, root) {
     const {
       recentSearchesPlugin: recentSearches,
       querySuggestionsPlugin: querySuggestions,
+      categoriesPlugin: categories,
       productsPlugin: products,
     } = elements;
 
@@ -27,6 +34,7 @@ autocomplete({
           <div className="aa-PanelSection--left">
             {recentSearches}
             {querySuggestions}
+            {categories}
           </div>
           <div className="aa-PanelSection--right">
             {products && (
