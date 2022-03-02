@@ -8,6 +8,7 @@ import { h } from 'preact';
 
 import { Breadcrumb, InfoIcon } from '../components';
 import { ALGOLIA_FAQ_INDEX_NAME } from '../constants';
+import { smartPreview } from '../functions';
 import { searchClient } from '../searchClient';
 import { FaqHit } from '../types';
 
@@ -32,6 +33,12 @@ export const faqPlugin: AutocompletePlugin<FaqHit, {}> = {
                 },
               },
             ],
+          });
+        },
+        onActive(params) {
+          smartPreview({
+            contextData: params.item,
+            ...params,
           });
         },
         templates: {

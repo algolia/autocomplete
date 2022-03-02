@@ -5,6 +5,8 @@ import {
 } from '@algolia/autocomplete-plugin-recent-searches';
 import { h } from 'preact';
 
+import { smartPreview } from '../functions';
+
 export const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'autocomplete-two-column-layout-example',
   search(params) {
@@ -14,6 +16,18 @@ export const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   transformSource({ source }) {
     return {
       ...source,
+      onActive(params) {
+        if (!params.state.query) {
+          return;
+        }
+
+        smartPreview({
+          contextData: {
+            query: params.item.label,
+          },
+          ...params,
+        });
+      },
       templates: {
         ...source.templates,
         header({ state, Fragment }) {

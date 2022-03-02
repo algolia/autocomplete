@@ -27,15 +27,25 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
     return [
       {
         sourceId: 'productsPlugin',
-        getItems() {
-          return getAlgoliaResults({
+        getItems({ state }) {
+          const previewContext = state.context.preview as ProductsPluginContext;
+
+          const facetFilters = [];
+          if (previewContext?.facetName) {
+            facetFilters.push(
+              `${previewContext.facetName}:${previewContext.facetValue}`
+            );
+          }
+
+          return getAlgoliaResults<ProductHit>({
             searchClient,
             queries: [
               {
                 indexName: ALGOLIA_PRODUCTS_INDEX_NAME,
-                query,
+                query: previewContext?.query ?? query,
                 params: {
                   hitsPerPage: 4,
+                  facetFilters,
                 },
               },
             ],
@@ -45,10 +55,22 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
           setIsOpen(true);
         },
         templates: {
-          header({ Fragment }) {
+          header({ state, Fragment }) {
+            const previewContext = state.context
+              .preview as ProductsPluginContext;
+            const facetValue = previewContext?.facetValue;
+            const query = previewContext?.query;
+
+            let suffix = ` for "${state.query}"`;
+            if (query) {
+              suffix = ` for "${query}"`;
+            } else if (facetValue) {
+              suffix = ` in "${facetValue}"`;
+            }
+
             return (
               <Fragment>
-                <span className="aa-SourceHeaderTitle">Products</span>
+                <span className="aa-SourceHeaderTitle">Products{suffix}</span>
                 <div className="aa-SourceHeaderLine" />
               </Fragment>
             );

@@ -61,6 +61,13 @@ body {
   transition: background 0.2s ease-out;
 }
 
+.aa-Item[data-active='true'] {
+  background-color: rgba(
+    var(--aa-selected-color-rgb),
+    var(--aa-selected-color-alpha)
+  );
+}
+
 .aa-Item:hover .aa-ItemPicture img {
   transform: scale(1.1);
 }

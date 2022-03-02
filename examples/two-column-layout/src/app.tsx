@@ -13,6 +13,7 @@ import { productsPlugin } from './plugins/productsPlugin';
 import { querySuggestionsPlugin } from './plugins/querySuggestionsPlugin';
 import { quickAccessPlugin } from './plugins/quickAccessPlugin';
 import { recentSearchesPlugin } from './plugins/recentSearchesPlugin';
+import { cx } from './utils';
 
 import '@algolia/autocomplete-theme-classic';
 
@@ -51,6 +52,15 @@ autocomplete({
     popularPlugin,
     quickAccessPlugin,
   ],
+  getInputProps({ props, setContext }) {
+    return {
+      ...props,
+      onChange(event) {
+        setContext({ preview: null });
+        props.onChange(event);
+      },
+    };
+  },
   reshape({ sourcesBySourceId }) {
     const {
       recentSearchesPlugin: recentSearches,
@@ -66,7 +76,7 @@ autocomplete({
       Object.values(rest),
     ];
   },
-  render({ elements, state }, root) {
+  render({ elements, state, setContext, refresh }, root) {
     const {
       recentSearchesPlugin: recentSearches,
       querySuggestionsPlugin: querySuggestions,
@@ -84,8 +94,21 @@ autocomplete({
         .filter(({ source }) => source.sourceId !== 'popularPlugin')
         .reduce((prev, curr) => prev + curr.items.length, 0) > 0;
 
+    const previewContext = state.context.preview;
+
+    const onMouseLeave = () => {
+      const el = document.querySelector('[data-active=true]');
+      el?.removeAttribute('data-active');
+
+      setContext({ preview: null });
+      refresh();
+    };
+
     render(
-      <div className="aa-PanelLayout aa-Panel--scrollable">
+      <div
+        className="aa-PanelLayout aa-Panel--scrollable"
+        onMouseLeave={onMouseLeave}
+      >
         <div className="aa-PanelSections">
           <div className="aa-PanelSection--left">
             {hasResults && (
@@ -104,7 +127,12 @@ autocomplete({
           </div>
           <div className="aa-PanelSection--right">
             {products && (
-              <div className="aa-PanelSection--products">
+              <div
+                className={cx(
+                  'aa-PanelSection--products',
+                  previewContext && 'aa-PanelSection--products-preview'
+                )}
+              >
                 <div className="aa-PanelSectionSource">{products}</div>
               </div>
             )}
