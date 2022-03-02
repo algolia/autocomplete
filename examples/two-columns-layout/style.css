@@ -56,18 +56,12 @@ body {
 }
 
 /* Item */
-@media screen and (prefers-reduced-motion: reduce) {
-  .aa-Item {
-    transition: none;
-  }
-}
-
 .aa-Item {
   transition: background 0.2s ease-out;
 }
 
 /* Media queries */
-@media screen and (prefers-reduced-motion) {
+@media screen and (prefers-reduced-motion: reduce) {
   .aa-Item {
     transition: none;
   }
@@ -86,6 +80,11 @@ body {
 }
 
 @media screen and (max-width: 680px) {
+  /* Common */
+  .aa-SourceHeader {
+    display: none;
+  }
+
   /* Panel section */
   .aa-PanelSections {
     flex-direction: column;
