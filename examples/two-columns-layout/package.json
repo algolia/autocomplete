@@ -19,7 +19,8 @@
     "blurhash": "^1.1.5",
     "dequal": "^2.0.2",
     "preact": "10.5.14",
-    "ramda": "^0.28.0"
+    "ramda": "^0.28.0",
+    "typescript": "^4.6.2"
   },
   "devDependencies": {
     "parcel": "2.0.0-beta.2"
