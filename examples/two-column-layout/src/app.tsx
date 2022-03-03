@@ -125,13 +125,13 @@ autocomplete({
         <div className="aa-PanelSections">
           <div className="aa-PanelSection--left">
             {hasResults ? (
-              <div>
+              <Fragment>
                 {recentSearches}
                 {querySuggestions}
                 {categories}
                 {brands}
                 {faq}
-              </div>
+              </Fragment>
             ) : (
               <div className="aa-NoResultsAdvices">
                 <div className="aa-NoResultsAdvicesTitle">
