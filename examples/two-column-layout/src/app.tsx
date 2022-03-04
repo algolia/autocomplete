@@ -16,6 +16,25 @@ import { recentSearchesPlugin } from './plugins/recentSearchesPlugin';
 
 import '@algolia/autocomplete-theme-classic';
 
+const removeDuplicates = uniqBy(({ source, item }) => {
+  if (
+    ['recentSearchesPlugin', 'querySuggestionsPlugin'].indexOf(
+      source.sourceId
+    ) === -1
+  ) {
+    return item;
+  }
+
+  return source.sourceId === 'querySuggestionsPlugin' ? item.query : item.label;
+});
+
+const fillWith = populate({
+  mainSourceId: 'querySuggestionsPlugin',
+  limit: 8,
+});
+
+const combine = pipe(removeDuplicates, fillWith);
+
 autocomplete({
   container: '#autocomplete',
   placeholder: 'Search products, articles, and FAQs',
@@ -41,27 +60,6 @@ autocomplete({
       faqPlugin: faq,
       ...rest
     } = sourcesBySourceId;
-
-    const removeDuplicates = uniqBy(({ source, item }) => {
-      if (
-        ['recentSearchesPlugin', 'querySuggestionsPlugin'].indexOf(
-          source.sourceId
-        ) === -1
-      ) {
-        return item;
-      }
-
-      return source.sourceId === 'querySuggestionsPlugin'
-        ? item.query
-        : item.label;
-    });
-
-    const fillWith = populate({
-      mainSourceId: 'querySuggestionsPlugin',
-      limit: 8,
-    });
-
-    const combine = pipe(removeDuplicates, fillWith);
 
     return [
       combine(recentSearches, querySuggestions, categories, brands, faq),
