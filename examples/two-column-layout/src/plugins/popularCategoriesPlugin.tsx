@@ -11,17 +11,17 @@ import { searchClient } from '../searchClient';
 import { PopularCategoryHit } from '../types';
 
 const images = {
-  women:
+  Women:
     'https://res.cloudinary.com/hilnmyskv/image/upload/v1646067858/women_category_vwzkln.jpg',
-  bags:
+  Bags:
     'https://res.cloudinary.com/hilnmyskv/image/upload/v1646067858/bags_category_qd7ssj.jpg',
-  clothing:
+  Clothing:
     'https://res.cloudinary.com/hilnmyskv/image/upload/v1646067858/clothing_category_xhiz1s.jpg',
-  men:
+  Men:
     'https://res.cloudinary.com/hilnmyskv/image/upload/v1646067858/men_category_wfcley.jpg',
-  't-shirts':
+  'T-shirts':
     'https://res.cloudinary.com/hilnmyskv/image/upload/v1646067858/t-shirts_category_gzqcvd.jpg',
-  shoes:
+  Shoes:
     'https://res.cloudinary.com/hilnmyskv/image/upload/v1646068349/shoes_category_u4fi0q.jpg',
 };
 
@@ -82,7 +82,7 @@ const CategoryItem = ({ hit }: CategoryItemProps) => {
     <div className="aa-ItemWrapper aa-PopularCategoryItem">
       <div className="aa-ItemContent">
         <div className="aa-ItemPicture">
-          <img src={images[hit.label.toLowerCase()]} alt={hit.label} />
+          <img src={images[hit.label]} alt={hit.label} />
         </div>
         <div className="aa-ItemContentBody">
           <div className="aa-ItemContentTitle">
