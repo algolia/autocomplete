@@ -33,7 +33,7 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
       {
         sourceId: 'productsPlugin',
         getItems() {
-          return getAlgoliaResults<ProductHit>({
+          return getAlgoliaResults({
             searchClient,
             queries: [
               {
