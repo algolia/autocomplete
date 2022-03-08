@@ -1,4 +1,3 @@
-/* Global */
 * {
   box-sizing: border-box;
 }
@@ -16,7 +15,7 @@ body {
 
 .container {
   margin: 0 auto;
-  max-width: 75%;
+  max-width: 1280px;
   width: 100%;
 }
 

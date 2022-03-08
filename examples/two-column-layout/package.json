@@ -1,6 +1,6 @@
 {
-  "name": "@algolia/autocomplete-example-two-columns-layout",
-  "description": "Autocomplete example with two columns layout",
+  "name": "@algolia/autocomplete-example-two-column-layout",
+  "description": "Autocomplete example with two-column layout",
   "version": "1.5.3",
   "private": true,
   "license": "MIT",
