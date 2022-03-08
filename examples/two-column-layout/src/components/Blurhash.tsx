@@ -16,7 +16,7 @@ export const Blurhash = ({
   height = 128,
   punch = 1,
 }: BlurhashProps) => {
-  const ref = useRef<HTMLCanvasElement>();
+  const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const pixels = decode(hash, width, height, punch);
@@ -25,22 +25,14 @@ export const Blurhash = ({
     const imageData = ctx.createImageData(width, height);
     imageData.data.set(pixels);
     ctx.putImageData(imageData, 0, 0);
-  });
+  }, [hash, width, height, punch]);
 
   return (
     <canvas
       ref={ref}
       height={height}
       width={width}
-      style={{
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        width: '100%',
-        height: '100%',
-      }}
+      className="BlurhashCanvas"
     />
   );
 };

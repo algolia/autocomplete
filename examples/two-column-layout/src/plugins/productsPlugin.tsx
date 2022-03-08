@@ -4,18 +4,18 @@ import {
   getAlgoliaResults,
 } from '@algolia/autocomplete-js';
 import { h } from 'preact';
-import { useCallback, useState } from 'preact/hooks';
+import { useState } from 'preact/hooks';
 
-import { Blurhash } from '../components/Blurhash';
 import {
-  StarOutlineIcon,
-  StarFillIcon,
+  Blurhash,
+  StarIcon,
   FavoriteFillIcon,
   FavoriteOutlineIcon,
-} from '../components/Icons';
+} from '../components';
 import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
 import { searchClient } from '../searchClient';
 import { ProductHit } from '../types';
+import { cx } from '../utils/cx';
 
 export interface ProductsPluginContext {
   facetName: string;
@@ -50,8 +50,13 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
           setIsOpen(true);
         },
         templates: {
-          header() {
-            return <div className="aa-SourceHeaderTitle">Products</div>;
+          header({ Fragment }) {
+            return (
+              <Fragment>
+                <span className="aa-SourceHeaderTitle">Products</span>
+                <div className="aa-SourceHeaderLine" />
+              </Fragment>
+            );
           },
           item({ item }) {
             return <ProductItem hit={item} />;
@@ -62,54 +67,50 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
   },
 };
 
-const formatPrice = (val: number) => {
-  return val.toFixed(2).toLocaleString().replace(/\./g, ',');
-};
+function formatPrice(value: number, currency = 'EUR') {
+  return value.toLocaleString('en-US', { style: 'currency', currency });
+}
 
 type ProductItemProps = {
   hit: ProductHit;
 };
 
-const ProductItem = ({ hit }: ProductItemProps) => {
+function ProductItem({ hit }: ProductItemProps) {
   const [loaded, setLoaded] = useState(false);
-  const onLoad = useCallback(() => setLoaded(true), []);
 
   const [favorite, setFavorite] = useState(false);
-  const onFavoriteClick = useCallback(
-    (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      setFavorite(!favorite);
-    },
-    [favorite]
-  );
   const FavoriteIcon = favorite ? FavoriteFillIcon : FavoriteOutlineIcon;
 
-  const currentPrice = formatPrice(hit.price.value);
-  const discountedPrice = formatPrice(hit.price.discounted_value);
-  const priceCurrency = hit.price.currency === 'EUR' ? '€' : '$';
+  const currentPrice = formatPrice(hit.price.value, hit.price.currency);
+  const discountedPrice = formatPrice(
+    hit.price.discounted_value,
+    hit.price.currency
+  );
 
-  const rating = hit.reviews.rating;
-  const reviews = hit.reviews.count;
-
-  const stars = [];
-  for (let i = 0; i < 5; i++) {
-    const Star = i >= rating ? StarOutlineIcon : StarFillIcon;
-    stars.push(<li key={i}>{<Star className="aa-StarIcon" />}</li>);
-  }
+  const stars = Array(5)
+    .fill(null)
+    .map((_, i) => {
+      return (
+        <li key={i}>
+          <div
+            className={cx(
+              'aa-ItemIcon aa-ItemIcon--noBorder aa-StarIcon',
+              i >= hit.reviews.rating && 'aa-StarIcon--muted'
+            )}
+          >
+            <StarIcon />
+          </div>
+        </li>
+      );
+    });
 
   return (
     <a href="#" className="aa-ItemLink aa-ProductItem">
       <div className="aa-ItemContent">
-        <div className="aa-ItemPicture">
-          <div
-            className={[
-              'aa-ItemPictureBlurred',
-              loaded && 'aa-ItemPictureBlurred--loaded',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-          >
+        <div
+          className={cx('aa-ItemPicture', loaded && 'aa-ItemPicture--loaded')}
+        >
+          <div className="aa-ItemPicture--blurred">
             <Blurhash
               hash={hit.image_blurred}
               width={32}
@@ -117,7 +118,11 @@ const ProductItem = ({ hit }: ProductItemProps) => {
               punch={1}
             />
           </div>
-          <img src={hit.image_urls[0]} alt={hit.name} onLoad={onLoad} />
+          <img
+            src={hit.image_urls[0]}
+            alt={hit.name}
+            onLoad={() => setLoaded(true)}
+          />
         </div>
 
         <div className="aa-ItemContentBody">
@@ -129,26 +134,35 @@ const ProductItem = ({ hit }: ProductItemProps) => {
           </div>
           <div>
             <div className="aa-ItemContentPrice">
-              <div className="aa-ItemContentPriceCurrent">
-                {currentPrice} {priceCurrency}
-              </div>
+              <div className="aa-ItemContentPriceCurrent">{currentPrice}</div>
               {hit.price.on_sales && (
                 <div className="aa-ItemContentPriceDiscounted">
-                  {discountedPrice} {priceCurrency}
+                  {discountedPrice}
                 </div>
               )}
             </div>
             <div className="aa-ItemContentRating">
               <ul>{stars}</ul>
-              <span className="aa-ItemContentRatingReviews">({reviews})</span>
+              <span className="aa-ItemContentRatingReviews">
+                ({hit.reviews.count})
+              </span>
             </div>
           </div>
         </div>
 
-        <button className="aa-ItemFavorite" onClick={onFavoriteClick}>
-          <FavoriteIcon className="aa-FavoriteIcon" />
+        <button
+          className="aa-ItemFavorite"
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            setFavorite(!favorite);
+          }}
+        >
+          <div className="aa-ItemIcon aa-ItemIcon--noBorder aa-FavoriteIcon">
+            <FavoriteIcon />
+          </div>
         </button>
       </div>
     </a>
   );
-};
+}
