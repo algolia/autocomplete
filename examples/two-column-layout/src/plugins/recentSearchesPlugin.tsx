@@ -16,11 +16,14 @@ export const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
       ...source,
       templates: {
         ...source.templates,
-        header({ state }) {
+        header({ state, Fragment }) {
           return (
-            <div className="aa-SourceHeaderTitle">
-              {state.query ? 'Suggestions' : 'Recent searches'}
-            </div>
+            <Fragment>
+              <span className="aa-SourceHeaderTitle">
+                {state.query ? 'Suggestions' : 'Recent searches'}
+              </span>
+              <div className="aa-SourceHeaderLine" />
+            </Fragment>
           );
         },
       },

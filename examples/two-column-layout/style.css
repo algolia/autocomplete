@@ -81,7 +81,6 @@ body {
 
 /* Products */
 .aa-PanelSection--products {
-  padding: var(--aa-spacing-half);
   transition: background 0.2s ease-out;
 }
 
