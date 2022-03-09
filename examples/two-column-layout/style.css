@@ -100,7 +100,7 @@ body {
   display: flex;
   align-items: center;
   font-size: 0.8em;
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 
 .aa-Breadcrumb .aa-ItemIcon {
@@ -129,7 +129,7 @@ body {
 .aa-PanelSection--products .aa-List {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  column-gap: var(--aa-spacing);
+  gap: var(--aa-spacing);
 }
 
 .aa-PanelSection--products .aa-Item {
@@ -280,6 +280,20 @@ body {
   .aa-ProductItem .aa-ItemPictureBlurred,
   .aa-ProductItem .aa-ItemFavorite {
     transition: none;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .aa-PanelSection--products .aa-List {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .aa-PanelSection--left {
+    width: 40%;
+  }
+
+  .aa-PanelSection--right {
+    width: 60%;
   }
 }
 

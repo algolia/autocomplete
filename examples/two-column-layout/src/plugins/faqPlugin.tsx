@@ -6,7 +6,7 @@ import {
 } from '@algolia/autocomplete-js';
 import { h } from 'preact';
 
-import { Breadcrumb } from '../components/Breadcrumb';
+import { Breadcrumb, InfoIcon } from '../components';
 import { ALGOLIA_FAQ_INDEX_NAME } from '../constants';
 import { searchClient } from '../searchClient';
 import { FaqHit } from '../types';
@@ -21,7 +21,7 @@ export const faqPlugin: AutocompletePlugin<FaqHit, {}> = {
       {
         sourceId: 'faqPlugin',
         getItems() {
-          return getAlgoliaResults<FaqHit>({
+          return getAlgoliaResults({
             searchClient,
             queries: [
               {
@@ -56,14 +56,7 @@ const FaqItem = ({ hit, components }: FaqItemProps) => {
     <div className="aa-ItemWrapper aa-FaqItem">
       <div className="aa-ItemContent">
         <div className="aa-ItemIcon aa-ItemIcon--noBorder">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+          <InfoIcon />
         </div>
         <div className="aa-ItemContentBody">
           <div className="aa-ItemContentTitle">

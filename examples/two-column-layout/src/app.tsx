@@ -14,6 +14,7 @@ import '@algolia/autocomplete-theme-classic';
 autocomplete({
   container: '#autocomplete',
   placeholder: 'Search products, articles, and FAQs',
+  debug: true,
   autoFocus: true,
   openOnFocus: true,
   plugins: [

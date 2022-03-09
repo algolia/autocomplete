@@ -5,7 +5,7 @@ import {
 } from '@algolia/autocomplete-js';
 import { h } from 'preact';
 
-import { Breadcrumb } from '../components/Breadcrumb';
+import { Breadcrumb, GridIcon } from '../components';
 import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
 import { searchClient } from '../searchClient';
 import { CategoryHit } from '../types';
@@ -20,7 +20,7 @@ export const categoriesPlugin: AutocompletePlugin<CategoryHit, {}> = {
       {
         sourceId: 'categoriesPlugin',
         getItems() {
-          return getAlgoliaResults<CategoryHit>({
+          return getAlgoliaResults({
             searchClient,
             queries: [
               {
@@ -58,14 +58,7 @@ const CategoryItem = ({ hit }: CategoryItemProps) => {
     <div className="aa-ItemWrapper aa-CategoryItem">
       <div className="aa-ItemContent">
         <div className="aa-ItemIcon aa-ItemIcon--noBorder">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-            />
-          </svg>
+          <GridIcon />
         </div>
         <div className="aa-ItemContentBody">
           <div className="aa-ItemContentTitle">{category}</div>
