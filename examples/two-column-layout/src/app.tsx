@@ -40,11 +40,10 @@ autocomplete({
       popularPlugin: popular,
     } = elements;
 
-    const hasResults = Boolean(
+    const hasResults =
       state.collections
-        .filter((c) => c.source.sourceId !== 'popularPlugin')
-        .reduce((prev, curr) => prev + curr.items.length, 0) > 0
-    );
+        .filter(({ source }) => source.sourceId !== 'popularPlugin')
+        .reduce((prev, curr) => prev + curr.items.length, 0) > 0;
 
     render(
       <div className="aa-PanelLayout aa-Panel--scrollable">

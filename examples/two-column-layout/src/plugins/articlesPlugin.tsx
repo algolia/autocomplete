@@ -19,7 +19,7 @@ export const articlesPlugin: AutocompletePlugin<ArticleHit, {}> = {
       {
         sourceId: 'articlesPlugin',
         getItems() {
-          return getAlgoliaResults<ArticleHit>({
+          return getAlgoliaResults({
             searchClient,
             queries: [
               {
@@ -36,8 +36,13 @@ export const articlesPlugin: AutocompletePlugin<ArticleHit, {}> = {
           setIsOpen(true);
         },
         templates: {
-          header() {
-            return <div className="aa-SourceHeaderTitle">Articles</div>;
+          header({ Fragment }) {
+            return (
+              <Fragment>
+                <span className="aa-SourceHeaderTitle">Articles</span>
+                <div className="aa-SourceHeaderLine" />
+              </Fragment>
+            );
           },
           item({ item }) {
             return <ArticleItem hit={item} />;
@@ -54,8 +59,8 @@ type ArticleItemProps = {
 
 const ArticleItem = ({ hit }: ArticleItemProps) => {
   const articleDate = new Date(hit.date);
-  const articleMonth = articleDate.toLocaleDateString('default', {
-    month: 'short',
+  const articleMonth = articleDate.toLocaleDateString('en-US', {
+    month: 'long',
   });
   const articleYear = articleDate.getFullYear();
 

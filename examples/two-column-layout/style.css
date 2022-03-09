@@ -80,7 +80,7 @@ body {
   position: relative;
 }
 
-/* Category and faq */
+/* Category and FAQ */
 .aa-ItemWrapper.aa-CategoryItem,
 .aa-ItemWrapper.aa-FaqItem {
   display: flex;
@@ -274,14 +274,12 @@ body {
 }
 
 /* Articles */
-.aa-PanelSection--articles .aa-PanelSectionSource {
-  display: flex;
-  column-gap: var(--aa-spacing);
-}
-
 .aa-PanelSection--articles .aa-List {
   display: flex;
-  column-gap: var(--aa-spacing);
+  column-gap: calc(var(--aa-spacing) / 10);
+  margin-bottom: calc((var(--aa-spacing-half) / 2) * -1);
+  margin-left: calc((var(--aa-spacing-half) / 2) * -1);
+  margin-right: calc((var(--aa-spacing-half) / 2) * -1);
 }
 
 .aa-PanelSection--articles .aa-Item {
@@ -410,22 +408,6 @@ body {
 
   .aa-PanelSection--articles .aa-Item {
     width: 100%;
-  }
-
-  /* Popular */
-  .aa-PanelSection--popular .aa-List {
-    overflow: auto;
-    flex-wrap: nowrap;
-    scroll-snap-type: x;
-  }
-
-  .aa-PanelSection--popular .aa-Item {
-    scroll-snap-align: start;
-  }
-
-  .aa-PanelSection--popular .aa-ItemContent,
-  .aa-PanelSection--popular .aa-ItemContentTitle {
-    overflow: visible;
   }
 }
 
