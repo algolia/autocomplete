@@ -20,7 +20,7 @@ body {
 }
 
 /* Blurhash */
-.BlurhashCanvas {
+.aa-BlurhashCanvas {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -67,16 +67,17 @@ body {
 
 .aa-ItemPicture {
   width: 100%;
+  border-radius: 3px;
   overflow: hidden;
 }
 
 .aa-ItemPicture img {
   object-fit: cover;
   width: 100%;
-  height: auto;
-  border-radius: 3px;
-  transition: transform 1.8s ease-out;
-  transform-origin: center bottom;
+  height: 100%;
+  transition: transform 1.8s ease-out, opacity 0.2s ease-out;
+  transform-origin: center;
+  position: relative;
 }
 
 /* Products */
@@ -119,7 +120,15 @@ body {
 
 .aa-ProductItem .aa-ItemPicture {
   position: relative;
-  min-height: 261px;
+  height: 100%;
+}
+
+.aa-ProductItem .aa-ItemPicture img {
+  opacity: 0;
+}
+
+.aa-ProductItem .aa-ItemPicture--loaded img {
+  opacity: 1;
 }
 
 .aa-ProductItem .aa-ItemContentBody {
@@ -128,18 +137,19 @@ body {
   flex-grow: 1;
   flex-direction: column;
   justify-content: space-between;
+  min-height: 112px;
 }
 
 .aa-ProductItem .aa-ItemPicture--blurred {
   position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  transition: opacity 0.2s ease-out, visibility 0s linear 0.2s;
-}
-
-.aa-ProductItem .aa-ItemPicture--loaded .aa-ItemPicture--blurred {
-  opacity: 0;
-  visibility: hidden;
+  background: rgba(var(--aa-muted-color-rgb), 0.2);
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-name: loading;
+  animation-timing-function: linear;
 }
 
 .aa-ProductItem .aa-ItemContent {
@@ -159,6 +169,7 @@ body {
 .aa-ProductItem .aa-ItemContentTitle {
   white-space: normal;
   font-size: 0.9em;
+  margin: 0;
 }
 
 .aa-ProductItem .aa-ItemContentPriceCurrent {
@@ -220,6 +231,13 @@ body {
 .aa-ProductItem .aa-FavoriteIcon {
   --aa-icon-size: 18px;
   color: rgb(var(--aa-primary-color-rgb));
+  stroke-width: 2;
+  stroke: currentColor;
+  margin: 1px;
+}
+
+.aa-ProductItem .aa-FavoriteIcon--outlined {
+  fill: none;
 }
 
 /* Media queries */
@@ -251,6 +269,7 @@ body {
 
   /* Products */
   .aa-PanelSection--products .aa-List {
+    display: flex;
     flex-wrap: wrap;
     gap: var(--aa-spacing-half);
   }
@@ -260,6 +279,21 @@ body {
   }
 
   .aa-ProductItem .aa-ItemFavorite {
+    opacity: 1;
+  }
+}
+
+/* Keyframes */
+@keyframes loading {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
     opacity: 1;
   }
 }

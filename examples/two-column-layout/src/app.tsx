@@ -21,12 +21,6 @@ autocomplete({
       productsPlugin: products,
     } = elements;
 
-    const productsSection = products && (
-      <div className="aa-PanelSection--products">
-        <div className="aa-PanelSectionSource">{products}</div>
-      </div>
-    );
-
     render(
       <div className="aa-PanelLayout aa-Panel--scrollable">
         <div className="aa-PanelSections">
@@ -34,7 +28,13 @@ autocomplete({
             {recentSearches}
             {querySuggestions}
           </div>
-          <div className="aa-PanelSection--right">{productsSection}</div>
+          <div className="aa-PanelSection--right">
+            {products && (
+              <div className="aa-PanelSection--products">
+                <div className="aa-PanelSectionSource">{products}</div>
+              </div>
+            )}
+          </div>
         </div>
       </div>,
       root

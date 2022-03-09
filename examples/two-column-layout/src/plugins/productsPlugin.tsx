@@ -6,12 +6,7 @@ import {
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
-import {
-  Blurhash,
-  StarIcon,
-  FavoriteFillIcon,
-  FavoriteOutlineIcon,
-} from '../components';
+import { Blurhash, StarIcon, FavoriteIcon } from '../components';
 import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
 import { searchClient } from '../searchClient';
 import { ProductHit } from '../types';
@@ -77,32 +72,7 @@ type ProductItemProps = {
 
 function ProductItem({ hit }: ProductItemProps) {
   const [loaded, setLoaded] = useState(false);
-
   const [favorite, setFavorite] = useState(false);
-  const FavoriteIcon = favorite ? FavoriteFillIcon : FavoriteOutlineIcon;
-
-  const currentPrice = formatPrice(hit.price.value, hit.price.currency);
-  const discountedPrice = formatPrice(
-    hit.price.discounted_value,
-    hit.price.currency
-  );
-
-  const stars = Array(5)
-    .fill(null)
-    .map((_, i) => {
-      return (
-        <li key={i}>
-          <div
-            className={cx(
-              'aa-ItemIcon aa-ItemIcon--noBorder aa-StarIcon',
-              i >= hit.reviews.rating && 'aa-StarIcon--muted'
-            )}
-          >
-            <StarIcon />
-          </div>
-        </li>
-      );
-    });
 
   return (
     <a href="#" className="aa-ItemLink aa-ProductItem">
@@ -134,15 +104,32 @@ function ProductItem({ hit }: ProductItemProps) {
           </div>
           <div>
             <div className="aa-ItemContentPrice">
-              <div className="aa-ItemContentPriceCurrent">{currentPrice}</div>
+              <div className="aa-ItemContentPriceCurrent">
+                {formatPrice(hit.price.value, hit.price.currency)}
+              </div>
               {hit.price.on_sales && (
                 <div className="aa-ItemContentPriceDiscounted">
-                  {discountedPrice}
+                  {formatPrice(hit.price.discounted_value, hit.price.currency)}
                 </div>
               )}
             </div>
             <div className="aa-ItemContentRating">
-              <ul>{stars}</ul>
+              <ul>
+                {Array(5)
+                  .fill(null)
+                  .map((_, index) => (
+                    <li key={index}>
+                      <div
+                        className={cx(
+                          'aa-ItemIcon aa-ItemIcon--noBorder aa-StarIcon',
+                          index >= hit.reviews.rating && 'aa-StarIcon--muted'
+                        )}
+                      >
+                        <StarIcon />
+                      </div>
+                    </li>
+                  ))}
+              </ul>
               <span className="aa-ItemContentRatingReviews">
                 ({hit.reviews.count})
               </span>
@@ -155,11 +142,13 @@ function ProductItem({ hit }: ProductItemProps) {
           onClick={(event) => {
             event.preventDefault();
             event.stopPropagation();
-            setFavorite(!favorite);
+            setFavorite((currentFavorite) => !currentFavorite);
           }}
         >
           <div className="aa-ItemIcon aa-ItemIcon--noBorder aa-FavoriteIcon">
-            <FavoriteIcon />
+            <FavoriteIcon
+              className={cx(!favorite && 'aa-FavoriteIcon--outlined')}
+            />
           </div>
         </button>
       </div>

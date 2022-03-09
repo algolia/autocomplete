@@ -19,6 +19,10 @@ export const Blurhash = ({
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    if (!hash) {
+      return;
+    }
+
     const pixels = decode(hash, width, height, punch);
 
     const ctx = ref.current.getContext('2d');
@@ -32,7 +36,7 @@ export const Blurhash = ({
       ref={ref}
       height={height}
       width={width}
-      className="BlurhashCanvas"
+      className="aa-BlurhashCanvas"
     />
   );
 };
