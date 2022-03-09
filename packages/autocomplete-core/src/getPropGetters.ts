@@ -168,10 +168,11 @@ export function getPropGetters<
     const { inputElement, maxLength = 512, ...rest } = providedProps || {};
     const activeItem = getActiveItem(store.getState());
 
-    const enterKeyHint = activeItem?.itemUrl ? 'go' : 'search';
     const userAgent = props.environment.navigator?.userAgent;
-    const enterKeyHintFallback =
+    const shouldFallbackKeyHint =
       isSamsung(userAgent) && isAndroid(userAgent) && isChrome(userAgent);
+    const enterKeyHint =
+      activeItem?.itemUrl && !shouldFallbackKeyHint ? 'go' : 'search';
 
     return {
       'aria-autocomplete': 'both',
@@ -186,7 +187,7 @@ export function getPropGetters<
       autoComplete: 'off',
       autoCorrect: 'off',
       autoCapitalize: 'off',
-      enterKeyHint: enterKeyHintFallback ? 'enter' : enterKeyHint,
+      enterKeyHint,
       spellCheck: 'false',
       autoFocus: props.autoFocus,
       placeholder: props.placeholder,
