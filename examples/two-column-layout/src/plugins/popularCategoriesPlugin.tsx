@@ -10,19 +10,14 @@ import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
 import { searchClient } from '../searchClient';
 import { PopularCategoryHit } from '../types';
 
+const baseUrl = 'https://res.cloudinary.com/hilnmyskv/image/upload/v1646067858';
 const images = {
-  Women:
-    'https://res.cloudinary.com/hilnmyskv/image/upload/v1646067858/women_category_vwzkln.jpg',
-  Bags:
-    'https://res.cloudinary.com/hilnmyskv/image/upload/v1646067858/bags_category_qd7ssj.jpg',
-  Clothing:
-    'https://res.cloudinary.com/hilnmyskv/image/upload/v1646067858/clothing_category_xhiz1s.jpg',
-  Men:
-    'https://res.cloudinary.com/hilnmyskv/image/upload/v1646067858/men_category_wfcley.jpg',
-  'T-shirts':
-    'https://res.cloudinary.com/hilnmyskv/image/upload/v1646067858/t-shirts_category_gzqcvd.jpg',
-  Shoes:
-    'https://res.cloudinary.com/hilnmyskv/image/upload/v1646068349/shoes_category_u4fi0q.jpg',
+  Women: `${baseUrl}/women_category_vwzkln.jpg`,
+  Bags: `${baseUrl}/bags_category_qd7ssj.jpg`,
+  Clothing: `${baseUrl}/clothing_category_xhiz1s.jpg`,
+  Men: `${baseUrl}/men_category_wfcley.jpg`,
+  'T-shirts': `${baseUrl}/t-shirts_category_gzqcvd.jpg`,
+  Shoes: `${baseUrl}/shoes_category_u4fi0q.jpg`,
 };
 
 export const popularCategoriesPlugin: AutocompletePlugin<

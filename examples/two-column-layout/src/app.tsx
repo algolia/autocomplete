@@ -118,7 +118,7 @@ autocomplete({
       >
         {!hasResults && (
           <div className="aa-NoResultsQuery">
-            Sorry, we didn't find any matches for "{state.query}"
+            Sorry, we didn't find any matches for "{state.query}".
           </div>
         )}
 
@@ -143,9 +143,7 @@ autocomplete({
                 <ul className="aa-NoResultsAdvicesList">
                   <li>Double check your spelling</li>
                   <li>Use fewer keywords</li>
-                  <li>
-                    Search fo an item that is less specific and refine results
-                  </li>
+                  <li>Search for a less specific item</li>
                 </ul>
               </div>
             )}
