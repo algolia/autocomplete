@@ -7,7 +7,7 @@ import {
   GetSources,
 } from '@algolia/autocomplete-js';
 import { Hit } from '@algolia/client-search';
-import algoliasearch from 'algoliasearch';
+import algoliasearch from 'algoliasearch/lite';
 import { h } from 'preact';
 
 import '@algolia/autocomplete-theme-classic';
