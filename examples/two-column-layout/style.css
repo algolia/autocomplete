@@ -355,14 +355,20 @@ body {
   width: 100%;
 }
 
-.aa-QuickAccessItem {
-  height: 100%;
-}
-
-.aa-QuickAccessItem.aa-ItemLink {
+.aa-PanelSection--quickAccess .aa-QuickAccessItem {
   display: flex;
   border-radius: 3px;
   overflow: hidden;
+  height: 100%;
+}
+
+.aa-QuickAccessItem .aa-ItemPicture:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
 }
 
 .aa-QuickAccessItem .aa-ItemContent {

@@ -9,6 +9,7 @@ import { h } from 'preact';
 import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
 import { searchClient } from '../searchClient';
 import { QuickAccessHit } from '../types';
+import { cx, intersperse } from '../utils';
 
 export const quickAccessPlugin: AutocompletePlugin<QuickAccessHit, {}> = {
   getSources({ query }) {
@@ -20,7 +21,7 @@ export const quickAccessPlugin: AutocompletePlugin<QuickAccessHit, {}> = {
       {
         sourceId: 'quickAccessPlugin',
         getItems() {
-          return getAlgoliaResults<QuickAccessHit>({
+          return getAlgoliaResults({
             searchClient,
             queries: [
               {
@@ -33,16 +34,20 @@ export const quickAccessPlugin: AutocompletePlugin<QuickAccessHit, {}> = {
               },
             ],
             transformResponse({ results }) {
-              const resultsAs = results as SearchResponse[];
-              const userData = resultsAs?.[0].userData;
-              const items = userData?.[0]?.items;
-              return items || [];
+              return (
+                (results as SearchResponse[])?.[0].userData?.[0]?.items || []
+              );
             },
           });
         },
         templates: {
-          header() {
-            return <div className="aa-SourceHeaderTitle">Quick access</div>;
+          header({ Fragment }) {
+            return (
+              <Fragment>
+                <span className="aa-SourceHeaderTitle">Quick access</span>
+                <div className="aa-SourceHeaderLine" />
+              </Fragment>
+            );
           },
           item({ item }) {
             return <QuickAccessItem hit={item} />;
@@ -61,10 +66,10 @@ const QuickAccessItem = ({ hit }: QuickAccessItemProps) => {
   return (
     <a
       href={hit.href}
-      className={[
+      className={cx(
         'aa-ItemLink aa-QuickAccessItem',
-        `aa-QuickAccessItem--${hit.template}`,
-      ].join(' ')}
+        `aa-QuickAccessItem--${hit.template}`
+      )}
     >
       <div className="aa-ItemContent">
         {hit.image && (
@@ -75,21 +80,19 @@ const QuickAccessItem = ({ hit }: QuickAccessItemProps) => {
 
         <div className="aa-ItemContentBody">
           {hit.date && <div className="aa-ItemContentDate">{hit.date}</div>}
-          <div
-            className="aa-ItemContentTitle"
-            dangerouslySetInnerHTML={{ __html: hit.title }}
-          />
+          <div className="aa-ItemContentTitle">
+            {intersperse(hit.title.split('\n'), <br />)}
+          </div>
           {hit.subtitle && (
-            <div
-              className="aa-ItemContentSubTitle"
-              dangerouslySetInnerHTML={{ __html: hit.subtitle }}
-            />
+            <div className="aa-ItemContentSubTitle">
+              {intersperse(hit.subtitle.split('\n'), <br />)}
+            </div>
           )}
 
           {hit.links && (
             <ul>
-              {hit.links.map((link, i) => (
-                <li key={i}>
+              {hit.links.map((link) => (
+                <li key={link.text}>
                   <a href={link.href}>{link.text}</a>
                 </li>
               ))}

@@ -1,10 +1,5 @@
 import { Hit } from '@algolia/client-search';
 
-type QuickAccessRecordLink = {
-  text: string;
-  href: string;
-};
-
 type QuickAccessRecord = {
   template: 'sales-banner' | 'sales-code' | 'new-collection' | 'help';
   href: string;
@@ -12,7 +7,10 @@ type QuickAccessRecord = {
   title: string;
   subtitle: string;
   date?: string;
-  links?: QuickAccessRecordLink[];
+  links?: Array<{
+    text: string;
+    href: string;
+  }>;
 };
 
 export type QuickAccessHit = Hit<QuickAccessRecord>;

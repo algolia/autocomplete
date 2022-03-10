@@ -10,7 +10,7 @@ import { Blurhash, StarIcon, FavoriteIcon } from '../components';
 import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
 import { searchClient } from '../searchClient';
 import { ProductHit } from '../types';
-import { cx } from '../utils/cx';
+import { cx } from '../utils';
 
 export interface ProductsPluginContext {
   facetName: string;

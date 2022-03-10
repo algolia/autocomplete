@@ -1,7 +1,7 @@
 /** @jsx h */
 import { h } from 'preact';
 
-import { intersperse } from '../utils/intersperse';
+import { intersperse } from '../utils';
 
 import { ChevronRightIcon } from './Icons';
 
