@@ -1,8 +1,17 @@
-import { BaseItem, OnActiveParams } from '@algolia/autocomplete-core';
+import {
+  AutocompleteScopeApi,
+  AutocompleteState,
+  BaseItem,
+} from '@algolia/autocomplete-core';
 import { dequal } from 'dequal/lite';
 
-type smartPreviewParams<TItem extends BaseItem> = OnActiveParams<TItem> & {
-  contextData: {
+import { isTouchDevice } from '../utils';
+
+type smartPreviewParams<
+  TItem extends BaseItem
+> = AutocompleteScopeApi<TItem> & {
+  state: AutocompleteState<TItem>;
+  preview: {
     [key: string]: unknown;
   };
 };
@@ -17,17 +26,16 @@ export const updateActiveItem = (activeItemId: number) => {
   selectedEl?.setAttribute('data-active', 'true');
 };
 
-export const smartPreview = <TItem extends BaseItem>({
+export const setSmartPreview = <TItem extends BaseItem>({
   state,
   setContext,
   refresh,
-  contextData,
+  preview,
   setActiveItemId,
 }: smartPreviewParams<TItem>) => {
-  if (!dequal(state.context.preview, contextData)) {
-    setContext({
-      preview: contextData,
-    });
+  if (!dequal(state.context.preview, preview) && !isTouchDevice()) {
+    setContext({ preview });
+
     refresh();
     setActiveItemId(state.activeItemId);
     updateActiveItem(state.activeItemId);

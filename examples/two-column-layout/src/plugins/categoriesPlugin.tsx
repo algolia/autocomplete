@@ -7,7 +7,7 @@ import { h } from 'preact';
 
 import { Breadcrumb, GridIcon } from '../components';
 import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
-import { smartPreview } from '../functions';
+import { setSmartPreview } from '../functions';
 import { searchClient } from '../searchClient';
 import { CategoryHit } from '../types';
 
@@ -38,8 +38,8 @@ export const categoriesPlugin: AutocompletePlugin<CategoryHit, {}> = {
           return item.list_categories[item.list_categories.length - 1];
         },
         onActive(params) {
-          smartPreview({
-            contextData: {
+          setSmartPreview({
+            preview: {
               facetName: 'list_categories',
               facetValue: params.itemInputValue,
             },

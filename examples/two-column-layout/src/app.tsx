@@ -98,21 +98,16 @@ autocomplete({
 
     const previewContext = state.context.preview;
 
-    const faqPreviewContext = previewContext as FaqHit;
-    const isFaqPreview = Boolean(faqPreviewContext?.title);
-
-    const onMouseLeave = () => {
-      const el = document.querySelector('[data-active=true]');
-      el?.removeAttribute('data-active');
-
-      setContext({ preview: null });
-      refresh();
-    };
-
     render(
       <div
         className="aa-PanelLayout aa-Panel--scrollable"
-        onMouseLeave={onMouseLeave}
+        onMouseLeave={() => {
+          const el = document.querySelector('[data-active=true]');
+          el?.removeAttribute('data-active');
+
+          setContext({ preview: null });
+          refresh();
+        }}
       >
         <div className="aa-PanelSections">
           <div className="aa-PanelSection--left">
@@ -131,8 +126,11 @@ autocomplete({
             )}
           </div>
           <div className="aa-PanelSection--right">
-            {isFaqPreview ? (
-              <FaqPreview components={components} {...faqPreviewContext} />
+            {(previewContext as FaqHit)?.title ? (
+              <FaqPreview
+                hit={previewContext as FaqHit}
+                components={components}
+              />
             ) : (
               <Fragment>
                 {products && (

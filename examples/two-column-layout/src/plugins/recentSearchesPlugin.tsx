@@ -5,7 +5,7 @@ import {
 } from '@algolia/autocomplete-plugin-recent-searches';
 import { h } from 'preact';
 
-import { smartPreview } from '../functions';
+import { setSmartPreview } from '../functions';
 
 export const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'autocomplete-two-column-layout-example',
@@ -21,8 +21,8 @@ export const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
           return;
         }
 
-        smartPreview({
-          contextData: {
+        setSmartPreview({
+          preview: {
             query: params.item.label,
           },
           ...params,

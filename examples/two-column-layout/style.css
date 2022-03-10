@@ -56,6 +56,11 @@ body {
   width: 70%;
 }
 
+/* Add padding on each source for the smart preview background color on products */
+.aa-PanelSection--right > * {
+  padding: 0 var(--aa-spacing-half);
+}
+
 /* Item */
 .aa-Item {
   transition: background 0.2s ease-out;
@@ -121,8 +126,13 @@ body {
 }
 
 /* Products */
-.aa-PanelSection--products {
+.aa-PanelSection--products,
+.aa-PanelSection--products .aa-SourceHeaderTitle {
   transition: background 0.2s ease-out;
+}
+
+.aa-PanelSection--products {
+  padding-bottom: var(--aa-spacing-half);
 }
 
 .aa-PanelSection--products-preview {
@@ -131,6 +141,10 @@ body {
     var(--aa-selected-color-alpha)
   );
   border-radius: 3px;
+}
+
+.aa-PanelSection--products-preview .aa-SourceHeaderTitle {
+  background: #efeef6;
 }
 
 .aa-PanelSection--products .aa-List {

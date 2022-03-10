@@ -28,13 +28,12 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
       {
         sourceId: 'productsPlugin',
         getItems({ state }) {
-          const previewContext = state.context.preview as ProductsPluginContext;
+          const preview = state.context.preview as ProductsPluginContext;
 
           const facetFilters = [];
-          if (previewContext?.facetName) {
-            facetFilters.push(
-              `${previewContext.facetName}:${previewContext.facetValue}`
-            );
+
+          if (preview?.facetName) {
+            facetFilters.push(`${preview.facetName}:${preview.facetValue}`);
           }
 
           return getAlgoliaResults<ProductHit>({
@@ -42,7 +41,7 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
             queries: [
               {
                 indexName: ALGOLIA_PRODUCTS_INDEX_NAME,
-                query: previewContext?.query ?? query,
+                query: preview?.query ?? query,
                 params: {
                   hitsPerPage: 4,
                   facetFilters,
@@ -55,24 +54,17 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
           setIsOpen(true);
         },
         templates: {
-          header({ state, Fragment }) {
-            const previewContext = state.context
-              .preview as ProductsPluginContext;
-            const facetValue = previewContext?.facetValue;
-            const query = previewContext?.query;
-
-            let suffix = ` for "${state.query}"`;
-            if (query) {
-              suffix = ` for "${query}"`;
-            } else if (facetValue) {
-              suffix = ` in "${facetValue}"`;
-            }
+          header({ state }) {
+            const preview = state.context.preview as ProductsPluginContext;
 
             return (
-              <Fragment>
-                <span className="aa-SourceHeaderTitle">Products{suffix}</span>
-                <div className="aa-SourceHeaderLine" />
-              </Fragment>
+              <div className="aa-SourceHeaderTitle">
+                Products {preview?.facetValue ? 'in' : 'for'} "
+                {preview?.query || preview?.facetValue || state.query}"{' '}
+                {preview?.facetName === 'list_categories'
+                  ? 'category'
+                  : preview?.facetName}
+              </div>
             );
           },
           item({ item }) {

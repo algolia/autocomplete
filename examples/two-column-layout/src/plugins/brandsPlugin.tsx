@@ -8,7 +8,7 @@ import { h } from 'preact';
 
 import { TagIcon } from '../components';
 import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
-import { smartPreview } from '../functions';
+import { setSmartPreview } from '../functions';
 import { searchClient } from '../searchClient';
 import { BrandHit } from '../types';
 
@@ -40,8 +40,8 @@ export const brandsPlugin: AutocompletePlugin<BrandHit, {}> = {
           return item.label;
         },
         onActive(params) {
-          smartPreview({
-            contextData: {
+          setSmartPreview({
+            preview: {
               facetName: 'brand',
               facetValue: params.item.label,
             },

@@ -2,7 +2,7 @@
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 
 import { ALGOLIA_PRODUCTS_QUERY_SUGGESTIONS_INDEX_NAME } from '../constants';
-import { smartPreview } from '../functions';
+import { setSmartPreview } from '../functions';
 import { searchClient } from '../searchClient';
 
 export const querySuggestionsPlugin = createQuerySuggestionsPlugin({
@@ -17,8 +17,8 @@ export const querySuggestionsPlugin = createQuerySuggestionsPlugin({
     return {
       ...source,
       onActive(params) {
-        smartPreview({
-          contextData: {
+        setSmartPreview({
+          preview: {
             query: params.itemInputValue,
           },
           ...params,

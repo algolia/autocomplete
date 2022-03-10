@@ -6,11 +6,12 @@ import { FaqHit } from '../types';
 
 import { Breadcrumb } from './Breadcrumb';
 
-type FaqPreviewProps = FaqHit & {
+type FaqPreviewProps = {
+  hit: FaqHit;
   components: AutocompleteComponents;
 };
 
-export const FaqPreview = ({ components, ...hit }: FaqPreviewProps) => {
+export const FaqPreview = ({ hit, components }: FaqPreviewProps) => {
   return (
     <div className="aa-FaqPreview aa-Item">
       <div className="aa-ItemContent">
