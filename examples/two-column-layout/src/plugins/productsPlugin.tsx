@@ -1,8 +1,10 @@
 /** @jsx h */
 import {
+  AutocompleteComponents,
   AutocompletePlugin,
   getAlgoliaResults,
 } from '@algolia/autocomplete-js';
+import { SearchResponse } from '@algolia/client-search';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
@@ -27,7 +29,7 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
     return [
       {
         sourceId: 'productsPlugin',
-        getItems({ state }) {
+        getItems({ state, setContext }) {
           const preview = state.context.preview as ProductsPluginContext;
 
           const facetFilters = [];
@@ -41,34 +43,44 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
             queries: [
               {
                 indexName: ALGOLIA_PRODUCTS_INDEX_NAME,
-                query: preview?.query ?? query,
+                query: preview?.query || query,
                 params: {
                   hitsPerPage: 4,
                   facetFilters,
                 },
               },
             ],
+            transformResponse({ hits, results }) {
+              setContext({
+                nbHits: (results[0] as SearchResponse<ProductHit>).nbHits,
+              });
+
+              return hits;
+            },
           });
         },
         onSelect({ setIsOpen }) {
           setIsOpen(true);
         },
         templates: {
-          header({ state }) {
+          header({ state, Fragment }) {
             const preview = state.context.preview as ProductsPluginContext;
 
             return (
-              <div className="aa-SourceHeaderTitle">
-                Products {preview?.facetValue ? 'in' : 'for'} "
-                {preview?.query || preview?.facetValue || state.query}"{' '}
-                {preview?.facetName === 'list_categories'
-                  ? 'category'
-                  : preview?.facetName}
-              </div>
+              <Fragment>
+                <div className="aa-SourceHeaderTitle">
+                  Products {preview?.facetValue ? 'in' : 'for'} "
+                  {preview?.query || preview?.facetValue || state.query}"{' '}
+                  {preview?.facetName === 'list_categories'
+                    ? 'category'
+                    : preview?.facetName}
+                </div>
+                <div className="aa-SourceHeaderLine" />
+              </Fragment>
             );
           },
-          item({ item }) {
-            return <ProductItem hit={item} />;
+          item({ item, components }) {
+            return <ProductItem hit={item} components={components} />;
           },
         },
       },
@@ -82,14 +94,20 @@ function formatPrice(value: number, currency = 'EUR') {
 
 type ProductItemProps = {
   hit: ProductHit;
+  components: AutocompleteComponents;
 };
 
-function ProductItem({ hit }: ProductItemProps) {
+function ProductItem({ hit, components }: ProductItemProps) {
   const [loaded, setLoaded] = useState(false);
   const [favorite, setFavorite] = useState(false);
 
   return (
-    <a href="#" className="aa-ItemLink aa-ProductItem">
+    <a
+      href="https://example.org/"
+      target="_blank"
+      rel="noreferrer noopener"
+      className="aa-ItemLink aa-ProductItem"
+    >
       <div className="aa-ItemContent">
         <div
           className={cx('aa-ItemPicture', loaded && 'aa-ItemPicture--loaded')}
@@ -114,7 +132,11 @@ function ProductItem({ hit }: ProductItemProps) {
             {hit.brand && (
               <div className="aa-ItemContentBrand">{hit.brand}</div>
             )}
-            <div className="aa-ItemContentTitle">{hit.name}</div>
+            <div className="aa-ItemContentTitleWrapper">
+              <div className="aa-ItemContentTitle">
+                <components.Highlight hit={hit} attribute="name" />
+              </div>
+            </div>
           </div>
           <div>
             <div className="aa-ItemContentPrice">

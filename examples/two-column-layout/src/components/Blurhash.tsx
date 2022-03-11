@@ -10,12 +10,12 @@ export interface BlurhashProps {
   punch?: number;
 }
 
-export const Blurhash = ({
+export function Blurhash({
   hash,
   width = 128,
   height = 128,
   punch = 1,
-}: BlurhashProps) => {
+}: BlurhashProps) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -32,11 +32,13 @@ export const Blurhash = ({
   }, [hash, width, height, punch]);
 
   return (
-    <canvas
-      ref={ref}
-      height={height}
-      width={width}
-      className="aa-BlurhashCanvas"
-    />
+    hash && (
+      <canvas
+        ref={ref}
+        height={height}
+        width={width}
+        className="aa-BlurhashCanvas"
+      />
+    )
   );
-};
+}

@@ -34,7 +34,7 @@ const removeDuplicates = uniqBy(({ source, item }) => {
 
 const fillWith = populate({
   mainSourceId: 'querySuggestionsPlugin',
-  limit: 8,
+  limit: 10,
 });
 
 const combine = pipe(removeDuplicates, fillWith);
@@ -118,30 +118,44 @@ autocomplete({
       >
         {!hasResults && (
           <div className="aa-NoResultsQuery">
-            Sorry, we didn't find any matches for "{state.query}".
+            No results for "{state.query}".
           </div>
         )}
 
         <div className="aa-PanelSections">
           <div className="aa-PanelSection--left">
             {hasResults ? (
-              (!state.query && recentSearches) ||
-              (state.query && (
-                <div>
+              (!state.query && (
+                <Fragment>
+                  <div className="aa-SourceHeader">
+                    <span className="aa-SourceHeaderTitle">
+                      Recent searches
+                    </span>
+                    <div className="aa-SourceHeaderLine" />
+                  </div>
                   {recentSearches}
-                  {querySuggestions}
-                  {categories}
-                  {brands}
-                  {faq}
-                </div>
+                </Fragment>
+              )) ||
+              (state.query && (
+                <Fragment>
+                  <div className="aa-SourceHeader">
+                    <span className="aa-SourceHeaderTitle">Suggestions</span>
+                    <div className="aa-SourceHeaderLine" />
+                  </div>
+
+                  <div className="aa-PanelSectionSources">
+                    {recentSearches}
+                    {querySuggestions}
+                    {categories}
+                    {brands}
+                    {faq}
+                  </div>
+                </Fragment>
               ))
             ) : (
               <div className="aa-NoResultsAdvices">
-                <div className="aa-NoResultsAdvicesTitle">
-                  Try the following:
-                </div>
                 <ul className="aa-NoResultsAdvicesList">
-                  <li>Double check your spelling</li>
+                  <li>Double-check your spelling</li>
                   <li>Use fewer keywords</li>
                   <li>Search for a less specific item</li>
                 </ul>
@@ -168,6 +182,19 @@ autocomplete({
                     )}
                   >
                     <div className="aa-PanelSectionSource">{products}</div>
+                    {state.context.nbHits > 4 && (
+                      <div style={{ textAlign: 'center' }}>
+                        <a
+                          href="https://example.org/"
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="aa-SeeAll"
+                        >
+                          See All Products{' '}
+                          {state.context.nbHits && `(${state.context.nbHits})`}
+                        </a>
+                      </div>
+                    )}
                   </div>
                 )}
                 {articles && (

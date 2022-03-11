@@ -72,7 +72,7 @@ type CategoryItemProps = {
   components: AutocompleteComponents;
 };
 
-const CategoryItem = ({ hit }: CategoryItemProps) => {
+function CategoryItem({ hit }: CategoryItemProps) {
   return (
     <div className="aa-ItemWrapper aa-PopularCategoryItem">
       <div className="aa-ItemContent">
@@ -87,4 +87,4 @@ const CategoryItem = ({ hit }: CategoryItemProps) => {
       </div>
     </div>
   );
-};
+}

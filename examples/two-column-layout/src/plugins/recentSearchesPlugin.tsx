@@ -5,7 +5,7 @@ import {
 } from '@algolia/autocomplete-plugin-recent-searches';
 import { h } from 'preact';
 
-import { setSmartPreview } from '../functions';
+import { setSmartPreview } from '../setSmartPreview';
 
 export const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'autocomplete-two-column-layout-example',
@@ -27,19 +27,6 @@ export const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
           },
           ...params,
         });
-      },
-      templates: {
-        ...source.templates,
-        header({ state, Fragment }) {
-          return (
-            <Fragment>
-              <span className="aa-SourceHeaderTitle">
-                {state.query ? 'Suggestions' : 'Recent searches'}
-              </span>
-              <div className="aa-SourceHeaderLine" />
-            </Fragment>
-          );
-        },
       },
     };
   },

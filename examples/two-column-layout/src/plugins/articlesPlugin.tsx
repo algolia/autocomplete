@@ -57,7 +57,7 @@ type ArticleItemProps = {
   hit: ArticleHit;
 };
 
-const ArticleItem = ({ hit }: ArticleItemProps) => {
+function ArticleItem({ hit }: ArticleItemProps) {
   const articleDate = new Date(hit.date);
   const articleMonth = articleDate.toLocaleDateString('en-US', {
     month: 'long',
@@ -80,4 +80,4 @@ const ArticleItem = ({ hit }: ArticleItemProps) => {
       </div>
     </a>
   );
-};
+}

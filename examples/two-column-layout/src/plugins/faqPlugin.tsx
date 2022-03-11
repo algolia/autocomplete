@@ -8,8 +8,8 @@ import { h } from 'preact';
 
 import { Breadcrumb, InfoIcon } from '../components';
 import { ALGOLIA_FAQ_INDEX_NAME } from '../constants';
-import { setSmartPreview } from '../functions';
 import { searchClient } from '../searchClient';
+import { setSmartPreview } from '../setSmartPreview';
 import { FaqHit } from '../types';
 
 export const faqPlugin: AutocompletePlugin<FaqHit, {}> = {
@@ -56,7 +56,7 @@ type FaqItemProps = {
   components: AutocompleteComponents;
 };
 
-const FaqItem = ({ hit, components }: FaqItemProps) => {
+function FaqItem({ hit, components }: FaqItemProps) {
   const breadcrumbItems = hit.list_categories;
 
   return (
@@ -74,4 +74,4 @@ const FaqItem = ({ hit, components }: FaqItemProps) => {
       <Breadcrumb items={breadcrumbItems} />
     </div>
   );
-};
+}

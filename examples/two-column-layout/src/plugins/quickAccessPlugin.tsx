@@ -62,7 +62,7 @@ type QuickAccessItemProps = {
   hit: QuickAccessHit;
 };
 
-const QuickAccessItem = ({ hit }: QuickAccessItemProps) => {
+function QuickAccessItem({ hit }: QuickAccessItemProps) {
   return (
     <a
       href={hit.href}
@@ -102,4 +102,4 @@ const QuickAccessItem = ({ hit }: QuickAccessItemProps) => {
       </div>
     </a>
   );
-};
+}

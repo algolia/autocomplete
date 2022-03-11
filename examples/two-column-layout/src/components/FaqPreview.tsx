@@ -11,7 +11,7 @@ type FaqPreviewProps = {
   components: AutocompleteComponents;
 };
 
-export const FaqPreview = ({ hit, components }: FaqPreviewProps) => {
+export function FaqPreview({ hit, components }: FaqPreviewProps) {
   return (
     <div className="aa-FaqPreview aa-Item">
       <div className="aa-ItemContent">
@@ -29,4 +29,4 @@ export const FaqPreview = ({ hit, components }: FaqPreviewProps) => {
       </div>
     </div>
   );
-};
+}

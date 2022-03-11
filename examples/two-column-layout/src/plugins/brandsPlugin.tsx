@@ -8,8 +8,8 @@ import { h } from 'preact';
 
 import { TagIcon } from '../components';
 import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
-import { setSmartPreview } from '../functions';
 import { searchClient } from '../searchClient';
+import { setSmartPreview } from '../setSmartPreview';
 import { BrandHit } from '../types';
 
 export const brandsPlugin: AutocompletePlugin<BrandHit, {}> = {
@@ -63,7 +63,7 @@ type BrandItemProps = {
   components: AutocompleteComponents;
 };
 
-const BrandItem = ({ hit, components }: BrandItemProps) => {
+function BrandItem({ hit, components }: BrandItemProps) {
   return (
     <div className="aa-ItemWrapper">
       <div className="aa-ItemContent">
@@ -78,4 +78,4 @@ const BrandItem = ({ hit, components }: BrandItemProps) => {
       </div>
     </div>
   );
-};
+}

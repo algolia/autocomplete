@@ -9,7 +9,7 @@ type BreadcrumbProps = {
   items: string[];
 };
 
-export const Breadcrumb = ({ items }: BreadcrumbProps) => {
+export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <div className="aa-Breadcrumb">
       {intersperse(
@@ -20,4 +20,4 @@ export const Breadcrumb = ({ items }: BreadcrumbProps) => {
       )}
     </div>
   );
-};
+}

@@ -5,7 +5,7 @@ import {
 } from '@algolia/autocomplete-core';
 import { dequal } from 'dequal/lite';
 
-import { isTouchDevice } from '../utils';
+import { isTouchDevice } from './utils';
 
 type smartPreviewParams<
   TItem extends BaseItem
@@ -16,7 +16,7 @@ type smartPreviewParams<
   };
 };
 
-export const updateActiveItem = (activeItemId: number) => {
+export function updateActiveItem(activeItemId: number) {
   const currentActiveEl = document.querySelector('[data-active=true]');
   currentActiveEl?.removeAttribute('data-active');
 
@@ -24,15 +24,15 @@ export const updateActiveItem = (activeItemId: number) => {
     `#autocomplete-0-item-${activeItemId}`
   );
   selectedEl?.setAttribute('data-active', 'true');
-};
+}
 
-export const setSmartPreview = <TItem extends BaseItem>({
+export function setSmartPreview<TItem extends BaseItem>({
   state,
   setContext,
   refresh,
   preview,
   setActiveItemId,
-}: smartPreviewParams<TItem>) => {
+}: smartPreviewParams<TItem>) {
   if (!dequal(state.context.preview, preview) && !isTouchDevice()) {
     setContext({ preview });
 
@@ -40,4 +40,4 @@ export const setSmartPreview = <TItem extends BaseItem>({
     setActiveItemId(state.activeItemId);
     updateActiveItem(state.activeItemId);
   }
-};
+}

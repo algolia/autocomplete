@@ -7,8 +7,8 @@ import { h } from 'preact';
 
 import { Breadcrumb, GridIcon } from '../components';
 import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
-import { setSmartPreview } from '../functions';
 import { searchClient } from '../searchClient';
+import { setSmartPreview } from '../setSmartPreview';
 import { CategoryHit } from '../types';
 
 export const categoriesPlugin: AutocompletePlugin<CategoryHit, {}> = {
@@ -60,7 +60,7 @@ type CategoryItemProps = {
   hit: CategoryHit;
 };
 
-const CategoryItem = ({ hit }: CategoryItemProps) => {
+function CategoryItem({ hit }: CategoryItemProps) {
   const breadcrumbCategories = hit.list_categories.slice(0, -1);
   const category = hit.list_categories[hit.list_categories.length - 1];
 
@@ -77,4 +77,4 @@ const CategoryItem = ({ hit }: CategoryItemProps) => {
       <Breadcrumb items={breadcrumbCategories} />
     </div>
   );
-};
+}

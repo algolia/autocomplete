@@ -13,7 +13,7 @@ export const popularPlugin = createQuerySuggestionsPlugin({
   getSearchParams() {
     return {
       query: '',
-      hitsPerPage: 8,
+      hitsPerPage: 6,
     };
   },
   transformSource({ source }) {
@@ -47,7 +47,7 @@ type PopularItemProps = {
   hit: PopularHit;
 };
 
-const PopularItem = ({ hit }: PopularItemProps) => {
+function PopularItem({ hit }: PopularItemProps) {
   return (
     <div className="aa-ItemWrapper">
       <div className="aa-ItemIcon aa-ItemIcon--noBorder">
@@ -60,4 +60,4 @@ const PopularItem = ({ hit }: PopularItemProps) => {
       </div>
     </div>
   );
-};
+}
