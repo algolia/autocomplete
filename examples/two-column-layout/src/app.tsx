@@ -125,7 +125,7 @@ autocomplete({
         <div className="aa-PanelSections">
           <div className="aa-PanelSection--left">
             {hasResults ? (
-              (!state.query && (
+              (!state.query && recentSearches && (
                 <Fragment>
                   <div className="aa-SourceHeader">
                     <span className="aa-SourceHeaderTitle">
