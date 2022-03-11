@@ -3,7 +3,6 @@ import {
   createLocalStorageRecentSearchesPlugin,
   search,
 } from '@algolia/autocomplete-plugin-recent-searches';
-import { h } from 'preact';
 
 import { setSmartPreview } from '../setSmartPreview';
 
