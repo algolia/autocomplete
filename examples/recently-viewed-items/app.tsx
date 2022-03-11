@@ -4,7 +4,7 @@ import {
   AutocompleteComponents,
   getAlgoliaResults,
 } from '@algolia/autocomplete-js';
-import algoliasearch from 'algoliasearch';
+import algoliasearch from 'algoliasearch/lite';
 import { h, Fragment } from 'preact';
 
 import '@algolia/autocomplete-theme-classic';
