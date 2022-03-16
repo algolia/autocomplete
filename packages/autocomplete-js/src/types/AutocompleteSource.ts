@@ -5,13 +5,14 @@ import {
 } from '@algolia/autocomplete-core';
 
 import { AutocompleteComponents } from './AutocompleteComponents';
-import { AutocompleteRenderer, VNode } from './AutocompleteRenderer';
+import { AutocompleteRenderer, HTMLToJSX, VNode } from './AutocompleteRenderer';
 import { AutocompleteState } from './AutocompleteState';
 
 type Template<TParams> = (
   params: TParams &
     AutocompleteRenderer & {
       components: AutocompleteComponents;
+      html: HTMLToJSX;
     }
 ) => VNode | string;
 

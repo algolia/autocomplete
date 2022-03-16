@@ -34,7 +34,8 @@
     "@algolia/autocomplete-core": "1.5.7",
     "@algolia/autocomplete-preset-algolia": "1.5.7",
     "@algolia/autocomplete-shared": "1.5.7",
-    "preact": "^10.0.0"
+    "preact": "^10.0.0",
+    "htm": "^3.0.0"
   },
   "devDependencies": {
     "@algolia/client-search": "4.9.1"

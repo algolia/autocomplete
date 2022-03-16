@@ -1,3 +1,5 @@
+import htm from 'htm';
+
 export type Pragma = (
   type: any,
   props: Record<string, any> | null,
@@ -5,7 +7,7 @@ export type Pragma = (
 ) => JSX.Element;
 export type PragmaFrag = any;
 
-type ComponentChild =
+export type ComponentChild =
   | VNode<any>
   | object
   | string
@@ -34,3 +36,5 @@ export type AutocompleteRenderer = {
    */
   Fragment: PragmaFrag;
 };
+
+export type HTMLToJSX = typeof htm;

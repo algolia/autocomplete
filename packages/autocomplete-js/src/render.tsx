@@ -2,8 +2,10 @@
 import {
   AutocompleteApi as AutocompleteCoreApi,
   AutocompleteScopeApi,
+  BaseItem,
 } from '@algolia/autocomplete-core';
-import { BaseItem } from '@algolia/autocomplete-core/src';
+import htm from 'htm';
+import { render as preactRender } from 'preact';
 
 import {
   AutocompleteClassNames,
@@ -74,6 +76,8 @@ export function renderPanel<TItem extends BaseItem>(
     components,
   }: RenderProps<TItem>
 ): void {
+  const html = htm.bind(createElement);
+
   if (!state.isOpen) {
     if (panelContainer.contains(dom.panel)) {
       panelContainer.removeChild(dom.panel);
@@ -109,6 +113,7 @@ export function renderPanel<TItem extends BaseItem>(
               items,
               source,
               state,
+              html,
             })}
           </div>
         )}
@@ -121,6 +126,7 @@ export function renderPanel<TItem extends BaseItem>(
               Fragment,
               source,
               state,
+              html,
             })}
           </div>
         ) : (
@@ -154,6 +160,7 @@ export function renderPanel<TItem extends BaseItem>(
                     Fragment,
                     item,
                     state,
+                    html,
                   })}
                 </li>
               );
@@ -170,6 +177,7 @@ export function renderPanel<TItem extends BaseItem>(
               items,
               source,
               state,
+              html,
             })}
           </div>
         )}
@@ -196,6 +204,8 @@ export function renderPanel<TItem extends BaseItem>(
       createElement,
       Fragment,
       components,
+      html,
+      render: preactRender,
       ...autocompleteScopeApi,
     },
     dom.panel
