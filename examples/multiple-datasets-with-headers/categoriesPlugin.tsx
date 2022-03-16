@@ -26,8 +26,8 @@ export function createCategoriesPlugin({
               queries: [
                 {
                   indexName: 'instant_search',
+                  facet: 'categories',
                   params: {
-                    facetName: 'categories',
                     facetQuery: query,
                     maxFacetHits: 5,
                   },
