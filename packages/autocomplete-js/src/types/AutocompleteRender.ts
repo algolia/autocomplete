@@ -1,10 +1,14 @@
 import { AutocompleteScopeApi, BaseItem } from '@algolia/autocomplete-core';
 
 import { AutocompleteComponents } from './AutocompleteComponents';
-import { HTMLToJSX, Pragma, PragmaFrag, VNode } from './AutocompleteRenderer';
+import {
+  ComponentChild,
+  HTMLToJSX,
+  Pragma,
+  PragmaFrag,
+  VNode,
+} from './AutocompleteRenderer';
 import { AutocompleteState } from './AutocompleteState';
-
-import { ComponentChild } from '.';
 
 export type AutocompleteRender<TItem extends BaseItem> = (
   params: AutocompleteScopeApi<TItem> & {
