@@ -3,7 +3,7 @@ import { AutocompleteScopeApi, BaseItem } from '@algolia/autocomplete-core';
 import { AutocompleteComponents } from './AutocompleteComponents';
 import {
   ComponentChild,
-  HTMLToJSX,
+  HTMLTemplate,
   Pragma,
   PragmaFrag,
   VNode,
@@ -19,7 +19,7 @@ export type AutocompleteRender<TItem extends BaseItem> = (
     components: AutocompleteComponents;
     createElement: Pragma;
     Fragment: PragmaFrag;
-    html: HTMLToJSX;
+    html: HTMLTemplate;
     render(
       vnode: ComponentChild,
       containerNode: Element | Document | ShadowRoot | DocumentFragment,

@@ -13,7 +13,7 @@ import {
   AutocompletePropGetters,
   AutocompleteRender,
   AutocompleteState,
-  HTMLToJSX,
+  HTMLTemplate,
   Pragma,
   PragmaFrag,
 } from './types';
@@ -25,7 +25,7 @@ type RenderProps<TItem extends BaseItem> = {
   classNames: AutocompleteClassNames;
   components: AutocompleteComponents;
   createElement: Pragma;
-  html: HTMLToJSX;
+  html: HTMLTemplate;
   dom: AutocompleteDom;
   Fragment: PragmaFrag;
   panelContainer: HTMLElement;

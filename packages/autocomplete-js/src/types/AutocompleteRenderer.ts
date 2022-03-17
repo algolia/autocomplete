@@ -37,4 +37,4 @@ export type AutocompleteRenderer = {
   Fragment: PragmaFrag;
 };
 
-export type HTMLToJSX = typeof htm;
+export type HTMLTemplate = typeof htm;
