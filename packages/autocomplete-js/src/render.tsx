@@ -4,7 +4,6 @@ import {
   AutocompleteScopeApi,
   BaseItem,
 } from '@algolia/autocomplete-core';
-import htm from 'htm';
 import { render as preactRender } from 'preact';
 
 import {
@@ -14,6 +13,7 @@ import {
   AutocompletePropGetters,
   AutocompleteRender,
   AutocompleteState,
+  HTMLTemplate,
   Pragma,
   PragmaFrag,
 } from './types';
@@ -25,6 +25,7 @@ type RenderProps<TItem extends BaseItem> = {
   classNames: AutocompleteClassNames;
   components: AutocompleteComponents;
   createElement: Pragma;
+  html: HTMLTemplate;
   dom: AutocompleteDom;
   Fragment: PragmaFrag;
   panelContainer: HTMLElement;
@@ -67,6 +68,7 @@ export function renderPanel<TItem extends BaseItem>(
     autocomplete,
     autocompleteScopeApi,
     classNames,
+    html,
     createElement,
     dom,
     Fragment,
@@ -76,8 +78,6 @@ export function renderPanel<TItem extends BaseItem>(
     components,
   }: RenderProps<TItem>
 ): void {
-  const html = htm.bind(createElement);
-
   if (!state.isOpen) {
     if (panelContainer.contains(dom.panel)) {
       panelContainer.removeChild(dom.panel);
