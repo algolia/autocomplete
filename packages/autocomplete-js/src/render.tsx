@@ -4,7 +4,6 @@ import {
   AutocompleteScopeApi,
   BaseItem,
 } from '@algolia/autocomplete-core';
-import { render as preactRender } from 'preact';
 
 import {
   AutocompleteClassNames,
@@ -12,6 +11,7 @@ import {
   AutocompleteDom,
   AutocompletePropGetters,
   AutocompleteRender,
+  AutocompleteRenderer,
   AutocompleteState,
   HTMLTemplate,
   Pragma,
@@ -31,6 +31,7 @@ type RenderProps<TItem extends BaseItem> = {
   panelContainer: HTMLElement;
   propGetters: AutocompletePropGetters<TItem>;
   state: AutocompleteState<TItem>;
+  renderer: { renderer: AutocompleteRenderer };
 };
 
 export function renderSearchBox<TItem extends BaseItem>({
@@ -76,6 +77,7 @@ export function renderPanel<TItem extends BaseItem>(
     propGetters,
     state,
     components,
+    renderer,
   }: RenderProps<TItem>
 ): void {
   if (!state.isOpen) {
@@ -205,7 +207,7 @@ export function renderPanel<TItem extends BaseItem>(
       Fragment,
       components,
       html,
-      render: preactRender,
+      render: renderer.renderer.render,
       ...autocompleteScopeApi,
     },
     dom.panel

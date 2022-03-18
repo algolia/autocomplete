@@ -22,6 +22,12 @@ export type VNode<TProps = any> = {
   props: TProps & { children: ComponentChildren; key?: any };
 };
 
+export type Render = (
+  vnode: ComponentChild,
+  parent: Element | Document | ShadowRoot | DocumentFragment,
+  replaceNode?: Element | Text | undefined
+) => void;
+
 export type AutocompleteRenderer = {
   /**
    * The function to create virtual nodes.
@@ -35,6 +41,10 @@ export type AutocompleteRenderer = {
    * @default preact.Fragment
    */
   Fragment: PragmaFrag;
+  /**
+   * The function to render children to an element.
+   */
+  render?: Render;
 };
 
 export type HTMLTemplate = typeof htm;

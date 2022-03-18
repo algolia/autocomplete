@@ -60,6 +60,7 @@ const defaultRender: AutocompleteRender<any> = ({ children }, root) => {
 const defaultRenderer: AutocompleteRenderer = {
   createElement: preactCreateElement,
   Fragment: PreactFragment,
+  render,
 };
 
 export function getDefaultOptions<TItem extends BaseItem>(

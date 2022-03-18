@@ -162,6 +162,7 @@ export function autocomplete<TItem extends BaseItem>(
         : props.value.renderer.panelContainer,
       propGetters,
       state: lastStateRef.current,
+      renderer: props.value.renderer,
     };
 
     const render =
