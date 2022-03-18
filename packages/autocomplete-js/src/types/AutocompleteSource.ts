@@ -5,7 +5,11 @@ import {
 } from '@algolia/autocomplete-core';
 
 import { AutocompleteComponents } from './AutocompleteComponents';
-import { AutocompleteRenderer, HTMLTemplate, VNode } from './AutocompleteRenderer';
+import {
+  AutocompleteRenderer,
+  HTMLTemplate,
+  VNode,
+} from './AutocompleteRenderer';
 import { AutocompleteState } from './AutocompleteState';
 
 type Template<TParams> = (
