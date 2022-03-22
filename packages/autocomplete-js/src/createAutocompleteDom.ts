@@ -168,7 +168,9 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     const detachedCancelButton = createDomElement('button', {
       class: classNames.detachedCancelButton,
       textContent: translations.detachedCancelButtonText,
-      onClick() {
+      onClick(event: MouseEvent) {
+        event.preventDefault();
+        event.stopPropagation();
         autocomplete.setIsOpen(false);
         setIsModalOpen(false);
       },
