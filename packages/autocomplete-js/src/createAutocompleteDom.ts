@@ -158,18 +158,18 @@ export function createAutocompleteDom<TItem extends BaseItem>({
       textContent: placeholder,
     });
     const detachedSearchButton = createDomElement('button', {
+      type: 'button',
       class: classNames.detachedSearchButton,
-      onClick(event: MouseEvent) {
-        event.preventDefault();
+      onClick() {
         setIsModalOpen(true);
       },
       children: [detachedSearchButtonIcon, detachedSearchButtonPlaceholder],
     });
     const detachedCancelButton = createDomElement('button', {
+      type: 'button',
       class: classNames.detachedCancelButton,
       textContent: translations.detachedCancelButtonText,
       onClick(event: MouseEvent) {
-        event.preventDefault();
         event.stopPropagation();
         autocomplete.setIsOpen(false);
         setIsModalOpen(false);
