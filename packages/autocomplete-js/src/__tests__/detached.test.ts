@@ -85,4 +85,50 @@ describe('detached', () => {
       expect(document.body).not.toHaveClass('aa-Detached');
     });
   });
+
+  test('closes after cancel', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      id: 'autocomplete',
+      detachedMediaQuery: '',
+      container,
+    });
+
+    const searchButton = container.querySelector<HTMLButtonElement>(
+      '.aa-DetachedSearchButton'
+    );
+
+    // Open detached overlay
+    searchButton.click();
+
+    await waitFor(() => {
+      expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
+      expect(document.body).toHaveClass('aa-Detached');
+    });
+
+    const cancelButton = document.querySelector<HTMLButtonElement>(
+      '.aa-DetachedCancelButton'
+    );
+
+    const bodyClickListener = jest.fn();
+    document.querySelector('body').addEventListener('click', bodyClickListener);
+
+    // Close detached overlay
+    cancelButton.click();
+
+    expect(bodyClickListener).toHaveBeenCalledTimes(0);
+
+    document
+      .querySelector('body')
+      .removeEventListener('click', bodyClickListener);
+
+    // The detached overlay should close
+    await waitFor(() => {
+      expect(
+        document.querySelector('.aa-DetachedOverlay')
+      ).not.toBeInTheDocument();
+      expect(document.body).not.toHaveClass('aa-Detached');
+    });
+  });
 });
