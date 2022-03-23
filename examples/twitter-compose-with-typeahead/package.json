@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-twitter-compose-with-typeahead",
   "description": "Autocomplete example powering a Twitter compose box with mentions typeahead.",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -11,8 +11,8 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@algolia/autocomplete-core": "1.5.3",
-    "@algolia/autocomplete-preset-algolia": "1.5.3",
+    "@algolia/autocomplete-core": "1.5.4",
+    "@algolia/autocomplete-preset-algolia": "1.5.4",
     "algoliasearch": "4.10.5",
     "react": "17.0.2",
     "react-dom": "17.0.2",
