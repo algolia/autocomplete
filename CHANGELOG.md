@@ -3,7 +3,7 @@
 
 ### Bug Fixes
 
-* prevent event bubbling on cancel button click ([#922](https://github.com/algolia/autocomplete/issues/922)) ([ba17ccd](https://github.com/algolia/autocomplete/commit/ba17ccd578717c780d597733fa3d6dfd4b10dcf3))
+* **js:** prevent event bubbling on cancel button click ([#922](https://github.com/algolia/autocomplete/issues/922)) ([ba17ccd](https://github.com/algolia/autocomplete/commit/ba17ccd578717c780d597733fa3d6dfd4b10dcf3))
 
 
 
