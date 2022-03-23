@@ -1,16 +1,14 @@
-const chromeRegex = /(?:crmo|crios|chrome)\/v?([\w.]+)/i;
-const edgeRegex = /edg(?:e|ios|a)?\/([\w.]+)/i;
-const samsungBrowserRegex = /samsungbrowser\/([\w.]+)/i;
-const chromiumRegex = /chromium[/ ]([-\w.]+)/i;
+const chromeRegex = /(?:crmo|crios|chrome)/i;
+const edgeRegex = /edg(?:e|ios|a)?/i;
+const samsungBrowserRegex = /samsungbrowser/i;
+const chromiumRegex = /chromium/i;
 
 export function isChrome(userAgent: string) {
-  return (
+  return Boolean(
     userAgent &&
-    Boolean(
       userAgent.match(chromeRegex) &&
-        !userAgent.match(edgeRegex) &&
-        !userAgent.match(samsungBrowserRegex) &&
-        !userAgent.match(chromiumRegex)
-    )
+      !userAgent.match(edgeRegex) &&
+      !userAgent.match(samsungBrowserRegex) &&
+      !userAgent.match(chromiumRegex)
   );
 }

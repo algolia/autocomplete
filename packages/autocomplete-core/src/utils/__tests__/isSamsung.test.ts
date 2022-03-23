@@ -11,6 +11,14 @@ describe('isSamsung', () => {
         ).toEqual(true);
       });
 
+      test('returns true with a Samsung Galaxy S4 (mobile) user agent', () => {
+        expect(
+          isSamsung(
+            'Mozilla/5.0 (Linux; Android 5.0.1; SAMSUNG-SGH-I337 Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.93 Mobile Safari/537.36'
+          )
+        ).toEqual(true);
+      });
+
       test('returns true with a Samsung Galaxy Tab S3 (tablet) user agent', () => {
         expect(
           isSamsung(
@@ -65,12 +73,28 @@ describe('isSamsung', () => {
         ).toEqual(false);
       });
 
+      test('returns true with a Samsung Galaxy S4 (mobile) user agent', () => {
+        expect(
+          isSamsung(
+            'Mozilla/5.0 (Linux; Android 4.4.2; ko-kr; SAMSUNG SHV-E300K/KKUFNL3 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Version/1.5 Chrome/28.0.1500.94 Mobile Safari/537.36'
+          )
+        ).toEqual(true);
+      });
+
       test('returns false with an Asus TF201 (tablet) user agent', () => {
         expect(
           isSamsung(
             'Mozilla/5.0 (Linux; U; Android 4.1.1; en-us; Transformer Prime TF201 Build/JRO03C) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30'
           )
         ).toEqual(false);
+      });
+
+      test('returns true with an Samsung Galaxy Tab (tablet) user agent', () => {
+        expect(
+          isSamsung(
+            'Mozilla/5.0 (Linux; U; Android 3.2; nl-nl; GT-P6800 Build/HTJ85B) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13'
+          )
+        ).toEqual(true);
       });
     });
   });

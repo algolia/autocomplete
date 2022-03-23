@@ -1,11 +1,10 @@
-const androidRegex = /android[-/ ]?([\w.]*)/i;
-const windowsPhoneRegex = /(windows (?:phone(?: os)?|mobile))[/ ]?([\d.\w ]*)/i;
+const androidRegex = /android/i;
+const windowsPhoneRegex = /(windows (?:phone|mobile))/i;
 
 export function isAndroid(userAgent: string) {
-  return (
+  return Boolean(
     userAgent &&
-    Boolean(
-      userAgent.match(androidRegex) && !userAgent.match(windowsPhoneRegex)
-    )
+      userAgent.match(androidRegex) &&
+      !userAgent.match(windowsPhoneRegex)
   );
 }
