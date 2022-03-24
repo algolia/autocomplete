@@ -22,7 +22,6 @@ export type GetEnvironmentProps = (props: {
   formElement: HTMLElement;
   inputElement: HTMLInputElement;
   panelElement: HTMLElement;
-  isDetached: boolean;
 }) => {
   onTouchStart(event: TouchEvent): void;
   onTouchMove(event: TouchEvent): void;
