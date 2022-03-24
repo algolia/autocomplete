@@ -3,6 +3,13 @@
 }
 
 body {
+  --aa-panel-max-height: 660px;
+
+  --aa-selected-color-rgb: 240, 238, 246;
+  --aa-selected-color-alpha: 1;
+
+  --aa-icon-size: 18px;
+
   background-color: #f4f4f9;
   color: #000;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -20,10 +27,6 @@ body {
 }
 
 /* Panel */
-.aa-Panel--scrollable {
-  --aa-panel-max-height: 660px;
-}
-
 .aa-Panel .aa-SourceHeader {
   margin: var(--aa-spacing-half) 0 var(--aa-spacing-half) 0;
 }
@@ -46,6 +49,7 @@ body {
 
 .aa-PanelSection--left .aa-ItemWrapper {
   height: 100%;
+  border-radius: calc(var(--aa-spacing-half) / 2);
 }
 
 .aa-PanelSection--right {
@@ -65,15 +69,15 @@ body {
   transition: background 0.2s ease-out;
 }
 
-.aa-Item[data-active='true'] {
+.aa-Item:hover .aa-ItemPicture img {
+  transform: scale(1.1);
+}
+
+.aa-ItemWrapper[data-active='true'] {
   background-color: rgba(
     var(--aa-selected-color-rgb),
     var(--aa-selected-color-alpha)
   );
-}
-
-.aa-Item:hover .aa-ItemPicture img {
-  transform: scale(1.1);
 }
 
 .aa-ItemPicture {
@@ -288,7 +292,6 @@ body {
 }
 
 .aa-ProductItem .aa-FavoriteIcon {
-  --aa-icon-size: 18px;
   color: rgb(var(--aa-primary-color-rgb));
   stroke-width: 2;
   stroke: currentColor;

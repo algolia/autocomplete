@@ -10,6 +10,7 @@ import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
 import { searchClient } from '../searchClient';
 import { setSmartPreview } from '../setSmartPreview';
 import { CategoryHit } from '../types';
+import { cx } from '../utils';
 
 export const categoriesPlugin: AutocompletePlugin<CategoryHit, {}> = {
   getSources({ query }) {
@@ -47,8 +48,15 @@ export const categoriesPlugin: AutocompletePlugin<CategoryHit, {}> = {
           });
         },
         templates: {
-          item({ item }) {
-            return <CategoryItem hit={item} />;
+          item({ item, state }) {
+            return (
+              <CategoryItem
+                hit={item}
+                active={
+                  state.context.lastActiveItemId === item.__autocomplete_id
+                }
+              />
+            );
           },
         },
       },
@@ -58,14 +66,15 @@ export const categoriesPlugin: AutocompletePlugin<CategoryHit, {}> = {
 
 type CategoryItemProps = {
   hit: CategoryHit;
+  active: boolean;
 };
 
-function CategoryItem({ hit }: CategoryItemProps) {
+function CategoryItem({ hit, active }: CategoryItemProps) {
   const breadcrumbCategories = hit.list_categories.slice(0, -1);
   const category = hit.list_categories[hit.list_categories.length - 1];
 
   return (
-    <div className="aa-ItemWrapper aa-CategoryItem">
+    <div className={cx('aa-ItemWrapper aa-CategoryItem')} data-active={active}>
       <div className="aa-ItemContent">
         <div className="aa-ItemIcon aa-ItemIcon--noBorder">
           <GridIcon />

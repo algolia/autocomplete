@@ -16,28 +16,14 @@ type smartPreviewParams<
   };
 };
 
-export function updateActiveItem(activeItemId: number) {
-  const currentActiveEl = document.querySelector('[data-active=true]');
-  currentActiveEl?.removeAttribute('data-active');
-
-  const selectedEl = document.querySelector(
-    `#autocomplete-0-item-${activeItemId}`
-  );
-  selectedEl?.setAttribute('data-active', 'true');
-}
-
 export function setSmartPreview<TItem extends BaseItem>({
   state,
   setContext,
   refresh,
   preview,
-  setActiveItemId,
 }: smartPreviewParams<TItem>) {
   if (!dequal(state.context.preview, preview) && !isTouchDevice()) {
-    setContext({ preview });
-
+    setContext({ preview, lastActiveItemId: state.activeItemId });
     refresh();
-    setActiveItemId(state.activeItemId);
-    updateActiveItem(state.activeItemId);
   }
 }

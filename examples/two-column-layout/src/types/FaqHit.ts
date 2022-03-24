@@ -1,4 +1,4 @@
-import { Hit } from '@algolia/client-search';
+import { AutocompleteHit } from './AutocompleteHit';
 
 type FaqRecord = {
   list_categories: string[];
@@ -6,4 +6,4 @@ type FaqRecord = {
   description: string;
 };
 
-export type FaqHit = Hit<FaqRecord>;
+export type FaqHit = AutocompleteHit<FaqRecord>;

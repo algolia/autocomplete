@@ -109,10 +109,7 @@ autocomplete({
       <div
         className="aa-PanelLayout aa-Panel--scrollable"
         onMouseLeave={() => {
-          const el = document.querySelector('[data-active=true]');
-          el?.removeAttribute('data-active');
-
-          setContext({ preview: null });
+          setContext({ preview: null, lastActiveItemId: -1 });
           refresh();
         }}
       >

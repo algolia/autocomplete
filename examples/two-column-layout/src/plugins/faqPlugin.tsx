@@ -42,8 +42,16 @@ export const faqPlugin: AutocompletePlugin<FaqHit, {}> = {
           });
         },
         templates: {
-          item({ item, components }) {
-            return <FaqItem hit={item} components={components} />;
+          item({ item, components, state }) {
+            return (
+              <FaqItem
+                hit={item}
+                components={components}
+                active={
+                  state.context.lastActiveItemId === item.__autocomplete_id
+                }
+              />
+            );
           },
         },
       },
@@ -54,13 +62,14 @@ export const faqPlugin: AutocompletePlugin<FaqHit, {}> = {
 type FaqItemProps = {
   hit: FaqHit;
   components: AutocompleteComponents;
+  active: boolean;
 };
 
-function FaqItem({ hit, components }: FaqItemProps) {
+function FaqItem({ hit, components, active }: FaqItemProps) {
   const breadcrumbItems = hit.list_categories;
 
   return (
-    <div className="aa-ItemWrapper aa-FaqItem">
+    <div className="aa-ItemWrapper aa-FaqItem" data-active={active}>
       <div className="aa-ItemContent">
         <div className="aa-ItemIcon aa-ItemIcon--noBorder">
           <InfoIcon />

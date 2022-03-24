@@ -1,8 +1,8 @@
-import { Hit } from '@algolia/client-search';
+import { AutocompleteHit } from './AutocompleteHit';
 
 type BrandRecord = {
   label: string;
   count: number;
 };
 
-export type BrandHit = Hit<BrandRecord>;
+export type BrandHit = AutocompleteHit<BrandRecord>;
