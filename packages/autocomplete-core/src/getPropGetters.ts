@@ -29,7 +29,13 @@ export function getPropGetters<
   TKeyboardEvent
 >({ props, refresh, store, ...setters }: GetPropGettersOptions<TItem>) {
   const getEnvironmentProps: GetEnvironmentProps = (providedProps) => {
-    const { inputElement, formElement, panelElement, ...rest } = providedProps;
+    const {
+      inputElement,
+      formElement,
+      panelElement,
+      isDetached,
+      ...rest
+    } = providedProps;
 
     return {
       // On touch devices, we do not rely on the native `blur` event of the
@@ -60,7 +66,7 @@ export function getPropGetters<
         );
 
         if (isTargetWithinAutocomplete === false) {
-          store.dispatch('blur', null);
+          store.dispatch('blur', { isDetached });
 
           // If requests are still pending when the user closes the panel, they
           // could reopen the panel once they resolve.

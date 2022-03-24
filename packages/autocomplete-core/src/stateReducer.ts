@@ -144,7 +144,7 @@ export const stateReducer: Reducer = (state, action) => {
     }
 
     case 'blur': {
-      if (action.props.debug) {
+      if (action.props.debug || action.payload?.isDetached) {
         return state;
       }
 

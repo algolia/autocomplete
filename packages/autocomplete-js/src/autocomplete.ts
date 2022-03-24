@@ -174,6 +174,7 @@ export function autocomplete<TItem extends BaseItem>(
       formElement: dom.value.form,
       panelElement: dom.value.panel,
       inputElement: dom.value.input,
+      isDetached: isDetached.value,
     });
 
     setProperties(props.value.core.environment as any, environmentProps);
