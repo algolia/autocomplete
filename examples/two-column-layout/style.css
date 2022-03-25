@@ -485,7 +485,7 @@ body {
 
 .aa-QuickAccessItem--sales-code .aa-ItemContentTitle {
   font-size: 1.2em;
-  line-height: 1.3em;
+  line-height: 1.3;
   font-weight: bold;
 }
 
@@ -516,7 +516,7 @@ body {
   text-transform: uppercase;
   font-size: 1.2em;
   font-weight: bold;
-  line-height: 1.3em;
+  line-height: 1.3;
 }
 
 .aa-QuickAccessItem--help ul {
@@ -601,6 +601,7 @@ body {
 
 .aa-NoResultsAdvicesList {
   font-size: 0.9em;
+  line-height: 1.3;
   padding: 0;
   margin-top: 0;
   margin-left: calc(var(--aa-spacing) * 1.5);

@@ -155,6 +155,7 @@ autocomplete({
                   <li>Double-check your spelling</li>
                   <li>Use fewer keywords</li>
                   <li>Search for a less specific item</li>
+                  <li>Try navigate using on the of the popular categories</li>
                 </ul>
               </div>
             )}
