@@ -3,7 +3,6 @@ export * from './createCancelablePromiseList';
 export * from './createConcurrentSafePromise';
 export * from './getNextActiveItemId';
 export * from './getNormalizedSources';
-export * from './isAndroid';
 export * from './isChrome';
 export * from './getActiveItem';
 export * from './isOrContainsNode';

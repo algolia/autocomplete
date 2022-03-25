@@ -26,6 +26,14 @@ describe('isSamsung', () => {
           )
         ).toEqual(true);
       });
+
+      test('returns true with a Samsung Chromebook (desktop) user agent', () => {
+        expect(
+          isSamsung(
+            'Mozilla/5.0 (Linux; Android 9; Samsung Chromebook Plus (V2) Build/R94-14150.64.0; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/96.0.4664.45 Safari/537.36'
+          )
+        ).toEqual(true);
+      });
     });
 
     describe('Firefox', () => {
@@ -37,7 +45,7 @@ describe('isSamsung', () => {
         ).toEqual(false);
       });
 
-      test('returns false with a Android 9 (tablet) user agent', () => {
+      test('returns false with an Android 9 (tablet) user agent', () => {
         expect(
           isSamsung(
             'Mozilla/5.0 (Android 9; Tablet; rv:97.0) Gecko/97.0 Firefox/97.0'

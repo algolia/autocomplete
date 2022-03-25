@@ -29,7 +29,7 @@ describe('isChrome', () => {
         ).toEqual(false);
       });
 
-      test('returns false with a Android 9 (tablet) user agent', () => {
+      test('returns false with an Android 9 (tablet) user agent', () => {
         expect(
           isChrome(
             'Mozilla/5.0 (Android 9; Tablet; rv:97.0) Gecko/97.0 Firefox/97.0'
