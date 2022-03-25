@@ -174,8 +174,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
       onTouchStart(event: TouchEvent) {
         event.stopPropagation();
       },
-      onClick(event: MouseEvent) {
-        event.stopPropagation();
+      onClick() {
         autocomplete.setIsOpen(false);
         setIsModalOpen(false);
       },

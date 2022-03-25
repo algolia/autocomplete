@@ -134,16 +134,7 @@ describe('detached', () => {
     });
 
     // Close detached overlay
-    const bodyClickListener = jest.fn();
-    document.querySelector('body').addEventListener('click', bodyClickListener);
-
     cancelButton.click();
-
-    expect(bodyClickListener).toHaveBeenCalledTimes(0);
-
-    document
-      .querySelector('body')
-      .removeEventListener('click', bodyClickListener);
 
     // The detached overlay should close
     await waitFor(() => {
