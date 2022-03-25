@@ -66,8 +66,6 @@ type FaqItemProps = {
 };
 
 function FaqItem({ hit, components, active }: FaqItemProps) {
-  const breadcrumbItems = hit.list_categories;
-
   return (
     <div className="aa-ItemWrapper aa-FaqItem" data-active={active}>
       <div className="aa-ItemContent">
@@ -80,7 +78,15 @@ function FaqItem({ hit, components, active }: FaqItemProps) {
           </div>
         </div>
       </div>
-      <Breadcrumb items={breadcrumbItems} />
+      <Breadcrumb
+        items={hit.list_categories.map((_, index) => (
+          <components.ReverseHighlight
+            key={index}
+            hit={hit}
+            attribute={['list_categories', `${index}`]}
+          />
+        ))}
+      />
     </div>
   );
 }

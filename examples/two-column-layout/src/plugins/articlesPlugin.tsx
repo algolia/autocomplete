@@ -3,6 +3,7 @@ import {
   AutocompletePlugin,
   getAlgoliaResults,
 } from '@algolia/autocomplete-js';
+import { SearchResponse } from '@algolia/client-search';
 import { h } from 'preact';
 
 import { ALGOLIA_ARTICLES_INDEX_NAME } from '../constants';
@@ -10,7 +11,7 @@ import { searchClient } from '../searchClient';
 import { ArticleHit } from '../types';
 
 export const articlesPlugin: AutocompletePlugin<ArticleHit, {}> = {
-  getSources({ query }) {
+  getSources({ query, setContext }) {
     if (!query) {
       return [];
     }
@@ -30,6 +31,13 @@ export const articlesPlugin: AutocompletePlugin<ArticleHit, {}> = {
                 },
               },
             ],
+            transformResponse({ hits, results }) {
+              setContext({
+                nbArticles: (results[0] as SearchResponse<ArticleHit>).nbHits,
+              });
+
+              return hits;
+            },
           });
         },
         onSelect({ setIsOpen }) {
@@ -46,6 +54,24 @@ export const articlesPlugin: AutocompletePlugin<ArticleHit, {}> = {
           },
           item({ item }) {
             return <ArticleItem hit={item} />;
+          },
+          footer({ state }) {
+            return (
+              state.context.nbArticles > 2 && (
+                <div style={{ textAlign: 'center' }}>
+                  <a
+                    href="https://example.org/"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="aa-SeeAllLink"
+                  >
+                    See All Articles{' '}
+                    {state.context.nbArticles &&
+                      `(${state.context.nbArticles})`}
+                  </a>
+                </div>
+              )
+            );
           },
         },
       },

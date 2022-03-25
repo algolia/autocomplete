@@ -16,7 +16,7 @@ import { querySuggestionsPlugin } from './plugins/querySuggestionsPlugin';
 import { quickAccessPlugin } from './plugins/quickAccessPlugin';
 import { recentSearchesPlugin } from './plugins/recentSearchesPlugin';
 import { FaqHit } from './types';
-import { cx } from './utils';
+import { cx, isDetached } from './utils';
 
 import '@algolia/autocomplete-theme-classic';
 
@@ -34,7 +34,7 @@ const removeDuplicates = uniqBy(({ source, item }) => {
 
 const fillWith = populate({
   mainSourceId: 'querySuggestionsPlugin',
-  limit: 10,
+  limit: isDetached() ? 6 : 10,
 });
 
 const combine = pipe(removeDuplicates, fillWith);
@@ -124,7 +124,7 @@ autocomplete({
             {hasResults ? (
               (!state.query && recentSearches && (
                 <Fragment>
-                  <div className="aa-SourceHeader">
+                  <div className="aa-SourceHeader aa-SourceHeader--recentSearches">
                     <span className="aa-SourceHeaderTitle">
                       Recent searches
                     </span>
@@ -159,7 +159,7 @@ autocomplete({
               </div>
             )}
 
-            {(!hasResults || !state.query) && (
+            {!state.query && (
               <div className="aa-PanelSection--popular">{popular}</div>
             )}
           </div>
@@ -179,19 +179,6 @@ autocomplete({
                     )}
                   >
                     <div className="aa-PanelSectionSource">{products}</div>
-                    {state.context.nbHits > 4 && (
-                      <div style={{ textAlign: 'center' }}>
-                        <a
-                          href="https://example.org/"
-                          target="_blank"
-                          rel="noreferrer noopener"
-                          className="aa-SeeAll"
-                        >
-                          See All Products{' '}
-                          {state.context.nbHits && `(${state.context.nbHits})`}
-                        </a>
-                      </div>
-                    )}
                   </div>
                 )}
                 {articles && (

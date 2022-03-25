@@ -52,7 +52,7 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
             ],
             transformResponse({ hits, results }) {
               setContext({
-                nbHits: (results[0] as SearchResponse<ProductHit>).nbHits,
+                nbProducts: (results[0] as SearchResponse<ProductHit>).nbHits,
               });
 
               return hits;
@@ -81,6 +81,24 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
           },
           item({ item, components }) {
             return <ProductItem hit={item} components={components} />;
+          },
+          footer({ state }) {
+            return (
+              state.context.nbProducts > 4 && (
+                <div style={{ textAlign: 'center' }}>
+                  <a
+                    href="https://example.org/"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="aa-SeeAllBtn"
+                  >
+                    See All Products{' '}
+                    {state.context.nbProducts &&
+                      `(${state.context.nbProducts})`}
+                  </a>
+                </div>
+              )
+            );
           },
         },
       },
@@ -130,7 +148,9 @@ function ProductItem({ hit, components }: ProductItemProps) {
         <div className="aa-ItemContentBody">
           <div>
             {hit.brand && (
-              <div className="aa-ItemContentBrand">{hit.brand}</div>
+              <div className="aa-ItemContentBrand">
+                <components.Highlight hit={hit} attribute="brand" />
+              </div>
             )}
             <div className="aa-ItemContentTitleWrapper">
               <div className="aa-ItemContentTitle">

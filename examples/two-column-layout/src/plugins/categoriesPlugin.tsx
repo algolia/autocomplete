@@ -1,5 +1,6 @@
 /** @jsx h */
 import {
+  AutocompleteComponents,
   AutocompletePlugin,
   getAlgoliaResults,
 } from '@algolia/autocomplete-js';
@@ -48,10 +49,11 @@ export const categoriesPlugin: AutocompletePlugin<CategoryHit, {}> = {
           });
         },
         templates: {
-          item({ item, state }) {
+          item({ item, components, state }) {
             return (
               <CategoryItem
                 hit={item}
+                components={components}
                 active={
                   state.context.lastActiveItemId === item.__autocomplete_id
                 }
@@ -66,13 +68,11 @@ export const categoriesPlugin: AutocompletePlugin<CategoryHit, {}> = {
 
 type CategoryItemProps = {
   hit: CategoryHit;
+  components: AutocompleteComponents;
   active: boolean;
 };
 
-function CategoryItem({ hit, active }: CategoryItemProps) {
-  const breadcrumbCategories = hit.list_categories.slice(0, -1);
-  const category = hit.list_categories[hit.list_categories.length - 1];
-
+function CategoryItem({ hit, components, active }: CategoryItemProps) {
   return (
     <div className={cx('aa-ItemWrapper aa-CategoryItem')} data-active={active}>
       <div className="aa-ItemContent">
@@ -80,10 +80,26 @@ function CategoryItem({ hit, active }: CategoryItemProps) {
           <GridIcon />
         </div>
         <div className="aa-ItemContentBody">
-          <div className="aa-ItemContentTitle">{category}</div>
+          <div className="aa-ItemContentTitle">
+            <components.ReverseHighlight
+              hit={hit}
+              attribute={[
+                'list_categories',
+                `${hit.list_categories.length - 1}`,
+              ]}
+            />
+          </div>
         </div>
       </div>
-      <Breadcrumb items={breadcrumbCategories} />
+      <Breadcrumb
+        items={hit.list_categories.slice(0, -1).map((_, index) => (
+          <components.ReverseHighlight
+            key={index}
+            hit={hit}
+            attribute={['list_categories', `${index}`]}
+          />
+        ))}
+      />
     </div>
   );
 }
