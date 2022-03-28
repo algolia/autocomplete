@@ -9,6 +9,7 @@ import { h } from 'preact';
 import { TagIcon } from '../components';
 import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
 import { searchClient } from '../searchClient';
+import { setSmartPreview } from '../setSmartPreview';
 import { BrandHit } from '../types';
 
 export const brandsPlugin: AutocompletePlugin<BrandHit, {}> = {
@@ -38,9 +39,26 @@ export const brandsPlugin: AutocompletePlugin<BrandHit, {}> = {
         getItemInputValue({ item }) {
           return item.label;
         },
+        onActive(params) {
+          setSmartPreview({
+            preview: {
+              facetName: 'brand',
+              facetValue: params.item.label,
+            },
+            ...params,
+          });
+        },
         templates: {
-          item({ item, components }) {
-            return <BrandItem hit={item} components={components} />;
+          item({ item, components, state }) {
+            return (
+              <BrandItem
+                hit={item}
+                components={components}
+                active={
+                  state.context.lastActiveItemId === item.__autocomplete_id
+                }
+              />
+            );
           },
         },
       },
@@ -51,11 +69,12 @@ export const brandsPlugin: AutocompletePlugin<BrandHit, {}> = {
 type BrandItemProps = {
   hit: BrandHit;
   components: AutocompleteComponents;
+  active: boolean;
 };
 
-const BrandItem = ({ hit, components }: BrandItemProps) => {
+function BrandItem({ hit, components, active }: BrandItemProps) {
   return (
-    <div className="aa-ItemWrapper">
+    <div className="aa-ItemWrapper" data-active={active}>
       <div className="aa-ItemContent">
         <div className="aa-ItemIcon aa-ItemIcon--noBorder">
           <TagIcon />
@@ -68,4 +87,4 @@ const BrandItem = ({ hit, components }: BrandItemProps) => {
       </div>
     </div>
   );
-};
+}

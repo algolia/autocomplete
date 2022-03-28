@@ -1,7 +1,7 @@
-import { Hit } from '@algolia/client-search';
+import { AutocompleteHit } from './AutocompleteHit';
 
 type CategoryRecord = {
   list_categories: string[];
 };
 
-export type CategoryHit = Hit<CategoryRecord>;
+export type CategoryHit = AutocompleteHit<CategoryRecord>;

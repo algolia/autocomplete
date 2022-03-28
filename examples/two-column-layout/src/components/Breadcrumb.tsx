@@ -1,15 +1,15 @@
 /** @jsx h */
 import { h } from 'preact';
 
-import { intersperse } from '../utils/intersperse';
+import { intersperse } from '../utils';
 
 import { ChevronRightIcon } from './Icons';
 
 type BreadcrumbProps = {
-  items: string[];
+  items: string[] | JSX.Element[];
 };
 
-export const Breadcrumb = ({ items }: BreadcrumbProps) => {
+export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <div className="aa-Breadcrumb">
       {intersperse(
@@ -20,4 +20,4 @@ export const Breadcrumb = ({ items }: BreadcrumbProps) => {
       )}
     </div>
   );
-};
+}
