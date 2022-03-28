@@ -124,7 +124,7 @@ autocomplete({
             {hasResults ? (
               (!state.query && recentSearches && (
                 <Fragment>
-                  <div className="aa-SourceHeader aa-SourceHeader--recentSearches">
+                  <div className="aa-SourceHeader">
                     <span className="aa-SourceHeaderTitle">
                       Recent searches
                     </span>

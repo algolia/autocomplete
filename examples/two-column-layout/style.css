@@ -692,7 +692,7 @@ body {
     display: none;
   }
 
-  .aa-SourceHeader--recentSearches,
+  .aa-PanelSection--quickAccess .aa-SourceHeader,
   .aa-PanelSection--popular .aa-SourceHeader {
     display: block;
   }
