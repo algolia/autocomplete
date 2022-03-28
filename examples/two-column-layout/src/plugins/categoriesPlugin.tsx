@@ -1,5 +1,6 @@
 /** @jsx h */
 import {
+  AutocompleteComponents,
   AutocompletePlugin,
   getAlgoliaResults,
 } from '@algolia/autocomplete-js';
@@ -7,9 +8,10 @@ import { h } from 'preact';
 
 import { Breadcrumb, GridIcon } from '../components';
 import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
-import { setSmartPreview } from '../functions';
 import { searchClient } from '../searchClient';
+import { setSmartPreview } from '../setSmartPreview';
 import { CategoryHit } from '../types';
+import { cx } from '../utils';
 
 export const categoriesPlugin: AutocompletePlugin<CategoryHit, {}> = {
   getSources({ query }) {
@@ -47,8 +49,16 @@ export const categoriesPlugin: AutocompletePlugin<CategoryHit, {}> = {
           });
         },
         templates: {
-          item({ item }) {
-            return <CategoryItem hit={item} />;
+          item({ item, components, state }) {
+            return (
+              <CategoryItem
+                hit={item}
+                components={components}
+                active={
+                  state.context.lastActiveItemId === item.__autocomplete_id
+                }
+              />
+            );
           },
         },
       },
@@ -58,23 +68,38 @@ export const categoriesPlugin: AutocompletePlugin<CategoryHit, {}> = {
 
 type CategoryItemProps = {
   hit: CategoryHit;
+  components: AutocompleteComponents;
+  active: boolean;
 };
 
-const CategoryItem = ({ hit }: CategoryItemProps) => {
-  const breadcrumbCategories = hit.list_categories.slice(0, -1);
-  const category = hit.list_categories[hit.list_categories.length - 1];
-
+function CategoryItem({ hit, components, active }: CategoryItemProps) {
   return (
-    <div className="aa-ItemWrapper aa-CategoryItem">
+    <div className={cx('aa-ItemWrapper aa-CategoryItem')} data-active={active}>
       <div className="aa-ItemContent">
         <div className="aa-ItemIcon aa-ItemIcon--noBorder">
           <GridIcon />
         </div>
         <div className="aa-ItemContentBody">
-          <div className="aa-ItemContentTitle">{category}</div>
+          <div className="aa-ItemContentTitle">
+            <components.ReverseHighlight
+              hit={hit}
+              attribute={[
+                'list_categories',
+                `${hit.list_categories.length - 1}`,
+              ]}
+            />
+          </div>
         </div>
       </div>
-      <Breadcrumb items={breadcrumbCategories} />
+      <Breadcrumb
+        items={hit.list_categories.slice(0, -1).map((_, index) => (
+          <components.ReverseHighlight
+            key={index}
+            hit={hit}
+            attribute={['list_categories', `${index}`]}
+          />
+        ))}
+      />
     </div>
   );
-};
+}
