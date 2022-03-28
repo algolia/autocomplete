@@ -14,6 +14,7 @@
     "@algolia/autocomplete-plugin-query-suggestions": "1.5.3",
     "@algolia/autocomplete-plugin-recent-searches": "1.5.3",
     "@algolia/autocomplete-theme-classic": "1.5.3",
+    "@algolia/autocomplete-shared": "1.5.3",
     "@algolia/client-search": "4.12.1",
     "algoliasearch": "4.12.1",
     "blurhash": "^1.1.5",
