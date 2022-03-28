@@ -111,7 +111,11 @@ body {
   display: flex;
   align-items: center;
   font-size: 0.8em;
-  font-variant: small-caps;
+  text-transform: capitalize;
+}
+
+.aa-Breadcrumb mark {
+  text-transform: none;
 }
 
 .aa-Breadcrumb .aa-ItemIcon {
