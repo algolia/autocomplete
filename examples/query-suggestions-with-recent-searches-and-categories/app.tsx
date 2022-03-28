@@ -1,7 +1,7 @@
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
-import algoliasearch from 'algoliasearch';
+import algoliasearch from 'algoliasearch/lite';
 
 import '@algolia/autocomplete-theme-classic';
 
