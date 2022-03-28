@@ -37,6 +37,7 @@ export const populate: AutocompleteReshapeFunction<PopulateOptions> = ({
           },
         };
       }
+
       return transformedSource;
     });
   };

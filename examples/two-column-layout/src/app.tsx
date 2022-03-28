@@ -3,16 +3,20 @@ import { autocomplete } from '@algolia/autocomplete-js';
 import { h, render } from 'preact';
 import { pipe } from 'ramda';
 
+import { FaqPreview } from './components/FaqPreview';
 import { populate, uniqBy } from './functions';
 import { articlesPlugin } from './plugins/articlesPlugin';
 import { brandsPlugin } from './plugins/brandsPlugin';
 import { categoriesPlugin } from './plugins/categoriesPlugin';
 import { faqPlugin } from './plugins/faqPlugin';
+import { popularCategoriesPlugin } from './plugins/popularCategoriesPlugin';
 import { popularPlugin } from './plugins/popularPlugin';
 import { productsPlugin } from './plugins/productsPlugin';
 import { querySuggestionsPlugin } from './plugins/querySuggestionsPlugin';
 import { quickAccessPlugin } from './plugins/quickAccessPlugin';
 import { recentSearchesPlugin } from './plugins/recentSearchesPlugin';
+import { FaqHit } from './types';
+import { cx, isDetached } from './utils';
 
 import '@algolia/autocomplete-theme-classic';
 
@@ -30,7 +34,7 @@ const removeDuplicates = uniqBy(({ source, item }) => {
 
 const fillWith = populate({
   mainSourceId: 'querySuggestionsPlugin',
-  limit: 8,
+  limit: isDetached() ? 6 : 10,
 });
 
 const combine = pipe(removeDuplicates, fillWith);
@@ -50,7 +54,17 @@ autocomplete({
     articlesPlugin,
     popularPlugin,
     quickAccessPlugin,
+    popularCategoriesPlugin,
   ],
+  getInputProps({ props, setContext }) {
+    return {
+      ...props,
+      onChange(event) {
+        setContext({ preview: null });
+        props.onChange(event);
+      },
+    };
+  },
   reshape({ sourcesBySourceId }) {
     const {
       recentSearchesPlugin: recentSearches,
@@ -66,7 +80,7 @@ autocomplete({
       Object.values(rest),
     ];
   },
-  render({ elements, state }, root) {
+  render({ elements, components, state, setContext, refresh, Fragment }, root) {
     const {
       recentSearchesPlugin: recentSearches,
       querySuggestionsPlugin: querySuggestions,
@@ -77,44 +91,113 @@ autocomplete({
       articlesPlugin: articles,
       popularPlugin: popular,
       quickAccessPlugin: quickAccess,
+      popularCategoriesPlugin: popularCategories,
     } = elements;
 
     const hasResults =
       state.collections
-        .filter(({ source }) => source.sourceId !== 'popularPlugin')
+        .filter(
+          ({ source }) =>
+            source.sourceId !== 'popularPlugin' &&
+            source.sourceId !== 'popularCategoriesPlugin'
+        )
         .reduce((prev, curr) => prev + curr.items.length, 0) > 0;
 
+    const previewContext = state.context.preview;
+
     render(
-      <div className="aa-PanelLayout aa-Panel--scrollable">
+      <div
+        className="aa-PanelLayout aa-Panel--scrollable"
+        onMouseLeave={() => {
+          setContext({ preview: null, lastActiveItemId: -1 });
+          refresh();
+        }}
+      >
+        {!hasResults && (
+          <div className="aa-NoResultsQuery">
+            No results for "{state.query}".
+          </div>
+        )}
+
         <div className="aa-PanelSections">
           <div className="aa-PanelSection--left">
-            {hasResults && (
-              <div>
-                {recentSearches}
-                {querySuggestions}
-                {categories}
-                {brands}
-                {faq}
+            {hasResults ? (
+              (!state.query && recentSearches && (
+                <Fragment>
+                  <div className="aa-SourceHeader">
+                    <span className="aa-SourceHeaderTitle">
+                      Recent searches
+                    </span>
+                    <div className="aa-SourceHeaderLine" />
+                  </div>
+                  {recentSearches}
+                </Fragment>
+              )) ||
+              (state.query && (
+                <Fragment>
+                  <div className="aa-SourceHeader">
+                    <span className="aa-SourceHeaderTitle">Suggestions</span>
+                    <div className="aa-SourceHeaderLine" />
+                  </div>
+
+                  <div className="aa-PanelSectionSources">
+                    {recentSearches}
+                    {querySuggestions}
+                    {categories}
+                    {brands}
+                    {faq}
+                  </div>
+                </Fragment>
+              ))
+            ) : (
+              <div className="aa-NoResultsAdvices">
+                <ul className="aa-NoResultsAdvicesList">
+                  <li>Double-check your spelling</li>
+                  <li>Use fewer keywords</li>
+                  <li>Search for a less specific item</li>
+                  <li>Try navigate using on the of the popular categories</li>
+                </ul>
               </div>
             )}
 
-            {(!hasResults || !state.query) && (
+            {!state.query && (
               <div className="aa-PanelSection--popular">{popular}</div>
             )}
           </div>
           <div className="aa-PanelSection--right">
-            {products && (
-              <div className="aa-PanelSection--products">
-                <div className="aa-PanelSectionSource">{products}</div>
-              </div>
+            {(previewContext as FaqHit)?.title ? (
+              <FaqPreview
+                hit={previewContext as FaqHit}
+                components={components}
+              />
+            ) : (
+              <Fragment>
+                {products && (
+                  <div
+                    className={cx(
+                      'aa-PanelSection--products',
+                      previewContext && 'aa-PanelSection--products-preview'
+                    )}
+                  >
+                    <div className="aa-PanelSectionSource">{products}</div>
+                  </div>
+                )}
+                {articles && (
+                  <div className="aa-PanelSection--articles">
+                    <div className="aa-PanelSectionSource">{articles}</div>
+                  </div>
+                )}
+              </Fragment>
             )}
-            {articles && (
-              <div className="aa-PanelSection--articles">
-                <div className="aa-PanelSectionSource">{articles}</div>
-              </div>
-            )}
+
             {quickAccess && (
               <div className="aa-PanelSection--quickAccess">{quickAccess}</div>
+            )}
+
+            {!hasResults && (
+              <div className="aa-PanelSection--popularCategories">
+                {popularCategories}
+              </div>
             )}
           </div>
         </div>
