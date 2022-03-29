@@ -326,6 +326,7 @@ body {
 .aa-SeeAllLink {
   color: rgb(var(--aa-primary-color-rgb));
   transition: opacity 0.2s ease-out;
+  margin-bottom: var(--aa-spacing-half);
 }
 
 /* Articles */
