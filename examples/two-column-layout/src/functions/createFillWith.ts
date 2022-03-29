@@ -1,14 +1,15 @@
-import { AutocompleteReshapeFunction } from './AutocompleteReshapeFunction';
+import { AutocompleteReshapeFunction } from '../types/AutocompleteReshapeFunction';
+
 import { normalizeReshapeSources } from './normalizeReshapeSources';
 
-type PopulateOptions = {
+type createFillWithOptions = {
   mainSourceId: string;
   limit: number;
 };
 
 // This reshape function computes the total number of source items and
 // limits the provided main source number of items until it reaches the provided limit.
-export const populate: AutocompleteReshapeFunction<PopulateOptions> = ({
+export const createFillWith: AutocompleteReshapeFunction<createFillWithOptions> = ({
   mainSourceId,
   limit,
 }) => {

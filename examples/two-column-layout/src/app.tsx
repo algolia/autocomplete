@@ -3,7 +3,7 @@ import { autocomplete } from '@algolia/autocomplete-js';
 import { h, render } from 'preact';
 import { pipe } from 'ramda';
 
-import { populate, uniqBy } from './functions';
+import { createFillWith, uniqBy } from './functions';
 import { articlesPlugin } from './plugins/articlesPlugin';
 import { brandsPlugin } from './plugins/brandsPlugin';
 import { categoriesPlugin } from './plugins/categoriesPlugin';
@@ -30,7 +30,7 @@ const removeDuplicates = uniqBy(({ source, item }) => {
   return source.sourceId === 'querySuggestionsPlugin' ? item.query : item.label;
 });
 
-const fillWith = populate({
+const fillWith = createFillWith({
   mainSourceId: 'querySuggestionsPlugin',
   limit: isDetached() ? 6 : 10,
 });

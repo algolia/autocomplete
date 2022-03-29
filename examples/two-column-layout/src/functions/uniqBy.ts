@@ -3,7 +3,8 @@ import {
   BaseItem,
 } from '@algolia/autocomplete-core';
 
-import { AutocompleteReshapeFunction } from './AutocompleteReshapeFunction';
+import { AutocompleteReshapeFunction } from '../types/AutocompleteReshapeFunction';
+
 import { normalizeReshapeSources } from './normalizeReshapeSources';
 
 type UniqByPredicate<TItem extends BaseItem> = (params: {
