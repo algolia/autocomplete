@@ -34,6 +34,9 @@ export const faqPlugin: AutocompletePlugin<FaqHit, {}> = {
             ],
           });
         },
+        getItemInputValue({ item }) {
+          return item.title;
+        },
         templates: {
           item({ item, components }) {
             return <FaqItem hit={item} components={components} />;
