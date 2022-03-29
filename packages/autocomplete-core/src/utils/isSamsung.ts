@@ -1,4 +1,4 @@
-const regex = /((gt|sm)-|samsung[- ])\w+/i;
+const regex = /((gt|sm)-|galaxy nexus)|samsung[- ]([-\w]+)/i;
 
 export function isSamsung(userAgent: string) {
   return Boolean(userAgent && userAgent.match(regex));
