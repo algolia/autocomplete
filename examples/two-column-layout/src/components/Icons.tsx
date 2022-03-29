@@ -1,6 +1,8 @@
 /** @jsx h */
 import { h } from 'preact';
 
+// We need to keep kebab-case SVG attributes to avoid display issues
+// Preact understands kebab-case attributes in JSX.
 /* eslint react/no-unknown-property: "off" */
 
 export function ChevronRightIcon(props: h.JSX.SVGAttributes<SVGSVGElement>) {
