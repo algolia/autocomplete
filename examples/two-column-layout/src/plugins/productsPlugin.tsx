@@ -29,24 +29,15 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
     return [
       {
         sourceId: 'productsPlugin',
-        getItems({ state, setContext }) {
-          const preview = state.context.preview as ProductsPluginContext;
-
-          const facetFilters = [];
-
-          if (preview?.facetName) {
-            facetFilters.push(`${preview.facetName}:${preview.facetValue}`);
-          }
-
+        getItems({ setContext }) {
           return getAlgoliaResults<ProductHit>({
             searchClient,
             queries: [
               {
                 indexName: ALGOLIA_PRODUCTS_INDEX_NAME,
-                query: preview?.query || query,
+                query,
                 params: {
                   hitsPerPage: 4,
-                  facetFilters,
                 },
               },
             ],
@@ -64,16 +55,10 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
         },
         templates: {
           header({ state, Fragment }) {
-            const preview = state.context.preview as ProductsPluginContext;
-
             return (
               <Fragment>
                 <div className="aa-SourceHeaderTitle">
-                  Products {preview?.facetValue ? 'in' : 'for'} "
-                  {preview?.query || preview?.facetValue || state.query}"{' '}
-                  {preview?.facetName === 'list_categories'
-                    ? 'category'
-                    : preview?.facetName}
+                  Products for {state.query}
                 </div>
                 <div className="aa-SourceHeaderLine" />
               </Fragment>

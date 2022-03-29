@@ -4,8 +4,6 @@ import { h } from 'preact';
 
 import { ALGOLIA_PRODUCTS_QUERY_SUGGESTIONS_INDEX_NAME } from '../constants';
 import { searchClient } from '../searchClient';
-import { setSmartPreview } from '../setSmartPreview';
-import { QuerySuggestionsHit } from '../types';
 
 export const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
@@ -18,26 +16,12 @@ export const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   transformSource({ source, onTapAhead }) {
     return {
       ...source,
-      onActive(params) {
-        setSmartPreview({
-          preview: {
-            query: params.itemInputValue,
-          },
-          ...params,
-        });
-      },
       templates: {
         ...source.templates,
-        item({ item, components, state }) {
+        item({ item, components }) {
           if (item.__autocomplete_qsCategory) {
             return (
-              <div
-                className="aa-ItemWrapper"
-                data-active={
-                  state.context.lastActiveItemId ===
-                  (item as QuerySuggestionsHit).__autocomplete_id
-                }
-              >
+              <div className="aa-ItemWrapper">
                 <div className="aa-ItemContent aa-ItemContent--indented">
                   <div className="aa-ItemContentSubtitle aa-ItemContentSubtitle--standalone">
                     <span className="aa-ItemContentSubtitleIcon" />
@@ -54,13 +38,7 @@ export const querySuggestionsPlugin = createQuerySuggestionsPlugin({
           }
 
           return (
-            <div
-              className="aa-ItemWrapper"
-              data-active={
-                state.context.lastActiveItemId ===
-                (item as QuerySuggestionsHit).__autocomplete_id
-              }
-            >
+            <div className="aa-ItemWrapper">
               <div className="aa-ItemContent">
                 <div className="aa-ItemIcon aa-ItemIcon--noBorder">
                   <svg viewBox="0 0 24 24" fill="currentColor">

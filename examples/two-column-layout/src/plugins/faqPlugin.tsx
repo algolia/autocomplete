@@ -9,7 +9,6 @@ import { h } from 'preact';
 import { Breadcrumb, InfoIcon } from '../components';
 import { ALGOLIA_FAQ_INDEX_NAME } from '../constants';
 import { searchClient } from '../searchClient';
-import { setSmartPreview } from '../setSmartPreview';
 import { FaqHit } from '../types';
 
 export const faqPlugin: AutocompletePlugin<FaqHit, {}> = {
@@ -35,23 +34,9 @@ export const faqPlugin: AutocompletePlugin<FaqHit, {}> = {
             ],
           });
         },
-        onActive(params) {
-          setSmartPreview({
-            preview: params.item,
-            ...params,
-          });
-        },
         templates: {
-          item({ item, components, state }) {
-            return (
-              <FaqItem
-                hit={item}
-                components={components}
-                active={
-                  state.context.lastActiveItemId === item.__autocomplete_id
-                }
-              />
-            );
+          item({ item, components }) {
+            return <FaqItem hit={item} components={components} />;
           },
         },
       },
@@ -62,12 +47,11 @@ export const faqPlugin: AutocompletePlugin<FaqHit, {}> = {
 type FaqItemProps = {
   hit: FaqHit;
   components: AutocompleteComponents;
-  active: boolean;
 };
 
-function FaqItem({ hit, components, active }: FaqItemProps) {
+function FaqItem({ hit, components }: FaqItemProps) {
   return (
-    <div className="aa-ItemWrapper aa-FaqItem" data-active={active}>
+    <div className="aa-ItemWrapper aa-FaqItem">
       <div className="aa-ItemContent">
         <div className="aa-ItemIcon aa-ItemIcon--noBorder">
           <InfoIcon />

@@ -6,5 +6,3 @@ export * from './ArticleHit';
 export * from './PopularHit';
 export * from './QuickAccessHit';
 export * from './PopularCategoryHit';
-export * from './RecentSearchesHit';
-export * from './QuerySuggestionsHit';

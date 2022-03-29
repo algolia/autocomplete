@@ -9,7 +9,6 @@ import { h } from 'preact';
 import { Breadcrumb, GridIcon } from '../components';
 import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
 import { searchClient } from '../searchClient';
-import { setSmartPreview } from '../setSmartPreview';
 import { CategoryHit } from '../types';
 import { cx } from '../utils';
 
@@ -39,26 +38,9 @@ export const categoriesPlugin: AutocompletePlugin<CategoryHit, {}> = {
         getItemInputValue({ item }) {
           return item.list_categories[item.list_categories.length - 1];
         },
-        onActive(params) {
-          setSmartPreview({
-            preview: {
-              facetName: 'list_categories',
-              facetValue: params.itemInputValue,
-            },
-            ...params,
-          });
-        },
         templates: {
-          item({ item, components, state }) {
-            return (
-              <CategoryItem
-                hit={item}
-                components={components}
-                active={
-                  state.context.lastActiveItemId === item.__autocomplete_id
-                }
-              />
-            );
+          item({ item, components }) {
+            return <CategoryItem hit={item} components={components} />;
           },
         },
       },
@@ -69,12 +51,11 @@ export const categoriesPlugin: AutocompletePlugin<CategoryHit, {}> = {
 type CategoryItemProps = {
   hit: CategoryHit;
   components: AutocompleteComponents;
-  active: boolean;
 };
 
-function CategoryItem({ hit, components, active }: CategoryItemProps) {
+function CategoryItem({ hit, components }: CategoryItemProps) {
   return (
-    <div className={cx('aa-ItemWrapper aa-CategoryItem')} data-active={active}>
+    <div className={cx('aa-ItemWrapper aa-CategoryItem')}>
       <div className="aa-ItemContent">
         <div className="aa-ItemIcon aa-ItemIcon--noBorder">
           <GridIcon />

@@ -3,7 +3,6 @@ import { autocomplete } from '@algolia/autocomplete-js';
 import { h, render } from 'preact';
 import { pipe } from 'ramda';
 
-import { FaqPreview } from './components/FaqPreview';
 import { populate, uniqBy } from './functions';
 import { articlesPlugin } from './plugins/articlesPlugin';
 import { brandsPlugin } from './plugins/brandsPlugin';
@@ -15,8 +14,7 @@ import { productsPlugin } from './plugins/productsPlugin';
 import { querySuggestionsPlugin } from './plugins/querySuggestionsPlugin';
 import { quickAccessPlugin } from './plugins/quickAccessPlugin';
 import { recentSearchesPlugin } from './plugins/recentSearchesPlugin';
-import { FaqHit } from './types';
-import { cx, isDetached } from './utils';
+import { isDetached } from './utils';
 
 import '@algolia/autocomplete-theme-classic';
 
@@ -56,31 +54,38 @@ autocomplete({
     quickAccessPlugin,
     popularCategoriesPlugin,
   ],
-  getInputProps({ props, setContext }) {
-    return {
-      ...props,
-      onChange(event) {
-        setContext({ preview: null });
-        props.onChange(event);
-      },
-    };
-  },
-  reshape({ sourcesBySourceId }) {
+  reshape({ sourcesBySourceId, sources, state }) {
     const {
       recentSearchesPlugin: recentSearches,
       querySuggestionsPlugin: querySuggestions,
       categoriesPlugin: categories,
       brandsPlugin: brands,
       faqPlugin: faq,
+      popularPlugin: popular,
+      popularCategoriesPlugin: popularCategories,
       ...rest
     } = sourcesBySourceId;
 
+    const shouldDisplayPopularCategories = sources.every((source) => {
+      if (
+        source.sourceId === 'popularPlugin' ||
+        source.sourceId === 'popularCategoriesPlugin'
+      ) {
+        return true;
+      }
+      return source.getItems().length === 0;
+    });
+
     return [
       combine(recentSearches, querySuggestions, categories, brands, faq),
-      Object.values(rest),
+      [
+        !state.query && popular,
+        ...Object.values(rest),
+        shouldDisplayPopularCategories && popularCategories,
+      ].filter(Boolean),
     ];
   },
-  render({ elements, components, state, setContext, refresh, Fragment }, root) {
+  render({ elements, state, Fragment }, root) {
     const {
       recentSearchesPlugin: recentSearches,
       querySuggestionsPlugin: querySuggestions,
@@ -103,16 +108,8 @@ autocomplete({
         )
         .reduce((prev, curr) => prev + curr.items.length, 0) > 0;
 
-    const previewContext = state.context.preview;
-
     render(
-      <div
-        className="aa-PanelLayout aa-Panel--scrollable"
-        onMouseLeave={() => {
-          setContext({ preview: null, lastActiveItemId: -1 });
-          refresh();
-        }}
-      >
+      <div className="aa-PanelLayout aa-Panel--scrollable">
         {!hasResults && (
           <div className="aa-NoResultsQuery">
             No results for "{state.query}".
@@ -165,29 +162,15 @@ autocomplete({
             )}
           </div>
           <div className="aa-PanelSection--right">
-            {(previewContext as FaqHit)?.title ? (
-              <FaqPreview
-                hit={previewContext as FaqHit}
-                components={components}
-              />
-            ) : (
-              <Fragment>
-                {products && (
-                  <div
-                    className={cx(
-                      'aa-PanelSection--products',
-                      previewContext && 'aa-PanelSection--products-preview'
-                    )}
-                  >
-                    <div className="aa-PanelSectionSource">{products}</div>
-                  </div>
-                )}
-                {articles && (
-                  <div className="aa-PanelSection--articles">
-                    <div className="aa-PanelSectionSource">{articles}</div>
-                  </div>
-                )}
-              </Fragment>
+            {products && (
+              <div className="aa-PanelSection--products">
+                <div className="aa-PanelSectionSource">{products}</div>
+              </div>
+            )}
+            {articles && (
+              <div className="aa-PanelSection--articles">
+                <div className="aa-PanelSectionSource">{articles}</div>
+              </div>
             )}
 
             {quickAccess && (

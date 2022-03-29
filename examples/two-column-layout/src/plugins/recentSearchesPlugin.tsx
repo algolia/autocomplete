@@ -5,9 +5,6 @@ import {
 } from '@algolia/autocomplete-plugin-recent-searches';
 import { h } from 'preact';
 
-import { setSmartPreview } from '../setSmartPreview';
-import { RecentSearchesHit } from '../types';
-
 export const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'autocomplete-two-column-layout-example',
   search(params) {
@@ -17,29 +14,11 @@ export const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   transformSource({ source, onRemove, onTapAhead }) {
     return {
       ...source,
-      onActive(params) {
-        if (!params.state.query) {
-          return;
-        }
-
-        setSmartPreview({
-          preview: {
-            query: params.item.label,
-          },
-          ...params,
-        });
-      },
       templates: {
         ...source.templates,
-        item({ item, components, state }) {
+        item({ item, components }) {
           return (
-            <div
-              className="aa-ItemWrapper"
-              data-active={
-                state.context.lastActiveItemId ===
-                (item as RecentSearchesHit).__autocomplete_id
-              }
-            >
+            <div className="aa-ItemWrapper">
               <div className="aa-ItemContent">
                 <div className="aa-ItemIcon aa-ItemIcon--noBorder">
                   <svg viewBox="0 0 24 24" fill="currentColor">
