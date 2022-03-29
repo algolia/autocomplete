@@ -10,7 +10,6 @@ import { Breadcrumb, GridIcon } from '../components';
 import { ALGOLIA_PRODUCTS_INDEX_NAME } from '../constants';
 import { searchClient } from '../searchClient';
 import { CategoryHit } from '../types';
-import { cx } from '../utils';
 
 export const categoriesPlugin: AutocompletePlugin<CategoryHit, {}> = {
   getSources({ query }) {
@@ -55,7 +54,7 @@ type CategoryItemProps = {
 
 function CategoryItem({ hit, components }: CategoryItemProps) {
   return (
-    <div className={cx('aa-ItemWrapper aa-CategoryItem')}>
+    <div className="aa-ItemWrapper aa-CategoryItem">
       <div className="aa-ItemContent">
         <div className="aa-ItemIcon aa-ItemIcon--noBorder">
           <GridIcon />
@@ -74,7 +73,7 @@ function CategoryItem({ hit, components }: CategoryItemProps) {
       </div>
       <Breadcrumb
         items={hit.list_categories.slice(0, -1).map((_, index) => (
-          <components.ReverseHighlight
+          <components.Highlight
             key={index}
             hit={hit}
             attribute={['list_categories', `${index}`]}

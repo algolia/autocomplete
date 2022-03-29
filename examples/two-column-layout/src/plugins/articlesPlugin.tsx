@@ -11,7 +11,7 @@ import { searchClient } from '../searchClient';
 import { ArticleHit } from '../types';
 
 export const articlesPlugin: AutocompletePlugin<ArticleHit, {}> = {
-  getSources({ query, setContext }) {
+  getSources({ query }) {
     if (!query) {
       return [];
     }
@@ -19,7 +19,7 @@ export const articlesPlugin: AutocompletePlugin<ArticleHit, {}> = {
     return [
       {
         sourceId: 'articlesPlugin',
-        getItems() {
+        getItems({ setContext }) {
           return getAlgoliaResults({
             searchClient,
             queries: [
@@ -65,9 +65,7 @@ export const articlesPlugin: AutocompletePlugin<ArticleHit, {}> = {
                     rel="noreferrer noopener"
                     className="aa-SeeAllLink"
                   >
-                    See All Articles{' '}
-                    {state.context.nbArticles &&
-                      `(${state.context.nbArticles})`}
+                    See All Articles ({state.context.nbArticles})
                   </a>
                 </div>
               )
@@ -84,12 +82,6 @@ type ArticleItemProps = {
 };
 
 function ArticleItem({ hit }: ArticleItemProps) {
-  const articleDate = new Date(hit.date);
-  const articleMonth = articleDate.toLocaleDateString('en-US', {
-    month: 'long',
-  });
-  const articleYear = articleDate.getFullYear();
-
   return (
     <a href="#" className="aa-ItemLink aa-ArticleItem">
       <div className="aa-ItemContent">
@@ -100,7 +92,11 @@ function ArticleItem({ hit }: ArticleItemProps) {
         <div className="aa-ItemContentBody">
           <div className="aa-ItemContentTitle">{hit.title}</div>
           <div className="aa-ItemContentDate">
-            Published on {articleMonth} {articleYear}
+            Published on{' '}
+            {new Date(hit.date).toLocaleDateString('en-US', {
+              month: 'long',
+              year: 'numeric',
+            })}
           </div>
         </div>
       </div>

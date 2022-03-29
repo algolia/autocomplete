@@ -6,7 +6,7 @@ import { intersperse } from '../utils';
 import { ChevronRightIcon } from './Icons';
 
 type BreadcrumbProps = {
-  items: string[] | JSX.Element[];
+  items: JSX.Element[];
 };
 
 export function Breadcrumb({ items }: BreadcrumbProps) {

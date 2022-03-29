@@ -14,12 +14,6 @@ import { searchClient } from '../searchClient';
 import { ProductHit } from '../types';
 import { cx } from '../utils';
 
-export interface ProductsPluginContext {
-  facetName: string;
-  facetValue: string;
-  query: string;
-}
-
 export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
   getSources({ query }) {
     if (!query) {
@@ -77,9 +71,7 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
                     rel="noreferrer noopener"
                     className="aa-SeeAllBtn"
                   >
-                    See All Products{' '}
-                    {state.context.nbProducts &&
-                      `(${state.context.nbProducts})`}
+                    See All Products ({state.context.nbProducts})
                   </a>
                 </div>
               )
@@ -91,7 +83,7 @@ export const productsPlugin: AutocompletePlugin<ProductHit, {}> = {
   },
 };
 
-function formatPrice(value: number, currency = 'EUR') {
+function formatPrice(value: number, currency: string) {
   return value.toLocaleString('en-US', { style: 'currency', currency });
 }
 

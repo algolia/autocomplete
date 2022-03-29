@@ -67,7 +67,7 @@ function FaqItem({ hit, components }: FaqItemProps) {
       </div>
       <Breadcrumb
         items={hit.list_categories.map((_, index) => (
-          <components.ReverseHighlight
+          <components.Highlight
             key={index}
             hit={hit}
             attribute={['list_categories', `${index}`]}

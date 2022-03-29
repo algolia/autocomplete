@@ -10,7 +10,7 @@ export const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   indexName: ALGOLIA_PRODUCTS_QUERY_SUGGESTIONS_INDEX_NAME,
   getSearchParams({ state }) {
     return {
-      hitsPerPage: !state.query ? 0 : 20,
+      hitsPerPage: !state.query ? 0 : 10,
     };
   },
   transformSource({ source, onTapAhead }) {

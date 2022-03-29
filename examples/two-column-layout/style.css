@@ -64,6 +64,16 @@ body {
   row-gap: var(--aa-spacing);
 }
 
+.aa-PanelSection--zoomable .aa-Item {
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.aa-PanelSection--active .aa-Item[aria-selected='true'] {
+  opacity: 1;
+  transform: scale(1.05);
+  background: none;
+}
+
 .aa-PanelSection--active .aa-Item {
   opacity: 0.5;
 }
@@ -108,11 +118,6 @@ body {
   display: flex;
   align-items: center;
   font-size: 0.8em;
-  text-transform: capitalize;
-}
-
-.aa-Breadcrumb mark {
-  text-transform: none;
 }
 
 .aa-Breadcrumb .aa-ItemIcon {
@@ -411,7 +416,6 @@ body {
 
 .aa-PanelSection--quickAccess .aa-Item {
   width: 100%;
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
 }
 
 .aa-PanelSection--quickAccess .aa-QuickAccessItem {
@@ -419,12 +423,6 @@ body {
   border-radius: calc(var(--aa-spacing-half) / 2);
   overflow: hidden;
   height: 100%;
-}
-
-.aa-PanelSection--quickAccess .aa-List .aa-Item[aria-selected='true'] {
-  opacity: 1;
-  transform: scale(1.05);
-  background: none;
 }
 
 .aa-QuickAccessItem .aa-ItemPicture:after {

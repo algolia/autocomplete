@@ -1,3 +1,6 @@
-export function intersperse(arr: any[], sep: any) {
-  return arr.reduce((a, v) => [...a, v, sep], []).slice(0, -1);
+export function intersperse<TItem, TSeparator>(
+  arr: TItem[],
+  separator: TSeparator
+) {
+  return arr.reduce((acc, curr) => [...acc, curr, separator], []).slice(0, -1);
 }

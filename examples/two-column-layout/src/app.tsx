@@ -14,16 +14,13 @@ import { productsPlugin } from './plugins/productsPlugin';
 import { querySuggestionsPlugin } from './plugins/querySuggestionsPlugin';
 import { quickAccessPlugin } from './plugins/quickAccessPlugin';
 import { recentSearchesPlugin } from './plugins/recentSearchesPlugin';
-import { cx, isDetached } from './utils';
+import { cx, hasSourceActiveItem, isDetached } from './utils';
 
 import '@algolia/autocomplete-theme-classic';
 
 const removeDuplicates = uniqBy(({ source, item }) => {
-  if (
-    ['recentSearchesPlugin', 'querySuggestionsPlugin'].indexOf(
-      source.sourceId
-    ) === -1
-  ) {
+  const sourceIds = ['recentSearchesPlugin', 'querySuggestionsPlugin'];
+  if (sourceIds.indexOf(source.sourceId) === -1) {
     return item;
   }
 
@@ -66,11 +63,9 @@ autocomplete({
       ...rest
     } = sourcesBySourceId;
 
+    const sourceIdsToExclude = ['popularPlugin', 'popularCategoriesPlugin'];
     const shouldDisplayPopularCategories = sources.every((source) => {
-      if (
-        source.sourceId === 'popularPlugin' ||
-        source.sourceId === 'popularCategoriesPlugin'
-      ) {
+      if (sourceIdsToExclude.indexOf(source.sourceId) !== -1) {
         return true;
       }
       return source.getItems().length === 0;
@@ -99,22 +94,11 @@ autocomplete({
       popularCategoriesPlugin: popularCategories,
     } = elements;
 
-    const hasQuickAccessItemActive = Boolean(
-      state.collections.find(
-        (collection) =>
-          collection.source.sourceId === 'quickAccessPlugin' &&
-          collection.items.find(
-            (item) => item.__autocomplete_id === state.activeItemId
-          )
-      )
-    );
-
+    const sourceIdsToExclude = ['popularPlugin', 'popularCategoriesPlugin'];
     const hasResults =
       state.collections
         .filter(
-          ({ source }) =>
-            source.sourceId !== 'popularPlugin' &&
-            source.sourceId !== 'popularCategoriesPlugin'
+          ({ source }) => sourceIdsToExclude.indexOf(source.sourceId) === -1
         )
         .reduce((prev, curr) => prev + curr.items.length, 0) > 0;
 
@@ -186,8 +170,9 @@ autocomplete({
             {quickAccess && (
               <div
                 className={cx(
-                  'aa-PanelSection--quickAccess',
-                  hasQuickAccessItemActive && 'aa-PanelSection--active'
+                  'aa-PanelSection--quickAccess aa-PanelSection--zoomable',
+                  hasSourceActiveItem('quickAccessPlugin', state) &&
+                    'aa-PanelSection--active'
                 )}
               >
                 {quickAccess}
@@ -195,7 +180,13 @@ autocomplete({
             )}
 
             {!hasResults && (
-              <div className="aa-PanelSection--popularCategories">
+              <div
+                className={cx(
+                  'aa-PanelSection--popularCategories aa-PanelSection--zoomable',
+                  hasSourceActiveItem('popularCategoriesPlugin', state) &&
+                    'aa-PanelSection--active'
+                )}
+              >
                 {popularCategories}
               </div>
             )}

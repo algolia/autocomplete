@@ -8,8 +8,7 @@ import { h } from 'preact';
 export const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'autocomplete-two-column-layout-example',
   search(params) {
-    const limit = params.query ? 1 : 4;
-    return search({ ...params, limit });
+    return search({ ...params, limit: params.query ? 1 : 4 });
   },
   transformSource({ source, onRemove, onTapAhead }) {
     return {
