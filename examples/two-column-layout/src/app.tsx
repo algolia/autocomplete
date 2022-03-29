@@ -14,7 +14,7 @@ import { productsPlugin } from './plugins/productsPlugin';
 import { querySuggestionsPlugin } from './plugins/querySuggestionsPlugin';
 import { quickAccessPlugin } from './plugins/quickAccessPlugin';
 import { recentSearchesPlugin } from './plugins/recentSearchesPlugin';
-import { isDetached } from './utils';
+import { cx, isDetached } from './utils';
 
 import '@algolia/autocomplete-theme-classic';
 
@@ -99,6 +99,16 @@ autocomplete({
       popularCategoriesPlugin: popularCategories,
     } = elements;
 
+    const hasQuickAccessItemActive = Boolean(
+      state.collections.find(
+        (collection) =>
+          collection.source.sourceId === 'quickAccessPlugin' &&
+          collection.items.find(
+            (item) => item.__autocomplete_id === state.activeItemId
+          )
+      )
+    );
+
     const hasResults =
       state.collections
         .filter(
@@ -174,7 +184,14 @@ autocomplete({
             )}
 
             {quickAccess && (
-              <div className="aa-PanelSection--quickAccess">{quickAccess}</div>
+              <div
+                className={cx(
+                  'aa-PanelSection--quickAccess',
+                  hasQuickAccessItemActive && 'aa-PanelSection--active'
+                )}
+              >
+                {quickAccess}
+              </div>
             )}
 
             {!hasResults && (
