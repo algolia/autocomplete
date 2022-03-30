@@ -51,7 +51,7 @@ export function setProperty(dom: HTMLElement, name: string, value: any) {
     useCapture = name !== (name = name.replace(/Capture$/, ''));
     nameLower = name.toLowerCase();
     if (nameLower in dom) name = nameLower;
-    name = name.slice(2);
+    name = name.slice(2).replace(/^./, (c) => c.toLowerCase());
 
     if (!(dom as any)._listeners) (dom as any)._listeners = {};
     (dom as any)._listeners[name] = value;

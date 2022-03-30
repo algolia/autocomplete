@@ -113,11 +113,11 @@ describe('detached', () => {
 
     // Prevent `onTouchStart` event from closing detached overlay
     const windowTouchStartListener = jest.fn();
-    window.addEventListener('TouchStart', windowTouchStartListener);
+    window.addEventListener('touchStart', windowTouchStartListener);
 
     fireEvent(
       cancelButton,
-      new TouchEvent('TouchStart', {
+      new TouchEvent('touchStart', {
         bubbles: true,
         cancelable: true,
         composed: true,
@@ -126,7 +126,7 @@ describe('detached', () => {
 
     expect(windowTouchStartListener).toHaveBeenCalledTimes(0);
 
-    window.removeEventListener('TouchStart', windowTouchStartListener);
+    window.removeEventListener('touchStart', windowTouchStartListener);
 
     await waitFor(() => {
       expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
