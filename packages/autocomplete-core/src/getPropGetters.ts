@@ -14,7 +14,7 @@ import {
   GetRootProps,
   InternalAutocompleteOptions,
 } from './types';
-import { getActiveItem, isOrContainsNode } from './utils';
+import { getActiveItem, isChrome, isOrContainsNode, isSamsung } from './utils';
 
 interface GetPropGettersOptions<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
@@ -162,6 +162,11 @@ export function getPropGetters<
     const { inputElement, maxLength = 512, ...rest } = providedProps || {};
     const activeItem = getActiveItem(store.getState());
 
+    const userAgent = props.environment.navigator?.userAgent;
+    const shouldFallbackKeyHint = isSamsung(userAgent) && isChrome(userAgent);
+    const enterKeyHint =
+      activeItem?.itemUrl && !shouldFallbackKeyHint ? 'go' : 'search';
+
     return {
       'aria-autocomplete': 'both',
       'aria-activedescendant':
@@ -175,7 +180,7 @@ export function getPropGetters<
       autoComplete: 'off',
       autoCorrect: 'off',
       autoCapitalize: 'off',
-      enterKeyHint: activeItem?.itemUrl ? 'go' : 'search',
+      enterKeyHint,
       spellCheck: 'false',
       autoFocus: props.autoFocus,
       placeholder: props.placeholder,
