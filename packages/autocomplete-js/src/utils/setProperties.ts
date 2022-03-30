@@ -1,5 +1,17 @@
 /* eslint-disable */
 
+/**
+ * Touch-specific event aliases
+ *
+ * See https://w3c.github.io/touch-events/#extensions-to-the-globaleventhandlers-mixin
+ */
+const TOUCH_EVENTS_ALIASES = [
+  'ontouchstart',
+  'ontouchend',
+  'ontouchmove',
+  'ontouchcancel',
+];
+
 /*
  * Taken from Preact
  *
@@ -50,8 +62,9 @@ export function setProperty(dom: HTMLElement, name: string, value: any) {
   else if (name[0] === 'o' && name[1] === 'n') {
     useCapture = name !== (name = name.replace(/Capture$/, ''));
     nameLower = name.toLowerCase();
-    if (nameLower in dom) name = nameLower;
-    name = name.slice(2).replace(/^./, (c) => c.toLowerCase());
+    if (nameLower in dom || TOUCH_EVENTS_ALIASES.includes(nameLower))
+      name = nameLower;
+    name = name.slice(2);
 
     if (!(dom as any)._listeners) (dom as any)._listeners = {};
     (dom as any)._listeners[name] = value;
