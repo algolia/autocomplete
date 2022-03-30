@@ -1,7 +1,7 @@
 import {
   createElement as preactCreateElement,
   Fragment as PreactFragment,
-  render,
+  render as preactRender,
 } from 'preact';
 
 import { autocomplete } from '../autocomplete';
@@ -37,11 +37,12 @@ describe('renderer', () => {
           },
         ];
       },
-      render({ createElement, Fragment }, root) {
+      render({ createElement, Fragment, render }, root) {
         expect(createElement).toBe(preactCreateElement);
         expect(Fragment).toBe(PreactFragment);
+        expect(render).toBe(preactRender);
 
-        render(createElement(Fragment, null, 'testSource'), root);
+        preactRender(createElement(Fragment, null, 'testSource'), root);
       },
     });
   });
@@ -51,8 +52,10 @@ describe('renderer', () => {
     const panelContainer = document.createElement('div');
     const CustomFragment = (props: any) => props.children;
     const mockCreateElement = jest.fn().mockImplementation(preactCreateElement);
+    const mockRender = jest.fn().mockImplementation(preactRender);
 
     document.body.appendChild(panelContainer);
+
     autocomplete<{ label: string }>({
       container,
       panelContainer,
@@ -74,7 +77,7 @@ describe('renderer', () => {
           },
         ];
       },
-      render({ createElement, Fragment }, root) {
+      render({ createElement, Fragment, render }, root) {
         expect(createElement).toBe(mockCreateElement);
         expect(Fragment).toBe(CustomFragment);
         expect(mockCreateElement).toHaveBeenCalled();
@@ -84,6 +87,7 @@ describe('renderer', () => {
       renderer: {
         createElement: mockCreateElement,
         Fragment: CustomFragment,
+        render: mockRender,
       },
     });
   });
