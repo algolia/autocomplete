@@ -1,5 +1,5 @@
-const chromeRegex = /(?:crmo|crios|chrome)/i;
-const edgeRegex = /edg(?:e|ios|a)?/i;
+const chromeRegex = /(crmo|crios|chrome)/i;
+const edgeRegex = /edg(e|ios|a)?/i;
 const samsungBrowserRegex = /samsungbrowser/i;
 const chromiumRegex = /chromium/i;
 
