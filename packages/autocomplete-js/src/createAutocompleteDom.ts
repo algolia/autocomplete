@@ -169,8 +169,12 @@ export function createAutocompleteDom<TItem extends BaseItem>({
       type: 'button',
       class: classNames.detachedCancelButton,
       textContent: translations.detachedCancelButtonText,
-      onClick(event: MouseEvent) {
+      // Prevent `onTouchStart` from closing the panel
+      // since it should be initiated by `onClick` only
+      onTouchStart(event: TouchEvent) {
         event.stopPropagation();
+      },
+      onClick() {
         autocomplete.setIsOpen(false);
         setIsModalOpen(false);
       },

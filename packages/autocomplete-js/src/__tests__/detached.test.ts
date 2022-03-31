@@ -111,17 +111,30 @@ describe('detached', () => {
       '.aa-DetachedCancelButton'
     );
 
-    const bodyClickListener = jest.fn();
-    document.querySelector('body').addEventListener('click', bodyClickListener);
+    // Prevent `onTouchStart` event from closing detached overlay
+    const windowTouchStartListener = jest.fn();
+    window.addEventListener('touchstart', windowTouchStartListener);
+
+    fireEvent(
+      cancelButton,
+      new TouchEvent('touchstart', {
+        bubbles: true,
+        cancelable: true,
+        composed: true,
+      })
+    );
+
+    expect(windowTouchStartListener).toHaveBeenCalledTimes(0);
+
+    window.removeEventListener('touchstart', windowTouchStartListener);
+
+    await waitFor(() => {
+      expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
+      expect(document.body).toHaveClass('aa-Detached');
+    });
 
     // Close detached overlay
     cancelButton.click();
-
-    expect(bodyClickListener).toHaveBeenCalledTimes(0);
-
-    document
-      .querySelector('body')
-      .removeEventListener('click', bodyClickListener);
 
     // The detached overlay should close
     await waitFor(() => {
