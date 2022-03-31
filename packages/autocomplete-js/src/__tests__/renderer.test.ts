@@ -42,7 +42,7 @@ describe('renderer', () => {
         expect(Fragment).toBe(PreactFragment);
         expect(render).toBe(preactRender);
 
-        preactRender(createElement(Fragment, null, 'testSource'), root);
+        render(createElement(Fragment, null, 'testSource'), root);
       },
     });
   });
