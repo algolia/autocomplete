@@ -44,6 +44,13 @@ describe('renderer', () => {
 
         render(createElement(Fragment, null, 'testSource'), root);
       },
+      renderNoResults({ createElement, Fragment, render }, root) {
+        expect(createElement).toBe(preactCreateElement);
+        expect(Fragment).toBe(PreactFragment);
+        expect(render).toBe(preactRender);
+
+        render(createElement(Fragment, null, 'testSource'), root);
+      },
     });
   });
 
@@ -80,6 +87,15 @@ describe('renderer', () => {
       render({ createElement, Fragment, render }, root) {
         expect(createElement).toBe(mockCreateElement);
         expect(Fragment).toBe(CustomFragment);
+        expect(render).toBe(mockRender);
+        expect(mockCreateElement).toHaveBeenCalled();
+
+        render(createElement(Fragment, null, 'testSource'), root);
+      },
+      renderNoResults({ createElement, Fragment, render }, root) {
+        expect(createElement).toBe(mockCreateElement);
+        expect(Fragment).toBe(CustomFragment);
+        expect(render).toBe(mockRender);
         expect(mockCreateElement).toHaveBeenCalled();
 
         render(createElement(Fragment, null, 'testSource'), root);
