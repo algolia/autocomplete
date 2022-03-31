@@ -5,7 +5,7 @@ export type Pragma = (
 ) => JSX.Element;
 export type PragmaFrag = any;
 
-export type ComponentChild =
+type ComponentChild =
   | VNode<any>
   | object
   | string
