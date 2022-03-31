@@ -1,5 +1,3 @@
-import htm from 'htm';
-
 export type Pragma = (
   type: any,
   props: Record<string, any> | null,
@@ -47,4 +45,7 @@ export type AutocompleteRenderer = {
   render?: Render;
 };
 
-export type HTMLTemplate = typeof htm;
+export type HTMLTemplate = (
+  strings: TemplateStringsArray,
+  ...values: any[]
+) => VNode | VNode[];
