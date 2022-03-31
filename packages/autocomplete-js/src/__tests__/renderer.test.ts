@@ -107,4 +107,56 @@ describe('renderer', () => {
       },
     });
   });
+
+  test('sets `render` to `undefined` when not specified in the renderer', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+    const CustomFragment = (props: any) => props.children;
+    const mockCreateElement = jest.fn().mockImplementation(preactCreateElement);
+
+    document.body.appendChild(panelContainer);
+
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      initialState: {
+        isOpen: true,
+      },
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [{ label: '1' }];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+      render({ createElement, Fragment, render }, root) {
+        expect(createElement).toBe(mockCreateElement);
+        expect(Fragment).toBe(CustomFragment);
+        expect(render).toBeUndefined();
+        expect(mockCreateElement).toHaveBeenCalled();
+
+        preactRender(createElement(Fragment, null, 'testSource'), root);
+      },
+      renderNoResults({ createElement, Fragment, render }, root) {
+        expect(createElement).toBe(mockCreateElement);
+        expect(Fragment).toBe(CustomFragment);
+        expect(render).toBeUndefined();
+        expect(mockCreateElement).toHaveBeenCalled();
+
+        preactRender(createElement(Fragment, null, 'testSource'), root);
+      },
+      renderer: {
+        createElement: mockCreateElement,
+        Fragment: CustomFragment,
+      },
+    });
+  });
 });
