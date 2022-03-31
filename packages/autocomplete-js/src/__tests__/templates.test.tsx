@@ -17,6 +17,7 @@ describe('templates', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
+      id: 'autocomplete-0',
       getSources() {
         return [
           {
@@ -116,6 +117,7 @@ describe('templates', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
+      id: 'autocomplete-0',
       getSources() {
         return [
           {
@@ -175,15 +177,15 @@ describe('templates', () => {
       expect(within(panelContainer).getByRole('listbox'))
         .toMatchInlineSnapshot(`
         <ul
-          aria-labelledby="autocomplete-1-label"
+          aria-labelledby="autocomplete-0-label"
           class="aa-List"
-          id="autocomplete-1-list"
+          id="autocomplete-0-list"
           role="listbox"
         >
           <li
             aria-selected="false"
             class="aa-Item"
-            id="autocomplete-1-item-0"
+            id="autocomplete-0-item-0"
             role="option"
           >
             <div
@@ -231,6 +233,7 @@ describe('templates', () => {
     autocomplete<{ label: string }>({
       container,
       panelContainer,
+      id: 'autocomplete-0',
       getSources() {
         return [
           {
