@@ -532,6 +532,39 @@ describe('renderNoResults', () => {
     });
   });
 
+  test('provides an `html` function', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      initialState: {
+        isOpen: true,
+      },
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [{ label: '1' }];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+      renderNoResults({ children, render, html }, root) {
+        expect(html).toBeDefined();
+        render(html`<div>${children}</div>`, root);
+      },
+    });
+  });
+
   test('retrieves the custom createElement from the renderer', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');

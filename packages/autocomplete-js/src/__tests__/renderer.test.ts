@@ -84,21 +84,42 @@ describe('renderer', () => {
           },
         ];
       },
-      render({ createElement, Fragment, render }, root) {
+      render({ children, createElement, Fragment, render, html }, root) {
         expect(createElement).toBe(mockCreateElement);
         expect(Fragment).toBe(CustomFragment);
         expect(render).toBe(mockRender);
         expect(mockCreateElement).toHaveBeenCalled();
 
-        render(createElement(Fragment, null, 'testSource'), root);
+        mockCreateElement.mockClear();
+
+        render(html`<div>${children}</div>`, root);
+
+        expect(mockCreateElement).toHaveBeenCalledTimes(1);
+        expect(mockCreateElement).toHaveBeenLastCalledWith(
+          'div',
+          null,
+          expect.any(Object)
+        );
       },
-      renderNoResults({ createElement, Fragment, render }, root) {
+      renderNoResults(
+        { children, createElement, Fragment, render, html },
+        root
+      ) {
         expect(createElement).toBe(mockCreateElement);
         expect(Fragment).toBe(CustomFragment);
         expect(render).toBe(mockRender);
         expect(mockCreateElement).toHaveBeenCalled();
 
-        render(createElement(Fragment, null, 'testSource'), root);
+        mockCreateElement.mockClear();
+
+        render(html`<div>${children}</div>`, root);
+
+        expect(mockCreateElement).toHaveBeenCalledTimes(1);
+        expect(mockCreateElement).toHaveBeenLastCalledWith(
+          'div',
+          null,
+          expect.any(Object)
+        );
       },
       renderer: {
         createElement: mockCreateElement,
@@ -138,18 +159,12 @@ describe('renderer', () => {
         ];
       },
       render({ createElement, Fragment, render }, root) {
-        expect(createElement).toBe(mockCreateElement);
-        expect(Fragment).toBe(CustomFragment);
         expect(render).toBeUndefined();
-        expect(mockCreateElement).toHaveBeenCalled();
 
         preactRender(createElement(Fragment, null, 'testSource'), root);
       },
       renderNoResults({ createElement, Fragment, render }, root) {
-        expect(createElement).toBe(mockCreateElement);
-        expect(Fragment).toBe(CustomFragment);
         expect(render).toBeUndefined();
-        expect(mockCreateElement).toHaveBeenCalled();
 
         preactRender(createElement(Fragment, null, 'testSource'), root);
       },

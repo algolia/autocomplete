@@ -1,9 +1,38 @@
 /** @jsx h */
 import { autocomplete } from '@algolia/autocomplete-js';
+import { Hit } from '@algolia/client-search';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { h } from 'preact';
 
 import { HTMLTemplate } from '../types';
+
+import products from './fixtures/products.json';
+
+type ProductRecord = {
+  brand: string;
+  categories: string[];
+  description: string;
+  free_shipping: boolean;
+  hierarchicalCategories: {
+    lvl0: string;
+    lvl1?: string;
+    lvl2?: string;
+    lvl3?: string;
+    lvl4?: string;
+    lvl5?: string;
+    lvl6?: string;
+  };
+  image: string;
+  name: string;
+  popularity: number;
+  price: number;
+  prince_range: string;
+  rating: number;
+  type: string;
+};
+type ProductHit = Hit<ProductRecord>;
+
+const productHits = products.results[0].hits;
 
 describe('templates', () => {
   beforeEach(() => {
@@ -232,7 +261,7 @@ describe('templates', () => {
 
     document.body.appendChild(panelContainer);
 
-    autocomplete<{ label: string }>({
+    autocomplete<ProductHit>({
       container,
       panelContainer,
       id: 'autocomplete-0',
@@ -241,8 +270,8 @@ describe('templates', () => {
           {
             sourceId: 'testSource',
             getItems({ query }) {
-              return [{ label: '1' }].filter(({ label }) =>
-                label.includes(query)
+              return [productHits[0]].filter(({ name }) =>
+                name.toLowerCase().includes(query)
               );
             },
             templates: {
@@ -251,8 +280,16 @@ describe('templates', () => {
                   Header
                 </header>`;
               },
-              item({ item, html }) {
-                return html`<div class="MyCustomItemClass">${item.label}</div>`;
+              item({ item, components, html }) {
+                return html`<div class="MyCustomItemClass">
+                  <h2>
+                    ${components.Highlight({
+                      hit: item,
+                      attribute: 'name',
+                    })}
+                  </h2>
+                  <p>$${item.price}</p>
+                </div>`;
               },
               footer({ html }) {
                 return html`<footer class="MyCustomFooterClass">
@@ -268,49 +305,87 @@ describe('templates', () => {
           },
         ];
       },
+      render({ children, render, html }, root) {
+        render(
+          html`<div data-testid="results" class="aa-SomeResults">
+            ${children}
+          </div>`,
+          root
+        );
+      },
     });
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, { target: { value: '1' } });
+    fireEvent.input(input, { target: { value: 'apple' } });
 
     await waitFor(() => {
-      expect(within(panelContainer).getByRole('banner')).toMatchInlineSnapshot(`
-        <header
-          class="MyCustomHeaderClass"
-        >
-          Header
-        </header>
-      `);
-      expect(within(panelContainer).getByRole('listbox'))
+      expect(within(panelContainer).getByTestId('results'))
         .toMatchInlineSnapshot(`
-        <ul
-          aria-labelledby="autocomplete-0-label"
-          class="aa-List"
-          id="autocomplete-0-list"
-          role="listbox"
+        <div
+          class="aa-SomeResults"
+          data-testid="results"
         >
-          <li
-            aria-selected="false"
-            class="aa-Item"
-            id="autocomplete-0-item-0"
-            role="option"
+          <div
+            class="aa-PanelLayout aa-Panel--scrollable"
           >
-            <div
-              class="MyCustomItemClass"
+            <section
+              class="aa-Source"
+              data-autocomplete-source-id="testSource"
             >
-              1
-            </div>
-          </li>
-        </ul>
-      `);
-      expect(within(panelContainer).getByRole('contentinfo'))
-        .toMatchInlineSnapshot(`
-        <footer
-          class="MyCustomFooterClass"
-        >
-          Footer
-        </footer>
+              <div
+                class="aa-SourceHeader"
+              >
+                <header
+                  class="MyCustomHeaderClass"
+                >
+                  Header
+                </header>
+              </div>
+              <ul
+                aria-labelledby="autocomplete-0-label"
+                class="aa-List"
+                id="autocomplete-0-list"
+                role="listbox"
+              >
+                <li
+                  aria-selected="false"
+                  class="aa-Item"
+                  id="autocomplete-0-item-0"
+                  role="option"
+                >
+                  <div
+                    class="MyCustomItemClass"
+                  >
+                    <h2>
+                      Apple - 
+                      <mark>
+                        iPhone
+                      </mark>
+                       SE 16GB - Space Gray (Verizon)
+                    </h2>
+                    <p>
+                      $
+                      449.99
+                    </p>
+                  </div>
+                </li>
+              </ul>
+              <div
+                class="aa-SourceFooter"
+              >
+                <footer
+                  class="MyCustomFooterClass"
+                >
+                  Footer
+                </footer>
+              </div>
+            </section>
+          </div>
+          <div
+            class="aa-GradientBottom"
+          />
+        </div>
       `);
     });
 
@@ -338,7 +413,7 @@ describe('templates', () => {
 
     document.body.appendChild(panelContainer);
 
-    autocomplete<{ label: string }>({
+    autocomplete<ProductHit>({
       container,
       panelContainer,
       id: 'autocomplete-0',
@@ -347,8 +422,8 @@ describe('templates', () => {
           {
             sourceId: 'testSource',
             getItems({ query }) {
-              return [{ label: '1' }].filter(({ label }) =>
-                label.includes(query)
+              return [productHits[0]].filter(({ name }) =>
+                name.toLowerCase().includes(query)
               );
             },
             templates: {
@@ -358,9 +433,18 @@ describe('templates', () => {
                   html
                 );
               },
-              item({ item, html }) {
+              item({ item, components, html }) {
                 return htmlShim(
-                  ['<div class="MyCustomItemClass">', item.label, '</div>'],
+                  [
+                    '<div class="MyCustomItemClass"><h2>',
+                    components.Highlight({
+                      hit: item,
+                      attribute: 'name',
+                    }),
+                    '</h2><p>',
+                    item.price,
+                    '</p><div>',
+                  ],
                   html
                 );
               },
@@ -380,49 +464,78 @@ describe('templates', () => {
           },
         ];
       },
+      render({ children, render, html }, root) {
+        render(
+          htmlShim(
+            [
+              '<div data-testid="results" class="aa-SomeResults">',
+              children,
+              '</div>',
+            ],
+            html
+          ),
+          root
+        );
+      },
     });
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, { target: { value: '1' } });
+    fireEvent.input(input, { target: { value: 'apple' } });
 
     await waitFor(() => {
-      expect(within(panelContainer).getByRole('banner')).toMatchInlineSnapshot(`
-        <header
-          class="MyCustomHeaderClass"
-        >
-          Header
-        </header>
-      `);
-      expect(within(panelContainer).getByRole('listbox'))
+      expect(within(panelContainer).getByTestId('results'))
         .toMatchInlineSnapshot(`
-        <ul
-          aria-labelledby="autocomplete-0-label"
-          class="aa-List"
-          id="autocomplete-0-list"
-          role="listbox"
+        <div
+          class="aa-SomeResults"
+          data-testid="results"
         >
-          <li
-            aria-selected="false"
-            class="aa-Item"
-            id="autocomplete-0-item-0"
-            role="option"
+          <div
+            class="aa-PanelLayout aa-Panel--scrollable"
           >
-            <div
-              class="MyCustomItemClass"
+            <section
+              class="aa-Source"
+              data-autocomplete-source-id="testSource"
             >
-              1
-            </div>
-          </li>
-        </ul>
-      `);
-      expect(within(panelContainer).getByRole('contentinfo'))
-        .toMatchInlineSnapshot(`
-        <footer
-          class="MyCustomFooterClass"
-        >
-          Footer
-        </footer>
+              <div
+                class="aa-SourceHeader"
+              >
+                <header
+                  class="MyCustomHeaderClass"
+                >
+                  Header
+                </header>
+              </div>
+              <ul
+                aria-labelledby="autocomplete-0-label"
+                class="aa-List"
+                id="autocomplete-0-list"
+                role="listbox"
+              >
+                <li
+                  aria-selected="false"
+                  class="aa-Item"
+                  id="autocomplete-0-item-0"
+                  role="option"
+                >
+                  div
+                </li>
+              </ul>
+              <div
+                class="aa-SourceFooter"
+              >
+                <footer
+                  class="MyCustomFooterClass"
+                >
+                  Footer
+                </footer>
+              </div>
+            </section>
+          </div>
+          <div
+            class="aa-GradientBottom"
+          />
+        </div>
       `);
     });
 
