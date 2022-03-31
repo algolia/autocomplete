@@ -11,8 +11,7 @@
     "/examples/starter-algolia",
     "/examples/starter",
     "/examples/reshape",
-    "/examples/vue",
-    "/examples/html-templates"
+    "/examples/vue"
   ],
   "node": "14"
 }
