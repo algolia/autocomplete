@@ -3,7 +3,7 @@
 
 ### Bug Fixes
 
-* stop touchstart event propagation if coming from cancel button in detached mode ([#924](https://github.com/algolia/autocomplete/issues/924)) ([24cf9d6](https://github.com/algolia/autocomplete/commit/24cf9d67c906378088bdf736bc0b70be49f270b4))
+* **js:** stop touchstart event propagation if coming from cancel button in detached mode ([#924](https://github.com/algolia/autocomplete/issues/924)) ([24cf9d6](https://github.com/algolia/autocomplete/commit/24cf9d67c906378088bdf736bc0b70be49f270b4))
 
 
 
