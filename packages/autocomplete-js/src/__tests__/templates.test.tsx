@@ -450,11 +450,11 @@ function htmlShim(template: Array<string | any> | string, html: HTMLTemplate) {
     return html(([template] as unknown) as TemplateStringsArray);
   }
 
-  const [strings, variables] = template.reduce<[string[], any[]]>(
+  const [strings, variables] = template.reduce(
     (acc, part, index) => {
       const isOdd = index % 2 === 0;
 
-      acc[Math.abs(Number(!isOdd))].push(part as any);
+      acc[Math.abs(Number(!isOdd))].push(part);
 
       return acc;
     },
