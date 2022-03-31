@@ -18,7 +18,7 @@ type Template<TParams> = (
       components: AutocompleteComponents;
       html: HTMLTemplate;
     }
-) => VNode | string;
+) => VNode | VNode[] | string;
 
 /**
  * Templates to display in the autocomplete panel.
