@@ -1,3 +1,12 @@
+## [1.5.5](https://github.com/algolia/autocomplete/compare/v1.5.4...v1.5.5) (2022-03-30)
+
+
+### Bug Fixes
+
+* **enterKeyHint:** use a fixed `enterKeyHint` value on Samsung devices ([#916](https://github.com/algolia/autocomplete/issues/916)) ([b4aa087](https://github.com/algolia/autocomplete/commit/b4aa08797236c0ff8cbdbbca88099c7be579711c))
+
+
+
 ## [1.5.4](https://github.com/algolia/autocomplete/compare/v1.5.3...v1.5.4) (2022-03-23)
 
 
