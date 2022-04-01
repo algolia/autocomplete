@@ -38,6 +38,6 @@
     "@algolia/autocomplete-core": "1.5.6"
   },
   "peerDependencies": {
-    "search-insights": "^1.0.0"
+    "search-insights": ">= 1 < 3"
   }
 }
