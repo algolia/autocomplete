@@ -1,8 +1,8 @@
-# Autocomplete starter targeting an Algolia index
+# Autocomplete starter with Algolia index
 
-This example helps you quickly boostrap a basic Autocomplete experience targeting a product index hosted on Algolia.
+This example helps you quickly boostrap a basic Autocomplete experience using Algolia.
 
-<p align="center"><img src="capture.jpg" alt="A capture of the Autocomplete starter targeting an Algolia index" /></p>
+<p align="center"><img src="capture.jpg" alt="A capture of the Autocomplete with Algolia" /></p>
 
 ## Demo
 

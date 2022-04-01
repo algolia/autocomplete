@@ -1,8 +1,8 @@
-# Autocomplete starter using a local source
+# Autocomplete starter with static data
 
-This example helps you quickly boostrap a basic Autocomplete using a local data source.
+This example helps you quickly boostrap a basic Autocomplete using static data.
 
-<p align="center"><img src="capture.jpg" alt="A capture of the Autocomplete starter targeting a local source" /></p>
+<p align="center"><img src="capture.jpg" alt="A capture of the Autocomplete starter using static data" /></p>
 
 ## Demo
 
