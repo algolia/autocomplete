@@ -153,16 +153,14 @@ export function autocomplete<TItem extends BaseItem>(
       classNames: props.value.renderer.classNames,
       components: props.value.renderer.components,
       container: props.value.renderer.container,
-      createElement: props.value.renderer.renderer.createElement,
       html,
       dom: dom.value,
-      Fragment: props.value.renderer.renderer.Fragment,
       panelContainer: isDetached.value
         ? dom.value.detachedContainer
         : props.value.renderer.panelContainer,
       propGetters,
       state: lastStateRef.current,
-      renderer: props.value.renderer,
+      renderer: props.value.renderer.renderer,
     };
 
     const render =
