@@ -1,3 +1,30 @@
+## [1.5.6](https://github.com/algolia/autocomplete/compare/v1.5.5...v1.5.6) (2022-03-31)
+
+
+### Bug Fixes
+
+* **js:** stop touchstart event propagation if coming from cancel button in detached mode ([#924](https://github.com/algolia/autocomplete/issues/924)) ([24cf9d6](https://github.com/algolia/autocomplete/commit/24cf9d67c906378088bdf736bc0b70be49f270b4))
+
+
+
+## [1.5.5](https://github.com/algolia/autocomplete/compare/v1.5.4...v1.5.5) (2022-03-30)
+
+
+### Bug Fixes
+
+* **enterKeyHint:** use a fixed `enterKeyHint` value on Samsung devices ([#916](https://github.com/algolia/autocomplete/issues/916)) ([b4aa087](https://github.com/algolia/autocomplete/commit/b4aa08797236c0ff8cbdbbca88099c7be579711c))
+
+
+
+## [1.5.4](https://github.com/algolia/autocomplete/compare/v1.5.3...v1.5.4) (2022-03-23)
+
+
+### Bug Fixes
+
+* **js:** prevent event bubbling on cancel button click ([#922](https://github.com/algolia/autocomplete/issues/922)) ([ba17ccd](https://github.com/algolia/autocomplete/commit/ba17ccd578717c780d597733fa3d6dfd4b10dcf3))
+
+
+
 ## [1.5.3](https://github.com/algolia/autocomplete/compare/v1.5.2...v1.5.3) (2022-02-23)
 
 

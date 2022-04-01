@@ -85,4 +85,63 @@ describe('detached', () => {
       expect(document.body).not.toHaveClass('aa-Detached');
     });
   });
+
+  test('closes after cancel', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      id: 'autocomplete',
+      detachedMediaQuery: '',
+      container,
+    });
+
+    const searchButton = container.querySelector<HTMLButtonElement>(
+      '.aa-DetachedSearchButton'
+    );
+
+    // Open detached overlay
+    searchButton.click();
+
+    await waitFor(() => {
+      expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
+      expect(document.body).toHaveClass('aa-Detached');
+    });
+
+    const cancelButton = document.querySelector<HTMLButtonElement>(
+      '.aa-DetachedCancelButton'
+    );
+
+    // Prevent `onTouchStart` event from closing detached overlay
+    const windowTouchStartListener = jest.fn();
+    window.addEventListener('touchstart', windowTouchStartListener);
+
+    fireEvent(
+      cancelButton,
+      new TouchEvent('touchstart', {
+        bubbles: true,
+        cancelable: true,
+        composed: true,
+      })
+    );
+
+    expect(windowTouchStartListener).toHaveBeenCalledTimes(0);
+
+    window.removeEventListener('touchstart', windowTouchStartListener);
+
+    await waitFor(() => {
+      expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
+      expect(document.body).toHaveClass('aa-Detached');
+    });
+
+    // Close detached overlay
+    cancelButton.click();
+
+    // The detached overlay should close
+    await waitFor(() => {
+      expect(
+        document.querySelector('.aa-DetachedOverlay')
+      ).not.toBeInTheDocument();
+      expect(document.body).not.toHaveClass('aa-Detached');
+    });
+  });
 });

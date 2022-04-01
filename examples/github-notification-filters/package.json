@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-github-notification-filters",
   "description": "Autocomplete example with GitHub notification filters",
-  "version": "1.5.3",
+  "version": "1.5.6",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,9 +9,9 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.5.3",
-    "@algolia/autocomplete-plugin-tags": "1.5.3",
-    "@algolia/autocomplete-theme-classic": "1.5.3",
+    "@algolia/autocomplete-js": "1.5.6",
+    "@algolia/autocomplete-plugin-tags": "1.5.6",
+    "@algolia/autocomplete-theme-classic": "1.5.6",
     "algoliasearch": "4.9.1",
     "preact": "10.5.13",
     "qs": "6.10.1"

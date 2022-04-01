@@ -158,16 +158,22 @@ export function createAutocompleteDom<TItem extends BaseItem>({
       textContent: placeholder,
     });
     const detachedSearchButton = createDomElement('button', {
+      type: 'button',
       class: classNames.detachedSearchButton,
-      onClick(event: MouseEvent) {
-        event.preventDefault();
+      onClick() {
         setIsModalOpen(true);
       },
       children: [detachedSearchButtonIcon, detachedSearchButtonPlaceholder],
     });
     const detachedCancelButton = createDomElement('button', {
+      type: 'button',
       class: classNames.detachedCancelButton,
       textContent: translations.detachedCancelButtonText,
+      // Prevent `onTouchStart` from closing the panel
+      // since it should be initiated by `onClick` only
+      onTouchStart(event: TouchEvent) {
+        event.stopPropagation();
+      },
       onClick() {
         autocomplete.setIsOpen(false);
         setIsModalOpen(false);
