@@ -565,9 +565,9 @@ function htmlShim(template: Array<string | any> | string, html: HTMLTemplate) {
 
   const [strings, variables] = template.reduce(
     (acc, part, index) => {
-      const isOdd = index % 2 === 0;
+      const isEven = index % 2 === 0;
 
-      acc[Math.abs(Number(!isOdd))].push(part);
+      acc[Math.abs(Number(!isEven))].push(part);
 
       return acc;
     },
