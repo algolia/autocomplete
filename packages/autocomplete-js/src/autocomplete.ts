@@ -114,7 +114,9 @@ export function autocomplete<TItem extends BaseItem>(
     refresh: autocomplete.value.refresh,
   };
 
-  const html = htm.bind<VNode>(props.value.renderer.renderer.createElement);
+  const html = reactive(() =>
+    htm.bind<VNode>(props.value.renderer.renderer.createElement)
+  );
 
   const dom = reactive(() =>
     createAutocompleteDom({
@@ -153,7 +155,7 @@ export function autocomplete<TItem extends BaseItem>(
       classNames: props.value.renderer.classNames,
       components: props.value.renderer.components,
       container: props.value.renderer.container,
-      html,
+      html: html.value,
       dom: dom.value,
       panelContainer: isDetached.value
         ? dom.value.detachedContainer
