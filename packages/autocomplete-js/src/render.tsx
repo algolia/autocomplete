@@ -104,7 +104,8 @@ export function renderPanel<TItem extends BaseItem>(
           <div className={classNames.sourceHeader}>
             {source.templates.header({
               components,
-              ...renderer,
+              createElement: renderer.createElement,
+              Fragment: renderer.Fragment,
               items,
               source,
               state,
@@ -117,7 +118,8 @@ export function renderPanel<TItem extends BaseItem>(
           <div className={classNames.sourceNoResults}>
             {source.templates.noResults({
               components,
-              ...renderer,
+              createElement: renderer.createElement,
+              Fragment: renderer.Fragment,
               source,
               state,
               html,
@@ -150,7 +152,8 @@ export function renderPanel<TItem extends BaseItem>(
                 >
                   {source.templates.item({
                     components,
-                    ...renderer,
+                    createElement: renderer.createElement,
+                    Fragment: renderer.Fragment,
                     item,
                     state,
                     html,
@@ -165,7 +168,8 @@ export function renderPanel<TItem extends BaseItem>(
           <div className={classNames.sourceFooter}>
             {source.templates.footer({
               components,
-              ...renderer,
+              createElement: renderer.createElement,
+              Fragment: renderer.Fragment,
               items,
               source,
               state,
