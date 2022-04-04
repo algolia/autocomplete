@@ -1,3 +1,4 @@
+import { warnCache } from '@algolia/autocomplete-shared';
 import {
   createElement as preactCreateElement,
   Fragment as PreactFragment,
@@ -9,6 +10,10 @@ import { autocomplete } from '../autocomplete';
 describe('renderer', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
+  });
+
+  afterEach(() => {
+    warnCache.current = {};
   });
 
   test('defaults to the Preact implementation', () => {
@@ -129,7 +134,7 @@ describe('renderer', () => {
     });
   });
 
-  test('sets `render` to `undefined` when not specified in the renderer', () => {
+  test('defaults `render` when not specified in the renderer', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
     const CustomFragment = (props: any) => props.children;
@@ -159,12 +164,12 @@ describe('renderer', () => {
         ];
       },
       render({ createElement, Fragment, render }, root) {
-        expect(render).toBeUndefined();
+        expect(render).toBe(preactRender);
 
         preactRender(createElement(Fragment, null, 'testSource'), root);
       },
       renderNoResults({ createElement, Fragment, render }, root) {
-        expect(render).toBeUndefined();
+        expect(render).toBe(preactRender);
 
         preactRender(createElement(Fragment, null, 'testSource'), root);
       },
@@ -173,5 +178,223 @@ describe('renderer', () => {
         Fragment: CustomFragment,
       },
     });
+  });
+
+  test('warns when specifying an incomplete renderer', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+    const mockCreateElement = jest.fn().mockImplementation(preactCreateElement);
+    const CustomFragment = (props: any) => props.children;
+    const mockRender = jest.fn().mockImplementation(preactRender);
+
+    document.body.appendChild(panelContainer);
+
+    expect(() => {
+      autocomplete<{ label: string }>({
+        container,
+        panelContainer,
+        initialState: {
+          isOpen: true,
+        },
+        getSources() {
+          return [
+            {
+              sourceId: 'testSource',
+              getItems() {
+                return [{ label: '1' }];
+              },
+              templates: {
+                item({ item }) {
+                  return item.label;
+                },
+              },
+            },
+          ];
+        },
+        renderer: {
+          createElement: mockCreateElement,
+          Fragment: CustomFragment,
+        },
+      });
+    }).toWarnDev(
+      '[Autocomplete] You provided an incomplete `renderer` (missing: `renderer.render`). This can cause rendering issues.' +
+        '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-renderer'
+    );
+
+    expect(() => {
+      autocomplete<{ label: string }>({
+        container,
+        panelContainer,
+        initialState: {
+          isOpen: true,
+        },
+        getSources() {
+          return [
+            {
+              sourceId: 'testSource',
+              getItems() {
+                return [{ label: '1' }];
+              },
+              templates: {
+                item({ item }) {
+                  return item.label;
+                },
+              },
+            },
+          ];
+        },
+        // Accidentally not passing required `renderer` properties is possible
+        // for Non-TypeScript users
+        // @ts-expect-error
+        renderer: {
+          Fragment: CustomFragment,
+          render: mockRender,
+        },
+      });
+    }).toWarnDev(
+      '[Autocomplete] You provided an incomplete `renderer` (missing: `renderer.createElement`). This can cause rendering issues.' +
+        '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-renderer'
+    );
+
+    expect(() => {
+      autocomplete<{ label: string }>({
+        container,
+        panelContainer,
+        initialState: {
+          isOpen: true,
+        },
+        getSources() {
+          return [
+            {
+              sourceId: 'testSource',
+              getItems() {
+                return [{ label: '1' }];
+              },
+              templates: {
+                item({ item }) {
+                  return item.label;
+                },
+              },
+            },
+          ];
+        },
+        // Accidentally not passing required `renderer` properties is possible
+        // for Non-TypeScript users
+        // @ts-expect-error
+        renderer: {
+          createElement: mockCreateElement,
+          render: mockRender,
+        },
+      });
+    }).toWarnDev(
+      '[Autocomplete] You provided an incomplete `renderer` (missing: `renderer.Fragment`). This can cause rendering issues.' +
+        '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-renderer'
+    );
+
+    expect(() => {
+      autocomplete<{ label: string }>({
+        container,
+        panelContainer,
+        initialState: {
+          isOpen: true,
+        },
+        getSources() {
+          return [
+            {
+              sourceId: 'testSource',
+              getItems() {
+                return [{ label: '1' }];
+              },
+              templates: {
+                item({ item }) {
+                  return item.label;
+                },
+              },
+            },
+          ];
+        },
+        // Accidentally not passing required `renderer` properties is possible
+        // for Non-TypeScript users
+        // @ts-expect-error
+        renderer: {
+          createElement: mockCreateElement,
+        },
+      });
+    }).toWarnDev(
+      '[Autocomplete] You provided an incomplete `renderer` (missing: `renderer.Fragment`, `renderer.render`). This can cause rendering issues.' +
+        '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-renderer'
+    );
+  });
+
+  test('does not warn when not passing a custom renderer', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    expect(() => {
+      autocomplete<{ label: string }>({
+        container,
+        panelContainer,
+        initialState: {
+          isOpen: true,
+        },
+        getSources() {
+          return [
+            {
+              sourceId: 'testSource',
+              getItems() {
+                return [{ label: '1' }];
+              },
+              templates: {
+                item({ item }) {
+                  return item.label;
+                },
+              },
+            },
+          ];
+        },
+      });
+    }).not.toWarnDev();
+  });
+
+  test('does not warn when passing a full custom renderer', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+    const CustomFragment = (props: any) => props.children;
+    const mockCreateElement = jest.fn().mockImplementation(preactCreateElement);
+    const mockRender = jest.fn().mockImplementation(preactRender);
+
+    document.body.appendChild(panelContainer);
+
+    expect(() => {
+      autocomplete<{ label: string }>({
+        container,
+        panelContainer,
+        initialState: {
+          isOpen: true,
+        },
+        getSources() {
+          return [
+            {
+              sourceId: 'testSource',
+              getItems() {
+                return [{ label: '1' }];
+              },
+              templates: {
+                item({ item }) {
+                  return item.label;
+                },
+              },
+            },
+          ];
+        },
+        renderer: {
+          createElement: mockCreateElement,
+          Fragment: CustomFragment,
+          render: mockRender,
+        },
+      });
+    }).not.toWarnDev();
   });
 });

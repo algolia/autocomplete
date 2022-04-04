@@ -2,6 +2,7 @@ import { AutocompleteEnvironment, BaseItem } from '@algolia/autocomplete-core';
 import {
   generateAutocompleteId,
   invariant,
+  warn,
 } from '@algolia/autocomplete-shared';
 import {
   createElement as preactCreateElement,
@@ -100,7 +101,20 @@ export function getDefaultOptions<TItem extends BaseItem>(
     'The `container` option does not support `input` elements. You need to change the container to a `div`.'
   );
 
-  const defaultedRenderer = renderer ?? defaultRenderer;
+  warn(
+    !renderer ||
+      (renderer.Fragment && renderer.createElement && renderer.render),
+    `You provided an incomplete \`renderer\` (missing: ${[
+      !renderer?.createElement && '`renderer.createElement`',
+      !renderer?.Fragment && '`renderer.Fragment`',
+      !renderer?.render && '`renderer.render`',
+    ]
+      .filter(Boolean)
+      .join(', ')}). This can cause rendering issues.` +
+      '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-renderer'
+  );
+
+  const defaultedRenderer = { ...defaultRenderer, ...renderer };
   const defaultComponents: AutocompleteComponents = {
     Highlight: createHighlightComponent(defaultedRenderer),
     ReverseHighlight: createReverseHighlightComponent(defaultedRenderer),
