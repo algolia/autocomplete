@@ -14,7 +14,7 @@ import {
   GetRootProps,
   InternalAutocompleteOptions,
 } from './types';
-import { getActiveItem, isChrome, isOrContainsNode, isSamsung } from './utils';
+import { getActiveItem, isOrContainsNode, isSamsung } from './utils';
 
 interface GetPropGettersOptions<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
@@ -163,7 +163,7 @@ export function getPropGetters<
     const activeItem = getActiveItem(store.getState());
 
     const userAgent = props.environment.navigator?.userAgent;
-    const shouldFallbackKeyHint = isSamsung(userAgent) && isChrome(userAgent);
+    const shouldFallbackKeyHint = isSamsung(userAgent);
     const enterKeyHint =
       activeItem?.itemUrl && !shouldFallbackKeyHint ? 'go' : 'search';
 
