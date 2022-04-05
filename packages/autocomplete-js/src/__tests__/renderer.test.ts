@@ -180,7 +180,7 @@ describe('renderer', () => {
     });
   });
 
-  test('warns when specifying an incomplete renderer', () => {
+  test('warns about renderer mismatch when specifying an incomplete renderer', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
     const mockCreateElement = jest.fn().mockImplementation(preactCreateElement);
@@ -326,7 +326,61 @@ describe('renderer', () => {
     );
   });
 
-  test('does not warn when not passing a custom renderer', () => {
+  test('warns about new `renderer.render` option when specifying an incomplete renderer and a `render` option', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+    const mockCreateElement = jest.fn().mockImplementation(preactCreateElement);
+    const CustomFragment = (props: any) => props.children;
+
+    document.body.appendChild(panelContainer);
+
+    function startAutocomplete() {
+      autocomplete<{ label: string }>({
+        container,
+        panelContainer,
+        initialState: {
+          isOpen: true,
+        },
+        getSources() {
+          return [
+            {
+              sourceId: 'testSource',
+              getItems() {
+                return [{ label: '1' }];
+              },
+              templates: {
+                item({ item }) {
+                  return item.label;
+                },
+              },
+            },
+          ];
+        },
+        renderer: {
+          createElement: mockCreateElement,
+          Fragment: CustomFragment,
+        },
+        render({ children }, root) {
+          preactRender(children, root);
+        },
+      });
+    }
+
+    expect(startAutocomplete).toWarnDev(
+      '[Autocomplete] You provided the `render` option but did not provide a `renderer.render`. Since v1.6.0, you can provide a `render` function directly in `renderer`.' +
+        '\nTo get rid of this warning, do any of the following depending on your use case.' +
+        "\n - If you are using the `render` option only to override Autocomplete's default `render` function, pass the `render` function into `renderer` and remove the `render` option." +
+        '\n - If you are using the `render` option to customize the layout, pass your `render` function into `renderer` and use it from the provided parameters of the `render` option.' +
+        '\n See https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-render'
+    );
+
+    expect(startAutocomplete).not.toWarnDev(
+      '[Autocomplete] You provided an incomplete `renderer` (missing: `renderer.Fragment`, `renderer.render`). This can cause rendering issues.' +
+        '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-renderer'
+    );
+  });
+
+  test('does not warn at all when not passing a custom renderer', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -358,7 +412,7 @@ describe('renderer', () => {
     }).not.toWarnDev();
   });
 
-  test('does not warn when passing a full custom renderer', () => {
+  test('does not warn at all when passing a full custom renderer', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
     const CustomFragment = (props: any) => props.children;
