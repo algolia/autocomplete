@@ -55,20 +55,20 @@ describe('isChrome', () => {
     });
 
     describe('Samsung Browser', () => {
-      test('returns false with a Samsung Galaxy S10 (mobile) user agent', () => {
+      test('returns true with a Samsung Galaxy S10 (mobile) user agent', () => {
         expect(
           isChrome(
             'Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G977N Build/PPR1.180610.011) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/9.2 Chrome/67.0.3396.87 Mobile Safari/537.36'
           )
-        ).toEqual(false);
+        ).toEqual(true);
       });
 
-      test('returns false with a Samsung Galaxy Tab A (tablet) user agent', () => {
+      test('returns true with a Samsung Galaxy Tab A (tablet) user agent', () => {
         expect(
           isChrome(
             'Mozilla/5.0 (Linux; Android 5.0.2; SAMSUNG SM-T550 Build/LRX22G) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/3.3 Chrome/38.0.2125.102 Safari/537.36'
           )
-        ).toEqual(false);
+        ).toEqual(true);
       });
     });
   });
