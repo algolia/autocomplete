@@ -3,7 +3,7 @@
 
 ### Bug Fixes
 
-* **enterKeyHint:** samsung browser should be detected as chrome ([#933](https://github.com/algolia/autocomplete/issues/933)) ([93a1fc2](https://github.com/algolia/autocomplete/commit/93a1fc25c720eb3f4fb3900c8f71e0423bd9a0d5))
+* **enterKeyHint:** remove `isChrome` util ([#933](https://github.com/algolia/autocomplete/issues/933)) ([93a1fc2](https://github.com/algolia/autocomplete/commit/93a1fc25c720eb3f4fb3900c8f71e0423bd9a0d5))
 * **plugin-insights:** allow search-insights v2 ([#930](https://github.com/algolia/autocomplete/issues/930)) ([c08189d](https://github.com/algolia/autocomplete/commit/c08189de96c35244617654815705ae008e0d1ec7)), closes [#929](https://github.com/algolia/autocomplete/issues/929)
 
 
