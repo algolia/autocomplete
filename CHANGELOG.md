@@ -1,3 +1,13 @@
+## [1.5.7](https://github.com/algolia/autocomplete/compare/v1.5.6...v1.5.7) (2022-04-05)
+
+
+### Bug Fixes
+
+* **enterKeyHint:** remove check on only Chrome browser ([#933](https://github.com/algolia/autocomplete/issues/933)) ([93a1fc2](https://github.com/algolia/autocomplete/commit/93a1fc25c720eb3f4fb3900c8f71e0423bd9a0d5))
+* **plugin-insights:** allow search-insights v2 ([#930](https://github.com/algolia/autocomplete/issues/930)) ([c08189d](https://github.com/algolia/autocomplete/commit/c08189de96c35244617654815705ae008e0d1ec7)), closes [#929](https://github.com/algolia/autocomplete/issues/929)
+
+
+
 ## [1.5.6](https://github.com/algolia/autocomplete/compare/v1.5.5...v1.5.6) (2022-03-31)
 
 
