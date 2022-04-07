@@ -1,3 +1,12 @@
+# [1.6.0](https://github.com/algolia/autocomplete/compare/v1.5.7...v1.6.0) (2022-04-07)
+
+
+### Features
+
+* **autocomplete-js:** enable HTML templating ([#920](https://github.com/algolia/autocomplete/issues/920)) ([f5bbf34](https://github.com/algolia/autocomplete/commit/f5bbf34f477a0d367d367f4f97db9768c4eb4781))
+
+
+
 ## [1.5.7](https://github.com/algolia/autocomplete/compare/v1.5.6...v1.5.7) (2022-04-05)
 
 
