@@ -1,0 +1,25 @@
+{
+  "name": "@algolia/autocomplete-example-html-templates",
+  "description": "Autocomplete example with HTML templates",
+  "version": "1.5.7",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "parcel build index.html",
+    "start": "parcel index.html"
+  },
+  "dependencies": {
+    "@algolia/autocomplete-js": "1.5.7",
+    "@algolia/autocomplete-theme-classic": "1.5.7",
+    "algoliasearch": "4.9.1"
+  },
+  "devDependencies": {
+    "@algolia/client-search": "4.9.1",
+    "parcel": "2.0.0-beta.2"
+  },
+  "keywords": [
+    "algolia",
+    "autocomplete",
+    "javascript"
+  ]
+}

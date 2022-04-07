@@ -5,15 +5,20 @@ import {
 } from '@algolia/autocomplete-core';
 
 import { AutocompleteComponents } from './AutocompleteComponents';
-import { AutocompleteRenderer, VNode } from './AutocompleteRenderer';
+import {
+  AutocompleteRenderer,
+  HTMLTemplate,
+  VNode,
+} from './AutocompleteRenderer';
 import { AutocompleteState } from './AutocompleteState';
 
 type Template<TParams> = (
   params: TParams &
     AutocompleteRenderer & {
       components: AutocompleteComponents;
+      html: HTMLTemplate;
     }
-) => VNode | string;
+) => VNode | VNode[] | string;
 
 /**
  * Templates to display in the autocomplete panel.

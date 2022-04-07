@@ -8,6 +8,7 @@ import {
   debounce,
   getItemsCount,
 } from '@algolia/autocomplete-shared';
+import htm from 'htm';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
 import { createEffectWrapper } from './createEffectWrapper';
@@ -21,6 +22,7 @@ import {
   AutocompletePropGetters,
   AutocompleteSource,
   AutocompleteState,
+  VNode,
 } from './types';
 import { userAgents } from './userAgents';
 import { mergeDeep, setProperties } from './utils';
@@ -112,6 +114,10 @@ export function autocomplete<TItem extends BaseItem>(
     refresh: autocomplete.value.refresh,
   };
 
+  const html = reactive(() =>
+    htm.bind<VNode>(props.value.renderer.renderer.createElement)
+  );
+
   const dom = reactive(() =>
     createAutocompleteDom({
       autocomplete: autocomplete.value,
@@ -149,14 +155,14 @@ export function autocomplete<TItem extends BaseItem>(
       classNames: props.value.renderer.classNames,
       components: props.value.renderer.components,
       container: props.value.renderer.container,
-      createElement: props.value.renderer.renderer.createElement,
+      html: html.value,
       dom: dom.value,
-      Fragment: props.value.renderer.renderer.Fragment,
       panelContainer: isDetached.value
         ? dom.value.detachedContainer
         : props.value.renderer.panelContainer,
       propGetters,
       state: lastStateRef.current,
+      renderer: props.value.renderer.renderer,
     };
 
     const render =
