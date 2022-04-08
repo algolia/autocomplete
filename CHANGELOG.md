@@ -1,3 +1,12 @@
+## [1.6.1](https://github.com/algolia/autocomplete/compare/v1.6.0...v1.6.1) (2022-04-08)
+
+
+### Bug Fixes
+
+* **render:** pass `renderer.render` to default `render` function ([#940](https://github.com/algolia/autocomplete/issues/940)) ([55f53d1](https://github.com/algolia/autocomplete/commit/55f53d1c00bab3bbec8bc42f6ab12bbe8a407ff7))
+
+
+
 # [1.6.0](https://github.com/algolia/autocomplete/compare/v1.5.7...v1.6.0) (2022-04-07)
 
 
