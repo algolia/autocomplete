@@ -20,7 +20,7 @@ export type AutocompleteRender<TItem extends BaseItem> = (
     createElement: Pragma;
     Fragment: PragmaFrag;
     html: HTMLTemplate;
-    render?: Render;
+    render: Render;
   },
   root: HTMLElement
 ) => void;

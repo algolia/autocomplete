@@ -1,4 +1,5 @@
 import { warnCache } from '@algolia/autocomplete-shared';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import {
   createElement as preactCreateElement,
   Fragment as PreactFragment,
@@ -17,6 +18,8 @@ describe('renderer', () => {
   });
 
   test('defaults to the Preact implementation', () => {
+    expect.assertions(3);
+
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
 
@@ -49,17 +52,12 @@ describe('renderer', () => {
 
         render(createElement(Fragment, null, 'testSource'), root);
       },
-      renderNoResults({ createElement, Fragment, render }, root) {
-        expect(createElement).toBe(preactCreateElement);
-        expect(Fragment).toBe(PreactFragment);
-        expect(render).toBe(preactRender);
-
-        render(createElement(Fragment, null, 'testSource'), root);
-      },
     });
   });
 
   test('accepts a custom renderer', () => {
+    expect.assertions(6);
+
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
     const CustomFragment = (props: any) => props.children;
@@ -106,26 +104,6 @@ describe('renderer', () => {
           expect.any(Object)
         );
       },
-      renderNoResults(
-        { children, createElement, Fragment, render, html },
-        root
-      ) {
-        expect(createElement).toBe(mockCreateElement);
-        expect(Fragment).toBe(CustomFragment);
-        expect(render).toBe(mockRender);
-        expect(mockCreateElement).toHaveBeenCalled();
-
-        mockCreateElement.mockClear();
-
-        render(html`<div>${children}</div>`, root);
-
-        expect(mockCreateElement).toHaveBeenCalledTimes(1);
-        expect(mockCreateElement).toHaveBeenLastCalledWith(
-          'div',
-          null,
-          expect.any(Object)
-        );
-      },
       renderer: {
         createElement: mockCreateElement,
         Fragment: CustomFragment,
@@ -135,6 +113,8 @@ describe('renderer', () => {
   });
 
   test('defaults `render` when not specified in the renderer', () => {
+    expect.assertions(1);
+
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
     const CustomFragment = (props: any) => props.children;
@@ -168,15 +148,95 @@ describe('renderer', () => {
 
         preactRender(createElement(Fragment, null, 'testSource'), root);
       },
-      renderNoResults({ createElement, Fragment, render }, root) {
-        expect(render).toBe(preactRender);
-
-        preactRender(createElement(Fragment, null, 'testSource'), root);
-      },
       renderer: {
         createElement: mockCreateElement,
         Fragment: CustomFragment,
       },
+    });
+  });
+
+  test('uses a custom `render` via `renderer`', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    const CustomFragment = (props: any) => props.children;
+    const mockCreateElement = jest.fn(preactCreateElement);
+    const mockRender = jest.fn().mockImplementation(preactRender);
+
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      id: 'autocomplete-0',
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [{ label: '1' }];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+      renderer: {
+        Fragment: CustomFragment,
+        render: mockRender,
+        createElement: mockCreateElement,
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'apple' } });
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+      expect(mockRender).toHaveBeenCalled();
+      expect(panelContainer).toMatchInlineSnapshot(`
+        <div>
+          <div
+            class="aa-Panel"
+            data-testid="panel"
+            style="top: 0px; left: 0px; right: 0px; max-width: unset;"
+          >
+            <div
+              class="aa-PanelLayout aa-Panel--scrollable"
+            >
+              <section
+                class="aa-Source"
+                data-autocomplete-source-id="testSource"
+              >
+                <ul
+                  aria-labelledby="autocomplete-0-label"
+                  class="aa-List"
+                  id="autocomplete-0-list"
+                  role="listbox"
+                >
+                  <li
+                    aria-selected="false"
+                    class="aa-Item"
+                    id="autocomplete-0-item-0"
+                    role="option"
+                  >
+                    1
+                  </li>
+                </ul>
+              </section>
+            </div>
+            <div
+              class="aa-GradientBottom"
+            />
+          </div>
+        </div>
+      `);
     });
   });
 
