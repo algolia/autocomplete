@@ -244,9 +244,7 @@ export default {
       renderer: {
         createElement,
         Fragment,
-      },
-      render({ children }, root) {
-        render(children, root);
+        render,
       },
     });
   },

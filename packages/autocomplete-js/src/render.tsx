@@ -27,7 +27,7 @@ type RenderProps<TItem extends BaseItem> = {
   panelContainer: HTMLElement;
   propGetters: AutocompletePropGetters<TItem>;
   state: AutocompleteState<TItem>;
-  renderer: AutocompleteRenderer;
+  renderer: Required<AutocompleteRenderer>;
 };
 
 export function renderSearchBox<TItem extends BaseItem>({

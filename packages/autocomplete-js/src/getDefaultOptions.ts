@@ -54,11 +54,11 @@ const defaultClassNames: AutocompleteClassNames = {
   submitButton: 'aa-SubmitButton',
 };
 
-const defaultRender: AutocompleteRender<any> = ({ children }, root) => {
+const defaultRender: AutocompleteRender<any> = ({ children, render }, root) => {
   render(children, root);
 };
 
-const defaultRenderer: AutocompleteRenderer = {
+const defaultRenderer: Required<AutocompleteRenderer> = {
   createElement: preactCreateElement,
   Fragment: PreactFragment,
   render,
