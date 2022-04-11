@@ -125,12 +125,14 @@ export function getDefaultOptions<TItem extends BaseItem>(
   );
 
   const defaultedRenderer = { ...defaultRenderer, ...renderer };
+
   const defaultComponents: AutocompleteComponents = {
     Highlight: createHighlightComponent(defaultedRenderer),
     ReverseHighlight: createReverseHighlightComponent(defaultedRenderer),
     ReverseSnippet: createReverseSnippetComponent(defaultedRenderer),
     Snippet: createSnippetComponent(defaultedRenderer),
   };
+
   const defaultTranslations: AutocompleteTranslations = {
     clearButtonTitle: 'Clear',
     detachedCancelButtonText: 'Cancel',
@@ -165,6 +167,8 @@ export function getDefaultOptions<TItem extends BaseItem>(
           '--aa-detached-media-query'
         ),
       components: {
+        // @MAJOR Disallow registering components with the same name as default
+        // ones by merging the default components second.
         ...defaultComponents,
         ...components,
       },
