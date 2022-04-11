@@ -440,6 +440,41 @@ describe('renderer', () => {
     );
   });
 
+  test('does not warn at all when only passing a `render` option', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    expect(() => {
+      autocomplete<{ label: string }>({
+        container,
+        panelContainer,
+        initialState: {
+          isOpen: true,
+        },
+        getSources() {
+          return [
+            {
+              sourceId: 'testSource',
+              getItems() {
+                return [{ label: '1' }];
+              },
+              templates: {
+                item({ item }) {
+                  return item.label;
+                },
+              },
+            },
+          ];
+        },
+        render({ children, render }, root) {
+          render(children, root);
+        },
+      });
+    }).not.toWarnDev();
+  });
+
   test('does not warn at all when not passing a custom renderer', () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
