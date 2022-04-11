@@ -1,7 +1,13 @@
 import { AutocompleteScopeApi, BaseItem } from '@algolia/autocomplete-core';
 
 import { AutocompleteComponents } from './AutocompleteComponents';
-import { Pragma, PragmaFrag, VNode } from './AutocompleteRenderer';
+import {
+  HTMLTemplate,
+  Pragma,
+  PragmaFrag,
+  Render,
+  VNode,
+} from './AutocompleteRenderer';
 import { AutocompleteState } from './AutocompleteState';
 
 export type AutocompleteRender<TItem extends BaseItem> = (
@@ -13,6 +19,8 @@ export type AutocompleteRender<TItem extends BaseItem> = (
     components: AutocompleteComponents;
     createElement: Pragma;
     Fragment: PragmaFrag;
+    html: HTMLTemplate;
+    render: Render;
   },
   root: HTMLElement
 ) => void;

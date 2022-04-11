@@ -2,7 +2,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import {
   createElement as preactCreateElement,
   Fragment as PreactFragment,
-  render,
+  render as preactRender,
 } from 'preact';
 
 import { autocomplete } from '../autocomplete';
@@ -37,7 +37,7 @@ describe('renderNoResults', () => {
         ];
       },
       renderNoResults({ createElement }, root) {
-        render(createElement('div', null, 'No results render'), root);
+        preactRender(createElement('div', null, 'No results render'), root);
       },
     });
 
@@ -81,7 +81,7 @@ describe('renderNoResults', () => {
         ];
       },
       renderNoResults({ createElement }, root) {
-        render(createElement('div', null, 'No results render'), root);
+        preactRender(createElement('div', null, 'No results render'), root);
       },
     });
 
@@ -124,7 +124,7 @@ describe('renderNoResults', () => {
         ];
       },
       renderNoResults({ createElement }, root) {
-        render(createElement('div', null, 'No results method'), root);
+        preactRender(createElement('div', null, 'No results method'), root);
       },
     });
 
@@ -169,7 +169,7 @@ describe('renderNoResults', () => {
         expect(panelContainer.querySelector<HTMLElement>('.aa-Panel')).toBe(
           root
         );
-        render(createElement('div', null, 'No results render'), root);
+        preactRender(createElement('div', null, 'No results render'), root);
       },
     });
   });
@@ -211,7 +211,7 @@ describe('renderNoResults', () => {
           completion: null,
         });
 
-        render(createElement('div', null, 'No results render'), root);
+        preactRender(createElement('div', null, 'No results render'), root);
       },
     });
 
@@ -283,7 +283,7 @@ describe('renderNoResults', () => {
           }),
         });
 
-        render(createElement('div', null, 'testSource'), root);
+        preactRender(createElement('div', null, 'testSource'), root);
       },
     });
 
@@ -355,7 +355,7 @@ describe('renderNoResults', () => {
           }),
         ]);
 
-        render(createElement('div', null, 'No results render'), root);
+        preactRender(createElement('div', null, 'No results render'), root);
       },
     });
 
@@ -418,7 +418,7 @@ describe('renderNoResults', () => {
             },
           })
         );
-        render(createElement('div', null, 'No results render'), root);
+        preactRender(createElement('div', null, 'No results render'), root);
       },
     });
 
@@ -461,7 +461,7 @@ describe('renderNoResults', () => {
       },
       renderNoResults({ createElement }, root) {
         expect(createElement).toBe(preactCreateElement);
-        render(createElement('div', null, 'No results render'), root);
+        preactRender(createElement('div', null, 'No results render'), root);
       },
     });
   });
@@ -494,7 +494,73 @@ describe('renderNoResults', () => {
       },
       renderNoResults({ createElement, Fragment }, root) {
         expect(Fragment).toBe(PreactFragment);
-        render(createElement(Fragment, null, 'No results render'), root);
+        preactRender(createElement(Fragment, null, 'No results render'), root);
+      },
+    });
+  });
+
+  test('provides a default `render`', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      initialState: {
+        isOpen: true,
+      },
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [{ label: '1' }];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+      renderNoResults({ render }, root) {
+        expect(render).toBe(preactRender);
+        render(null, root);
+      },
+    });
+  });
+
+  test('provides an `html` function', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      initialState: {
+        isOpen: true,
+      },
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [{ label: '1' }];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+      renderNoResults({ children, render, html }, root) {
+        expect(html).toBeDefined();
+        render(html`<div>${children}</div>`, root);
       },
     });
   });
@@ -528,7 +594,7 @@ describe('renderNoResults', () => {
       },
       renderNoResults({ createElement }, root) {
         expect(createElement).toBe(mockCreateElement);
-        render(createElement('div', null, 'No results render'), root);
+        preactRender(createElement('div', null, 'No results render'), root);
       },
       renderer: {
         createElement: mockCreateElement,
@@ -566,7 +632,7 @@ describe('renderNoResults', () => {
       },
       renderNoResults({ createElement, Fragment }, root) {
         expect(Fragment).toBe(CustomFragment);
-        render(createElement(Fragment, null, 'No results render'), root);
+        preactRender(createElement(Fragment, null, 'No results render'), root);
       },
       renderer: {
         createElement: preactCreateElement,

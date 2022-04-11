@@ -1,3 +1,31 @@
+## [1.6.1](https://github.com/algolia/autocomplete/compare/v1.6.0...v1.6.1) (2022-04-08)
+
+
+### Bug Fixes
+
+* **render:** pass `renderer.render` to default `render` function ([#940](https://github.com/algolia/autocomplete/issues/940)) ([55f53d1](https://github.com/algolia/autocomplete/commit/55f53d1c00bab3bbec8bc42f6ab12bbe8a407ff7))
+
+
+
+# [1.6.0](https://github.com/algolia/autocomplete/compare/v1.5.7...v1.6.0) (2022-04-07)
+
+
+### Features
+
+* **autocomplete-js:** enable HTML templating ([#920](https://github.com/algolia/autocomplete/issues/920)) ([f5bbf34](https://github.com/algolia/autocomplete/commit/f5bbf34f477a0d367d367f4f97db9768c4eb4781))
+
+
+
+## [1.5.7](https://github.com/algolia/autocomplete/compare/v1.5.6...v1.5.7) (2022-04-05)
+
+
+### Bug Fixes
+
+* **enterKeyHint:** remove check on only Chrome browser ([#933](https://github.com/algolia/autocomplete/issues/933)) ([93a1fc2](https://github.com/algolia/autocomplete/commit/93a1fc25c720eb3f4fb3900c8f71e0423bd9a0d5))
+* **plugin-insights:** allow search-insights v2 ([#930](https://github.com/algolia/autocomplete/issues/930)) ([c08189d](https://github.com/algolia/autocomplete/commit/c08189de96c35244617654815705ae008e0d1ec7)), closes [#929](https://github.com/algolia/autocomplete/issues/929)
+
+
+
 ## [1.5.6](https://github.com/algolia/autocomplete/compare/v1.5.5...v1.5.6) (2022-03-31)
 
 

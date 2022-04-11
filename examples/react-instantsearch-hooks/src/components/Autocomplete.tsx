@@ -1,10 +1,9 @@
 import type { SearchClient } from 'algoliasearch/lite';
 import type { BaseItem } from '@algolia/autocomplete-core';
-import type { AutocompleteOptions } from '@algolia/autocomplete-js';
+import type { AutocompleteOptions, Render } from '@algolia/autocomplete-js';
 
 import {
   createElement,
-  ReactElement,
   Fragment,
   useEffect,
   useMemo,
@@ -228,13 +227,7 @@ export function Autocomplete({
           });
         }
       },
-      renderer: {
-        createElement,
-        Fragment,
-      },
-      render({ children }, root) {
-        render(children as ReactElement, root);
-      },
+      renderer: { createElement, Fragment, render: render as Render },
     });
 
     return () => autocompleteInstance.destroy();
