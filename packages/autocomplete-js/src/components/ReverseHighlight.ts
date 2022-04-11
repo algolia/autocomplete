@@ -6,7 +6,7 @@ export function createReverseHighlightComponent({
   createElement,
   Fragment,
 }: AutocompleteRenderer) {
-  return function ReverseHighlight<THit>({
+  function ReverseHighlight<THit>({
     hit,
     attribute,
     tagName = 'mark',
@@ -23,5 +23,9 @@ export function createReverseHighlightComponent({
           : x.value
       )
     );
-  };
+  }
+
+  ReverseHighlight.__autocomplete_componentName = 'ReverseHighlight';
+
+  return ReverseHighlight;
 }

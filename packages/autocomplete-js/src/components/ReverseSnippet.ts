@@ -6,7 +6,7 @@ export function createReverseSnippetComponent({
   createElement,
   Fragment,
 }: AutocompleteRenderer) {
-  return function ReverseSnippet<THit>({
+  function ReverseSnippet<THit>({
     hit,
     attribute,
     tagName = 'mark',
@@ -23,5 +23,9 @@ export function createReverseSnippetComponent({
           : x.value
       )
     );
-  };
+  }
+
+  ReverseSnippet.__autocomplete_componentName = 'ReverseSnippet';
+
+  return ReverseSnippet;
 }
