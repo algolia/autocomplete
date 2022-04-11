@@ -1,7 +1,12 @@
 /** @jsx h */
 import { Hit } from '@algolia/client-search';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import { h } from 'preact';
+import {
+  Fragment,
+  createElement as preactCreateElement,
+  h,
+  render,
+} from 'preact';
 
 import { createSource } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
@@ -121,7 +126,48 @@ describe('components', () => {
     });
   });
 
-  test.todo('provides Highlight component with custom createElement');
+  test('provides Highlight component with custom createElement', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    const mockCreateElement = jest.fn(preactCreateElement);
+
+    document.body.appendChild(panelContainer);
+    autocomplete<ProductHit>({
+      container,
+      panelContainer,
+      getSources() {
+        return [
+          {
+            ...createSource({
+              getItems() {
+                return productHits;
+              },
+            }),
+            templates: {
+              item({ item, components }) {
+                return (
+                  <components.Highlight
+                    hit={item}
+                    attribute="name"
+                    tagName="em"
+                  />
+                );
+              },
+            },
+          },
+        ];
+      },
+      renderer: { createElement: mockCreateElement, Fragment, render },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(() => {
+      expect(mockCreateElement).toHaveBeenCalled();
+    });
+  });
 
   test('provides Snippet component', async () => {
     const container = document.createElement('div');
@@ -205,7 +251,48 @@ describe('components', () => {
     });
   });
 
-  test.todo('provides Snippet component with custom createElement');
+  test('provides Snippet component with custom createElement', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    const mockCreateElement = jest.fn(preactCreateElement);
+
+    document.body.appendChild(panelContainer);
+    autocomplete<ProductHit>({
+      container,
+      panelContainer,
+      getSources() {
+        return [
+          {
+            ...createSource({
+              getItems() {
+                return productHits;
+              },
+            }),
+            templates: {
+              item({ item, components }) {
+                return (
+                  <components.Snippet
+                    hit={item}
+                    attribute="name"
+                    tagName="em"
+                  />
+                );
+              },
+            },
+          },
+        ];
+      },
+      renderer: { createElement: mockCreateElement, Fragment, render },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(() => {
+      expect(mockCreateElement).toHaveBeenCalled();
+    });
+  });
 
   test('provides ReverseHighlight component', async () => {
     const container = document.createElement('div');
@@ -291,7 +378,48 @@ describe('components', () => {
     });
   });
 
-  test.todo('provides ReverseHighlight component with custom createElement');
+  test('provides ReverseHighlight component with custom createElement', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    const mockCreateElement = jest.fn(preactCreateElement);
+
+    document.body.appendChild(panelContainer);
+    autocomplete<ProductHit>({
+      container,
+      panelContainer,
+      getSources() {
+        return [
+          {
+            ...createSource({
+              getItems() {
+                return productHits;
+              },
+            }),
+            templates: {
+              item({ item, components }) {
+                return (
+                  <components.ReverseHighlight
+                    hit={item}
+                    attribute="name"
+                    tagName="em"
+                  />
+                );
+              },
+            },
+          },
+        ];
+      },
+      renderer: { createElement: mockCreateElement, Fragment, render },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(() => {
+      expect(mockCreateElement).toHaveBeenCalled();
+    });
+  });
 
   test('provides ReverseSnippet component', async () => {
     const container = document.createElement('div');
@@ -377,7 +505,48 @@ describe('components', () => {
     });
   });
 
-  test.todo('provides ReverseSnippet component with custom createElement');
+  test('provides ReverseSnippet component with custom createElement', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    const mockCreateElement = jest.fn(preactCreateElement);
+
+    document.body.appendChild(panelContainer);
+    autocomplete<ProductHit>({
+      container,
+      panelContainer,
+      getSources() {
+        return [
+          {
+            ...createSource({
+              getItems() {
+                return productHits;
+              },
+            }),
+            templates: {
+              item({ item, components }) {
+                return (
+                  <components.ReverseSnippet
+                    hit={item}
+                    attribute="name"
+                    tagName="em"
+                  />
+                );
+              },
+            },
+          },
+        ];
+      },
+      renderer: { createElement: mockCreateElement, Fragment, render },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(() => {
+      expect(mockCreateElement).toHaveBeenCalled();
+    });
+  });
 
   test('allows registering custom components', async () => {
     const container = document.createElement('div');
