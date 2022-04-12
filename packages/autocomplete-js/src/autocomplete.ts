@@ -349,7 +349,9 @@ export function autocomplete<TItem extends BaseItem>(
       {
         // We need to filter out default components so they can be replaced with
         // a new `renderer`, without getting rid of user components.
-        // @MAJOR Pass all `components` and let default ones be overriden.
+        // @MAJOR Deal with registering components with the same name as the
+        // default ones. If we disallow overriding default components, we'd just
+        // need to pass all `components` here.
         components: pickBy(
           components,
           ({ value }) => !value.hasOwnProperty('__autocomplete_componentName')
