@@ -500,6 +500,8 @@ describe('api', () => {
         },
       });
 
+      mockCreateElement1.mockClear();
+
       const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
       fireEvent.input(input, { target: { value: 'iphone' } });
@@ -510,7 +512,7 @@ describe('api', () => {
         ).toHaveTextContent('iphone');
         // The custom `Highlight` component wasn't updated, so the previous
         // `createElement` implementation is still being called.
-        expect(mockCreateElement1).toHaveBeenCalled();
+        expect(mockCreateElement1).toHaveBeenCalledTimes(1);
         expect(mockCreateElement2).toHaveBeenCalled();
       });
     });
