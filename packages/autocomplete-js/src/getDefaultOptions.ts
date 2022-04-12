@@ -102,7 +102,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
   );
 
   warn(
-    Boolean(!render || renderer?.render),
+    !(render && renderer && !renderer?.render),
     `You provided the \`render\` option but did not provide a \`renderer.render\`. Since v1.6.0, you can provide a \`render\` function directly in \`renderer\`.` +
       `\nTo get rid of this warning, do any of the following depending on your use case.` +
       "\n- If you are using the `render` option only to override Autocomplete's default `render` function, pass the `render` function into `renderer` and remove the `render` option." +
