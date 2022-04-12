@@ -1,3 +1,13 @@
+## [1.6.2](https://github.com/algolia/autocomplete/compare/v1.6.1...v1.6.2) (2022-04-12)
+
+
+### Bug Fixes
+
+* **autocomplete-js:** avoid warning when renderer is not specified at all ([#947](https://github.com/algolia/autocomplete/issues/947)) ([5fbae0d](https://github.com/algolia/autocomplete/commit/5fbae0d178e3a413df870630a017d530db30f1e7))
+* **autocomplete-js:** update components with new renderer ([#946](https://github.com/algolia/autocomplete/issues/946)) ([8fa038b](https://github.com/algolia/autocomplete/commit/8fa038b914a1b76270a106f5fe2b223aa657d6ae))
+
+
+
 ## [1.6.1](https://github.com/algolia/autocomplete/compare/v1.6.0...v1.6.1) (2022-04-08)
 
 
