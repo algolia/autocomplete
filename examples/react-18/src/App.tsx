@@ -1,13 +1,9 @@
 import { useEffect, useRef, createElement, Fragment } from 'react';
 import { createRoot } from 'react-dom/client';
-import {
-  autocomplete,
-  AutocompleteComponents,
-  getAlgoliaResults,
-} from '@algolia/autocomplete-js';
+import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch/lite';
 
-import type { Pragma } from '@algolia/autocomplete-js';
+import type { AutocompleteComponents } from '@algolia/autocomplete-js';
 import type { Hit } from '@algolia/client-search';
 import type { Root } from 'react-dom/client';
 
@@ -68,7 +64,7 @@ export default function App() {
           },
         ];
       },
-      renderer: { createElement: createElement as Pragma, Fragment },
+      renderer: { createElement, Fragment },
       render({ children }, root) {
         if (!panelRootRef.current || rootRef.current !== root) {
           rootRef.current = root;
