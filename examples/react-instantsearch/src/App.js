@@ -97,6 +97,9 @@ export function App() {
     setSearchState((searchState) => ({
       ...searchState,
       query: '',
+      hierarchicalMenu: {
+        [INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTES[0]]: '',
+      },
     }));
   }, []);
 
