@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@algolia/client-search": "4.9.1",
-    "parcel": "2.0.0-beta.2"
+    "parcel": "2.5.0"
   },
   "keywords": [
     "algolia",

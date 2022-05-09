@@ -21,6 +21,6 @@
   },
   "devDependencies": {
     "@babel/core": "7.12.3",
-    "parcel": "2.0.0-beta.2"
+    "parcel": "2.5.0"
   }
 }
