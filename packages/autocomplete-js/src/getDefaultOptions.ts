@@ -107,6 +107,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
       `\nTo get rid of this warning, do any of the following depending on your use case.` +
       "\n- If you are using the `render` option only to override Autocomplete's default `render` function, pass the `render` function into `renderer` and remove the `render` option." +
       '\n- If you are using the `render` option to customize the layout, pass your `render` function into `renderer` and use it from the provided parameters of the `render` option.' +
+      '\n- If you are using the `render` option to work with React 18, pass an empty `render` function into `renderer`.' +
       '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-render'
   );
 
