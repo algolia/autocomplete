@@ -1,4 +1,5 @@
 /** @jsx React.createElement */
+/** @jsxFrag React.Fragment */
 
 import { autocomplete } from '@algolia/autocomplete-js';
 import React, { createElement, Fragment, useEffect, useRef } from 'react';
@@ -21,7 +22,7 @@ export function Autocomplete(props) {
     return () => {
       search.destroy();
     };
-  }, []);
+  }, [props.plugins]);
 
   return <div ref={containerRef} />;
 }
