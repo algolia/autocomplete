@@ -431,6 +431,7 @@ describe('renderer', () => {
         '\nTo get rid of this warning, do any of the following depending on your use case.' +
         "\n- If you are using the `render` option only to override Autocomplete's default `render` function, pass the `render` function into `renderer` and remove the `render` option." +
         '\n- If you are using the `render` option to customize the layout, pass your `render` function into `renderer` and use it from the provided parameters of the `render` option.' +
+        '\n- If you are using the `render` option to work with React 18, pass an empty `render` function into `renderer`.' +
         '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-render'
     );
 
@@ -470,6 +471,45 @@ describe('renderer', () => {
         },
         render({ children, render }, root) {
           render(children, root);
+        },
+      });
+    }).not.toWarnDev();
+  });
+
+  test('does not warn at all when passing an empty `renderer.render` function', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+    const CustomFragment = (props: any) => props.children;
+    const mockCreateElement = jest.fn().mockImplementation(preactCreateElement);
+
+    document.body.appendChild(panelContainer);
+
+    expect(() => {
+      autocomplete<{ label: string }>({
+        container,
+        panelContainer,
+        initialState: {
+          isOpen: true,
+        },
+        getSources() {
+          return [
+            {
+              sourceId: 'testSource',
+              getItems() {
+                return [{ label: '1' }];
+              },
+              templates: {
+                item({ item }) {
+                  return item.label;
+                },
+              },
+            },
+          ];
+        },
+        renderer: {
+          createElement: mockCreateElement,
+          Fragment: CustomFragment,
+          render: () => {},
         },
       });
     }).not.toWarnDev();
