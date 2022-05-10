@@ -1,11 +1,11 @@
 /** @jsx React.createElement */
+/** @jsxFrag React.Fragment */
 
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import algoliasearch from 'algoliasearch/lite';
 import qs from 'qs';
 import React, {
-  Fragment,
   useCallback,
   useEffect,
   useMemo,
@@ -160,16 +160,16 @@ export function App() {
             ...source.templates,
             header({ items }) {
               if (items.length === 0) {
-                return <Fragment />;
+                return <></>;
               }
 
               return (
-                <Fragment>
+                <>
                   <span className="aa-SourceHeaderTitle">
                     In {currentCategory}
                   </span>
                   <span className="aa-SourceHeaderLine" />
-                </Fragment>
+                </>
               );
             },
           },
@@ -225,16 +225,16 @@ export function App() {
             ...source.templates,
             header({ items }) {
               if (currentCategory.length === 0 || items.length === 0) {
-                return <Fragment />;
+                return <></>;
               }
 
               return (
-                <Fragment>
+                <>
                   <span className="aa-SourceHeaderTitle">
                     In other categories
                   </span>
                   <span className="aa-SourceHeaderLine" />
-                </Fragment>
+                </>
               );
             },
           },

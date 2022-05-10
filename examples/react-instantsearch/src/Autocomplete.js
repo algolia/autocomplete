@@ -1,4 +1,5 @@
 /** @jsx React.createElement */
+/** @jsxFrag React.Fragment */
 
 import { autocomplete } from '@algolia/autocomplete-js';
 import React, { createElement, Fragment, useEffect, useRef } from 'react';
