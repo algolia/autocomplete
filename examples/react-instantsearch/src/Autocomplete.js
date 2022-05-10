@@ -22,7 +22,7 @@ export function Autocomplete(props) {
     return () => {
       search.destroy();
     };
-  }, [props]);
+  }, [props.plugins]);
 
   return <div ref={containerRef} />;
 }
