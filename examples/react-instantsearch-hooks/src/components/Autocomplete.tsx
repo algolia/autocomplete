@@ -167,7 +167,6 @@ export function Autocomplete({
           ...source,
           sourceId: 'querySuggestionsPlugin',
           onSelect({ item }) {
-            console.log('onselect', item.__autocomplete_qsCategory);
             setInstantSearchUiState({
               query: item.query,
               category: item.__autocomplete_qsCategory || '',
