@@ -1,3 +1,12 @@
+## [1.6.3](https://github.com/algolia/autocomplete/compare/v1.6.2...v1.6.3) (2022-05-10)
+
+
+### Bug Fixes
+
+* **react:** fix compatibility issues with React 18 ([#969](https://github.com/algolia/autocomplete/issues/969)) ([fb46298](https://github.com/algolia/autocomplete/commit/fb4629882a0b86468bae536fcdf4fc2159fcaa38))
+
+
+
 ## [1.6.2](https://github.com/algolia/autocomplete/compare/v1.6.1...v1.6.2) (2022-04-12)
 
 
