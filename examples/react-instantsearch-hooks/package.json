@@ -17,7 +17,7 @@
     "algoliasearch": "4.12.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-instantsearch-hooks": "6.22.0"
+    "react-instantsearch-hooks-web": "6.25.0"
   },
   "devDependencies": {
     "@types/react": "17.0.33",
