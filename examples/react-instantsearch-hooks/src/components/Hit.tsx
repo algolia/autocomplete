@@ -1,6 +1,6 @@
-import { Hit as AlgoliaHit } from '@algolia/client-search';
+import type { Hit as AlgoliaHit } from 'instantsearch.js/es/types';
 
-import { Snippet } from './Snippet';
+import { Snippet } from 'react-instantsearch-hooks-web';
 
 type HitProps = {
   hit: AlgoliaHit<{

@@ -2,11 +2,10 @@ export function Panel({
   children,
   header,
   footer,
-}: {
-  children: React.ReactNode;
+}: React.PropsWithChildren<{
   header?: React.ReactNode;
   footer?: React.ReactNode;
-}) {
+}>) {
   return (
     <div className="ais-Panel">
       {header && <div className="ais-Panel-header">{header}</div>}
