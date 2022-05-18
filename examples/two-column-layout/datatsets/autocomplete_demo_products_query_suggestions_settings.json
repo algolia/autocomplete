@@ -1,0 +1,31 @@
+{
+  "alternativesAsExact": ["ignorePlurals", "singleWordSynonym"],
+  "attributesToHighlight": ["query"],
+  "customRanking": ["desc(popularity)"],
+  "enablePersonalization": true,
+  "exactOnSingleWordQuery": "attribute",
+  "highlightPostTag": "\u003c/em\u003e",
+  "highlightPreTag": "\u003cem\u003e",
+  "hitsPerPage": 20,
+  "maxValuesPerFacet": 100,
+  "minWordSizefor1Typo": 4,
+  "minWordSizefor2Typos": 8,
+  "numericAttributesForFiltering": ["nb_words"],
+  "paginationLimitedTo": 1000,
+  "queryType": "prefixLast",
+  "ranking": [
+    "typo",
+    "geo",
+    "words",
+    "filters",
+    "proximity",
+    "attribute",
+    "exact",
+    "custom"
+  ],
+  "removeWordsIfNoResults": "lastWords",
+  "searchableAttributes": ["query"],
+  "separatorsToIndex": "",
+  "snippetEllipsisText": "",
+  "version": 2
+}

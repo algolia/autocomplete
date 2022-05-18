@@ -1,0 +1,52 @@
+{
+  "conditions": [
+    {
+      "alternatives": false,
+      "anchoring": "is",
+      "context": "quickAccess",
+      "pattern": ""
+    }
+  ],
+  "consequence": {
+    "filterPromotes": true,
+    "userData": {
+      "items": [
+        {
+          "href": "#",
+          "image": "https://res.cloudinary.com/hilnmyskv/image/upload/v1645453369/sales_banner_y1hsr8.jpg",
+          "subtitle": "up to 60% Off",
+          "template": "sales-banner",
+          "title": "Spring Sale"
+        },
+        {
+          "date": "Till March 25th",
+          "href": "#",
+          "image": "https://res.cloudinary.com/hilnmyskv/image/upload/v1645453422/sales_code_vuatep.jpg",
+          "subtitle": "with the code\nSALES_2131",
+          "template": "sales-code",
+          "title": "Sale on\nSneakers"
+        },
+        {
+          "href": "#",
+          "image": "https://res.cloudinary.com/hilnmyskv/image/upload/v1645453466/new_collection_nloeb6.jpg",
+          "subtitle": "spring / summer\n2022",
+          "template": "new-collection",
+          "title": "New\ncollection"
+        },
+        {
+          "href": "#",
+          "links": [
+            { "href": "#", "text": "Track my order" },
+            { "href": "#", "text": "Delivery \u0026 Returns" },
+            { "href": "#", "text": "FAQ" }
+          ],
+          "template": "help",
+          "title": "how can\nwe help?"
+        }
+      ]
+    }
+  },
+  "description": "Autocomplete quick access on empty query state",
+  "enabled": true,
+  "objectID": "qr-1645439637066"
+}

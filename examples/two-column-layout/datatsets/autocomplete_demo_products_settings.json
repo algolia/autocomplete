@@ -1,0 +1,89 @@
+{
+  "advancedSyntax": true,
+  "alternativesAsExact": ["ignorePlurals", "singleWordSynonym"],
+  "attributesForFaceting": [
+    "available_sizes",
+    "searchable(brand)",
+    "searchable(category_page_id)",
+    "searchable(color.filter_group)",
+    "color.original_name",
+    "gender",
+    "searchable(hierarchical_categories)",
+    "searchable(hierarchical_categories.lvl0)",
+    "searchable(hierarchical_categories.lvl1)",
+    "searchable(hierarchical_categories.lvl2)",
+    "searchable(list_categories)",
+    "price.on_sales",
+    "price.value",
+    "product_type",
+    "reviews.rating"
+  ],
+  "attributesToHighlight": ["brand", "list_categories", "name"],
+  "attributesToSnippet": ["description:10"],
+  "customRanking": ["desc(reviews.bayesian_avg)"],
+  "enablePersonalization": true,
+  "exactOnSingleWordQuery": "attribute",
+  "highlightPostTag": "\u003c/em\u003e",
+  "highlightPreTag": "\u003cem\u003e",
+  "hitsPerPage": 20,
+  "ignorePlurals": ["en"],
+  "indexLanguages": ["en"],
+  "maxValuesPerFacet": 100,
+  "minWordSizefor1Typo": 4,
+  "minWordSizefor2Typos": 8,
+  "paginationLimitedTo": 1000,
+  "queryLanguages": ["en"],
+  "queryType": "prefixLast",
+  "ranking": [
+    "typo",
+    "geo",
+    "words",
+    "filters",
+    "proximity",
+    "attribute",
+    "exact",
+    "custom"
+  ],
+  "removeWordsIfNoResults": "none",
+  "renderingContent": {
+    "facetOrdering": {
+      "facets": {
+        "order": [
+          "hierarchical_categories.lvl0",
+          "brand",
+          "color.filter_group",
+          "available_sizes",
+          "price.value",
+          "reviews.rating"
+        ]
+      },
+      "values": {
+        "available_sizes": { "sortRemainingBy": "count" },
+        "brand": { "sortRemainingBy": "count" },
+        "color.filter_group": { "sortRemainingBy": "count" },
+        "hierarchical_categories.lvl0": { "sortRemainingBy": "count" },
+        "price.value": { "sortRemainingBy": "count" },
+        "reviews.rating": { "sortRemainingBy": "count" }
+      }
+    }
+  },
+  "replicas": [
+    "virtual(autocomplete_demo_products_price_asc)",
+    "virtual(autocomplete_demo_products_price_desc)"
+  ],
+  "searchableAttributes": [
+    "unordered(name)",
+    "unordered(brand)",
+    "unordered(list_categories)",
+    "unordered(color.original_name)",
+    "unordered(product_type)",
+    "unordered(gender)",
+    "unordered(available_sizes)",
+    "unordered(description)",
+    "unordered(sku)"
+  ],
+  "separatorsToIndex": "",
+  "snippetEllipsisText": "",
+  "typoTolerance": "strict",
+  "version": 2
+}
