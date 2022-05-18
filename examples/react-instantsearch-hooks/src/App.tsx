@@ -1,12 +1,18 @@
 import algoliasearch from 'algoliasearch/lite';
-import { Configure, InstantSearch } from 'react-instantsearch-hooks';
+import {
+  Configure,
+  HierarchicalMenu,
+  Hits,
+  InstantSearch,
+  Pagination,
+} from 'react-instantsearch-hooks-web';
 
 import { Autocomplete, Hit } from './components';
 import {
   INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTES,
   INSTANT_SEARCH_INDEX_NAME,
 } from './constants';
-import { HierarchicalMenu, Hits, Pagination, Panel } from './widgets';
+import { Panel } from './widgets/Panel';
 
 import './App.css';
 
