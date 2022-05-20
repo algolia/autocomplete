@@ -10,7 +10,7 @@ export function createPlayground<TItem extends Record<string, unknown>>(
   const autocomplete = createAutocomplete<TItem>(props);
   const inputElement = document.createElement('input');
   const formElement = document.createElement('form');
-  const inputProps = autocomplete.getInputProps({ inputElement });
+  const inputProps = autocomplete.getInputProps({ inputElement, formElement });
   const formProps = autocomplete.getFormProps({ inputElement });
   inputElement.addEventListener('blur', inputProps.onBlur);
   inputElement.addEventListener('input', inputProps.onChange);

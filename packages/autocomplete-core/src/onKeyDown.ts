@@ -114,6 +114,9 @@ export function onKeyDown<TItem extends BaseItem>({
         .getState()
         .collections.every((collection) => collection.items.length === 0)
     ) {
+      store.dispatch('blur', null);
+      store.pendingRequests.cancelAll();
+
       return;
     }
 

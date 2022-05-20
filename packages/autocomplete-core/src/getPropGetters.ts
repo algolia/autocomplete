@@ -1,3 +1,4 @@
+import { noop } from '@algolia/autocomplete-shared';
 import { onInput } from './onInput';
 import { onKeyDown } from './onKeyDown';
 import {
@@ -31,46 +32,50 @@ export function getPropGetters<
   const getEnvironmentProps: GetEnvironmentProps = (providedProps) => {
     const { inputElement, formElement, panelElement, ...rest } = providedProps;
 
+    function onPress(event: TouchEvent | MouseEvent) {
+      // We shouldn't trigger the `blur` handler when it's not an interaction
+      // with Autocomplete. We detect it with the following heuristics:
+      // - the panel is closed AND there are no pending requests
+      //   (no interaction with the autocomplete, no future state updates)
+      // - OR the touched target is the input element (should open the panel)
+      const isAutocompleteInteraction =
+        store.getState().isOpen || !store.pendingRequests.isEmpty();
+
+      if (!isAutocompleteInteraction || event.target === inputElement) {
+        return;
+      }
+
+      const isTargetWithinAutocomplete = [formElement, panelElement].some(
+        (contextNode) => {
+          return isOrContainsNode(contextNode, event.target as Node);
+        }
+      );
+
+      if (isTargetWithinAutocomplete === false) {
+        store.dispatch('blur', null);
+
+        // If requests are still pending when the user closes the panel, they
+        // could reopen the panel once they resolve.
+        // We want to prevent any subsequent query from reopening the panel
+        // because it would result in an unsolicited UI behavior.
+        if (!props.debug) {
+          store.pendingRequests.cancelAll();
+        }
+      }
+    }
+
     return {
-      // On touch devices, we do not rely on the native `blur` event of the
-      // input to close the panel, but rather on a custom `touchstart` event
-      // outside of the autocomplete elements.
-      // This ensures a working experience on mobile because we blur the input
-      // on touch devices when the user starts scrolling (`touchmove`).
+      // We do not rely on the `blur` event of the input to close the panel,
+      // but rather on a custom `touchstart`/`mousedown` event outside of the
+      // autocomplete elements.
+      // This ensures a working experience on detached mode (mobile and desktop)
+      // because the input is blurred in multiple occasions:
+      // On touch devices: when the user starts scrolling (`touchmove`)
+      // On all devices: when the user resets the form
       // @TODO: support cases where there are multiple Autocomplete instances.
       // Right now, a second instance makes this computation return false.
-      onTouchStart(event) {
-        // The `onTouchStart` event shouldn't trigger the `blur` handler when
-        // it's not an interaction with Autocomplete. We detect it with the
-        // following heuristics:
-        // - the panel is closed AND there are no pending requests
-        //   (no interaction with the autocomplete, no future state updates)
-        // - OR the touched target is the input element (should open the panel)
-        const isAutocompleteInteraction =
-          store.getState().isOpen || !store.pendingRequests.isEmpty();
-
-        if (!isAutocompleteInteraction || event.target === inputElement) {
-          return;
-        }
-
-        const isTargetWithinAutocomplete = [formElement, panelElement].some(
-          (contextNode) => {
-            return isOrContainsNode(contextNode, event.target as Node);
-          }
-        );
-
-        if (isTargetWithinAutocomplete === false) {
-          store.dispatch('blur', null);
-
-          // If requests are still pending when the user closes the panel, they
-          // could reopen the panel once they resolve.
-          // We want to prevent any subsequent query from reopening the panel
-          // because it would result in an unsolicited UI behavior.
-          if (!props.debug) {
-            store.pendingRequests.cancelAll();
-          }
-        }
-      },
+      onTouchStart: onPress,
+      onMouseDown: onPress,
       // When scrolling on touch devices (mobiles, tablets, etc.), we want to
       // mimic the native platform behavior where the input is blurred to
       // hide the virtual keyboard. This gives more vertical space to
@@ -158,7 +163,6 @@ export function getPropGetters<
       store.dispatch('focus', null);
     }
 
-    const isTouchDevice = 'ontouchstart' in props.environment;
     const { inputElement, maxLength = 512, ...rest } = providedProps || {};
     const activeItem = getActiveItem(store.getState());
 
@@ -207,20 +211,21 @@ export function getPropGetters<
         });
       },
       onFocus,
+      // @MAJOR See if this event handler is still necessary in `inputProps`.
       onBlur: () => {
+        noop();
         // We do rely on the `blur` event on touch devices.
         // See explanation in `onTouchStart`.
-        if (!isTouchDevice) {
-          store.dispatch('blur', null);
-
-          // If requests are still pending when the user closes the panel, they
-          // could reopen the panel once they resolve.
-          // We want to prevent any subsequent query from reopening the panel
-          // because it would result in an unsolicited UI behavior.
-          if (!props.debug) {
-            store.pendingRequests.cancelAll();
-          }
-        }
+        // if (!isTouchDevice) {
+        //   store.dispatch('blur', null);
+        //   // If requests are still pending when the user closes the panel, they
+        //   // could reopen the panel once they resolve.
+        //   // We want to prevent any subsequent query from reopening the panel
+        //   // because it would result in an unsolicited UI behavior.
+        //   if (!props.debug) {
+        //     store.pendingRequests.cancelAll();
+        //   }
+        // }
       },
       onClick: (event) => {
         // When the panel is closed and you click on the input while

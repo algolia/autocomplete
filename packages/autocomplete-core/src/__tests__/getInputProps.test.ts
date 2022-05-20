@@ -1893,7 +1893,7 @@ describe('getInputProps', () => {
     });
   });
 
-  describe('onBlur', () => {
+  describe.skip('onBlur', () => {
     test('resets activeItemId and isOpen', async () => {
       const onStateChange = jest.fn();
       const { inputElement } = createPlayground(createAutocomplete, {
