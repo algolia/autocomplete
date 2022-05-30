@@ -9,7 +9,11 @@ import { SearchOptions } from '@algolia/client-search';
 import { SearchClient } from 'algoliasearch/lite';
 
 import { getTemplates } from './getTemplates';
-import { AutocompleteQuerySuggestionsHit, QuerySuggestionsHit } from './types';
+import {
+  AutocompleteQuerySuggestionsHit,
+  QuerySuggestionsHit,
+  QuerySuggestionsFacetValue,
+} from './types';
 
 export type CreateQuerySuggestionsPluginParams<
   TItem extends QuerySuggestionsHit
@@ -44,8 +48,10 @@ export type CreateQuerySuggestionsPluginParams<
   }): AutocompleteSource<TItem>;
   /**
    * The attribute or attribute path to display categories for.
+   * Multiple index names can be passed using `|` symbol in first path segment (see docs).
    *
    * @example ["instant_search", "facets", "exact_matches", "categories"]
+   * @example ["instant_search_1|instant_search_2", "facets", "exact_matches", "categories"]
    * @example ["instant_search", "facets", "exact_matches", "hierarchicalCategories.lvl0"]
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions/createQuerySuggestionsPlugin/#param-categoryattribute
    */
@@ -125,12 +131,36 @@ export function createQuerySuggestionsPlugin<
                     > = [current];
 
                     if (i <= itemsWithCategories - 1) {
-                      const categories = getAttributeValueByPath(
-                        current,
-                        Array.isArray(categoryAttribute)
-                          ? categoryAttribute
-                          : [categoryAttribute]
-                      )
+                      const path = Array.isArray(categoryAttribute)
+                        ? categoryAttribute
+                        : [categoryAttribute];
+                      const firstPathSegment = path[0];
+                      const remainingPath = path.slice(1);
+                      const indexNames = firstPathSegment.split('|');
+
+                      const categoriesValues = indexNames.reduce<
+                        QuerySuggestionsFacetValue[]
+                      >((totalCategories, indexName) => {
+                        const attrVal = getAttributeValueByPath(
+                          current,
+                          [indexName].concat(remainingPath)
+                        );
+
+                        if (!attrVal) {
+                          return totalCategories;
+                        }
+
+                        // use only the first facet value if multiple indexes needs to be targeted by path
+                        return totalCategories.concat(
+                          indexNames.length > 1 ? attrVal[0] : attrVal
+                        );
+                      }, []);
+
+                      if (indexNames.length > 1) {
+                        categoriesValues.sort((a, b) => b.count - a.count);
+                      }
+
+                      const categories = categoriesValues
                         .map((x) => x.value)
                         .slice(0, categoriesPerItem);
 

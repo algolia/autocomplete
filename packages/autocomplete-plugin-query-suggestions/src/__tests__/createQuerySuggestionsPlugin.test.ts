@@ -46,6 +46,47 @@ const hits: Hit<any> = [
     },
   },
 ];
+const multiIndexHits: Hit<any> = [
+  {
+    index_1: {
+      exact_nb_hits: 100,
+      facets: {
+        exact_matches: {
+          data_origin: [
+            {
+              value: 'Index 1',
+              count: 100,
+            },
+          ],
+        },
+      },
+    },
+    index_2: {
+      exact_nb_hits: 200,
+      facets: {
+        exact_matches: {
+          data_origin: [
+            {
+              value: 'Index 2',
+              count: 200,
+            },
+          ],
+        },
+      },
+    },
+    nb_words: 1,
+    popularity: 1230,
+    query: 'cooktop',
+    objectID: 'cooktop',
+    _highlightResult: {
+      query: {
+        value: 'cooktop',
+        matchLevel: 'none',
+        matchedWords: [],
+      },
+    },
+  },
+];
 /* eslint-enable @typescript-eslint/camelcase */
 
 const searchClient = createSearchClient({
@@ -390,6 +431,59 @@ describe('createQuerySuggestionsPlugin', () => {
         'in Appliances', // Category item
         'in Ranges, Cooktops & Ovens', // Category item
         'cooktop', // Query Suggestions item
+      ]);
+    });
+  });
+
+  test('accumulates suggestion categories from multiple indexes', async () => {
+    castToJestMock(searchClient.search).mockReturnValueOnce(
+      Promise.resolve(
+        createMultiSearchResponse({
+          hits: multiIndexHits,
+        })
+      )
+    );
+
+    const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+      searchClient,
+      indexName: 'indexName',
+      categoryAttribute: [
+        'index_1|index_2',
+        'facets',
+        'exact_matches',
+        'data_origin',
+      ],
+      categoriesPerItem: 2,
+    });
+
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    autocomplete({
+      container,
+      panelContainer,
+      plugins: [querySuggestionsPlugin],
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(() => {
+      expect(
+        within(
+          panelContainer.querySelector(
+            '[data-autocomplete-source-id="querySuggestionsPlugin"]'
+          )
+        )
+          .getAllByRole('option')
+          .map((option) => option.textContent)
+      ).toEqual([
+        'cooktop', // Query Suggestions item
+        'in Index 2', // Category item
+        'in Index 1', // Category item
       ]);
     });
   });
