@@ -448,10 +448,18 @@ describe('createQuerySuggestionsPlugin', () => {
       searchClient,
       indexName: 'indexName',
       categoryAttribute: [
-        'index_1|index_2',
-        'facets',
-        'exact_matches',
-        'data_origin',
+        [
+          'index_1',
+          'facets',
+          'exact_matches',
+          'data_origin',
+        ],
+        [
+          'index_2',
+          'facets',
+          'exact_matches',
+          'data_origin',
+        ]
       ],
       categoriesPerItem: 2,
     });

@@ -48,14 +48,24 @@ export type CreateQuerySuggestionsPluginParams<
   }): AutocompleteSource<TItem>;
   /**
    * The attribute or attribute path to display categories for.
-   * Multiple index names can be passed using `|` symbol in first path segment (see docs).
+   *
+   * If suggestion index is connected to multiple indexes, array of paths can be used.
+   * The assumption in this case is that a single category gets split across multiple indexes,
+   * having a uniform value per index, so the total matches for category values will be accumulated
+   * by picking the first match per each path (and it should only have one).
+   *
+   * Multiple attribute names can be used if required, but they should all designate a single "entity",
+   * even if having different names.
    *
    * @example ["instant_search", "facets", "exact_matches", "categories"]
-   * @example ["instant_search_1|instant_search_2", "facets", "exact_matches", "categories"]
    * @example ["instant_search", "facets", "exact_matches", "hierarchicalCategories.lvl0"]
+   * @example [
+   *     ["index_1", "facets", "exact_matches", "data_origin"],
+   *     ["index_2", "facets", "exact_matches", "data_origin"],
+   *   ]
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions/createQuerySuggestionsPlugin/#param-categoryattribute
    */
-  categoryAttribute?: string | string[];
+  categoryAttribute?: string | string[] | string[][];
   /**
    * How many items to display categories for.
    *
@@ -131,32 +141,30 @@ export function createQuerySuggestionsPlugin<
                     > = [current];
 
                     if (i <= itemsWithCategories - 1) {
-                      const path = Array.isArray(categoryAttribute)
+                      let paths = (Array.isArray(categoryAttribute[0])
                         ? categoryAttribute
-                        : [categoryAttribute];
-                      const firstPathSegment = path[0];
-                      const remainingPath = path.slice(1);
-                      const indexNames = firstPathSegment.split('|');
+                        : [categoryAttribute]) as string[][];
 
-                      const categoriesValues = indexNames.reduce<
+                      if (typeof categoryAttribute === 'string') {
+                        paths = [[categoryAttribute]];
+                      }
+
+                      const categoriesValues = paths.reduce<
                         QuerySuggestionsFacetValue[]
-                      >((totalCategories, indexName) => {
-                        const attrVal = getAttributeValueByPath(
-                          current,
-                          [indexName].concat(remainingPath)
-                        );
+                      >((totalCategories, path) => {
+                        const attrVal = getAttributeValueByPath(current, path);
 
                         if (!attrVal) {
                           return totalCategories;
                         }
 
-                        // use only the first facet value if multiple indexes needs to be targeted by path
+                        // use only the first facet value if multiple indexes needs to be targeted by multiple paths
                         return totalCategories.concat(
-                          indexNames.length > 1 ? attrVal[0] : attrVal
+                          paths.length > 1 ? attrVal[0] : attrVal
                         );
                       }, []);
 
-                      if (indexNames.length > 1) {
+                      if (paths.length > 1) {
                         categoriesValues.sort((a, b) => b.count - a.count);
                       }
 
