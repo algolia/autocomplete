@@ -16,6 +16,7 @@ type InputProps = {
   getInputPropsCore: AutocompleteCoreApi<any>['getInputProps'];
   onDetachedEscape?(): void;
   state: AutocompleteState<any>;
+  useTrapFocus?: boolean;
 };
 
 export const Input: AutocompleteElement<InputProps, HTMLInputElement> = ({
@@ -25,6 +26,7 @@ export const Input: AutocompleteElement<InputProps, HTMLInputElement> = ({
   getInputProps,
   getInputPropsCore,
   onDetachedEscape,
+  useTrapFocus,
   state,
   ...props
 }) => {
@@ -43,6 +45,11 @@ export const Input: AutocompleteElement<InputProps, HTMLInputElement> = ({
       if (onDetachedEscape && event.key === 'Escape') {
         event.preventDefault();
         onDetachedEscape();
+        return;
+      }
+
+      if (useTrapFocus && event.key === 'Tab') {
+        event.preventDefault();
         return;
       }
 

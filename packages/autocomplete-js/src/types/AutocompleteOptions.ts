@@ -117,4 +117,10 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-translations
    */
   translations?: Partial<AutocompleteTranslations>;
+  /**
+   * Should user be able to exit from input when pressed 'tab' key?
+   *
+   * @default "false"
+   */
+  useTrapFocus?: boolean;
 }

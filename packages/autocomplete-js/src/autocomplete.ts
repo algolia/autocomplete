@@ -126,6 +126,7 @@ export function autocomplete<TItem extends BaseItem>(
       environment: props.value.core.environment,
       isDetached: isDetached.value,
       placeholder: props.value.core.placeholder,
+      useTrapFocus: props.value.core.useTrapFocus,
       propGetters,
       setIsModalOpen,
       state: lastStateRef.current,

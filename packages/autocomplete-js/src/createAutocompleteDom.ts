@@ -27,6 +27,7 @@ type CreateDomProps<TItem extends BaseItem> = {
   setIsModalOpen(value: boolean): void;
   state: AutocompleteState<TItem>;
   translations: AutocompleteTranslations;
+  useTrapFocus?: boolean;
 };
 
 export function createAutocompleteDom<TItem extends BaseItem>({
@@ -36,6 +37,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   environment,
   isDetached,
   placeholder = 'Search',
+  useTrapFocus = false,
   propGetters,
   setIsModalOpen,
   state,
@@ -107,6 +109,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
           setIsModalOpen(false);
         }
       : undefined,
+    useTrapFocus,
   });
 
   const inputWrapperPrefix = createDomElement('div', {
