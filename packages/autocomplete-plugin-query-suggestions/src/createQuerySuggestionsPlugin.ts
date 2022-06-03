@@ -47,7 +47,7 @@ export type CreateQuerySuggestionsPluginParams<
     onTapAhead(item: TItem): void;
   }): AutocompleteSource<TItem>;
   /**
-   * The attribute attribute path, or array of paths to display categories for.
+   * The attribute, attribute path, or array of paths to display categories for.
    *
    * @example ["instant_search", "facets", "exact_matches", "categories"]
    * @example ["instant_search", "facets", "exact_matches", "hierarchicalCategories.lvl0"]
