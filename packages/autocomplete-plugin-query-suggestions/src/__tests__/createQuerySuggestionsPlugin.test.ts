@@ -58,6 +58,16 @@ const multiIndexHits: Hit<any> = [
               count: 100,
             },
           ],
+          categories: [
+            {
+              value: 'Appliances',
+              count: 252,
+            },
+            {
+              value: 'Ranges, Cooktops & Ovens',
+              count: 229,
+            },
+          ],
         },
       },
     },
@@ -69,6 +79,16 @@ const multiIndexHits: Hit<any> = [
             {
               value: 'Index 2',
               count: 200,
+            },
+          ],
+          genre: [
+            {
+              value: 'Poetry',
+              count: 340,
+            },
+            {
+              value: 'Fiction',
+              count: 140,
             },
           ],
         },
@@ -435,7 +455,7 @@ describe('createQuerySuggestionsPlugin', () => {
     });
   });
 
-  test('accumulates suggestion categories from multiple indexes', async () => {
+  test('accumulates suggestion categories from multiple indexes and attributes', async () => {
     castToJestMock(searchClient.search).mockReturnValueOnce(
       Promise.resolve(
         createMultiSearchResponse({
@@ -459,9 +479,21 @@ describe('createQuerySuggestionsPlugin', () => {
           'facets',
           'exact_matches',
           'data_origin',
+        ],
+        [
+          'index_1',
+          'facets',
+          'exact_matches',
+          'categories',
+        ],
+        [
+          'index_2',
+          'facets',
+          'exact_matches',
+          'genre',
         ]
       ],
-      categoriesPerItem: 2,
+      categoriesPerItem: 6,
     });
 
     const container = document.createElement('div');
@@ -490,7 +522,11 @@ describe('createQuerySuggestionsPlugin', () => {
           .map((option) => option.textContent)
       ).toEqual([
         'cooktop', // Query Suggestions item
+        'in Poetry', // Category item
+        'in Appliances', // Category item
+        'in Ranges, Cooktops & Ovens', // Category item
         'in Index 2', // Category item
+        'in Fiction', // Category item
         'in Index 1', // Category item
       ]);
     });

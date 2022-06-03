@@ -47,21 +47,17 @@ export type CreateQuerySuggestionsPluginParams<
     onTapAhead(item: TItem): void;
   }): AutocompleteSource<TItem>;
   /**
-   * The attribute or attribute path to display categories for.
-   *
-   * If suggestion index is connected to multiple indexes, array of paths can be used.
-   * The assumption in this case is that a single category gets split across multiple indexes,
-   * having a uniform value per index, so the total matches for category values will be accumulated
-   * by picking the first match per each path (and it should only have one).
-   *
-   * Multiple attribute names can be used if required, but they should all designate a single "entity",
-   * even if having different names.
+   * The attribute attribute path, or array of paths to display categories for.
    *
    * @example ["instant_search", "facets", "exact_matches", "categories"]
    * @example ["instant_search", "facets", "exact_matches", "hierarchicalCategories.lvl0"]
    * @example [
    *     ["index_1", "facets", "exact_matches", "data_origin"],
    *     ["index_2", "facets", "exact_matches", "data_origin"],
+   *   ]
+   * @example [
+   *     ["index_1", "facets", "exact_matches", "attr_1"],
+   *     ["index_2", "facets", "exact_matches", "attr_2"],
    *   ]
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions/createQuerySuggestionsPlugin/#param-categoryattribute
    */
@@ -154,14 +150,9 @@ export function createQuerySuggestionsPlugin<
                       >((totalCategories, path) => {
                         const attrVal = getAttributeValueByPath(current, path);
 
-                        if (!attrVal) {
-                          return totalCategories;
-                        }
-
-                        // use only the first facet value if multiple indexes needs to be targeted by multiple paths
-                        return totalCategories.concat(
-                          paths.length > 1 ? attrVal[0] : attrVal
-                        );
+                        return attrVal
+                          ? totalCategories.concat(attrVal)
+                          : totalCategories;
                       }, []);
 
                       if (paths.length > 1) {
