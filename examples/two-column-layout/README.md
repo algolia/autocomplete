@@ -6,7 +6,7 @@ This example shows how to integrate Autocomplete with a two-column layout.
 
 ## Demo
 
-[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/two-column-layout)
+[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/two-column-layout) | [Follow the guide](https://www.algolia.com/doc/ui-libraries/autocomplete/guides/creating-an-advanced-ecommerce-experience/)
 
 ## How to run this example locally
 
