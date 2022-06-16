@@ -14,7 +14,6 @@ type InputProps = {
   environment: AutocompleteEnvironment;
   getInputProps: AutocompletePropGetters<any>['getInputProps'];
   getInputPropsCore: AutocompleteCoreApi<any>['getInputProps'];
-  onDetachedEscape?(): void;
   state: AutocompleteState<any>;
 };
 
@@ -24,7 +23,6 @@ export const Input: AutocompleteElement<InputProps, HTMLInputElement> = ({
   classNames,
   getInputProps,
   getInputPropsCore,
-  onDetachedEscape,
   state,
   ...props
 }) => {
@@ -37,18 +35,7 @@ export const Input: AutocompleteElement<InputProps, HTMLInputElement> = ({
     ...autocompleteScopeApi,
   });
 
-  setProperties(element, {
-    ...inputProps,
-    onKeyDown(event: KeyboardEvent) {
-      if (onDetachedEscape && event.key === 'Escape') {
-        event.preventDefault();
-        onDetachedEscape();
-        return;
-      }
-
-      inputProps.onKeyDown(event);
-    },
-  });
+  setProperties(element, inputProps);
 
   return element;
 };

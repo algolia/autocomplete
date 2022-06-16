@@ -101,12 +101,6 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     getInputProps: propGetters.getInputProps,
     getInputPropsCore: autocomplete.getInputProps,
     autocompleteScopeApi,
-    onDetachedEscape: isDetached
-      ? () => {
-          autocomplete.setIsOpen(false);
-          setIsModalOpen(false);
-        }
-      : undefined,
   });
 
   const inputWrapperPrefix = createDomElement('div', {
