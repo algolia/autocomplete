@@ -1034,6 +1034,7 @@ describe('getInputProps', () => {
           openOnFocus: true,
           initialState: {
             completion: 'a',
+            isOpen: true,
             collections: [
               createCollection({
                 items: [{ label: '1' }, { label: '2' }],
@@ -1042,7 +1043,6 @@ describe('getInputProps', () => {
           },
         });
 
-        inputElement.focus();
         userEvent.type(inputElement, '{esc}');
 
         expect(onStateChange).toHaveBeenLastCalledWith(
@@ -1153,6 +1153,31 @@ describe('getInputProps', () => {
         inputProps.onKeyDown(event);
 
         expect(event.preventDefault).toHaveBeenCalledTimes(1);
+      });
+
+      test('closes the panel when no item was selected', async () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          initialState: {
+            isOpen: true,
+            collections: [
+              createCollection({
+                items: [{ label: '1' }, { label: '2' }],
+              }),
+            ],
+          },
+        });
+
+        userEvent.type(inputElement, '{enter}');
+
+        await runAllMicroTasks();
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({ isOpen: false }),
+          })
+        );
       });
 
       describe('Plain Enter', () => {
@@ -1890,81 +1915,6 @@ describe('getInputProps', () => {
           );
         });
       });
-    });
-  });
-
-  describe('onBlur', () => {
-    test('resets activeItemId and isOpen', async () => {
-      const onStateChange = jest.fn();
-      const { inputElement } = createPlayground(createAutocomplete, {
-        onStateChange,
-        defaultActiveItemId: 1,
-        openOnFocus: true,
-      });
-
-      inputElement.focus();
-      inputElement.blur();
-
-      await runAllMicroTasks();
-
-      expect(onStateChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          state: expect.objectContaining({
-            activeItemId: null,
-            isOpen: false,
-          }),
-        })
-      );
-    });
-
-    test('does not reset activeItemId and isOpen when debug is true', () => {
-      const onStateChange = jest.fn();
-      const { inputElement } = createPlayground(createAutocomplete, {
-        onStateChange,
-        debug: true,
-        defaultActiveItemId: 1,
-        openOnFocus: true,
-        shouldPanelOpen: () => true,
-      });
-
-      inputElement.focus();
-      inputElement.blur();
-
-      expect(onStateChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          state: expect.objectContaining({
-            activeItemId: 1,
-            isOpen: true,
-          }),
-        })
-      );
-    });
-
-    test('does not reset activeItemId and isOpen on touch devices', () => {
-      const environment = {
-        ...global,
-        ontouchstart: () => {},
-      };
-      const onStateChange = jest.fn();
-      const { inputElement } = createPlayground(createAutocomplete, {
-        environment,
-        onStateChange,
-        defaultActiveItemId: 1,
-        openOnFocus: true,
-        shouldPanelOpen: () => true,
-      });
-
-      inputElement.focus();
-      inputElement.blur();
-
-      expect(onStateChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          state: expect.objectContaining({
-            activeItemId: 1,
-            isOpen: true,
-          }),
-        })
-      );
     });
   });
 

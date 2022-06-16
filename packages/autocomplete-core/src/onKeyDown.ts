@@ -114,6 +114,14 @@ export function onKeyDown<TItem extends BaseItem>({
         .getState()
         .collections.every((collection) => collection.items.length === 0)
     ) {
+      // If requests are still pending when the panel closes, they could reopen
+      // the panel once they resolve.
+      // We want to prevent any subsequent query from reopening the panel
+      // because it would result in an unsolicited UI behavior.
+      if (!props.debug) {
+        store.pendingRequests.cancelAll();
+      }
+
       return;
     }
 
