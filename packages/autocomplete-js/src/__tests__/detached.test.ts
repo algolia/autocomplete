@@ -216,6 +216,7 @@ describe('detached', () => {
     autocomplete<{ label: string }>({
       id: 'autocomplete',
       detachedMediaQuery: '',
+      openOnFocus: false,
       container,
       initialState: {
         query: 'a',
