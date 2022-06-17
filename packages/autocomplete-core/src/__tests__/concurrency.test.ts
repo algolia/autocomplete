@@ -294,9 +294,8 @@ describe('concurrency', () => {
           })
         );
 
-        window.document.dispatchEvent(
-          new CustomEvent('touchstart', { bubbles: true })
-        );
+        const customEvent = new CustomEvent('touchstart', { bubbles: true });
+        window.document.dispatchEvent(customEvent);
 
         // The status is immediately set to "idle" and the panel is closed
         expect(onStateChange).toHaveBeenLastCalledWith(
