@@ -47,6 +47,8 @@ export function getPropGetters<
         return;
       }
 
+      // @TODO: support cases where there are multiple Autocomplete instances.
+      // Right now, a second instance makes this computation return false.
       const isTargetWithinAutocomplete = [formElement, panelElement].some(
         (contextNode) => {
           return isOrContainsNode(contextNode, event.target as Node);
@@ -76,8 +78,6 @@ export function getPropGetters<
       // `openOnFocus=true`, it shouldn't close the panel.
       // On touch devices, scrolling results (`touchmove`) causes an input blur
       // but shouldn't close the panel.
-      // @TODO: support cases where there are multiple Autocomplete instances.
-      // Right now, a second instance makes this computation return false.
       onTouchStart: onMouseDownOrTouchStart,
       onMouseDown: onMouseDownOrTouchStart,
       // When scrolling on touch devices (mobiles, tablets, etc.), we want to
