@@ -196,7 +196,7 @@ describe('detached', () => {
 
     // Clear the query
     userEvent.click(
-      document.querySelector<HTMLButtonElement>('.aa-ClearButton')
+      document.querySelector<HTMLButtonElement>('.aa-ClearButton')!
     );
 
     // Ensures the overlay never disappears
