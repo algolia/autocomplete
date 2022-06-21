@@ -14,7 +14,7 @@ type InputProps = {
   environment: AutocompleteEnvironment;
   getInputProps: AutocompletePropGetters<any>['getInputProps'];
   getInputPropsCore: AutocompleteCoreApi<any>['getInputProps'];
-  onDetachedTab?(): void;
+  isDetached: boolean;
   state: AutocompleteState<any>;
 };
 
@@ -24,7 +24,7 @@ export const Input: AutocompleteElement<InputProps, HTMLInputElement> = ({
   classNames,
   getInputProps,
   getInputPropsCore,
-  onDetachedTab,
+  isDetached,
   state,
   ...props
 }) => {
@@ -40,9 +40,8 @@ export const Input: AutocompleteElement<InputProps, HTMLInputElement> = ({
   setProperties(element, {
     ...inputProps,
     onKeyDown(event: KeyboardEvent) {
-      if (onDetachedTab && event.key === 'Tab') {
-        onDetachedTab();
-
+      // In detached mode we don't want to close the panel when hittin `Tab`.
+      if (isDetached && event.key === 'Tab') {
         return;
       }
 
