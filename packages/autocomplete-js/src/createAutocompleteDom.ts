@@ -4,6 +4,7 @@ import {
   AutocompleteScopeApi,
   BaseItem,
 } from '@algolia/autocomplete-core';
+import { noop } from '@algolia/autocomplete-shared';
 
 import { ClearIcon, Input, LoadingIcon, SearchIcon } from './elements';
 import { getCreateDomElement } from './getCreateDomElement';
@@ -101,6 +102,8 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     getInputProps: propGetters.getInputProps,
     getInputPropsCore: autocomplete.getInputProps,
     autocompleteScopeApi,
+    // In detached mode we don't want to close the panel when hittin `Tab`.
+    onDetachedTab: isDetached ? noop : undefined,
   });
 
   const inputWrapperPrefix = createDomElement('div', {

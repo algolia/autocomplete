@@ -14,6 +14,7 @@ type InputProps = {
   environment: AutocompleteEnvironment;
   getInputProps: AutocompletePropGetters<any>['getInputProps'];
   getInputPropsCore: AutocompleteCoreApi<any>['getInputProps'];
+  onDetachedTab?(): void;
   state: AutocompleteState<any>;
 };
 
@@ -23,6 +24,7 @@ export const Input: AutocompleteElement<InputProps, HTMLInputElement> = ({
   classNames,
   getInputProps,
   getInputPropsCore,
+  onDetachedTab,
   state,
   ...props
 }) => {
@@ -35,7 +37,18 @@ export const Input: AutocompleteElement<InputProps, HTMLInputElement> = ({
     ...autocompleteScopeApi,
   });
 
-  setProperties(element, inputProps);
+  setProperties(element, {
+    ...inputProps,
+    onKeyDown(event: KeyboardEvent) {
+      if (onDetachedTab && event.key === 'Tab') {
+        onDetachedTab();
+
+        return;
+      }
+
+      inputProps.onKeyDown(event);
+    },
+  });
 
   return element;
 };

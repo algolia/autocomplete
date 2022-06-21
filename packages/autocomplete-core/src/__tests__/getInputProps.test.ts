@@ -1689,6 +1689,180 @@ describe('getInputProps', () => {
         });
       });
     });
+
+    describe('Tab', () => {
+      test('closes the panel and resets `activeItemId`', async () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+          defaultActiveItemId: 1,
+          getSources() {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }],
+              }),
+            ];
+          },
+        });
+
+        userEvent.click(inputElement);
+
+        await runAllMicroTasks();
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: true,
+              activeItemId: 1,
+            }),
+          })
+        );
+
+        userEvent.tab();
+
+        await runAllMicroTasks();
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: false,
+              activeItemId: null,
+            }),
+          })
+        );
+      });
+
+      test('does not close closes the panel nor reset `activeItemId` in debug mode', async () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          debug: true,
+          openOnFocus: true,
+          defaultActiveItemId: 1,
+          getSources() {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }],
+              }),
+            ];
+          },
+        });
+
+        userEvent.click(inputElement);
+
+        await runAllMicroTasks();
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: true,
+              activeItemId: 1,
+            }),
+          })
+        );
+
+        userEvent.tab();
+
+        await runAllMicroTasks();
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: true,
+              activeItemId: 1,
+            }),
+          })
+        );
+      });
+    });
+
+    describe('Tab+Shift', () => {
+      test('closes the panel and resets `activeItemId`', async () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+          defaultActiveItemId: 1,
+          getSources() {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }],
+              }),
+            ];
+          },
+        });
+
+        userEvent.click(inputElement);
+
+        await runAllMicroTasks();
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: true,
+              activeItemId: 1,
+            }),
+          })
+        );
+
+        userEvent.tab({ shift: true });
+
+        await runAllMicroTasks();
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: false,
+              activeItemId: null,
+            }),
+          })
+        );
+      });
+
+      test('does not close closes the panel nor reset `activeItemId` in debug mode', async () => {
+        const onStateChange = jest.fn();
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          debug: true,
+          openOnFocus: true,
+          defaultActiveItemId: 1,
+          getSources() {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }],
+              }),
+            ];
+          },
+        });
+
+        userEvent.click(inputElement);
+
+        await runAllMicroTasks();
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: true,
+              activeItemId: 1,
+            }),
+          })
+        );
+
+        userEvent.tab({ shift: true });
+
+        await runAllMicroTasks();
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: true,
+              activeItemId: 1,
+            }),
+          })
+        );
+      });
+    });
   });
 
   describe('onFocus', () => {
