@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-html-templates",
   "description": "Autocomplete example with HTML templates",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,8 +9,8 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.6.3",
-    "@algolia/autocomplete-theme-classic": "1.6.3",
+    "@algolia/autocomplete-js": "1.6.4",
+    "@algolia/autocomplete-theme-classic": "1.6.4",
     "algoliasearch": "4.9.1"
   },
   "devDependencies": {

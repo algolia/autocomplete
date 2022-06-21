@@ -1,3 +1,12 @@
+## [1.6.4](https://github.com/algolia/autocomplete/compare/v1.6.3...v1.6.4) (2022-06-21)
+
+
+### Bug Fixes
+
+* **autocomplete-js:** leave the modal open on reset on pointer devices ([#987](https://github.com/algolia/autocomplete/issues/987)) ([3e387e6](https://github.com/algolia/autocomplete/commit/3e387e6e7dea7de46acbaf4e220bbd1e568f4ea2))
+
+
+
 ## [1.6.3](https://github.com/algolia/autocomplete/compare/v1.6.2...v1.6.3) (2022-05-10)
 
 
