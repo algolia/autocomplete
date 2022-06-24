@@ -200,4 +200,8 @@ describe('isSamsung', () => {
       });
     });
   });
+
+  test('returns false with an empty user agent', () => {
+    expect(isSamsung('')).toEqual(false);
+  });
 });
