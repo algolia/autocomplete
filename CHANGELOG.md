@@ -1,3 +1,12 @@
+## [1.7.1](https://github.com/algolia/autocomplete/compare/v1.7.0...v1.7.1) (2022-06-27)
+
+
+### Bug Fixes
+
+* **metadata:** ensure safe user agent detection ([#993](https://github.com/algolia/autocomplete/issues/993)) ([fdf2b34](https://github.com/algolia/autocomplete/commit/fdf2b34673d4a9d7f56683eb3fa8e50d9fe5bc34))
+
+
+
 # [1.7.0](https://github.com/algolia/autocomplete/compare/v1.6.3...v1.7.0) (2022-06-21)
 
 
