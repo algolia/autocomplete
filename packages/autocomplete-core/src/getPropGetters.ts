@@ -170,7 +170,7 @@ export function getPropGetters<
     const { inputElement, maxLength = 512, ...rest } = providedProps || {};
     const activeItem = getActiveItem(store.getState());
 
-    const userAgent = props.environment.navigator?.userAgent;
+    const userAgent = props.environment.navigator?.userAgent || '';
     const shouldFallbackKeyHint = isSamsung(userAgent);
     const enterKeyHint =
       activeItem?.itemUrl && !shouldFallbackKeyHint ? 'go' : 'search';
