@@ -1,4 +1,4 @@
-import { HighlightResult } from '@algolia/client-search';
+import { HighlightResult } from '../types';
 
 export type HighlightedHit<THit> = THit & {
   _highlightResult?: HighlightResult<THit>;
