@@ -1,3 +1,116 @@
+## [1.7.1](https://github.com/algolia/autocomplete/compare/v1.7.0...v1.7.1) (2022-06-27)
+
+
+### Bug Fixes
+
+* **metadata:** ensure safe user agent detection ([#993](https://github.com/algolia/autocomplete/issues/993)) ([fdf2b34](https://github.com/algolia/autocomplete/commit/fdf2b34673d4a9d7f56683eb3fa8e50d9fe5bc34))
+
+
+
+# [1.7.0](https://github.com/algolia/autocomplete/compare/v1.6.3...v1.7.0) (2022-06-21)
+
+
+### Bug Fixes
+
+* **autocomplete-js:** leave the modal open on reset on pointer devices ([#987](https://github.com/algolia/autocomplete/issues/987)) ([3e387e6](https://github.com/algolia/autocomplete/commit/3e387e6e7dea7de46acbaf4e220bbd1e568f4ea2))
+
+
+
+## [1.6.3](https://github.com/algolia/autocomplete/compare/v1.6.2...v1.6.3) (2022-05-10)
+
+
+### Bug Fixes
+
+* **react:** fix compatibility issues with React 18 ([#969](https://github.com/algolia/autocomplete/issues/969)) ([fb46298](https://github.com/algolia/autocomplete/commit/fb4629882a0b86468bae536fcdf4fc2159fcaa38))
+
+
+
+## [1.6.2](https://github.com/algolia/autocomplete/compare/v1.6.1...v1.6.2) (2022-04-12)
+
+
+### Bug Fixes
+
+* **autocomplete-js:** avoid warning when renderer is not specified at all ([#947](https://github.com/algolia/autocomplete/issues/947)) ([5fbae0d](https://github.com/algolia/autocomplete/commit/5fbae0d178e3a413df870630a017d530db30f1e7))
+* **autocomplete-js:** update components with new renderer ([#946](https://github.com/algolia/autocomplete/issues/946)) ([8fa038b](https://github.com/algolia/autocomplete/commit/8fa038b914a1b76270a106f5fe2b223aa657d6ae))
+
+
+
+## [1.6.1](https://github.com/algolia/autocomplete/compare/v1.6.0...v1.6.1) (2022-04-08)
+
+
+### Bug Fixes
+
+* **render:** pass `renderer.render` to default `render` function ([#940](https://github.com/algolia/autocomplete/issues/940)) ([55f53d1](https://github.com/algolia/autocomplete/commit/55f53d1c00bab3bbec8bc42f6ab12bbe8a407ff7))
+
+
+
+# [1.6.0](https://github.com/algolia/autocomplete/compare/v1.5.7...v1.6.0) (2022-04-07)
+
+
+### Features
+
+* **autocomplete-js:** enable HTML templating ([#920](https://github.com/algolia/autocomplete/issues/920)) ([f5bbf34](https://github.com/algolia/autocomplete/commit/f5bbf34f477a0d367d367f4f97db9768c4eb4781))
+
+
+
+## [1.5.7](https://github.com/algolia/autocomplete/compare/v1.5.6...v1.5.7) (2022-04-05)
+
+
+### Bug Fixes
+
+* **enterKeyHint:** remove check on only Chrome browser ([#933](https://github.com/algolia/autocomplete/issues/933)) ([93a1fc2](https://github.com/algolia/autocomplete/commit/93a1fc25c720eb3f4fb3900c8f71e0423bd9a0d5))
+* **plugin-insights:** allow search-insights v2 ([#930](https://github.com/algolia/autocomplete/issues/930)) ([c08189d](https://github.com/algolia/autocomplete/commit/c08189de96c35244617654815705ae008e0d1ec7)), closes [#929](https://github.com/algolia/autocomplete/issues/929)
+
+
+
+## [1.5.6](https://github.com/algolia/autocomplete/compare/v1.5.5...v1.5.6) (2022-03-31)
+
+
+### Bug Fixes
+
+* **js:** stop touchstart event propagation if coming from cancel button in detached mode ([#924](https://github.com/algolia/autocomplete/issues/924)) ([24cf9d6](https://github.com/algolia/autocomplete/commit/24cf9d67c906378088bdf736bc0b70be49f270b4))
+
+
+
+## [1.5.5](https://github.com/algolia/autocomplete/compare/v1.5.4...v1.5.5) (2022-03-30)
+
+
+### Bug Fixes
+
+* **enterKeyHint:** use a fixed `enterKeyHint` value on Samsung devices ([#916](https://github.com/algolia/autocomplete/issues/916)) ([b4aa087](https://github.com/algolia/autocomplete/commit/b4aa08797236c0ff8cbdbbca88099c7be579711c))
+
+
+
+## [1.5.4](https://github.com/algolia/autocomplete/compare/v1.5.3...v1.5.4) (2022-03-23)
+
+
+### Bug Fixes
+
+* **js:** prevent event bubbling on cancel button click ([#922](https://github.com/algolia/autocomplete/issues/922)) ([ba17ccd](https://github.com/algolia/autocomplete/commit/ba17ccd578717c780d597733fa3d6dfd4b10dcf3))
+
+
+
+## [1.5.3](https://github.com/algolia/autocomplete/compare/v1.5.2...v1.5.3) (2022-02-23)
+
+
+### Bug Fixes
+
+* **umd:** batch requests when using plugins via UMD ([#902](https://github.com/algolia/autocomplete/issues/902)) ([1aa3dde](https://github.com/algolia/autocomplete/commit/1aa3ddee25b1df94de17b55c52e6fd06a7e1c5d3))
+
+
+
+## [1.5.2](https://github.com/algolia/autocomplete/compare/v1.5.1...v1.5.2) (2022-01-26)
+
+### Bug Fixes
+
+* handle late resolving promises with promise cancelation ([#864](https://github.com/algolia/autocomplete/issues/864)) ([9640c2d](https://github.com/algolia/autocomplete/commit/9640c2d927301e88a4fa77b25d2dfeb7d25b8039))
+
+# [1.5.1](https://github.com/algolia/autocomplete/compare/v1.5.0...v1.5.1) (2021-12-09)
+
+### Bug Fixes
+
+* **concurrency:** ensure panel stays closed after blur ([#829](https://github.com/algolia/autocomplete/issues/829)) ([2dd34e0](https://github.com/algolia/autocomplete/commit/2dd34e0ac1eae19d87105668bd13155b543ca336))
+
 # [1.5.0](https://github.com/algolia/autocomplete/compare/v1.4.1...v1.5.0) (2021-11-02)
 
 ### Bug Fixes

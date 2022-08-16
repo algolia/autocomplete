@@ -25,6 +25,7 @@ export type GetEnvironmentProps = (props: {
 }) => {
   onTouchStart(event: TouchEvent): void;
   onTouchMove(event: TouchEvent): void;
+  onMouseDown(event: MouseEvent): void;
 };
 
 export type GetRootProps = (props?: {

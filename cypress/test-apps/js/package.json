@@ -1,7 +1,7 @@
 {
   "name": "@algolia/test-apps-js",
   "description": "Autocomplete JavaScript Test Application",
-  "version": "1.0.0-alpha.44",
+  "version": "1.7.1",
   "private": true,
   "license": "MIT",
   "main": "index.html",
@@ -18,11 +18,11 @@
     "@algolia/autocomplete-theme-classic": "1.0.0-alpha.44",
     "@algolia/client-search": "4.9.1",
     "algoliasearch": "4.9.1",
-    "preact": "10.5.13",
+    "preact": "10.6.4",
     "search-insights": "1.7.1"
   },
   "devDependencies": {
-    "parcel": "2.0.0-beta.2"
+    "parcel": "2.5.0"
   },
   "keywords": [
     "algolia",

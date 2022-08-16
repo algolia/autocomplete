@@ -33,12 +33,13 @@ function isRequesterDescription<TItem extends BaseItem>(
 type PackedDescription<TItem extends BaseItem> = {
   searchClient: SearchClient;
   execute: Execute<TItem>;
+  requesterId?: string;
   items: RequestDescriptionPreResolved<TItem>['requests'];
 };
 
 type RequestDescriptionPreResolved<TItem extends BaseItem> = Pick<
   RequesterDescription<TItem>,
-  'execute' | 'searchClient' | 'transformResponse'
+  'execute' | 'requesterId' | 'searchClient' | 'transformResponse'
 > & {
   requests: Array<{
     query: MultipleQueriesQuery;
@@ -90,7 +91,7 @@ export function resolve<TItem extends BaseItem>(
       return acc;
     }
 
-    const { searchClient, execute, requests } = current;
+    const { searchClient, execute, requesterId, requests } = current;
 
     const container = acc.find<PackedDescription<TItem>>(
       (item): item is PackedDescription<TItem> => {
@@ -98,7 +99,8 @@ export function resolve<TItem extends BaseItem>(
           isDescription(current) &&
           isDescription(item) &&
           item.searchClient === searchClient &&
-          item.execute === execute
+          Boolean(requesterId) &&
+          item.requesterId === requesterId
         );
       }
     );
@@ -108,6 +110,7 @@ export function resolve<TItem extends BaseItem>(
     } else {
       const request: PackedDescription<TItem> = {
         execute,
+        requesterId,
         items: requests,
         searchClient,
       };

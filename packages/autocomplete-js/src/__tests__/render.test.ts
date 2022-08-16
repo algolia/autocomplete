@@ -3,7 +3,7 @@ import {
   createElement as preactCreateElement,
   Fragment,
   Fragment as PreactFragment,
-  render,
+  render as preactRender,
 } from 'preact';
 
 import { autocomplete } from '../autocomplete';
@@ -80,7 +80,7 @@ describe('render', () => {
         ];
       },
       render({ createElement }, root) {
-        render(createElement('div', null, 'testSource'), root);
+        preactRender(createElement('div', null, 'testSource'), root);
       },
     });
 
@@ -126,7 +126,7 @@ describe('render', () => {
         expect(panelContainer.querySelector<HTMLElement>('.aa-Panel')).toBe(
           root
         );
-        render(createElement('div', null, 'testSource'), root);
+        preactRender(createElement('div', null, 'testSource'), root);
       },
     });
   });
@@ -168,7 +168,7 @@ describe('render', () => {
           completion: null,
         });
 
-        render(createElement('div', null, 'testSource'), root);
+        preactRender(createElement('div', null, 'testSource'), root);
       },
     });
 
@@ -238,7 +238,7 @@ describe('render', () => {
           }),
         });
 
-        render(createElement('div', null, 'testSource'), root);
+        preactRender(createElement('div', null, 'testSource'), root);
       },
     });
 
@@ -308,7 +308,7 @@ describe('render', () => {
           }),
         ]);
 
-        render(createElement('div', null, 'testSource'), root);
+        preactRender(createElement('div', null, 'testSource'), root);
       },
     });
 
@@ -379,7 +379,7 @@ describe('render', () => {
             },
           })
         );
-        render(createElement('div', null, 'testSource'), root);
+        preactRender(createElement('div', null, 'testSource'), root);
       },
     });
 
@@ -422,7 +422,7 @@ describe('render', () => {
       },
       render({ createElement }, root) {
         expect(createElement).toBe(preactCreateElement);
-        render(createElement('div', null, 'testSource'), root);
+        preactRender(createElement('div', null, 'testSource'), root);
       },
     });
   });
@@ -455,7 +455,73 @@ describe('render', () => {
       },
       render({ createElement, Fragment }, root) {
         expect(Fragment).toBe(PreactFragment);
-        render(createElement(Fragment, null, 'testSource'), root);
+        preactRender(createElement(Fragment, null, 'testSource'), root);
+      },
+    });
+  });
+
+  test('provides a default `render`', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      initialState: {
+        isOpen: true,
+      },
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [{ label: '1' }];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+      render({ render }, root) {
+        expect(render).toBe(preactRender);
+        render(null, root);
+      },
+    });
+  });
+
+  test('provides an `html` function', () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+    autocomplete<{ label: string }>({
+      container,
+      panelContainer,
+      initialState: {
+        isOpen: true,
+      },
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [{ label: '1' }];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+      render({ children, render, html }, root) {
+        expect(html).toBeDefined();
+        render(html`<div>${children}</div>`, root);
       },
     });
   });
@@ -489,7 +555,7 @@ describe('render', () => {
       },
       render({ createElement }, root) {
         expect(createElement).toBe(mockCreateElement);
-        render(createElement('div', null, 'testSource'), root);
+        preactRender(createElement('div', null, 'testSource'), root);
       },
       renderer: {
         createElement: mockCreateElement,
@@ -527,7 +593,7 @@ describe('render', () => {
       },
       render({ createElement, Fragment }, root) {
         expect(Fragment).toBe(CustomFragment);
-        render(createElement(Fragment, null, 'testSource'), root);
+        preactRender(createElement(Fragment, null, 'testSource'), root);
       },
       renderer: {
         createElement: preactCreateElement,

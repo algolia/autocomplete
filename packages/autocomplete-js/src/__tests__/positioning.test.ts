@@ -191,7 +191,7 @@ describe('Panel positioning', () => {
       right: '1020px',
     });
 
-    input.blur();
+    userEvent.click(document.body);
 
     // Move the root vertically
     root.getBoundingClientRect = jest
