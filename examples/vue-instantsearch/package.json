@@ -1,0 +1,55 @@
+{
+  "name": "@algolia/autocomplete-example-vue-instantsearch",
+  "description": "Autocomplete with Vue InstantSearch",
+  "version": "1.7.1",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@algolia/autocomplete-js": "1.7.1",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.7.1",
+    "@algolia/autocomplete-plugin-recent-searches": "1.7.1",
+    "@algolia/autocomplete-theme-classic": "1.7.1",
+    "algoliasearch": "4.12.1",
+    "core-js": "^3.6.5",
+    "vue": "3.2.30",
+    "vue-instantsearch": "4.3.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "3.2.30",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^7.0.0-0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "keywords": [
+    "algolia",
+    "autocomplete",
+    "vue"
+  ]
+}

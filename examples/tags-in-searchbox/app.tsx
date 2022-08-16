@@ -10,7 +10,7 @@ import {
   createAlgoliaInsightsPlugin,
 } from '@algolia/autocomplete-plugin-algolia-insights';
 import { createTagsPlugin, Tag } from '@algolia/autocomplete-plugin-tags';
-import algoliasearch from 'algoliasearch';
+import algoliasearch from 'algoliasearch/lite';
 import { h, Fragment, render } from 'preact';
 import groupBy from 'ramda/src/groupBy';
 import insightsClient from 'search-insights';

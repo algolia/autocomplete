@@ -1,3 +1,5 @@
+import { CancelablePromiseList } from '../utils';
+
 import { BaseItem } from './AutocompleteApi';
 import { InternalAutocompleteOptions } from './AutocompleteOptions';
 import { AutocompleteState } from './AutocompleteState';
@@ -5,6 +7,7 @@ import { AutocompleteState } from './AutocompleteState';
 export interface AutocompleteStore<TItem extends BaseItem> {
   getState(): AutocompleteState<TItem>;
   dispatch(action: ActionType, payload: any): void;
+  pendingRequests: CancelablePromiseList<void>;
 }
 
 export type Reducer = <TItem extends BaseItem>(

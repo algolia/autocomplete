@@ -5,20 +5,21 @@ export type Pragma = (
 ) => JSX.Element;
 export type PragmaFrag = any;
 
-type ComponentChild =
-  | VNode<any>
-  | object
-  | string
-  | number
-  | boolean
-  | null
-  | undefined;
+type ComponentChild = VNode<any> | string | number | boolean | null | undefined;
+
 type ComponentChildren = ComponentChild[] | ComponentChild;
 
-export type VNode<TProps = any> = {
+export type VNode<TProps = {}> = {
   type: any;
-  props: TProps & { children: ComponentChildren; key?: any };
+  key: string | number | any;
+  props: TProps & { children: ComponentChildren };
 };
+
+export type Render = (
+  vnode: ComponentChild,
+  parent: Element | Document | ShadowRoot | DocumentFragment,
+  replaceNode?: Element | Text | undefined
+) => void;
 
 export type AutocompleteRenderer = {
   /**
@@ -33,4 +34,13 @@ export type AutocompleteRenderer = {
    * @default preact.Fragment
    */
   Fragment: PragmaFrag;
+  /**
+   * The function to render children to an element.
+   */
+  render?: Render;
 };
+
+export type HTMLTemplate = (
+  strings: TemplateStringsArray,
+  ...values: any[]
+) => VNode | VNode[];

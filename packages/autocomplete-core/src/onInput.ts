@@ -7,7 +7,12 @@ import {
   BaseItem,
   InternalAutocompleteOptions,
 } from './types';
-import { createConcurrentSafePromise, getActiveItem } from './utils';
+import {
+  cancelable,
+  CancelablePromise,
+  createConcurrentSafePromise,
+  getActiveItem,
+} from './utils';
 
 let lastStalledId: number | null = null;
 
@@ -37,7 +42,7 @@ export function onInput<TItem extends BaseItem>({
   refresh,
   store,
   ...setters
-}: OnInputParams<TItem>): Promise<void> {
+}: OnInputParams<TItem>): CancelablePromise<void> {
   if (lastStalledId) {
     props.environment.clearTimeout(lastStalledId);
   }
@@ -69,7 +74,11 @@ export function onInput<TItem extends BaseItem>({
     // promises to keep late resolving promises from "cancelling" the state
     // updates performed in this code path.
     // We chain with a void promise to respect `onInput`'s expected return type.
-    return runConcurrentSafePromise(collections).then(() => Promise.resolve());
+    const request = cancelable(
+      runConcurrentSafePromise(collections).then(() => Promise.resolve())
+    );
+
+    return store.pendingRequests.add(request);
   }
 
   setStatus('loading');
@@ -84,42 +93,50 @@ export function onInput<TItem extends BaseItem>({
   // We don't track nested promises and only rely on the full chain resolution,
   // meaning we should only ever manipulate the state once this concurrent-safe
   // promise is resolved.
-  return runConcurrentSafePromise(
-    props
-      .getSources({
-        query,
-        refresh,
-        state: store.getState(),
-        ...setters,
-      })
-      .then((sources) => {
-        return Promise.all(
-          sources.map((source) => {
-            return Promise.resolve(
-              source.getItems({
-                query,
-                refresh,
-                state: store.getState(),
-                ...setters,
-              })
-            ).then((itemsOrDescription) =>
-              preResolve<TItem>(itemsOrDescription, source.sourceId)
+  const request = cancelable(
+    runConcurrentSafePromise(
+      props
+        .getSources({
+          query,
+          refresh,
+          state: store.getState(),
+          ...setters,
+        })
+        .then((sources) => {
+          return Promise.all(
+            sources.map((source) => {
+              return Promise.resolve(
+                source.getItems({
+                  query,
+                  refresh,
+                  state: store.getState(),
+                  ...setters,
+                })
+              ).then((itemsOrDescription) =>
+                preResolve<TItem>(itemsOrDescription, source.sourceId)
+              );
+            })
+          )
+            .then(resolve)
+            .then((responses) => postResolve(responses, sources))
+            .then((collections) =>
+              reshape({ collections, props, state: store.getState() })
             );
-          })
-        )
-          .then(resolve)
-          .then((responses) => postResolve(responses, sources))
-          .then((collections) =>
-            reshape({ collections, props, state: store.getState() })
-          );
-      })
+        })
+    )
   )
     .then((collections) => {
+      // Parameters passed to `onInput` could be stale when the following code
+      // executes, because `onInput` calls may not resolve in order.
+      // If it becomes a problem we'll need to save the last passed parameters.
+      // See: https://codesandbox.io/s/agitated-cookies-y290z
+
       setStatus('idle');
+
       setCollections(collections as any);
-      const isPanelOpen = props.shouldPanelOpen({
-        state: store.getState(),
-      });
+
+      const isPanelOpen = props.shouldPanelOpen({ state: store.getState() });
+
       setIsOpen(
         nextState.isOpen ??
           ((props.openOnFocus && !query && isPanelOpen) || isPanelOpen)
@@ -143,8 +160,12 @@ export function onInput<TItem extends BaseItem>({
       }
     })
     .finally(() => {
+      setStatus('idle');
+
       if (lastStalledId) {
         props.environment.clearTimeout(lastStalledId);
       }
     });
+
+  return store.pendingRequests.add(request);
 }

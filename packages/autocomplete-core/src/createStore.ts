@@ -5,6 +5,7 @@ import {
   InternalAutocompleteOptions,
   Reducer,
 } from './types';
+import { createCancelablePromiseList } from './utils';
 
 type OnStoreStateChange<TItem extends BaseItem> = ({
   prevState,
@@ -35,5 +36,6 @@ export function createStore<TItem extends BaseItem>(
 
       onStoreStateChange({ state, prevState });
     },
+    pendingRequests: createCancelablePromiseList(),
   };
 }

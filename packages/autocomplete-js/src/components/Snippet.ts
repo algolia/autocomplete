@@ -6,7 +6,7 @@ export function createSnippetComponent({
   createElement,
   Fragment,
 }: AutocompleteRenderer) {
-  return function Snippet<THit>({
+  function Snippet<THit>({
     hit,
     attribute,
     tagName = 'mark',
@@ -20,5 +20,9 @@ export function createSnippetComponent({
           : x.value
       )
     );
-  };
+  }
+
+  Snippet.__autocomplete_componentName = 'Snippet';
+
+  return Snippet;
 }

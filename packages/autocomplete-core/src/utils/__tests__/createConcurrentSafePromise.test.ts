@@ -3,9 +3,7 @@ import { createConcurrentSafePromise } from '../createConcurrentSafePromise';
 
 describe('createConcurrentSafePromise', () => {
   test('resolves the non-promise values in order', async () => {
-    type PromiseValue = { value: number };
-
-    const runConcurrentSafePromise = createConcurrentSafePromise<PromiseValue>();
+    const runConcurrentSafePromise = createConcurrentSafePromise();
     const concurrentSafePromise1 = runConcurrentSafePromise({ value: 1 });
     const concurrentSafePromise2 = runConcurrentSafePromise({ value: 2 });
     const concurrentSafePromise3 = runConcurrentSafePromise({ value: 3 });
@@ -18,9 +16,7 @@ describe('createConcurrentSafePromise', () => {
   });
 
   test('resolves the values in order when sequenced', async () => {
-    type PromiseValue = { value: number };
-
-    const runConcurrentSafePromise = createConcurrentSafePromise<PromiseValue>();
+    const runConcurrentSafePromise = createConcurrentSafePromise();
     const concurrentSafePromise1 = runConcurrentSafePromise(
       defer(() => ({ value: 1 }), 100)
     );
@@ -39,9 +35,7 @@ describe('createConcurrentSafePromise', () => {
   });
 
   test('resolves the value from the last call', async () => {
-    type PromiseValue = { value: number };
-
-    const runConcurrentSafePromise = createConcurrentSafePromise<PromiseValue>();
+    const runConcurrentSafePromise = createConcurrentSafePromise();
     const concurrentSafePromise1 = runConcurrentSafePromise(
       defer(() => ({ value: 1 }), 100)
     );

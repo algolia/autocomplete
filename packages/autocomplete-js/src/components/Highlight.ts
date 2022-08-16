@@ -6,7 +6,7 @@ export function createHighlightComponent({
   createElement,
   Fragment,
 }: AutocompleteRenderer) {
-  return function Highlight<THit>({
+  function Highlight<THit>({
     hit,
     attribute,
     tagName = 'mark',
@@ -20,5 +20,9 @@ export function createHighlightComponent({
           : x.value
       )
     );
-  };
+  }
+
+  Highlight.__autocomplete_componentName = 'Highlight';
+
+  return Highlight;
 }

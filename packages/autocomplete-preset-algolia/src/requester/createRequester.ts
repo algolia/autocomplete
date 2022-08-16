@@ -77,13 +77,33 @@ export type RequestParams<THit> = FetcherParams & {
 };
 
 export type RequesterDescription<THit> = {
+  /**
+   * The search client used for this request. Multiple queries with the same client are batched (if `requesterId` is also the same).
+   */
   searchClient: SearchClient;
+  /**
+   * Identifies requesters to confirm their queries should be batched.
+   * This ensures that requesters with the same client but different
+   * post-processing functions don't get batched.
+   * When falsy, batching is disabled.
+   * For example, the Algolia requesters use "algolia".
+   */
+  requesterId?: string;
+  /**
+   * The search parameters used for this query.
+   */
   queries: MultipleQueriesQuery[];
+  /**
+   * Transforms the response of this search before returning it to the caller.
+   */
   transformResponse: TransformResponse<THit>;
+  /**
+   * Post-processing function for multi-queries.
+   */
   execute: Execute<THit>;
 };
 
-export function createRequester(fetcher: Fetcher) {
+export function createRequester(fetcher: Fetcher, requesterId?: string) {
   function execute<THit>(fetcherParams: ExecuteParams<THit>) {
     return fetcher<THit>({
       searchClient: fetcherParams.searchClient,
@@ -108,6 +128,7 @@ export function createRequester(fetcher: Fetcher) {
       requestParams: RequestParams<TTHit>
     ): RequesterDescription<TTHit> {
       return {
+        requesterId,
         execute,
         ...requesterParams,
         ...requestParams,

@@ -8,6 +8,7 @@ import {
   debounce,
   getItemsCount,
 } from '@algolia/autocomplete-shared';
+import htm from 'htm';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
 import { createEffectWrapper } from './createEffectWrapper';
@@ -21,9 +22,10 @@ import {
   AutocompletePropGetters,
   AutocompleteSource,
   AutocompleteState,
+  VNode,
 } from './types';
 import { userAgents } from './userAgents';
-import { mergeDeep, setProperties } from './utils';
+import { mergeDeep, pickBy, setProperties } from './utils';
 
 export function autocomplete<TItem extends BaseItem>(
   options: AutocompleteOptions<TItem>
@@ -112,6 +114,10 @@ export function autocomplete<TItem extends BaseItem>(
     refresh: autocomplete.value.refresh,
   };
 
+  const html = reactive(() =>
+    htm.bind<VNode>(props.value.renderer.renderer.createElement)
+  );
+
   const dom = reactive(() =>
     createAutocompleteDom({
       autocomplete: autocomplete.value,
@@ -149,14 +155,14 @@ export function autocomplete<TItem extends BaseItem>(
       classNames: props.value.renderer.classNames,
       components: props.value.renderer.components,
       container: props.value.renderer.container,
-      createElement: props.value.renderer.renderer.createElement,
+      html: html.value,
       dom: dom.value,
-      Fragment: props.value.renderer.renderer.Fragment,
       panelContainer: isDetached.value
         ? dom.value.detachedContainer
         : props.value.renderer.panelContainer,
       propGetters,
       state: lastStateRef.current,
+      renderer: props.value.renderer.renderer,
     };
 
     const render =
@@ -335,10 +341,23 @@ export function autocomplete<TItem extends BaseItem>(
   function update(updatedOptions: Partial<AutocompleteOptions<TItem>> = {}) {
     cleanupEffects();
 
+    const { components, ...rendererProps } = props.value.renderer;
+
     optionsRef.current = mergeDeep(
-      props.value.renderer,
+      rendererProps,
       props.value.core,
-      { initialState: lastStateRef.current },
+      {
+        // We need to filter out default components so they can be replaced with
+        // a new `renderer`, without getting rid of user components.
+        // @MAJOR Deal with registering components with the same name as the
+        // default ones. If we disallow overriding default components, we'd just
+        // need to pass all `components` here.
+        components: pickBy(
+          components,
+          ({ value }) => !value.hasOwnProperty('__autocomplete_componentName')
+        ),
+        initialState: lastStateRef.current,
+      },
       updatedOptions
     );
 
