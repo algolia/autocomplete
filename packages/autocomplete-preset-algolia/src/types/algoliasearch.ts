@@ -53,7 +53,7 @@ export type SearchResponse<THit> = PickForClient<{
   // @ts-ignore
   v4: ClientSearch.SearchResponse<THit>;
   // @ts-ignore
-  v5: AlgoliaSearch.SearchResponse; // should be generic, but isn't yet in the client
+  v5: AlgoliaSearch.SearchResponse<THit>;
 }>;
 
 export type HighlightResult<THit> = PickForClient<{
