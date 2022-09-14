@@ -1,4 +1,4 @@
-import { MultipleQueriesQuery } from '@algolia/client-search';
+import type { MultipleQueriesQuery } from '../types';
 
 import { createAlgoliaRequester } from './createAlgoliaRequester';
 import { RequestParams } from './createRequester';

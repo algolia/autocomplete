@@ -2,14 +2,14 @@ import {
   userAgents as coreUserAgents,
   UserAgent,
 } from '@algolia/autocomplete-shared';
-import {
+
+import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from '../constants';
+import type {
   MultipleQueriesQuery,
   SearchForFacetValuesResponse,
   SearchResponse,
-} from '@algolia/client-search';
-import type { SearchClient } from 'algoliasearch/lite';
-
-import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from '../constants';
+  SearchClient,
+} from '../types';
 
 export interface SearchParams {
   /**
