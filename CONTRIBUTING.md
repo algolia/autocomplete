@@ -29,6 +29,13 @@ Then:
 
 When every check is green and a team member approves, your contribution is merged! 🚀
 
+For the local dependencies we require previously set up:
+
+- yarn v1
+- node (version available in [.nvmrc](https://github.com/algolia/autocomplete/blob/next/.nvmrc))
+- setup for node-gyp (make sure you have called `xcode-select --install` a first time on macOS
+- a version of Chrome/Chromium (for Puppeteer)
+
 ## Commit conventions
 
 This project follows the [conventional changelog](https://conventionalcommits.org/) approach. This means that all commit messages should be formatted using the following scheme:
