@@ -1,3 +1,13 @@
+## [1.7.2](https://github.com/algolia/autocomplete/compare/v1.7.1...v1.7.2) (2022-10-18)
+
+
+### Bug Fixes
+
+* **algoliasearch:** support v5 via peerDependencies ([#1018](https://github.com/algolia/autocomplete/issues/1018)) ([5ba25f6](https://github.com/algolia/autocomplete/commit/5ba25f62213b2721218fb34ecc9472286cb9f926))
+* **preset-algolia:** support algoliasearch v5 ([#1002](https://github.com/algolia/autocomplete/issues/1002)) ([b1d93df](https://github.com/algolia/autocomplete/commit/b1d93dffad124e8bbef21b760d52e338c623cdfa))
+
+
+
 ## [1.7.1](https://github.com/algolia/autocomplete/compare/v1.7.0...v1.7.1) (2022-06-27)
 
 
