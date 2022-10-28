@@ -11,11 +11,11 @@ type SearchClientShape = {
 };
 
 type ClientLiteV5 = AnyToUnknown<
-  // @ts-ignore
+  /** @ts-ignore */
   ReturnType<typeof AlgoliaSearch.liteClient>
 >;
 type ClientSearchV5 = AnyToUnknown<
-  // @ts-ignore
+  /** @ts-ignore */
   ReturnType<typeof ClientSearch.searchClient>
 >;
 type ClientV5 = ClientLiteV5 extends SearchClientShape
@@ -29,43 +29,43 @@ type PickForClient<
 > = ClientV5 extends SearchClientShape ? TMapping['v5'] : TMapping['v4'];
 
 export type SearchClient = PickForClient<{
-  // @ts-ignore
+  /** @ts-ignore */
   v4: AlgoliaSearch.SearchClient;
-  // @ts-ignore
+  /** @ts-ignore */
   v5: ClientV5;
 }>;
 
 export type MultipleQueriesQuery = PickForClient<{
-  // @ts-ignore
+  /** @ts-ignore */
   v4: ClientSearch.MultipleQueriesQuery;
-  // @ts-ignore
+  /** @ts-ignore */
   v5: AlgoliaSearch.LegacySearchMethodProps[number];
 }>;
 
 export type SearchForFacetValuesResponse = PickForClient<{
-  // @ts-ignore
+  /** @ts-ignore */
   v4: ClientSearch.SearchForFacetValuesResponse;
-  // @ts-ignore
+  /** @ts-ignore */
   v5: AlgoliaSearch.SearchForFacetValuesResponse;
 }>;
 
 export type SearchResponse<THit> = PickForClient<{
-  // @ts-ignore
+  /** @ts-ignore */
   v4: ClientSearch.SearchResponse<THit>;
-  // @ts-ignore
+  /** @ts-ignore */
   v5: AlgoliaSearch.SearchResponse<THit>;
 }>;
 
 export type HighlightResult<THit> = PickForClient<{
-  // @ts-ignore
+  /** @ts-ignore */
   v4: ClientSearch.HighlightResult<THit>;
-  // @ts-ignore
+  /** @ts-ignore */
   v5: AlgoliaSearch.HighlightResult; // should be generic, but isn't yet in the client
 }>;
 
 export type SnippetResult<THit> = PickForClient<{
-  // @ts-ignore
+  /** @ts-ignore */
   v4: ClientSearch.SnippetResult<THit>;
-  // @ts-ignore
+  /** @ts-ignore */
   v5: AlgoliaSearch.SnippetResult; // should be generic, but isn't yet in the client
 }>;
