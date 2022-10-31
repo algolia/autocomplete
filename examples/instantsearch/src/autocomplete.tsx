@@ -254,7 +254,9 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 const searchPageState = getInstantSearchUiState();
 
 export function startAutocomplete() {
-  autocomplete({
+  let skipInstantSearchStateUpdate = false;
+
+  const { setQuery } = autocomplete({
     container: '#autocomplete',
     placeholder: 'Search for products',
     openOnFocus: true,
@@ -285,9 +287,15 @@ export function startAutocomplete() {
       });
     },
     onStateChange({ prevState, state }) {
-      if (prevState.query !== state.query) {
+      if (!skipInstantSearchStateUpdate && prevState.query !== state.query) {
         debouncedSetInstantSearchUiState({ query: state.query });
       }
+      skipInstantSearchStateUpdate = false;
     },
+  });
+
+  window.addEventListener('popstate', ({ state }) => {
+    skipInstantSearchStateUpdate = true;
+    setQuery((state && state.instant_search.query) || '');
   });
 }
