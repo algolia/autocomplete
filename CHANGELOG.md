@@ -1,3 +1,12 @@
+## [1.7.3](https://github.com/algolia/autocomplete.js/compare/v1.7.2...v1.7.3) (2022-11-02)
+
+
+### Bug Fixes
+
+* **preset-algolia:** ensure "ts-ignore" is present in the output ([#1035](https://github.com/algolia/autocomplete.js/issues/1035)) ([c8a0f68](https://github.com/algolia/autocomplete.js/commit/c8a0f68e505c72a5088d1adca8e7ca0775f2a448))
+
+
+
 ## [1.7.2](https://github.com/algolia/autocomplete/compare/v1.7.1...v1.7.2) (2022-10-18)
 
 
