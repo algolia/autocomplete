@@ -297,6 +297,8 @@ export function startAutocomplete(searchInstance: InstantSearch) {
 
   window.addEventListener('popstate', () => {
     skipInstantSearchStateUpdate = true;
-    setQuery(searchInstance.helper?.state.query || '');
+    setQuery(
+      (searchInstance.helper && searchInstance.helper.state.query) || ''
+    );
   });
 }
