@@ -3,6 +3,7 @@
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+import { InstantSearch } from 'instantsearch.js';
 
 import {
   debouncedSetInstantSearchUiState,
@@ -253,7 +254,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 
 const searchPageState = getInstantSearchUiState();
 
-export function startAutocomplete() {
+export function startAutocomplete(searchInstance: InstantSearch) {
   let skipInstantSearchStateUpdate = false;
 
   const { setQuery } = autocomplete({
@@ -294,8 +295,8 @@ export function startAutocomplete() {
     },
   });
 
-  window.addEventListener('popstate', ({ state }) => {
+  window.addEventListener('popstate', () => {
     skipInstantSearchStateUpdate = true;
-    setQuery((state && state.instant_search.query) || '');
+    setQuery(searchInstance.helper?.state.query || '');
   });
 }
