@@ -89,20 +89,22 @@ export function Autocomplete(
       return undefined;
     }
 
-    const { onTouchStart, onTouchMove } = getEnvironmentProps({
+    const { onTouchStart, onTouchMove, onMouseDown } = getEnvironmentProps({
       formElement: formRef.current,
       inputElement: inputRef.current,
       panelElement: panelRef.current,
     });
 
+    window.addEventListener('mousedown', onMouseDown);
     window.addEventListener('touchstart', onTouchStart);
     window.addEventListener('touchmove', onTouchMove);
 
     return () => {
+      window.removeEventListener('mousedown', onMouseDown);
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove', onTouchMove);
     };
-  }, [getEnvironmentProps, formRef, inputRef, panelRef]);
+  }, [getEnvironmentProps, autocompleteState.isOpen]);
 
   return (
     <div className="aa-Autocomplete" {...autocomplete.getRootProps({})}>
