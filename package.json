@@ -93,7 +93,7 @@
     "rollup-plugin-terser": "7.0.2",
     "shipjs": "0.24.1",
     "start-server-and-test": "1.11.7",
-    "stylelint": "13.9.0",
+    "stylelint": "13.13.1",
     "stylelint-a11y": "1.2.3",
     "stylelint-config-prettier": "8.0.2",
     "stylelint-config-sass-guidelines": "7.1.0",
