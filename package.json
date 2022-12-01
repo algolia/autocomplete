@@ -100,7 +100,7 @@
     "stylelint-config-standard": "20.0.0",
     "stylelint-no-unsupported-browser-features": "4.1.4",
     "stylelint-order": "4.1.0",
-    "stylelint-prettier": "1.1.2",
+    "stylelint-prettier": "2.0.0",
     "typescript": "4.5.5",
     "watch": "1.0.2"
   }
