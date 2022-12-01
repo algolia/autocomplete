@@ -39,7 +39,7 @@
     "@babel/preset-env": "7.16.4",
     "@babel/preset-react": "7.16.0",
     "@babel/preset-typescript": "7.16.0",
-    "@csstools/postcss-sass": "4.0.0",
+    "@csstools/postcss-sass": "5.0.1",
     "@percy/cypress": "2.3.4",
     "@rollup/plugin-json": "4.1.0",
     "@rollup/plugin-node-resolve": "11.2.1",
