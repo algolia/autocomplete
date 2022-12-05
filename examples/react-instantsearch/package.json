@@ -13,14 +13,14 @@
     "@algolia/autocomplete-plugin-query-suggestions": "1.7.3",
     "@algolia/autocomplete-plugin-recent-searches": "1.7.3",
     "@algolia/autocomplete-theme-classic": "1.7.3",
-    "algoliasearch": "4.9.1",
-    "qs": "6.10.1",
+    "algoliasearch": "4.14.2",
+    "qs": "6.11.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-instantsearch-dom": "6.11.0"
+    "react-instantsearch-dom": "6.38.1"
   },
   "devDependencies": {
-    "@babel/core": "7.12.3",
-    "parcel": "2.5.0"
+    "@babel/core": "7.20.5",
+    "parcel": "2.8.0"
   }
 }

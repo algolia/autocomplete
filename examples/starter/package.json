@@ -11,10 +11,10 @@
   "dependencies": {
     "@algolia/autocomplete-js": "1.7.3",
     "@algolia/autocomplete-theme-classic": "1.7.3",
-    "preact": "10.5.13"
+    "preact": "10.11.3"
   },
   "devDependencies": {
-    "parcel": "2.5.0"
+    "parcel": "2.8.0"
   },
   "keywords": [
     "algolia",

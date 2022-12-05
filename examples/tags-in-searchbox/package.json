@@ -13,14 +13,14 @@
     "@algolia/autocomplete-plugin-algolia-insights": "1.7.3",
     "@algolia/autocomplete-plugin-tags": "1.7.3",
     "@algolia/autocomplete-theme-classic": "1.7.3",
-    "@algolia/client-search": "4.9.1",
-    "algoliasearch": "4.9.1",
-    "preact": "10.5.13",
+    "@algolia/client-search": "4.14.2",
+    "algoliasearch": "4.14.2",
+    "preact": "10.11.3",
     "ramda": "0.27.1",
     "search-insights": "1.7.1"
   },
   "devDependencies": {
-    "parcel": "2.5.0"
+    "parcel": "2.8.0"
   },
   "keywords": [
     "algolia",

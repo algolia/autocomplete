@@ -12,14 +12,14 @@
     "@algolia/autocomplete-js": "1.7.3",
     "@algolia/autocomplete-plugin-recent-searches": "1.7.3",
     "@algolia/autocomplete-theme-classic": "1.7.3",
-    "@algolia/client-search": "4.9.1",
-    "algoliasearch": "4.9.1",
-    "preact": "10.5.13"
+    "@algolia/client-search": "4.14.2",
+    "algoliasearch": "4.14.2",
+    "preact": "10.11.3"
   },
   "devDependencies": {
     "@algolia/autocomplete-core": "1.7.3",
     "@algolia/autocomplete-shared": "1.7.3",
-    "parcel": "2.5.0"
+    "parcel": "2.8.0"
   },
   "keywords": [
     "algolia",

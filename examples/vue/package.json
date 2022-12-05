@@ -12,13 +12,13 @@
   "dependencies": {
     "@algolia/autocomplete-js": "1.7.3",
     "@algolia/autocomplete-theme-classic": "1.7.3",
-    "algoliasearch": "4.9.1",
-    "vue": "3.2.20"
+    "algoliasearch": "4.14.2",
+    "vue": "3.2.45"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "1.9.3",
     "@vitejs/plugin-vue-jsx": "1.2.0",
-    "@vue/compiler-sfc": "3.2.20",
+    "@vue/compiler-sfc": "3.2.45",
     "vite": "2.6.4"
   },
   "keywords": [
