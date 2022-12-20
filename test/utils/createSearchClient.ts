@@ -27,6 +27,7 @@ export function createSearchClient(
       Promise.resolve([createSFFVResponse()])
     ),
     ...args,
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   } as SearchClient;
   /* eslint-enable @typescript-eslint/consistent-type-assertions */
 }
