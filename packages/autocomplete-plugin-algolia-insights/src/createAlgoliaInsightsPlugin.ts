@@ -89,7 +89,6 @@ export function createAlgoliaInsightsPlugin(
     onSelect: onSelectEvent,
     onActive: onActiveEvent,
   } = getOptions(options);
-
   const insights = createSearchInsightsApi(insightsClient);
   const previousItems = createRef<AlgoliaInsightsHit[]>([]);
 
@@ -123,6 +122,8 @@ export function createAlgoliaInsightsPlugin(
   return {
     name: 'aa.algoliaInsightsPlugin',
     subscribe({ setContext, onSelect, onActive }) {
+      insightsClient('addAlgoliaAgent', 'insights-plugin');
+
       setContext({ algoliaInsightsPlugin: { insights } });
 
       onSelect(({ item, state, event }) => {

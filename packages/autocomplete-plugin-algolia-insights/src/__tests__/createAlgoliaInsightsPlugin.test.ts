@@ -64,6 +64,21 @@ describe('createAlgoliaInsightsPlugin', () => {
     );
   });
 
+  test('sets a user agent on the Insights client on subscribe', () => {
+    const insightsClient = jest.fn();
+    const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+    expect(insightsClient).not.toHaveBeenCalled();
+
+    createPlayground(createAutocomplete, { plugins: [insightsPlugin] });
+
+    expect(insightsClient).toHaveBeenCalledTimes(1);
+    expect(insightsClient).toHaveBeenCalledWith(
+      'addAlgoliaAgent',
+      'insights-plugin'
+    );
+  });
+
   describe('onItemsChange', () => {
     test('sends a `viewedObjectIDs` event by default', async () => {
       const insightsClient = jest.fn();
