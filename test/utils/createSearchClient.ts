@@ -9,6 +9,7 @@ import {
 export function createSearchClient(
   args: Partial<SearchClient> = {}
 ): SearchClient {
+  /* eslint-disable @typescript-eslint/consistent-type-assertions */
   return {
     appId: '',
     addAlgoliaAgent: jest.fn(),
@@ -26,6 +27,6 @@ export function createSearchClient(
       Promise.resolve([createSFFVResponse()])
     ),
     ...args,
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   } as SearchClient;
+  /* eslint-enable @typescript-eslint/consistent-type-assertions */
 }
