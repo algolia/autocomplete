@@ -195,7 +195,10 @@ describe('createAlgoliaInsightsPlugin', () => {
       await runAllMicroTasks();
       jest.runAllTimers();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'viewedObjectIDs',
+        expect.any(Object)
+      );
     });
 
     test('debounces calls', async () => {
@@ -286,7 +289,10 @@ describe('createAlgoliaInsightsPlugin', () => {
       await runAllMicroTasks();
       jest.runAllTimers();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'viewedObjectIDs',
+        expect.any(Object)
+      );
     });
 
     test('does not send an event when there are no results', async () => {
@@ -311,7 +317,10 @@ describe('createAlgoliaInsightsPlugin', () => {
       await runAllMicroTasks();
       jest.runAllTimers();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'viewedObjectIDs',
+        expect.any(Object)
+      );
     });
   });
 
@@ -451,7 +460,10 @@ describe('createAlgoliaInsightsPlugin', () => {
 
       await runAllMicroTasks();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'clickedObjectIDsAfterSearch',
+        expect.any(Object)
+      );
     });
 
     test('does not send an event with non-Algolia Insights hits', async () => {
@@ -479,7 +491,10 @@ describe('createAlgoliaInsightsPlugin', () => {
 
       await runAllMicroTasks();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'viewedObjectIDs',
+        expect.any(Object)
+      );
     });
   });
 
@@ -507,6 +522,9 @@ describe('createAlgoliaInsightsPlugin', () => {
           ];
         },
       });
+
+      // The client is always called once with `addAlgoliaAgent` on `subscribe`
+      insightsClient.mockClear();
 
       inputElement.focus();
 
