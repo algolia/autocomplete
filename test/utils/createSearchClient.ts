@@ -26,5 +26,5 @@ export function createSearchClient(
       Promise.resolve([createSFFVResponse()])
     ),
     ...args,
-  };
+  } as SearchClient;
 }
