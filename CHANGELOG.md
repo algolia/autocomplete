@@ -4,8 +4,6 @@
 ### Bug Fixes
 
 * **insights:** add Algolia agent on `subscribe` ([#1058](https://github.com/algolia/autocomplete/issues/1058)) ([60f8ae4](https://github.com/algolia/autocomplete/commit/60f8ae46ae230c40be832b52da3e44dcdd204c58))
-* **react-renderer:** panel now closes when clicking/touching outside ([#1045](https://github.com/algolia/autocomplete/issues/1045)) ([b133e85](https://github.com/algolia/autocomplete/commit/b133e8577f84ec6c0f5007f559902b6a8490bad5))
-
 
 
 ## [1.7.3](https://github.com/algolia/autocomplete.js/compare/v1.7.2...v1.7.3) (2022-11-02)
