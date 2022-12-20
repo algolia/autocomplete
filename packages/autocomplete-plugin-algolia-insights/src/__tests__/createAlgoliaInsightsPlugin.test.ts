@@ -64,6 +64,21 @@ describe('createAlgoliaInsightsPlugin', () => {
     );
   });
 
+  test('sets a user agent on the Insights client on subscribe', () => {
+    const insightsClient = jest.fn();
+    const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+    expect(insightsClient).not.toHaveBeenCalled();
+
+    createPlayground(createAutocomplete, { plugins: [insightsPlugin] });
+
+    expect(insightsClient).toHaveBeenCalledTimes(1);
+    expect(insightsClient).toHaveBeenCalledWith(
+      'addAlgoliaAgent',
+      'insights-plugin'
+    );
+  });
+
   describe('onItemsChange', () => {
     test('sends a `viewedObjectIDs` event by default', async () => {
       const insightsClient = jest.fn();
@@ -180,7 +195,10 @@ describe('createAlgoliaInsightsPlugin', () => {
       await runAllMicroTasks();
       jest.runAllTimers();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'viewedObjectIDs',
+        expect.any(Object)
+      );
     });
 
     test('debounces calls', async () => {
@@ -271,7 +289,10 @@ describe('createAlgoliaInsightsPlugin', () => {
       await runAllMicroTasks();
       jest.runAllTimers();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'viewedObjectIDs',
+        expect.any(Object)
+      );
     });
 
     test('does not send an event when there are no results', async () => {
@@ -296,7 +317,10 @@ describe('createAlgoliaInsightsPlugin', () => {
       await runAllMicroTasks();
       jest.runAllTimers();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'viewedObjectIDs',
+        expect.any(Object)
+      );
     });
   });
 
@@ -436,7 +460,10 @@ describe('createAlgoliaInsightsPlugin', () => {
 
       await runAllMicroTasks();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'clickedObjectIDsAfterSearch',
+        expect.any(Object)
+      );
     });
 
     test('does not send an event with non-Algolia Insights hits', async () => {
@@ -464,7 +491,10 @@ describe('createAlgoliaInsightsPlugin', () => {
 
       await runAllMicroTasks();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'viewedObjectIDs',
+        expect.any(Object)
+      );
     });
   });
 
@@ -492,6 +522,9 @@ describe('createAlgoliaInsightsPlugin', () => {
           ];
         },
       });
+
+      // The client is always called once with `addAlgoliaAgent` on `subscribe`
+      insightsClient.mockClear();
 
       inputElement.focus();
 
