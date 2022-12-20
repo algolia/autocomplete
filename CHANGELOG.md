@@ -1,3 +1,11 @@
+## [1.7.4](https://github.com/algolia/autocomplete/compare/v1.7.3...v1.7.4) (2022-12-20)
+
+
+### Bug Fixes
+
+* **insights:** add Algolia agent on `subscribe` ([#1058](https://github.com/algolia/autocomplete/issues/1058)) ([60f8ae4](https://github.com/algolia/autocomplete/commit/60f8ae46ae230c40be832b52da3e44dcdd204c58))
+
+
 ## [1.7.3](https://github.com/algolia/autocomplete.js/compare/v1.7.2...v1.7.3) (2022-11-02)
 
 

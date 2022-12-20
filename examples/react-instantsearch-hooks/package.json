@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-react-instantsearch-hooks",
   "description": "Autocomplete with React InstantSearch Hooks",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -10,10 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.7.3",
-    "@algolia/autocomplete-plugin-query-suggestions": "1.7.3",
-    "@algolia/autocomplete-plugin-recent-searches": "1.7.3",
-    "@algolia/autocomplete-theme-classic": "1.7.3",
+    "@algolia/autocomplete-js": "1.7.4",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.7.4",
+    "@algolia/autocomplete-plugin-recent-searches": "1.7.4",
+    "@algolia/autocomplete-theme-classic": "1.7.4",
     "algoliasearch": "4.12.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
