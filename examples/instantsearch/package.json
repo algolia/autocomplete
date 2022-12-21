@@ -18,7 +18,7 @@
     "instantsearch.js": "4.49.2"
   },
   "devDependencies": {
-    "parcel": "2.7.0"
+    "parcel": "2.8.2"
   },
   "keywords": [
     "algolia",

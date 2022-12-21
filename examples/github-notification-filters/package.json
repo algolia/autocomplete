@@ -17,7 +17,7 @@
     "qs": "6.10.1"
   },
   "devDependencies": {
-    "parcel": "2.5.0"
+    "parcel": "2.8.2"
   },
   "keywords": [
     "algolia",
