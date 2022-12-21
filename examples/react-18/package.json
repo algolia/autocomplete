@@ -11,12 +11,12 @@
   "dependencies": {
     "@algolia/autocomplete-js": "1.7.4",
     "@algolia/autocomplete-theme-classic": "1.7.4",
-    "algoliasearch": "4.9.1",
+    "algoliasearch": "4.14.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
   },
   "devDependencies": {
-    "@algolia/client-search": "4.9.1",
+    "@algolia/client-search": "4.14.3",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "react-scripts": "4.0.3",

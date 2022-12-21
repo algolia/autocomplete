@@ -14,7 +14,7 @@
     "@algolia/autocomplete-plugin-query-suggestions": "1.7.4",
     "@algolia/autocomplete-plugin-recent-searches": "1.7.4",
     "@algolia/autocomplete-theme-classic": "1.7.4",
-    "algoliasearch": "4.12.1",
+    "algoliasearch": "4.14.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-instantsearch-hooks-web": "6.25.0"

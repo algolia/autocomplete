@@ -12,7 +12,7 @@
     "@algolia/autocomplete-js": "1.7.4",
     "@algolia/autocomplete-plugin-tags": "1.7.4",
     "@algolia/autocomplete-theme-classic": "1.7.4",
-    "algoliasearch": "4.9.1",
+    "algoliasearch": "4.14.3",
     "preact": "10.5.13",
     "qs": "6.10.1"
   },
