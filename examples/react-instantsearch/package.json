@@ -20,7 +20,7 @@
     "react-instantsearch-dom": "6.38.1"
   },
   "devDependencies": {
-    "@babel/core": "7.12.3",
+    "@babel/core": "7.20.5",
     "parcel": "2.8.2"
   }
 }
