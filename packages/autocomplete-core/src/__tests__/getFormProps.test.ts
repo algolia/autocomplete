@@ -62,10 +62,10 @@ describe('getFormProps', () => {
 
     test('calls user-provided onSubmit', () => {
       const onSubmit = jest.fn();
-      const {
-        getFormProps,
-        inputElement,
-      } = createPlayground(createAutocomplete, { onSubmit });
+      const { getFormProps, inputElement } = createPlayground(
+        createAutocomplete,
+        { onSubmit }
+      );
       const formProps = getFormProps({ inputElement });
 
       formProps.onSubmit(new Event('submit'));
@@ -75,10 +75,10 @@ describe('getFormProps', () => {
 
     test('blurs the input', () => {
       const onSubmit = jest.fn();
-      const {
-        getFormProps,
-        inputElement,
-      } = createPlayground(createAutocomplete, { onSubmit });
+      const { getFormProps, inputElement } = createPlayground(
+        createAutocomplete,
+        { onSubmit }
+      );
       const formProps = getFormProps({ inputElement });
 
       document.body.appendChild(inputElement);
@@ -91,10 +91,10 @@ describe('getFormProps', () => {
 
     test('does not blur the input when not provided', () => {
       const onSubmit = jest.fn();
-      const {
-        getFormProps,
-        inputElement,
-      } = createPlayground(createAutocomplete, { onSubmit });
+      const { getFormProps, inputElement } = createPlayground(
+        createAutocomplete,
+        { onSubmit }
+      );
       const formProps = getFormProps({ inputElement: null });
 
       document.body.appendChild(inputElement);
@@ -194,10 +194,10 @@ describe('getFormProps', () => {
 
     test('calls user-provided onReset', () => {
       const onReset = jest.fn();
-      const {
-        getFormProps,
-        inputElement,
-      } = createPlayground(createAutocomplete, { onReset });
+      const { getFormProps, inputElement } = createPlayground(
+        createAutocomplete,
+        { onReset }
+      );
       const formProps = getFormProps({ inputElement });
 
       formProps.onReset(new Event('reset'));
@@ -207,10 +207,10 @@ describe('getFormProps', () => {
 
     test('focuses the input', () => {
       const onReset = jest.fn();
-      const {
-        getFormProps,
-        inputElement,
-      } = createPlayground(createAutocomplete, { onReset });
+      const { getFormProps, inputElement } = createPlayground(
+        createAutocomplete,
+        { onReset }
+      );
       const formProps = getFormProps({ inputElement });
 
       document.body.appendChild(inputElement);

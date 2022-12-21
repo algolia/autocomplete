@@ -35,9 +35,8 @@ export function autocomplete<TItem extends BaseItem>(
 
   const hasNoResultsSourceTemplateRef = createRef(false);
   const optionsRef = createRef(options);
-  const onStateChangeRef = createRef<
-    AutocompleteOptions<TItem>['onStateChange']
-  >(undefined);
+  const onStateChangeRef =
+    createRef<AutocompleteOptions<TItem>['onStateChange']>(undefined);
   const props = reactive(() => getDefaultOptions(optionsRef.current));
   const isDetached = reactive(
     () =>
@@ -250,9 +249,10 @@ export function autocomplete<TItem extends BaseItem>(
       // We scroll to the top of the panel whenever the query changes (i.e. new
       // results come in) so that users don't have to.
       if (state.query !== prevState.query) {
-        const scrollablePanels = props.value.core.environment.document.querySelectorAll(
-          '.aa-Panel--scrollable'
-        );
+        const scrollablePanels =
+          props.value.core.environment.document.querySelectorAll(
+            '.aa-Panel--scrollable'
+          );
         scrollablePanels.forEach((scrollablePanel) => {
           if (scrollablePanel.scrollTop !== 0) {
             scrollablePanel.scrollTop = 0;

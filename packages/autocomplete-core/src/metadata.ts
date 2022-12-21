@@ -62,9 +62,8 @@ export function injectMetadata({
   metadata,
   environment,
 }: InlineMetadataParams) {
-  const isMetadataEnabled = environment.navigator?.userAgent?.includes(
-    'Algolia Crawler'
-  );
+  const isMetadataEnabled =
+    environment.navigator?.userAgent?.includes('Algolia Crawler');
 
   if (isMetadataEnabled) {
     const metadataContainer = environment.document.createElement('meta');

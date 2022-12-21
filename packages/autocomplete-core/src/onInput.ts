@@ -47,13 +47,8 @@ export function onInput<TItem extends BaseItem>({
     props.environment.clearTimeout(lastStalledId);
   }
 
-  const {
-    setCollections,
-    setIsOpen,
-    setQuery,
-    setActiveItemId,
-    setStatus,
-  } = setters;
+  const { setCollections, setIsOpen, setQuery, setActiveItemId, setStatus } =
+    setters;
 
   setQuery(query);
   setActiveItemId(props.defaultActiveItemId);

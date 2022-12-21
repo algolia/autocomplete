@@ -28,9 +28,7 @@ export type GetEnvironmentProps = (props: {
   onMouseDown(event: MouseEvent): void;
 };
 
-export type GetRootProps = (props?: {
-  [key: string]: unknown;
-}) => {
+export type GetRootProps = (props?: { [key: string]: unknown }) => {
   role: string;
   'aria-expanded': boolean;
   'aria-haspopup':
@@ -58,9 +56,7 @@ export type GetFormProps<TEvent = Event> = (props: {
   onReset(event: TEvent): void;
 };
 
-export type GetLabelProps = (props?: {
-  [key: string]: unknown;
-}) => {
+export type GetLabelProps = (props?: { [key: string]: unknown }) => {
   htmlFor: string;
   id: string;
 };
@@ -99,9 +95,7 @@ export type GetPanelProps<TMouseEvent> = (props?: {
   onMouseLeave(): void;
 };
 
-export type GetListProps = (props?: {
-  [key: string]: unknown;
-}) => {
+export type GetListProps = (props?: { [key: string]: unknown }) => {
   role: string;
   'aria-labelledby': string;
   id: string;

@@ -39,9 +39,8 @@ describe('concurrency', () => {
 
     await defer(noop, timeout);
 
-    let stateHistory: Array<
-      AutocompleteState<Item>
-    > = onStateChange.mock.calls.flatMap((x) => x[0].state);
+    let stateHistory: Array<AutocompleteState<Item>> =
+      onStateChange.mock.calls.flatMap((x) => x[0].state);
 
     const itemsHistory: Item[] = stateHistory.flatMap(({ collections }) =>
       collections.flatMap((x) => x.items)
@@ -195,14 +194,11 @@ describe('concurrency', () => {
         });
         const getSources = jest.fn(delayedGetSources);
 
-        const {
-          inputElement,
-          getEnvironmentProps,
-          formElement,
-        } = createPlayground(createAutocomplete, {
-          onStateChange,
-          getSources,
-        });
+        const { inputElement, getEnvironmentProps, formElement } =
+          createPlayground(createAutocomplete, {
+            onStateChange,
+            getSources,
+          });
 
         const panelElement = document.createElement('div');
 
@@ -262,14 +258,11 @@ describe('concurrency', () => {
         });
         const getSources = jest.fn(delayedGetSources);
 
-        const {
-          getEnvironmentProps,
-          inputElement,
-          formElement,
-        } = createPlayground(createAutocomplete, {
-          onStateChange,
-          getSources,
-        });
+        const { getEnvironmentProps, inputElement, formElement } =
+          createPlayground(createAutocomplete, {
+            onStateChange,
+            getSources,
+          });
 
         const panelElement = document.createElement('div');
 
@@ -404,15 +397,12 @@ describe('concurrency', () => {
             ];
           }, delay);
         });
-        const {
-          getEnvironmentProps,
-          inputElement,
-          formElement,
-        } = createPlayground(createAutocomplete, {
-          debug: true,
-          onStateChange,
-          getSources,
-        });
+        const { getEnvironmentProps, inputElement, formElement } =
+          createPlayground(createAutocomplete, {
+            debug: true,
+            onStateChange,
+            getSources,
+          });
 
         const panelElement = document.createElement('div');
 

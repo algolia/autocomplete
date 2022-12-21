@@ -560,7 +560,7 @@ describe('templates', () => {
 
 function htmlShim(template: Array<string | any> | string, html: HTMLTemplate) {
   if (typeof template === 'string') {
-    return html(([template] as unknown) as TemplateStringsArray);
+    return html([template] as unknown as TemplateStringsArray);
   }
 
   const [strings, variables] = template.reduce(
@@ -578,5 +578,5 @@ function htmlShim(template: Array<string | any> | string, html: HTMLTemplate) {
   // This is no longer the case, but `htm` does accept `string[]`.
   // Since this solution is for IE11 users who don't have a build step, it isn't
   // necessary to complexify the function to make it type-safe.
-  return html((strings as unknown) as TemplateStringsArray, ...variables);
+  return html(strings as unknown as TemplateStringsArray, ...variables);
 }
