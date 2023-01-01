@@ -47,7 +47,7 @@ export type CreateRecentSearchesPluginParams<
   subscribe?(params: PluginSubscribeParams<TItem>): void;
 };
 
-function getDefaultSubcribe<TItem extends RecentSearchesItem>(
+function getDefaultSubscribe<TItem extends RecentSearchesItem>(
   store: StorageApi<TItem>
 ) {
   return function subscribe({ onSelect }: PluginSubscribeParams<TItem>) {
@@ -75,7 +75,7 @@ export function createRecentSearchesPlugin<TItem extends RecentSearchesItem>(
 
   return {
     name: 'aa.recentSearchesPlugin',
-    subscribe: subscribe ?? getDefaultSubcribe(store),
+    subscribe: subscribe ?? getDefaultSubscribe(store),
     onSubmit({ state }) {
       const { query } = state;
 
