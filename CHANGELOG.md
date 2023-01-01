@@ -906,7 +906,7 @@ This new version introduces breaking changes.
 
 ### Bug Fixes
 
-- **dataset:** avoid to call the source when upadte is canceled ([a47696d](https://github.com/algolia/autocomplete.js/commit/a47696d))
+- **dataset:** avoid to call the source when update is canceled ([a47696d](https://github.com/algolia/autocomplete.js/commit/a47696d))
 - **dataset:** avoid usage of callNow for debounce ([1a0ce74](https://github.com/algolia/autocomplete.js/commit/1a0ce74))
 - Handle an odd case with the user agent ([#242](https://github.com/algolia/autocomplete.js/issues/242)) ([c194736](https://github.com/algolia/autocomplete.js/commit/c194736))
 
