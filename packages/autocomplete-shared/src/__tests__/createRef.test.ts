@@ -7,7 +7,7 @@ describe('createRef', () => {
     expect(ref).toEqual({ current: null });
   });
 
-  test('makes the current value mutabble', () => {
+  test('makes the current value mutable', () => {
     const ref = createRef<string | null>(null);
     ref.current = 'updated';
 
