@@ -1,6 +1,6 @@
 # Autocomplete starter with Algolia index
 
-This example helps you quickly boostrap a basic Autocomplete experience using Algolia.
+This example helps you quickly bootstrap a basic Autocomplete experience using Algolia.
 
 <p align="center"><img src="capture.jpg" alt="A capture of the Autocomplete with Algolia" /></p>
 
