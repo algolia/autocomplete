@@ -40,7 +40,7 @@ export const Input: AutocompleteElement<InputProps, HTMLInputElement> = ({
   setProperties(element, {
     ...inputProps,
     onKeyDown(event: KeyboardEvent) {
-      // In detached mode we don't want to close the panel when hittin `Tab`.
+      // In detached mode we don't want to close the panel when hitting `Tab`.
       if (isDetached && event.key === 'Tab') {
         return;
       }
