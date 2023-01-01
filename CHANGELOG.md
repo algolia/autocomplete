@@ -673,7 +673,7 @@ This new version introduces breaking changes.
 ### Bug Fixes
 
 - **css:** don't display key shortcuts on mobile ([1adc418](https://github.com/francoischalifour/autocomplete.js/commit/1adc418722f0017b1d504e7d3f7dda8e8104a352))
-- **css:** firefox placeholder opacity ([49f7ac3](https://github.com/francoischalifour/autocomplete.js/commit/49f7ac3c9a7680a4e49593f278cb815d52d8d48b))
+- **css:** Firefox placeholder opacity ([49f7ac3](https://github.com/francoischalifour/autocomplete.js/commit/49f7ac3c9a7680a4e49593f278cb815d52d8d48b))
 - **docsearch:** remove theme media query ([a1030e4](https://github.com/francoischalifour/autocomplete.js/commit/a1030e493c22c5c615fa9c49e385030452b18729))
 - **test:** removed extra percy snapshot ([24e38b7](https://github.com/francoischalifour/autocomplete.js/commit/24e38b7771471609e190c5c1a61c57627126551a))
 
