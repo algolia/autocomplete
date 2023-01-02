@@ -673,7 +673,7 @@ This new version introduces breaking changes.
 ### Bug Fixes
 
 - **css:** don't display key shortcuts on mobile ([1adc418](https://github.com/francoischalifour/autocomplete.js/commit/1adc418722f0017b1d504e7d3f7dda8e8104a352))
-- **css:** firefox placeholder opacity ([49f7ac3](https://github.com/francoischalifour/autocomplete.js/commit/49f7ac3c9a7680a4e49593f278cb815d52d8d48b))
+- **css:** Firefox placeholder opacity ([49f7ac3](https://github.com/francoischalifour/autocomplete.js/commit/49f7ac3c9a7680a4e49593f278cb815d52d8d48b))
 - **docsearch:** remove theme media query ([a1030e4](https://github.com/francoischalifour/autocomplete.js/commit/a1030e493c22c5c615fa9c49e385030452b18729))
 - **test:** removed extra percy snapshot ([24e38b7](https://github.com/francoischalifour/autocomplete.js/commit/24e38b7771471609e190c5c1a61c57627126551a))
 
@@ -705,10 +705,10 @@ This new version introduces breaking changes.
 - **cypress:** changed env var name for cypress key ([28307a8](https://github.com/francoischalifour/autocomplete.js/commit/28307a84c92b2fe79939cfa4e0755a44326de54c))
 - **docsearch:** hoist `transformItems` default value ([1e0ae9e](https://github.com/francoischalifour/autocomplete.js/commit/1e0ae9eefb5fc185cbf41e6ac5c876ed8be24075))
 - **lint:** Disable import/no-common for percy ([8af940d](https://github.com/francoischalifour/autocomplete.js/commit/8af940d69bf9eb35bcc70fbc533abdcf721ea209))
-- **lint:** set cariage return in prettier config ([3016601](https://github.com/francoischalifour/autocomplete.js/commit/3016601a47699a37e9fa30620e71eef3f30f8c6d))
+- **lint:** set carriage return in prettier config ([3016601](https://github.com/francoischalifour/autocomplete.js/commit/3016601a47699a37e9fa30620e71eef3f30f8c6d))
 - **lint:** set eol to auto ([e6db26e](https://github.com/francoischalifour/autocomplete.js/commit/e6db26e57aaf433b149dc16d9a846cdfa19c0314))
 - **test:** lint ([896ef59](https://github.com/francoischalifour/autocomplete.js/commit/896ef5959f06576f03d6ecd4ff7ee6ce96333a6d))
-- **ypress:** Record reuslts ([7dac93e](https://github.com/francoischalifour/autocomplete.js/commit/7dac93e6a538f69bfe44bfdfe0fbb939b0e241e1))
+- **Cypress:** Record results ([7dac93e](https://github.com/francoischalifour/autocomplete.js/commit/7dac93e6a538f69bfe44bfdfe0fbb939b0e241e1))
 
 # [1.0.0-alpha.18](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.17...v1.0.0-alpha.18) (2020-06-11)
 
@@ -731,7 +731,7 @@ This new version introduces breaking changes.
 ### Bug Fixes
 
 - **docsearch:** always use `aria-expanded` to `true` ([b89aeb5](https://github.com/francoischalifour/autocomplete.js/commit/b89aeb5c2eccb43b3657239c519caa34ed62299e))
-- **dosearch:** don't add `distinct` search parameter ([1c11457](https://github.com/francoischalifour/autocomplete.js/commit/1c1145768a74f372c683fbee9d0aaaf0dd3fb62a))
+- **docsearch:** don't add `distinct` search parameter ([1c11457](https://github.com/francoischalifour/autocomplete.js/commit/1c1145768a74f372c683fbee9d0aaaf0dd3fb62a))
 - **website:** don't pass default `appId` ([62e0609](https://github.com/francoischalifour/autocomplete.js/commit/62e060917b864e2a86328ea9816252d50c189654))
 - **website:** support missing `algolia` config ([4b30cdd](https://github.com/francoischalifour/autocomplete.js/commit/4b30cdd90bfb2226cfd5f34642ea1593a64f833b))
 - **website:** update netlify.com to netlify.app ([9cbb80b](https://github.com/francoischalifour/autocomplete.js/commit/9cbb80bb9078a7a19750e8f2bbef6e69ecce9cda))
@@ -906,7 +906,7 @@ This new version introduces breaking changes.
 
 ### Bug Fixes
 
-- **dataset:** avoid to call the source when upadte is canceled ([a47696d](https://github.com/algolia/autocomplete.js/commit/a47696d))
+- **dataset:** avoid to call the source when update is canceled ([a47696d](https://github.com/algolia/autocomplete.js/commit/a47696d))
 - **dataset:** avoid usage of callNow for debounce ([1a0ce74](https://github.com/algolia/autocomplete.js/commit/1a0ce74))
 - Handle an odd case with the user agent ([#242](https://github.com/algolia/autocomplete.js/issues/242)) ([c194736](https://github.com/algolia/autocomplete.js/commit/c194736))
 
