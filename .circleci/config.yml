@@ -204,6 +204,7 @@ workflows:
           requires:
             - build
       - test_size:
+          context: fx-libraries
           requires:
             - build
       # - test_cypress:
