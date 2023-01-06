@@ -204,12 +204,14 @@ workflows:
           requires:
             - build
       - test_size:
+          context: fx-libraries
           requires:
             - build
       # - test_cypress:
       #     requires:
       #       - build
       - release:
+          context: fx-libraries
           requires:
             - test_unit
             - test_lint
