@@ -1,5 +1,6 @@
 // @ts-nocheck
 
+import { OnSubmitParams } from '@algolia/autocomplete-core/src';
 import {
   AutocompleteState,
   AutocompleteSource,
@@ -7,16 +8,13 @@ import {
 } from '@algolia/autocomplete-js';
 
 import { AutocompleteRedirectHit, RedirectHit } from './types';
-import { OnSubmitParams } from "@algolia/autocomplete-core/src";
 
 interface Redirect {
   url: string;
 }
 
-export type CreateRedirectPluginParams<
-  TItem extends RedirectHit
-> = {
-  getSources(state: AutocompleteState<TItem>): any,
+export type CreateRedirectPluginParams<TItem extends RedirectHit> = {
+  getSources(state: AutocompleteState<TItem>): any;
 };
 
 function handleRedirect(redirect?: Redirect) {
@@ -26,33 +24,10 @@ function handleRedirect(redirect?: Redirect) {
   }
 }
 
-export function createRedirectPlugin<
-  TItem extends AutocompleteRedirectHit
->(
+export function createRedirectPlugin<TItem extends AutocompleteRedirectHit>(
   options: CreateRedirectPluginParams<TItem>
 ): AutocompletePlugin<TItem, undefined> {
   return {
     name: 'aa.redirectPlugin',
-    getSources: (state) => {
-      console.log('inside getSources');
-      const sources = options.getSources(state).map((source) => {
-        const { transformResponseToRedirect, transformResponse: originalTransformResponse, onSubmit: originalOnSubmit, ...otherOptions } = source;
-        return {
-          transformResponse: (response) => {
-            console.log('transformed response in plugin', response)
-            setContext({redirect: transformResponseToRedirect(response)});
-            return originalTransformResponse(response);
-          },
-          onSubmit: (params: OnSubmitParams<any>) => {
-            handleRedirect(params.state.context.redirect);
-            return originalOnSubmit(params);
-          },
-          ...otherOptions,
-        };
-      });
-
-      console.log('sources', sources)
-      return sources;
-    },
   };
 }
