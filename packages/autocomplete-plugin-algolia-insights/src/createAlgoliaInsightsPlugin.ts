@@ -51,7 +51,7 @@ export type CreateAlgoliaInsightsPluginParams = {
    *
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/#param-insightsclient
    */
-  insightsClient: InsightsClient;
+  insightsClient?: InsightsClient;
   /**
    * Hook to send an Insights event when the items change.
    *

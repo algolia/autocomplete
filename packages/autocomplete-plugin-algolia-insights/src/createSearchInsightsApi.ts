@@ -10,7 +10,11 @@ import {
   ViewedObjectIDsParams,
 } from './types';
 
-export function createSearchInsightsApi(searchInsights: InsightsClient) {
+export function createSearchInsightsApi(searchInsights?: InsightsClient) {
+  if (!searchInsights) {
+    searchInsights = loadSearchInsights();
+  }
+
   return {
     /**
      * Initializes Insights with Algolia credentials.
