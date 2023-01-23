@@ -37,15 +37,15 @@ export function reshape<TItem extends BaseItem>({
     {}
   );
 
-  // todo: reshape for plugins too
-  // props.plugins.forEach(plugin => {
-  //   if (plugin.reshape) {
-  //     plugin.reshape({
-  //       state,
-  //       sourcesBySourceId,
-  //     });
-  //   }
-  // })
+  props.plugins.forEach(plugin => {
+    if (plugin.reshape) {
+      plugin.reshape({
+        sources: Object.values(sourcesBySourceId),
+        sourcesBySourceId,
+        state,
+      });
+    }
+  })
   const reshapeSources = props.reshape({
     sources: Object.values(sourcesBySourceId),
     sourcesBySourceId,

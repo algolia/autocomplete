@@ -1,6 +1,7 @@
 import { AutocompleteScopeApi, BaseItem } from './AutocompleteApi';
 import { AutocompleteOptions } from './AutocompleteOptions';
 import { OnSelectParams, OnActiveParams } from './AutocompleteSource';
+import { Reshape } from "./AutocompleteReshape";
 
 type PluginSubscriber<TParams> = (params: TParams) => void;
 
@@ -38,6 +39,7 @@ export type AutocompletePlugin<
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/plugins/#param-name
    */
   name?: string;
+  reshape: Reshape<TItem>;
   /**
    * @internal
    */

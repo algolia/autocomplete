@@ -1,30 +1,36 @@
-// @ts-nocheck
+import { AutocompletePlugin } from '@algolia/autocomplete-js';
 
-import { OnSubmitParams } from '@algolia/autocomplete-core/src';
-import {
-  AutocompleteState,
-  AutocompleteSource,
-  AutocompletePlugin,
-} from '@algolia/autocomplete-js';
-
-import { AutocompleteRedirectHit, RedirectHit } from './types';
-
-// interface Redirect {
-//   url: string;
-// }
+import { AutocompleteRedirectHit, RedirectHit, RedirectState } from './types';
 
 export type CreateRedirectPluginParams<TItem extends RedirectHit> = {
-  getSources(state: AutocompleteState<TItem>): any;
+  transformResponseToRedirect?<TRedirect>(response): RedirectState[];
 };
 
-export function createRedirectPlugin<TItem extends AutocompleteRedirectHit>(
-  options: CreateRedirectPluginParams<TItem>
-): AutocompletePlugin<TItem, undefined> {
-  function handleRedirect(redirects: Record<string, string[]>) {
+function createRedirects({ results, source, state }): RedirectState[] {
+  const redirect: RedirectState = {
+    sourceId: source.sourceId,
+    data: results
+      .flatMap((result) => result.renderingContent?.redirect)
+      .filter((redirect) => redirect !== undefined),
+  };
+
+  const redirects: RedirectState[] = state.context._redirects ?? [];
+  const existingRedirectIndex = redirects.findIndex((r) => r.sourceId === source.sourceId);
+  if (existingRedirectIndex !== -1) {
+    redirects[existingRedirectIndex] = redirect;
+  } else {
+    redirects.push(redirect);
+  }
+
+  return redirects;
+}
+
+export function createRedirectPlugin<TItem extends AutocompleteRedirectHit>(): AutocompletePlugin<TItem, undefined> {
+  function handleRedirect(redirects: RedirectState[]) {
     console.log('handleRedirect', redirects);
-    // const flatRedirects = Object.keys()
-    // if (redirect?.url) {
-    //   location.href = redirect.url;
+    const url = redirects?.[0]?.data?.[0]?.url;
+    // if (url) {
+    //   location.href = url;
     // }
   }
 
@@ -33,12 +39,8 @@ export function createRedirectPlugin<TItem extends AutocompleteRedirectHit>(
     subscribe({ onResolve, onSelect, setContext }) {
       onResolve(({ results, source, state }) => {
         setContext({
-          _redirects: {
-            ...state.context._redirects,
-            [source.sourceId]: results.flatMap(
-              (result) => result.renderingContent?.redirect?.url ?? []
-            ),
-          },
+          ...state.context,
+          _redirects: createRedirects({ results, source, state }),
         });
       });
     },
@@ -72,7 +74,6 @@ export function createRedirectPlugin<TItem extends AutocompleteRedirectHit>(
     // },
 
     reshape({ sources, state }) {
-      console.log(state.context._redirects, sources);
       return [
         {
           sourceId: 'redirect',

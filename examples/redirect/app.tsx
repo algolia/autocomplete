@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 import { createRedirectPlugin } from '@algolia/autocomplete-plugin-redirect';
 import algoliasearch from 'algoliasearch/lite';

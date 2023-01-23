@@ -33,8 +33,6 @@ export function autocomplete<TItem extends BaseItem>(
   const { runEffect, cleanupEffects, runEffects } = createEffectWrapper();
   const { reactive, runReactives } = createReactiveWrapper();
 
-  console.log('in local autocomplete!')
-
   const hasNoResultsSourceTemplateRef = createRef(false);
   const optionsRef = createRef(options);
   const onStateChangeRef = createRef<
