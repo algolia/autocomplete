@@ -69,6 +69,9 @@ export function createAutocomplete<
       onActive(fn) {
         subscribers.push({ onActive: fn });
       },
+      onResolve(fn) {
+        subscribers.push({ onResolve: fn });
+      },
     })
   );
 

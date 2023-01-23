@@ -155,7 +155,8 @@ export function postResolve<TItem extends BaseItem>(
   responses: Array<
     RequestDescriptionPreResolvedCustom<TItem> | ExecuteResponse<TItem>[0]
   >,
-  sources: Array<InternalAutocompleteSource<TItem>>
+  sources: Array<InternalAutocompleteSource<TItem>>,
+  store: any
 ) {
   return sources.map((source) => {
     const matches = responses.filter(
@@ -172,6 +173,8 @@ export function postResolve<TItem extends BaseItem>(
           )
         )
       : results;
+
+    source.onResolve?.({ source, results, items, state: store.getState() });
 
     invariant(
       Array.isArray(items),

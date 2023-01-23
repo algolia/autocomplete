@@ -8,6 +8,7 @@ export interface PluginSubscribeParams<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
   onSelect(fn: PluginSubscriber<OnSelectParams<TItem>>): void;
   onActive(fn: PluginSubscriber<OnActiveParams<TItem>>): void;
+  onResolve(fn: PluginSubscriber<OnActiveParams<TItem>>): void;
 }
 
 export type AutocompletePlugin<

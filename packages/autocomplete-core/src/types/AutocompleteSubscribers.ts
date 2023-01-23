@@ -4,6 +4,7 @@ import { OnActiveParams, OnSelectParams } from './AutocompleteSource';
 export type AutocompleteSubscriber<TItem extends BaseItem> = {
   onSelect(params: OnSelectParams<TItem>): void;
   onActive(params: OnActiveParams<TItem>): void;
+  onResolve(params: any): void;
 };
 
 export type AutocompleteSubscribers<TItem extends BaseItem> = Array<

@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
-import algoliasearch from 'algoliasearch/lite';
 import { createRedirectPlugin } from '@algolia/autocomplete-plugin-redirect';
+import algoliasearch from 'algoliasearch/lite';
 
 import '@algolia/autocomplete-theme-classic';
 
@@ -21,8 +21,6 @@ autocomplete({
     return [
       {
         sourceId: 'pokedex',
-        transformResponseToRedirect: ({ results }) =>
-          results?.[0]?.renderingContent?.redirect,
         templates: {
           item(params) {
             const { item, html } = params;
@@ -45,6 +43,18 @@ autocomplete({
               },
             ],
           });
+        },
+      },
+      {
+        sourceId: 'redirect-failer',
+        getItems() {
+          return [{ stomething: true }];
+        },
+        templates: {
+          item(params) {
+            const { item, html } = params;
+            return html`<a class="aa-ItemLink">${String(item.stomething)}</a>`;
+          },
         },
       },
     ];
