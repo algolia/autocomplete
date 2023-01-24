@@ -12,7 +12,11 @@ import {
 } from '@algolia/client-search';
 import type { SearchClient } from 'algoliasearch/lite';
 
-import { BaseItem, InternalAutocompleteSource } from './types';
+import {
+  AutocompleteStore,
+  BaseItem,
+  InternalAutocompleteSource,
+} from './types';
 import { mapToAlgoliaResponse } from './utils';
 
 function isDescription<TItem extends BaseItem>(
@@ -156,7 +160,7 @@ export function postResolve<TItem extends BaseItem>(
     RequestDescriptionPreResolvedCustom<TItem> | ExecuteResponse<TItem>[0]
   >,
   sources: Array<InternalAutocompleteSource<TItem>>,
-  store: any
+  store: AutocompleteStore<TItem>
 ) {
   return sources.map((source) => {
     const matches = responses.filter(
@@ -174,7 +178,7 @@ export function postResolve<TItem extends BaseItem>(
         )
       : results;
 
-    source.onResolve?.({ source, results, items, state: store.getState() });
+    source.onResolve({ source, results, items, state: store.getState() });
 
     invariant(
       Array.isArray(items),
