@@ -19,6 +19,13 @@ export interface OnSelectParams<TItem extends BaseItem>
 
 export type OnActiveParams<TItem extends BaseItem> = OnSelectParams<TItem>;
 
+export type OnResolveParams<TItem extends BaseItem> = {
+  source: AutocompleteSource<TItem>;
+  results: any;
+  items: any[];
+  state: AutocompleteState<TItem>;
+};
+
 export interface AutocompleteSource<TItem extends BaseItem> {
   /**
    * Unique identifier for the source.
@@ -66,6 +73,10 @@ export interface AutocompleteSource<TItem extends BaseItem> {
    * You can trigger different behaviors if the item is active depending on the triggering event using the `event` parameter.
    */
   onActive?(params: OnActiveParams<TItem>): void;
+  /**
+   * The function called whenever a source resolves.
+   */
+  onResolve?(params: OnResolveParams<TItem>): void;
 }
 
 export type InternalAutocompleteSource<TItem extends BaseItem> = {

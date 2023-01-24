@@ -81,7 +81,7 @@ export function getDefaultProps<TItem extends BaseItem>(
               pluginSubscribers.forEach((x) => x.onActive?.(params));
             },
             onResolve(params) {
-              // source.onResolve(params);
+              source.onResolve(params);
               pluginSubscribers.forEach((x) => x.onResolve?.(params));
             },
           }))

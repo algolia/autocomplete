@@ -6,14 +6,15 @@ node_modules/
 coverage/
 .cache
 .parcel-cache
-.idea
-.iml
+
 
 # Bundle build files
 dist/
 
 # IDE
 .vscode/
+.idea
+.iml
 
 # Environment files
 .env

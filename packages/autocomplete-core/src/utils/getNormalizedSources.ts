@@ -59,6 +59,7 @@ export function getNormalizedSources<TItem extends BaseItem>(
               setIsOpen(false);
             },
             onActive: noop,
+            onResolve: noop,
             ...source,
           };
 

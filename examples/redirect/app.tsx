@@ -9,13 +9,11 @@ const searchClient = algoliasearch(
   '4aa4981b5ce86e389fb5a948a5f552a3'
 );
 
-const redirectPlugin = createRedirectPlugin({});
-
 autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
-  plugins: [redirectPlugin],
+  plugins: [createRedirectPlugin({})],
   getSources({ query }) {
     return [
       {
@@ -47,12 +45,11 @@ autocomplete({
       {
         sourceId: 'redirect-failer',
         getItems() {
-          return [{ stomething: true }];
+          return [{ something: true }];
         },
         templates: {
-          item(params) {
-            const { item, html } = params;
-            return html`<a class="aa-ItemLink">${String(item.stomething)}</a>`;
+          item({ item, html }) {
+            return html`<a class="aa-ItemLink">${String(item.something)}</a>`;
           },
         },
       },
