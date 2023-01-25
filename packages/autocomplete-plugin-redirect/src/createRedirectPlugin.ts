@@ -58,7 +58,7 @@ export function createRedirectPlugin<TItem extends RedirectItem>(
 
   return {
     name: 'aa.redirectPlugin',
-    subscribe({ onResolve, setContext }) {
+    subscribe({ onResolve, onSelect, setContext }) {
       onResolve(({ results, source, state }) => {
         setContext({
           ...state.context,
@@ -71,6 +71,7 @@ export function createRedirectPlugin<TItem extends RedirectItem>(
         sourceId: 'redirect',
         // TODO: templates should be allowed (even required) here
         // it seems like AutocompleteReshapeSource is wrong
+        // @ts-ignore
         templates: {
           item() {
             return '->' + state.query;

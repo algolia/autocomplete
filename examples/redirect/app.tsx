@@ -45,11 +45,11 @@ autocomplete({
       {
         sourceId: 'redirect-failer',
         getItems() {
-          return [{ something: true }];
+          return [{ something: 'different source' }];
         },
         templates: {
           item({ item, html }) {
-            return html`<a class="aa-ItemLink">${String(item.something)}</a>`;
+            return html`<a class="aa-ItemLink">${item.something}</a>`;
           },
         },
       },
