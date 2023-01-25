@@ -72,7 +72,6 @@ export function createAutocomplete<
       onResolve(fn) {
         subscribers.push({ onResolve: fn });
       },
-      reshape: (params) => params,
     })
   );
 

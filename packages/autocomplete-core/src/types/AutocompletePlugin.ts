@@ -1,6 +1,6 @@
 import { AutocompleteScopeApi, BaseItem } from './AutocompleteApi';
 import { AutocompleteOptions } from './AutocompleteOptions';
-import {PluginReshape, ReshapeParams} from './AutocompleteReshape';
+import { PluginReshape } from './AutocompleteReshape';
 import {
   OnSelectParams,
   OnActiveParams,
@@ -14,7 +14,6 @@ export interface PluginSubscribeParams<TItem extends BaseItem>
   onSelect(fn: PluginSubscriber<OnSelectParams<TItem>>): void;
   onActive(fn: PluginSubscriber<OnActiveParams<TItem>>): void;
   onResolve(fn: PluginSubscriber<OnResolveParams<TItem>>): void;
-  reshape(fn: PluginSubscriber<ReshapeParams<TItem>>): void;
 }
 
 export type AutocompletePlugin<
