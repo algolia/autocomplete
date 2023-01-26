@@ -5,37 +5,37 @@ import {
 
 import { RedirectItem } from './types';
 
-export type CreateRedirectPluginParams = {
-  transformResponseToRedirect?(response: any): RedirectItem[];
-  handleRedirect?(redirects: RedirectItem[]): void;
+export type CreateRedirectUrlPluginParams = {
+  transformResponse?(response: any): RedirectItem[];
+  onRedirect?(redirects: RedirectItem[]): void;
 };
 
 function defaultTransformResponse(response: any): RedirectItem[] {
   return response.renderingContent?.redirect ?? [];
 }
 
-function defaultHandleRedirect(redirects: RedirectItem[]) {
+function defaultOnRedirect(redirects: RedirectItem[]) {
   const url = redirects[0]?.data?.[0]?.url;
 
-  console.log('handleRedirect', url, redirects);
+  console.log('onRedirect', url, redirects);
   // TODO: find a way to use `navigate`
-  // if (url) {
-  //   location.href = url;
-  // }
+  if (url) {
+    location.href = url;
+  }
 }
 
-export function createRedirectPlugin<TItem extends RedirectItem>(
-  options: CreateRedirectPluginParams = {}
+export function createRedirectUrlPlugin<TItem extends RedirectItem>(
+  options: CreateRedirectUrlPluginParams = {}
 ): AutocompletePlugin<TItem, unknown> {
   const {
-    transformResponseToRedirect = defaultTransformResponse,
-    handleRedirect = defaultHandleRedirect,
+    transformResponse = defaultTransformResponse,
+    onRedirect = defaultOnRedirect,
   } = options;
 
   function createRedirects({ results, source, state }): RedirectItem[] {
     const redirect: RedirectItem = {
       sourceId: source.sourceId,
-      data: results.flatMap((result) => transformResponseToRedirect(result)),
+      data: results.flatMap((result) => transformResponse(result)),
     };
 
     const redirects: RedirectItem[] = state.context._redirects ?? [];
@@ -81,7 +81,7 @@ export function createRedirectPlugin<TItem extends RedirectItem>(
           return item.data[0].url;
         },
         onSelect({ item }) {
-          handleRedirect([item]);
+          onRedirect([item]);
         },
         getItemInputValue() {
           return state.query;
@@ -101,7 +101,7 @@ export function createRedirectPlugin<TItem extends RedirectItem>(
       };
     },
     onSubmit({ state }) {
-      handleRedirect(state.context._redirects as TItem[]);
+      onRedirect(state.context._redirects as TItem[]);
     },
   };
 }

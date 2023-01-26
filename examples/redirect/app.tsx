@@ -1,5 +1,5 @@
 import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
-import { createRedirectPlugin } from '@algolia/autocomplete-plugin-redirect';
+import { createRedirectUrlPlugin } from '@algolia/autocomplete-plugin-redirect';
 import algoliasearch from 'algoliasearch/lite';
 
 import '@algolia/autocomplete-theme-classic';
@@ -13,7 +13,7 @@ autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
-  plugins: [createRedirectPlugin({})],
+  plugins: [createRedirectUrlPlugin({})],
   getSources({ query }) {
     return [
       {

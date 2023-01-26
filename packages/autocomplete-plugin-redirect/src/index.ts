@@ -1,1 +1,1 @@
-export * from './createRedirectPlugin';
+export * from './createRedirectUrlPlugin';

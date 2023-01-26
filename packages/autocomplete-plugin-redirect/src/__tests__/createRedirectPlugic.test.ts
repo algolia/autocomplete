@@ -11,7 +11,7 @@ import {
   createSearchClient,
   runAllMicroTasks,
 } from '../../../../test/utils';
-import { createRedirectPlugin } from '../createRedirectPlugin';
+import { createRedirectUrlPlugin } from '../createRedirectUrlPlugin';
 
 /* eslint-disable @typescript-eslint/camelcase */
 const hits: Hit<any> = [
@@ -58,7 +58,7 @@ beforeEach(() => {
 
 describe('createQuerySuggestionsPlugin', () => {
   test('has a name', () => {
-    const plugin = createRedirectPlugin({
+    const plugin = createRedirectUrlPlugin({
       searchClient,
       indexName: 'indexName',
     });
@@ -67,7 +67,7 @@ describe('createQuerySuggestionsPlugin', () => {
   });
 
   test('exposes passed options and excludes default ones', () => {
-    const plugin = createRedirectPlugin({
+    const plugin = createRedirectUrlPlugin({
       searchClient,
       indexName: 'indexName',
       transformSource: ({ source }) => source,
@@ -81,7 +81,7 @@ describe('createQuerySuggestionsPlugin', () => {
   });
 
   test('adds a source with Query Suggestions and renders the template', async () => {
-    const querySuggestionsPlugin = createRedirectPlugin({
+    const querySuggestionsPlugin = createRedirectUrlPlugin({
       searchClient,
       indexName: 'indexName',
     });
@@ -166,7 +166,7 @@ describe('createQuerySuggestionsPlugin', () => {
   });
 
   test('adds categories to suggestions', async () => {
-    const querySuggestionsPlugin = createRedirectPlugin({
+    const querySuggestionsPlugin = createRedirectUrlPlugin({
       searchClient,
       indexName: 'indexName',
       categoryAttribute: [
@@ -242,7 +242,7 @@ describe('createQuerySuggestionsPlugin', () => {
       )
     );
 
-    const querySuggestionsPlugin = createRedirectPlugin({
+    const querySuggestionsPlugin = createRedirectUrlPlugin({
       searchClient,
       indexName: 'indexName',
       categoryAttribute: [
@@ -294,7 +294,7 @@ describe('createQuerySuggestionsPlugin', () => {
       )
     );
 
-    const querySuggestionsPlugin = createRedirectPlugin({
+    const querySuggestionsPlugin = createRedirectUrlPlugin({
       searchClient,
       indexName: 'indexName',
       categoryAttribute: [
@@ -349,7 +349,7 @@ describe('createQuerySuggestionsPlugin', () => {
       )
     );
 
-    const querySuggestionsPlugin = createRedirectPlugin({
+    const querySuggestionsPlugin = createRedirectUrlPlugin({
       searchClient,
       indexName: 'indexName',
       categoryAttribute: [
@@ -395,7 +395,7 @@ describe('createQuerySuggestionsPlugin', () => {
   });
 
   test('fills the input with the query item key followed by a space on tap ahead', async () => {
-    const querySuggestionsPlugin = createRedirectPlugin({
+    const querySuggestionsPlugin = createRedirectUrlPlugin({
       searchClient,
       indexName: 'indexName',
     });
@@ -435,7 +435,7 @@ describe('createQuerySuggestionsPlugin', () => {
   });
 
   test('supports custom templates', async () => {
-    const querySuggestionsPlugin = createRedirectPlugin({
+    const querySuggestionsPlugin = createRedirectUrlPlugin({
       searchClient,
       indexName: 'indexName',
       transformSource({ source }) {
@@ -495,7 +495,7 @@ describe('createQuerySuggestionsPlugin', () => {
   });
 
   test('supports user search params', async () => {
-    const querySuggestionsPlugin = createRedirectPlugin({
+    const querySuggestionsPlugin = createRedirectUrlPlugin({
       searchClient,
       indexName: 'indexName',
       getSearchParams: () => ({ attributesToRetrieve: ['name', 'category'] }),
