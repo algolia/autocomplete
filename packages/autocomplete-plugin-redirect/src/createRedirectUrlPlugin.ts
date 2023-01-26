@@ -1,9 +1,10 @@
 import {
   AutocompletePlugin,
   AutocompleteReshapeSource,
+  AutocompleteState,
 } from '@algolia/autocomplete-core';
 
-import { RedirectItem } from './types';
+import { RedirectItem, RedirectState } from './types';
 
 export type CreateRedirectUrlPluginParams = {
   transformResponse?(response: any): RedirectItem[];
@@ -12,6 +13,19 @@ export type CreateRedirectUrlPluginParams = {
 
 function defaultTransformResponse(response: any): RedirectItem[] {
   return response.renderingContent?.redirect ?? [];
+}
+
+// @ts-ignore
+function filterOutItemsMatchingQuery(source: AutocompleteReshapeSource<TItem>, state: AutocompleteState<TItem>) {
+  const items = source.getItems();
+  source.getItems = () => items.filter((item) => {
+    const itemInputValue = source.getItemInputValue?.({ item, state });
+    if (itemInputValue === undefined) {
+      return true;
+    }
+
+    return itemInputValue.toLowerCase() !== state.query.toLowerCase()
+  });
 }
 
 function defaultOnRedirect(redirects: RedirectItem[]) {
@@ -67,6 +81,26 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
       });
     },
     reshape({ sources, state, sourcesBySourceId }) {
+      const redirects = state.context._redirects as RedirectState[] ?? [];
+
+      for (const source of sources) {
+        const redirect = redirects?.find((redirect) => redirect.sourceId === source.sourceId);
+        if (redirect === undefined) {
+          continue;
+        }
+
+        filterOutItemsMatchingQuery(source, state);
+      }
+
+      for (const redirect of redirects) {
+        const source = sourcesBySourceId[redirect.sourceId];
+        if (source === undefined) {
+          continue;
+        }
+
+        filterOutItemsMatchingQuery(source, state);
+      }
+
       const redirectSource: AutocompleteReshapeSource<TItem> = {
         sourceId: 'redirect',
         // TODO: templates should be allowed (even required) here
