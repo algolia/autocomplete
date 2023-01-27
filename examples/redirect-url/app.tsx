@@ -43,9 +43,9 @@ autocomplete({
         },
       },
       {
-        sourceId: 'redirect-failer',
+        sourceId: 'redirect-static',
         getItems() {
-          return [{ something: 'different source' }];
+          return [{ something: 'item from different source' }];
         },
         templates: {
           item({ item, html }) {
