@@ -11,8 +11,8 @@ export type CreateRedirectUrlPluginParams = {
   onRedirect?(redirects: RedirectItem[]): void;
 };
 
-function defaultTransformResponse(response: any): RedirectItem[] {
-  return response.renderingContent?.redirect ?? [];
+function defaultTransformResponse(response: any): string[] {
+  return response.renderingContent?.redirect?.url ?? [];
 }
 
 // @ts-ignore
@@ -29,7 +29,7 @@ function filterOutItemsMatchingQuery(source: AutocompleteReshapeSource<TItem>, s
 }
 
 function defaultOnRedirect(redirects: RedirectItem[]) {
-  const url = redirects[0]?.data?.[0]?.url;
+  const url = redirects[0]?.urls?.[0];
 
   console.log('onRedirect', url, redirects);
   // TODO: find a way to use `navigate`
@@ -49,7 +49,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
   function createRedirects({ results, source, state }): RedirectItem[] {
     const redirect: RedirectItem = {
       sourceId: source.sourceId,
-      data: results.flatMap((result) => transformResponse(result)),
+      urls: results.flatMap((result) => transformResponse(result)),
     };
 
     const redirects: RedirectItem[] = state.context._redirects ?? [];
@@ -58,12 +58,12 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
     );
 
     if (existingRedirectIndex !== -1) {
-      if (redirect.data.length === 0) {
+      if (redirect.urls.length === 0) {
         redirects.splice(existingRedirectIndex, 1);
       } else {
         redirects[existingRedirectIndex] = redirect;
       }
-    } else if (redirect.data.length > 0) {
+    } else if (redirect.urls.length > 0) {
       redirects.push(redirect);
     }
 
@@ -71,7 +71,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
   }
 
   return {
-    name: 'aa.redirectPlugin',
+    name: 'redirectPlugin',
     subscribe({ onResolve, onSelect, setContext }) {
       onResolve(({ results, source, state }) => {
         setContext({
@@ -112,7 +112,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
           },
         },
         getItemUrl({ item }) {
-          return item.data[0].url;
+          return item.urls[0];
         },
         onSelect({ item }) {
           onRedirect([item]);

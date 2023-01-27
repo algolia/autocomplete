@@ -1,12 +1,8 @@
 import { BaseItem } from '@algolia/autocomplete-core';
 
-export interface Redirect {
-  url: string;
-}
-
 export interface RedirectState {
   sourceId: string;
-  data: Redirect[];
+  urls: string[];
 }
 
 export interface RedirectItem extends RedirectState, BaseItem {}

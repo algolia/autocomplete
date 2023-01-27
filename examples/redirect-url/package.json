@@ -1,6 +1,6 @@
 {
-  "name": "@algolia/autocomplete-example-redirect",
-  "description": "Autocomplete example redirect",
+  "name": "@algolia/autocomplete-example-redirect-url",
+  "description": "Autocomplete example for Redirect URL plugin",
   "version": "1.7.4",
   "private": true,
   "license": "MIT",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@algolia/autocomplete-js": "1.7.4",
-    "@algolia/autocomplete-plugin-redirect": "1.7.4",
+    "@algolia/autocomplete-plugin-redirect-url": "1.7.4",
     "@algolia/autocomplete-theme-classic": "1.7.4",
     "algoliasearch": "4.14.3",
     "preact": "10.5.13"

@@ -1,4 +1,4 @@
-# Autocomplete starter with static data
+# Autocomplete redirect URL with static data
 
 This example helps you quickly bootstrap a basic Autocomplete with redirect functionality enabled.
 
@@ -18,13 +18,13 @@ git clone git@github.com:algolia/autocomplete.git
 
 ```sh
 yarn
-yarn workspace @algolia/autocomplete-example-redirect start
+yarn workspace @algolia/autocomplete-example-redirect-url start
 ```
 
 Alternatively, you may use npm:
 
 ```sh
-cd examples/redirect
+cd examples/redirect-url
 npm install
 npm start
 ```
