@@ -8,7 +8,6 @@ import {
 import { RedirectItem, RedirectPlugin } from './types';
 
 export type CreateRedirectUrlPluginParams = {
-  sourceId?: string;
   transformResponse?(response: any): RedirectItem[];
   onRedirect?(redirects: RedirectItem[]): void;
 };
@@ -47,7 +46,6 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
   options: CreateRedirectUrlPluginParams = {}
 ): AutocompletePlugin<TItem, unknown> {
   const {
-    sourceId = 'redirectUrlPlugin',
     transformResponse = defaultTransformResponse,
     onRedirect = defaultOnRedirect,
   } = options;
@@ -77,7 +75,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
   }
 
   return {
-    name: sourceId,
+    name: 'redirectUrlPlugin',
     subscribe({ onResolve, setContext }) {
       onResolve(({ results, source, state }) => {
         setContext({
@@ -112,7 +110,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
       }
 
       const redirectSource: AutocompleteReshapeSource<TItem> = {
-        sourceId,
+        sourceId: 'redirectUrlPlugin',
         // TODO: templates should be allowed (even required) here
         // it seems like AutocompleteReshapeSource is wrong
         // @ts-ignore
