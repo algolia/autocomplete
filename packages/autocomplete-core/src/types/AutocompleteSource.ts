@@ -1,5 +1,6 @@
-import type { RequesterDescription } from '@algolia/autocomplete-preset-algolia';
+import type { FacetHit, RequesterDescription } from '@algolia/autocomplete-preset-algolia';
 import type { MaybePromise } from '@algolia/autocomplete-shared';
+import { Hit, SearchForFacetValuesResponse, SearchResponse } from "@algolia/client-search";
 
 import { AutocompleteScopeApi, BaseItem } from './AutocompleteApi';
 import { GetSourcesParams } from './AutocompleteOptions';
@@ -23,10 +24,10 @@ export type OnResolveParams<TItem extends BaseItem> = {
   source: AutocompleteSource<TItem>;
   results:
     | SearchForFacetValuesResponse
-    | SearchResponse<Record<string, unknown>>
+    | SearchResponse<TItem>
     | TItem[]
     | TItem[][];
-  items: TItem[];
+  items: FacetHit[][] | FacetHit[] | Hit<TItem>[] | (SearchForFacetValuesResponse | SearchResponse<TItem> | TItem[] | TItem[][])[];
   state: AutocompleteState<TItem>;
 };
 

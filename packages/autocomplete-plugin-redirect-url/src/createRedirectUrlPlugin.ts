@@ -1,53 +1,53 @@
+// @ts-nocheck
+
 import {
   AutocompletePlugin,
-  AutocompleteReshapeSource,
   AutocompleteState,
+  BaseItem,
   InternalAutocompleteOptions,
 } from '@algolia/autocomplete-core';
-import {
-  SearchForFacetValuesResponse,
-  SearchResponse,
-} from '@algolia/autocomplete-preset-algolia/src/types';
+import {AutocompleteSource, SourceTemplates} from "@algolia/autocomplete-js";
+import { TransformResponseParams } from "@algolia/autocomplete-preset-algolia";
 import { warn } from '@algolia/autocomplete-shared';
 
 import { RedirectItem, RedirectPlugin } from './types';
 
-// TODO: should be ExecuteResponse + TItem[] etc. like in onResolve actually
-type Response =
-  | Array<
-      SearchForFacetValuesResponse | SearchResponse<Record<string, unknown>>
-    >
-  | SearchForFacetValuesResponse
-  | SearchResponse<Record<string, unknown>>;
-
-export type CreateRedirectUrlPluginParams = {
-  transformResponse?(response: Response): RedirectItem[];
-  onRedirect?(
-    redirects: RedirectItem[],
-    options: {
-      navigator: InternalAutocompleteOptions<RedirectItem>['navigator'];
-      state: AutocompleteState<RedirectItem>;
-    }
-  ): void;
+export type OnRedirectOptions<TItem extends BaseItem> = {
+  navigator: InternalAutocompleteOptions<TItem>['navigator'];
+  state: AutocompleteState<TItem>;
 };
 
-function defaultTransformResponse(response: Response): string | undefined {
-  return response.renderingContent?.redirect?.url ?? undefined;
+export type TransformTemplatesOptions<TItem extends BaseItem> = {
+  source: AutocompleteSource<TItem>;
+  state: AutocompleteState<TItem>;
+};
+
+export type CreateRedirectUrlPluginParams = {
+  transformResponse?<THit, TItem extends BaseItem>(response: TransformResponseParams<TItem>): RedirectItem[];
+  onRedirect?<TItem extends BaseItem>(
+    redirects: TItem[],
+    options: OnRedirectOptions<TItem>,
+  ): void;
+  transformTemplates?<TItem extends BaseItem>(options: TransformTemplatesOptions<TItem>): SourceTemplates<any>;
+};
+
+function defaultTransformResponse<THit>(response: TransformResponseParams<THit>): string | undefined {
+  return response.renderingContent?.redirect?.url;
+}
+
+function defaultTransformTemplates({ state }: TransformTemplatesOptions<RedirectItem>) {
+  return {
+    item() {
+      return '->' + state.query;
+    },
+  };
 }
 
 function defaultOnRedirect(
   redirects: RedirectItem[],
-  {
-    navigator,
-    state,
-  }: {
-    navigator: InternalAutocompleteOptions<RedirectItem>['navigator'];
-    state: AutocompleteState<RedirectItem>;
-  }
+  { navigator, state }: OnRedirectOptions<RedirectItem>
 ) {
   const itemUrl = redirects[0]?.urls?.[0];
-
-  console.log('onRedirect', itemUrl, redirects);
   if (itemUrl) {
     navigator.navigate({ itemUrl, item: redirects[0], state });
   }
@@ -55,16 +55,17 @@ function defaultOnRedirect(
 
 export function createRedirectUrlPlugin<TItem extends RedirectItem>(
   options: CreateRedirectUrlPluginParams = {}
-): AutocompletePlugin<TItem, unknown> {
+): AutocompletePlugin<TItem> {
   const {
     transformResponse = defaultTransformResponse,
+    transformTemplates = defaultTransformTemplates,
     onRedirect = defaultOnRedirect,
   } = options;
 
   function createRedirects({ results, source, state }): RedirectItem[] {
     const redirect: RedirectItem = {
       sourceId: source.sourceId,
-      urls: results.flatMap((result) => transformResponse(result)),
+      urls: results.flatMap((result) => transformResponse<TItem>(result)),
     };
 
     const redirects: RedirectItem[] =
@@ -128,16 +129,9 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
         };
       });
 
-      const redirectSource: AutocompleteReshapeSource<TItem> = {
+      const redirectSource: AutocompleteSource<TItem> = {
         sourceId: 'redirectUrlPlugin',
-        // TODO: templates should be allowed (even required) here
-        // it seems like AutocompleteReshapeSource is wrong
-        // @ts-ignore
-        templates: {
-          item() {
-            return '->' + state.query;
-          },
-        },
+        templates: transformTemplates({ state }),
         getItemUrl({ item }) {
           return item.urls[0];
         },
@@ -172,6 +166,6 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
         (state.context.redirectUrlPlugin as RedirectPlugin).data as TItem[],
         { navigator, state }
       );
-    },
+    }
   };
 }

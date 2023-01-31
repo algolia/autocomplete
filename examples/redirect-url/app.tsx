@@ -13,7 +13,15 @@ autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
-  plugins: [createRedirectUrlPlugin({})],
+  plugins: [
+    createRedirectUrlPlugin({
+      transformTemplates: ({ state }) => ({
+        item() {
+          return '--->' + state.query;
+        },
+      })
+    })
+  ],
   getSources({ query }) {
     return [
       {
