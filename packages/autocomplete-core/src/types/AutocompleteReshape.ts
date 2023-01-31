@@ -42,4 +42,6 @@ export type Reshape<
 export type PluginReshape<
   TItem extends BaseItem,
   TState extends AutocompleteState<TItem> = AutocompleteState<TItem>
-> = (params: ReshapeParams<TItem, TState>) => ReshapeParams<TItem, TState>;
+> = (
+  params: Omit<ReshapeParams<TItem, TState>, 'sources'>
+) => Omit<ReshapeParams<TItem, TState>, 'sources'>;

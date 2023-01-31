@@ -21,8 +21,12 @@ export type OnActiveParams<TItem extends BaseItem> = OnSelectParams<TItem>;
 
 export type OnResolveParams<TItem extends BaseItem> = {
   source: AutocompleteSource<TItem>;
-  results: any;
-  items: any[];
+  results:
+    | SearchForFacetValuesResponse
+    | SearchResponse<Record<string, unknown>>
+    | TItem[]
+    | TItem[][];
+  items: TItem[];
   state: AutocompleteState<TItem>;
 };
 
