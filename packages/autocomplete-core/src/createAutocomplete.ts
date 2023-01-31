@@ -62,6 +62,7 @@ export function createAutocomplete<
   props.plugins.forEach((plugin) =>
     plugin.subscribe?.({
       ...setters,
+      props,
       refresh,
       onSelect(fn) {
         subscribers.push({ onSelect: fn });

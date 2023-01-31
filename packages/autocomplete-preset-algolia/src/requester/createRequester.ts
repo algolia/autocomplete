@@ -1,3 +1,5 @@
+import { Settings } from '@algolia/client-search';
+
 import { fetchAlgoliaResults } from '../search';
 import type {
   MultipleQueriesQuery,
@@ -8,7 +10,7 @@ import type {
 
 type Fetcher = typeof fetchAlgoliaResults;
 
-type FacetHit = {
+export type FacetHit = {
   label: string;
   count: number;
   _highlightResult: {
@@ -29,10 +31,11 @@ export type RequesterParams<THit> = {
   ): TransformedRequesterResponse<THit>;
 };
 
-type TransformResponseParams<THit> = {
+export type TransformResponseParams<THit> = {
   results: Array<SearchResponse<THit> | SearchForFacetValuesResponse>;
   hits: Array<SearchResponse<THit>['hits']>;
   facetHits: FacetHit[][];
+  renderingContent?: Settings['renderingContent'];
 };
 
 export type TransformedRequesterResponse<THit> =

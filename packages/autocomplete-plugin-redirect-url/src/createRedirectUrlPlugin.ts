@@ -1,62 +1,65 @@
 import {
   AutocompletePlugin,
-  AutocompleteReshapeSource,
   AutocompleteState,
   BaseItem,
+  InternalAutocompleteOptions,
+  AutocompleteReshapeSource, OnSelectParams, OnSubmitParams,
 } from '@algolia/autocomplete-core';
+import { AutocompleteSource, SourceTemplates } from '@algolia/autocomplete-js';
+import { TransformResponse } from '@algolia/autocomplete-preset-algolia';
+import { warn } from '@algolia/autocomplete-shared';
 
-import { RedirectItem, RedirectPlugin } from './types';
+import { defaultTemplates } from './templates';
+import { RedirectUrlItem, RedirectUrlPlugin as RedirectUrlPluginData } from './types';
 
-export type CreateRedirectUrlPluginParams = {
-  transformResponse?(response: any): RedirectItem[];
-  onRedirect?(redirects: RedirectItem[]): void;
+export type OnRedirectOptions<TItem extends RedirectUrlItem> = {
+  navigator: InternalAutocompleteOptions<TItem>['navigator'];
+  state: AutocompleteState<TItem>;
 };
 
-function defaultTransformResponse(response: any): string[] {
-  return response.renderingContent?.redirect?.url ?? [];
+type TransformResponseParams<TItem> = Parameters<TransformResponse<TItem>>[0];
+
+export type CreateRedirectUrlPluginParams<TItem extends BaseItem> = {
+  transformResponse?(response: TransformResponseParams<TItem>): string | undefined;
+  onRedirect?(
+    redirects: RedirectUrlItem[],
+    options: OnRedirectOptions<RedirectUrlItem>
+  ): void;
+  templates?: SourceTemplates<RedirectUrlItem>;
+};
+
+function defaultTransformResponse<THit>(
+  response: TransformResponseParams<THit>
+): string | undefined {
+  return (response as Record<string, any>).renderingContent?.redirect?.url;
 }
 
-function filterOutItemsMatchingQuery<TItem extends BaseItem>(
-  source: AutocompleteReshapeSource<TItem>,
-  state: AutocompleteState<TItem>
+function defaultOnRedirect(
+  redirects: RedirectUrlItem[],
+  { navigator, state }: OnRedirectOptions<RedirectUrlItem>
 ) {
-  const items = source.getItems();
-  source.getItems = () =>
-    items.filter((item) => {
-      const itemInputValue = source.getItemInputValue?.({ item, state });
-      if (itemInputValue === undefined) {
-        return true;
-      }
-
-      return itemInputValue.toLowerCase() !== state.query.toLowerCase();
-    });
+  const itemUrl = redirects[0]?.urls?.[0];
+  if (itemUrl) {
+    navigator.navigate({ itemUrl, item: redirects[0], state });
+  }
 }
 
-function defaultOnRedirect(redirects: RedirectItem[]) {
-  const url = redirects[0]?.urls?.[0];
-
-  console.log('onRedirect', url, redirects);
-  // TODO: find a way to use `navigate`
-  // if (url) {
-  //   location.href = url;
-  // }
-}
-
-export function createRedirectUrlPlugin<TItem extends RedirectItem>(
-  options: CreateRedirectUrlPluginParams = {}
-): AutocompletePlugin<TItem, unknown> {
-  const {
+export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>({
     transformResponse = defaultTransformResponse,
+    templates = defaultTemplates,
     onRedirect = defaultOnRedirect,
-  } = options;
-
-  function createRedirects({ results, source, state }): RedirectItem[] {
-    const redirect: RedirectItem = {
+  }: CreateRedirectUrlPluginParams<TItem>
+): AutocompletePlugin<TItem> {
+  function createRedirects({ results, source, state }): RedirectUrlItem[] {
+    const redirect: RedirectUrlItem = {
       sourceId: source.sourceId,
-      urls: results.flatMap((result) => transformResponse(result)),
+      urls: results
+        .map((result) => transformResponse(result))
+        .filter((url) => url !== undefined),
     };
 
-    const redirects: RedirectItem[] = state.context.redirectUrlPlugin?.data ?? [];
+    const redirects: RedirectUrlItem[] =
+      state.context.redirectUrlPlugin?.data ?? [];
     const existingRedirectIndex = redirects.findIndex(
       (r) => r.sourceId === source.sourceId
     );
@@ -74,76 +77,86 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
     return redirects;
   }
 
+  let navigator: InternalAutocompleteOptions<RedirectUrlItem>['navigator'];
+
   return {
     name: 'redirectUrlPlugin',
-    subscribe({ onResolve, setContext }) {
+    subscribe({ onResolve, setContext, props }) {
+      navigator = props.navigator;
       onResolve(({ results, source, state }) => {
         setContext({
           ...state.context,
           redirectUrlPlugin: {
-            data: createRedirects({ results, source, state })
+            data: createRedirects({ results, source, state }),
           },
         });
       });
     },
-    reshape({ sources, state, sourcesBySourceId }) {
-      const redirects = (state.context.redirectUrlPlugin as RedirectPlugin)?.data ?? [];
+    reshape({ state, sourcesBySourceId }) {
+      const redirects =
+        (state.context.redirectUrlPlugin as RedirectUrlPluginData)?.data ?? [];
 
-      for (const source of sources) {
-        const redirect = redirects?.find(
-          (redirect) => redirect.sourceId === source.sourceId
-        );
-        if (redirect === undefined) {
-          continue;
-        }
-
-        filterOutItemsMatchingQuery(source, state);
-      }
-
-      for (const redirect of redirects) {
+      redirects.forEach((redirect) => {
         const source = sourcesBySourceId[redirect.sourceId];
         if (source === undefined) {
-          continue;
+          return;
         }
 
-        filterOutItemsMatchingQuery(source, state);
-      }
+        sourcesBySourceId[redirect.sourceId] = {
+          ...source,
+          getItems: () =>
+            source.getItems().filter((item) => {
+              const itemInputValue = source.getItemInputValue?.({
+                item,
+                state,
+              });
+              if (itemInputValue === undefined) {
+                return true;
+              }
 
-      const redirectSource: AutocompleteReshapeSource<TItem> = {
+              return itemInputValue.toLowerCase() !== state.query.toLowerCase();
+            }),
+        };
+      });
+
+      const redirectSource: AutocompleteSource<RedirectUrlItem> = {
         sourceId: 'redirectUrlPlugin',
-        // TODO: templates should be allowed (even required) here
-        // it seems like AutocompleteReshapeSource is wrong
-        // @ts-ignore
-        templates: {
-          item() {
-            return '->' + state.query;
-          },
-        },
+        templates,
         getItemUrl({ item }) {
           return item.urls[0];
         },
-        onSelect({ item }) {
-          onRedirect([item]);
+        onSelect({ item, state }: OnSelectParams<RedirectUrlItem>) {
+          onRedirect([item], { navigator, state });
         },
         getItemInputValue() {
           return state.query;
         },
         onActive() {},
         getItems() {
-          return (state.context.redirectUrlPlugin as RedirectPlugin).data as TItem[];
+          return (state.context.redirectUrlPlugin as RedirectUrlPluginData)
+            .data as TItem[];
         },
       };
+
+      warn(
+        sourcesBySourceId.redirect === undefined,
+        'A source with `sourceId: "redirect"` already exists. This source will be overridden.]'
+      );
+
       return {
-        sources: [redirectSource, ...sources],
         sourcesBySourceId: {
+          // we are not actually returning TItem, as it's a redirect, but reshape doesn't know that
+          redirect: (redirectSource as unknown) as AutocompleteReshapeSource<TItem>,
           ...sourcesBySourceId,
-          redirect: redirectSource,
         },
         state,
       };
     },
-    onSubmit({ state }) {
-      onRedirect((state.context.redirectUrlPlugin as RedirectPlugin).data as TItem[]);
+    onSubmit({ state }: OnSubmitParams<RedirectUrlItem>) {
+      onRedirect(
+        (state.context.redirectUrlPlugin as RedirectUrlPluginData).data as TItem[],
+        { navigator, state }
+      );
     },
   };
 }

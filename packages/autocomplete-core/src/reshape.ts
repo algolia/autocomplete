@@ -21,7 +21,7 @@ export function reshape<TItem extends BaseItem>({
 }: ReshapeParams<TItem>) {
   // Sources are grouped by `sourceId` to conveniently pick them via destructuring.
   // Example: `const { recentSearchesPlugin } = sourcesBySourceId`
-  const sourcesBySourceId = collections.reduce<
+  const originalSourcesBySourceId = collections.reduce<
     AutocompleteReshapeSourcesBySourceId<TItem>
   >(
     (acc, collection) => ({
@@ -37,21 +37,24 @@ export function reshape<TItem extends BaseItem>({
     {}
   );
 
-  const reshapeSources = props.reshape(
-    props.plugins.reduce(
-      (acc, plugin) => {
-        if (plugin.reshape) {
-          return plugin.reshape(acc);
-        }
-        return acc;
-      },
-      {
-        sources: Object.values(sourcesBySourceId),
-        sourcesBySourceId,
-        state,
+  const { sourcesBySourceId } = props.plugins.reduce(
+    (acc, plugin) => {
+      if (plugin.reshape) {
+        return plugin.reshape(acc);
       }
-    )
+      return acc;
+    },
+    {
+      sourcesBySourceId: originalSourcesBySourceId,
+      state,
+    }
   );
+
+  const reshapeSources = props.reshape({
+    sourcesBySourceId,
+    sources: Object.values(sourcesBySourceId),
+    state,
+  });
 
   // We reconstruct the collections with the items modified by the `reshape` prop.
   return flatten(reshapeSources)
