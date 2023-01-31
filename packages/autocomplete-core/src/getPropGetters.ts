@@ -239,7 +239,7 @@ export function getPropGetters<
     };
   };
 
-  const getAutocompleteId = (instanceId: string, sourceId: number) => {
+  const getAutocompleteId = (instanceId: string, sourceId?: number) => {
     return typeof sourceId !== 'undefined'
       ? `${instanceId}-${sourceId}`
       : instanceId;
@@ -249,8 +249,8 @@ export function getPropGetters<
     const { sourceIndex, ...rest } = providedProps || {};
 
     return {
-      htmlFor: `${getAutocompleteId(props.id, sourceIndex as number)}-input`,
-      id: `${getAutocompleteId(props.id, sourceIndex as number)}-label`,
+      htmlFor: `${getAutocompleteId(props.id, sourceIndex)}-input`,
+      id: `${getAutocompleteId(props.id, sourceIndex)}-label`,
       ...rest,
     };
   };
@@ -260,11 +260,8 @@ export function getPropGetters<
 
     return {
       role: 'listbox',
-      'aria-labelledby': `${getAutocompleteId(
-        props.id,
-        sourceIndex as number
-      )}-label`,
-      id: `${getAutocompleteId(props.id, sourceIndex as number)}-list`,
+      'aria-labelledby': `${getAutocompleteId(props.id, sourceIndex)}-label`,
+      id: `${getAutocompleteId(props.id, sourceIndex)}-list`,
       ...rest,
     };
   };
