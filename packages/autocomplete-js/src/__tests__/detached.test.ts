@@ -80,7 +80,7 @@ describe('detached', () => {
     });
 
     const firstItem = document.querySelector<HTMLLIElement>(
-      '#autocomplete-item-0'
+      '#autocomplete-0-item-0'
     );
 
     // Select the first item
