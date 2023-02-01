@@ -201,7 +201,6 @@ autocomplete<ProductHit | Tag<TagExtraData>>({
                 indexName: 'instant_search',
                 query,
                 params: {
-                  clickAnalytics: true,
                   attributesToSnippet: ['name:10'],
                   snippetEllipsisText: '…',
                   filters: mapToAlgoliaFilters(tagsByFacet),

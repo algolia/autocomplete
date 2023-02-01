@@ -44,7 +44,6 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   indexName: 'instant_search_demo_query_suggestions',
   getSearchParams({ state }) {
     return recentSearchesPlugin.data.getAlgoliaSearchParams({
-      clickAnalytics: true,
       hitsPerPage: state.query ? 5 : 10,
     });
   },
@@ -85,7 +84,6 @@ autocomplete({
                 indexName: 'instant_search',
                 query,
                 params: {
-                  clickAnalytics: true,
                   attributesToSnippet: ['name:10', 'description:35'],
                   snippetEllipsisText: '…',
                 },
