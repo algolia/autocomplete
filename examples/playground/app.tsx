@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import {
   autocomplete,
@@ -6,7 +7,7 @@ import {
 } from '@algolia/autocomplete-js';
 import {
   AutocompleteInsightsApi,
-  createAlgoliaInsightsPlugin,
+  // createAlgoliaInsightsPlugin,
 } from '@algolia/autocomplete-plugin-algolia-insights';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
@@ -27,7 +28,7 @@ const searchClient = algoliasearch(appId, apiKey);
 // @ts-expect-error type error in search-insights
 insightsClient('init', { appId, apiKey });
 
-const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+// const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'search',
   limit: 3,
@@ -54,11 +55,11 @@ const categoriesPlugin = createCategoriesPlugin({ searchClient });
 autocomplete<ProductHit>({
   container: '#autocomplete',
   placeholder: 'Search',
-  debug: true,
+  // debug: true,
   openOnFocus: true,
   plugins: [
     shortcutsPlugin,
-    algoliaInsightsPlugin,
+    // algoliaInsightsPlugin,
     recentSearchesPlugin,
     querySuggestionsPlugin,
     categoriesPlugin,

@@ -1,3 +1,5 @@
+import { loadInsightsPlugin } from '@algolia/autocomplete-insights-loader';
+
 import { checkOptions } from './checkOptions';
 import { createStore } from './createStore';
 import { getAutocompleteSetters } from './getAutocompleteSetters';
@@ -58,6 +60,8 @@ export function createAutocomplete<
       ...setters,
     });
   }
+
+  loadInsightsPlugin(props);
 
   props.plugins.forEach((plugin) =>
     plugin.subscribe?.({
