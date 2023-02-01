@@ -20,7 +20,7 @@ autocomplete({
           return '--->' + state.query;
         },
       },
-    })
+    }),
   ],
   getSources({ query }) {
     return [

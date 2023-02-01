@@ -1,3 +1,5 @@
+import { Settings } from '@algolia/client-search';
+
 import { fetchAlgoliaResults } from '../search';
 import type {
   MultipleQueriesQuery,
@@ -5,7 +7,6 @@ import type {
   SearchResponse,
   SearchClient,
 } from '../types';
-import {Settings} from "@algolia/client-search";
 
 type Fetcher = typeof fetchAlgoliaResults;
 
