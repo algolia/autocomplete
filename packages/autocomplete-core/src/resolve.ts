@@ -16,6 +16,7 @@ import {
   AutocompleteStore,
   BaseItem,
   InternalAutocompleteSource,
+  OnResolveParams,
 } from './types';
 import { mapToAlgoliaResponse } from './utils';
 
@@ -178,7 +179,12 @@ export function postResolve<TItem extends BaseItem>(
         )
       : results;
 
-    source.onResolve({ source, results, items, state: store.getState() });
+    source.onResolve({
+      source,
+      results,
+      items,
+      state: store.getState(),
+    } as OnResolveParams<TItem>);
 
     invariant(
       Array.isArray(items),
