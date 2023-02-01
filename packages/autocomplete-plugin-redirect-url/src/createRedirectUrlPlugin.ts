@@ -147,7 +147,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
       };
 
       warn(
-        sourcesBySourceId.redirect !== undefined,
+        sourcesBySourceId.redirect === undefined,
         'A source with `sourceId: "redirect"` already exists. This source will be overridden.]'
       );
 
