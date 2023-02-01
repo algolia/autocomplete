@@ -1,3 +1,4 @@
+// @ts-ignore
 import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
 
 export function loadInsightsPlugin(props: any) {
