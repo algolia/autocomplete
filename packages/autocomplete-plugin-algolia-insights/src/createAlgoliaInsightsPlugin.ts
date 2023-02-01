@@ -1,8 +1,4 @@
 import {
-  AutocompleteState,
-  AutocompletePlugin,
-} from '@algolia/autocomplete-js';
-import {
   createRef,
   debounce,
   isEqual,
@@ -21,6 +17,10 @@ import {
   OnItemsChangeParams,
   OnSelectParams,
 } from './types';
+import {
+  AutocompleteState,
+  AutocompletePlugin,
+} from './types/FakeAutocompleteJsTypes';
 
 const VIEW_EVENT_DELAY = 400;
 
@@ -100,7 +100,7 @@ export function createAlgoliaInsightsPlugin(
     }
 
     const items = state.collections
-      .reduce<unknown[]>((acc, current) => {
+      .reduce((acc, current) => {
         return [...acc, ...current.items];
       }, [])
       .filter(isAlgoliaInsightsHit);

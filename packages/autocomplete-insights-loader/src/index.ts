@@ -1,6 +1,25 @@
 // @ts-ignore
 import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
 
+// from: https://github.com/algolia/instantsearch/blob/master/packages/instantsearch.js/src/lib/utils/getAppIdAndApiKey.ts
+// typed as any, since it accepts the _real_ js clients, not the interface we otherwise expect
+export function getSearchClientCredentials(
+  searchClient: any
+): [string, string] {
+  if (searchClient.transporter) {
+    // searchClient v4
+    const { headers, queryParameters } = searchClient.transporter;
+    const APP_ID = 'x-algolia-application-id';
+    const API_KEY = 'x-algolia-api-key';
+    const appId = headers[APP_ID] || queryParameters[APP_ID];
+    const apiKey = headers[API_KEY] || queryParameters[API_KEY];
+    return [appId, apiKey];
+  } else {
+    // searchClient v3
+    return [searchClient.applicationID, searchClient.apiKey];
+  }
+}
+
 export function loadInsightsPlugin(props: any) {
   // We assume the logic for downloading automatically Algolia Insights
   // is defined here and the following code depends on it.
@@ -23,16 +42,30 @@ export function loadInsightsPlugin(props: any) {
   const searchClient = __autocomplete_pluginOptions?.searchClient;
 
   if (!hasAlgoliaInsightsPlugin && searchClient) {
-    insightsClient('init', {
-      appId: searchClient.appId,
-      apiKey: searchClient.transporter.queryParameters['x-algolia-api-key'],
-      useCookie: true,
-    });
-
     const insightsPlugin = createAlgoliaInsightsPlugin({
       insightsClient,
-    }); /*  as AutocompletePlugin<any, any> */
+    });
 
     props.plugins.push(insightsPlugin);
+
+    // Initialize Insights Client (works even if done asynchronously)
+    Promise.all([
+      new Promise<string>((resolve) => insightsClient('getVersion', resolve)),
+      new Promise<string | undefined>((resolve) =>
+        insightsClient('getUserToken', null, (err, token) => resolve(token))
+      ),
+    ]).then(([version, userToken]) => {
+      if (userToken) {
+        return;
+      }
+
+      const [appId, apiKey] = getSearchClientCredentials(searchClient);
+
+      insightsClient('init', {
+        appId,
+        apiKey,
+        ...(version.split('.').shift() === '2' && { useCookie: true }),
+      });
+    });
   }
 }

@@ -1,9 +1,8 @@
-import { AutocompleteState } from '@algolia/autocomplete-js';
-
 import {
   ClickedObjectIDsAfterSearchParams,
   ViewedObjectIDsParams,
 } from './AutocompleteInsightsApi';
+import { AutocompleteState } from './FakeAutocompleteJsTypes';
 
 import { AlgoliaInsightsHit, AutocompleteInsightsApi } from '.';
 

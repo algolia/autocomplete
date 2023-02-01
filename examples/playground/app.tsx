@@ -5,10 +5,7 @@ import {
   AutocompleteComponents,
   getAlgoliaResults,
 } from '@algolia/autocomplete-js';
-import {
-  AutocompleteInsightsApi,
-  // createAlgoliaInsightsPlugin,
-} from '@algolia/autocomplete-plugin-algolia-insights';
+import type { AutocompleteInsightsApi } from '@algolia/autocomplete-plugin-algolia-insights';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import algoliasearch from 'algoliasearch/lite';
@@ -55,11 +52,9 @@ const categoriesPlugin = createCategoriesPlugin({ searchClient });
 autocomplete<ProductHit>({
   container: '#autocomplete',
   placeholder: 'Search',
-  // debug: true,
   openOnFocus: true,
   plugins: [
     shortcutsPlugin,
-    // algoliaInsightsPlugin,
     recentSearchesPlugin,
     querySuggestionsPlugin,
     categoriesPlugin,

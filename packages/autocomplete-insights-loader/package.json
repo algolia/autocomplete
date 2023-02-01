@@ -26,7 +26,7 @@
     "prepare": "yarn build:esm && yarn build:types",
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
-  "peerDependencies": {
+  "dependencies": {
     "@algolia/autocomplete-plugin-algolia-insights": "1.7.4"
   }
 }
