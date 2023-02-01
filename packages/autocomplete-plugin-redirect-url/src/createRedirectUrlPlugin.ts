@@ -1,12 +1,10 @@
-// @ts-nocheck
-
 import {
   AutocompletePlugin,
   AutocompleteState,
   BaseItem,
   InternalAutocompleteOptions,
 } from '@algolia/autocomplete-core';
-import {AutocompleteSource, SourceTemplates} from "@algolia/autocomplete-js";
+import { AutocompleteSource, SourceTemplates } from "@algolia/autocomplete-js";
 import { TransformResponseParams } from "@algolia/autocomplete-preset-algolia";
 import { warn } from '@algolia/autocomplete-shared';
 
@@ -17,31 +15,24 @@ export type OnRedirectOptions<TItem extends BaseItem> = {
   state: AutocompleteState<TItem>;
 };
 
-export type TransformTemplatesOptions<TItem extends BaseItem> = {
-  source: AutocompleteSource<TItem>;
-  state: AutocompleteState<TItem>;
-};
-
 export type CreateRedirectUrlPluginParams = {
   transformResponse?<THit, TItem extends BaseItem>(response: TransformResponseParams<TItem>): RedirectItem[];
   onRedirect?<TItem extends BaseItem>(
     redirects: TItem[],
     options: OnRedirectOptions<TItem>,
   ): void;
-  transformTemplates?<TItem extends BaseItem>(options: TransformTemplatesOptions<TItem>): SourceTemplates<any>;
+  templates?: SourceTemplates<any>;
 };
 
 function defaultTransformResponse<THit>(response: TransformResponseParams<THit>): string | undefined {
   return response.renderingContent?.redirect?.url;
 }
 
-function defaultTransformTemplates({ state }: TransformTemplatesOptions<RedirectItem>) {
-  return {
-    item() {
-      return '->' + state.query;
-    },
-  };
-}
+const defaultTemplates = {
+  item({ state }) {
+    return '->' + state.query;
+  },
+};
 
 function defaultOnRedirect(
   redirects: RedirectItem[],
@@ -58,14 +49,14 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
 ): AutocompletePlugin<TItem> {
   const {
     transformResponse = defaultTransformResponse,
-    transformTemplates = defaultTransformTemplates,
+    templates = defaultTemplates,
     onRedirect = defaultOnRedirect,
   } = options;
 
   function createRedirects({ results, source, state }): RedirectItem[] {
     const redirect: RedirectItem = {
       sourceId: source.sourceId,
-      urls: results.flatMap((result) => transformResponse<TItem>(result)),
+      urls: results.map((result) => transformResponse<TItem>(result)).filter((url) => url !== undefined)
     };
 
     const redirects: RedirectItem[] =
@@ -131,7 +122,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
 
       const redirectSource: AutocompleteSource<TItem> = {
         sourceId: 'redirectUrlPlugin',
-        templates: transformTemplates({ state }),
+        templates,
         getItemUrl({ item }) {
           return item.urls[0];
         },
@@ -149,7 +140,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectItem>(
       };
 
       warn(
-        sourcesBySourceId.redirect === undefined,
+        sourcesBySourceId.redirect !== undefined,
         'A source with `sourceId: "redirect"` already exists. This source will be overridden.]'
       );
 

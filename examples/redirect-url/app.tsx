@@ -15,11 +15,11 @@ autocomplete({
   openOnFocus: true,
   plugins: [
     createRedirectUrlPlugin({
-      transformTemplates: ({ state }) => ({
-        item() {
+      templates: {
+        item({ state }) {
           return '--->' + state.query;
         },
-      })
+      },
     })
   ],
   getSources({ query }) {
