@@ -9,13 +9,17 @@ const searchClient = algoliasearch(
   '4aa4981b5ce86e389fb5a948a5f552a3'
 );
 
-autocomplete({
+type PokémonItem = {
+  name: {
+    english: string;
+  };
+};
+
+autocomplete<PokémonItem>({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
-  plugins: [
-    createRedirectUrlPlugin({}),
-  ],
+  plugins: [createRedirectUrlPlugin({})],
   getSources({ query }) {
     return [
       {
@@ -42,17 +46,6 @@ autocomplete({
               },
             ],
           });
-        },
-      },
-      {
-        sourceId: 'redirect-static',
-        getItems() {
-          return [{ something: 'item from different source' }];
-        },
-        templates: {
-          item({ item, html }) {
-            return html`<a class="aa-ItemLink">${item.something}</a>`;
-          },
         },
       },
     ];
