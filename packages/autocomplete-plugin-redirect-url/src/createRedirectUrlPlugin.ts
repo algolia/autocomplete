@@ -3,12 +3,13 @@ import {
   AutocompleteState,
   BaseItem,
   InternalAutocompleteOptions,
-  AutocompleteReshapeSource,
+  AutocompleteReshapeSource, OnSelectParams, OnSubmitParams,
 } from '@algolia/autocomplete-core';
 import { AutocompleteSource, SourceTemplates } from '@algolia/autocomplete-js';
 import { TransformResponse } from '@algolia/autocomplete-preset-algolia';
 import { warn } from '@algolia/autocomplete-shared';
 
+import { defaultTemplates } from './templates';
 import { RedirectUrlItem, RedirectUrlPlugin as RedirectUrlPluginData } from './types';
 
 export type OnRedirectOptions<TItem extends RedirectUrlItem> = {
@@ -19,7 +20,7 @@ export type OnRedirectOptions<TItem extends RedirectUrlItem> = {
 type TransformResponseParams<TItem> = Parameters<TransformResponse<TItem>>[0];
 
 export type CreateRedirectUrlPluginParams<TItem extends BaseItem> = {
-  transformResponse?(response: TransformResponseParams<TItem>): RedirectUrlItem[];
+  transformResponse?(response: TransformResponseParams<TItem>): string | undefined;
   onRedirect?(
     redirects: RedirectUrlItem[],
     options: OnRedirectOptions<RedirectUrlItem>
@@ -33,12 +34,6 @@ function defaultTransformResponse<THit>(
   return (response as Record<string, any>).renderingContent?.redirect?.url;
 }
 
-const defaultTemplates = {
-  item({ state }) {
-    return '->' + state.query;
-  },
-};
-
 function defaultOnRedirect(
   redirects: RedirectUrlItem[],
   { navigator, state }: OnRedirectOptions<RedirectUrlItem>
@@ -49,15 +44,12 @@ function defaultOnRedirect(
   }
 }
 
-export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>(
-  options: CreateRedirectUrlPluginParams<TItem> = {}
-): AutocompletePlugin<TItem> {
-  const {
+export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>({
     transformResponse = defaultTransformResponse,
     templates = defaultTemplates,
     onRedirect = defaultOnRedirect,
-  } = options;
-
+  }: CreateRedirectUrlPluginParams<TItem>
+): AutocompletePlugin<TItem> {
   function createRedirects({ results, source, state }): RedirectUrlItem[] {
     const redirect: RedirectUrlItem = {
       sourceId: source.sourceId,
@@ -133,7 +125,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>(
         getItemUrl({ item }) {
           return item.urls[0];
         },
-        onSelect({ item, state }) {
+        onSelect({ item, state }: OnSelectParams<RedirectUrlItem>) {
           onRedirect([item], { navigator, state });
         },
         getItemInputValue() {
@@ -160,7 +152,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>(
         state,
       };
     },
-    onSubmit({ state }) {
+    onSubmit({ state }: OnSubmitParams<RedirectUrlItem>) {
       onRedirect(
         (state.context.redirectUrlPlugin as RedirectUrlPluginData).data as TItem[],
         { navigator, state }
