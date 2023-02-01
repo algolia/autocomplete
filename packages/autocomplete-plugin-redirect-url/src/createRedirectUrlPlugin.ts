@@ -80,7 +80,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>({
   let navigator: InternalAutocompleteOptions<RedirectUrlItem>['navigator'];
 
   return {
-    name: 'redirectUrlPlugin',
+    name: 'aa.redirectUrlPlugin',
     subscribe({ onResolve, setContext, props }) {
       navigator = props.navigator;
       onResolve(({ results, source, state }) => {
