@@ -12,7 +12,11 @@ import {
 } from '@algolia/client-search';
 import type { SearchClient } from 'algoliasearch/lite';
 
-import { BaseItem, InternalAutocompleteSource } from './types';
+import {
+  AutocompleteState,
+  BaseItem,
+  InternalAutocompleteSource,
+} from './types';
 import { mapToAlgoliaResponse } from './utils';
 
 function isDescription<TItem extends BaseItem>(
@@ -56,15 +60,29 @@ type RequestDescriptionPreResolvedCustom<TItem extends BaseItem> = {
 
 export function preResolve<TItem extends BaseItem>(
   itemsOrDescription: TItem[] | TItem[][] | RequesterDescription<TItem>,
-  sourceId: string
+  sourceId: string,
+  state: AutocompleteState<TItem>
 ):
   | RequestDescriptionPreResolved<TItem>
   | RequestDescriptionPreResolvedCustom<TItem> {
   if (isRequesterDescription<TItem>(itemsOrDescription)) {
+    const contextParameters = Object.assign(
+      {},
+      ...Object.keys(state.context).map((key) => {
+        return (state.context[key] as Record<string, unknown>)?.queryParameters;
+      })
+    );
+
     return {
       ...itemsOrDescription,
       requests: itemsOrDescription.queries.map((query) => ({
-        query,
+        query: {
+          ...query,
+          params: {
+            ...contextParameters,
+            ...query.params,
+          },
+        },
         sourceId,
         transformResponse: itemsOrDescription.transformResponse,
       })),

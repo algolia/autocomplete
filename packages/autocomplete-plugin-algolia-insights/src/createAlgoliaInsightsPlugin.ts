@@ -124,7 +124,14 @@ export function createAlgoliaInsightsPlugin(
     subscribe({ setContext, onSelect, onActive }) {
       insightsClient('addAlgoliaAgent', 'insights-plugin');
 
-      setContext({ algoliaInsightsPlugin: { insights } });
+      setContext({
+        algoliaInsightsPlugin: {
+          queryParameters: {
+            clickAnalytics: true,
+          },
+          insights,
+        },
+      });
 
       onSelect(({ item, state, event }) => {
         if (!isAlgoliaInsightsHit(item)) {
