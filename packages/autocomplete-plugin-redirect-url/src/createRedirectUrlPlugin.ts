@@ -3,14 +3,19 @@ import {
   AutocompleteState,
   BaseItem,
   InternalAutocompleteOptions,
-  AutocompleteReshapeSource, OnSelectParams, OnSubmitParams,
+  AutocompleteReshapeSource,
+  OnSelectParams,
+  OnSubmitParams,
 } from '@algolia/autocomplete-core';
 import { AutocompleteSource, SourceTemplates } from '@algolia/autocomplete-js';
 import { TransformResponse } from '@algolia/autocomplete-preset-algolia';
 import { warn } from '@algolia/autocomplete-shared';
 
 import { defaultTemplates } from './templates';
-import { RedirectUrlItem, RedirectUrlPlugin as RedirectUrlPluginData } from './types';
+import {
+  RedirectUrlItem,
+  RedirectUrlPlugin as RedirectUrlPluginData,
+} from './types';
 
 export type OnRedirectOptions<TItem extends RedirectUrlItem> = {
   navigator: InternalAutocompleteOptions<TItem>['navigator'];
@@ -20,7 +25,9 @@ export type OnRedirectOptions<TItem extends RedirectUrlItem> = {
 type TransformResponseParams<TItem> = Parameters<TransformResponse<TItem>>[0];
 
 export type CreateRedirectUrlPluginParams<TItem extends BaseItem> = {
-  transformResponse?(response: TransformResponseParams<TItem>): string | undefined;
+  transformResponse?(
+    response: TransformResponseParams<TItem>
+  ): string | undefined;
   onRedirect?(
     redirects: RedirectUrlItem[],
     options: OnRedirectOptions<RedirectUrlItem>
@@ -44,12 +51,21 @@ function defaultOnRedirect(
   }
 }
 
-export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>({
-    transformResponse = defaultTransformResponse,
-    templates = defaultTemplates,
-    onRedirect = defaultOnRedirect,
-  }: CreateRedirectUrlPluginParams<TItem>
+function getOptions<TItem extends BaseItem>(
+  options: CreateRedirectUrlPluginParams<TItem>
+) {
+  return {
+    transformResponse: defaultTransformResponse,
+    templates: defaultTemplates,
+    onRedirect: defaultOnRedirect,
+    ...options,
+  };
+}
+
+export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>(
+  options: CreateRedirectUrlPluginParams<TItem>
 ): AutocompletePlugin<TItem> {
+  const { transformResponse, templates, onRedirect } = getOptions(options);
   function createRedirects({ results, source, state }): RedirectUrlItem[] {
     const redirect: RedirectUrlItem = {
       sourceId: source.sourceId,
@@ -154,9 +170,11 @@ export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>({
     },
     onSubmit({ state }: OnSubmitParams<RedirectUrlItem>) {
       onRedirect(
-        (state.context.redirectUrlPlugin as RedirectUrlPluginData).data as TItem[],
+        (state.context.redirectUrlPlugin as RedirectUrlPluginData)
+          .data as TItem[],
         { navigator, state }
       );
     },
+    __autocomplete_pluginOptions: options,
   };
 }
