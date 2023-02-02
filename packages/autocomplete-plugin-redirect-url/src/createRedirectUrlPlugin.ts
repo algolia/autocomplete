@@ -1,14 +1,15 @@
 import {
-  AutocompletePlugin,
   AutocompleteState,
   BaseItem,
   InternalAutocompleteOptions,
-  AutocompleteReshapeSource,
   OnSelectParams,
   OnSubmitParams,
 } from '@algolia/autocomplete-core';
-import { AutocompleteSource, SourceTemplates } from '@algolia/autocomplete-js';
-import { TransformResponse } from '@algolia/autocomplete-preset-algolia';
+import { AutocompletePlugin, SourceTemplates } from '@algolia/autocomplete-js';
+import {
+  SearchForFacetValuesResponse,
+  SearchResponse,
+} from '@algolia/autocomplete-preset-algolia';
 import { warn } from '@algolia/autocomplete-shared';
 
 import { defaultTemplates } from './templates';
@@ -22,7 +23,9 @@ export type OnRedirectOptions<TItem extends RedirectUrlItem> = {
   state: AutocompleteState<TItem>;
 };
 
-type TransformResponseParams<TItem> = Parameters<TransformResponse<TItem>>[0];
+type TransformResponseParams<TItem> =
+  | SearchResponse<TItem>
+  | SearchForFacetValuesResponse;
 
 export type CreateRedirectUrlPluginParams<TItem extends BaseItem> = {
   transformResponse?(
@@ -62,9 +65,9 @@ function getOptions<TItem extends BaseItem>(
   };
 }
 
-export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>(
+export function createRedirectUrlPlugin<TItem extends BaseItem>(
   options: CreateRedirectUrlPluginParams<TItem>
-): AutocompletePlugin<TItem> {
+): AutocompletePlugin<RedirectUrlItem, undefined> {
   const { transformResponse, templates, onRedirect } = getOptions(options);
 
   function createRedirects({ results, source, state }): RedirectUrlItem[] {
@@ -136,7 +139,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>(
         };
       });
 
-      const redirectSource: AutocompleteSource<RedirectUrlItem> = {
+      const redirectSource = {
         sourceId: 'redirectUrlPlugin',
         templates,
         getItemUrl({ item }) {
@@ -151,7 +154,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>(
         onActive() {},
         getItems() {
           return (state.context.redirectUrlPlugin as RedirectUrlPluginData)
-            .data as TItem[];
+            .data as RedirectUrlItem[];
         },
       };
 
@@ -162,8 +165,8 @@ export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>(
 
       return {
         sourcesBySourceId: {
-          // we are not actually returning TItem, as it's a redirect, but reshape doesn't know that
-          redirect: (redirectSource as unknown) as AutocompleteReshapeSource<TItem>,
+          // Our source has templates, but reshape only accepts sources without templates (autocomplete-core)
+          redirect: (redirectSource as unknown) as typeof sourcesBySourceId[string],
           ...sourcesBySourceId,
         },
         state,
@@ -172,7 +175,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>(
     onSubmit({ state }: OnSubmitParams<RedirectUrlItem>) {
       onRedirect(
         (state.context.redirectUrlPlugin as RedirectUrlPluginData)
-          .data as TItem[],
+          .data as RedirectUrlItem[],
         { navigator, state }
       );
     },
