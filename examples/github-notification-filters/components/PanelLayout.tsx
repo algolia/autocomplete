@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import { AutocompleteState } from '@algolia/autocomplete-js';
 import { ComponentChildren, h } from 'preact';
