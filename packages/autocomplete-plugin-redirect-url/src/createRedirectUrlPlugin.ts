@@ -66,6 +66,7 @@ export function createRedirectUrlPlugin<TItem extends RedirectUrlItem>(
   options: CreateRedirectUrlPluginParams<TItem>
 ): AutocompletePlugin<TItem> {
   const { transformResponse, templates, onRedirect } = getOptions(options);
+
   function createRedirects({ results, source, state }): RedirectUrlItem[] {
     const redirect: RedirectUrlItem = {
       sourceId: source.sourceId,
