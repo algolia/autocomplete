@@ -1,10 +1,17 @@
 import { createAutocomplete } from '@algolia/autocomplete-core';
+import {
+  getAlgoliaFacets,
+  getAlgoliaResults,
+} from '@algolia/autocomplete-preset-algolia';
 import { noop } from '@algolia/autocomplete-shared';
+import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import insightsClient from 'search-insights';
 
 import {
+  createMultiSearchResponse,
   createPlayground,
+  createSearchClient,
   createSource,
   runAllMicroTasks,
 } from '../../../../test/utils';
@@ -77,6 +84,88 @@ describe('createAlgoliaInsightsPlugin', () => {
       'addAlgoliaAgent',
       'insights-plugin'
     );
+  });
+
+  test('sets clickAnalytics: true for getAlgoliaResults and getAlgoliaFacets', async () => {
+    const insightsClient = jest.fn();
+    const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+    const searchClient = createSearchClient({
+      search: jest.fn(() =>
+        Promise.resolve(
+          createMultiSearchResponse<{ label: string }>(
+            {
+              hits: [{ objectID: '1', label: 'Hit 1' }],
+            },
+            {
+              facetHits: [{ count: 2, value: 'Hit 2' }],
+            }
+          )
+        )
+      ),
+    });
+
+    const playground = createPlayground(createAutocomplete, {
+      plugins: [insightsPlugin],
+      getSources({ query }) {
+        return [
+          {
+            sourceId: 'hits',
+            getItems() {
+              return getAlgoliaResults({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    query,
+                  },
+                ],
+              });
+            },
+            templates: {
+              item({ item }) {
+                return JSON.stringify(item);
+              },
+            },
+          },
+          {
+            sourceId: 'facets',
+            getItems() {
+              return getAlgoliaFacets({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    facet: 'categories',
+                    params: {
+                      facetQuery: query,
+                    },
+                  },
+                ],
+              });
+            },
+            templates: {
+              item({ item }) {
+                return JSON.stringify(item);
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    userEvent.type(playground.inputElement, 'a');
+    await runAllMicroTasks();
+
+    expect(searchClient.search).toHaveBeenCalledTimes(1);
+    expect(searchClient.search).toHaveBeenCalledWith([
+      expect.objectContaining({
+        params: expect.objectContaining({ clickAnalytics: true }),
+      }),
+      expect.objectContaining({
+        params: expect.objectContaining({ clickAnalytics: true }),
+      }),
+    ]);
   });
 
   describe('onItemsChange', () => {
