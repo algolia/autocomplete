@@ -4,7 +4,6 @@ import {
   getAlgoliaResults,
 } from '@algolia/autocomplete-preset-algolia';
 import { noop } from '@algolia/autocomplete-shared';
-import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import insightsClient from 'search-insights';
 
