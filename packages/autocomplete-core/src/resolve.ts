@@ -72,7 +72,7 @@ export function preResolve<TItem extends BaseItem>(
             {},
             ...Object.keys(state.context).map((key) => {
               return (state.context[key] as Record<string, unknown>)
-                ?.queryParameters;
+                ?.__algoliaSearchParameters;
             })
           )
         : {};

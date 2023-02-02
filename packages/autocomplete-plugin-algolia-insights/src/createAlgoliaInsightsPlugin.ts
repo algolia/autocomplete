@@ -126,7 +126,7 @@ export function createAlgoliaInsightsPlugin(
 
       setContext({
         algoliaInsightsPlugin: {
-          queryParameters: {
+          __algoliaSearchParameters: {
             clickAnalytics: true,
           },
           insights,

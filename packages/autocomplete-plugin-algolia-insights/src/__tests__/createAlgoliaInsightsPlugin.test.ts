@@ -85,7 +85,7 @@ describe('createAlgoliaInsightsPlugin', () => {
     );
   });
 
-  test('sets clickAnalytics: true for getAlgoliaResults and getAlgoliaFacets', async () => {
+  test('sets `clickAnalytics=true` for requests to Algolia', async () => {
     const insightsClient = jest.fn();
     const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
 

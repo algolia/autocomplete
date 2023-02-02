@@ -762,7 +762,7 @@ describe('requester', () => {
       },
     }).setContext({
       myPlugin: {
-        queryParameters: {
+        __algoliaSearchParameters: {
           extraParam: true,
         },
       },
