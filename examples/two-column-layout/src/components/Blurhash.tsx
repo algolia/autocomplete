@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import { decode } from 'blurhash';
 import { h } from 'preact';
