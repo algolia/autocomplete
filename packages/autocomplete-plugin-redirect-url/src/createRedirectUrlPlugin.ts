@@ -65,6 +65,12 @@ function getOptions<TItem extends BaseItem>(
   };
 }
 
+function getRedirectData({ state }) {
+  const redirectUrlPlugin = state.context
+    .redirectUrlPlugin as RedirectUrlPluginData;
+  return (redirectUrlPlugin?.data ?? []) as RedirectUrlItem[];
+}
+
 export function createRedirectUrlPlugin<TItem extends BaseItem>(
   options: CreateRedirectUrlPluginParams<TItem>
 ): AutocompletePlugin<RedirectUrlItem, undefined> {
@@ -153,8 +159,7 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
         },
         onActive() {},
         getItems() {
-          return (state.context.redirectUrlPlugin as RedirectUrlPluginData)
-            .data as RedirectUrlItem[];
+          return getRedirectData({ state });
         },
       };
 
@@ -173,11 +178,7 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
       };
     },
     onSubmit({ state }: OnSubmitParams<RedirectUrlItem>) {
-      onRedirect(
-        (state.context.redirectUrlPlugin as RedirectUrlPluginData)
-          .data as RedirectUrlItem[],
-        { navigator, state }
-      );
+      onRedirect(getRedirectData({ state }), { navigator, state });
     },
     __autocomplete_pluginOptions: options,
   };

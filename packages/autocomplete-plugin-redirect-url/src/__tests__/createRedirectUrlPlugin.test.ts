@@ -1,8 +1,32 @@
 import { autocomplete } from '@algolia/autocomplete-js';
-import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions/src';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 
+import { createNavigator } from '../../../../test/utils';
 import { createRedirectUrlPlugin } from '../createRedirectUrlPlugin';
+
+const SOURCE_ID = 'mock-source';
+const REDIRECT_ITEM_VALUE = 'redirect item';
+
+function createRedirectSource() {
+  return {
+    sourceId: SOURCE_ID,
+    getItems() {
+      return {
+        value: REDIRECT_ITEM_VALUE,
+        renderingContent: {
+          redirect: {
+            url: 'https://www.algolia.com',
+          },
+        },
+      };
+    },
+    templates: {
+      item({ item, html }) {
+        return html`<a class="aa-ItemLink">${item.value}</a>`;
+      },
+    },
+  };
+}
 
 beforeEach(() => {
   document.body.innerHTML = '';
@@ -29,7 +53,7 @@ describe('createRedirectUrlPlugin', () => {
     });
   });
 
-  test.only('adds a source with a redirect url item in place of the match in the provided source and renders the template', async () => {
+  test('renders the template with a redirect url item in place of a matched item from the provided source when the redirect url is returned in the source and the input query matches exactly the redirect item', async () => {
     const redirectUrlPlugin = createRedirectUrlPlugin({});
 
     const container = document.createElement('div');
@@ -42,37 +66,18 @@ describe('createRedirectUrlPlugin', () => {
       panelContainer,
       plugins: [redirectUrlPlugin],
       getSources() {
-        return [
-          {
-            sourceId: 'redirect-mock-source',
-            getItems() {
-              return {
-                value: 'redirect item',
-                renderingContent: {
-                  redirect: {
-                    url: 'https://www.algolia.com',
-                  },
-                },
-              };
-            },
-            templates: {
-              item({ item, html }) {
-                return html`<a class="aa-ItemLink">${item.value}</a>`;
-              },
-            },
-          },
-        ];
+        return [createRedirectSource()];
       },
     });
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, { target: { value: 'redirect item' } });
+    fireEvent.input(input, { target: { value: REDIRECT_ITEM_VALUE } });
 
     await waitFor(() => {
       expect(
         panelContainer.querySelector(
-          '[data-autocomplete-source-id="redirect-mock-source"]'
+          `[data-autocomplete-source-id="${SOURCE_ID}"]`
         )
       ).not.toBeInTheDocument();
 
@@ -133,6 +138,153 @@ describe('createRedirectUrlPlugin', () => {
           ],
         ]
       `);
+    });
+  });
+
+  test('renders the items from the provided source when a redirect url is not returned in the source', async () => {
+    const redirectUrlPlugin = createRedirectUrlPlugin({});
+
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    autocomplete({
+      container,
+      panelContainer,
+      plugins: [redirectUrlPlugin],
+      getSources() {
+        return [
+          {
+            sourceId: SOURCE_ID,
+            getItems() {
+              return {
+                value: 'not a redirect item',
+              };
+            },
+            templates: {
+              item({ item, html }) {
+                return html`<a class="aa-ItemLink">${item.value}</a>`;
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'not a redirect item' } });
+
+    await waitFor(() => {
+      expect(
+        within(
+          panelContainer.querySelector(
+            `[data-autocomplete-source-id="${SOURCE_ID}"]`
+          )
+        )
+          .getAllByRole('option')
+          .map((option) => option.children)
+      ).toMatchInlineSnapshot(`
+        Array [
+          HTMLCollection [
+            <a
+              class="aa-ItemLink"
+            >
+              not a redirect item
+            </a>,
+          ],
+        ]
+      `);
+
+      expect(
+        panelContainer.querySelector(
+          '[data-autocomplete-source-id="redirectUrlPlugin"]'
+        )
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  test('triggers navigator with the provided url when clicking on a rendered redirect item', async () => {
+    const redirectUrlPlugin = createRedirectUrlPlugin({});
+    const navigator = createNavigator();
+
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    autocomplete({
+      container,
+      panelContainer,
+      plugins: [redirectUrlPlugin],
+      navigator,
+      getSources() {
+        return [createRedirectSource()];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: REDIRECT_ITEM_VALUE } });
+
+    let redirectItem;
+    await waitFor(() => {
+      redirectItem = within(
+        panelContainer.querySelector(
+          '[data-autocomplete-source-id="redirectUrlPlugin"]'
+        )
+      )
+        .getAllByRole('option')
+        .map((option) => option.children)[0][0];
+      expect(redirectItem).toHaveTextContent(REDIRECT_ITEM_VALUE);
+    });
+
+    fireEvent.click(redirectItem);
+    await waitFor(() => {
+      expect(navigator.navigate).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  test('triggers navigator with the provided url when pressing enter in the input and a redirect item is present', async () => {
+    const redirectUrlPlugin = createRedirectUrlPlugin({});
+    const navigator = createNavigator();
+
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    autocomplete({
+      container,
+      panelContainer,
+      plugins: [redirectUrlPlugin],
+      navigator,
+      getSources() {
+        return [createRedirectSource()];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: REDIRECT_ITEM_VALUE } });
+    await waitFor(() => {
+      expect(
+        within(
+          panelContainer.querySelector(
+            '[data-autocomplete-source-id="redirectUrlPlugin"]'
+          )
+        )
+          .getAllByRole('option')
+          .map((option) => option.children)[0][0]
+      ).toHaveTextContent(REDIRECT_ITEM_VALUE);
+    });
+
+    fireEvent.submit(input);
+
+    await waitFor(() => {
+      expect(input.value).toBe(REDIRECT_ITEM_VALUE);
+      expect(navigator.navigate).toHaveBeenCalledTimes(1);
     });
   });
 });
