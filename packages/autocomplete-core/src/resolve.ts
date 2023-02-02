@@ -66,23 +66,30 @@ export function preResolve<TItem extends BaseItem>(
   | RequestDescriptionPreResolved<TItem>
   | RequestDescriptionPreResolvedCustom<TItem> {
   if (isRequesterDescription<TItem>(itemsOrDescription)) {
-    const contextParameters = Object.assign(
-      {},
-      ...Object.keys(state.context).map((key) => {
-        return (state.context[key] as Record<string, unknown>)?.queryParameters;
-      })
-    );
+    const contextParameters =
+      itemsOrDescription.requesterId === 'algolia'
+        ? Object.assign(
+            {},
+            ...Object.keys(state.context).map((key) => {
+              return (state.context[key] as Record<string, unknown>)
+                ?.queryParameters;
+            })
+          )
+        : {};
 
     return {
       ...itemsOrDescription,
       requests: itemsOrDescription.queries.map((query) => ({
-        query: {
-          ...query,
-          params: {
-            ...contextParameters,
-            ...query.params,
-          },
-        },
+        query:
+          itemsOrDescription.requesterId === 'algolia'
+            ? {
+                ...query,
+                params: {
+                  ...contextParameters,
+                  ...query.params,
+                },
+              }
+            : query,
         sourceId,
         transformResponse: itemsOrDescription.transformResponse,
       })),
