@@ -7,14 +7,11 @@ coverage/
 .cache
 .parcel-cache
 
-
 # Bundle build files
 dist/
 
 # IDE
 .vscode/
-.idea
-.iml
 
 # Environment files
 .env
