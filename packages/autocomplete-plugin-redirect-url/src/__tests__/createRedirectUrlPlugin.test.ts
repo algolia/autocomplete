@@ -5,24 +5,27 @@ import { createNavigator } from '../../../../test/utils';
 import { createRedirectUrlPlugin } from '../createRedirectUrlPlugin';
 
 const SOURCE_ID = 'mock-source';
-const REDIRECT_ITEM_VALUE = 'redirect item';
+const RESPONSE = {
+  query: 'redirect item',
+  renderingContent: {
+    redirect: {
+      url: 'https://www.algolia.com',
+    },
+  },
+};
 
-function createRedirectSource() {
+function createMockSource(
+  sourceId = SOURCE_ID,
+  response: Partial<typeof RESPONSE> = RESPONSE
+) {
   return {
-    sourceId: SOURCE_ID,
+    sourceId,
     getItems() {
-      return {
-        value: REDIRECT_ITEM_VALUE,
-        renderingContent: {
-          redirect: {
-            url: 'https://www.algolia.com',
-          },
-        },
-      };
+      return response;
     },
     templates: {
       item({ item, html }) {
-        return html`<a class="aa-ItemLink">${item.value}</a>`;
+        return html`<a>${item.query}</a>`;
       },
     },
   };
@@ -53,7 +56,7 @@ describe('createRedirectUrlPlugin', () => {
     });
   });
 
-  test('renders the template with a redirect url item in place of a matched item from the provided source when the redirect url is returned in the source and the input query matches exactly the redirect item', async () => {
+  test('renders a redirect item when the input query matches the redirect item value', async () => {
     const redirectUrlPlugin = createRedirectUrlPlugin({});
 
     const container = document.createElement('div');
@@ -66,13 +69,15 @@ describe('createRedirectUrlPlugin', () => {
       panelContainer,
       plugins: [redirectUrlPlugin],
       getSources() {
-        return [createRedirectSource()];
+        return [
+          createMockSource(),
+        ];
       },
     });
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, { target: { value: REDIRECT_ITEM_VALUE } });
+    fireEvent.input(input, { target: { value: RESPONSE.query } });
 
     await waitFor(() => {
       expect(
@@ -155,6 +160,7 @@ describe('createRedirectUrlPlugin', () => {
 
   test('renders the items from the provided source when a redirect url is not returned in the source', async () => {
     const redirectUrlPlugin = createRedirectUrlPlugin({});
+    const query = 'not a redirect item';
 
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
@@ -166,27 +172,13 @@ describe('createRedirectUrlPlugin', () => {
       panelContainer,
       plugins: [redirectUrlPlugin],
       getSources() {
-        return [
-          {
-            sourceId: SOURCE_ID,
-            getItems() {
-              return {
-                value: 'not a redirect item',
-              };
-            },
-            templates: {
-              item({ item, html }) {
-                return html`<a class="aa-ItemLink">${item.value}</a>`;
-              },
-            },
-          },
-        ];
+        return [createMockSource(SOURCE_ID, { query })];
       },
     });
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, { target: { value: 'not a redirect item' } });
+    fireEvent.input(input, { target: { value: query } });
 
     await waitFor(() => {
       expect(
@@ -200,9 +192,7 @@ describe('createRedirectUrlPlugin', () => {
       ).toMatchInlineSnapshot(`
         Array [
           HTMLCollection [
-            <a
-              class="aa-ItemLink"
-            >
+            <a>
               not a redirect item
             </a>,
           ],
@@ -232,13 +222,13 @@ describe('createRedirectUrlPlugin', () => {
       plugins: [redirectUrlPlugin],
       navigator,
       getSources() {
-        return [createRedirectSource()];
+        return [createMockSource()];
       },
     });
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, { target: { value: REDIRECT_ITEM_VALUE } });
+    fireEvent.input(input, { target: { value: RESPONSE.query } });
 
     let redirectItem;
     await waitFor(() => {
@@ -249,7 +239,7 @@ describe('createRedirectUrlPlugin', () => {
       )
         .getAllByRole('option')
         .map((option) => option.children)[0][0];
-      expect(redirectItem).toHaveTextContent(REDIRECT_ITEM_VALUE);
+      expect(redirectItem).toHaveTextContent(RESPONSE.query);
     });
 
     fireEvent.click(redirectItem);
@@ -273,13 +263,13 @@ describe('createRedirectUrlPlugin', () => {
       plugins: [redirectUrlPlugin],
       navigator,
       getSources() {
-        return [createRedirectSource()];
+        return [createMockSource()];
       },
     });
 
     const input = container.querySelector<HTMLInputElement>('.aa-Input');
 
-    fireEvent.input(input, { target: { value: REDIRECT_ITEM_VALUE } });
+    fireEvent.input(input, { target: { value: RESPONSE.query } });
     await waitFor(() => {
       expect(
         within(
@@ -289,13 +279,13 @@ describe('createRedirectUrlPlugin', () => {
         )
           .getAllByRole('option')
           .map((option) => option.children)[0][0]
-      ).toHaveTextContent(REDIRECT_ITEM_VALUE);
+      ).toHaveTextContent(RESPONSE.query);
     });
 
     fireEvent.submit(input);
 
     await waitFor(() => {
-      expect(input.value).toBe(REDIRECT_ITEM_VALUE);
+      expect(input.value).toBe(RESPONSE.query);
       expect(navigator.navigate).toHaveBeenCalledTimes(1);
     });
   });
