@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import {
   autocomplete,
@@ -42,7 +43,6 @@ autocomplete<ProductHit>({
                 indexName: 'instant_search',
                 query,
                 params: {
-                  clickAnalytics: true,
                   attributesToSnippet: ['name:10', 'description:35'],
                   snippetEllipsisText: '…',
                 },

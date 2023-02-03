@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import { Tag } from '@algolia/autocomplete-plugin-tags';
 import { h } from 'preact';

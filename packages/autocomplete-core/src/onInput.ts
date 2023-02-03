@@ -113,7 +113,11 @@ export function onInput<TItem extends BaseItem>({
                   ...setters,
                 })
               ).then((itemsOrDescription) =>
-                preResolve<TItem>(itemsOrDescription, source.sourceId)
+                preResolve<TItem>(
+                  itemsOrDescription,
+                  source.sourceId,
+                  store.getState()
+                )
               );
             })
           )
