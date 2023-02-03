@@ -355,6 +355,7 @@ describe('createTagsPlugin', () => {
 
     expect(onChange).toHaveBeenNthCalledWith(1, {
       onActive: expect.any(Function),
+      onResolve: expect.any(Function),
       onSelect: expect.any(Function),
       refresh: expect.any(Function),
       setActiveItemId: expect.any(Function),

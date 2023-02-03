@@ -30,7 +30,9 @@ describe('createAutocomplete', () => {
     expect(plugin.subscribe).toHaveBeenCalledTimes(1);
     expect(plugin.subscribe).toHaveBeenLastCalledWith({
       onActive: expect.any(Function),
+      onResolve: expect.any(Function),
       onSelect: expect.any(Function),
+      props: expect.any(Object),
       refresh: autocomplete.refresh,
       setCollections: autocomplete.setCollections,
       setContext: autocomplete.setContext,
