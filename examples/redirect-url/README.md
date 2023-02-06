@@ -2,9 +2,11 @@
 
 This example helps you quickly bootstrap a basic Autocomplete with redirect functionality enabled.
 
+<p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete query suggestions example" /></p>
+
 ## Demo
 
-[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/starter)
+[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/redirect-url)
 
 ## How to run this example locally
 

@@ -143,7 +143,7 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
 
       warn(
         sourcesBySourceId.redirect === undefined,
-        'A source with `sourceId: "redirect"` already exists. This source will be overridden.]'
+        'A source with `sourceId: "redirect"` already exists. This source will be overridden.'
       );
 
       return {

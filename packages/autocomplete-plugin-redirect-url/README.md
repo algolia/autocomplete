@@ -11,4 +11,5 @@ npm install @algolia/autocomplete-plugin-redirect-url
 ```
 
 ## Documentation
-TBD
+
+See [**Documentation**](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-redirect-url).
