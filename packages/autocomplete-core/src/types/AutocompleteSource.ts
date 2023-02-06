@@ -1,11 +1,10 @@
-import type { RequesterDescription } from '@algolia/autocomplete-preset-algolia';
-import type { MaybePromise } from '@algolia/autocomplete-shared';
-import {
-  FacetHit,
-  Hit,
+import type {
   SearchForFacetValuesResponse,
   SearchResponse,
-} from '@algolia/client-search';
+  RequesterDescription,
+} from '@algolia/autocomplete-preset-algolia';
+import type { MaybePromise } from '@algolia/autocomplete-shared';
+import { FacetHit, Hit } from '@algolia/client-search';
 
 import { AutocompleteScopeApi, BaseItem } from './AutocompleteApi';
 import { GetSourcesParams } from './AutocompleteOptions';
