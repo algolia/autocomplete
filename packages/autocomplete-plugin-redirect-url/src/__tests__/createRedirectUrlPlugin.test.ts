@@ -1,7 +1,8 @@
 import { autocomplete } from '@algolia/autocomplete-js';
+import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 
-import { createNavigator } from '../../../../test/utils';
+import { createNavigator, createSearchClient } from '../../../../test/utils';
 import { createRedirectUrlPlugin } from '../createRedirectUrlPlugin';
 
 const SOURCE_ID = 'mock-source';
@@ -20,8 +21,13 @@ function createMockSource(
 ) {
   return {
     sourceId,
-    getItems() {
-      return response;
+    getItems({ query }) {
+      return getAlgoliaResults({
+        searchClient: createSearchClient({
+          search: jest.fn().mockResolvedValue({ results: [response] }),
+        }),
+        queries: [{ query, indexName: 'index' }],
+      });
     },
     templates: {
       item({ item, html }) {
@@ -334,7 +340,7 @@ describe('createRedirectUrlPlugin', () => {
       panelContainer,
       plugins: [redirectUrlPlugin],
       getSources() {
-        return [createMockSource(SOURCE_ID, { query })];
+        return [createMockSource(SOURCE_ID, { hits: [{ query }] })];
       },
     });
 
