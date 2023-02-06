@@ -4,18 +4,11 @@ import algoliasearch from 'algoliasearch/lite';
 
 import '@algolia/autocomplete-theme-classic';
 
-const searchClient = algoliasearch(
-  'beta99F17XEZZG',
-  '4aa4981b5ce86e389fb5a948a5f552a3'
-);
+const appId = 'latency';
+const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
+const searchClient = algoliasearch(appId, apiKey);
 
-type PokémonItem = {
-  name: {
-    english: string;
-  };
-};
-
-autocomplete<PokémonItem>({
+autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
@@ -23,24 +16,25 @@ autocomplete<PokémonItem>({
   getSources({ query }) {
     return [
       {
-        sourceId: 'pokedex',
+        sourceId: 'demo-source',
         templates: {
           item(params) {
             const { item, html } = params;
-            return html`<a class="aa-ItemLink">${item.name.english}</a>`;
+            return html`<a class="aa-ItemLink">${item.name}</a>`;
           },
         },
         getItemInputValue({ item }) {
-          return item.name.english;
+          return item.name;
         },
         getItems() {
           return getAlgoliaResults({
             searchClient,
             queries: [
               {
-                indexName: 'dans_test_index',
+                indexName: 'instant_search',
                 query,
                 params: {
+                  ruleContexts: 'enable-redirect-url',
                   hitsPerPage: 10,
                 },
               },
