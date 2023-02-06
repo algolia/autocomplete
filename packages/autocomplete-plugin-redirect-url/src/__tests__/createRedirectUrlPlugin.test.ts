@@ -5,8 +5,6 @@ import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { createNavigator, createSearchClient } from '../../../../test/utils';
 import { createRedirectUrlPlugin } from '../createRedirectUrlPlugin';
 
-import objectContaining = jasmine.objectContaining;
-
 const SOURCE_ID = 'mock-source';
 const REDIRECT_QUERY = 'redirect item';
 const RESPONSE = {
@@ -589,7 +587,7 @@ describe('createRedirectUrlPlugin', () => {
             urls: ['https://www.algolia.com/1'],
           },
           itemUrl: 'https://www.algolia.com/1',
-          state: objectContaining({
+          state: expect.objectContaining({
             context: {
               redirectUrlPlugin: {
                 data: [
