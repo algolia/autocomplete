@@ -34,6 +34,9 @@ function createMockSource(
         return html`<a>${item.query}</a>`;
       },
     },
+    getItemInputValue({ item }) {
+      return item.query;
+    },
   };
 }
 
@@ -372,6 +375,68 @@ describe('createRedirectUrlPlugin', () => {
           '[data-autocomplete-source-id="redirectUrlPlugin"]'
         )
       ).not.toBeInTheDocument();
+    });
+  });
+
+  test('renders a redirect item and hits when the default redirect payload is returned with other hits', async () => {
+    const redirectUrlPlugin = createRedirectUrlPlugin({});
+
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    autocomplete({
+      container,
+      panelContainer,
+      plugins: [redirectUrlPlugin],
+      getSources() {
+        return [
+          createMockSource(SOURCE_ID, {
+            ...RESPONSE,
+            hits: [
+              { query: 'redirect item' },
+              { query: 'not a redirect item 1' },
+              { query: 'not a redirect item 2' },
+            ],
+          }),
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: RESPONSE.query } });
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector(
+          '[data-autocomplete-source-id="redirectUrlPlugin"]'
+        )
+      ).toBeInTheDocument();
+
+      expect(
+        within(
+          panelContainer.querySelector(
+            `[data-autocomplete-source-id="${SOURCE_ID}"]`
+          )
+        )
+          .getAllByRole('option')
+          .map((option) => option.children)
+      ).toMatchInlineSnapshot(`
+        Array [
+          HTMLCollection [
+            <a>
+              not a redirect item 1
+            </a>,
+          ],
+          HTMLCollection [
+            <a>
+              not a redirect item 2
+            </a>,
+          ],
+        ]
+      `);
     });
   });
 
