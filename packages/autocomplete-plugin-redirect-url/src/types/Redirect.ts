@@ -1,4 +1,13 @@
-import { BaseItem } from '@algolia/autocomplete-core';
+import {
+  AutocompleteState,
+  BaseItem,
+  InternalAutocompleteOptions,
+} from '@algolia/autocomplete-core';
+import { SourceTemplates } from '@algolia/autocomplete-js';
+import {
+  SearchForFacetValuesResponse,
+  SearchResponse,
+} from '@algolia/autocomplete-preset-algolia';
 
 export interface RedirectUrlPlugin {
   data: RedirectUrlState[];
@@ -10,3 +19,23 @@ export interface RedirectUrlState {
 }
 
 export interface RedirectUrlItem extends RedirectUrlState, BaseItem {}
+
+export type OnRedirectOptions<TItem extends RedirectUrlItem> = {
+  navigator: InternalAutocompleteOptions<TItem>['navigator'];
+  state: AutocompleteState<TItem>;
+};
+
+export type TransformResponseParams<TItem> =
+  | SearchResponse<TItem>
+  | SearchForFacetValuesResponse;
+
+export type CreateRedirectUrlPluginParams<TItem extends BaseItem> = {
+  transformResponse?(
+    response: TransformResponseParams<TItem>
+  ): string | undefined;
+  onRedirect?(
+    redirects: RedirectUrlItem[],
+    options: OnRedirectOptions<RedirectUrlItem>
+  ): void;
+  templates?: SourceTemplates<RedirectUrlItem>;
+};

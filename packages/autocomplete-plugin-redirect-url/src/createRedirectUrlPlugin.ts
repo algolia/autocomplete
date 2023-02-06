@@ -1,42 +1,20 @@
 import {
-  AutocompleteState,
   BaseItem,
   InternalAutocompleteOptions,
   OnSelectParams,
   OnSubmitParams,
 } from '@algolia/autocomplete-core';
-import { AutocompletePlugin, SourceTemplates } from '@algolia/autocomplete-js';
-import {
-  SearchForFacetValuesResponse,
-  SearchResponse,
-} from '@algolia/autocomplete-preset-algolia';
+import { AutocompletePlugin } from '@algolia/autocomplete-js';
 import { warn } from '@algolia/autocomplete-shared';
 
 import { defaultTemplates } from './templates';
 import {
+  CreateRedirectUrlPluginParams,
+  OnRedirectOptions,
   RedirectUrlItem,
   RedirectUrlPlugin as RedirectUrlPluginData,
+  TransformResponseParams,
 } from './types';
-
-export type OnRedirectOptions<TItem extends RedirectUrlItem> = {
-  navigator: InternalAutocompleteOptions<TItem>['navigator'];
-  state: AutocompleteState<TItem>;
-};
-
-type TransformResponseParams<TItem> =
-  | SearchResponse<TItem>
-  | SearchForFacetValuesResponse;
-
-export type CreateRedirectUrlPluginParams<TItem extends BaseItem> = {
-  transformResponse?(
-    response: TransformResponseParams<TItem>
-  ): string | undefined;
-  onRedirect?(
-    redirects: RedirectUrlItem[],
-    options: OnRedirectOptions<RedirectUrlItem>
-  ): void;
-  templates?: SourceTemplates<RedirectUrlItem>;
-};
 
 function defaultTransformResponse<THit>(
   response: TransformResponseParams<THit>

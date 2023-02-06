@@ -8,7 +8,7 @@ import type {
 
 type Fetcher = typeof fetchAlgoliaResults;
 
-export type FacetHit = {
+type FacetHit = {
   label: string;
   count: number;
   _highlightResult: {
@@ -29,7 +29,7 @@ export type RequesterParams<THit> = {
   ): TransformedRequesterResponse<THit>;
 };
 
-export type TransformResponseParams<THit> = {
+type TransformResponseParams<THit> = {
   results: Array<SearchResponse<THit> | SearchForFacetValuesResponse>;
   hits: Array<SearchResponse<THit>['hits']>;
   facetHits: FacetHit[][];

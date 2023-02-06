@@ -1,9 +1,7 @@
-import type {
-  FacetHit,
-  RequesterDescription,
-} from '@algolia/autocomplete-preset-algolia';
+import type { RequesterDescription } from '@algolia/autocomplete-preset-algolia';
 import type { MaybePromise } from '@algolia/autocomplete-shared';
 import {
+  FacetHit,
   Hit,
   SearchForFacetValuesResponse,
   SearchResponse,
