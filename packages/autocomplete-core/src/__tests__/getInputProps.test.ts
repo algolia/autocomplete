@@ -1296,6 +1296,7 @@ describe('getInputProps', () => {
                     getItemUrl: expect.any(Function),
                     getItems: expect.any(Function),
                     onActive: expect.any(Function),
+                    onResolve: expect.any(Function),
                     onSelect,
                   },
                 },
