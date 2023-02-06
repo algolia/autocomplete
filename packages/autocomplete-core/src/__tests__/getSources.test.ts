@@ -81,6 +81,7 @@ describe('getSources', () => {
                 getItems: expect.any(Function),
                 onActive: expect.any(Function),
                 onSelect: expect.any(Function),
+                onResolve: expect.any(Function),
                 templates: expect.objectContaining({
                   item: expect.any(Function),
                 }),
