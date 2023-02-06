@@ -1,4 +1,4 @@
-# Autocomplete redirect URL with static data
+# Autocomplete Redirect URL example
 
 This example helps you quickly bootstrap a basic Autocomplete with redirect functionality enabled.
 

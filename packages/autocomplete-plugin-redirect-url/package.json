@@ -1,6 +1,6 @@
 {
   "name": "@algolia/autocomplete-plugin-redirect-url",
-  "description": "A plugin to add out-of-the-box redirect URL functionality to Algolia Autocomplete.",
+  "description": "A plugin to add redirect URL functionality to Algolia Autocomplete.",
   "version": "1.7.4",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete",

@@ -1,6 +1,6 @@
 # @algolia/autocomplete-plugin-redirect-url
 
-The Redirect URL plugin adds out-of-the-box redirect functionality to your autocomplete.
+The Redirect URL plugin adds redirect functionality to your autocomplete.
 
 ## Installation
 
