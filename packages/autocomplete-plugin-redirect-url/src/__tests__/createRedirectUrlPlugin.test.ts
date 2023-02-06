@@ -5,9 +5,12 @@ import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { createNavigator, createSearchClient } from '../../../../test/utils';
 import { createRedirectUrlPlugin } from '../createRedirectUrlPlugin';
 
+import objectContaining = jasmine.objectContaining;
+
 const SOURCE_ID = 'mock-source';
+const REDIRECT_QUERY = 'redirect item';
 const RESPONSE = {
-  query: 'redirect item',
+  query: REDIRECT_QUERY,
   renderingContent: {
     redirect: {
       url: 'https://www.algolia.com',
@@ -17,16 +20,17 @@ const RESPONSE = {
 
 function createMockSource(
   sourceId = SOURCE_ID,
-  response: Record<string, any> = RESPONSE
+  results: Record<string, any> = [RESPONSE],
+  queries = [{ query: REDIRECT_QUERY, indexName: 'mock-index' }]
 ) {
   return {
     sourceId,
-    getItems({ query }) {
+    getItems() {
       return getAlgoliaResults({
         searchClient: createSearchClient({
-          search: jest.fn().mockResolvedValue({ results: [response] }),
+          search: jest.fn().mockResolvedValue({ results }),
         }),
-        queries: [{ query, indexName: 'index' }],
+        queries,
       });
     },
     templates: {
@@ -38,6 +42,28 @@ function createMockSource(
       return item.query;
     },
   };
+}
+
+function findInput(container: HTMLElement) {
+  return container.querySelector<HTMLInputElement>('.aa-Input') as HTMLElementl;
+}
+
+function findRedirectSection(container: HTMLElement) {
+  return container.querySelector(
+    '[data-autocomplete-source-id="redirectUrlPlugin"]'
+  ) as HTMLElement;
+}
+
+function findHitsSection(container: HTMLElement, sourceId = SOURCE_ID) {
+  return container.querySelector(
+    `[data-autocomplete-source-id="${sourceId}"]`
+  ) as HTMLElement;
+}
+
+function findDropdownOptions(container: HTMLElement) {
+  return within(container)
+    .getAllByRole('option')
+    .map((option) => option.children);
 }
 
 beforeEach(() => {
@@ -82,26 +108,15 @@ describe('createRedirectUrlPlugin', () => {
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = findInput(container);
 
-    fireEvent.input(input, { target: { value: RESPONSE.query } });
+    fireEvent.input(input, { target: { value: REDIRECT_QUERY } });
 
     await waitFor(() => {
-      expect(
-        panelContainer.querySelector(
-          `[data-autocomplete-source-id="${SOURCE_ID}"]`
-        )
-      ).not.toBeInTheDocument();
+      expect(findHitsSection(panelContainer)).not.toBeInTheDocument();
 
-      expect(
-        within(
-          panelContainer.querySelector(
-            '[data-autocomplete-source-id="redirectUrlPlugin"]'
-          )
-        )
-          .getAllByRole('option')
-          .map((option) => option.children)
-      ).toMatchInlineSnapshot(`
+      expect(findDropdownOptions(findRedirectSection(panelContainer)))
+        .toMatchInlineSnapshot(`
         Array [
           HTMLCollection [
             <div
@@ -188,26 +203,15 @@ describe('createRedirectUrlPlugin', () => {
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = findInput(container);
 
-    fireEvent.input(input, { target: { value: RESPONSE.query } });
+    fireEvent.input(input, { target: { value: REDIRECT_QUERY } });
 
     await waitFor(() => {
-      expect(
-        panelContainer.querySelector(
-          `[data-autocomplete-source-id="${SOURCE_ID}"]`
-        )
-      ).not.toBeInTheDocument();
+      expect(findHitsSection(panelContainer)).not.toBeInTheDocument();
 
-      expect(
-        within(
-          panelContainer.querySelector(
-            '[data-autocomplete-source-id="redirectUrlPlugin"]'
-          )
-        )
-          .getAllByRole('option')
-          .map((option) => option.children)
-      ).toMatchInlineSnapshot(`
+      expect(findDropdownOptions(findRedirectSection(panelContainer)))
+        .toMatchInlineSnapshot(`
         Array [
           HTMLCollection [
             <a>
@@ -238,94 +242,23 @@ describe('createRedirectUrlPlugin', () => {
       plugins: [redirectUrlPlugin],
       getSources() {
         return [
-          createMockSource(SOURCE_ID, {
-            query: 'custom redirect item',
-            customRedirect: { url: RESPONSE.renderingContent.redirect.url },
-          }),
+          createMockSource(SOURCE_ID, [
+            {
+              query: 'custom redirect item',
+              customRedirect: { url: RESPONSE.renderingContent.redirect.url },
+            },
+          ]),
         ];
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = findInput(container);
 
-    fireEvent.input(input, { target: { value: RESPONSE.query } });
+    fireEvent.input(input, { target: { value: REDIRECT_QUERY } });
 
     await waitFor(() => {
-      expect(
-        panelContainer.querySelector(
-          `[data-autocomplete-source-id="${SOURCE_ID}"]`
-        )
-      ).not.toBeInTheDocument();
-
-      expect(
-        within(
-          panelContainer.querySelector(
-            '[data-autocomplete-source-id="redirectUrlPlugin"]'
-          )
-        )
-          .getAllByRole('option')
-          .map((option) => option.children)
-      ).toMatchInlineSnapshot(`
-        Array [
-          HTMLCollection [
-            <div
-              class="aa-ItemWrapper"
-            >
-              <div
-                class="aa-ItemContent"
-              >
-                <div
-                  class="aa-ItemIcon aa-ItemIcon--noBorder"
-                >
-                  <svg
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M16.041 15.856c-0.034 0.026-0.067 0.055-0.099 0.087s-0.060 0.064-0.087 0.099c-1.258 1.213-2.969 1.958-4.855 1.958-1.933 0-3.682-0.782-4.95-2.050s-2.050-3.017-2.050-4.95 0.782-3.682 2.050-4.95 3.017-2.050 4.95-2.050 3.682 0.782 4.95 2.050 2.050 3.017 2.050 4.95c0 1.886-0.745 3.597-1.959 4.856zM21.707 20.293l-3.675-3.675c1.231-1.54 1.968-3.493 1.968-5.618 0-2.485-1.008-4.736-2.636-6.364s-3.879-2.636-6.364-2.636-4.736 1.008-6.364 2.636-2.636 3.879-2.636 6.364 1.008 4.736 2.636 6.364 3.879 2.636 6.364 2.636c2.125 0 4.078-0.737 5.618-1.968l3.675 3.675c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="aa-ItemContentBody"
-                >
-                  <div
-                    class="aa-ItemContentTitle"
-                  >
-                    redirect item
-                  </div>
-                </div>
-              </div>
-              <div
-                class="aa-ItemActions"
-              >
-                <div
-                  class="aa-ItemActionButton"
-                >
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <line
-                      x1="5"
-                      x2="19"
-                      y1="12"
-                      y2="12"
-                    />
-                    <polyline
-                      points="12 5 19 12 12 19"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>,
-          ],
-        ]
-      `);
+      expect(findHitsSection(panelContainer)).not.toBeInTheDocument();
+      expect(findRedirectSection(panelContainer)).toBeInTheDocument();
     });
   });
 
@@ -343,24 +276,17 @@ describe('createRedirectUrlPlugin', () => {
       panelContainer,
       plugins: [redirectUrlPlugin],
       getSources() {
-        return [createMockSource(SOURCE_ID, { hits: [{ query }] })];
+        return [createMockSource(SOURCE_ID, [{ hits: [{ query }] }])];
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = findInput(container);
 
     fireEvent.input(input, { target: { value: query } });
 
     await waitFor(() => {
-      expect(
-        within(
-          panelContainer.querySelector(
-            `[data-autocomplete-source-id="${SOURCE_ID}"]`
-          )
-        )
-          .getAllByRole('option')
-          .map((option) => option.children)
-      ).toMatchInlineSnapshot(`
+      expect(findDropdownOptions(findHitsSection(panelContainer)))
+        .toMatchInlineSnapshot(`
         Array [
           HTMLCollection [
             <a>
@@ -370,11 +296,7 @@ describe('createRedirectUrlPlugin', () => {
         ]
       `);
 
-      expect(
-        panelContainer.querySelector(
-          '[data-autocomplete-source-id="redirectUrlPlugin"]'
-        )
-      ).not.toBeInTheDocument();
+      expect(findRedirectSection(panelContainer)).not.toBeInTheDocument();
     });
   });
 
@@ -392,38 +314,29 @@ describe('createRedirectUrlPlugin', () => {
       plugins: [redirectUrlPlugin],
       getSources() {
         return [
-          createMockSource(SOURCE_ID, {
-            ...RESPONSE,
-            hits: [
-              { query: 'redirect item' },
-              { query: 'not a redirect item 1' },
-              { query: 'not a redirect item 2' },
-            ],
-          }),
+          createMockSource(SOURCE_ID, [
+            {
+              ...RESPONSE,
+              hits: [
+                { query: 'redirect item' },
+                { query: 'not a redirect item 1' },
+                { query: 'not a redirect item 2' },
+              ],
+            },
+          ]),
         ];
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = findInput(container);
 
-    fireEvent.input(input, { target: { value: RESPONSE.query } });
+    fireEvent.input(input, { target: { value: REDIRECT_QUERY } });
 
     await waitFor(() => {
-      expect(
-        panelContainer.querySelector(
-          '[data-autocomplete-source-id="redirectUrlPlugin"]'
-        )
-      ).toBeInTheDocument();
+      expect(findRedirectSection(panelContainer)).toBeInTheDocument();
 
-      expect(
-        within(
-          panelContainer.querySelector(
-            `[data-autocomplete-source-id="${SOURCE_ID}"]`
-          )
-        )
-          .getAllByRole('option')
-          .map((option) => option.children)
-      ).toMatchInlineSnapshot(`
+      expect(findDropdownOptions(findHitsSection(panelContainer)))
+        .toMatchInlineSnapshot(`
         Array [
           HTMLCollection [
             <a>
@@ -459,20 +372,16 @@ describe('createRedirectUrlPlugin', () => {
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = findInput(container);
 
-    fireEvent.input(input, { target: { value: RESPONSE.query } });
+    fireEvent.input(input, { target: { value: REDIRECT_QUERY } });
 
     let redirectItem;
     await waitFor(() => {
-      redirectItem = within(
-        panelContainer.querySelector(
-          '[data-autocomplete-source-id="redirectUrlPlugin"]'
-        )
-      )
-        .getAllByRole('option')
-        .map((option) => option.children)[0][0];
-      expect(redirectItem).toHaveTextContent(RESPONSE.query);
+      redirectItem = findDropdownOptions(
+        findRedirectSection(panelContainer)
+      )[0][0];
+      expect(redirectItem).toHaveTextContent(REDIRECT_QUERY);
     });
 
     fireEvent.click(redirectItem);
@@ -500,25 +409,19 @@ describe('createRedirectUrlPlugin', () => {
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = findInput(container);
 
-    fireEvent.input(input, { target: { value: RESPONSE.query } });
+    fireEvent.input(input, { target: { value: REDIRECT_QUERY } });
     await waitFor(() => {
       expect(
-        within(
-          panelContainer.querySelector(
-            '[data-autocomplete-source-id="redirectUrlPlugin"]'
-          )
-        )
-          .getAllByRole('option')
-          .map((option) => option.children)[0][0]
-      ).toHaveTextContent(RESPONSE.query);
+        findDropdownOptions(findRedirectSection(panelContainer))[0][0]
+      ).toHaveTextContent(REDIRECT_QUERY);
     });
 
     fireEvent.submit(input);
 
     await waitFor(() => {
-      expect(input.value).toBe(RESPONSE.query);
+      expect(input.value).toBe(REDIRECT_QUERY);
       expect(navigator.navigate).toHaveBeenCalledTimes(1);
     });
   });
@@ -540,9 +443,170 @@ describe('createRedirectUrlPlugin', () => {
       plugins: [redirectUrlPlugin],
     });
 
-    fireEvent.submit(container.querySelector<HTMLInputElement>('.aa-Input'));
+    fireEvent.submit(findInput(container));
     await waitFor(() => {
       expect(onRedirect).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  test('stores a list of multiple redirects per source and renders the first by default when a source has multiple queries', async () => {
+    const redirectUrlPlugin = createRedirectUrlPlugin({});
+    const navigator = createNavigator();
+
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    autocomplete({
+      container,
+      panelContainer,
+      plugins: [redirectUrlPlugin],
+      navigator,
+      getSources() {
+        return [
+          createMockSource(
+            SOURCE_ID,
+            [
+              {
+                query: REDIRECT_QUERY,
+                renderingContent: {
+                  redirect: {
+                    url: 'https://www.algolia.com/1',
+                  },
+                },
+                hits: [{ query: REDIRECT_QUERY }, { query: 'redirect item 1' }],
+              },
+              {
+                query: REDIRECT_QUERY,
+                renderingContent: {
+                  redirect: {
+                    url: 'https://www.algolia.com/2',
+                  },
+                },
+                hits: [{ query: REDIRECT_QUERY }, { query: 'redirect item 2' }],
+              },
+            ],
+            [
+              { query: REDIRECT_QUERY, indexName: 'mock-index-1' },
+              { query: REDIRECT_QUERY, indexName: 'mock-index-2' },
+            ]
+          ),
+        ];
+      },
+    });
+
+    const input = findInput(container);
+
+    fireEvent.input(input, { target: { value: REDIRECT_QUERY } });
+    await waitFor(() => {
+      expect(
+        findDropdownOptions(findRedirectSection(panelContainer))[0][0]
+      ).toHaveTextContent(REDIRECT_QUERY);
+    });
+
+    fireEvent.submit(input);
+    await waitFor(() => {
+      expect(input.value).toBe(REDIRECT_QUERY);
+      expect(navigator.navigate).toHaveBeenCalledWith(
+        expect.objectContaining({
+          item: {
+            sourceId: 'mock-source',
+            urls: ['https://www.algolia.com/1', 'https://www.algolia.com/2'],
+          },
+          itemUrl: 'https://www.algolia.com/1',
+        })
+      );
+    });
+  });
+
+  test('stores a list of multiple sources with redirects and renders the first by default when there are multiple sources', async () => {
+    const redirectUrlPlugin = createRedirectUrlPlugin({});
+    const navigator = createNavigator();
+
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    autocomplete({
+      container,
+      panelContainer,
+      plugins: [redirectUrlPlugin],
+      navigator,
+      getSources() {
+        return [
+          createMockSource(
+            'mock-source-1',
+            [
+              {
+                query: REDIRECT_QUERY,
+                renderingContent: {
+                  redirect: {
+                    url: 'https://www.algolia.com/1',
+                  },
+                },
+                hits: [{ query: REDIRECT_QUERY }, { query: 'redirect item 1' }],
+              },
+            ],
+            [{ query: REDIRECT_QUERY, indexName: 'mock-index-1' }]
+          ),
+          createMockSource(
+            'mock-source-2',
+            [
+              {
+                query: REDIRECT_QUERY,
+                renderingContent: {
+                  redirect: {
+                    url: 'https://www.algolia.com/2',
+                  },
+                },
+                hits: [{ query: REDIRECT_QUERY }, { query: 'redirect item 2' }],
+              },
+            ],
+            [{ query: REDIRECT_QUERY, indexName: 'mock-index-2' }]
+          ),
+        ];
+      },
+    });
+
+    const input = findInput(container);
+
+    fireEvent.input(input, { target: { value: REDIRECT_QUERY } });
+    await waitFor(() => {
+      expect(
+        findDropdownOptions(findRedirectSection(panelContainer))[0][0]
+      ).toHaveTextContent(REDIRECT_QUERY);
+    });
+
+    fireEvent.submit(input);
+    await waitFor(() => {
+      expect(input.value).toBe(REDIRECT_QUERY);
+      expect(navigator.navigate).toHaveBeenCalledWith(
+        expect.objectContaining({
+          item: {
+            sourceId: 'mock-source-1',
+            urls: ['https://www.algolia.com/1'],
+          },
+          itemUrl: 'https://www.algolia.com/1',
+          state: objectContaining({
+            context: {
+              redirectUrlPlugin: {
+                data: [
+                  {
+                    sourceId: 'mock-source-1',
+                    urls: ['https://www.algolia.com/1'],
+                  },
+                  {
+                    sourceId: 'mock-source-2',
+                    urls: ['https://www.algolia.com/2'],
+                  },
+                ],
+              },
+            },
+          }),
+        })
+      );
     });
   });
 });
