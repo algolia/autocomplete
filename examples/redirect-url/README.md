@@ -2,7 +2,7 @@
 
 This example helps you quickly bootstrap a basic Autocomplete with redirect functionality enabled.
 
-<p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete query suggestions example" /></p>
+<p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete redirect URL example" /></p>
 
 ## Demo
 
