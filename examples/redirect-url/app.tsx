@@ -34,7 +34,7 @@ autocomplete({
                 indexName: 'instant_search',
                 query,
                 params: {
-                  ruleContexts: 'enable-redirect-url',
+                  ruleContexts: ['enable-redirect-url'],
                   hitsPerPage: 10,
                 },
               },
