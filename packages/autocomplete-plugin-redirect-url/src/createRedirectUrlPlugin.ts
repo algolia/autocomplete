@@ -23,11 +23,21 @@ function defaultTransformResponse<THit>(
 
 function defaultOnRedirect(
   redirects: RedirectUrlItem[],
-  { navigator, state }: OnRedirectOptions<RedirectUrlItem>
+  { navigator, state, event }: OnRedirectOptions<RedirectUrlItem>
 ) {
-  const itemUrl = redirects[0]?.urls?.[0];
-  if (itemUrl) {
-    navigator.navigate({ itemUrl, item: redirects[0], state });
+  const item = redirects[0];
+  const itemUrl = item?.urls?.[0];
+
+  if (!itemUrl) {
+    return;
+  }
+
+  if (event.metaKey || event.ctrlKey) {
+    navigator.navigateNewTab({ itemUrl, item, state });
+  } else if (event.shiftKey) {
+    navigator.navigateNewWindow({ itemUrl, item, state });
+  } else {
+    navigator.navigate({ itemUrl, item, state });
   }
 }
 
