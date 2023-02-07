@@ -1,6 +1,5 @@
 import {
   BaseItem,
-  InternalAutocompleteOptions,
   OnSelectParams,
   OnSubmitParams,
 } from '@algolia/autocomplete-core';
@@ -81,12 +80,9 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
     return redirects;
   }
 
-  let navigator: InternalAutocompleteOptions<RedirectUrlItem>['navigator'];
-
   return {
     name: 'aa.redirectUrlPlugin',
-    subscribe({ onResolve, setContext, props }) {
-      navigator = props.navigator;
+    subscribe({ onResolve, setContext }) {
       onResolve(({ results, source, state }) => {
         setContext({
           ...state.context,
@@ -129,7 +125,7 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
         getItemUrl({ item }) {
           return item.urls[0];
         },
-        onSelect({ item, state }: OnSelectParams<RedirectUrlItem>) {
+        onSelect({ item, state, navigator }: OnSelectParams<RedirectUrlItem>) {
           onRedirect([item], { navigator, state });
         },
         getItemInputValue() {
@@ -155,7 +151,7 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
         state,
       };
     },
-    onSubmit({ state }: OnSubmitParams<RedirectUrlItem>) {
+    onSubmit({ state, navigator }: OnSubmitParams<RedirectUrlItem>) {
       onRedirect(getRedirectData({ state }), { navigator, state });
     },
     __autocomplete_pluginOptions: options,

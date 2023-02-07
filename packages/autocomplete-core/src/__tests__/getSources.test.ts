@@ -27,6 +27,7 @@ describe('getSources', () => {
     expect(getSources).toHaveBeenCalledTimes(1);
     expect(getSources).toHaveBeenCalledWith({
       query: 'a',
+      navigator: expect.any(Object),
       refresh: expect.any(Function),
       setCollections: expect.any(Function),
       setContext: expect.any(Function),

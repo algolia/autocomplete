@@ -1,3 +1,4 @@
+import { AutocompleteNavigator } from './AutocompleteNavigator';
 import { AutocompletePropGetters } from './AutocompletePropGetters';
 import { AutocompleteSetters } from './AutocompleteSetters';
 
@@ -9,6 +10,10 @@ export interface AutocompleteScopeApi<TItem extends BaseItem>
    * Triggers a search to refresh the state.
    */
   refresh(): Promise<void>;
+  /**
+   * Functions to navigate to a URL.
+   */
+  navigator: AutocompleteNavigator<TItem>;
 }
 
 export type AutocompleteApi<

@@ -1,8 +1,5 @@
 import { AutocompleteScopeApi, BaseItem } from './AutocompleteApi';
-import {
-  AutocompleteOptions,
-  InternalAutocompleteOptions,
-} from './AutocompleteOptions';
+import { AutocompleteOptions } from './AutocompleteOptions';
 import { PluginReshape } from './AutocompleteReshape';
 import {
   OnSelectParams,
@@ -14,7 +11,6 @@ type PluginSubscriber<TParams> = (params: TParams) => void;
 
 export interface PluginSubscribeParams<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
-  props: InternalAutocompleteOptions<TItem>;
   onSelect(fn: PluginSubscriber<OnSelectParams<TItem>>): void;
   onActive(fn: PluginSubscriber<OnActiveParams<TItem>>): void;
   onResolve(fn: PluginSubscriber<OnResolveParams<TItem>>): void;

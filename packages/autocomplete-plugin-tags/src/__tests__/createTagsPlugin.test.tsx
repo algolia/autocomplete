@@ -357,6 +357,7 @@ describe('createTagsPlugin', () => {
       onActive: expect.any(Function),
       onResolve: expect.any(Function),
       onSelect: expect.any(Function),
+      navigator: expect.any(Object),
       refresh: expect.any(Function),
       setActiveItemId: expect.any(Function),
       setCollections: expect.any(Function),
@@ -364,7 +365,6 @@ describe('createTagsPlugin', () => {
       setIsOpen: expect.any(Function),
       setQuery: expect.any(Function),
       setStatus: expect.any(Function),
-      props: expect.any(Object),
       prevTags: [
         {
           label: 'iPhone 12',
