@@ -23,7 +23,7 @@ function defaultTransformResponse<THit>(
 
 function defaultOnRedirect(
   redirects: RedirectUrlItem[],
-  { navigator, state, event }: OnRedirectOptions<RedirectUrlItem>
+  { event, navigator, state }: OnRedirectOptions<RedirectUrlItem>
 ) {
   const item = redirects[0];
   const itemUrl = item?.urls?.[0];
@@ -135,8 +135,13 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
         getItemUrl({ item }) {
           return item.urls[0];
         },
-        onSelect({ item, state, navigator }: OnSelectParams<RedirectUrlItem>) {
-          onRedirect([item], { navigator, state });
+        onSelect({
+          event,
+          item,
+          state,
+          navigator,
+        }: OnSelectParams<RedirectUrlItem>) {
+          onRedirect([item], { event, navigator, state });
         },
         getItemInputValue() {
           return state.query;
@@ -161,8 +166,8 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
         state,
       };
     },
-    onSubmit({ state, navigator }: OnSubmitParams<RedirectUrlItem>) {
-      onRedirect(getRedirectData({ state }), { navigator, state });
+    onSubmit({ event, navigator, state }: OnSubmitParams<RedirectUrlItem>) {
+      onRedirect(getRedirectData({ state }), { event, navigator, state });
     },
     __autocomplete_pluginOptions: options,
   };

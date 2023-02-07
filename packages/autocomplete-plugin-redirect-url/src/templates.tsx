@@ -2,7 +2,7 @@
 /** @jsx createElement */
 
 export const defaultTemplates = {
-  item({ createElement, state }) {
+  item({ createElement, item, state }) {
     return (
       <div className="aa-ItemWrapper">
         <div className="aa-ItemContent">
@@ -12,7 +12,11 @@ export const defaultTemplates = {
             </svg>
           </div>
           <div className="aa-ItemContentBody">
-            <div className="aa-ItemContentTitle">{state.query}</div>
+            <div className="aa-ItemContentTitle">
+              <a className="aa-ItemLink" href={item.urls[0]}>
+                {state.query}
+              </a>
+            </div>
           </div>
         </div>
         <div className="aa-ItemActions">

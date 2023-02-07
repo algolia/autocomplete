@@ -21,6 +21,7 @@ export interface RedirectUrlState {
 export interface RedirectUrlItem extends RedirectUrlState, BaseItem {}
 
 export type OnRedirectOptions<TItem extends RedirectUrlItem> = {
+  event: any;
   navigator: InternalAutocompleteOptions<TItem>['navigator'];
   state: AutocompleteState<TItem>;
 };

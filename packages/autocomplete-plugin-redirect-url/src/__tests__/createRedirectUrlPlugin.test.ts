@@ -141,7 +141,12 @@ describe('createRedirectUrlPlugin', () => {
                   <div
                     class="aa-ItemContentTitle"
                   >
-                    redirect item
+                    <a
+                      class="aa-ItemLink"
+                      href="https://www.algolia.com"
+                    >
+                      redirect item
+                    </a>
                   </div>
                 </div>
               </div>
