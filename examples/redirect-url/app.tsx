@@ -8,7 +8,7 @@ const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
 
-autocomplete({
+autocomplete<{ name: string }>({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
