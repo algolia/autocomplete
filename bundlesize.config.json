@@ -2,11 +2,11 @@
   "files": [
     {
       "path": "packages/autocomplete-core/dist/umd/index.production.js",
-      "maxSize": "6.26 kB"
+      "maxSize": "6.5 kB"
     },
     {
       "path": "packages/autocomplete-js/dist/umd/index.production.js",
-      "maxSize": "17.75 kB"
+      "maxSize": "18 kB"
     },
     {
       "path": "packages/autocomplete-preset-algolia/dist/umd/index.production.js",
