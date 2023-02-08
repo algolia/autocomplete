@@ -12,7 +12,7 @@ autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
-  plugins: [createRedirectUrlPlugin({})],
+  plugins: [createRedirectUrlPlugin()],
   getSources({ query }) {
     return [
       {
@@ -34,7 +34,7 @@ autocomplete({
                 indexName: 'instant_search',
                 query,
                 params: {
-                  ruleContexts: ['enable-redirect-url'],
+                  ruleContexts: ['enable-redirect-url'], // note: only needed for this demo data
                   hitsPerPage: 10,
                 },
               },

@@ -43,7 +43,7 @@ function createMockSource(
 }
 
 function findInput(container: HTMLElement) {
-  return container.querySelector<HTMLInputElement>('.aa-Input') as HTMLElementl;
+  return container.querySelector<HTMLInputElement>('.aa-Input') as HTMLElement;
 }
 
 function findRedirectSection(container: HTMLElement) {
@@ -70,7 +70,7 @@ beforeEach(() => {
 
 describe('createRedirectUrlPlugin', () => {
   test('has a name', () => {
-    const plugin = createRedirectUrlPlugin({});
+    const plugin = createRedirectUrlPlugin();
 
     expect(plugin.name).toBe('aa.redirectUrlPlugin');
   });
@@ -90,7 +90,7 @@ describe('createRedirectUrlPlugin', () => {
   });
 
   test('renders a redirect item when the default redirect payload is returned', async () => {
-    const redirectUrlPlugin = createRedirectUrlPlugin({});
+    const redirectUrlPlugin = createRedirectUrlPlugin();
 
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
@@ -266,7 +266,7 @@ describe('createRedirectUrlPlugin', () => {
   });
 
   test('renders the items from the provided source when a redirect is not in the payload', async () => {
-    const redirectUrlPlugin = createRedirectUrlPlugin({});
+    const redirectUrlPlugin = createRedirectUrlPlugin();
     const query = 'not a redirect item';
 
     const container = document.createElement('div');
@@ -304,7 +304,7 @@ describe('createRedirectUrlPlugin', () => {
   });
 
   test('renders a redirect item and hits when the default redirect payload is returned with other hits', async () => {
-    const redirectUrlPlugin = createRedirectUrlPlugin({});
+    const redirectUrlPlugin = createRedirectUrlPlugin();
 
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
@@ -357,7 +357,7 @@ describe('createRedirectUrlPlugin', () => {
   });
 
   test('triggers navigator with the provided url when clicking on a rendered redirect item', async () => {
-    const redirectUrlPlugin = createRedirectUrlPlugin({});
+    const redirectUrlPlugin = createRedirectUrlPlugin();
     const navigator = createNavigator();
 
     const container = document.createElement('div');
@@ -394,7 +394,7 @@ describe('createRedirectUrlPlugin', () => {
   });
 
   test('triggers navigator with the provided url when pressing enter in the input and a redirect item is present', async () => {
-    const redirectUrlPlugin = createRedirectUrlPlugin({});
+    const redirectUrlPlugin = createRedirectUrlPlugin();
     const navigator = createNavigator();
 
     const container = document.createElement('div');
@@ -453,7 +453,7 @@ describe('createRedirectUrlPlugin', () => {
   });
 
   test('stores a list of multiple redirects per source and renders the first by default when a source has multiple queries', async () => {
-    const redirectUrlPlugin = createRedirectUrlPlugin({});
+    const redirectUrlPlugin = createRedirectUrlPlugin();
     const navigator = createNavigator();
 
     const container = document.createElement('div');
@@ -524,7 +524,7 @@ describe('createRedirectUrlPlugin', () => {
   });
 
   test('stores a list of multiple sources with redirects and renders the first by default when there are multiple sources', async () => {
-    const redirectUrlPlugin = createRedirectUrlPlugin({});
+    const redirectUrlPlugin = createRedirectUrlPlugin();
     const navigator = createNavigator();
 
     const container = document.createElement('div');
