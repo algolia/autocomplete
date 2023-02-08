@@ -1,5 +1,9 @@
+import { AutocompleteSource } from '@algolia/autocomplete-core';
 import { autocomplete } from '@algolia/autocomplete-js';
-import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
+import {
+  getAlgoliaResults,
+  RequestParams,
+} from '@algolia/autocomplete-preset-algolia';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 
 import { createNavigator, createSearchClient } from '../../../../test/utils';
@@ -16,11 +20,16 @@ const RESPONSE = {
   },
 };
 
-function createMockSource(
+function createMockSource({
   sourceId = SOURCE_ID,
-  results: Record<string, any> = [RESPONSE],
-  queries = [{ query: REDIRECT_QUERY, indexName: 'mock-index' }]
-) {
+  results = [RESPONSE],
+  queries = [{ query: REDIRECT_QUERY, indexName: 'mock-index' }],
+  ...props
+}: {
+  sourceId?: string;
+  results?: Record<string, any>;
+  queries?: RequestParams<any>['queries'];
+} & Partial<AutocompleteSource<any>> = {}) {
   return {
     sourceId,
     getItems() {
@@ -36,9 +45,7 @@ function createMockSource(
         return html`<a>${item.query}</a>`;
       },
     },
-    getItemInputValue({ item }) {
-      return item.query;
-    },
+    ...props,
   };
 }
 
@@ -245,12 +252,14 @@ describe('createRedirectUrlPlugin', () => {
       plugins: [redirectUrlPlugin],
       getSources() {
         return [
-          createMockSource(SOURCE_ID, [
-            {
-              query: 'custom redirect item',
-              customRedirect: { url: RESPONSE.renderingContent.redirect.url },
-            },
-          ]),
+          createMockSource({
+            results: [
+              {
+                query: 'custom redirect item',
+                customRedirect: { url: RESPONSE.renderingContent.redirect.url },
+              },
+            ],
+          }),
         ];
       },
     });
@@ -279,7 +288,7 @@ describe('createRedirectUrlPlugin', () => {
       panelContainer,
       plugins: [redirectUrlPlugin],
       getSources() {
-        return [createMockSource(SOURCE_ID, [{ hits: [{ query }] }])];
+        return [createMockSource({ results: [{ hits: [{ query }] }] })];
       },
     });
 
@@ -317,16 +326,81 @@ describe('createRedirectUrlPlugin', () => {
       plugins: [redirectUrlPlugin],
       getSources() {
         return [
-          createMockSource(SOURCE_ID, [
-            {
-              ...RESPONSE,
-              hits: [
-                { query: 'redirect item' },
-                { query: 'not a redirect item 1' },
-                { query: 'not a redirect item 2' },
-              ],
+          createMockSource({
+            results: [
+              {
+                ...RESPONSE,
+                hits: [
+                  { query: 'redirect item' },
+                  { query: 'not a redirect item 1' },
+                  { query: 'not a redirect item 2' },
+                ],
+              },
+            ],
+          }),
+        ];
+      },
+    });
+
+    const input = findInput(container);
+
+    fireEvent.input(input, { target: { value: REDIRECT_QUERY } });
+
+    await waitFor(() => {
+      expect(findRedirectSection(panelContainer)).toBeInTheDocument();
+
+      expect(findDropdownOptions(findHitsSection(panelContainer)))
+        .toMatchInlineSnapshot(`
+        Array [
+          HTMLCollection [
+            <a>
+              redirect item
+            </a>,
+          ],
+          HTMLCollection [
+            <a>
+              not a redirect item 1
+            </a>,
+          ],
+          HTMLCollection [
+            <a>
+              not a redirect item 2
+            </a>,
+          ],
+        ]
+      `);
+    });
+  });
+
+  test('filters out items that match the query', async () => {
+    const redirectUrlPlugin = createRedirectUrlPlugin();
+
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    autocomplete({
+      container,
+      panelContainer,
+      plugins: [redirectUrlPlugin],
+      getSources() {
+        return [
+          createMockSource({
+            results: [
+              {
+                ...RESPONSE,
+                hits: [
+                  { query: 'redirect item' },
+                  { query: 'not a redirect item 1' },
+                  { query: 'not a redirect item 2' },
+                ],
+              },
+            ],
+            getItemInputValue({ item }) {
+              return item.query;
             },
-          ]),
+          }),
         ];
       },
     });
@@ -468,9 +542,8 @@ describe('createRedirectUrlPlugin', () => {
       navigator,
       getSources() {
         return [
-          createMockSource(
-            SOURCE_ID,
-            [
+          createMockSource({
+            results: [
               {
                 query: REDIRECT_QUERY,
                 renderingContent: {
@@ -490,11 +563,11 @@ describe('createRedirectUrlPlugin', () => {
                 hits: [{ query: REDIRECT_QUERY }, { query: 'redirect item 2' }],
               },
             ],
-            [
+            queries: [
               { query: REDIRECT_QUERY, indexName: 'mock-index-1' },
               { query: REDIRECT_QUERY, indexName: 'mock-index-2' },
-            ]
-          ),
+            ],
+          }),
         ];
       },
     });
@@ -539,9 +612,9 @@ describe('createRedirectUrlPlugin', () => {
       navigator,
       getSources() {
         return [
-          createMockSource(
-            'mock-source-1',
-            [
+          createMockSource({
+            sourceId: 'mock-source-1',
+            results: [
               {
                 query: REDIRECT_QUERY,
                 renderingContent: {
@@ -552,11 +625,11 @@ describe('createRedirectUrlPlugin', () => {
                 hits: [{ query: REDIRECT_QUERY }, { query: 'redirect item 1' }],
               },
             ],
-            [{ query: REDIRECT_QUERY, indexName: 'mock-index-1' }]
-          ),
-          createMockSource(
-            'mock-source-2',
-            [
+            queries: [{ query: REDIRECT_QUERY, indexName: 'mock-index-1' }],
+          }),
+          createMockSource({
+            sourceId: 'mock-source-2',
+            results: [
               {
                 query: REDIRECT_QUERY,
                 renderingContent: {
@@ -567,8 +640,8 @@ describe('createRedirectUrlPlugin', () => {
                 hits: [{ query: REDIRECT_QUERY }, { query: 'redirect item 2' }],
               },
             ],
-            [{ query: REDIRECT_QUERY, indexName: 'mock-index-2' }]
-          ),
+            queries: [{ query: REDIRECT_QUERY, indexName: 'mock-index-2' }],
+          }),
         ];
       },
     });

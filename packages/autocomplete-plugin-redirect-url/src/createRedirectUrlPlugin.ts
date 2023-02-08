@@ -116,11 +116,24 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
           ...source,
           getItems: () =>
             source.getItems().filter((item) => {
-              const itemInputValue = source.getItemInputValue?.({
+              if (source.getItemInputValue!.__default) {
+                warn(
+                  false,
+                  `The source ${source.sourceId} does not have a getItemInputValue function. It's required to be able to filter out the redirect item.`
+                );
+                return true;
+              }
+
+              const itemInputValue = source.getItemInputValue!({
                 item,
                 state,
               });
+
               if (itemInputValue === undefined) {
+                warn(
+                  false,
+                  `The source ${source.sourceId} does not return a string from the getItemInputValue function. It's required to be able to filter out the redirect item.`
+                );
                 return true;
               }
 
