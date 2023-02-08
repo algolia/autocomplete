@@ -48,7 +48,10 @@ export function getNormalizedSources<TItem extends BaseItem>(
 
           seenSourceIds.push(source.sourceId);
 
-          const normalizedSource: InternalAutocompleteSource<TItem> = {
+          const defaultSource: Omit<
+            InternalAutocompleteSource<TItem>,
+            'sourceId' | 'getItems'
+          > = {
             getItemInputValue({ state }) {
               return state.query;
             },
@@ -60,6 +63,14 @@ export function getNormalizedSources<TItem extends BaseItem>(
             },
             onActive: noop,
             onResolve: noop,
+          };
+
+          Object.keys(defaultSource).forEach((key) => {
+            defaultSource[key].__default = true;
+          });
+
+          const normalizedSource: InternalAutocompleteSource<TItem> = {
+            ...defaultSource,
             ...source,
           };
 

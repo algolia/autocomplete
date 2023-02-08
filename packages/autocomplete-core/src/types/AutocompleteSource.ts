@@ -44,6 +44,8 @@ export type OnResolveParams<TItem extends BaseItem> = {
   state: AutocompleteState<TItem>;
 };
 
+type DefaultIndicator = { __default?: boolean };
+
 export interface AutocompleteSource<TItem extends BaseItem> {
   /**
    * Unique identifier for the source.
@@ -54,25 +56,27 @@ export interface AutocompleteSource<TItem extends BaseItem> {
    *
    * The value is used to fill the search box.
    */
-  getItemInputValue?({
-    item,
-    state,
-  }: {
-    item: TItem;
-    state: AutocompleteState<TItem>;
-  }): string;
+  getItemInputValue?: DefaultIndicator &
+    (({
+      item,
+      state,
+    }: {
+      item: TItem;
+      state: AutocompleteState<TItem>;
+    }) => string);
   /**
    * The function called to get the URL of the item.
    *
    * The value is used to add [keyboard accessibility](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/keyboard-navigation/) features to let users open items in the current tab, a new tab, or a new window.
    */
-  getItemUrl?({
-    item,
-    state,
-  }: {
-    item: TItem;
-    state: AutocompleteState<TItem>;
-  }): string | undefined;
+  getItemUrl?: DefaultIndicator &
+    (({
+      item,
+      state,
+    }: {
+      item: TItem;
+      state: AutocompleteState<TItem>;
+    }) => string | undefined);
   /**
    * The function called when the input changes.
    *
@@ -84,17 +88,17 @@ export interface AutocompleteSource<TItem extends BaseItem> {
   /**
    * The function called whenever an item is selected.
    */
-  onSelect?(params: OnSelectParams<TItem>): void;
+  onSelect?: DefaultIndicator & ((params: OnSelectParams<TItem>) => void);
   /**
    * The function called whenever an item is active.
    *
    * You can trigger different behaviors if the item is active depending on the triggering event using the `event` parameter.
    */
-  onActive?(params: OnActiveParams<TItem>): void;
+  onActive?: DefaultIndicator & ((params: OnActiveParams<TItem>) => void);
   /**
    * The function called whenever a source resolves.
    */
-  onResolve?(params: OnResolveParams<TItem>): void;
+  onResolve?: DefaultIndicator & ((params: OnResolveParams<TItem>) => void);
 }
 
 export type InternalAutocompleteSource<TItem extends BaseItem> = {
