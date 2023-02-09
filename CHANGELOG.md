@@ -1,3 +1,17 @@
+# [1.8.0](https://github.com/algolia/autocomplete/compare/v1.7.4...v1.8.0) (2023-02-09)
+
+
+### Bug Fixes
+
+* **insights:** pass clickAnalytics automatically ([#1080](https://github.com/algolia/autocomplete/issues/1080)) ([8048442](https://github.com/algolia/autocomplete/commit/8048442b949b4230dea9aaafdfcd310a69cfa939))
+
+
+### Features
+
+* add redirect url plugin ([#1082](https://github.com/algolia/autocomplete/issues/1082)) ([a4f112d](https://github.com/algolia/autocomplete/commit/a4f112d274c433a96f68fbfc7dd219d0a994b6c5))
+
+
+
 ## [1.7.4](https://github.com/algolia/autocomplete/compare/v1.7.3...v1.7.4) (2022-12-20)
 
 
