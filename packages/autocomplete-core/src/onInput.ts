@@ -122,7 +122,7 @@ export function onInput<TItem extends BaseItem>({
             })
           )
             .then(resolve)
-            .then((responses) => postResolve(responses, sources))
+            .then((responses) => postResolve(responses, sources, store))
             .then((collections) =>
               reshape({ collections, props, state: store.getState() })
             );

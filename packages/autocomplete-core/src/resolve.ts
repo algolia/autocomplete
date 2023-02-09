@@ -14,8 +14,10 @@ import type { SearchClient } from 'algoliasearch/lite';
 
 import {
   AutocompleteState,
+  AutocompleteStore,
   BaseItem,
   InternalAutocompleteSource,
+  OnResolveParams,
 } from './types';
 import { mapToAlgoliaResponse } from './utils';
 
@@ -180,7 +182,8 @@ export function postResolve<TItem extends BaseItem>(
   responses: Array<
     RequestDescriptionPreResolvedCustom<TItem> | ExecuteResponse<TItem>[0]
   >,
-  sources: Array<InternalAutocompleteSource<TItem>>
+  sources: Array<InternalAutocompleteSource<TItem>>,
+  store: AutocompleteStore<TItem>
 ) {
   return sources.map((source) => {
     const matches = responses.filter(
@@ -197,6 +200,13 @@ export function postResolve<TItem extends BaseItem>(
           )
         )
       : results;
+
+    source.onResolve({
+      source,
+      results,
+      items,
+      state: store.getState(),
+    } as OnResolveParams<TItem>);
 
     invariant(
       Array.isArray(items),

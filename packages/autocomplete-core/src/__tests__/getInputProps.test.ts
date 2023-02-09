@@ -385,6 +385,7 @@ describe('getInputProps', () => {
       });
       const {
         inputElement,
+        navigator,
         refresh,
         setCollections,
         setContext,
@@ -401,6 +402,7 @@ describe('getInputProps', () => {
 
       expect(getSources).toHaveBeenCalledWith({
         query: 'a',
+        navigator,
         refresh,
         setCollections,
         setContext,
@@ -510,6 +512,7 @@ describe('getInputProps', () => {
       });
       const {
         inputElement,
+        navigator,
         refresh,
         setCollections,
         setContext,
@@ -533,6 +536,7 @@ describe('getInputProps', () => {
         item: { label: '1', __autocomplete_id: 0 },
         itemInputValue: 'a',
         itemUrl: undefined,
+        navigator,
         refresh,
         source: expect.any(Object),
         setCollections,
@@ -707,6 +711,7 @@ describe('getInputProps', () => {
         const onActive = jest.fn();
         const {
           inputElement,
+          navigator,
           refresh,
           setCollections,
           setContext,
@@ -737,6 +742,7 @@ describe('getInputProps', () => {
           itemInputValue: 'a',
           itemUrl: undefined,
           source: expect.any(Object),
+          navigator,
           refresh,
           setCollections,
           setContext,
@@ -1183,9 +1189,9 @@ describe('getInputProps', () => {
       describe('Plain Enter', () => {
         test('calls onSelect with item URL', () => {
           const onSelect = jest.fn();
-          const navigator = createNavigator();
           const {
             inputElement,
+            navigator,
             refresh,
             setCollections,
             setContext,
@@ -1194,7 +1200,7 @@ describe('getInputProps', () => {
             setActiveItemId,
             setStatus,
           } = createPlayground(createAutocomplete, {
-            navigator,
+            navigator: createNavigator(),
             defaultActiveItemId: 0,
             initialState: {
               isOpen: true,
@@ -1222,6 +1228,7 @@ describe('getInputProps', () => {
             },
             itemInputValue: '',
             itemUrl: '#1',
+            navigator,
             refresh,
             setCollections,
             setContext,
@@ -1296,6 +1303,7 @@ describe('getInputProps', () => {
                     getItemUrl: expect.any(Function),
                     getItems: expect.any(Function),
                     onActive: expect.any(Function),
+                    onResolve: expect.any(Function),
                     onSelect,
                   },
                 },
@@ -1318,9 +1326,9 @@ describe('getInputProps', () => {
               getItems: () => [{ label: '1' }, { label: '2' }],
             }),
           ]);
-          const navigator = createNavigator();
           const {
             inputElement,
+            navigator,
             refresh,
             setCollections,
             setContext,
@@ -1329,7 +1337,7 @@ describe('getInputProps', () => {
             setActiveItemId,
             setStatus,
           } = createPlayground(createAutocomplete, {
-            navigator,
+            navigator: createNavigator(),
             defaultActiveItemId: 0,
             getSources,
           });
@@ -1350,6 +1358,7 @@ describe('getInputProps', () => {
             item: expect.objectContaining({ label: '1' }),
             itemInputValue: 'a',
             itemUrl: undefined,
+            navigator,
             refresh,
             setCollections,
             setContext,
@@ -1434,9 +1443,9 @@ describe('getInputProps', () => {
 
         test('calls onSelect with item URL', () => {
           const onSelect = jest.fn();
-          const navigator = createNavigator();
           const {
             inputElement,
+            navigator,
             refresh,
             setCollections,
             setContext,
@@ -1445,7 +1454,7 @@ describe('getInputProps', () => {
             setActiveItemId,
             setStatus,
           } = createPlayground(createAutocomplete, {
-            navigator,
+            navigator: createNavigator(),
             defaultActiveItemId: 0,
             initialState: {
               isOpen: true,
@@ -1473,6 +1482,7 @@ describe('getInputProps', () => {
             },
             itemInputValue: '',
             itemUrl: '#1',
+            navigator,
             refresh,
             setCollections,
             setContext,
@@ -1575,10 +1585,10 @@ describe('getInputProps', () => {
 
         test('calls onSelect with item URL', () => {
           const onSelect = jest.fn();
-          const navigator = createNavigator();
           const {
             inputElement,
             refresh,
+            navigator,
             setCollections,
             setContext,
             setIsOpen,
@@ -1586,7 +1596,7 @@ describe('getInputProps', () => {
             setActiveItemId,
             setStatus,
           } = createPlayground(createAutocomplete, {
-            navigator,
+            navigator: createNavigator(),
             defaultActiveItemId: 0,
             initialState: {
               isOpen: true,
@@ -1615,6 +1625,7 @@ describe('getInputProps', () => {
             itemInputValue: '',
             itemUrl: '#1',
             refresh,
+            navigator,
             setCollections,
             setContext,
             setIsOpen,

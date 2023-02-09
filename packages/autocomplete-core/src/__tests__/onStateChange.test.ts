@@ -27,6 +27,7 @@ describe('onStateChange', () => {
         query: 'query',
         status: 'idle',
       },
+      navigator: autocomplete.navigator,
       refresh: autocomplete.refresh,
       setActiveItemId: autocomplete.setActiveItemId,
       setCollections: autocomplete.setCollections,
