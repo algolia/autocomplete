@@ -44,7 +44,12 @@ export type OnResolveParams<TItem extends BaseItem> = {
   state: AutocompleteState<TItem>;
 };
 
-type DefaultIndicator = { __default?: boolean };
+type DefaultIndicator = {
+  /**
+   * Optional key on a function to indicate it's the default value of this function.
+   */
+  __default?: boolean;
+};
 
 export interface AutocompleteSource<TItem extends BaseItem> {
   /**

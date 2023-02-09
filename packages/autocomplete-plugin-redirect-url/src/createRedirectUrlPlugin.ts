@@ -119,7 +119,9 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
               if (source.getItemInputValue!.__default) {
                 warn(
                   false,
-                  `The source ${source.sourceId} does not have a \`getItemInputValue\` function. It's required to be able to filter out the redirect item.` +
+                  `The source ${JSON.stringify(
+                    source.sourceId
+                  )} does not have a \`getItemInputValue\` function. It's required to be able to filter out the redirect item.` +
                     '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/sources/#param-getiteminputvalue'
                 );
                 return true;
@@ -133,7 +135,9 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
               if (itemInputValue === undefined) {
                 warn(
                   false,
-                  `The source ${source.sourceId} does not return a string from the \`getItemInputValue\` function. It's required to be able to filter out the redirect item.` +
+                  `The source ${JSON.stringify(
+                    source.sourceId
+                  )} does not return a string from the \`getItemInputValue\` function. It's required to be able to filter out the redirect item.` +
                     '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/sources/#param-getiteminputvalue'
                 );
                 return true;
