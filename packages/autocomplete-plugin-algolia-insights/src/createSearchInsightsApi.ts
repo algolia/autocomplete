@@ -10,6 +10,20 @@ import {
   ViewedObjectIDsParams,
 } from './types';
 
+function chunk<TItem extends { objectIDs: string[] }>(
+  item: TItem,
+  chunkSize: number = 20
+): TItem[] {
+  const chunks: TItem[] = [];
+  for (let i = 0; i < item.objectIDs.length; i += chunkSize) {
+    chunks.push({
+      ...item,
+      objectIDs: item.objectIDs.slice(i, i + chunkSize),
+    });
+  }
+  return chunks;
+}
+
 export function createSearchInsightsApi(searchInsights: InsightsClient) {
   return {
     /**
@@ -95,7 +109,12 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
      */
     viewedObjectIDs(...params: ViewedObjectIDsParams[]) {
       if (params.length > 0) {
-        searchInsights('viewedObjectIDs', ...params);
+        params
+          .reduce(
+            (acc, param) => [...acc, ...chunk<ViewedObjectIDsParams>(param)],
+            [] as ViewedObjectIDsParams[]
+          )
+          .forEach((param) => searchInsights('viewedObjectIDs', param));
       }
     },
     /**

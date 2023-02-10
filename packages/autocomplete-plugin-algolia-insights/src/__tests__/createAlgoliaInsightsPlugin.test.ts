@@ -204,6 +204,62 @@ describe('createAlgoliaInsightsPlugin', () => {
       });
     });
 
+    test('sends as many `viewedObjectIDs` events as there are compatible sources', async () => {
+      const insightsClient = jest.fn();
+      const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+      const { inputElement } = createPlayground(createAutocomplete, {
+        plugins: [insightsPlugin],
+        defaultActiveItemId: 0,
+        openOnFocus: true,
+        getSources() {
+          return [
+            createSource({
+              sourceId: 'source1',
+              getItems: () => [
+                {
+                  label: '1',
+                  objectID: '1',
+                  __autocomplete_indexName: 'index1',
+                  __autocomplete_queryID: 'queryID1',
+                },
+              ],
+            }),
+            createSource({
+              sourceId: 'source2',
+              getItems: () => [
+                {
+                  label: '2',
+                  objectID: '2',
+                  __autocomplete_indexName: 'index2',
+                  __autocomplete_queryID: 'queryID2',
+                },
+              ],
+            }),
+          ];
+        },
+      });
+
+      insightsClient.mockClear();
+
+      inputElement.focus();
+
+      await runAllMicroTasks();
+      jest.runAllTimers();
+
+      expect(insightsClient).toHaveBeenCalledTimes(2);
+      expect(insightsClient).toHaveBeenNthCalledWith(1, 'viewedObjectIDs', {
+        eventName: 'Items Viewed',
+        index: 'index1',
+        objectIDs: ['1'],
+      });
+      expect(insightsClient).toHaveBeenNthCalledWith(2, 'viewedObjectIDs', {
+        eventName: 'Items Viewed',
+        index: 'index2',
+        objectIDs: ['2'],
+      });
+    });
+
     test('sends a custom event', async () => {
       const insightsClient = jest.fn();
       const insightsPlugin = createAlgoliaInsightsPlugin({
