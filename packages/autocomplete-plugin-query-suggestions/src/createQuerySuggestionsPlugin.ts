@@ -117,6 +117,7 @@ export function createQuerySuggestionsPlugin<
                     return querySuggestionsHits as any;
                   }
 
+                  let itemsWithCategoriesAdded = 0;
                   return querySuggestionsHits.reduce<
                     Array<AutocompleteQuerySuggestionsHit<typeof indexName>>
                   >((acc, current, i) => {
@@ -124,15 +125,19 @@ export function createQuerySuggestionsPlugin<
                       AutocompleteQuerySuggestionsHit<typeof indexName>
                     > = [current];
 
-                    if (i <= itemsWithCategories - 1) {
-                      const categories = getAttributeValueByPath(
-                        current,
-                        Array.isArray(categoryAttribute)
-                          ? categoryAttribute
-                          : [categoryAttribute]
+                    if (itemsWithCategoriesAdded < itemsWithCategories) {
+                      const categories = (
+                        getAttributeValueByPath(
+                          current,
+                          Array.isArray(categoryAttribute)
+                            ? categoryAttribute
+                            : [categoryAttribute]
+                        ) || []
                       )
                         .map((x) => x.value)
                         .slice(0, categoriesPerItem);
+
+                      itemsWithCategoriesAdded += categories.length;
 
                       for (const category of categories) {
                         items.push({
