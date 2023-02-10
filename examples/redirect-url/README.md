@@ -33,7 +33,7 @@ npm start
 
 Open <http://localhost:1234> to see your app.
 
-Typing “algolia” or "Apple - AirPods - White" in the app's input should present a redirect item at the top of the drop-down menu. Either submitting the form or selecting the redirect item will execute the redirect to the corresponding URL that was configured for its rule.
+Typing “algolia” or "Apple - AirPods - White" in the app's input presents a redirect item at the top of the drop-down menu. Either submitting the form or selecting the redirect item will execute the redirect to the corresponding URL that was configured for its rule.
 
 ## Additional resources
 Learn [how to get started with Autocomplete](https://www.algolia.com/doc/ui-libraries/autocomplete/introduction/getting-started/) or [how to configure the Redirect URL plugin](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-redirect-url) in the Algolia documentation.
