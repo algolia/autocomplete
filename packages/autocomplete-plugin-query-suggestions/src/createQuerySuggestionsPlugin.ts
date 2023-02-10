@@ -120,7 +120,7 @@ export function createQuerySuggestionsPlugin<
                   let itemsWithCategoriesAdded = 0;
                   return querySuggestionsHits.reduce<
                     Array<AutocompleteQuerySuggestionsHit<typeof indexName>>
-                  >((acc, current, i) => {
+                  >((acc, current) => {
                     const items: Array<
                       AutocompleteQuerySuggestionsHit<typeof indexName>
                     > = [current];
