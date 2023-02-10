@@ -503,6 +503,80 @@ describe('createRedirectUrlPlugin', () => {
     });
   });
 
+  test('triggers navigator with the provided url when selecting an item that has a redirect when that query is set', async () => {
+    const redirectUrlPlugin = createRedirectUrlPlugin();
+    const navigator = createNavigator();
+
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    autocomplete({
+      container,
+      panelContainer,
+      plugins: [redirectUrlPlugin],
+      navigator,
+      getSources({ query }) {
+        return [
+          createMockSource({
+            results:
+              query === REDIRECT_QUERY
+                ? [
+                    {
+                      hits: [{ query: REDIRECT_QUERY }],
+                      renderingContent: {
+                        redirect: {
+                          url: 'https://www.algolia.com',
+                        },
+                      },
+                    },
+                  ]
+                : [
+                    {
+                      hits: [
+                        { query: 'something else' },
+                        { query: REDIRECT_QUERY },
+                      ],
+                    },
+                  ],
+            getItemInputValue({ item }) {
+              return item.query;
+            },
+          }),
+        ];
+      },
+    });
+
+    const input = findInput(container);
+
+    fireEvent.input(input, { target: { value: 'hey' } });
+
+    await waitFor(() => {
+      expect(findDropdownOptions(panelContainer)).toMatchInlineSnapshot(`
+        Array [
+          HTMLCollection [
+            <a>
+              something else
+            </a>,
+          ],
+          HTMLCollection [
+            <a>
+              redirect item
+            </a>,
+          ],
+        ]
+      `);
+    });
+
+    fireEvent.click(findDropdownOptions(panelContainer)[1][0]);
+
+    await waitFor(() => {
+      expect(input.value).toBe(REDIRECT_QUERY);
+      expect(navigator.navigate).toHaveBeenCalledTimes(1);
+    });
+  });
+
   test('triggers a custom navigator when triggering a redirect and providing a custom onRedirect hook', async () => {
     const onRedirect = jest.fn();
     const redirectUrlPlugin = createRedirectUrlPlugin({

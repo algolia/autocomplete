@@ -92,7 +92,7 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
 
   return {
     name: 'aa.redirectUrlPlugin',
-    subscribe({ onResolve, setContext }) {
+    subscribe({ onResolve, onSelect, setContext }) {
       onResolve(({ results, source, state }) => {
         setContext({
           ...state.context,
@@ -100,6 +100,10 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
             data: createRedirects({ results, source, state }),
           },
         });
+      });
+
+      onSelect(({ state, event, navigator }) => {
+        onRedirect(getRedirectData({ state }), { event, navigator, state });
       });
     },
     reshape({ state, sourcesBySourceId }) {
