@@ -137,7 +137,7 @@ export function createQuerySuggestionsPlugin<
                         .map((x) => x.value)
                         .slice(0, categoriesPerItem);
 
-                      itemsWithCategoriesAdded += categories.length;
+                      itemsWithCategoriesAdded++;
 
                       for (const category of categories) {
                         items.push({
