@@ -225,7 +225,7 @@ describe('createRedirectUrlPlugin', () => {
         Array [
           HTMLCollection [
             <a>
-              My custom option:
+              My custom option: 
               redirect item
             </a>,
           ],
