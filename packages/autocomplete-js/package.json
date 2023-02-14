@@ -41,6 +41,7 @@
     "@algolia/client-search": "4.14.3"
   },
   "peerDependencies": {
-    "@algolia/client-search": ">= 4.5.1 < 6"
+    "@algolia/client-search": ">= 4.5.1 < 6",
+    "algoliasearch": ">= 4.9.1 < 6"
   }
 }
