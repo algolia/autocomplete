@@ -10,75 +10,52 @@ import {
   createAlgoliaInsightsPlugin,
 } from '@algolia/autocomplete-plugin-algolia-insights';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
-import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import algoliasearch from 'algoliasearch/lite';
 import { h, Fragment } from 'preact';
 import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
 
-import { createCategoriesPlugin } from './categoriesPlugin';
-import { shortcutsPlugin } from './shortcutsPlugin';
 import { ProductRecord, ProductHit } from './types';
 
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
-const searchClient = algoliasearch(appId, apiKey);
-
-// @ts-expect-error type error in search-insights
-insightsClient('init', { appId, apiKey });
+const latencyClient = algoliasearch(appId, apiKey);
+const productsClient = algoliasearch(
+  'LOEC74WPH7',
+  'a536dd3831308b86c488d64102c00a28'
+);
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
-const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
-  key: 'search',
-  limit: 3,
-});
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
-  searchClient,
+  searchClient: latencyClient,
   indexName: 'instant_search_demo_query_suggestions',
-  getSearchParams({ state }) {
-    return recentSearchesPlugin.data.getAlgoliaSearchParams({
-      hitsPerPage: state.query ? 5 : 10,
-    });
+  getSearchParams() {
+    return {
+      hitsPerPage: 3,
+    };
   },
-  categoryAttribute: [
-    'instant_search',
-    'facets',
-    'exact_matches',
-    'categories',
-  ],
-  categoriesPerItem: 2,
 });
-const categoriesPlugin = createCategoriesPlugin({ searchClient });
 
 autocomplete<ProductHit>({
   container: '#autocomplete',
   placeholder: 'Search',
   debug: true,
   openOnFocus: true,
-  plugins: [
-    shortcutsPlugin,
-    algoliaInsightsPlugin,
-    recentSearchesPlugin,
-    querySuggestionsPlugin,
-    categoriesPlugin,
-  ],
+  plugins: [algoliaInsightsPlugin, querySuggestionsPlugin],
   getSources({ query, state }) {
-    if (!query) {
-      return [];
-    }
-
     return [
       {
         sourceId: 'products',
         getItems() {
           return getAlgoliaResults<ProductRecord>({
-            searchClient,
+            searchClient: latencyClient,
             queries: [
               {
                 indexName: 'instant_search',
                 query,
                 params: {
+                  hitsPerPage: 2,
                   attributesToSnippet: ['name:10', 'description:35'],
                   snippetEllipsisText: '…',
                 },
@@ -103,7 +80,66 @@ autocomplete<ProductHit>({
           header() {
             return (
               <Fragment>
-                <span className="aa-SourceHeaderTitle">Products</span>
+                <span className="aa-SourceHeaderTitle">Products (latency)</span>
+                <div className="aa-SourceHeaderLine" />
+              </Fragment>
+            );
+          },
+          item({ item, components }) {
+            return (
+              <ProductItem
+                hit={item}
+                components={components}
+                insights={state.context.algoliaInsightsPlugin.insights}
+              />
+            );
+          },
+          noResults() {
+            return 'No products for this query.';
+          },
+        },
+      },
+      {
+        sourceId: 'products2',
+        getItems() {
+          return getAlgoliaResults<any>({
+            searchClient: productsClient,
+            queries: [
+              {
+                indexName: 'products',
+                query,
+                params: {
+                  hitsPerPage: 2,
+                  attributesToSnippet: ['name:10', 'description:35'],
+                  snippetEllipsisText: '…',
+                },
+              },
+            ],
+            transformResponse({ hits }) {
+              const [bestBuyHits] = hits;
+
+              return bestBuyHits.map((hit) => ({
+                ...hit,
+                image: hit.image_urls[0],
+                categories: hit.list_categories,
+                comments: false,
+                sale: hit.price.on_sales,
+                price: hit.price.value,
+                // eslint-disable-next-line @typescript-eslint/camelcase
+                sale_price: hit.price.on_sales
+                  ? hit.price.discounted_value.toString()
+                  : hit.price.value.toString(),
+              }));
+            },
+          });
+        },
+        templates: {
+          header() {
+            return (
+              <Fragment>
+                <span className="aa-SourceHeaderTitle">
+                  Products (LOEC74WPH7)
+                </span>
                 <div className="aa-SourceHeaderLine" />
               </Fragment>
             );
@@ -188,33 +224,35 @@ function ProductItem({ hit, insights, components }: ProductItemProps) {
                 </div>
               </div>
             )}
-            <div
-              style={{
-                display: 'grid',
-                gridAutoFlow: 'column',
-                justifyContent: 'start',
-                alignItems: 'center',
-                gap: 4,
-              }}
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            {hit.comments && (
+              <div
                 style={{
-                  position: 'relative',
-                  top: '1px',
+                  display: 'grid',
+                  gridAutoFlow: 'column',
+                  justifyContent: 'start',
+                  alignItems: 'center',
+                  gap: 4,
                 }}
               >
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-              </svg>
-              <span>{hit.comments.toLocaleString()}</span>
-            </div>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{
+                    position: 'relative',
+                    top: '1px',
+                  }}
+                >
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>{hit.comments.toLocaleString()}</span>
+              </div>
+            )}
           </div>
 
           <div

@@ -29,8 +29,14 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
     /**
      * Initializes Insights with Algolia credentials.
      */
-    init(appId: string, apiKey: string) {
-      searchInsights('init', { appId, apiKey });
+    init(
+      appId: string,
+      apiKey: string,
+      additionalParameters: Record<string, any> = {}
+    ) {
+      console.groupEnd();
+      console.group(appId);
+      searchInsights('init', { appId, apiKey, ...additionalParameters });
     },
     /**
      * Sets the user token to attach to events.
@@ -47,6 +53,11 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
       ...params: ClickedObjectIDsAfterSearchParams[]
     ) {
       if (params.length > 0) {
+        console.log(
+          'clickedObjectIDsAfterSearch',
+          params[0].index,
+          params[0].objectIDs
+        );
         searchInsights('clickedObjectIDsAfterSearch', ...params);
       }
     },
@@ -79,6 +90,11 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
       ...params: ConvertedObjectIDsAfterSearchParams[]
     ) {
       if (params.length > 0) {
+        console.log(
+          'convertedObjectIDsAfterSearch',
+          params[0].index,
+          params[0].objectIDs
+        );
         searchInsights('convertedObjectIDsAfterSearch', ...params);
       }
     },
@@ -114,7 +130,10 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
             (acc, param) => [...acc, ...chunk<ViewedObjectIDsParams>(param)],
             [] as ViewedObjectIDsParams[]
           )
-          .forEach((param) => searchInsights('viewedObjectIDs', param));
+          .forEach((param) => {
+            console.log('viewedObjectIDs', param.index, param.objectIDs);
+            searchInsights('viewedObjectIDs', param);
+          });
       }
     },
     /**

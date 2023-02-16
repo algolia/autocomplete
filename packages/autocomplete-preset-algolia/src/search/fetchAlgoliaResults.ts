@@ -28,6 +28,21 @@ export interface SearchParams {
   userAgents?: UserAgent[];
 }
 
+function getSearchClientCredentials(searchClient: any): [string, string] {
+  if (searchClient.transporter) {
+    // searchClient v4
+    const { headers, queryParameters } = searchClient.transporter;
+    const APP_ID = 'x-algolia-application-id';
+    const API_KEY = 'x-algolia-api-key';
+    const appId = headers[APP_ID] || queryParameters[APP_ID];
+    const apiKey = headers[API_KEY] || queryParameters[API_KEY];
+    return [appId, apiKey];
+  } else {
+    // searchClient v3
+    return [searchClient.applicationID, searchClient.apiKey];
+  }
+}
+
 export function fetchAlgoliaResults<TRecord>({
   searchClient,
   queries,
@@ -35,6 +50,8 @@ export function fetchAlgoliaResults<TRecord>({
 }: SearchParams): Promise<
   Array<SearchResponse<TRecord> | SearchForFacetValuesResponse>
 > {
+  const [appId, apiKey] = getSearchClientCredentials(searchClient);
+
   if (typeof searchClient.addAlgoliaAgent === 'function') {
     const algoliaAgents: UserAgent[] = [...coreUserAgents, ...userAgents];
 
@@ -60,6 +77,16 @@ export function fetchAlgoliaResults<TRecord>({
       })
     )
     .then((response) => {
+      // Go through each result and add insights metadata
+      response.results.forEach((result) => {
+        (result.hits || result.facetHits).forEach((hit) => {
+          hit.__autocomplete_algoliaResultsMetadata = {
+            appId,
+            apiKey,
+          };
+        });
+      });
+
       return response.results;
     });
 }

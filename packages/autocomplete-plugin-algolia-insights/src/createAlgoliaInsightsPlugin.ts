@@ -31,15 +31,45 @@ type SendViewedObjectIDsParams = {
   state: AutocompleteState<any>;
 };
 
+function reinitializeInsights(
+  insights: ReturnType<typeof createSearchInsightsApi>,
+  item: AlgoliaInsightsHit
+) {
+  const { appId, apiKey } = item.__autocomplete_algoliaResultsMetadata;
+  // TODO: We need to keep a consistent userToken instead
+  insights.init(appId, apiKey, { useCookie: true });
+}
+
 const sendViewedObjectIDs = debounce<SendViewedObjectIDsParams>(
   ({ onItemsChange, items, insights, state }) => {
-    onItemsChange({
-      insights,
-      insightsEvents: createViewedEvents({ items }).map((event) => ({
-        eventName: 'Items Viewed',
-        ...event,
-      })),
-      state,
+    // Group all items by Algolia application
+    const itemsByAppId = items.reduce<Record<string, AlgoliaInsightsHit[]>>(
+      (acc, item) => {
+        const { appId } = item.__autocomplete_algoliaResultsMetadata;
+        if (!acc[appId]) {
+          acc[appId] = [item];
+        } else {
+          acc[appId].push(item);
+        }
+
+        return acc;
+      },
+      {}
+    );
+
+    // Send Insights event with the appropriate Algolia credentials
+    Object.values(itemsByAppId).forEach((scopedItems) => {
+      reinitializeInsights(insights, scopedItems[0]);
+      onItemsChange({
+        insights,
+        insightsEvents: createViewedEvents({ items: scopedItems }).map(
+          (event) => ({
+            eventName: 'Items Viewed',
+            ...event,
+          })
+        ),
+        state,
+      });
     });
   },
   VIEW_EVENT_DELAY
@@ -51,7 +81,7 @@ export type CreateAlgoliaInsightsPluginParams = {
    *
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/#param-insightsclient
    */
-  insightsClient: InsightsClient;
+  insightsClient?: InsightsClient;
   /**
    * Hook to send an Insights event when the items change.
    *
@@ -138,6 +168,7 @@ export function createAlgoliaInsightsPlugin(
           return;
         }
 
+        reinitializeInsights(insights, item);
         onSelectEvent({
           state: state as AutocompleteState<any>,
           event,
@@ -157,6 +188,7 @@ export function createAlgoliaInsightsPlugin(
           return;
         }
 
+        reinitializeInsights(insights, item);
         onActiveEvent({
           state: state as AutocompleteState<any>,
           event,
@@ -180,6 +212,7 @@ export function createAlgoliaInsightsPlugin(
 
 function getOptions(options: CreateAlgoliaInsightsPluginParams) {
   return {
+    insightsClient: window.aa,
     onItemsChange({ insights, insightsEvents }) {
       insights.viewedObjectIDs(...insightsEvents);
     },
