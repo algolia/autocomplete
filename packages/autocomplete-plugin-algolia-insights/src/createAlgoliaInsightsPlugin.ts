@@ -212,6 +212,7 @@ export function createAlgoliaInsightsPlugin(
 
 function getOptions(options: CreateAlgoliaInsightsPluginParams) {
   return {
+    // @ts-ignore
     insightsClient: window.aa,
     onItemsChange({ insights, insightsEvents }) {
       insights.viewedObjectIDs(...insightsEvents);

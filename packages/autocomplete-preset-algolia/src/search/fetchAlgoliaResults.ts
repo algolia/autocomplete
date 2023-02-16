@@ -79,7 +79,9 @@ export function fetchAlgoliaResults<TRecord>({
     .then((response) => {
       // Go through each result and add insights metadata
       response.results.forEach((result) => {
+        // @ts-ignore
         (result.hits || result.facetHits).forEach((hit) => {
+          // @ts-ignore
           hit.__autocomplete_algoliaResultsMetadata = {
             appId,
             apiKey,
