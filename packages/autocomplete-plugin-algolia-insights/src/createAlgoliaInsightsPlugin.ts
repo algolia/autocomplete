@@ -36,7 +36,6 @@ function reinitializeInsights(
   item: AlgoliaInsightsHit
 ) {
   const { appId, apiKey } = item.__autocomplete_algoliaResultsMetadata;
-  // TODO: We need to keep a consistent userToken instead
   insights.init(appId, apiKey, { useCookie: true });
 }
 

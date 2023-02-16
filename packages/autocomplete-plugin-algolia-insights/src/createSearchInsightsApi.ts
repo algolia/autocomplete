@@ -25,6 +25,15 @@ function chunk<TItem extends { objectIDs: string[] }>(
 }
 
 export function createSearchInsightsApi(searchInsights: InsightsClient) {
+  let userToken: string | undefined;
+  searchInsights(
+    'getUserToken',
+    null,
+    (err: unknown, insightsUserToken?: string) => {
+      userToken = err ? undefined : insightsUserToken;
+    }
+  );
+
   return {
     /**
      * Initializes Insights with Algolia credentials.
@@ -36,7 +45,12 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
     ) {
       console.groupEnd();
       console.group(appId);
-      searchInsights('init', { appId, apiKey, ...additionalParameters });
+      searchInsights('init', {
+        appId,
+        apiKey,
+        userToken,
+        ...additionalParameters,
+      });
     },
     /**
      * Sets the user token to attach to events.
