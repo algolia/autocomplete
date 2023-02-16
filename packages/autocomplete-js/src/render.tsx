@@ -131,7 +131,9 @@ export function renderPanel<TItem extends BaseItem>(
             className={classNames.list}
             {...propGetters.getListProps({
               state,
-              props: autocomplete.getListProps({}),
+              props: autocomplete.getListProps({
+                sourceIndex,
+              }),
               ...autocompleteScopeApi,
             })}
           >
@@ -139,6 +141,7 @@ export function renderPanel<TItem extends BaseItem>(
               const itemProps = autocomplete.getItemProps({
                 item,
                 source,
+                sourceIndex,
               });
 
               return (

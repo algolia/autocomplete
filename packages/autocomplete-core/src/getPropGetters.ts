@@ -239,19 +239,29 @@ export function getPropGetters<
     };
   };
 
-  const getLabelProps: GetLabelProps = (rest) => {
+  const getAutocompleteId = (instanceId: string, sourceId?: number) => {
+    return typeof sourceId !== 'undefined'
+      ? `${instanceId}-${sourceId}`
+      : instanceId;
+  };
+
+  const getLabelProps: GetLabelProps = (providedProps) => {
+    const { sourceIndex, ...rest } = providedProps || {};
+
     return {
-      htmlFor: `${props.id}-input`,
-      id: `${props.id}-label`,
+      htmlFor: `${getAutocompleteId(props.id, sourceIndex)}-input`,
+      id: `${getAutocompleteId(props.id, sourceIndex)}-label`,
       ...rest,
     };
   };
 
-  const getListProps: GetListProps = (rest) => {
+  const getListProps: GetListProps = (providedProps) => {
+    const { sourceIndex, ...rest } = providedProps || {};
+
     return {
       role: 'listbox',
-      'aria-labelledby': `${props.id}-label`,
-      id: `${props.id}-list`,
+      'aria-labelledby': `${getAutocompleteId(props.id, sourceIndex)}-label`,
+      id: `${getAutocompleteId(props.id, sourceIndex)}-list`,
       ...rest,
     };
   };
@@ -272,10 +282,12 @@ export function getPropGetters<
   };
 
   const getItemProps: GetItemProps<any, TMouseEvent> = (providedProps) => {
-    const { item, source, ...rest } = providedProps;
+    const { item, source, sourceIndex, ...rest } = providedProps;
 
     return {
-      id: `${props.id}-item-${item.__autocomplete_id}`,
+      id: `${getAutocompleteId(props.id, sourceIndex as number)}-item-${
+        item.__autocomplete_id
+      }`,
       role: 'option',
       'aria-selected': store.getState().activeItemId === item.__autocomplete_id,
       onMouseMove(event) {
