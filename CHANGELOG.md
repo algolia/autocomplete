@@ -1,3 +1,28 @@
+## [1.8.1](https://github.com/algolia/autocomplete/compare/v1.8.0...v1.8.1) (2023-02-14)
+
+
+### Bug Fixes
+
+* **insights:** split large view event payloads into multiple chunks ([#1087](https://github.com/algolia/autocomplete/issues/1087)) ([df58096](https://github.com/algolia/autocomplete/commit/df580968d1a479487905350c853ac89a0c86c4ff))
+* **querySuggestions:** allow categoryAttribute to be optional in hit ([#1086](https://github.com/algolia/autocomplete/issues/1086)) ([2dcbcd8](https://github.com/algolia/autocomplete/commit/2dcbcd8212c4a2852b0513767a0708c3da6e0092))
+* **redirect:** reopen menu when redirect detected ([#1091](https://github.com/algolia/autocomplete/issues/1091)) ([53b9ce5](https://github.com/algolia/autocomplete/commit/53b9ce5c88a16bd6b74dd991eeabb7917d79b542))
+
+
+
+# [1.8.0](https://github.com/algolia/autocomplete/compare/v1.7.4...v1.8.0) (2023-02-09)
+
+
+### Bug Fixes
+
+* **insights:** pass clickAnalytics automatically ([#1080](https://github.com/algolia/autocomplete/issues/1080)) ([8048442](https://github.com/algolia/autocomplete/commit/8048442b949b4230dea9aaafdfcd310a69cfa939))
+
+
+### Features
+
+* add redirect url plugin ([#1082](https://github.com/algolia/autocomplete/issues/1082)) ([a4f112d](https://github.com/algolia/autocomplete/commit/a4f112d274c433a96f68fbfc7dd219d0a994b6c5))
+
+
+
 ## [1.7.4](https://github.com/algolia/autocomplete/compare/v1.7.3...v1.7.4) (2022-12-20)
 
 

@@ -112,6 +112,7 @@ export function autocomplete<TItem extends BaseItem>(
     setStatus: autocomplete.value.setStatus,
     setContext: autocomplete.value.setContext,
     refresh: autocomplete.value.refresh,
+    navigator: autocomplete.value.navigator,
   };
 
   const html = reactive(() =>

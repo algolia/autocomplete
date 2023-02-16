@@ -27,6 +27,7 @@ describe('getSources', () => {
     expect(getSources).toHaveBeenCalledTimes(1);
     expect(getSources).toHaveBeenCalledWith({
       query: 'a',
+      navigator: expect.any(Object),
       refresh: expect.any(Function),
       setCollections: expect.any(Function),
       setContext: expect.any(Function),
@@ -81,6 +82,7 @@ describe('getSources', () => {
                 getItems: expect.any(Function),
                 onActive: expect.any(Function),
                 onSelect: expect.any(Function),
+                onResolve: expect.any(Function),
                 templates: expect.objectContaining({
                   item: expect.any(Function),
                 }),

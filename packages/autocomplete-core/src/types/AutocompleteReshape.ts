@@ -12,10 +12,10 @@ export type AutocompleteReshapeSourcesBySourceId<
   TItem extends BaseItem
 > = Record<string, AutocompleteReshapeSource<TItem>>;
 
-export type Reshape<
+export type ReshapeParams<
   TItem extends BaseItem,
   TState extends AutocompleteState<TItem> = AutocompleteState<TItem>
-> = (params: {
+> = {
   /**
    * The resolved sources provided by [`getSources`](https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/sources/#param-getsources)
    */
@@ -30,4 +30,18 @@ export type Reshape<
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/state
    */
   state: TState;
-}) => Array<AutocompleteReshapeSource<TItem>>;
+};
+
+export type Reshape<
+  TItem extends BaseItem,
+  TState extends AutocompleteState<TItem> = AutocompleteState<TItem>
+> = (
+  params: ReshapeParams<TItem, TState>
+) => Array<AutocompleteReshapeSource<TItem>>;
+
+export type PluginReshape<
+  TItem extends BaseItem,
+  TState extends AutocompleteState<TItem> = AutocompleteState<TItem>
+> = (
+  params: Omit<ReshapeParams<TItem, TState>, 'sources'>
+) => Omit<ReshapeParams<TItem, TState>, 'sources'>;

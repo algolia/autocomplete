@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import { autocomplete, AutocompleteSource } from '@algolia/autocomplete-js';
 import { createTagsPlugin, Tag } from '@algolia/autocomplete-plugin-tags';

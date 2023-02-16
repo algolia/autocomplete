@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import {
   AutocompleteComponents,
@@ -25,7 +26,6 @@ export const productsPlugin = {
                 indexName: 'instant_search',
                 query,
                 params: {
-                  clickAnalytics: true,
                   attributesToSnippet: ['name:10', 'description:35'],
                   snippetEllipsisText: '…',
                   hitsPerPage: 15,

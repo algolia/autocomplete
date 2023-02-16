@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-tags-in-searchbox",
   "description": "Autocomplete example with Tags in the searchbox",
-  "version": "1.7.4",
+  "version": "1.8.1",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,10 +9,10 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.7.4",
-    "@algolia/autocomplete-plugin-algolia-insights": "1.7.4",
-    "@algolia/autocomplete-plugin-tags": "1.7.4",
-    "@algolia/autocomplete-theme-classic": "1.7.4",
+    "@algolia/autocomplete-js": "1.8.1",
+    "@algolia/autocomplete-plugin-algolia-insights": "1.8.1",
+    "@algolia/autocomplete-plugin-tags": "1.8.1",
+    "@algolia/autocomplete-theme-classic": "1.8.1",
     "@algolia/client-search": "4.14.3",
     "algoliasearch": "4.14.3",
     "preact": "10.5.13",
