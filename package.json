@@ -51,7 +51,7 @@
     "@types/jest": "^26.0.16",
     "@types/jest-diff": "^24.3.0",
     "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
+    "@types/react-dom": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "2.34.0",
     "@typescript-eslint/parser": "2.34.0",
     "algoliasearch": "4.14.3",
