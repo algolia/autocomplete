@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-reshape",
   "description": "Autocomplete example with the Reshape API",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,12 +9,12 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.8.1",
-    "@algolia/autocomplete-plugin-query-suggestions": "1.8.1",
-    "@algolia/autocomplete-plugin-recent-searches": "1.8.1",
-    "@algolia/autocomplete-preset-algolia": "1.8.1",
-    "@algolia/autocomplete-shared": "1.8.1",
-    "@algolia/autocomplete-theme-classic": "1.8.1",
+    "@algolia/autocomplete-js": "1.8.2",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.8.2",
+    "@algolia/autocomplete-plugin-recent-searches": "1.8.2",
+    "@algolia/autocomplete-preset-algolia": "1.8.2",
+    "@algolia/autocomplete-shared": "1.8.2",
+    "@algolia/autocomplete-theme-classic": "1.8.2",
     "@algolia/client-search": "4.14.3",
     "algoliasearch": "4.14.3",
     "preact": "10.5.13",
@@ -22,7 +22,7 @@
     "search-insights": "1.7.1"
   },
   "devDependencies": {
-    "@algolia/autocomplete-core": "1.8.1",
+    "@algolia/autocomplete-core": "1.8.2",
     "parcel": "2.8.2"
   },
   "keywords": [

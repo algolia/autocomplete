@@ -1,3 +1,13 @@
+## [1.8.2](https://github.com/algolia/autocomplete/compare/v1.8.1...v1.8.2) (2023-02-21)
+
+
+### Bug Fixes
+
+* **autocomplete-js:** correct peer dependency ([#1095](https://github.com/algolia/autocomplete/issues/1095)) ([c3824a9](https://github.com/algolia/autocomplete/commit/c3824a9e005a7cfbc8a8ea88816d4e9f79c7d4f0)), closes [#1094](https://github.com/algolia/autocomplete/issues/1094)
+* duplicated IDs in panel ([#1078](https://github.com/algolia/autocomplete/issues/1078)) ([a732fc5](https://github.com/algolia/autocomplete/commit/a732fc5ae76ce7c8cbc5fd08aa33de5112d67d15))
+
+
+
 ## [1.8.1](https://github.com/algolia/autocomplete/compare/v1.8.0...v1.8.1) (2023-02-14)
 
 
