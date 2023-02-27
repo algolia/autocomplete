@@ -29,6 +29,13 @@ Then:
 
 When every check is green and a team member approves, your contribution is merged! 🚀
 
+Before contributing, make sure you have the following dependencies set up on your machine:
+
+- [Yarn v1](https://classic.yarnpkg.com/)
+- [Node.js](https://nodejs.org/) (version available in [.nvmrc](https://github.com/algolia/autocomplete/blob/next/.nvmrc))
+- setup for [node-gyp](https://github.com/nodejs/node-gyp) (on macOS, install the XCode Command Line Tools by running `xcode-select --install` in the terminal if you haven't already)
+- a version of Chrome/Chromium (for Puppeteer)
+
 ## Commit conventions
 
 This project follows the [conventional changelog](https://conventionalcommits.org/) approach. This means that all commit messages should be formatted using the following scheme:

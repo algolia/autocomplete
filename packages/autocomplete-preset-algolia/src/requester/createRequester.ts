@@ -1,11 +1,10 @@
-import {
+import { fetchAlgoliaResults } from '../search';
+import type {
   MultipleQueriesQuery,
   SearchForFacetValuesResponse,
   SearchResponse,
-} from '@algolia/client-search';
-import { SearchClient } from 'algoliasearch/lite';
-
-import { fetchAlgoliaResults } from '../search';
+  SearchClient,
+} from '../types';
 
 type Fetcher = typeof fetchAlgoliaResults;
 

@@ -1,8 +1,9 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
-import { h, Fragment } from 'preact';
+import { InstantSearch } from 'instantsearch.js';
 
 import {
   debouncedSetInstantSearchUiState,
@@ -41,7 +42,7 @@ function getItemUrl({ query, category }) {
   });
 }
 
-function ItemWrapper({ children, query, category }) {
+function getItemWrapper({ html, children, query, category }) {
   const uiState = {
     query,
     hierarchicalMenu: {
@@ -49,21 +50,19 @@ function ItemWrapper({ children, query, category }) {
     },
   };
 
-  return (
-    <a
-      className="aa-ItemLink"
-      href={getInstantSearchUrl(uiState)}
-      onClick={(event) => {
-        if (!isModifierEvent(event)) {
-          // Bypass the original link behavior if there's no event modifier
-          // to set the InstantSearch UI state without reloading the page.
-          event.preventDefault();
-        }
-      }}
-    >
-      {children}
-    </a>
-  );
+  return html`<a
+    class="aa-ItemLink"
+    href=${getInstantSearchUrl(uiState)}
+    onClick=${(event) => {
+      if (!isModifierEvent(event)) {
+        // Bypass the original link behavior if there's no event modifier
+        // to set the InstantSearch UI state without reloading the page.
+        event.preventDefault();
+      }
+    }}
+  >
+    ${children}
+  </a>`;
 }
 
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
@@ -93,15 +92,14 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
         // and plug it to the InstantSearch router.
         item(params) {
           const { children } = (source.templates.item(params) as any).props;
+          const { item, html } = params;
 
-          return (
-            <ItemWrapper
-              query={params.item.label}
-              category={params.item.category}
-            >
-              {children}
-            </ItemWrapper>
-          );
+          return getItemWrapper({
+            query: item.label,
+            category: item.category,
+            html,
+            children,
+          });
         },
       },
     };
@@ -114,7 +112,7 @@ const querySuggestionsPluginInCategory = createQuerySuggestionsPlugin({
   getSearchParams() {
     const currentCategory = getInstantSearchCurrentCategory();
 
-    return recentSearchesPlugin.data.getAlgoliaSearchParams({
+    return recentSearchesPlugin.data!.getAlgoliaSearchParams({
       hitsPerPage: 3,
       facetFilters: [
         `${INSTANT_SEARCH_INDEX_NAME}.facets.exact_matches.${INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE}.value:${currentCategory}`,
@@ -151,22 +149,22 @@ const querySuggestionsPluginInCategory = createQuerySuggestionsPlugin({
       },
       templates: {
         ...source.templates,
-        header() {
-          return (
-            <Fragment>
-              <span className="aa-SourceHeaderTitle">In {currentCategory}</span>
-              <div className="aa-SourceHeaderLine" />
-            </Fragment>
-          );
+        header({ html }) {
+          return html`
+            <span class="aa-SourceHeaderTitle">In ${currentCategory}</span>
+            <div class="aa-SourceHeaderLine" />
+          `;
         },
         item(params) {
           const { children } = (source.templates.item(params) as any).props;
+          const { item, html } = params;
 
-          return (
-            <ItemWrapper query={params.item.query} category={currentCategory}>
-              {children}
-            </ItemWrapper>
-          );
+          return getItemWrapper({
+            query: item.query,
+            category: currentCategory,
+            html,
+            children,
+          });
         },
       },
     };
@@ -180,12 +178,12 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
     const currentCategory = getInstantSearchCurrentCategory();
 
     if (!currentCategory) {
-      return recentSearchesPlugin.data.getAlgoliaSearchParams({
+      return recentSearchesPlugin.data!.getAlgoliaSearchParams({
         hitsPerPage: 6,
       });
     }
 
-    return recentSearchesPlugin.data.getAlgoliaSearchParams({
+    return recentSearchesPlugin.data!.getAlgoliaSearchParams({
       hitsPerPage: 3,
       facetFilters: [
         `${INSTANT_SEARCH_INDEX_NAME}.facets.exact_matches.${INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTE}.value:-${currentCategory}`,
@@ -228,29 +226,26 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
       },
       templates: {
         ...source.templates,
-        header() {
+        header({ html }) {
           if (!currentCategory) {
             return null;
           }
 
-          return (
-            <Fragment>
-              <span className="aa-SourceHeaderTitle">In other categories</span>
-              <div className="aa-SourceHeaderLine" />
-            </Fragment>
-          );
+          return html`
+            <span class="aa-SourceHeaderTitle">In other categories</span>
+            <div class="aa-SourceHeaderLine" />
+          `;
         },
         item(params) {
           const { children } = (source.templates.item(params) as any).props;
+          const { item, html } = params;
 
-          return (
-            <ItemWrapper
-              query={params.item.query}
-              category={params.item.__autocomplete_qsCategory}
-            >
-              {children}
-            </ItemWrapper>
-          );
+          return getItemWrapper({
+            query: item.query,
+            category: item.__autocomplete_qsCategory,
+            html,
+            children,
+          });
         },
       },
     };
@@ -259,8 +254,10 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 
 const searchPageState = getInstantSearchUiState();
 
-export function startAutocomplete() {
-  autocomplete({
+export function startAutocomplete(searchInstance: InstantSearch) {
+  let skipInstantSearchStateUpdate = false;
+
+  const { setQuery } = autocomplete({
     container: '#autocomplete',
     placeholder: 'Search for products',
     openOnFocus: true,
@@ -291,9 +288,17 @@ export function startAutocomplete() {
       });
     },
     onStateChange({ prevState, state }) {
-      if (prevState.query !== state.query) {
+      if (!skipInstantSearchStateUpdate && prevState.query !== state.query) {
         debouncedSetInstantSearchUiState({ query: state.query });
       }
+      skipInstantSearchStateUpdate = false;
     },
+  });
+
+  window.addEventListener('popstate', () => {
+    skipInstantSearchStateUpdate = true;
+    setQuery(
+      (searchInstance.helper && searchInstance.helper.state.query) || ''
+    );
   });
 }

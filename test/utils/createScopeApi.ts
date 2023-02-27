@@ -10,6 +10,11 @@ export function createScopeApi<
     setIsOpen: jest.fn(),
     setStatus: jest.fn(),
     setContext: jest.fn(),
+    navigator: {
+      navigate: jest.fn(),
+      navigateNewTab: jest.fn(),
+      navigateNewWindow: jest.fn(),
+    },
     refresh: jest.fn(),
   };
 }

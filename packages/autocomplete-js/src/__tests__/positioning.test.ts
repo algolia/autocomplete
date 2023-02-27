@@ -130,7 +130,7 @@ describe('Panel positioning', () => {
     });
   });
 
-  test('keeps the panel positionned after scrolling', async () => {
+  test('keeps the panel positioned after scrolling', async () => {
     const container = document.createElement('div');
     const panelContainer = document.body;
     document.body.appendChild(container);
@@ -191,7 +191,7 @@ describe('Panel positioning', () => {
       right: '1020px',
     });
 
-    input.blur();
+    userEvent.click(document.body);
 
     // Move the root vertically
     root.getBoundingClientRect = jest

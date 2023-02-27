@@ -29,6 +29,7 @@ aliases:
       mkdir -p packages/autocomplete-preset-algolia/dist
       mkdir -p packages/autocomplete-plugin-algolia-insights/dist
       mkdir -p packages/autocomplete-plugin-recent-searches/dist
+      mkdir -p packages/autocomplete-plugin-redirect-url/dist
       mkdir -p packages/autocomplete-plugin-query-suggestions/dist
       mkdir -p packages/autocomplete-plugin-tags/dist
 
@@ -38,13 +39,14 @@ aliases:
       cp -R /tmp/workspace/packages/autocomplete-preset-algolia/dist packages/autocomplete-preset-algolia
       cp -R /tmp/workspace/packages/autocomplete-plugin-algolia-insights/dist packages/autocomplete-plugin-algolia-insights
       cp -R /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist packages/autocomplete-plugin-recent-searches
+      cp -R /tmp/workspace/packages/autocomplete-plugin-redirect-url/dist packages/autocomplete-plugin-redirect-url
       cp -R /tmp/workspace/packages/autocomplete-plugin-query-suggestions/dist packages/autocomplete-plugin-query-suggestions
       cp -R /tmp/workspace/packages/autocomplete-plugin-tags/dist packages/autocomplete-plugin-tags
 
 defaults: &defaults
   working_directory: ~/autocomplete
   docker:
-    - image: cimg/node:14.18.3
+    - image: cimg/node:14.21.1
 
 cypress: &cypress
   working_directory: ~/autocomplete
@@ -83,6 +85,7 @@ jobs:
             mkdir -p /tmp/workspace/packages/autocomplete-preset-algolia/dist
             mkdir -p /tmp/workspace/packages/autocomplete-plugin-algolia-insights/dist
             mkdir -p /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist
+            mkdir -p /tmp/workspace/packages/autocomplete-plugin-redirect-url/dist
             mkdir -p /tmp/workspace/packages/autocomplete-plugin-query-suggestions/dist
             mkdir -p /tmp/workspace/packages/autocomplete-plugin-tags/dist
 
@@ -92,6 +95,7 @@ jobs:
             cp -R packages/autocomplete-preset-algolia/dist /tmp/workspace/packages/autocomplete-preset-algolia
             cp -R packages/autocomplete-plugin-algolia-insights/dist /tmp/workspace/packages/autocomplete-plugin-algolia-insights
             cp -R packages/autocomplete-plugin-recent-searches/dist /tmp/workspace/packages/autocomplete-plugin-recent-searches
+            cp -R packages/autocomplete-plugin-redirect-url/dist /tmp/workspace/packages/autocomplete-plugin-redirect-url
             cp -R packages/autocomplete-plugin-query-suggestions/dist /tmp/workspace/packages/autocomplete-plugin-query-suggestions
             cp -R packages/autocomplete-plugin-tags/dist /tmp/workspace/packages/autocomplete-plugin-tags
       - persist_to_workspace:
@@ -204,12 +208,14 @@ workflows:
           requires:
             - build
       - test_size:
+          context: fx-libraries
           requires:
             - build
       # - test_cypress:
       #     requires:
       #       - build
       - release:
+          context: fx-libraries
           requires:
             - test_unit
             - test_lint

@@ -113,12 +113,16 @@ export function onInput<TItem extends BaseItem>({
                   ...setters,
                 })
               ).then((itemsOrDescription) =>
-                preResolve<TItem>(itemsOrDescription, source.sourceId)
+                preResolve<TItem>(
+                  itemsOrDescription,
+                  source.sourceId,
+                  store.getState()
+                )
               );
             })
           )
             .then(resolve)
-            .then((responses) => postResolve(responses, sources))
+            .then((responses) => postResolve(responses, sources, store))
             .then((collections) =>
               reshape({ collections, props, state: store.getState() })
             );

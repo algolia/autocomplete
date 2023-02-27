@@ -58,17 +58,16 @@ search.addWidgets([
       }));
     },
     templates: {
-      item: `
+      item: (hit, { html, components }) => html`
         <article class="hit">
           <div class="hit-image">
-            <img src="{{image}}" alt="{{name}}">
+            <img src="${hit.image}" alt="${hit.name}" />
           </div>
           <div>
-            <h1>
-              {{#helpers.snippet}}{ "attribute": "name" }{{/helpers.snippet}}
-            </h1>
+            <h1>${components.Snippet({ hit, attribute: 'name' })}</h1>
             <div>
-              By <strong>{{brand}}</strong> in <strong>{{category}}</strong>
+              By <strong>${hit.brand}</strong> in
+              <strong>${hit.category}</strong>
             </div>
           </div>
 
@@ -81,7 +80,8 @@ search.addWidgets([
               gap: 8px;
             "
           >
-            {{#rating}}
+            ${hit.rating > 0 &&
+            html`
               <div
                 style="
                   display: grid;
@@ -101,11 +101,13 @@ search.addWidgets([
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 >
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                  />
                 </svg>
-                {{rating}}
+                ${hit.rating}
               </div>
-            {{/rating}}
+            `}
 
             <div
               style="
@@ -130,9 +132,11 @@ search.addWidgets([
                   top: 1px;
                 "
               >
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                <path
+                  d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                ></path>
               </svg>
-              <span>{{comments}}</span>
+              <span>${hit.comments}</span>
             </div>
           </div>
         </article>

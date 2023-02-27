@@ -105,6 +105,14 @@ export function onKeyDown<TItem extends BaseItem>({
     // pending and could reopen the panel once they resolve, because that would
     // result in an unsolicited UI behavior.
     store.pendingRequests.cancelAll();
+  } else if (event.key === 'Tab') {
+    store.dispatch('blur', null);
+
+    // Hitting the `Escape` key signals the end of a user interaction with the
+    // autocomplete. At this point, we should ignore any requests that are still
+    // pending and could reopen the panel once they resolve, because that would
+    // result in an unsolicited UI behavior.
+    store.pendingRequests.cancelAll();
   } else if (event.key === 'Enter') {
     // No active item, so we let the browser handle the native `onSubmit` form
     // event.
@@ -114,6 +122,14 @@ export function onKeyDown<TItem extends BaseItem>({
         .getState()
         .collections.every((collection) => collection.items.length === 0)
     ) {
+      // If requests are still pending when the panel closes, they could reopen
+      // the panel once they resolve.
+      // We want to prevent any subsequent query from reopening the panel
+      // because it would result in an unsolicited UI behavior.
+      if (!props.debug) {
+        store.pendingRequests.cancelAll();
+      }
+
       return;
     }
 

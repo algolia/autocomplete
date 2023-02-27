@@ -134,7 +134,7 @@ describe('concurrency', () => {
         expect(getSources).toHaveBeenCalledTimes(3);
       });
 
-      test('keeps the panel closed on blur', async () => {
+      test('keeps the panel closed on Enter', async () => {
         const onStateChange = jest.fn();
         const { timeout, delayedGetSources } = createDelayedGetSources({
           sources: [100, 200],
@@ -188,7 +188,74 @@ describe('concurrency', () => {
         expect(getSources).toHaveBeenCalledTimes(2);
       });
 
-      test('keeps the panel closed on touchstart blur', async () => {
+      test('keeps the panel closed on click outside', async () => {
+        const onStateChange = jest.fn();
+        const { timeout, delayedGetSources } = createDelayedGetSources({
+          sources: [100, 200],
+        });
+        const getSources = jest.fn(delayedGetSources);
+
+        const {
+          inputElement,
+          getEnvironmentProps,
+          formElement,
+        } = createPlayground(createAutocomplete, {
+          onStateChange,
+          getSources,
+        });
+
+        const panelElement = document.createElement('div');
+
+        const { onMouseDown } = getEnvironmentProps({
+          inputElement,
+          formElement,
+          panelElement,
+        });
+        window.addEventListener('mousedown', onMouseDown);
+
+        userEvent.type(inputElement, 'a');
+
+        await runAllMicroTasks();
+
+        // The search request is triggered
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              status: 'loading',
+              query: 'a',
+            }),
+          })
+        );
+
+        userEvent.click(document.body);
+
+        // The status is immediately set to "idle" and the panel is closed
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              status: 'idle',
+              isOpen: false,
+              query: 'a',
+            }),
+          })
+        );
+
+        await defer(noop, timeout);
+
+        // Once the request is settled, the state remains unchanged
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              status: 'idle',
+              isOpen: false,
+            }),
+          })
+        );
+
+        expect(getSources).toHaveBeenCalledTimes(1);
+      });
+
+      test('keeps the panel closed on touchstart', async () => {
         const onStateChange = jest.fn();
         const { timeout, delayedGetSources } = createDelayedGetSources({
           sources: [100, 200],

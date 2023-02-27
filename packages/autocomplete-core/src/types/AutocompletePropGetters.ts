@@ -25,6 +25,7 @@ export type GetEnvironmentProps = (props: {
 }) => {
   onTouchStart(event: TouchEvent): void;
   onTouchMove(event: TouchEvent): void;
+  onMouseDown(event: MouseEvent): void;
 };
 
 export type GetRootProps = (props?: {
@@ -59,6 +60,7 @@ export type GetFormProps<TEvent = Event> = (props: {
 
 export type GetLabelProps = (props?: {
   [key: string]: unknown;
+  sourceIndex?: number;
 }) => {
   htmlFor: string;
   id: string;
@@ -100,6 +102,7 @@ export type GetPanelProps<TMouseEvent> = (props?: {
 
 export type GetListProps = (props?: {
   [key: string]: unknown;
+  sourceIndex?: number;
 }) => {
   role: string;
   'aria-labelledby': string;

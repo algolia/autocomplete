@@ -1,5 +1,6 @@
 import * as autocompleteShared from '@algolia/autocomplete-shared';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 
 import {
   castToJestMock,
@@ -15,6 +16,10 @@ jest.mock('@algolia/autocomplete-shared', () => {
     ...module,
     generateAutocompleteId: jest.fn(() => `autocomplete-test`),
   };
+});
+
+beforeEach(() => {
+  document.body.innerHTML = '';
 });
 
 describe('autocomplete-js', () => {
@@ -561,5 +566,109 @@ describe('autocomplete-js', () => {
     await runAllMicroTasks();
 
     expect(input).toHaveValue('a');
+  });
+
+  test('closes the panel and focuses the next focusable element on `Tab`', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      id: 'autocomplete',
+      container,
+      initialState: {
+        query: 'a',
+        isOpen: true,
+      },
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [
+                { label: 'Item 1' },
+                { label: 'Item 2' },
+                { label: 'Item 3' },
+              ];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    // Wait for the panel to open
+    await waitFor(() => {
+      expect(
+        document.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    userEvent.click(document.querySelector('.aa-Input')!);
+    userEvent.tab();
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.aa-DetachedOverlay')
+      ).not.toBeInTheDocument();
+      expect(document.body).not.toHaveClass('aa-Detached');
+      expect(document.activeElement).toEqual(
+        document.querySelector('.aa-ClearButton')
+      );
+    });
+  });
+
+  test('closes the panel and focuses the next focusable element on `Shift+Tab`', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      id: 'autocomplete',
+      container,
+      initialState: {
+        query: 'a',
+        isOpen: true,
+      },
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [
+                { label: 'Item 1' },
+                { label: 'Item 2' },
+                { label: 'Item 3' },
+              ];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    // Wait for the panel to open
+    await waitFor(() => {
+      expect(
+        document.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    userEvent.click(document.querySelector('.aa-Input')!);
+    userEvent.tab({ shift: true });
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.aa-DetachedOverlay')
+      ).not.toBeInTheDocument();
+      expect(document.body).not.toHaveClass('aa-Detached');
+      expect(document.activeElement).toEqual(
+        document.querySelector('.aa-SubmitButton')
+      );
+    });
   });
 });

@@ -13,6 +13,7 @@ describe('createAutocomplete', () => {
       getListProps: expect.any(Function),
       getPanelProps: expect.any(Function),
       getRootProps: expect.any(Function),
+      navigator: expect.any(Object),
       refresh: expect.any(Function),
       setCollections: expect.any(Function),
       setContext: expect.any(Function),
@@ -30,7 +31,9 @@ describe('createAutocomplete', () => {
     expect(plugin.subscribe).toHaveBeenCalledTimes(1);
     expect(plugin.subscribe).toHaveBeenLastCalledWith({
       onActive: expect.any(Function),
+      onResolve: expect.any(Function),
       onSelect: expect.any(Function),
+      navigator: expect.any(Object),
       refresh: autocomplete.refresh,
       setCollections: autocomplete.setCollections,
       setContext: autocomplete.setContext,

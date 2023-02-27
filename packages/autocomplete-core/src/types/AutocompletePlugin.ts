@@ -1,6 +1,11 @@
 import { AutocompleteScopeApi, BaseItem } from './AutocompleteApi';
 import { AutocompleteOptions } from './AutocompleteOptions';
-import { OnSelectParams, OnActiveParams } from './AutocompleteSource';
+import { PluginReshape } from './AutocompleteReshape';
+import {
+  OnSelectParams,
+  OnActiveParams,
+  OnResolveParams,
+} from './AutocompleteSource';
 
 type PluginSubscriber<TParams> = (params: TParams) => void;
 
@@ -8,6 +13,7 @@ export interface PluginSubscribeParams<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
   onSelect(fn: PluginSubscriber<OnSelectParams<TItem>>): void;
   onActive(fn: PluginSubscriber<OnActiveParams<TItem>>): void;
+  onResolve(fn: PluginSubscriber<OnResolveParams<TItem>>): void;
 }
 
 export type AutocompletePlugin<
@@ -37,6 +43,12 @@ export type AutocompletePlugin<
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/core-concepts/plugins/#param-name
    */
   name?: string;
+  /**
+   * A function to reshape the sources.
+   *
+   * It gets called before the user's reshape function.
+   */
+  reshape?: PluginReshape<TItem>;
   /**
    * @internal
    */

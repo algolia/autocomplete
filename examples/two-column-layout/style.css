@@ -106,7 +106,7 @@ body {
   margin-left: calc(var(--aa-icon-size) + var(--aa-spacing));
 }
 
-/* Breacrumb */
+/* Breadcrumb */
 .aa-Breadcrumb {
   color: rgb(var(--aa-muted-color-rgb));
   display: flex;

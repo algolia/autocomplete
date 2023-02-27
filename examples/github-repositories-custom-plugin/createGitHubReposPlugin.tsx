@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import { AutocompletePlugin } from '@algolia/autocomplete-js';
 import { h } from 'preact';

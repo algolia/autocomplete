@@ -86,7 +86,7 @@ describe('panelPlacement', () => {
       });
     });
 
-    test('keeps the panel positionned after scrolling', async () => {
+    test('keeps the panel positioned after scrolling', async () => {
       autocomplete({
         container,
         panelPlacement: 'input-wrapper-width',
@@ -143,7 +143,7 @@ describe('panelPlacement', () => {
       });
     });
 
-    test('keeps the panel positionned after scrolling', async () => {
+    test('keeps the panel positioned after scrolling', async () => {
       autocomplete({
         container,
         panelPlacement: 'start',
@@ -197,7 +197,7 @@ describe('panelPlacement', () => {
       });
     });
 
-    test('keeps the panel positionned after scrolling', async () => {
+    test('keeps the panel positioned after scrolling', async () => {
       autocomplete({
         container,
         panelPlacement: 'end',
@@ -254,7 +254,7 @@ describe('panelPlacement', () => {
       });
     });
 
-    test('keeps the panel positionned after scrolling', async () => {
+    test('keeps the panel positioned after scrolling', async () => {
       autocomplete({
         container,
         panelPlacement: 'full-width',
@@ -340,7 +340,7 @@ describe('panelPlacement', () => {
     });
   });
 
-  test('default value keeps the panel positionned after scrolling', async () => {
+  test('default value keeps the panel positioned after scrolling', async () => {
     autocomplete({
       container,
       initialState: {
