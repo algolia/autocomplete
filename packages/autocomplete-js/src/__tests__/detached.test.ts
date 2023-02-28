@@ -57,13 +57,13 @@ describe('detached', () => {
 
     const searchButton = container.querySelector<HTMLButtonElement>(
       '.aa-DetachedSearchButton'
-    );
+    )!;
 
     // Open detached overlay
     searchButton.click();
 
     await waitFor(() => {
-      const input = document.querySelector<HTMLInputElement>('.aa-Input');
+      const input = document.querySelector<HTMLInputElement>('.aa-Input')!;
 
       expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
       expect(document.body).toHaveClass('aa-Detached');
@@ -81,7 +81,7 @@ describe('detached', () => {
 
     const firstItem = document.querySelector<HTMLLIElement>(
       '#autocomplete-0-item-0'
-    );
+    )!;
 
     // Select the first item
     firstItem.click();
@@ -106,7 +106,7 @@ describe('detached', () => {
 
     const searchButton = container.querySelector<HTMLButtonElement>(
       '.aa-DetachedSearchButton'
-    );
+    )!;
 
     // Open detached overlay
     searchButton.click();
@@ -118,7 +118,7 @@ describe('detached', () => {
 
     const cancelButton = document.querySelector<HTMLButtonElement>(
       '.aa-DetachedCancelButton'
-    );
+    )!;
 
     // Prevent `onTouchStart` event from closing detached overlay
     const windowTouchStartListener = jest.fn();
@@ -370,6 +370,152 @@ describe('detached', () => {
       expect(document.activeElement).toEqual(
         document.querySelector('.aa-SubmitButton')
       );
+    });
+  });
+
+  test('preserves `query` after closing', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const onStateChange = jest.fn();
+    const { setQuery } = autocomplete({
+      id: 'autocomplete',
+      detachedMediaQuery: '',
+      container,
+      onStateChange,
+    });
+
+    const searchButton = container.querySelector<HTMLButtonElement>(
+      '.aa-DetachedSearchButton'
+    )!;
+
+    // Open detached overlay
+    searchButton.click();
+
+    await waitFor(() => {
+      expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
+      expect(document.body).toHaveClass('aa-Detached');
+    });
+
+    setQuery('a');
+
+    const cancelButton = document.querySelector<HTMLButtonElement>(
+      '.aa-DetachedCancelButton'
+    )!;
+
+    // Close detached overlay
+    cancelButton.click();
+
+    // The detached overlay should close
+    await waitFor(() => {
+      expect(
+        document.querySelector('.aa-DetachedOverlay')
+      ).not.toBeInTheDocument();
+      expect(document.body).not.toHaveClass('aa-Detached');
+    });
+
+    // The `query` should still be present
+    expect(onStateChange).toHaveBeenCalledTimes(3);
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ query: 'a' }),
+      })
+    );
+  });
+
+  test('reflects the initial `query` in the detached search `button`', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete({
+      id: 'autocomplete',
+      detachedMediaQuery: '',
+      container,
+      initialState: {
+        query: 'a',
+      },
+    });
+
+    await waitFor(() => {
+      expect(
+        container.querySelector('.aa-DetachedSearchButtonQuery')?.innerHTML
+      ).toEqual('a');
+    });
+  });
+
+  test('hides detached search `button` placeholder when `query` exists', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete({
+      id: 'autocomplete',
+      detachedMediaQuery: '',
+      container,
+      initialState: {
+        query: 'a',
+      },
+    });
+
+    await waitFor(() => {
+      expect(
+        container.querySelector('.aa-DetachedSearchButtonPlaceholder')
+      ).toHaveAttribute('hidden');
+    });
+  });
+
+  test('persists the `query` in the detached search `button` after closing', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete({
+      id: 'autocomplete',
+      detachedMediaQuery: '',
+      container,
+    });
+
+    const searchButton = container.querySelector<HTMLButtonElement>(
+      '.aa-DetachedSearchButton'
+    )!;
+
+    // Open detached overlay
+    searchButton.click();
+
+    await waitFor(() => {
+      const input = document.querySelector<HTMLInputElement>('.aa-Input')!;
+
+      expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
+      expect(document.body).toHaveClass('aa-Detached');
+      expect(input).toHaveFocus();
+
+      fireEvent.input(input, { target: { value: 'a' } });
+    });
+
+    // Wait for the panel to open
+    await waitFor(() => {
+      expect(
+        document.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    const cancelButton = document.querySelector<HTMLButtonElement>(
+      '.aa-DetachedCancelButton'
+    )!;
+
+    // Close detached overlay
+    cancelButton.click();
+
+    // The detached overlay should close
+    await waitFor(() => {
+      expect(
+        document.querySelector('.aa-DetachedOverlay')
+      ).not.toBeInTheDocument();
+      expect(document.body).not.toHaveClass('aa-Detached');
+    });
+
+    // The detached search button should contain the query
+    await waitFor(() => {
+      expect(
+        container.querySelector('.aa-DetachedSearchButtonQuery')?.innerHTML
+      ).toEqual('a');
+      expect(
+        container.querySelector('.aa-DetachedSearchButtonPlaceholder')
+      ).toHaveAttribute('hidden');
     });
   });
 });

@@ -137,6 +137,16 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     ...panelProps,
   });
 
+  const detachedSearchButtonQuery = createDomElement('div', {
+    class: classNames.detachedSearchButtonQuery,
+    textContent: state.query,
+  });
+  const detachedSearchButtonPlaceholder = createDomElement('div', {
+    class: classNames.detachedSearchButtonPlaceholder,
+    hidden: Boolean(state.query),
+    textContent: placeholder,
+  });
+
   if (__TEST__) {
     setProperties(panel, {
       'data-testid': 'panel',
@@ -148,17 +158,17 @@ export function createAutocompleteDom<TItem extends BaseItem>({
       class: classNames.detachedSearchButtonIcon,
       children: [SearchIcon({ environment })],
     });
-    const detachedSearchButtonPlaceholder = createDomElement('div', {
-      class: classNames.detachedSearchButtonPlaceholder,
-      textContent: placeholder,
-    });
     const detachedSearchButton = createDomElement('button', {
       type: 'button',
       class: classNames.detachedSearchButton,
       onClick() {
         setIsModalOpen(true);
       },
-      children: [detachedSearchButtonIcon, detachedSearchButtonPlaceholder],
+      children: [
+        detachedSearchButtonIcon,
+        detachedSearchButtonPlaceholder,
+        detachedSearchButtonQuery,
+      ],
     });
     const detachedCancelButton = createDomElement('button', {
       type: 'button',
@@ -188,6 +198,8 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   return {
     detachedContainer,
     detachedOverlay,
+    detachedSearchButtonQuery,
+    detachedSearchButtonPlaceholder,
     inputWrapper,
     input,
     root,

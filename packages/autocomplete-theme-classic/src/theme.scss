@@ -934,6 +934,14 @@ body {
     justify-content: center;
     width: calc(var(--aa-icon-size) + var(--aa-spacing));
   }
+  @at-root .aa-DetachedSearchButtonQuery {
+    color: rgba(var(--aa-text-color-rgb), 1);
+  }
+  @at-root .aa-DetachedSearchButtonPlaceholder {
+    &[hidden] {
+      display: none;
+    }
+  }
 }
 
 // Remove scroll on `body`

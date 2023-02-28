@@ -6,6 +6,7 @@ export type AutocompleteClassNames = {
   detachedSearchButton: string;
   detachedSearchButtonIcon: string;
   detachedSearchButtonPlaceholder: string;
+  detachedSearchButtonQuery: string;
   form: string;
   input: string;
   inputWrapper: string;
