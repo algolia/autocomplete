@@ -933,9 +933,14 @@ body {
     height: 100%;
     justify-content: center;
     width: calc(var(--aa-icon-size) + var(--aa-spacing));
+    flex-shrink: 0;
   }
   @at-root .aa-DetachedSearchButtonQuery {
     color: rgba(var(--aa-text-color-rgb), 1);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 1.25em;
   }
   @at-root .aa-DetachedSearchButtonPlaceholder {
     &[hidden] {
