@@ -393,8 +393,6 @@ export function autocomplete<TItem extends BaseItem>(
         props.value.core.environment.document.body.classList.remove(
           'aa-Detached'
         );
-        autocomplete.value.setQuery('');
-        autocomplete.value.refresh();
       }
     });
   }

@@ -35,6 +35,7 @@ const defaultClassNames: AutocompleteClassNames = {
   detachedSearchButton: 'aa-DetachedSearchButton',
   detachedSearchButtonIcon: 'aa-DetachedSearchButtonIcon',
   detachedSearchButtonPlaceholder: 'aa-DetachedSearchButtonPlaceholder',
+  detachedSearchButtonQuery: 'aa-DetachedSearchButtonQuery',
   form: 'aa-Form',
   input: 'aa-Input',
   inputWrapper: 'aa-InputWrapper',

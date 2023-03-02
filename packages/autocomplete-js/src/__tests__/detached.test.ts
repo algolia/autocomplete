@@ -57,13 +57,13 @@ describe('detached', () => {
 
     const searchButton = container.querySelector<HTMLButtonElement>(
       '.aa-DetachedSearchButton'
-    );
+    )!;
 
     // Open detached overlay
     searchButton.click();
 
     await waitFor(() => {
-      const input = document.querySelector<HTMLInputElement>('.aa-Input');
+      const input = document.querySelector<HTMLInputElement>('.aa-Input')!;
 
       expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
       expect(document.body).toHaveClass('aa-Detached');
@@ -81,7 +81,7 @@ describe('detached', () => {
 
     const firstItem = document.querySelector<HTMLLIElement>(
       '#autocomplete-0-item-0'
-    );
+    )!;
 
     // Select the first item
     firstItem.click();
@@ -106,7 +106,7 @@ describe('detached', () => {
 
     const searchButton = container.querySelector<HTMLButtonElement>(
       '.aa-DetachedSearchButton'
-    );
+    )!;
 
     // Open detached overlay
     searchButton.click();
@@ -118,7 +118,7 @@ describe('detached', () => {
 
     const cancelButton = document.querySelector<HTMLButtonElement>(
       '.aa-DetachedCancelButton'
-    );
+    )!;
 
     // Prevent `onTouchStart` event from closing detached overlay
     const windowTouchStartListener = jest.fn();
@@ -370,6 +370,100 @@ describe('detached', () => {
       expect(document.activeElement).toEqual(
         document.querySelector('.aa-SubmitButton')
       );
+    });
+  });
+
+  test('preserves `query` in the detached search `button` after closing', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const onStateChange = jest.fn();
+    autocomplete({
+      id: 'autocomplete',
+      detachedMediaQuery: '',
+      container,
+      onStateChange,
+    });
+
+    const searchButton = container.querySelector<HTMLButtonElement>(
+      '.aa-DetachedSearchButton'
+    )!;
+
+    // Open detached overlay
+    searchButton.click();
+
+    // Type a query in the focused input
+    await waitFor(() => {
+      const input = document.querySelector<HTMLInputElement>('.aa-Input')!;
+
+      expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
+      expect(document.body).toHaveClass('aa-Detached');
+      expect(input).toHaveFocus();
+
+      fireEvent.input(input, { target: { value: 'a' } });
+    });
+
+    // Wait for the panel to open
+    await waitFor(() => {
+      expect(
+        document.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    const cancelButton = document.querySelector<HTMLButtonElement>(
+      '.aa-DetachedCancelButton'
+    )!;
+
+    // Close detached overlay
+    cancelButton.click();
+
+    // The detached overlay should close
+    await waitFor(() => {
+      expect(
+        document.querySelector('.aa-DetachedOverlay')
+      ).not.toBeInTheDocument();
+      expect(document.body).not.toHaveClass('aa-Detached');
+    });
+
+    // The `query` should still be present
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({ query: 'a' }),
+      })
+    );
+
+    // The detached search `button` should contain the `query`
+    expect(
+      container.querySelector('.aa-DetachedSearchButtonQuery')
+    ).toHaveTextContent('a');
+
+    // The detached search `button` placeholder should be hidden when `query` exists
+    expect(
+      container.querySelector('.aa-DetachedSearchButtonPlaceholder')
+    ).toHaveAttribute('hidden');
+  });
+
+  test('reflects the initial `query` in the detached search `button`', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete({
+      id: 'autocomplete',
+      detachedMediaQuery: '',
+      container,
+      initialState: {
+        query: 'a',
+      },
+    });
+
+    await waitFor(() => {
+      // The detached search `button` should have the initial `query`
+      expect(
+        container.querySelector('.aa-DetachedSearchButtonQuery')
+      ).toHaveTextContent('a');
+
+      // The detached search `button` placeholder should be hidden when `query` exists
+      expect(
+        container.querySelector('.aa-DetachedSearchButtonPlaceholder')
+      ).toHaveAttribute('hidden');
     });
   });
 });
