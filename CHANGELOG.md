@@ -1,3 +1,12 @@
+## [1.8.3](https://github.com/algolia/autocomplete/compare/v1.8.2...v1.8.3) (2023-03-02)
+
+
+### Bug Fixes
+
+* **autocomplete-js:** `query` is reflected in the detached search `button` ([#1100](https://github.com/algolia/autocomplete/issues/1100)) ([a41ccc6](https://github.com/algolia/autocomplete/commit/a41ccc6fe6755f4b4cc7d6421ce830858a3f4616))
+
+
+
 ## [1.8.2](https://github.com/algolia/autocomplete/compare/v1.8.1...v1.8.2) (2023-02-21)
 
 
