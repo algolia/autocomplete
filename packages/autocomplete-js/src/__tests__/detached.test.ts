@@ -436,8 +436,8 @@ describe('detached', () => {
 
     await waitFor(() => {
       expect(
-        container.querySelector('.aa-DetachedSearchButtonQuery')?.innerHTML
-      ).toEqual('a');
+        container.querySelector('.aa-DetachedSearchButtonQuery')
+      ).toHaveTextContent('a');
     });
   });
 
@@ -511,8 +511,8 @@ describe('detached', () => {
     // The detached search button should contain the query
     await waitFor(() => {
       expect(
-        container.querySelector('.aa-DetachedSearchButtonQuery')?.innerHTML
-      ).toEqual('a');
+        container.querySelector('.aa-DetachedSearchButtonQuery')
+      ).toHaveTextContent('a');
       expect(
         container.querySelector('.aa-DetachedSearchButtonPlaceholder')
       ).toHaveAttribute('hidden');
