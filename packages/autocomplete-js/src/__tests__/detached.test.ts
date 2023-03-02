@@ -391,6 +391,7 @@ describe('detached', () => {
     // Open detached overlay
     searchButton.click();
 
+    // Type a query in the focused input
     await waitFor(() => {
       const input = document.querySelector<HTMLInputElement>('.aa-Input')!;
 
