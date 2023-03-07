@@ -7,6 +7,7 @@ import {
   debounce,
   isEqual,
   noop,
+  safelyRunOnBrowser,
 } from '@algolia/autocomplete-shared';
 
 import { createClickedEvent } from './createClickedEvent';
@@ -23,6 +24,8 @@ import {
 } from './types';
 
 const VIEW_EVENT_DELAY = 400;
+const ALGOLIA_INSIGHTS_VERSION = '2.3.0';
+const ALGOLIA_INSIGHTS_SRC = `https://cdn.jsdelivr.net/npm/search-insights@${ALGOLIA_INSIGHTS_VERSION}/dist/search-insights.min.js`;
 
 type SendViewedObjectIDsParams = {
   onItemsChange(params: OnItemsChangeParams): void;
@@ -51,7 +54,7 @@ export type CreateAlgoliaInsightsPluginParams = {
    *
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/#param-insightsclient
    */
-  insightsClient: InsightsClient;
+  insightsClient?: InsightsClient;
   /**
    * Hook to send an Insights event when the items change.
    *
@@ -84,11 +87,41 @@ export function createAlgoliaInsightsPlugin(
   options: CreateAlgoliaInsightsPluginParams
 ): AutocompletePlugin<any, undefined> {
   const {
-    insightsClient,
+    insightsClient: providedInsightsClient,
     onItemsChange,
     onSelect: onSelectEvent,
     onActive: onActiveEvent,
   } = getOptions(options);
+  let insightsClient: InsightsClient = providedInsightsClient || noop;
+
+  if (!providedInsightsClient) {
+    safelyRunOnBrowser(({ window }) => {
+      const pointer = window.AlgoliaAnalyticsObject || 'aa';
+
+      if (typeof pointer === 'string') {
+        insightsClient = window[pointer];
+      }
+
+      if (!insightsClient) {
+        window.AlgoliaAnalyticsObject = pointer;
+
+        if (!window[pointer]) {
+          window[pointer] = (...args: any[]) => {
+            if (!window[pointer].queue) {
+              window[pointer].queue = [];
+            }
+
+            window[pointer].queue.push(args);
+          };
+        }
+
+        insightsClient = window[pointer];
+
+        loadInsights(window);
+      }
+    });
+  }
+
   const insights = createSearchInsightsApi(insightsClient);
   const previousItems = createRef<AlgoliaInsightsHit[]>([]);
 
@@ -180,6 +213,7 @@ export function createAlgoliaInsightsPlugin(
 
 function getOptions(options: CreateAlgoliaInsightsPluginParams) {
   return {
+    // insightsClient: noop,
     onItemsChange({ insights, insightsEvents }) {
       insights.viewedObjectIDs(...insightsEvents);
     },
@@ -189,4 +223,24 @@ function getOptions(options: CreateAlgoliaInsightsPluginParams) {
     onActive: noop,
     ...options,
   };
+}
+
+function loadInsights(environment: typeof window) {
+  const errorMessage = `[Autocomplete]: Could not load search-insights.js. Please load it manually following https://alg.li/insights-autocomplete`;
+
+  try {
+    const script = environment.document.createElement('script');
+    script.async = true;
+    script.src = ALGOLIA_INSIGHTS_SRC;
+
+    script.onerror = () => {
+      // eslint-disable-next-line no-console
+      console.error(errorMessage);
+    };
+
+    document.body.appendChild(script);
+  } catch (cause) {
+    // eslint-disable-next-line no-console
+    console.error(errorMessage);
+  }
 }
