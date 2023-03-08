@@ -157,6 +157,20 @@ export function createAlgoliaInsightsPlugin(
     subscribe({ setContext, onSelect, onActive }) {
       insightsClient('addAlgoliaAgent', 'insights-plugin');
 
+      const version = insightsClient.version;
+      let canInit = false;
+      if (typeof version !== 'undefined') {
+        const [major, minor] = version.split('.').map(Number);
+        canInit =
+          major >= 3 ||
+          (major === 2 && minor >= 4) ||
+          (major === 1 && minor >= 10);
+      }
+
+      if (canInit) {
+        insightsClient('init', { partial: true });
+      }
+
       setContext({
         algoliaInsightsPlugin: {
           __algoliaSearchParameters: {
