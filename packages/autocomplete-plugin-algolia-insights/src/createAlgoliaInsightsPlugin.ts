@@ -213,7 +213,6 @@ export function createAlgoliaInsightsPlugin(
 
 function getOptions(options: CreateAlgoliaInsightsPluginParams) {
   return {
-    // insightsClient: noop,
     onItemsChange({ insights, insightsEvents }) {
       insights.viewedObjectIDs(...insightsEvents);
     },
