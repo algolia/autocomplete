@@ -92,7 +92,7 @@ export function createAlgoliaInsightsPlugin(
     onSelect: onSelectEvent,
     onActive: onActiveEvent,
   } = getOptions(options);
-  let insightsClient: InsightsClient = providedInsightsClient || noop;
+  let insightsClient = providedInsightsClient as InsightsClient;
 
   if (!providedInsightsClient) {
     safelyRunOnBrowser(({ window }) => {
