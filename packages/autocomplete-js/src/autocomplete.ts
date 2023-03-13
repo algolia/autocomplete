@@ -405,7 +405,7 @@ export function autocomplete<TItem extends BaseItem>(
     instancesCount === 0,
     `Autocomplete doesn't support multiple instances running at the same time. Make sure to destroy the previous instance before creating a new one.
 
-See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#returns`
+See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-destroy`
   );
 
   instancesCount++;
