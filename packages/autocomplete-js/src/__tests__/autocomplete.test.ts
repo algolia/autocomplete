@@ -23,6 +23,24 @@ beforeEach(() => {
 });
 
 describe('autocomplete-js', () => {
+  test('warns when more than one instance is detected in a document', () => {
+    const firstContainer = document.createElement('div');
+    expect(() =>
+      autocomplete({
+        container: firstContainer,
+      })
+    ).not.toWarnDev();
+
+    const secondContainer = document.createElement('div');
+    expect(() =>
+      autocomplete({
+        container: secondContainer,
+      })
+    ).toWarnDev(
+      '[Autocomplete] Multiple instances of Autocomplete are not currently supported and can introduce unwanted behavior during user interaction. Please destroy the previous instance before creating a new one.'
+    );
+  });
+
   test('renders with default options', () => {
     const container = document.createElement('div');
     autocomplete<{ label: string }>({

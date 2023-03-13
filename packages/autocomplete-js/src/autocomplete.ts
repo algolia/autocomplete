@@ -7,6 +7,7 @@ import {
   createRef,
   debounce,
   getItemsCount,
+  warn,
 } from '@algolia/autocomplete-shared';
 import htm from 'htm';
 
@@ -26,6 +27,8 @@ import {
 } from './types';
 import { userAgents } from './userAgents';
 import { mergeDeep, pickBy, setProperties } from './utils';
+
+let instancesCount = 0;
 
 export function autocomplete<TItem extends BaseItem>(
   options: AutocompleteOptions<TItem>
@@ -336,6 +339,7 @@ export function autocomplete<TItem extends BaseItem>(
   });
 
   function destroy() {
+    instancesCount--;
     cleanupEffects();
   }
 
@@ -396,6 +400,13 @@ export function autocomplete<TItem extends BaseItem>(
       }
     });
   }
+
+  warn(
+    instancesCount === 0,
+    'Multiple instances of Autocomplete are not currently supported and can introduce unwanted behavior during user interaction. Please destroy the previous instance before creating a new one.'
+  );
+
+  instancesCount++;
 
   return {
     ...autocompleteScopeApi,
