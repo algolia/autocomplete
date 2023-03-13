@@ -115,6 +115,8 @@ export function createAlgoliaInsightsPlugin(
           };
         }
 
+        window[pointer].version = ALGOLIA_INSIGHTS_VERSION;
+
         insightsClient = window[pointer];
 
         loadInsights(window);

@@ -197,8 +197,8 @@ describe('createAlgoliaInsightsPlugin', () => {
           </form>
         </body>
       `);
-      expect((window as any).AlgoliaAnalyticsObject).toBe(undefined);
-      expect((window as any).aa).toBe(undefined);
+      expect((window as any).AlgoliaAnalyticsObject).toBeUndefined();
+      expect((window as any).aa).toBeUndefined();
     });
 
     it('does not load the script when the Insights client is present in the page', async () => {
@@ -221,6 +221,7 @@ describe('createAlgoliaInsightsPlugin', () => {
       `);
       expect((window as any).AlgoliaAnalyticsObject).toBe('aa');
       expect((window as any).aa).toBe(aa);
+      expect((window as any).aa.version).toBeUndefined();
     });
 
     it('loads the script when the Insights client is not passed and not present in the page', async () => {
@@ -242,6 +243,7 @@ describe('createAlgoliaInsightsPlugin', () => {
       `);
       expect((window as any).AlgoliaAnalyticsObject).toBe('aa');
       expect((window as any).aa).toEqual(expect.any(Function));
+      expect((window as any).aa.version).toBe('2.3.0');
     });
 
     it('notifies when the script fails to be added', () => {
