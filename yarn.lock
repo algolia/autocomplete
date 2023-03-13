@@ -17055,6 +17055,11 @@ search-insights@1.7.1:
   resolved "https://registry.yarnpkg.com/search-insights/-/search-insights-1.7.1.tgz#eddfa56910e28cbbb0df80aec2ab8acf0a86cb6b"
   integrity sha512-CSuSKIJp+WcSwYrD9GgIt1e3xmI85uyAefC4/KYGgtvNEm6rt4kBGilhVRmTJXxRE2W1JknvP598Q7SMhm7qKA==
 
+search-insights@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/search-insights/-/search-insights-2.3.0.tgz#9a7bb25428fc7f003bafdb5638e90276113daae6"
+  integrity sha512-0v/TTO4fbd6I91sFBK/e2zNfD0f51A+fMoYNkMplmR77NpThUye/7gIxNoJ3LejKpZH6Z2KNBIpxxFmDKj10Yw==
+
 search-insights@^2.1.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/search-insights/-/search-insights-2.2.1.tgz#9c93344fbae5fbf2f88c1a81b46b4b5d888c11f7"
