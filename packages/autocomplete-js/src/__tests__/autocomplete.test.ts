@@ -37,7 +37,9 @@ describe('autocomplete-js', () => {
         container: secondContainer,
       })
     ).toWarnDev(
-      '[Autocomplete] Multiple instances of Autocomplete are not currently supported and can introduce unwanted behavior during user interaction. Please destroy the previous instance before creating a new one.'
+      `[Autocomplete] Autocomplete doesn't support multiple instances running at the same time. Make sure to destroy the previous instance before creating a new one.
+
+See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#returns`
     );
   });
 
