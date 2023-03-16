@@ -7,6 +7,7 @@ import {
   createRef,
   debounce,
   getItemsCount,
+  warn,
 } from '@algolia/autocomplete-shared';
 import htm from 'htm';
 
@@ -26,6 +27,8 @@ import {
 } from './types';
 import { userAgents } from './userAgents';
 import { mergeDeep, pickBy, setProperties } from './utils';
+
+let instancesCount = 0;
 
 export function autocomplete<TItem extends BaseItem>(
   options: AutocompleteOptions<TItem>
@@ -336,6 +339,7 @@ export function autocomplete<TItem extends BaseItem>(
   });
 
   function destroy() {
+    instancesCount--;
     cleanupEffects();
   }
 
@@ -396,6 +400,15 @@ export function autocomplete<TItem extends BaseItem>(
       }
     });
   }
+
+  warn(
+    instancesCount === 0,
+    `Autocomplete doesn't support multiple instances running at the same time. Make sure to destroy the previous instance before creating a new one.
+
+See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-destroy`
+  );
+
+  instancesCount++;
 
   return {
     ...autocompleteScopeApi,

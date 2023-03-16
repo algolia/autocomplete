@@ -24,7 +24,7 @@ describe('renderer', () => {
     const panelContainer = document.createElement('div');
 
     document.body.appendChild(panelContainer);
-    autocomplete<{ label: string }>({
+    const { destroy } = autocomplete<{ label: string }>({
       container,
       panelContainer,
       initialState: {
@@ -53,6 +53,8 @@ describe('renderer', () => {
         render(createElement(Fragment, null, 'testSource'), root);
       },
     });
+
+    destroy();
   });
 
   test('accepts a custom renderer', () => {
@@ -66,7 +68,7 @@ describe('renderer', () => {
 
     document.body.appendChild(panelContainer);
 
-    autocomplete<{ label: string }>({
+    const { destroy } = autocomplete<{ label: string }>({
       container,
       panelContainer,
       initialState: {
@@ -110,6 +112,8 @@ describe('renderer', () => {
         render: mockRender,
       },
     });
+
+    destroy();
   });
 
   test('defaults `render` when not specified in the renderer', () => {
@@ -122,7 +126,7 @@ describe('renderer', () => {
 
     document.body.appendChild(panelContainer);
 
-    autocomplete<{ label: string }>({
+    const { destroy } = autocomplete<{ label: string }>({
       container,
       panelContainer,
       initialState: {
@@ -153,6 +157,8 @@ describe('renderer', () => {
         Fragment: CustomFragment,
       },
     });
+
+    destroy();
   });
 
   test('uses a custom `render` via `renderer`', async () => {
@@ -165,7 +171,7 @@ describe('renderer', () => {
     const mockCreateElement = jest.fn(preactCreateElement);
     const mockRender = jest.fn().mockImplementation(preactRender);
 
-    autocomplete<{ label: string }>({
+    const { destroy } = autocomplete<{ label: string }>({
       container,
       panelContainer,
       id: 'autocomplete-0',
@@ -238,6 +244,8 @@ describe('renderer', () => {
         </div>
       `);
     });
+
+    destroy();
   });
 
   test('warns about renderer mismatch when specifying an incomplete renderer', () => {
@@ -249,8 +257,10 @@ describe('renderer', () => {
 
     document.body.appendChild(panelContainer);
 
+    let instance;
+
     expect(() => {
-      autocomplete<{ label: string }>({
+      instance = autocomplete<{ label: string }>({
         container,
         panelContainer,
         initialState: {
@@ -280,9 +290,10 @@ describe('renderer', () => {
       '[Autocomplete] You provided an incomplete `renderer` (missing: `renderer.render`). This can cause rendering issues.' +
         '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-renderer'
     );
+    instance.destroy();
 
     expect(() => {
-      autocomplete<{ label: string }>({
+      instance = autocomplete<{ label: string }>({
         container,
         panelContainer,
         initialState: {
@@ -315,9 +326,10 @@ describe('renderer', () => {
       '[Autocomplete] You provided an incomplete `renderer` (missing: `renderer.createElement`). This can cause rendering issues.' +
         '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-renderer'
     );
+    instance.destroy();
 
     expect(() => {
-      autocomplete<{ label: string }>({
+      instance = autocomplete<{ label: string }>({
         container,
         panelContainer,
         initialState: {
@@ -350,9 +362,10 @@ describe('renderer', () => {
       '[Autocomplete] You provided an incomplete `renderer` (missing: `renderer.Fragment`). This can cause rendering issues.' +
         '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-renderer'
     );
+    instance.destroy();
 
     expect(() => {
-      autocomplete<{ label: string }>({
+      instance = autocomplete<{ label: string }>({
         container,
         panelContainer,
         initialState: {
@@ -384,6 +397,7 @@ describe('renderer', () => {
       '[Autocomplete] You provided an incomplete `renderer` (missing: `renderer.Fragment`, `renderer.render`). This can cause rendering issues.' +
         '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-renderer'
     );
+    instance.destroy();
   });
 
   test('warns about new `renderer.render` option when specifying an incomplete renderer and a `render` option', () => {
@@ -394,8 +408,9 @@ describe('renderer', () => {
 
     document.body.appendChild(panelContainer);
 
+    let instance;
     function startAutocomplete() {
-      autocomplete<{ label: string }>({
+      instance = autocomplete<{ label: string }>({
         container,
         panelContainer,
         initialState: {
@@ -434,11 +449,13 @@ describe('renderer', () => {
         '\n- If you are using the `render` option to work with React 18, pass an empty `render` function into `renderer`.' +
         '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-render'
     );
+    instance.destroy();
 
     expect(startAutocomplete).not.toWarnDev(
       '[Autocomplete] You provided an incomplete `renderer` (missing: `renderer.Fragment`, `renderer.render`). This can cause rendering issues.' +
         '\nSee https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-renderer'
     );
+    instance.destroy();
   });
 
   test('does not warn at all when only passing a `render` option', () => {
@@ -447,8 +464,9 @@ describe('renderer', () => {
 
     document.body.appendChild(panelContainer);
 
+    let instance;
     expect(() => {
-      autocomplete<{ label: string }>({
+      instance = autocomplete<{ label: string }>({
         container,
         panelContainer,
         initialState: {
@@ -474,6 +492,7 @@ describe('renderer', () => {
         },
       });
     }).not.toWarnDev();
+    instance.destroy();
   });
 
   test('does not warn at all when passing an empty `renderer.render` function', () => {
@@ -484,8 +503,9 @@ describe('renderer', () => {
 
     document.body.appendChild(panelContainer);
 
+    let instance;
     expect(() => {
-      autocomplete<{ label: string }>({
+      instance = autocomplete<{ label: string }>({
         container,
         panelContainer,
         initialState: {
@@ -513,6 +533,7 @@ describe('renderer', () => {
         },
       });
     }).not.toWarnDev();
+    instance.destroy();
   });
 
   test('does not warn at all when not passing a custom renderer', () => {
@@ -521,8 +542,9 @@ describe('renderer', () => {
 
     document.body.appendChild(panelContainer);
 
+    let instance;
     expect(() => {
-      autocomplete<{ label: string }>({
+      instance = autocomplete<{ label: string }>({
         container,
         panelContainer,
         initialState: {
@@ -545,6 +567,7 @@ describe('renderer', () => {
         },
       });
     }).not.toWarnDev();
+    instance.destroy();
   });
 
   test('does not warn at all when passing a full custom renderer', () => {
@@ -556,8 +579,9 @@ describe('renderer', () => {
 
     document.body.appendChild(panelContainer);
 
+    let instance;
     expect(() => {
-      autocomplete<{ label: string }>({
+      instance = autocomplete<{ label: string }>({
         container,
         panelContainer,
         initialState: {
@@ -585,5 +609,6 @@ describe('renderer', () => {
         },
       });
     }).not.toWarnDev();
+    instance.destroy();
   });
 });
