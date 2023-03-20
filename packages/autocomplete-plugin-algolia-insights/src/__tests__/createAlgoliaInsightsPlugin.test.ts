@@ -234,7 +234,7 @@ describe('createAlgoliaInsightsPlugin', () => {
       expect(document.body).toMatchInlineSnapshot(`
         <body>
           <script
-            src="https://cdn.jsdelivr.net/npm/search-insights@2.3.0/dist/search-insights.min.js"
+            src="https://cdn.jsdelivr.net/npm/search-insights@2.4.0/dist/search-insights.min.js"
           />
           <form>
             <input />
@@ -243,7 +243,7 @@ describe('createAlgoliaInsightsPlugin', () => {
       `);
       expect((window as any).AlgoliaAnalyticsObject).toBe('aa');
       expect((window as any).aa).toEqual(expect.any(Function));
-      expect((window as any).aa.version).toBe('2.3.0');
+      expect((window as any).aa.version).toBe('2.4.0');
     });
 
     it('notifies when the script fails to be added', () => {

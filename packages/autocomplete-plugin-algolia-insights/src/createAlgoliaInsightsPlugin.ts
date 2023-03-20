@@ -24,7 +24,7 @@ import {
 } from './types';
 
 const VIEW_EVENT_DELAY = 400;
-const ALGOLIA_INSIGHTS_VERSION = '2.3.0';
+const ALGOLIA_INSIGHTS_VERSION = '2.4.0';
 const ALGOLIA_INSIGHTS_SRC = `https://cdn.jsdelivr.net/npm/search-insights@${ALGOLIA_INSIGHTS_VERSION}/dist/search-insights.min.js`;
 
 type SendViewedObjectIDsParams = {
