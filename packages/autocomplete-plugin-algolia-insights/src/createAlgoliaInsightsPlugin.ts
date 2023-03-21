@@ -1,8 +1,6 @@
 import {
   AutocompleteState,
   AutocompletePlugin,
-} from '@algolia/autocomplete-js';
-import {
   createRef,
   debounce,
   isEqual,
@@ -139,7 +137,7 @@ export function createAlgoliaInsightsPlugin(
         }
 
         onSelectEvent({
-          state: state as AutocompleteState<any>,
+          state,
           event,
           insights,
           item,
@@ -158,7 +156,7 @@ export function createAlgoliaInsightsPlugin(
         }
 
         onActiveEvent({
-          state: state as AutocompleteState<any>,
+          state,
           event,
           insights,
           item,
@@ -172,13 +170,15 @@ export function createAlgoliaInsightsPlugin(
       });
     },
     onStateChange({ state }) {
-      debouncedOnStateChange({ state: state as AutocompleteState<any> });
+      debouncedOnStateChange({ state });
     },
     __autocomplete_pluginOptions: options,
   };
 }
 
-function getOptions(options: CreateAlgoliaInsightsPluginParams) {
+function getOptions(
+  options: CreateAlgoliaInsightsPluginParams
+): Required<CreateAlgoliaInsightsPluginParams> {
   return {
     onItemsChange({ insights, insightsEvents }) {
       insights.viewedObjectIDs(...insightsEvents);

@@ -1,3 +1,5 @@
+import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
+
 import { checkOptions } from './checkOptions';
 import { createStore } from './createStore';
 import { getAutocompleteSetters } from './getAutocompleteSetters';
@@ -64,6 +66,15 @@ export function createAutocomplete<
       store,
       ...setters,
     });
+  }
+
+  if (
+    options.insights &&
+    !props.plugins.some((plugin) => plugin.name === 'aa.algoliaInsightsPlugin')
+  ) {
+    props.plugins.push(
+      createAlgoliaInsightsPlugin({ insightsClient: undefined })
+    );
   }
 
   props.plugins.forEach((plugin) =>

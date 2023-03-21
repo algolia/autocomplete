@@ -13,3 +13,4 @@ export * from './UserAgent';
 export * from './userAgents';
 export * from './version';
 export * from './warn';
+export * from './js';
