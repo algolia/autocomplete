@@ -221,7 +221,6 @@ export function createAlgoliaInsightsPlugin(
       onResolve(({ results }) => {
         if (
           !analyticsEnabled &&
-          verifyEventPermission &&
           Array.isArray(results) &&
           results.some(
             (result) =>
