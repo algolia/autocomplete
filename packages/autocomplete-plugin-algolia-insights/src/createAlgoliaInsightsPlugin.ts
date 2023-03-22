@@ -81,6 +81,16 @@ export type CreateAlgoliaInsightsPluginParams = {
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/#param-onactive
    */
   onActive?(params: OnActiveParams): void;
+  /**
+   * If this is true, don't send events, unless the search response contains:
+   *
+   * {
+   *   "renderingContent": {
+   *     "analytics": true
+   *  }
+   * }
+   */
+  verifyEventPermission?: boolean;
 };
 
 export function createAlgoliaInsightsPlugin(
@@ -91,6 +101,7 @@ export function createAlgoliaInsightsPlugin(
     onItemsChange,
     onSelect: onSelectEvent,
     onActive: onActiveEvent,
+    verifyEventPermission,
   } = getOptions(options);
   let insightsClient = providedInsightsClient as InsightsClient;
 
@@ -126,11 +137,14 @@ export function createAlgoliaInsightsPlugin(
 
   const insights = createSearchInsightsApi(insightsClient);
   const previousItems = createRef<AlgoliaInsightsHit[]>([]);
+  // It probably doesn't need to be a ref as `createAlgoliaInsightsPlugin` is called once
+  // would be the same for `previousItems` then
+  const analyticsEnabled = createRef(!verifyEventPermission);
 
   const debouncedOnStateChange = debounce<{
     state: AutocompleteState<any>;
   }>(({ state }) => {
-    if (!state.isOpen) {
+    if (!state.isOpen || !analyticsEnabled.current) {
       return;
     }
 
@@ -156,7 +170,7 @@ export function createAlgoliaInsightsPlugin(
 
   return {
     name: 'aa.algoliaInsightsPlugin',
-    subscribe({ setContext, onSelect, onActive }) {
+    subscribe({ setContext, onSelect, onActive, onResolve }) {
       insightsClient('addAlgoliaAgent', 'insights-plugin');
 
       setContext({
@@ -169,7 +183,7 @@ export function createAlgoliaInsightsPlugin(
       });
 
       onSelect(({ item, state, event }) => {
-        if (!isAlgoliaInsightsHit(item)) {
+        if (!isAlgoliaInsightsHit(item) || !analyticsEnabled.current) {
           return;
         }
 
@@ -188,7 +202,7 @@ export function createAlgoliaInsightsPlugin(
       });
 
       onActive(({ item, state, event }) => {
-        if (!isAlgoliaInsightsHit(item)) {
+        if (!isAlgoliaInsightsHit(item) || !analyticsEnabled.current) {
           return;
         }
 
@@ -204,6 +218,21 @@ export function createAlgoliaInsightsPlugin(
             },
           ],
         });
+      });
+
+      onResolve(({ results }) => {
+        // We only set it to true if the results contain `renderingContent.analytics: true`
+        // as sometimes the results are from sffv or query suggestions so they do not have `renderingContent`
+        if (
+          verifyEventPermission &&
+          Array.isArray(results) &&
+          results.some(
+            (result) =>
+              (result as Record<string, any>).renderingContent?.analytics
+          )
+        ) {
+          analyticsEnabled.current = true;
+        }
       });
     },
     onStateChange({ state }) {
@@ -222,6 +251,7 @@ function getOptions(options: CreateAlgoliaInsightsPluginParams) {
       insights.clickedObjectIDsAfterSearch(...insightsEvents);
     },
     onActive: noop,
+    verifyEventPermission: true,
     ...options,
   };
 }
