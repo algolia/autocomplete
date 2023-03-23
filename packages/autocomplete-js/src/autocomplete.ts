@@ -27,9 +27,20 @@ import {
 import { userAgents } from './userAgents';
 import { mergeDeep, pickBy, setProperties } from './utils';
 
+function createMockInsightsPlugin() {
+  return {
+    name: 'aa.mockInsightsPlugin',
+    subscribe() {
+      // eslint-disable-next-line no-console
+      console.log('Insights Plugin initialized');
+    },
+  };
+}
+
 export function autocomplete<TItem extends BaseItem>(
   options: AutocompleteOptions<TItem>
 ): AutocompleteApi<TItem> {
+  let insightsEnabled: boolean | undefined = undefined;
   const { runEffect, cleanupEffects, runEffects } = createEffectWrapper();
   const { reactive, runReactives } = createReactiveWrapper();
 
@@ -50,6 +61,35 @@ export function autocomplete<TItem extends BaseItem>(
     createAutocomplete<TItem>({
       ...props.value.core,
       onStateChange(params) {
+        if (typeof insightsEnabled === 'undefined') {
+          // Get analytics status for algolia sources or `undefined` for non algolia sources
+          const analyticsStatuses = params.state.collections
+            .map(
+              (collection) =>
+                (collection.items[0]
+                  ?.__autocomplete_algoliaResultsMetadata as any)?.analytics
+            )
+            .filter((status) => typeof status !== 'undefined');
+
+          if (analyticsStatuses.length > 0) {
+            // Set insightsEnabled to true if at least one source has analytics enabled
+            insightsEnabled = analyticsStatuses.some(Boolean);
+          }
+
+          if (insightsEnabled) {
+            // Add plugin and refresh
+            update({
+              plugins: [...(options.plugins || []), createMockInsightsPlugin()],
+            });
+
+            setTimeout(() => {
+              // @ts-ignore
+              autocomplete.value.setIsOpen(true);
+              dom.value.input.focus();
+            });
+          }
+        }
+
         hasNoResultsSourceTemplateRef.current = params.state.collections.some(
           (collection) =>
             (collection.source as AutocompleteSource<TItem>).templates.noResults

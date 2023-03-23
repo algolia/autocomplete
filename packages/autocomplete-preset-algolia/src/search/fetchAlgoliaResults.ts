@@ -60,6 +60,14 @@ export function fetchAlgoliaResults<TRecord>({
       })
     )
     .then((response) => {
-      return response.results;
+      return response.results.map((result) => ({
+        ...result,
+        hits: result.hits.map((hit) => ({
+          ...hit,
+          __autocomplete_algoliaResultsMetadata: {
+            analytics: (result.renderingContent as any)?.analytics || true,
+          },
+        })),
+      }));
     });
 }
