@@ -81,6 +81,16 @@ export type CreateAlgoliaInsightsPluginParams = {
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/#param-onactive
    */
   onActive?(params: OnActiveParams): void;
+  /**
+   * If this is true, don't send events, unless the search response contains:
+   *
+   * {
+   *   "renderingContent": {
+   *     "analytics": true
+   *  }
+   * }
+   */
+  verifyEventPermission?: boolean;
 };
 
 export function createAlgoliaInsightsPlugin(
@@ -91,8 +101,10 @@ export function createAlgoliaInsightsPlugin(
     onItemsChange,
     onSelect: onSelectEvent,
     onActive: onActiveEvent,
+    verifyEventPermission,
   } = getOptions(options);
   let insightsClient = providedInsightsClient as InsightsClient;
+  let insightsLoaded = !verifyEventPermission;
 
   if (!providedInsightsClient) {
     safelyRunOnBrowser(({ window }) => {
@@ -119,7 +131,9 @@ export function createAlgoliaInsightsPlugin(
 
         insightsClient = window[pointer];
 
-        loadInsights(window);
+        if (!verifyEventPermission) {
+          loadInsights(window);
+        }
       }
     });
   }
@@ -156,7 +170,7 @@ export function createAlgoliaInsightsPlugin(
 
   return {
     name: 'aa.algoliaInsightsPlugin',
-    subscribe({ setContext, onSelect, onActive }) {
+    subscribe({ setContext, onSelect, onActive, onResolve }) {
       insightsClient('addAlgoliaAgent', 'insights-plugin');
 
       setContext({
@@ -205,6 +219,20 @@ export function createAlgoliaInsightsPlugin(
           ],
         });
       });
+
+      onResolve(({ results }) => {
+        if (
+          !insightsLoaded &&
+          Array.isArray(results) &&
+          results.some(
+            (result) =>
+              (result as Record<string, any>).renderingContent?.analytics
+          )
+        ) {
+          insightsLoaded = true;
+          loadInsights(window);
+        }
+      });
     },
     onStateChange({ state }) {
       debouncedOnStateChange({ state: state as AutocompleteState<any> });
@@ -222,6 +250,7 @@ function getOptions(options: CreateAlgoliaInsightsPluginParams) {
       insights.clickedObjectIDsAfterSearch(...insightsEvents);
     },
     onActive: noop,
+    verifyEventPermission: false,
     ...options,
   };
 }
