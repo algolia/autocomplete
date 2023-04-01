@@ -4,7 +4,7 @@ module.exports = {
     '@testing-library/jest-dom/extend-expect',
     './scripts/jest/setupTests.ts',
   ],
-  testPathIgnorePatterns: ['node_modules/', 'dist/', 'cypress/'],
+  testPathIgnorePatterns: ['node_modules/', 'dist/'],
   coveragePathIgnorePatterns: ['node_modules/', 'dist/'],
   watchPlugins: [
     'jest-watch-typeahead/filename',
