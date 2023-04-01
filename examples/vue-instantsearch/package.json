@@ -14,16 +14,16 @@
     "@algolia/autocomplete-plugin-query-suggestions": "1.8.3",
     "@algolia/autocomplete-plugin-recent-searches": "1.8.3",
     "@algolia/autocomplete-theme-classic": "1.8.3",
-    "algoliasearch": "4.14.3",
+    "algoliasearch": "4.16.0",
     "core-js": "^3.6.5",
-    "vue": "3.2.45",
-    "vue-instantsearch": "4.6.0"
+    "vue": "3.2.47",
+    "vue-instantsearch": "4.8.8"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "3.2.45",
+    "@vue/compiler-sfc": "3.2.47",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0-0"

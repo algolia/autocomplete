@@ -180,10 +180,10 @@ export function createAlgoliaInsightsPlugin(
 
 function getOptions(options: CreateAlgoliaInsightsPluginParams) {
   return {
-    onItemsChange({ insights, insightsEvents }) {
+    onItemsChange({ insights, insightsEvents }: OnItemsChangeParams) {
       insights.viewedObjectIDs(...insightsEvents);
     },
-    onSelect({ insights, insightsEvents }) {
+    onSelect({ insights, insightsEvents }: OnSelectParams) {
       insights.clickedObjectIDsAfterSearch(...insightsEvents);
     },
     onActive: noop,
