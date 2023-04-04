@@ -186,7 +186,8 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
       return {
         sourcesBySourceId: {
           // Our source has templates, but reshape only accepts sources without templates (autocomplete-core)
-          redirect: (redirectSource as unknown) as typeof sourcesBySourceId[string],
+          redirect:
+            redirectSource as unknown as (typeof sourcesBySourceId)[string],
           ...sourcesBySourceId,
         },
         state,

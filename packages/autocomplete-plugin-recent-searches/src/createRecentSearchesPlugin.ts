@@ -24,28 +24,27 @@ export interface RecentSearchesPluginData<TItem extends RecentSearchesItem>
   getAlgoliaSearchParams(params?: SearchOptions): SearchOptions;
 }
 
-export type CreateRecentSearchesPluginParams<
-  TItem extends RecentSearchesItem
-> = {
-  /**
-   * The storage to fetch from and save recent searches into.
-   *
-   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createRecentSearchesPlugin/#param-storage
-   */
-  storage: Storage<TItem>;
-  /**
-   * A function to transform the provided source.
-   *
-   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createRecentSearchesPlugin/#param-transformsource
-   */
-  transformSource?(params: {
-    source: AutocompleteSource<TItem>;
-    state: AutocompleteState<TItem>;
-    onRemove(id: string): void;
-    onTapAhead(item: TItem): void;
-  }): AutocompleteSource<TItem>;
-  subscribe?(params: PluginSubscribeParams<TItem>): void;
-};
+export type CreateRecentSearchesPluginParams<TItem extends RecentSearchesItem> =
+  {
+    /**
+     * The storage to fetch from and save recent searches into.
+     *
+     * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createRecentSearchesPlugin/#param-storage
+     */
+    storage: Storage<TItem>;
+    /**
+     * A function to transform the provided source.
+     *
+     * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches/createRecentSearchesPlugin/#param-transformsource
+     */
+    transformSource?(params: {
+      source: AutocompleteSource<TItem>;
+      state: AutocompleteState<TItem>;
+      onRemove(id: string): void;
+      onTapAhead(item: TItem): void;
+    }): AutocompleteSource<TItem>;
+    subscribe?(params: PluginSubscribeParams<TItem>): void;
+  };
 
 function getDefaultSubscribe<TItem extends RecentSearchesItem>(
   store: StorageApi<TItem>

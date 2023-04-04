@@ -59,12 +59,8 @@ autocomplete({
   openOnFocus: true,
   plugins: [recentSearchesPlugin, querySuggestionsPlugin, productsPlugin],
   reshape({ sourcesBySourceId }) {
-    const {
-      recentSearchesPlugin,
-      querySuggestionsPlugin,
-      products,
-      ...rest
-    } = sourcesBySourceId;
+    const { recentSearchesPlugin, querySuggestionsPlugin, products, ...rest } =
+      sourcesBySourceId;
 
     return [
       dedupeAndLimitSuggestions(recentSearchesPlugin, querySuggestionsPlugin),

@@ -28,9 +28,7 @@ export type GetEnvironmentProps = (props: {
   onMouseDown(event: MouseEvent): void;
 };
 
-export type GetRootProps = (props?: {
-  [key: string]: unknown;
-}) => {
+export type GetRootProps = (props?: { [key: string]: unknown }) => {
   role: string;
   'aria-expanded': boolean;
   'aria-haspopup':
