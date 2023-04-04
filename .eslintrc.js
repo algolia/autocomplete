@@ -105,18 +105,6 @@ module.exports = {
       },
     },
     {
-      files: ['cypress/**/*'],
-      plugins: ['cypress'],
-      env: {
-        'cypress/globals': true,
-      },
-      rules: {
-        'jest/expect-expect': OFF,
-        'spaced-comment': OFF,
-        '@typescript-eslint/triple-slash-reference': OFF,
-      },
-    },
-    {
       files: ['scripts/**/*', '*.config.js'],
       rules: {
         'import/no-commonjs': OFF,

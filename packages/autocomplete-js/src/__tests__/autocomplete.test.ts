@@ -23,6 +23,26 @@ beforeEach(() => {
 });
 
 describe('autocomplete-js', () => {
+  test('warns when more than one instance is detected in a document', () => {
+    const firstContainer = document.createElement('div');
+    expect(() =>
+      autocomplete({
+        container: firstContainer,
+      })
+    ).not.toWarnDev();
+
+    const secondContainer = document.createElement('div');
+    expect(() =>
+      autocomplete({
+        container: secondContainer,
+      })
+    ).toWarnDev(
+      `[Autocomplete] Autocomplete doesn't support multiple instances running at the same time. Make sure to destroy the previous instance before creating a new one.
+
+See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-destroy`
+    );
+  });
+
   test('renders with default options', () => {
     const container = document.createElement('div');
     autocomplete<{ label: string }>({

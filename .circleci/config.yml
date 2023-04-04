@@ -48,14 +48,6 @@ defaults: &defaults
   docker:
     - image: cimg/node:14.21.1
 
-cypress: &cypress
-  working_directory: ~/autocomplete
-  docker:
-    - image: cypress/browsers:node14.15.0-chrome86-ff82
-      environment:
-        ## this enables colors in the output
-        TERM: xterm
-
 references:
   workspace_root: &workspace_root /tmp/workspace
   attach_workspace: &attach_workspace
@@ -163,23 +155,6 @@ jobs:
       - run:
           name: Test packages size
           command: yarn run test:size
-  test_cypress:
-    <<: *cypress
-    steps:
-      - checkout
-      - run: *install_yarn_version
-      - restore_cache: *restore_yarn_cache
-      - run: *run_yarn_install
-      - save_cache: *save_yarn_cache
-      - run:
-          name: Cypress test Actions
-          command: yarn run cy:run
-      - store_test_results:
-          path: cypress-results
-      - store_artifacts:
-          path: cypress\screenshots
-      - store_artifacts:
-          path: cypress\videos
   release:
     <<: *defaults
     steps:
@@ -211,9 +186,6 @@ workflows:
           context: fx-libraries
           requires:
             - build
-      # - test_cypress:
-      #     requires:
-      #       - build
       - release:
           context: fx-libraries
           requires:
@@ -221,7 +193,6 @@ workflows:
             - test_lint
             - test_types
             - test_size
-            # - test_cypress
             - build
           filters:
             branches:
