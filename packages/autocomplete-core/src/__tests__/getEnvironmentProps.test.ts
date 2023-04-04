@@ -34,11 +34,8 @@ describe('getEnvironmentProps', () => {
   describe('onMouseDown', () => {
     test('is a noop when panel is not open and status is idle', () => {
       const onStateChange = jest.fn();
-      const {
-        getEnvironmentProps,
-        inputElement,
-        formElement,
-      } = createPlayground(createAutocomplete, { onStateChange });
+      const { getEnvironmentProps, inputElement, formElement } =
+        createPlayground(createAutocomplete, { onStateChange });
       const panelElement = document.createElement('div');
 
       const { onMouseDown } = getEnvironmentProps({
@@ -59,21 +56,18 @@ describe('getEnvironmentProps', () => {
 
     test('is a noop when the event target is the input element', async () => {
       const onStateChange = jest.fn();
-      const {
-        getEnvironmentProps,
-        inputElement,
-        formElement,
-      } = createPlayground(createAutocomplete, {
-        onStateChange,
-        openOnFocus: true,
-        getSources() {
-          return [
-            createSource({
-              getItems: () => [{ label: '1' }],
-            }),
-          ];
-        },
-      });
+      const { getEnvironmentProps, inputElement, formElement } =
+        createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+          getSources() {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }],
+              }),
+            ];
+          },
+        });
       const panelElement = document.createElement('div');
 
       const { onMouseDown } = getEnvironmentProps({
@@ -111,22 +105,19 @@ describe('getEnvironmentProps', () => {
 
     test('closes panel and resets `activeItemId` if the target is outside Autocomplete', async () => {
       const onStateChange = jest.fn();
-      const {
-        getEnvironmentProps,
-        inputElement,
-        formElement,
-      } = createPlayground(createAutocomplete, {
-        onStateChange,
-        openOnFocus: true,
-        defaultActiveItemId: 1,
-        getSources() {
-          return [
-            createSource({
-              getItems: () => [{ label: '1' }],
-            }),
-          ];
-        },
-      });
+      const { getEnvironmentProps, inputElement, formElement } =
+        createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+          defaultActiveItemId: 1,
+          getSources() {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }],
+              }),
+            ];
+          },
+        });
       const panelElement = document.createElement('div');
 
       const { onMouseDown } = getEnvironmentProps({
@@ -169,23 +160,20 @@ describe('getEnvironmentProps', () => {
 
     test('does not close panel nor reset `activeItemId` if the target is outside Autocomplete in debug mode', async () => {
       const onStateChange = jest.fn();
-      const {
-        getEnvironmentProps,
-        inputElement,
-        formElement,
-      } = createPlayground(createAutocomplete, {
-        onStateChange,
-        openOnFocus: true,
-        defaultActiveItemId: 1,
-        debug: true,
-        getSources() {
-          return [
-            createSource({
-              getItems: () => [{ label: '1' }],
-            }),
-          ];
-        },
-      });
+      const { getEnvironmentProps, inputElement, formElement } =
+        createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+          defaultActiveItemId: 1,
+          debug: true,
+          getSources() {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }],
+              }),
+            ];
+          },
+        });
       const panelElement = document.createElement('div');
 
       const { onMouseDown } = getEnvironmentProps({
@@ -230,11 +218,8 @@ describe('getEnvironmentProps', () => {
   describe('onTouchStart', () => {
     test('is a noop when panel is not open and status is idle', () => {
       const onStateChange = jest.fn();
-      const {
-        getEnvironmentProps,
-        inputElement,
-        formElement,
-      } = createPlayground(createAutocomplete, { onStateChange });
+      const { getEnvironmentProps, inputElement, formElement } =
+        createPlayground(createAutocomplete, { onStateChange });
       const panelElement = document.createElement('div');
 
       const { onTouchStart } = getEnvironmentProps({
@@ -255,21 +240,18 @@ describe('getEnvironmentProps', () => {
 
     test('is a noop when the event target is the input element', async () => {
       const onStateChange = jest.fn();
-      const {
-        getEnvironmentProps,
-        inputElement,
-        formElement,
-      } = createPlayground(createAutocomplete, {
-        onStateChange,
-        openOnFocus: true,
-        getSources() {
-          return [
-            createSource({
-              getItems: () => [{ label: '1' }],
-            }),
-          ];
-        },
-      });
+      const { getEnvironmentProps, inputElement, formElement } =
+        createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+          getSources() {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }],
+              }),
+            ];
+          },
+        });
       const panelElement = document.createElement('div');
 
       const { onTouchStart } = getEnvironmentProps({
@@ -307,22 +289,19 @@ describe('getEnvironmentProps', () => {
 
     test('closes panel and resets `activeItemId` if the target is outside Autocomplete', async () => {
       const onStateChange = jest.fn();
-      const {
-        getEnvironmentProps,
-        inputElement,
-        formElement,
-      } = createPlayground(createAutocomplete, {
-        onStateChange,
-        openOnFocus: true,
-        defaultActiveItemId: 1,
-        getSources() {
-          return [
-            createSource({
-              getItems: () => [{ label: '1' }],
-            }),
-          ];
-        },
-      });
+      const { getEnvironmentProps, inputElement, formElement } =
+        createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+          defaultActiveItemId: 1,
+          getSources() {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }],
+              }),
+            ];
+          },
+        });
       const panelElement = document.createElement('div');
 
       const { onTouchStart } = getEnvironmentProps({
@@ -365,23 +344,20 @@ describe('getEnvironmentProps', () => {
 
     test('does not close panel nor reset `activeItemId` if the target is outside Autocomplete in debug mode', async () => {
       const onStateChange = jest.fn();
-      const {
-        getEnvironmentProps,
-        inputElement,
-        formElement,
-      } = createPlayground(createAutocomplete, {
-        onStateChange,
-        openOnFocus: true,
-        defaultActiveItemId: 1,
-        debug: true,
-        getSources() {
-          return [
-            createSource({
-              getItems: () => [{ label: '1' }],
-            }),
-          ];
-        },
-      });
+      const { getEnvironmentProps, inputElement, formElement } =
+        createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+          defaultActiveItemId: 1,
+          debug: true,
+          getSources() {
+            return [
+              createSource({
+                getItems: () => [{ label: '1' }],
+              }),
+            ];
+          },
+        });
       const panelElement = document.createElement('div');
 
       const { onTouchStart } = getEnvironmentProps({
@@ -427,11 +403,8 @@ describe('getEnvironmentProps', () => {
   // `document.activeElement` refers to the previously focused element
   describe('onTouchMove', () => {
     test('is a noop when panel is not open', () => {
-      const {
-        getEnvironmentProps,
-        inputElement,
-        formElement,
-      } = createPlayground(createAutocomplete, {});
+      const { getEnvironmentProps, inputElement, formElement } =
+        createPlayground(createAutocomplete, {});
       const panelElement = document.createElement('div');
 
       const { onTouchMove } = getEnvironmentProps({
@@ -456,13 +429,10 @@ describe('getEnvironmentProps', () => {
     });
 
     test('is a noop when the event target is the input element', () => {
-      const {
-        getEnvironmentProps,
-        inputElement,
-        formElement,
-      } = createPlayground(createAutocomplete, {
-        openOnFocus: true,
-      });
+      const { getEnvironmentProps, inputElement, formElement } =
+        createPlayground(createAutocomplete, {
+          openOnFocus: true,
+        });
       const panelElement = document.createElement('div');
 
       const { onTouchMove } = getEnvironmentProps({
@@ -487,13 +457,10 @@ describe('getEnvironmentProps', () => {
     });
 
     test('is a noop when input is not the active element', () => {
-      const {
-        getEnvironmentProps,
-        inputElement,
-        formElement,
-      } = createPlayground(createAutocomplete, {
-        initialState: { isOpen: true },
-      });
+      const { getEnvironmentProps, inputElement, formElement } =
+        createPlayground(createAutocomplete, {
+          initialState: { isOpen: true },
+        });
       const panelElement = document.createElement('div');
       const dummyInputElement = document.createElement('input');
       document.body.appendChild(dummyInputElement);
@@ -520,14 +487,11 @@ describe('getEnvironmentProps', () => {
     });
 
     test('blurs input otherwise', () => {
-      const {
-        getEnvironmentProps,
-        inputElement,
-        formElement,
-      } = createPlayground(createAutocomplete, {
-        openOnFocus: true,
-        shouldPanelOpen: () => true,
-      });
+      const { getEnvironmentProps, inputElement, formElement } =
+        createPlayground(createAutocomplete, {
+          openOnFocus: true,
+          shouldPanelOpen: () => true,
+        });
       const panelElement = document.createElement('div');
 
       const { onTouchMove } = getEnvironmentProps({

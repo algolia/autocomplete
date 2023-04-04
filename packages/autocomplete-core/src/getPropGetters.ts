@@ -118,7 +118,7 @@ export function getPropGetters<
       noValidate: true,
       role: 'search',
       onSubmit: (event) => {
-        ((event as unknown) as Event).preventDefault();
+        (event as unknown as Event).preventDefault();
 
         props.onSubmit({
           event,
@@ -131,7 +131,7 @@ export function getPropGetters<
         providedProps.inputElement?.blur();
       },
       onReset: (event) => {
-        ((event as unknown) as Event).preventDefault();
+        (event as unknown as Event).preventDefault();
 
         props.onReset({
           event,
@@ -198,8 +198,9 @@ export function getPropGetters<
         onInput({
           event,
           props,
-          query: (((event as unknown) as Event)
-            .currentTarget as HTMLInputElement).value.slice(0, maxLength),
+          query: (
+            (event as unknown as Event).currentTarget as HTMLInputElement
+          ).value.slice(0, maxLength),
           refresh,
           store,
           ...setters,
@@ -207,7 +208,7 @@ export function getPropGetters<
       },
       onKeyDown: (event) => {
         onKeyDown({
-          event: (event as unknown) as KeyboardEvent,
+          event: event as unknown as KeyboardEvent,
           props,
           refresh,
           store,
@@ -232,7 +233,7 @@ export function getPropGetters<
             props.environment.document.activeElement &&
           !store.getState().isOpen
         ) {
-          onFocus((event as unknown) as TEvent);
+          onFocus(event as unknown as TEvent);
         }
       },
       ...rest,
@@ -272,7 +273,7 @@ export function getPropGetters<
         // Prevents the `activeElement` from being changed to the panel so
         // that the blur event is not triggered, otherwise it closes the
         // panel.
-        ((event as unknown) as MouseEvent).preventDefault();
+        (event as unknown as MouseEvent).preventDefault();
       },
       onMouseLeave() {
         store.dispatch('mouseleave', null);
@@ -317,7 +318,7 @@ export function getPropGetters<
       onMouseDown(event) {
         // Prevents the `activeElement` from being changed to the item so it
         // can remain with the current `activeElement`.
-        ((event as unknown) as MouseEvent).preventDefault();
+        (event as unknown as MouseEvent).preventDefault();
       },
       onClick(event) {
         const itemInputValue = source.getItemInputValue({

@@ -6,21 +6,20 @@ import type {
 export function mapToAlgoliaResponse<THit>(
   rawResults: Array<SearchResponse<THit> | SearchForFacetValuesResponse>
 ) {
-  const results: Array<
-    SearchResponse<THit> | SearchForFacetValuesResponse
-  > = rawResults.map((result) => {
-    return {
-      ...result,
-      hits: (result as SearchResponse<THit>).hits?.map((hit) => {
-        // Bring support for the Insights plugin.
-        return {
-          ...hit,
-          __autocomplete_indexName: (result as SearchResponse<THit>).index,
-          __autocomplete_queryID: (result as SearchResponse<THit>).queryID,
-        };
-      }),
-    };
-  });
+  const results: Array<SearchResponse<THit> | SearchForFacetValuesResponse> =
+    rawResults.map((result) => {
+      return {
+        ...result,
+        hits: (result as SearchResponse<THit>).hits?.map((hit) => {
+          // Bring support for the Insights plugin.
+          return {
+            ...hit,
+            __autocomplete_indexName: (result as SearchResponse<THit>).index,
+            __autocomplete_queryID: (result as SearchResponse<THit>).queryID,
+          };
+        }),
+      };
+    });
 
   return {
     results,

@@ -9,10 +9,9 @@ type createFillWithOptions = {
 
 // This reshape function computes the total number of source items and
 // limits the provided main source number of items until it reaches the provided limit.
-export const createFillWith: AutocompleteReshapeFunction<createFillWithOptions> = ({
-  mainSourceId,
-  limit,
-}) => {
+export const createFillWith: AutocompleteReshapeFunction<
+  createFillWithOptions
+> = ({ mainSourceId, limit }) => {
   return function runUniqBy(...rawSources) {
     const originalSources = normalizeReshapeSources(rawSources);
     const otherSources = originalSources.filter(

@@ -35,7 +35,7 @@ export function createTags<
           const prevTags = tagsRef.current.slice();
 
           tagsRef.current = tagsRef.current.filter(
-            (tagRef) => tag !== ((tagRef as unknown) as Tag<TTag>)
+            (tagRef) => tag !== (tagRef as unknown as Tag<TTag>)
           );
           onChangeListeners.forEach((listener) =>
             listener({ prevTags, tags: tagsRef.current })

@@ -157,11 +157,8 @@ export function resolve<TItem extends BaseItem>(
       );
     }
 
-    const {
-      execute,
-      items,
-      searchClient,
-    } = maybeDescription as PackedDescription<TItem>;
+    const { execute, items, searchClient } =
+      maybeDescription as PackedDescription<TItem>;
 
     return execute({
       searchClient,
