@@ -44,7 +44,7 @@ export function fetchAlgoliaResults<TRecord>({
     });
   }
 
-  const [appId, apiKey] = getAppIdAndApiKey(searchClient);
+  const { appId, apiKey } = getAppIdAndApiKey(searchClient);
 
   return searchClient
     .search<TRecord>(
