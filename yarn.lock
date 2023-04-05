@@ -3826,7 +3826,7 @@
     once "^1.4.0"
     universal-user-agent "^4.0.0"
 
-"@octokit/rest@^17.0.0":
+"@octokit/rest@^17.11.0":
   version "17.11.2"
   resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-17.11.2.tgz#f3dbd46f9f06361c646230fd0ef8598e59183ead"
   integrity sha512-4jTmn8WossTUaLfNDfXk4fVJgbz5JgZE8eCs4BvIb52lvIH8rpVMD1fgRCrHbSd6LRPE5JFZSfAEtszrOq3ZFQ==
@@ -18666,10 +18666,10 @@ shell-quote@^1.6.1, shell-quote@^1.7.2:
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.3.tgz#aa40edac170445b9a431e17bb62c0b881b9c4123"
   integrity sha512-Vpfqwm4EnqGdlsBFNmHhxhElJYrdfcxPThu+ryKS5J8L/fhAwLazFZtq+S+TWZ9ANj2piSQLGj6NQg+lKPmxrw==
 
-shelljs@0.8.4:
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.4.tgz#de7684feeb767f8716b326078a8a00875890e3c2"
-  integrity sha512-7gk3UZ9kOfPLIAbslLzyWeGiEqx9e3rxwZM0KE6EL8GlGwjym9Mrlx5/p33bWTu9YG6vcS4MBxYZDHYr5lr8BQ==
+shelljs@0.8.5:
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.5.tgz#de055408d8361bed66c669d2f000538ced8ee20c"
+  integrity sha512-TiwcRcrkhHvbrZbnRcFYMLl30Dfov3HKqzp5tO5b4pt6G/SezKcYhmDg15zXVBswHmctSAQKznqNW2LO5tTDow==
   dependencies:
     glob "^7.0.0"
     interpret "^1.0.0"
@@ -18680,24 +18680,24 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
-shipjs-lib@0.24.1:
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/shipjs-lib/-/shipjs-lib-0.24.1.tgz#bf0951a0c2dd50d21e373a300e3f3c6de868c182"
-  integrity sha512-iQSGz80CJ+aR4fEWSjj32qNd25DwEWB0seZ+ieKFyHQuJCwi3VaRsVd3OSnFE1iotHU03azXuq+JOVqmkFzKsg==
+shipjs-lib@0.26.1:
+  version "0.26.1"
+  resolved "https://registry.yarnpkg.com/shipjs-lib/-/shipjs-lib-0.26.1.tgz#96033cfd369f72f8627b65a96b16ba8e5640f244"
+  integrity sha512-XSYc/BS80SWY/8f2sy5S8irNPlzGi/3Xt8y+wn9pjAiTop9Fhe0doJnyMJf5U2KTrpukil3fA5gVIgTydpZnxQ==
   dependencies:
     deepmerge "^4.2.2"
     dotenv "^8.1.0"
     parse-github-url "1.0.2"
     semver "6.3.0"
-    shelljs "0.8.4"
+    shelljs "0.8.5"
 
-shipjs@0.24.1:
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/shipjs/-/shipjs-0.24.1.tgz#c8149594b4bc78abd3a84f171220179cf7f23755"
-  integrity sha512-9VdudGeMjXIDQe3YYIdbbTUc9xqBggBnfgAoJ4Clj+cIq19ACcqDaqGfZN/e4QMzjMyWPGb8FItCpAD2SEQKKQ==
+shipjs@0.26.1:
+  version "0.26.1"
+  resolved "https://registry.yarnpkg.com/shipjs/-/shipjs-0.26.1.tgz#d7597063da735dcd4687674abf5f93aba3de05fb"
+  integrity sha512-+8EvOdMKDIEo7k1nc8HB1WvxdARa6rFK2RxaU2X88zH2o7LG5T/lw6O1C2IebDAwE7NTGbXzU0aWqGeX2mvINA==
   dependencies:
     "@babel/runtime" "^7.6.3"
-    "@octokit/rest" "^17.0.0"
+    "@octokit/rest" "^17.11.0"
     "@slack/webhook" "^5.0.1"
     add-stream "^1.0.0"
     arg "4.1.3"
@@ -18718,7 +18718,7 @@ shipjs@0.24.1:
     prettier "^2.0.0"
     serialize-javascript "^3.0.0"
     shell-quote "^1.7.2"
-    shipjs-lib "0.24.1"
+    shipjs-lib "0.26.1"
     temp-write "4.0.0"
     tempfile "^3.0.0"
 
