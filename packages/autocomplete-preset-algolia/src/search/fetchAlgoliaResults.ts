@@ -10,6 +10,7 @@ import type {
   SearchResponse,
   SearchClient,
 } from '../types';
+import { getAppIdAndApiKey } from '../utils';
 
 export interface SearchParams {
   /**
@@ -43,6 +44,8 @@ export function fetchAlgoliaResults<TRecord>({
     });
   }
 
+  const { appId, apiKey } = getAppIdAndApiKey(searchClient);
+
   return searchClient
     .search<TRecord>(
       queries.map((searchParameters) => {
@@ -60,6 +63,15 @@ export function fetchAlgoliaResults<TRecord>({
       })
     )
     .then((response) => {
-      return response.results;
+      return response.results.map((result) => ({
+        ...result,
+        hits: result.hits?.map((hit) => ({
+          ...hit,
+          __autocomplete_algoliaCredentials: {
+            appId,
+            apiKey,
+          },
+        })),
+      }));
     });
 }

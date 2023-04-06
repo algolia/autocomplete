@@ -15,7 +15,12 @@ export function createSearchClient(
     addAlgoliaAgent: jest.fn(),
     clearCache: jest.fn(),
     initIndex: jest.fn(),
-    transporter: {} as any,
+    transporter: {
+      headers: {
+        'x-algolia-application-id': 'algoliaAppId',
+        'x-algolia-api-key': 'algoliaApiKey',
+      },
+    } as any,
     search: jest.fn((requests) =>
       Promise.resolve(
         createMultiSearchResponse(
