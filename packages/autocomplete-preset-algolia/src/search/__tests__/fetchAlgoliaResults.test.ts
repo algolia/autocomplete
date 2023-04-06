@@ -65,8 +65,30 @@ describe('fetchAlgoliaResults', () => {
       },
     ]);
     expect(results).toEqual([
-      expect.objectContaining({ hits: [{ objectID: '1', label: 'Hit 1' }] }),
-      expect.objectContaining({ hits: [{ objectID: '2', label: 'Hit 2' }] }),
+      expect.objectContaining({
+        hits: [
+          {
+            objectID: '1',
+            label: 'Hit 1',
+            __autocomplete_algoliaCredentials: {
+              appId: 'algoliaAppId',
+              apiKey: 'algoliaApiKey',
+            },
+          },
+        ],
+      }),
+      expect.objectContaining({
+        hits: [
+          {
+            objectID: '2',
+            label: 'Hit 2',
+            __autocomplete_algoliaCredentials: {
+              appId: 'algoliaAppId',
+              apiKey: 'algoliaApiKey',
+            },
+          },
+        ],
+      }),
     ]);
   });
 
@@ -103,8 +125,30 @@ describe('fetchAlgoliaResults', () => {
       },
     ]);
     expect(results).toEqual([
-      expect.objectContaining({ hits: [{ objectID: '1', label: 'Hit 1' }] }),
-      expect.objectContaining({ hits: [{ objectID: '2', label: 'Hit 2' }] }),
+      expect.objectContaining({
+        hits: [
+          {
+            objectID: '1',
+            label: 'Hit 1',
+            __autocomplete_algoliaCredentials: {
+              appId: 'algoliaAppId',
+              apiKey: 'algoliaApiKey',
+            },
+          },
+        ],
+      }),
+      expect.objectContaining({
+        hits: [
+          {
+            objectID: '2',
+            label: 'Hit 2',
+            __autocomplete_algoliaCredentials: {
+              appId: 'algoliaAppId',
+              apiKey: 'algoliaApiKey',
+            },
+          },
+        ],
+      }),
     ]);
   });
 
