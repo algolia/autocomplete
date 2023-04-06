@@ -11,14 +11,14 @@
   "dependencies": {
     "@algolia/autocomplete-js": "1.8.3",
     "@algolia/autocomplete-theme-classic": "1.8.3",
-    "algoliasearch": "4.14.3",
-    "preact": "10.5.13",
-    "qs": "6.11.0"
+    "algoliasearch": "4.16.0",
+    "preact": "10.13.2",
+    "qs": "6.11.1"
   },
   "devDependencies": {
     "@types/debounce-promise": "^3.1.6",
     "@types/qs": "^6.9.6",
-    "parcel": "2.8.2"
+    "parcel": "2.8.3"
   },
   "keywords": [
     "algolia",

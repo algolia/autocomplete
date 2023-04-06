@@ -29,7 +29,7 @@ export type GetEnvironmentProps = (props: {
 };
 
 export type GetRootProps = (props?: { [key: string]: unknown }) => {
-  role: string;
+  role: 'combobox';
   'aria-expanded': boolean;
   'aria-haspopup':
     | boolean
@@ -102,7 +102,7 @@ export type GetListProps = (props?: {
   [key: string]: unknown;
   sourceIndex?: number;
 }) => {
-  role: string;
+  role: 'listbox';
   'aria-labelledby': string;
   id: string;
 };
@@ -116,7 +116,7 @@ export type GetItemProps<
   source: InternalAutocompleteSource<TItem>;
 }) => {
   id: string;
-  role: string;
+  role: 'option';
   'aria-selected': boolean;
   onMouseMove(event: TMouseEvent): void;
   onMouseDown(event: TMouseEvent): void;

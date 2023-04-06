@@ -13,12 +13,12 @@
     "@algolia/autocomplete-plugin-query-suggestions": "1.8.3",
     "@algolia/autocomplete-plugin-recent-searches": "1.8.3",
     "@algolia/autocomplete-theme-classic": "1.8.3",
-    "@algolia/client-search": "4.14.3",
-    "algoliasearch": "4.14.3",
-    "preact": "10.5.13"
+    "@algolia/client-search": "4.16.0",
+    "algoliasearch": "4.16.0",
+    "preact": "10.13.2"
   },
   "devDependencies": {
-    "parcel": "2.8.2"
+    "parcel": "2.8.3"
   },
   "keywords": [
     "algolia",
