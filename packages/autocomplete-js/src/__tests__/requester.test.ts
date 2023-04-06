@@ -265,7 +265,7 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\",\\"__autocomplete_id\\":0}",
+          "{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"},\\"__autocomplete_id\\":0}",
         ]
       `);
 
@@ -304,7 +304,7 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"objectID\\":\\"7\\",\\"label\\":\\"Hit 7\\",\\"__autocomplete_id\\":4}",
+          "{\\"objectID\\":\\"7\\",\\"label\\":\\"Hit 7\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"},\\"__autocomplete_id\\":4}",
         ]
       `);
 
@@ -316,8 +316,8 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"objectID\\":\\"3\\",\\"label\\":\\"Hit 3\\",\\"__autocomplete_id\\":5}",
-          "{\\"objectID\\":\\"4\\",\\"label\\":\\"Hit 4\\",\\"__autocomplete_id\\":6}",
+          "{\\"objectID\\":\\"3\\",\\"label\\":\\"Hit 3\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"},\\"__autocomplete_id\\":5}",
+          "{\\"objectID\\":\\"4\\",\\"label\\":\\"Hit 4\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"},\\"__autocomplete_id\\":6}",
         ]
       `);
 
@@ -331,7 +331,7 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"objectID\\":\\"5\\",\\"label\\":\\"Hit 5\\",\\"__autocomplete_id\\":7}",
+          "{\\"objectID\\":\\"5\\",\\"label\\":\\"Hit 5\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"},\\"__autocomplete_id\\":7}",
         ]
       `);
 
@@ -561,7 +561,7 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"0\\":{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\"},\\"hitsPerPage\\":20,\\"__autocomplete_id\\":0}",
+          "{\\"0\\":{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"}},\\"hitsPerPage\\":20,\\"__autocomplete_id\\":0}",
         ]
       `);
 
@@ -675,7 +675,7 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"0\\":{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\"},\\"results\\":[{\\"page\\":0,\\"hitsPerPage\\":20,\\"nbHits\\":1,\\"nbPages\\":1,\\"processingTimeMS\\":0,\\"hits\\":[{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\"}],\\"query\\":\\"\\",\\"params\\":\\"\\",\\"exhaustiveNbHits\\":true,\\"exhaustiveFacetsCount\\":true}],\\"facetHits\\":[],\\"__autocomplete_id\\":0}",
+          "{\\"0\\":{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"}},\\"results\\":[{\\"page\\":0,\\"hitsPerPage\\":20,\\"nbHits\\":1,\\"nbPages\\":1,\\"processingTimeMS\\":0,\\"hits\\":[{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"}}],\\"query\\":\\"\\",\\"params\\":\\"\\",\\"exhaustiveNbHits\\":true,\\"exhaustiveFacetsCount\\":true}],\\"facetHits\\":[],\\"__autocomplete_id\\":0}",
         ]
       `);
 
