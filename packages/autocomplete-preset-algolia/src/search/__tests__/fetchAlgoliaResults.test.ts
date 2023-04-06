@@ -70,7 +70,7 @@ describe('fetchAlgoliaResults', () => {
           {
             objectID: '1',
             label: 'Hit 1',
-            __autocomplete_algoliaResultsMetadata: {
+            __autocomplete_algoliaCredentials: {
               appId: 'algoliaAppId',
               apiKey: 'algoliaApiKey',
             },
@@ -82,7 +82,7 @@ describe('fetchAlgoliaResults', () => {
           {
             objectID: '2',
             label: 'Hit 2',
-            __autocomplete_algoliaResultsMetadata: {
+            __autocomplete_algoliaCredentials: {
               appId: 'algoliaAppId',
               apiKey: 'algoliaApiKey',
             },
@@ -130,7 +130,7 @@ describe('fetchAlgoliaResults', () => {
           {
             objectID: '1',
             label: 'Hit 1',
-            __autocomplete_algoliaResultsMetadata: {
+            __autocomplete_algoliaCredentials: {
               appId: 'algoliaAppId',
               apiKey: 'algoliaApiKey',
             },
@@ -142,7 +142,7 @@ describe('fetchAlgoliaResults', () => {
           {
             objectID: '2',
             label: 'Hit 2',
-            __autocomplete_algoliaResultsMetadata: {
+            __autocomplete_algoliaCredentials: {
               appId: 'algoliaAppId',
               apiKey: 'algoliaApiKey',
             },

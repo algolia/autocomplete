@@ -67,7 +67,7 @@ export function fetchAlgoliaResults<TRecord>({
         ...result,
         hits: result.hits?.map((hit) => ({
           ...hit,
-          __autocomplete_algoliaResultsMetadata: {
+          __autocomplete_algoliaCredentials: {
             appId,
             apiKey,
           },
