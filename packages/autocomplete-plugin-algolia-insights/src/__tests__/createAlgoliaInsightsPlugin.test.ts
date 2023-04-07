@@ -4,6 +4,7 @@ import {
   getAlgoliaResults,
 } from '@algolia/autocomplete-preset-algolia';
 import { noop } from '@algolia/autocomplete-shared';
+import { fireEvent } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import insightsClient from 'search-insights';
 
@@ -12,11 +13,17 @@ import {
   createPlayground,
   createSearchClient,
   createSource,
+  defer,
   runAllMicroTasks,
 } from '../../../../test/utils';
 import { createAlgoliaInsightsPlugin } from '../createAlgoliaInsightsPlugin';
 
-jest.useFakeTimers();
+beforeEach(() => {
+  (window as any).AlgoliaAnalyticsObject = undefined;
+  (window as any).aa = undefined;
+
+  document.body.innerHTML = '';
+});
 
 describe('createAlgoliaInsightsPlugin', () => {
   test('has a name', () => {
@@ -70,7 +77,7 @@ describe('createAlgoliaInsightsPlugin', () => {
     );
   });
 
-  test('sets a user agent on the Insights client on subscribe', () => {
+  test('sets a user agent on  on subscribe', () => {
     const insightsClient = jest.fn();
     const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
 
@@ -167,7 +174,129 @@ describe('createAlgoliaInsightsPlugin', () => {
     ]);
   });
 
+  describe('automatic pulling', () => {
+    const consoleError = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
+    afterAll(() => {
+      consoleError.mockReset();
+    });
+
+    it('does not load the script when the Insights client is passed', async () => {
+      createPlayground(createAutocomplete, {
+        plugins: [createAlgoliaInsightsPlugin({ insightsClient: noop })],
+      });
+
+      await defer(noop, 0);
+
+      expect(document.body).toMatchInlineSnapshot(`
+        <body>
+          <form>
+            <input />
+          </form>
+        </body>
+      `);
+      expect((window as any).AlgoliaAnalyticsObject).toBeUndefined();
+      expect((window as any).aa).toBeUndefined();
+    });
+
+    it('does not load the script when the Insights client is present in the page', async () => {
+      (window as any).AlgoliaAnalyticsObject = 'aa';
+      const aa = noop;
+      (window as any).aa = aa;
+
+      createPlayground(createAutocomplete, {
+        plugins: [createAlgoliaInsightsPlugin({})],
+      });
+
+      await defer(noop, 0);
+
+      expect(document.body).toMatchInlineSnapshot(`
+        <body>
+          <form>
+            <input />
+          </form>
+        </body>
+      `);
+      expect((window as any).AlgoliaAnalyticsObject).toBe('aa');
+      expect((window as any).aa).toBe(aa);
+      expect((window as any).aa.version).toBeUndefined();
+    });
+
+    it('loads the script when the Insights client is not passed and not present in the page', async () => {
+      createPlayground(createAutocomplete, {
+        plugins: [createAlgoliaInsightsPlugin({})],
+      });
+
+      await defer(noop, 0);
+
+      expect(document.body).toMatchInlineSnapshot(`
+        <body>
+          <script
+            src="https://cdn.jsdelivr.net/npm/search-insights@2.4.0/dist/search-insights.min.js"
+          />
+          <form>
+            <input />
+          </form>
+        </body>
+      `);
+      expect((window as any).AlgoliaAnalyticsObject).toBe('aa');
+      expect((window as any).aa).toEqual(expect.any(Function));
+      expect((window as any).aa.version).toBe('2.4.0');
+    });
+
+    it('notifies when the script fails to be added', () => {
+      // @ts-ignore `createElement` is a class method can thus only be called on
+      // an instance of `Document`, not as a standalone function.
+      // This is needed to call the actual implementation later in the test.
+      document.originalCreateElement = document.createElement;
+
+      document.createElement = (tagName) => {
+        if (tagName === 'script') {
+          throw new Error('error');
+        }
+
+        // @ts-ignore
+        return document.originalCreateElement(tagName);
+      };
+
+      createPlayground(createAutocomplete, {
+        plugins: [createAlgoliaInsightsPlugin({})],
+      });
+
+      expect(consoleError).toHaveBeenCalledWith(
+        '[Autocomplete]: Could not load search-insights.js. Please load it manually following https://alg.li/insights-autocomplete'
+      );
+
+      // @ts-ignore
+      document.createElement = document.originalCreateElement;
+    });
+
+    it('notifies when the script fails to load', async () => {
+      createPlayground(createAutocomplete, {
+        plugins: [createAlgoliaInsightsPlugin({})],
+      });
+
+      await defer(noop, 0);
+
+      fireEvent(document.querySelector('script')!, new ErrorEvent('error'));
+
+      expect(consoleError).toHaveBeenCalledWith(
+        '[Autocomplete]: Could not load search-insights.js. Please load it manually following https://alg.li/insights-autocomplete'
+      );
+    });
+  });
+
   describe('onItemsChange', () => {
+    beforeAll(() => {
+      jest.useFakeTimers();
+    });
+
+    afterAll(() => {
+      jest.useRealTimers();
+    });
+
     test('sends a `viewedObjectIDs` event by default', async () => {
       const insightsClient = jest.fn();
       const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
