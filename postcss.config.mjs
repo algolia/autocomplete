@@ -2,7 +2,7 @@ import sass from '@csstools/postcss-sass';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
 import color from 'postcss-color-rgb';
-import comment from 'postcss-comment';
+import parser from 'postcss-scss';
 import presetEnv from 'postcss-preset-env';
 
 const MINIFIED = process.env.MINIFIED;
@@ -18,6 +18,6 @@ const plugins = [
 ];
 
 export default {
-  parser: comment,
+  parser,
   plugins: MINIFIED ? [...plugins, cssnano] : plugins,
 };
