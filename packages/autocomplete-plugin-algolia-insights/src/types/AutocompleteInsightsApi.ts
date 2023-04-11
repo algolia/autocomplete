@@ -6,15 +6,14 @@ export type AutocompleteInsightsApi = ReturnType<
   typeof createSearchInsightsApi
 >;
 
-export type InsightsParamsWithItems<
-  TParams extends { objectIDs: string[] }
-> = Omit<TParams, 'objectIDs'> & {
-  items: AlgoliaInsightsHit[];
-  /**
-   * @deprecated use `items` instead
-   */
-  objectIDs?: string[];
-};
+export type InsightsParamsWithItems<TParams extends { objectIDs: string[] }> =
+  Omit<TParams, 'objectIDs'> & {
+    items: AlgoliaInsightsHit[];
+    /**
+     * @deprecated use `items` instead
+     */
+    objectIDs?: string[];
+  };
 
 export type ClickedObjectIDsAfterSearchParams = {
   eventName: string;
