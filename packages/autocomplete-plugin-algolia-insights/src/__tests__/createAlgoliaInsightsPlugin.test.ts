@@ -330,6 +330,7 @@ describe('createAlgoliaInsightsPlugin', () => {
         eventName: 'Items Viewed',
         index: 'index1',
         objectIDs: ['1'],
+        algoliaSource: ['autocomplete', 'autocomplete-internal'],
       });
     });
 
@@ -381,11 +382,13 @@ describe('createAlgoliaInsightsPlugin', () => {
         eventName: 'Items Viewed',
         index: 'index1',
         objectIDs: ['1'],
+        algoliaSource: ['autocomplete', 'autocomplete-internal'],
       });
       expect(insightsClient).toHaveBeenNthCalledWith(2, 'viewedObjectIDs', {
         eventName: 'Items Viewed',
         index: 'index2',
         objectIDs: ['2'],
+        algoliaSource: ['autocomplete', 'autocomplete-internal'],
       });
     });
 
@@ -431,6 +434,7 @@ describe('createAlgoliaInsightsPlugin', () => {
         eventName: 'Product Viewed from Autocomplete',
         index: 'index1',
         objectIDs: ['1'],
+        algoliaSource: ['autocomplete'],
       });
     });
 
@@ -529,6 +533,7 @@ describe('createAlgoliaInsightsPlugin', () => {
         eventName: 'Items Viewed',
         index: 'index1',
         objectIDs: ['1', '3'],
+        algoliaSource: ['autocomplete', 'autocomplete-internal'],
       });
 
       // The call triggered with "help" occurred after the timeout, so the item
@@ -537,6 +542,7 @@ describe('createAlgoliaInsightsPlugin', () => {
         eventName: 'Items Viewed',
         index: 'index1',
         objectIDs: ['3'],
+        algoliaSource: ['autocomplete', 'autocomplete-internal'],
       });
     });
 
@@ -638,6 +644,7 @@ describe('createAlgoliaInsightsPlugin', () => {
           objectIDs: ['1'],
           positions: [0],
           queryID: 'queryID1',
+          algoliaSource: ['autocomplete', 'autocomplete-internal'],
         }
       );
     });
@@ -692,6 +699,7 @@ describe('createAlgoliaInsightsPlugin', () => {
           objectIDs: ['1'],
           positions: [0],
           queryID: 'queryID1',
+          algoliaSource: ['autocomplete'],
         }
       );
     });
@@ -849,6 +857,7 @@ describe('createAlgoliaInsightsPlugin', () => {
         objectIDs: ['1'],
         positions: [0],
         queryID: 'queryID1',
+        algoliaSource: ['autocomplete'],
       });
     });
 

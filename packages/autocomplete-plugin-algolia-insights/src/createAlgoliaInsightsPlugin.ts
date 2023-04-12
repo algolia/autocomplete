@@ -216,10 +216,26 @@ export function createAlgoliaInsightsPlugin(
 function getOptions(options: CreateAlgoliaInsightsPluginParams) {
   return {
     onItemsChange({ insights, insightsEvents }: OnItemsChangeParams) {
-      insights.viewedObjectIDs(...insightsEvents);
+      insights.viewedObjectIDs(
+        ...insightsEvents.map((event) => ({
+          ...event,
+          algoliaSource: [
+            ...(event.algoliaSource || []),
+            'autocomplete-internal',
+          ],
+        }))
+      );
     },
     onSelect({ insights, insightsEvents }: OnSelectParams) {
-      insights.clickedObjectIDsAfterSearch(...insightsEvents);
+      insights.clickedObjectIDsAfterSearch(
+        ...insightsEvents.map((event) => ({
+          ...event,
+          algoliaSource: [
+            ...(event.algoliaSource || []),
+            'autocomplete-internal',
+          ],
+        }))
+      );
     },
     onActive: noop,
     ...options,
