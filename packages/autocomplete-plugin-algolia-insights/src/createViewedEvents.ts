@@ -24,6 +24,7 @@ export function createViewedEvents({
     return {
       index: indexName,
       objectIDs,
+      algoliaSource: ['autocomplete'],
     };
   });
 }
