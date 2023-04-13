@@ -35,6 +35,11 @@ export function fetchAlgoliaResults<TRecord>({
 }: SearchParams): Promise<
   Array<SearchResponse<TRecord> | SearchForFacetValuesResponse>
 > {
+  if (typeof searchClient !== 'object') {
+    throw new Error(
+      'The `searchClient` option must be an initialized search client.'
+    );
+  }
   if (typeof searchClient.addAlgoliaAgent === 'function') {
     const algoliaAgents: UserAgent[] = [...coreUserAgents, ...userAgents];
 

@@ -39,6 +39,18 @@ function createTestSearchClient() {
 }
 
 describe('fetchAlgoliaResults', () => {
+  test('throws without search client', () => {
+    expect(() =>
+      fetchAlgoliaResults({
+        // @ts-expect-error
+        searchClient: undefined,
+        queries: [],
+      })
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"The \`searchClient\` option must be an initialized search client."`
+    );
+  });
+
   test('with default options', async () => {
     const searchClient = createTestSearchClient();
 
