@@ -176,8 +176,6 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-reshape
    */
   reshape?: Reshape<TItem>;
-
-  insights?: boolean;
 }
 
 // Props manipulated internally with default values.
