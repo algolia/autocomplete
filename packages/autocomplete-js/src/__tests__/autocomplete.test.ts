@@ -693,7 +693,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
     });
   });
 
-  describe.only('Insights plugin', () => {
+  describe('Insights plugin', () => {
     test('does not add Insights plugin by default', () => {
       const onStateChange = jest.fn();
 
