@@ -1,4 +1,4 @@
-import { HighlightHitParams } from '.';
+import { HighlightHitParams } from './HighlightHitParams';
 
 type AutocompleteHighlightComponent = <THit>({
   hit,

@@ -1,4 +1,4 @@
-import { BaseItem } from '@algolia/autocomplete-core';
+import { BaseItem } from '../core';
 
 import { InternalAutocompleteSource } from './AutocompleteSource';
 
