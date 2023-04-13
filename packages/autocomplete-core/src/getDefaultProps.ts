@@ -31,6 +31,7 @@ export function getDefaultProps<TItem extends BaseItem>(
     autoFocus: false,
     defaultActiveItemId: null,
     stallThreshold: 300,
+    insights: true,
     environment,
     shouldPanelOpen: ({ state }) => getItemsCount(state) > 0,
     reshape: ({ sources }) => sources,
