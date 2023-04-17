@@ -174,22 +174,23 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
     ) {
       if (params.length > 0) {
         params
-          .map((param) => ({
-            ...param,
-            objectIDs:
-              param.items?.map(({ objectID }) => objectID) || param.objectIDs,
-          }))
-          .reduce(
-            (acc, { items, ...param }) => [
-              ...acc,
-              ...chunk<ViewedObjectIDsParams>(param).map((payload) => {
-                return { items, payload };
-              }),
-            ],
-            [] as Array<{
+          .reduce<
+            Array<{
               items?: AlgoliaInsightsHit[];
               payload: ViewedObjectIDsParams;
             }>
+          >(
+            (acc, { items, ...param }) => [
+              ...acc,
+              ...chunk<ViewedObjectIDsParams>({
+                ...param,
+                objectIDs:
+                  items?.map(({ objectID }) => objectID) || param.objectIDs,
+              }).map((payload) => {
+                return { items, payload };
+              }),
+            ],
+            []
           )
           .forEach(({ items, payload }) =>
             sendToInsights('viewedObjectIDs', [payload], items)
