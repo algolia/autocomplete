@@ -334,7 +334,7 @@ describe('createAlgoliaInsightsPlugin', () => {
       });
     });
 
-    test('sends a `viewedObjectIDs` event with additional parameters if client supports it', async () => {
+    test('sends `viewedObjectIDs` events with additional parameters if client supports it', async () => {
       const insightsClient = jest.fn();
       // @ts-ignore
       insightsClient.version = '2.4.0';
@@ -347,16 +347,32 @@ describe('createAlgoliaInsightsPlugin', () => {
         getSources() {
           return [
             createSource({
+              sourceId: 'testSource1',
               getItems: () => [
                 {
                   label: '1',
                   objectID: '1',
                   __autocomplete_algoliaCredentials: {
-                    appId: 'algoliaAppId',
-                    apiKey: 'algoliaApiKey',
+                    appId: 'algoliaAppId1',
+                    apiKey: 'algoliaApiKey1',
                   },
                   __autocomplete_indexName: 'index1',
                   __autocomplete_queryID: 'queryID1',
+                },
+              ],
+            }),
+            createSource({
+              sourceId: 'testSource2',
+              getItems: () => [
+                {
+                  label: '2',
+                  objectID: '2',
+                  __autocomplete_algoliaCredentials: {
+                    appId: 'algoliaAppId2',
+                    apiKey: 'algoliaApiKey2',
+                  },
+                  __autocomplete_indexName: 'index2',
+                  __autocomplete_queryID: 'queryID2',
                 },
               ],
             }),
@@ -364,20 +380,39 @@ describe('createAlgoliaInsightsPlugin', () => {
         },
       });
 
+      insightsClient.mockClear();
+
       inputElement.focus();
 
       await runAllMicroTasks();
       jest.runAllTimers();
 
-      expect(insightsClient).toHaveBeenCalledWith(
+      expect(insightsClient).toHaveBeenCalledTimes(2);
+      expect(insightsClient).toHaveBeenNthCalledWith(
+        1,
         'viewedObjectIDs',
         expect.objectContaining({
+          index: 'index1',
           objectIDs: ['1'],
         }),
         {
           headers: {
-            'X-Algolia-Application-Id': 'algoliaAppId',
-            'X-Algolia-API-Key': 'algoliaApiKey',
+            'X-Algolia-Application-Id': 'algoliaAppId1',
+            'X-Algolia-API-Key': 'algoliaApiKey1',
+          },
+        }
+      );
+      expect(insightsClient).toHaveBeenNthCalledWith(
+        2,
+        'viewedObjectIDs',
+        expect.objectContaining({
+          index: 'index2',
+          objectIDs: ['2'],
+        }),
+        {
+          headers: {
+            'X-Algolia-Application-Id': 'algoliaAppId2',
+            'X-Algolia-API-Key': 'algoliaApiKey2',
           },
         }
       );
