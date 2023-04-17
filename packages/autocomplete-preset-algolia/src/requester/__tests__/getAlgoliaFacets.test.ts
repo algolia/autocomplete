@@ -2,6 +2,18 @@ import { createSearchClient } from '../../../../../test/utils';
 import { getAlgoliaFacets } from '../getAlgoliaFacets';
 
 describe('getAlgoliaFacets', () => {
+  test('throws without search client', () => {
+    expect(() =>
+      getAlgoliaFacets({
+        // @ts-expect-error
+        searchClient: undefined,
+        queries: [],
+      })
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"[Autocomplete] The \`searchClient\` option is required for getAlgoliaFacets({ searchClient })."`
+    );
+  });
+
   test('returns the description', () => {
     const searchClient = createSearchClient({
       search: jest.fn(),

@@ -40,14 +40,16 @@ function createTestSearchClient() {
 
 describe('fetchAlgoliaResults', () => {
   test('throws without search client', () => {
-    expect(() =>
-      fetchAlgoliaResults({
-        // @ts-expect-error
-        searchClient: undefined,
-        queries: [],
-      })
+    expect(
+      () =>
+        fetchAlgoliaResults({
+          // @ts-expect-error
+          searchClient: undefined,
+          queries: [],
+        })
+      // this is not a very nice error message, but people shouldn't be calling fetchAlgoliaResults directly
     ).toThrowErrorMatchingInlineSnapshot(
-      `"The \`searchClient\` option must be an initialized search client."`
+      `"Cannot read property 'addAlgoliaAgent' of undefined"`
     );
   });
 
