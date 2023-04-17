@@ -9,7 +9,7 @@ import { RequestParams } from './createRequester';
 export function getAlgoliaResults<TTHit>(requestParams: RequestParams<TTHit>) {
   invariant(
     typeof requestParams.searchClient === 'object',
-    'The `searchClient` option is required for getAlgoliaResults({ searchClient }).'
+    'The `searchClient` parameter is required for getAlgoliaResults({ searchClient }).'
   );
 
   const requester = createAlgoliaRequester({

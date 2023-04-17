@@ -10,7 +10,7 @@ describe('getAlgoliaFacets', () => {
         queries: [],
       })
     ).toThrowErrorMatchingInlineSnapshot(
-      `"[Autocomplete] The \`searchClient\` option is required for getAlgoliaFacets({ searchClient })."`
+      `"[Autocomplete] The \`searchClient\` parameter is required for getAlgoliaFacets({ searchClient })."`
     );
   });
 
