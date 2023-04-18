@@ -27,4 +27,5 @@ type QueueItem = QueueItemMap[keyof QueueItemMap];
 
 export type InsightsClient = _InsightsClient & {
   queue?: QueueItem[];
+  version?: string;
 };
