@@ -1,4 +1,8 @@
-import { AlgoliaInsightsHit, ClickedObjectIDsAfterSearchParams } from './types';
+import type {
+  AlgoliaInsightsHit,
+  ClickedObjectIDsAfterSearchParams,
+  InsightsParamsWithItems,
+} from './types';
 
 type CreateClickedEventParams = {
   item: AlgoliaInsightsHit;
@@ -9,12 +13,12 @@ export function createClickedEvent({
   item,
   items,
 }: CreateClickedEventParams): Omit<
-  ClickedObjectIDsAfterSearchParams,
+  InsightsParamsWithItems<ClickedObjectIDsAfterSearchParams>,
   'eventName'
 > & { algoliaSource?: string[] } {
   return {
     index: item.__autocomplete_indexName,
-    objectIDs: [item.objectID],
+    items: [item],
     positions: [1 + items.findIndex((x) => x.objectID === item.objectID)],
     queryID: item.__autocomplete_queryID,
     algoliaSource: ['autocomplete'],
