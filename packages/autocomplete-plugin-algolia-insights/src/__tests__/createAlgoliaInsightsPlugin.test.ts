@@ -334,6 +334,90 @@ describe('createAlgoliaInsightsPlugin', () => {
       });
     });
 
+    test('sends `viewedObjectIDs` events with additional parameters if client supports it', async () => {
+      const insightsClient = jest.fn();
+      // @ts-ignore
+      insightsClient.version = '2.4.0';
+      const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+      const { inputElement } = createPlayground(createAutocomplete, {
+        plugins: [insightsPlugin],
+        defaultActiveItemId: 0,
+        openOnFocus: true,
+        getSources() {
+          return [
+            createSource({
+              sourceId: 'testSource1',
+              getItems: () => [
+                {
+                  label: '1',
+                  objectID: '1',
+                  __autocomplete_algoliaCredentials: {
+                    appId: 'algoliaAppId1',
+                    apiKey: 'algoliaApiKey1',
+                  },
+                  __autocomplete_indexName: 'index1',
+                  __autocomplete_queryID: 'queryID1',
+                },
+              ],
+            }),
+            createSource({
+              sourceId: 'testSource2',
+              getItems: () => [
+                {
+                  label: '2',
+                  objectID: '2',
+                  __autocomplete_algoliaCredentials: {
+                    appId: 'algoliaAppId2',
+                    apiKey: 'algoliaApiKey2',
+                  },
+                  __autocomplete_indexName: 'index2',
+                  __autocomplete_queryID: 'queryID2',
+                },
+              ],
+            }),
+          ];
+        },
+      });
+
+      insightsClient.mockClear();
+
+      inputElement.focus();
+
+      await runAllMicroTasks();
+      jest.runAllTimers();
+
+      expect(insightsClient).toHaveBeenCalledTimes(2);
+      expect(insightsClient).toHaveBeenNthCalledWith(
+        1,
+        'viewedObjectIDs',
+        expect.objectContaining({
+          index: 'index1',
+          objectIDs: ['1'],
+        }),
+        {
+          headers: {
+            'X-Algolia-Application-Id': 'algoliaAppId1',
+            'X-Algolia-API-Key': 'algoliaApiKey1',
+          },
+        }
+      );
+      expect(insightsClient).toHaveBeenNthCalledWith(
+        2,
+        'viewedObjectIDs',
+        expect.objectContaining({
+          index: 'index2',
+          objectIDs: ['2'],
+        }),
+        {
+          headers: {
+            'X-Algolia-Application-Id': 'algoliaAppId2',
+            'X-Algolia-API-Key': 'algoliaApiKey2',
+          },
+        }
+      );
+    });
+
     test('sends as many `viewedObjectIDs` events as there are compatible sources', async () => {
       const insightsClient = jest.fn();
       const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
@@ -649,6 +733,58 @@ describe('createAlgoliaInsightsPlugin', () => {
       );
     });
 
+    test('sends a `clickedObjectIDsAfterSearch` event with additional parameters if client supports it', async () => {
+      const insightsClient = jest.fn();
+      // @ts-ignore
+      insightsClient.version = '2.4.0';
+      const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+      const { inputElement } = createPlayground(createAutocomplete, {
+        plugins: [insightsPlugin],
+        defaultActiveItemId: 0,
+        openOnFocus: true,
+        getSources() {
+          return [
+            createSource({
+              getItems: () => [
+                {
+                  label: '1',
+                  objectID: '1',
+                  __autocomplete_algoliaCredentials: {
+                    appId: 'algoliaAppId',
+                    apiKey: 'algoliaApiKey',
+                  },
+                  __autocomplete_indexName: 'index1',
+                  __autocomplete_queryID: 'queryID1',
+                },
+              ],
+            }),
+          ];
+        },
+      });
+
+      inputElement.focus();
+
+      await runAllMicroTasks();
+
+      userEvent.type(inputElement, '{enter}');
+
+      await runAllMicroTasks();
+
+      expect(insightsClient).toHaveBeenCalledWith(
+        'clickedObjectIDsAfterSearch',
+        expect.objectContaining({
+          objectIDs: ['1'],
+        }),
+        {
+          headers: {
+            'X-Algolia-Application-Id': 'algoliaAppId',
+            'X-Algolia-API-Key': 'algoliaApiKey',
+          },
+        }
+      );
+    });
+
     test('sends a custom event', async () => {
       const insightsClient = jest.fn();
       const insightsPlugin = createAlgoliaInsightsPlugin({
@@ -854,7 +990,14 @@ describe('createAlgoliaInsightsPlugin', () => {
       expect(track).toHaveBeenCalledWith('Product Browsed from Autocomplete', {
         eventName: 'Item Active',
         index: 'index1',
-        objectIDs: ['1'],
+        items: [
+          expect.objectContaining({
+            label: '1',
+            objectID: '1',
+            __autocomplete_indexName: 'index1',
+            __autocomplete_queryID: 'queryID1',
+          }),
+        ],
         positions: [0],
         queryID: 'queryID1',
         algoliaSource: ['autocomplete'],
