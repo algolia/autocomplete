@@ -1,16 +1,21 @@
-import { AutocompleteState } from '@algolia/autocomplete-shared';
+import type { AutocompleteState } from '@algolia/autocomplete-shared';
 
-import {
+import type {
   ClickedObjectIDsAfterSearchParams,
+  InsightsParamsWithItems,
   ViewedObjectIDsParams,
 } from './AutocompleteInsightsApi';
 
-import { AlgoliaInsightsHit, AutocompleteInsightsApi } from '.';
+import type { AlgoliaInsightsHit, AutocompleteInsightsApi } from '.';
 
 export type OnSelectParams = {
   insights: AutocompleteInsightsApi;
   insightsEvents: Array<
-    ClickedObjectIDsAfterSearchParams & { algoliaSource?: string[] }
+    InsightsParamsWithItems<
+      ClickedObjectIDsAfterSearchParams & {
+        algoliaSource?: string[];
+      }
+    >
   >;
   item: AlgoliaInsightsHit;
   state: AutocompleteState<any>;
@@ -21,6 +26,10 @@ export type OnActiveParams = OnSelectParams;
 
 export type OnItemsChangeParams = {
   insights: AutocompleteInsightsApi;
-  insightsEvents: Array<ViewedObjectIDsParams & { algoliaSource?: string[] }>;
+  insightsEvents: Array<
+    InsightsParamsWithItems<
+      ViewedObjectIDsParams & { algoliaSource?: string[] }
+    >
+  >;
   state: AutocompleteState<any>;
 };
