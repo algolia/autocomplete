@@ -1,7 +1,5 @@
-import {
-  AutocompletePlugin as AutocompleteCorePlugin,
-  BaseItem,
-} from '@algolia/autocomplete-core';
+import { BaseItem } from '../core';
+import { AutocompletePlugin as AutocompleteCorePlugin } from '../core/AutocompletePlugin';
 
 import { AutocompleteOptions } from './AutocompleteOptions';
 

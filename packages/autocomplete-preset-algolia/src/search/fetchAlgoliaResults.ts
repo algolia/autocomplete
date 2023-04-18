@@ -5,29 +5,11 @@ import {
 
 import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from '../constants';
 import type {
-  MultipleQueriesQuery,
   SearchForFacetValuesResponse,
   SearchResponse,
-  SearchClient,
+  SearchParams,
 } from '../types';
 import { getAppIdAndApiKey } from '../utils';
-
-export interface SearchParams {
-  /**
-   * The initialized Algolia search client.
-   */
-  searchClient: SearchClient;
-  /**
-   * A list of queries to execute.
-   */
-  queries: MultipleQueriesQuery[];
-  /**
-   * A list of user agents to add to the search client.
-   *
-   * This is useful to track usage of an integration.
-   */
-  userAgents?: UserAgent[];
-}
 
 export function fetchAlgoliaResults<TRecord>({
   searchClient,

@@ -34,7 +34,6 @@
     "@algolia/autocomplete-shared": "1.8.3"
   },
   "devDependencies": {
-    "@algolia/client-search": "4.16.0",
     "algoliasearch": "4.16.0"
   },
   "peerDependencies": {

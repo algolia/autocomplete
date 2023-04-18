@@ -1,8 +1,6 @@
 import { CancelablePromiseList } from '../utils';
 
-import { BaseItem } from './AutocompleteApi';
-import { InternalAutocompleteOptions } from './AutocompleteOptions';
-import { AutocompleteState } from './AutocompleteState';
+import { BaseItem, InternalAutocompleteOptions, AutocompleteState } from './';
 
 export interface AutocompleteStore<TItem extends BaseItem> {
   getState(): AutocompleteState<TItem>;
