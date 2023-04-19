@@ -1,7 +1,4 @@
-import {
-  AutocompleteState as AutocompleteCoreState,
-  BaseItem,
-} from '@algolia/autocomplete-core';
+import { AutocompleteState as AutocompleteCoreState, BaseItem } from '../core';
 
 import { AutocompleteCollection } from './AutocompleteCollection';
 

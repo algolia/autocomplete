@@ -1,9 +1,4 @@
-import { BaseItem } from './AutocompleteApi';
-import {
-  OnActiveParams,
-  OnResolveParams,
-  OnSelectParams,
-} from './AutocompleteSource';
+import { BaseItem, OnActiveParams, OnResolveParams, OnSelectParams } from './';
 
 export type AutocompleteSubscriber<TItem extends BaseItem> = {
   onSelect(params: OnSelectParams<TItem>): void;

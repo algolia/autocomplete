@@ -1,4 +1,4 @@
-import { AutocompleteScopeApi, BaseItem } from '@algolia/autocomplete-core';
+import { AutocompleteScopeApi, BaseItem } from '../core';
 
 import { AutocompleteComponents } from './AutocompleteComponents';
 import {

@@ -31,11 +31,7 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.8.3",
     "@algolia/autocomplete-shared": "1.8.3"
-  },
-  "devDependencies": {
-    "@algolia/autocomplete-core": "1.8.3"
   },
   "peerDependencies": {
     "search-insights": ">= 1 < 3"
