@@ -2,7 +2,7 @@ import {
   AutocompleteSource as AutocompleteCoreSource,
   InternalAutocompleteSource as InternalAutocompleteCoreSource,
   BaseItem,
-} from '@algolia/autocomplete-core';
+} from '../core';
 
 import { AutocompleteComponents } from './AutocompleteComponents';
 import {

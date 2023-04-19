@@ -1,4 +1,4 @@
-import type { AutocompleteState } from '@algolia/autocomplete-js';
+import type { AutocompleteState } from '@algolia/autocomplete-shared';
 
 import type {
   ClickedObjectIDsAfterSearchParams,

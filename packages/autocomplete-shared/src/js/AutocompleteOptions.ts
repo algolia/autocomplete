@@ -3,8 +3,8 @@ import {
   AutocompleteOptions as AutocompleteCoreOptions,
   BaseItem,
   GetSourcesParams,
-} from '@algolia/autocomplete-core';
-import { MaybePromise } from '@algolia/autocomplete-shared';
+} from '../core';
+import { MaybePromise } from '../MaybePromise';
 
 import { AutocompleteClassNames } from './AutocompleteClassNames';
 import { PublicAutocompleteComponents } from './AutocompleteComponents';

@@ -1,8 +1,6 @@
 import {
   AutocompleteState,
   AutocompletePlugin,
-} from '@algolia/autocomplete-js';
-import {
   createRef,
   debounce,
   isEqual,

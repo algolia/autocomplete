@@ -1,4 +1,4 @@
-import { MaybePromise } from '@algolia/autocomplete-shared';
+import type { MaybePromise } from '../MaybePromise';
 
 import { AutocompleteScopeApi, BaseItem } from './AutocompleteApi';
 import { AutocompleteEnvironment } from './AutocompleteEnvironment';

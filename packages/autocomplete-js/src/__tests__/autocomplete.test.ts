@@ -1,3 +1,4 @@
+import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
 import * as autocompleteShared from '@algolia/autocomplete-shared';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
@@ -285,7 +286,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
 
     fireEvent.input(input, { target: { value: 'a' } });
 
@@ -325,7 +326,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
 
     fireEvent.focus(input);
 
@@ -365,7 +366,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
 
     fireEvent.focus(input);
 
@@ -405,7 +406,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
 
     fireEvent.input(input, { target: { value: 'Query' } });
 
@@ -446,7 +447,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
 
     fireEvent.input(input, { target: { value: 'a' } });
 
@@ -579,7 +580,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
 
     fireEvent.input(input, { target: { value: 'a' } });
 
@@ -689,6 +690,77 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       expect(document.activeElement).toEqual(
         document.querySelector('.aa-SubmitButton')
       );
+    });
+  });
+
+  describe('Insights plugin', () => {
+    test('does not add Insights plugin by default', () => {
+      const onStateChange = jest.fn();
+
+      const container = document.createElement('div');
+      autocomplete({
+        container,
+        onStateChange,
+      });
+
+      expect(onStateChange).toHaveBeenCalledTimes(0);
+    });
+
+    test('`insights: true` adds only one Insights plugin', () => {
+      const onStateChange = jest.fn();
+
+      const container = document.createElement('div');
+      autocomplete({
+        container,
+        insights: true,
+        onStateChange,
+      });
+
+      expect(onStateChange).toHaveBeenCalledTimes(1);
+      expect(onStateChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            context: expect.objectContaining({
+              algoliaInsightsPlugin: expect.objectContaining({
+                insights: expect.objectContaining({
+                  init: expect.any(Function),
+                  setUserToken: expect.any(Function),
+                  clickedObjectIDsAfterSearch: expect.any(Function),
+                  clickedObjectIDs: expect.any(Function),
+                  clickedFilters: expect.any(Function),
+                  convertedObjectIDsAfterSearch: expect.any(Function),
+                  convertedObjectIDs: expect.any(Function),
+                  convertedFilters: expect.any(Function),
+                  viewedObjectIDs: expect.any(Function),
+                  viewedFilters: expect.any(Function),
+                }),
+              }),
+            }),
+          }),
+        })
+      );
+    });
+
+    test("users' Insights plugin overrides the default one using `update`", () => {
+      const defaultInsightsClient = jest.fn();
+      const userInsightsClient = jest.fn();
+
+      const container = document.createElement('div');
+      const { update } = autocomplete({
+        container,
+        insights: { insightsClient: defaultInsightsClient },
+      });
+
+      expect(defaultInsightsClient).toHaveBeenCalledTimes(1);
+      expect(userInsightsClient).toHaveBeenCalledTimes(0);
+
+      const insightsPlugin = createAlgoliaInsightsPlugin({
+        insightsClient: userInsightsClient,
+      });
+      update({ plugins: [insightsPlugin] });
+
+      expect(defaultInsightsClient).toHaveBeenCalledTimes(1);
+      expect(userInsightsClient).toHaveBeenCalledTimes(1);
     });
   });
 });

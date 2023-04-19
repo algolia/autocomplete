@@ -2,7 +2,7 @@ import {
   BaseItem,
   AutocompleteApi as AutocompleteCoreApi,
   AutocompleteScopeApi,
-} from '@algolia/autocomplete-core';
+} from '../core';
 
 import { AutocompleteState } from './AutocompleteState';
 

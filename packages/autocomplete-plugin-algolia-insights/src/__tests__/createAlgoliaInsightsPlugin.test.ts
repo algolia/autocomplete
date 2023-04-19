@@ -77,7 +77,7 @@ describe('createAlgoliaInsightsPlugin', () => {
     );
   });
 
-  test('sets a user agent on  on subscribe', () => {
+  test('sets a user agent on subscribe', () => {
     const insightsClient = jest.fn();
     const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
 

@@ -1,7 +1,8 @@
 import { invariant } from '@algolia/autocomplete-shared';
 
+import { RequestParams } from '../types';
+
 import { createAlgoliaRequester } from './createAlgoliaRequester';
-import { RequestParams } from './createRequester';
 
 /**
  * Retrieves Algolia results from multiple indices.
