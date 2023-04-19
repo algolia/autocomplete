@@ -3,7 +3,7 @@ import {
   BaseItem,
 } from '@algolia/autocomplete-core';
 
-import { AutocompleteOptions } from './AutocompleteOptions';
+import { AutocompleteOptions } from './';
 
 export interface AutocompleteApi<TItem extends BaseItem>
   extends AutocompleteCoreScopeApi<TItem> {

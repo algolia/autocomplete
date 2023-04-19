@@ -1,9 +1,9 @@
 import { invariant } from '@algolia/autocomplete-shared';
 
 import type { MultipleQueriesQuery } from '../types';
+import { RequestParams } from '../types';
 
 import { createAlgoliaRequester } from './createAlgoliaRequester';
-import { RequestParams } from './createRequester';
 
 /**
  * Retrieves Algolia facet hits from multiple indices.

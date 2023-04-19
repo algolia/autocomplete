@@ -15,6 +15,8 @@ module.exports = {
     __TEST__: true,
   },
   moduleNameMapper: {
+    '^@algolia/autocomplete-shared/dist/esm/(.*)$':
+      '<rootDir>/packages/autocomplete-shared/src/$1',
     '^@algolia/autocomplete-(.*)$': '<rootDir>/packages/autocomplete-$1/src/',
   },
 };
