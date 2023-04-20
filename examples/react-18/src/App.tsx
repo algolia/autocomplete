@@ -38,6 +38,7 @@ export default function App() {
     const search = autocomplete<ProductHit>({
       container: containerRef.current,
       placeholder: 'Search',
+      insights: true,
       getSources({ query }) {
         return [
           {

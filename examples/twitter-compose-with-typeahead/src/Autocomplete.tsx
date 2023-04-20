@@ -25,6 +25,7 @@ export function Autocomplete(
     ...props,
     id: 'twitter-autocomplete',
     defaultActiveItemId: 0,
+    insights: true,
     getSources({ query }) {
       const cursorPosition = inputRef.current?.selectionEnd || 0;
       const activeToken = getActiveToken(query, cursorPosition);

@@ -51,6 +51,7 @@ export function Autocomplete(
         onStateChange({ state }) {
           setAutocompleteState(state);
         },
+        insights: true,
         getSources() {
           return [
             {

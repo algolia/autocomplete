@@ -224,6 +224,7 @@ export default {
       placeholder: 'Search for products',
       detachedMediaQuery: 'none',
       openOnFocus: true,
+      insights: true,
       plugins: [
         recentSearchesPlugin,
         querySuggestionPluginInCategory,

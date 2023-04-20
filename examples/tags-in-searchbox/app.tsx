@@ -5,16 +5,12 @@ import {
   AutocompleteComponents,
   getAlgoliaResults,
   getAlgoliaFacets,
-} from '@algolia/autocomplete-js';
-import {
   AutocompleteInsightsApi,
-  createAlgoliaInsightsPlugin,
-} from '@algolia/autocomplete-plugin-algolia-insights';
+} from '@algolia/autocomplete-js';
 import { createTagsPlugin, Tag } from '@algolia/autocomplete-plugin-tags';
 import algoliasearch from 'algoliasearch/lite';
 import { h, Fragment, render } from 'preact';
 import groupBy from 'ramda/src/groupBy';
-import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
 
@@ -23,11 +19,6 @@ import { ProductHit, TagExtraData } from './types';
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
-
-// @ts-expect-error type error in search-insights
-insightsClient('init', { appId, apiKey });
-
-const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
 
 const tagsPlugin = createTagsPlugin<TagExtraData>({
   getTagsSubscribers() {
@@ -106,7 +97,8 @@ autocomplete<ProductHit | Tag<TagExtraData>>({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
-  plugins: [algoliaInsightsPlugin, tagsPlugin],
+  insights: true,
+  plugins: [tagsPlugin],
   detachedMediaQuery: 'none',
   getSources({ query, state }) {
     const tagsByFacet = groupBy<Tag<TagExtraData>>(
@@ -310,7 +302,7 @@ function ProductItem({ hit, insights, components }: ProductItemProps) {
             insights.convertedObjectIDsAfterSearch({
               eventName: 'Added to cart',
               index: hit.__autocomplete_indexName,
-              objectIDs: [hit.objectID],
+              items: [hit],
               queryID: hit.__autocomplete_queryID,
             });
           }}

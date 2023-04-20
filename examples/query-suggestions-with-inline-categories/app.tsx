@@ -92,5 +92,6 @@ autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
+  insights: true,
   plugins: [querySuggestionsPlugin],
 });

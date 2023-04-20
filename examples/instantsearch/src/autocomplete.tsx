@@ -260,6 +260,7 @@ export function startAutocomplete(searchInstance: InstantSearch) {
   const { setQuery } = autocomplete({
     container: '#autocomplete',
     placeholder: 'Search for products',
+    insights: true,
     openOnFocus: true,
     plugins: [
       recentSearchesPlugin,

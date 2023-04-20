@@ -57,6 +57,7 @@ autocomplete({
   placeholder: 'Search',
   debug: true,
   openOnFocus: true,
+  insights: true,
   plugins: [recentSearchesPlugin, querySuggestionsPlugin, productsPlugin],
   reshape({ sourcesBySourceId }) {
     const { recentSearchesPlugin, querySuggestionsPlugin, products, ...rest } =

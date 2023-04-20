@@ -275,6 +275,7 @@ export function App() {
               onSubmit={onSubmit}
               onReset={onReset}
               plugins={plugins}
+              insights
             />
           </div>
         </header>
