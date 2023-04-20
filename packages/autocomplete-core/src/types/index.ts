@@ -2,12 +2,18 @@ export * from '@algolia/autocomplete-shared/dist/esm/core';
 export * from './AutocompleteStore';
 export * from './AutocompleteSubscribers';
 
-import { CreateAlgoliaInsightsPluginParams } from '@algolia/autocomplete-plugin-algolia-insights';
+import {
+  CreateAlgoliaInsightsPluginParams,
+  AutocompleteInsightsApi as _AutocompleteInsightsApi,
+  AlgoliaInsightsHit as _AlgoliaInsightsHit,
+} from '@algolia/autocomplete-plugin-algolia-insights';
 import {
   AutocompleteOptions as _AutocompleteOptions,
   BaseItem,
 } from '@algolia/autocomplete-shared/dist/esm/core';
 
+export type AutocompleteInsightsApi = _AutocompleteInsightsApi;
+export type AlgoliaInsightsHit = _AlgoliaInsightsHit;
 export interface AutocompleteOptions<TItem extends BaseItem>
   extends _AutocompleteOptions<TItem> {
   /**
