@@ -1,2 +1,2 @@
-export type { AutocompleteInsightsApi } from './types/AutocompleteInsightsApi';
+export * from './types';
 export * from './createAlgoliaInsightsPlugin';
