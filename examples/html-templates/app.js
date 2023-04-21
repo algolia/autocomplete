@@ -10,6 +10,7 @@ const searchClient = algoliasearch(appId, apiKey);
 autocomplete({
   container: '#autocomplete',
   placeholder: 'Search',
+  insights: true,
   getSources({ query }) {
     return [
       {

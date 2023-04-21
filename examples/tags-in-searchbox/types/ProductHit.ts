@@ -1,3 +1,4 @@
+import { AlgoliaInsightsHit } from '@algolia/autocomplete-js';
 import { Hit } from '@algolia/client-search';
 
 type ProductRecord = {
@@ -11,9 +12,4 @@ type ProductRecord = {
   url: string;
 };
 
-type WithAutocompleteAnalytics<THit> = THit & {
-  __autocomplete_indexName: string;
-  __autocomplete_queryID: string;
-};
-
-export type ProductHit = WithAutocompleteAnalytics<Hit<ProductRecord>>;
+export type ProductHit = AlgoliaInsightsHit & Hit<ProductRecord>;

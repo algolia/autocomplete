@@ -26,6 +26,7 @@ autocomplete<ProductHit>({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
+  insights: true,
   plugins: [recentlyViewedItems],
   getSources({ query }) {
     if (!query) {

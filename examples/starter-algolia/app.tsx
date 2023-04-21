@@ -26,6 +26,7 @@ type AutocompleteItem = Hit<{
 autocomplete<AutocompleteItem>({
   container: '#autocomplete',
   placeholder: 'Search',
+  insights: true,
   getSources({ query }) {
     return [
       {
