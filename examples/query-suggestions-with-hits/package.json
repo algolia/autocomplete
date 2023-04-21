@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@algolia/autocomplete-js": "1.8.3",
-    "@algolia/autocomplete-plugin-algolia-insights": "1.8.3",
     "@algolia/autocomplete-plugin-query-suggestions": "1.8.3",
     "@algolia/autocomplete-plugin-recent-searches": "1.8.3",
     "@algolia/autocomplete-preset-algolia": "1.8.3",
@@ -18,7 +17,7 @@
     "@algolia/client-search": "4.16.0",
     "algoliasearch": "4.16.0",
     "preact": "10.13.2",
-    "search-insights": "1.7.1"
+    "search-insights": "2.6.0"
   },
   "devDependencies": {
     "parcel": "2.8.3"
