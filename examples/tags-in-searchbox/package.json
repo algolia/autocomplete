@@ -16,7 +16,7 @@
     "algoliasearch": "4.16.0",
     "preact": "10.13.2",
     "ramda": "0.27.1",
-    "search-insights": "1.7.1"
+    "search-insights": "2.6.0"
   },
   "devDependencies": {
     "parcel": "2.8.3"
