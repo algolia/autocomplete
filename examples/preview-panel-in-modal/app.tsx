@@ -15,6 +15,7 @@ autocomplete({
   container: '#autocomplete',
   detachedMediaQuery: '',
   defaultActiveItemId: 0,
+  insights: true,
   getSources() {
     return [
       {

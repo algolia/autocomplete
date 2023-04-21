@@ -40,6 +40,7 @@ autocomplete({
   placeholder: 'Search products, articles, and FAQs',
   autoFocus: true,
   openOnFocus: true,
+  insights: true,
   plugins: [
     recentSearchesPlugin,
     querySuggestionsPlugin,

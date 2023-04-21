@@ -212,6 +212,7 @@ export function Autocomplete({
       ...autocompleteProps,
       container: autocompleteContainer.current,
       initialState: { query },
+      insights: true,
       plugins,
       onReset() {
         setInstantSearchUiState({ query: '', category: currentCategory });
