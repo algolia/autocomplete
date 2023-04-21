@@ -30,6 +30,7 @@ autocomplete<AutocompleteItem>({
   container: '#autocomplete',
   placeholder: 'Search',
   detachedMediaQuery: 'none',
+  insights: true,
   plugins: [voiceSearchPlugin],
   getSources({ query }) {
     return [

@@ -60,18 +60,21 @@ const search = autocomplete<AutocompleteItem>({
   container: '#autocomplete',
   placeholder: 'Search',
   getSources,
+  insights: true,
 });
 
 const searchLeft = autocomplete<AutocompleteItem>({
   container: '#autocomplete-left',
   placeholder: 'Search',
   getSources,
+  insights: true,
 });
 
 const searchRight = autocomplete<AutocompleteItem>({
   container: '#autocomplete-right',
   placeholder: 'Search',
   getSources,
+  insights: true,
 });
 
 type ProductItemProps = {
