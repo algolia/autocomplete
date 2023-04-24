@@ -57,7 +57,7 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
         'X-Algolia-API-Key': apiKey,
       };
 
-      searchInsights(method, ...payloads, { headers } as any);
+      searchInsights(method, ...payloads, { headers });
     } else {
       searchInsights(method, ...payloads);
     }
