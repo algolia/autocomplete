@@ -11,7 +11,7 @@
 
 * **autocomplete-core:** add `insights` option to enable the Insights plugin ([#1121](https://github.com/algolia/autocomplete/issues/1121)) ([c9d06fd](https://github.com/algolia/autocomplete/commit/c9d06fd500531bcab67dbddee28221b1279ac285))
 * **createAlgoliaInsightsPlugin:** automatically load Insights when not passed ([#1106](https://github.com/algolia/autocomplete/issues/1106)) ([a02c2c1](https://github.com/algolia/autocomplete/commit/a02c2c1d272644ab539222e46bb98545f8d2c72b))
-* **createAlgoliaInsightsPlugin:** use `search-insights@2.4.0` ([#1109](https://github.com/algolia/autocomplete/issues/1109)) ([63dd995](https://github.com/algolia/autocomplete/commit/63dd99504760183759e75019d328b09edbd0cc10))
+* **createAlgoliaInsightsPlugin:** use `search-insights@2.6.0` ([#1109](https://github.com/algolia/autocomplete/issues/1109)) ([63dd995](https://github.com/algolia/autocomplete/commit/63dd99504760183759e75019d328b09edbd0cc10))
 * **insights:** annotate events with algoliaSource ([#1119](https://github.com/algolia/autocomplete/issues/1119)) ([43c5312](https://github.com/algolia/autocomplete/commit/43c5312a6b268e2efe7e4db317e73de8044f456f))
 * **insights:** re-export insights types from main packages ([#1124](https://github.com/algolia/autocomplete/issues/1124)) ([d61b385](https://github.com/algolia/autocomplete/commit/d61b385e69ade1930e773e7d2fef9579ebf5a875))
 * **insights:** set algolia credentials per event when supported ([#1120](https://github.com/algolia/autocomplete/issues/1120)) ([efb27ce](https://github.com/algolia/autocomplete/commit/efb27cee76ad3b8623f035ede38933312be1a926))
