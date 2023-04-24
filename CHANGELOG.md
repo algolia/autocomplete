@@ -1,3 +1,12 @@
+## [1.9.1](https://github.com/algolia/autocomplete/compare/v1.9.0...v1.9.1) (2023-04-24)
+
+
+### Bug Fixes
+
+* **insights:** bump embedded search-insights version ([#1128](https://github.com/algolia/autocomplete/issues/1128)) ([984d9c5](https://github.com/algolia/autocomplete/commit/984d9c55de218da625d983e843e55d98f2c2c91a))
+
+
+
 # [1.9.0](https://github.com/algolia/autocomplete/compare/v1.8.3...v1.9.0) (2023-04-24)
 
 
