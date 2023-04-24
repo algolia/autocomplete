@@ -1,3 +1,9 @@
+## [1.9.2](https://github.com/algolia/autocomplete/compare/v1.9.1...v1.9.2) (2023-04-24)
+
+**Note:** Version bump only
+
+
+
 ## [1.9.1](https://github.com/algolia/autocomplete/compare/v1.9.0...v1.9.1) (2023-04-24)
 
 
