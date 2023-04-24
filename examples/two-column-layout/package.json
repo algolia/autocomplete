@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-two-column-layout",
   "description": "Autocomplete example with two-column layout",
-  "version": "1.8.3",
+  "version": "1.9.0",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,12 +9,12 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-core": "1.8.3",
-    "@algolia/autocomplete-js": "1.8.3",
-    "@algolia/autocomplete-plugin-query-suggestions": "1.8.3",
-    "@algolia/autocomplete-plugin-recent-searches": "1.8.3",
-    "@algolia/autocomplete-shared": "1.8.3",
-    "@algolia/autocomplete-theme-classic": "1.8.3",
+    "@algolia/autocomplete-core": "1.9.0",
+    "@algolia/autocomplete-js": "1.9.0",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.9.0",
+    "@algolia/autocomplete-plugin-recent-searches": "1.9.0",
+    "@algolia/autocomplete-shared": "1.9.0",
+    "@algolia/autocomplete-theme-classic": "1.9.0",
     "@algolia/client-search": "4.16.0",
     "algoliasearch": "4.16.0",
     "blurhash": "^1.1.5",
