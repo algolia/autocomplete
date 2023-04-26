@@ -1,6 +1,7 @@
 import {
   userAgents as coreUserAgents,
   UserAgent,
+  invariant,
 } from '@algolia/autocomplete-shared';
 
 import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from '../constants';
@@ -27,6 +28,15 @@ export function fetchAlgoliaResults<TRecord>({
   }
 
   const { appId, apiKey } = getAppIdAndApiKey(searchClient);
+
+  invariant(
+    Boolean(appId),
+    'The Algolia `appId` was not accessible from the searchClient passed.'
+  );
+  invariant(
+    Boolean(apiKey),
+    'The Algolia `apiKey` was not accessible from the searchClient passed.'
+  );
 
   return searchClient
     .search<TRecord>(

@@ -199,4 +199,59 @@ describe('fetchAlgoliaResults', () => {
       '1.0.0'
     );
   });
+
+  describe('missing credentials', () => {
+    test('throws dev error when searchClient has no readable appId', () => {
+      const searchClient = {
+        search: createSearchClient().search,
+      };
+
+      expect(() => {
+        fetchAlgoliaResults({
+          // @ts-expect-error
+          searchClient,
+          queries: [],
+          userAgents: [{ segment: 'custom-ua', version: '1.0.0' }],
+        });
+      }).toThrowErrorMatchingInlineSnapshot(
+        `"[Autocomplete] The Algolia \`appId\` was not accessible from the searchClient passed."`
+      );
+    });
+
+    test('throws dev error when searchClient has no readable apiKey', () => {
+      const searchClient = {
+        search: createSearchClient().search,
+        transporter: {
+          headers: {
+            'x-algolia-application-id': 'appId',
+          },
+        },
+      };
+
+      expect(() => {
+        fetchAlgoliaResults({
+          // @ts-expect-error
+          searchClient,
+          queries: [],
+          userAgents: [{ segment: 'custom-ua', version: '1.0.0' }],
+        });
+      }).toThrowErrorMatchingInlineSnapshot(
+        `"[Autocomplete] The Algolia \`apiKey\` was not accessible from the searchClient passed."`
+      );
+    });
+
+    test('does not throw dev error when searchClient is copied', () => {
+      const searchClient = {
+        ...createSearchClient(),
+      };
+
+      expect(() => {
+        fetchAlgoliaResults({
+          searchClient,
+          queries: [],
+          userAgents: [{ segment: 'custom-ua', version: '1.0.0' }],
+        });
+      }).not.toThrow();
+    });
+  });
 });

@@ -12,4 +12,14 @@ describe('getAppIdAndApiKey', () => {
     expect(appId).toEqual(APP_ID);
     expect(apiKey).toEqual(API_KEY);
   });
+
+  it('gets undefined appId and apiKey from broken search client', () => {
+    const searchClient = {
+      search: algoliasearchV4(APP_ID, API_KEY).search,
+    };
+    // @ts-expect-error
+    const { appId, apiKey } = getAppIdAndApiKey(searchClient);
+    expect(appId).toEqual(undefined);
+    expect(apiKey).toEqual(undefined);
+  });
 });
