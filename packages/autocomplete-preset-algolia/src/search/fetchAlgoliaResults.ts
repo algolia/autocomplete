@@ -55,10 +55,14 @@ export function fetchAlgoliaResults<TRecord>({
       })
     )
     .then((response) => {
-      return response.results.map((result) => ({
+      return response.results.map((result, resultIndex) => ({
         ...result,
         hits: result.hits?.map((hit) => ({
           ...hit,
+          // Bring support for the Insights plugin.
+          __autocomplete_indexName:
+            result.index || queries[resultIndex].indexName,
+          __autocomplete_queryID: result.queryID,
           __autocomplete_algoliaCredentials: {
             appId,
             apiKey,
