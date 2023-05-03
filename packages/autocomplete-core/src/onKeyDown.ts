@@ -22,6 +22,9 @@ export function onKeyDown<TItem extends BaseItem>({
   store,
   ...setters
 }: OnKeyDownOptions<TItem>): void {
+  if (event.isComposing) {
+    return;
+  }
   if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
     // eslint-disable-next-line no-inner-declarations
     function triggerScrollIntoView() {
@@ -105,7 +108,7 @@ export function onKeyDown<TItem extends BaseItem>({
     // pending and could reopen the panel once they resolve, because that would
     // result in an unsolicited UI behavior.
     store.pendingRequests.cancelAll();
-  } else if (event.key === 'Enter' && !event.isComposing) {
+  } else if (event.key === 'Enter') {
     // No active item, so we let the browser handle the native `onSubmit` form
     // event.
     if (
