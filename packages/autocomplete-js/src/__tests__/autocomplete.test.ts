@@ -1,5 +1,7 @@
+import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
 import * as autocompleteShared from '@algolia/autocomplete-shared';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 
 import {
   castToJestMock,
@@ -17,7 +19,31 @@ jest.mock('@algolia/autocomplete-shared', () => {
   };
 });
 
+beforeEach(() => {
+  document.body.innerHTML = '';
+});
+
 describe('autocomplete-js', () => {
+  test('warns when more than one instance is detected in a document', () => {
+    const firstContainer = document.createElement('div');
+    expect(() =>
+      autocomplete({
+        container: firstContainer,
+      })
+    ).not.toWarnDev();
+
+    const secondContainer = document.createElement('div');
+    expect(() =>
+      autocomplete({
+        container: secondContainer,
+      })
+    ).toWarnDev(
+      `[Autocomplete] Autocomplete doesn't support multiple instances running at the same time. Make sure to destroy the previous instance before creating a new one.
+
+See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-destroy`
+    );
+  });
+
   test('renders with default options', () => {
     const container = document.createElement('div');
     autocomplete<{ label: string }>({
@@ -260,7 +286,7 @@ describe('autocomplete-js', () => {
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
 
     fireEvent.input(input, { target: { value: 'a' } });
 
@@ -300,7 +326,7 @@ describe('autocomplete-js', () => {
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
 
     fireEvent.focus(input);
 
@@ -340,7 +366,7 @@ describe('autocomplete-js', () => {
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
 
     fireEvent.focus(input);
 
@@ -380,7 +406,7 @@ describe('autocomplete-js', () => {
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
 
     fireEvent.input(input, { target: { value: 'Query' } });
 
@@ -421,7 +447,7 @@ describe('autocomplete-js', () => {
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
 
     fireEvent.input(input, { target: { value: 'a' } });
 
@@ -554,12 +580,187 @@ describe('autocomplete-js', () => {
       },
     });
 
-    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
 
     fireEvent.input(input, { target: { value: 'a' } });
 
     await runAllMicroTasks();
 
     expect(input).toHaveValue('a');
+  });
+
+  test('closes the panel and focuses the next focusable element on `Tab`', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      id: 'autocomplete',
+      container,
+      initialState: {
+        query: 'a',
+        isOpen: true,
+      },
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [
+                { label: 'Item 1' },
+                { label: 'Item 2' },
+                { label: 'Item 3' },
+              ];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    // Wait for the panel to open
+    await waitFor(() => {
+      expect(
+        document.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    userEvent.click(document.querySelector('.aa-Input')!);
+    userEvent.tab();
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.aa-DetachedOverlay')
+      ).not.toBeInTheDocument();
+      expect(document.body).not.toHaveClass('aa-Detached');
+      expect(document.activeElement).toEqual(
+        document.querySelector('.aa-ClearButton')
+      );
+    });
+  });
+
+  test('closes the panel and focuses the next focusable element on `Shift+Tab`', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      id: 'autocomplete',
+      container,
+      initialState: {
+        query: 'a',
+        isOpen: true,
+      },
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems() {
+              return [
+                { label: 'Item 1' },
+                { label: 'Item 2' },
+                { label: 'Item 3' },
+              ];
+            },
+            templates: {
+              item({ item }) {
+                return item.label;
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    // Wait for the panel to open
+    await waitFor(() => {
+      expect(
+        document.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    userEvent.click(document.querySelector('.aa-Input')!);
+    userEvent.tab({ shift: true });
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.aa-DetachedOverlay')
+      ).not.toBeInTheDocument();
+      expect(document.body).not.toHaveClass('aa-Detached');
+      expect(document.activeElement).toEqual(
+        document.querySelector('.aa-SubmitButton')
+      );
+    });
+  });
+
+  describe('Insights plugin', () => {
+    test('does not add Insights plugin by default', () => {
+      const onStateChange = jest.fn();
+
+      const container = document.createElement('div');
+      autocomplete({
+        container,
+        onStateChange,
+      });
+
+      expect(onStateChange).toHaveBeenCalledTimes(0);
+    });
+
+    test('`insights: true` adds only one Insights plugin', () => {
+      const onStateChange = jest.fn();
+
+      const container = document.createElement('div');
+      autocomplete({
+        container,
+        insights: true,
+        onStateChange,
+      });
+
+      expect(onStateChange).toHaveBeenCalledTimes(1);
+      expect(onStateChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            context: expect.objectContaining({
+              algoliaInsightsPlugin: expect.objectContaining({
+                insights: expect.objectContaining({
+                  init: expect.any(Function),
+                  setUserToken: expect.any(Function),
+                  clickedObjectIDsAfterSearch: expect.any(Function),
+                  clickedObjectIDs: expect.any(Function),
+                  clickedFilters: expect.any(Function),
+                  convertedObjectIDsAfterSearch: expect.any(Function),
+                  convertedObjectIDs: expect.any(Function),
+                  convertedFilters: expect.any(Function),
+                  viewedObjectIDs: expect.any(Function),
+                  viewedFilters: expect.any(Function),
+                }),
+              }),
+            }),
+          }),
+        })
+      );
+    });
+
+    test("users' Insights plugin overrides the default one using `update`", () => {
+      const defaultInsightsClient = jest.fn();
+      const userInsightsClient = jest.fn();
+
+      const container = document.createElement('div');
+      const { update } = autocomplete({
+        container,
+        insights: { insightsClient: defaultInsightsClient },
+      });
+
+      expect(defaultInsightsClient).toHaveBeenCalledTimes(1);
+      expect(userInsightsClient).toHaveBeenCalledTimes(0);
+
+      const insightsPlugin = createAlgoliaInsightsPlugin({
+        insightsClient: userInsightsClient,
+      });
+      update({ plugins: [insightsPlugin] });
+
+      expect(defaultInsightsClient).toHaveBeenCalledTimes(1);
+      expect(userInsightsClient).toHaveBeenCalledTimes(1);
+    });
   });
 });

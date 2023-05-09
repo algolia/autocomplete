@@ -155,7 +155,7 @@ describe('isEqual', () => {
       expect(isEqual(first, second)).toEqual(false);
     });
 
-    test('with full equal objets should be true', () => {
+    test('with full equal objects should be true', () => {
       const first = {
         index: '',
         query: '',
@@ -177,7 +177,7 @@ describe('isEqual', () => {
       expect(isEqual(first, second)).toEqual(true);
     });
 
-    test('with full different objets should be false', () => {
+    test('with full different objects should be false', () => {
       const first = {
         index: '',
         query: 'first query',

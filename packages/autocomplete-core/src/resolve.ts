@@ -12,7 +12,13 @@ import {
 } from '@algolia/client-search';
 import type { SearchClient } from 'algoliasearch/lite';
 
-import { BaseItem, InternalAutocompleteSource } from './types';
+import {
+  AutocompleteState,
+  AutocompleteStore,
+  BaseItem,
+  InternalAutocompleteSource,
+  OnResolveParams,
+} from './types';
 import { mapToAlgoliaResponse } from './utils';
 
 function isDescription<TItem extends BaseItem>(
@@ -33,12 +39,13 @@ function isRequesterDescription<TItem extends BaseItem>(
 type PackedDescription<TItem extends BaseItem> = {
   searchClient: SearchClient;
   execute: Execute<TItem>;
+  requesterId?: string;
   items: RequestDescriptionPreResolved<TItem>['requests'];
 };
 
 type RequestDescriptionPreResolved<TItem extends BaseItem> = Pick<
   RequesterDescription<TItem>,
-  'execute' | 'searchClient' | 'transformResponse'
+  'execute' | 'requesterId' | 'searchClient' | 'transformResponse'
 > & {
   requests: Array<{
     query: MultipleQueriesQuery;
@@ -55,15 +62,36 @@ type RequestDescriptionPreResolvedCustom<TItem extends BaseItem> = {
 
 export function preResolve<TItem extends BaseItem>(
   itemsOrDescription: TItem[] | TItem[][] | RequesterDescription<TItem>,
-  sourceId: string
+  sourceId: string,
+  state: AutocompleteState<TItem>
 ):
   | RequestDescriptionPreResolved<TItem>
   | RequestDescriptionPreResolvedCustom<TItem> {
   if (isRequesterDescription<TItem>(itemsOrDescription)) {
+    const contextParameters =
+      itemsOrDescription.requesterId === 'algolia'
+        ? Object.assign(
+            {},
+            ...Object.keys(state.context).map((key) => {
+              return (state.context[key] as Record<string, unknown>)
+                ?.__algoliaSearchParameters;
+            })
+          )
+        : {};
+
     return {
       ...itemsOrDescription,
       requests: itemsOrDescription.queries.map((query) => ({
-        query,
+        query:
+          itemsOrDescription.requesterId === 'algolia'
+            ? {
+                ...query,
+                params: {
+                  ...contextParameters,
+                  ...query.params,
+                },
+              }
+            : query,
         sourceId,
         transformResponse: itemsOrDescription.transformResponse,
       })),
@@ -90,7 +118,7 @@ export function resolve<TItem extends BaseItem>(
       return acc;
     }
 
-    const { searchClient, execute, requests } = current;
+    const { searchClient, execute, requesterId, requests } = current;
 
     const container = acc.find<PackedDescription<TItem>>(
       (item): item is PackedDescription<TItem> => {
@@ -98,7 +126,8 @@ export function resolve<TItem extends BaseItem>(
           isDescription(current) &&
           isDescription(item) &&
           item.searchClient === searchClient &&
-          item.execute === execute
+          Boolean(requesterId) &&
+          item.requesterId === requesterId
         );
       }
     );
@@ -108,6 +137,7 @@ export function resolve<TItem extends BaseItem>(
     } else {
       const request: PackedDescription<TItem> = {
         execute,
+        requesterId,
         items: requests,
         searchClient,
       };
@@ -127,11 +157,8 @@ export function resolve<TItem extends BaseItem>(
       );
     }
 
-    const {
-      execute,
-      items,
-      searchClient,
-    } = maybeDescription as PackedDescription<TItem>;
+    const { execute, items, searchClient } =
+      maybeDescription as PackedDescription<TItem>;
 
     return execute({
       searchClient,
@@ -152,7 +179,8 @@ export function postResolve<TItem extends BaseItem>(
   responses: Array<
     RequestDescriptionPreResolvedCustom<TItem> | ExecuteResponse<TItem>[0]
   >,
-  sources: Array<InternalAutocompleteSource<TItem>>
+  sources: Array<InternalAutocompleteSource<TItem>>,
+  store: AutocompleteStore<TItem>
 ) {
   return sources.map((source) => {
     const matches = responses.filter(
@@ -169,6 +197,13 @@ export function postResolve<TItem extends BaseItem>(
           )
         )
       : results;
+
+    source.onResolve({
+      source,
+      results,
+      items,
+      state: store.getState(),
+    } as OnResolveParams<TItem>);
 
     invariant(
       Array.isArray(items),

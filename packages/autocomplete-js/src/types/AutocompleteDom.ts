@@ -10,4 +10,6 @@ export type AutocompleteDom = {
   panel: HTMLDivElement;
   detachedContainer: HTMLDivElement;
   detachedOverlay: HTMLDivElement;
+  detachedSearchButtonQuery: HTMLDivElement;
+  detachedSearchButtonPlaceholder: HTMLDivElement;
 };

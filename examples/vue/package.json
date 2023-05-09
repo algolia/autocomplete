@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-vue",
   "description": "Autocomplete with Vue",
-  "version": "1.5.2",
+  "version": "1.9.2",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -10,15 +10,15 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.5.2",
-    "@algolia/autocomplete-theme-classic": "1.5.2",
-    "algoliasearch": "4.9.1",
-    "vue": "3.2.20"
+    "@algolia/autocomplete-js": "1.9.2",
+    "@algolia/autocomplete-theme-classic": "1.9.2",
+    "algoliasearch": "4.16.0",
+    "vue": "3.2.47"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "1.9.3",
     "@vitejs/plugin-vue-jsx": "1.2.0",
-    "@vue/compiler-sfc": "3.2.20",
+    "@vue/compiler-sfc": "3.2.47",
     "vite": "2.6.4"
   },
   "keywords": [

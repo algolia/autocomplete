@@ -2,6 +2,18 @@ import { createSearchClient } from '../../../../../test/utils';
 import { getAlgoliaResults } from '../getAlgoliaResults';
 
 describe('getAlgoliaResults', () => {
+  test('throws without search client', () => {
+    expect(() =>
+      getAlgoliaResults({
+        // @ts-expect-error
+        searchClient: undefined,
+        queries: [],
+      })
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"[Autocomplete] The \`searchClient\` parameter is required for getAlgoliaResults({ searchClient })."`
+    );
+  });
+
   test('returns the description', () => {
     const searchClient = createSearchClient({
       search: jest.fn(),
@@ -22,6 +34,7 @@ describe('getAlgoliaResults', () => {
 
     expect(description).toEqual({
       execute: expect.any(Function),
+      requesterId: 'algolia',
       transformResponse: expect.any(Function),
       searchClient,
       queries: [

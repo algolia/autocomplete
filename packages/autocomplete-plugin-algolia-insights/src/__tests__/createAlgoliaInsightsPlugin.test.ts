@@ -1,16 +1,29 @@
 import { createAutocomplete } from '@algolia/autocomplete-core';
+import {
+  getAlgoliaFacets,
+  getAlgoliaResults,
+} from '@algolia/autocomplete-preset-algolia';
 import { noop } from '@algolia/autocomplete-shared';
+import { fireEvent } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import insightsClient from 'search-insights';
 
 import {
+  createMultiSearchResponse,
   createPlayground,
+  createSearchClient,
   createSource,
+  defer,
   runAllMicroTasks,
 } from '../../../../test/utils';
 import { createAlgoliaInsightsPlugin } from '../createAlgoliaInsightsPlugin';
 
-jest.useFakeTimers();
+beforeEach(() => {
+  (window as any).AlgoliaAnalyticsObject = undefined;
+  (window as any).aa = undefined;
+
+  document.body.innerHTML = '';
+});
 
 describe('createAlgoliaInsightsPlugin', () => {
   test('has a name', () => {
@@ -64,7 +77,226 @@ describe('createAlgoliaInsightsPlugin', () => {
     );
   });
 
+  test('sets a user agent on subscribe', () => {
+    const insightsClient = jest.fn();
+    const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+    expect(insightsClient).not.toHaveBeenCalled();
+
+    createPlayground(createAutocomplete, { plugins: [insightsPlugin] });
+
+    expect(insightsClient).toHaveBeenCalledTimes(1);
+    expect(insightsClient).toHaveBeenCalledWith(
+      'addAlgoliaAgent',
+      'insights-plugin'
+    );
+  });
+
+  test('sets `clickAnalytics=true` for requests to Algolia', async () => {
+    const insightsClient = jest.fn();
+    const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+    const searchClient = createSearchClient({
+      search: jest.fn(() =>
+        Promise.resolve(
+          createMultiSearchResponse<{ label: string }>(
+            {
+              hits: [{ objectID: '1', label: 'Hit 1' }],
+            },
+            {
+              facetHits: [{ count: 2, value: 'Hit 2' }],
+            }
+          )
+        )
+      ),
+    });
+
+    const playground = createPlayground(createAutocomplete, {
+      plugins: [insightsPlugin],
+      getSources({ query }) {
+        return [
+          {
+            sourceId: 'hits',
+            getItems() {
+              return getAlgoliaResults({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    query,
+                  },
+                ],
+              });
+            },
+            templates: {
+              item({ item }) {
+                return JSON.stringify(item);
+              },
+            },
+          },
+          {
+            sourceId: 'facets',
+            getItems() {
+              return getAlgoliaFacets({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    facet: 'categories',
+                    params: {
+                      facetQuery: query,
+                    },
+                  },
+                ],
+              });
+            },
+            templates: {
+              item({ item }) {
+                return JSON.stringify(item);
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    userEvent.type(playground.inputElement, 'a');
+    await runAllMicroTasks();
+
+    expect(searchClient.search).toHaveBeenCalledTimes(1);
+    expect(searchClient.search).toHaveBeenCalledWith([
+      expect.objectContaining({
+        params: expect.objectContaining({ clickAnalytics: true }),
+      }),
+      expect.objectContaining({
+        params: expect.objectContaining({ clickAnalytics: true }),
+      }),
+    ]);
+  });
+
+  describe('automatic pulling', () => {
+    const consoleError = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
+    afterAll(() => {
+      consoleError.mockReset();
+    });
+
+    it('does not load the script when the Insights client is passed', async () => {
+      createPlayground(createAutocomplete, {
+        plugins: [createAlgoliaInsightsPlugin({ insightsClient: noop })],
+      });
+
+      await defer(noop, 0);
+
+      expect(document.body).toMatchInlineSnapshot(`
+        <body>
+          <form>
+            <input />
+          </form>
+        </body>
+      `);
+      expect((window as any).AlgoliaAnalyticsObject).toBeUndefined();
+      expect((window as any).aa).toBeUndefined();
+    });
+
+    it('does not load the script when the Insights client is present in the page', async () => {
+      (window as any).AlgoliaAnalyticsObject = 'aa';
+      const aa = noop;
+      (window as any).aa = aa;
+
+      createPlayground(createAutocomplete, {
+        plugins: [createAlgoliaInsightsPlugin({})],
+      });
+
+      await defer(noop, 0);
+
+      expect(document.body).toMatchInlineSnapshot(`
+        <body>
+          <form>
+            <input />
+          </form>
+        </body>
+      `);
+      expect((window as any).AlgoliaAnalyticsObject).toBe('aa');
+      expect((window as any).aa).toBe(aa);
+      expect((window as any).aa.version).toBeUndefined();
+    });
+
+    it('loads the script when the Insights client is not passed and not present in the page', async () => {
+      createPlayground(createAutocomplete, {
+        plugins: [createAlgoliaInsightsPlugin({})],
+      });
+
+      await defer(noop, 0);
+
+      expect(document.body).toMatchInlineSnapshot(`
+        <body>
+          <script
+            src="https://cdn.jsdelivr.net/npm/search-insights@2.6.0/dist/search-insights.min.js"
+          />
+          <form>
+            <input />
+          </form>
+        </body>
+      `);
+      expect((window as any).AlgoliaAnalyticsObject).toBe('aa');
+      expect((window as any).aa).toEqual(expect.any(Function));
+      expect((window as any).aa.version).toBe('2.6.0');
+    });
+
+    it('notifies when the script fails to be added', () => {
+      // @ts-ignore `createElement` is a class method can thus only be called on
+      // an instance of `Document`, not as a standalone function.
+      // This is needed to call the actual implementation later in the test.
+      document.originalCreateElement = document.createElement;
+
+      document.createElement = (tagName) => {
+        if (tagName === 'script') {
+          throw new Error('error');
+        }
+
+        // @ts-ignore
+        return document.originalCreateElement(tagName);
+      };
+
+      createPlayground(createAutocomplete, {
+        plugins: [createAlgoliaInsightsPlugin({})],
+      });
+
+      expect(consoleError).toHaveBeenCalledWith(
+        '[Autocomplete]: Could not load search-insights.js. Please load it manually following https://alg.li/insights-autocomplete'
+      );
+
+      // @ts-ignore
+      document.createElement = document.originalCreateElement;
+    });
+
+    it('notifies when the script fails to load', async () => {
+      createPlayground(createAutocomplete, {
+        plugins: [createAlgoliaInsightsPlugin({})],
+      });
+
+      await defer(noop, 0);
+
+      fireEvent(document.querySelector('script')!, new ErrorEvent('error'));
+
+      expect(consoleError).toHaveBeenCalledWith(
+        '[Autocomplete]: Could not load search-insights.js. Please load it manually following https://alg.li/insights-autocomplete'
+      );
+    });
+  });
+
   describe('onItemsChange', () => {
+    beforeAll(() => {
+      jest.useFakeTimers();
+    });
+
+    afterAll(() => {
+      jest.useRealTimers();
+    });
+
     test('sends a `viewedObjectIDs` event by default', async () => {
       const insightsClient = jest.fn();
       const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
@@ -98,6 +330,149 @@ describe('createAlgoliaInsightsPlugin', () => {
         eventName: 'Items Viewed',
         index: 'index1',
         objectIDs: ['1'],
+        algoliaSource: ['autocomplete', 'autocomplete-internal'],
+      });
+    });
+
+    test('sends `viewedObjectIDs` events with additional parameters if client supports it', async () => {
+      const insightsClient = jest.fn();
+      // @ts-ignore
+      insightsClient.version = '2.4.0';
+      const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+      const { inputElement } = createPlayground(createAutocomplete, {
+        plugins: [insightsPlugin],
+        defaultActiveItemId: 0,
+        openOnFocus: true,
+        getSources() {
+          return [
+            createSource({
+              sourceId: 'testSource1',
+              getItems: () => [
+                {
+                  label: '1',
+                  objectID: '1',
+                  __autocomplete_algoliaCredentials: {
+                    appId: 'algoliaAppId1',
+                    apiKey: 'algoliaApiKey1',
+                  },
+                  __autocomplete_indexName: 'index1',
+                  __autocomplete_queryID: 'queryID1',
+                },
+              ],
+            }),
+            createSource({
+              sourceId: 'testSource2',
+              getItems: () => [
+                {
+                  label: '2',
+                  objectID: '2',
+                  __autocomplete_algoliaCredentials: {
+                    appId: 'algoliaAppId2',
+                    apiKey: 'algoliaApiKey2',
+                  },
+                  __autocomplete_indexName: 'index2',
+                  __autocomplete_queryID: 'queryID2',
+                },
+              ],
+            }),
+          ];
+        },
+      });
+
+      insightsClient.mockClear();
+
+      inputElement.focus();
+
+      await runAllMicroTasks();
+      jest.runAllTimers();
+
+      expect(insightsClient).toHaveBeenCalledTimes(2);
+      expect(insightsClient).toHaveBeenNthCalledWith(
+        1,
+        'viewedObjectIDs',
+        expect.objectContaining({
+          index: 'index1',
+          objectIDs: ['1'],
+        }),
+        {
+          headers: {
+            'X-Algolia-Application-Id': 'algoliaAppId1',
+            'X-Algolia-API-Key': 'algoliaApiKey1',
+          },
+        }
+      );
+      expect(insightsClient).toHaveBeenNthCalledWith(
+        2,
+        'viewedObjectIDs',
+        expect.objectContaining({
+          index: 'index2',
+          objectIDs: ['2'],
+        }),
+        {
+          headers: {
+            'X-Algolia-Application-Id': 'algoliaAppId2',
+            'X-Algolia-API-Key': 'algoliaApiKey2',
+          },
+        }
+      );
+    });
+
+    test('sends as many `viewedObjectIDs` events as there are compatible sources', async () => {
+      const insightsClient = jest.fn();
+      const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+      const { inputElement } = createPlayground(createAutocomplete, {
+        plugins: [insightsPlugin],
+        defaultActiveItemId: 0,
+        openOnFocus: true,
+        getSources() {
+          return [
+            createSource({
+              sourceId: 'source1',
+              getItems: () => [
+                {
+                  label: '1',
+                  objectID: '1',
+                  __autocomplete_indexName: 'index1',
+                  __autocomplete_queryID: 'queryID1',
+                },
+              ],
+            }),
+            createSource({
+              sourceId: 'source2',
+              getItems: () => [
+                {
+                  label: '2',
+                  objectID: '2',
+                  __autocomplete_indexName: 'index2',
+                  __autocomplete_queryID: 'queryID2',
+                },
+              ],
+            }),
+          ];
+        },
+      });
+
+      insightsClient.mockClear();
+
+      inputElement.focus();
+
+      await runAllMicroTasks();
+      jest.runAllTimers();
+
+      expect(insightsClient).toHaveBeenCalledTimes(2);
+      expect(insightsClient).toHaveBeenNthCalledWith(1, 'viewedObjectIDs', {
+        eventName: 'Items Viewed',
+        index: 'index1',
+        objectIDs: ['1'],
+        algoliaSource: ['autocomplete', 'autocomplete-internal'],
+      });
+      expect(insightsClient).toHaveBeenNthCalledWith(2, 'viewedObjectIDs', {
+        eventName: 'Items Viewed',
+        index: 'index2',
+        objectIDs: ['2'],
+        algoliaSource: ['autocomplete', 'autocomplete-internal'],
       });
     });
 
@@ -143,6 +518,7 @@ describe('createAlgoliaInsightsPlugin', () => {
         eventName: 'Product Viewed from Autocomplete',
         index: 'index1',
         objectIDs: ['1'],
+        algoliaSource: ['autocomplete'],
       });
     });
 
@@ -180,7 +556,10 @@ describe('createAlgoliaInsightsPlugin', () => {
       await runAllMicroTasks();
       jest.runAllTimers();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'viewedObjectIDs',
+        expect.any(Object)
+      );
     });
 
     test('debounces calls', async () => {
@@ -238,6 +617,7 @@ describe('createAlgoliaInsightsPlugin', () => {
         eventName: 'Items Viewed',
         index: 'index1',
         objectIDs: ['1', '3'],
+        algoliaSource: ['autocomplete', 'autocomplete-internal'],
       });
 
       // The call triggered with "help" occurred after the timeout, so the item
@@ -246,6 +626,7 @@ describe('createAlgoliaInsightsPlugin', () => {
         eventName: 'Items Viewed',
         index: 'index1',
         objectIDs: ['3'],
+        algoliaSource: ['autocomplete', 'autocomplete-internal'],
       });
     });
 
@@ -271,7 +652,10 @@ describe('createAlgoliaInsightsPlugin', () => {
       await runAllMicroTasks();
       jest.runAllTimers();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'viewedObjectIDs',
+        expect.any(Object)
+      );
     });
 
     test('does not send an event when there are no results', async () => {
@@ -296,7 +680,10 @@ describe('createAlgoliaInsightsPlugin', () => {
       await runAllMicroTasks();
       jest.runAllTimers();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'viewedObjectIDs',
+        expect.any(Object)
+      );
     });
   });
 
@@ -341,6 +728,59 @@ describe('createAlgoliaInsightsPlugin', () => {
           objectIDs: ['1'],
           positions: [0],
           queryID: 'queryID1',
+          algoliaSource: ['autocomplete', 'autocomplete-internal'],
+        }
+      );
+    });
+
+    test('sends a `clickedObjectIDsAfterSearch` event with additional parameters if client supports it', async () => {
+      const insightsClient = jest.fn();
+      // @ts-ignore
+      insightsClient.version = '2.6.0';
+      const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+      const { inputElement } = createPlayground(createAutocomplete, {
+        plugins: [insightsPlugin],
+        defaultActiveItemId: 0,
+        openOnFocus: true,
+        getSources() {
+          return [
+            createSource({
+              getItems: () => [
+                {
+                  label: '1',
+                  objectID: '1',
+                  __autocomplete_algoliaCredentials: {
+                    appId: 'algoliaAppId',
+                    apiKey: 'algoliaApiKey',
+                  },
+                  __autocomplete_indexName: 'index1',
+                  __autocomplete_queryID: 'queryID1',
+                },
+              ],
+            }),
+          ];
+        },
+      });
+
+      inputElement.focus();
+
+      await runAllMicroTasks();
+
+      userEvent.type(inputElement, '{enter}');
+
+      await runAllMicroTasks();
+
+      expect(insightsClient).toHaveBeenCalledWith(
+        'clickedObjectIDsAfterSearch',
+        expect.objectContaining({
+          objectIDs: ['1'],
+        }),
+        {
+          headers: {
+            'X-Algolia-Application-Id': 'algoliaAppId',
+            'X-Algolia-API-Key': 'algoliaApiKey',
+          },
         }
       );
     });
@@ -395,6 +835,7 @@ describe('createAlgoliaInsightsPlugin', () => {
           objectIDs: ['1'],
           positions: [0],
           queryID: 'queryID1',
+          algoliaSource: ['autocomplete'],
         }
       );
     });
@@ -436,7 +877,10 @@ describe('createAlgoliaInsightsPlugin', () => {
 
       await runAllMicroTasks();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'clickedObjectIDsAfterSearch',
+        expect.any(Object)
+      );
     });
 
     test('does not send an event with non-Algolia Insights hits', async () => {
@@ -464,7 +908,10 @@ describe('createAlgoliaInsightsPlugin', () => {
 
       await runAllMicroTasks();
 
-      expect(insightsClient).not.toHaveBeenCalled();
+      expect(insightsClient).not.toHaveBeenCalledWith(
+        'viewedObjectIDs',
+        expect.any(Object)
+      );
     });
   });
 
@@ -492,6 +939,9 @@ describe('createAlgoliaInsightsPlugin', () => {
           ];
         },
       });
+
+      // The client is always called once with `addAlgoliaAgent` on `subscribe`
+      insightsClient.mockClear();
 
       inputElement.focus();
 
@@ -540,9 +990,17 @@ describe('createAlgoliaInsightsPlugin', () => {
       expect(track).toHaveBeenCalledWith('Product Browsed from Autocomplete', {
         eventName: 'Item Active',
         index: 'index1',
-        objectIDs: ['1'],
+        items: [
+          expect.objectContaining({
+            label: '1',
+            objectID: '1',
+            __autocomplete_indexName: 'index1',
+            __autocomplete_queryID: 'queryID1',
+          }),
+        ],
         positions: [0],
         queryID: 'queryID1',
+        algoliaSource: ['autocomplete'],
       });
     });
 

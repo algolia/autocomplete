@@ -10,9 +10,8 @@ import { noop } from '@algolia/autocomplete-shared';
 import { createTags, OnTagsChangeParams } from './createTags';
 import type { DefaultTagType, BaseTag, Tag } from './types';
 
-type OnChangeParams<
-  TTag extends DefaultTagType = DefaultTagType
-> = PluginSubscribeParams<any> & OnTagsChangeParams<TTag>;
+type OnChangeParams<TTag extends DefaultTagType = DefaultTagType> =
+  PluginSubscribeParams<any> & OnTagsChangeParams<TTag>;
 
 type GetTagParams<TItem extends BaseItem> = { item: TItem };
 
@@ -37,9 +36,8 @@ type TagsPluginData<TTag extends DefaultTagType = DefaultTagType> = {
   setTags: (tags: Array<BaseTag<TTag>>) => void;
 };
 
-export type TagsApi<
-  TTag extends DefaultTagType = DefaultTagType
-> = TagsPluginData<TTag>;
+export type TagsApi<TTag extends DefaultTagType = DefaultTagType> =
+  TagsPluginData<TTag>;
 
 export type CreateTagsPluginParams<
   TItem extends BaseItem,
@@ -83,12 +81,8 @@ export function createTagsPlugin<
 >(
   options: CreateTagsPluginParams<TItem, TTag> = {}
 ): AutocompletePlugin<Tag<TTag>, TagsPluginData<TTag>> {
-  const {
-    initialTags,
-    getTagsSubscribers,
-    transformSource,
-    onChange,
-  } = getOptions(options);
+  const { initialTags, getTagsSubscribers, transformSource, onChange } =
+    getOptions(options);
   const tags = createTags({ initialTags });
   const tagsApi = { setTags: tags.set, addTags: tags.add };
 

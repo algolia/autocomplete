@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import { AutocompletePlugin, getAlgoliaFacets } from '@algolia/autocomplete-js';
 import { SearchClient } from 'algoliasearch/lite';
@@ -26,8 +27,8 @@ export function createCategoriesPlugin({
               queries: [
                 {
                   indexName: 'instant_search',
+                  facet: 'categories',
                   params: {
-                    facetName: 'categories',
                     facetQuery: query,
                     maxFacetHits: 5,
                   },

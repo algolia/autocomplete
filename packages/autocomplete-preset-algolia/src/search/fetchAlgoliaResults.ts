@@ -1,32 +1,16 @@
 import {
   userAgents as coreUserAgents,
   UserAgent,
+  invariant,
 } from '@algolia/autocomplete-shared';
-import {
-  MultipleQueriesQuery,
-  SearchForFacetValuesResponse,
-  SearchResponse,
-} from '@algolia/client-search';
-import type { SearchClient } from 'algoliasearch/lite';
 
 import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from '../constants';
-
-export interface SearchParams {
-  /**
-   * The initialized Algolia search client.
-   */
-  searchClient: SearchClient;
-  /**
-   * A list of queries to execute.
-   */
-  queries: MultipleQueriesQuery[];
-  /**
-   * A list of user agents to add to the search client.
-   *
-   * This is useful to track usage of an integration.
-   */
-  userAgents?: UserAgent[];
-}
+import type {
+  SearchForFacetValuesResponse,
+  SearchResponse,
+  SearchParams,
+} from '../types';
+import { getAppIdAndApiKey } from '../utils';
 
 export function fetchAlgoliaResults<TRecord>({
   searchClient,
@@ -42,6 +26,17 @@ export function fetchAlgoliaResults<TRecord>({
       searchClient.addAlgoliaAgent(segment, version);
     });
   }
+
+  const { appId, apiKey } = getAppIdAndApiKey(searchClient);
+
+  invariant(
+    Boolean(appId),
+    'The Algolia `appId` was not accessible from the searchClient passed.'
+  );
+  invariant(
+    Boolean(apiKey),
+    'The Algolia `apiKey` was not accessible from the searchClient passed.'
+  );
 
   return searchClient
     .search<TRecord>(
@@ -60,6 +55,19 @@ export function fetchAlgoliaResults<TRecord>({
       })
     )
     .then((response) => {
-      return response.results;
+      return response.results.map((result, resultIndex) => ({
+        ...result,
+        hits: result.hits?.map((hit) => ({
+          ...hit,
+          // Bring support for the Insights plugin.
+          __autocomplete_indexName:
+            result.index || queries[resultIndex].indexName,
+          __autocomplete_queryID: result.queryID,
+          __autocomplete_algoliaCredentials: {
+            appId,
+            apiKey,
+          },
+        })),
+      }));
     });
 }

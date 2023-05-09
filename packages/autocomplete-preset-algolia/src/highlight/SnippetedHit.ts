@@ -1,4 +1,4 @@
-import { SnippetResult } from '@algolia/client-search';
+import { SnippetResult } from '../types';
 
 export type SnippetedHit<THit> = THit & {
   _snippetResult?: SnippetResult<THit>;

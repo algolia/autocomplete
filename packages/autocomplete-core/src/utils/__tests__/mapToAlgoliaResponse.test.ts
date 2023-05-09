@@ -76,14 +76,10 @@ describe('mapToAlgoliaResponse', () => {
       expect.objectContaining({
         hits: [
           {
-            __autocomplete_indexName: 'indexName',
-            __autocomplete_queryID: 'queryID',
             label: 'Label 1',
             objectID: '1',
           },
           {
-            __autocomplete_indexName: 'indexName',
-            __autocomplete_queryID: 'queryID',
             label: 'Label 2',
             objectID: '2',
           },
@@ -92,14 +88,10 @@ describe('mapToAlgoliaResponse', () => {
       expect.objectContaining({
         hits: [
           {
-            __autocomplete_indexName: 'indexName',
-            __autocomplete_queryID: 'queryID',
             label: 'Label 3',
             objectID: '3',
           },
           {
-            __autocomplete_indexName: 'indexName',
-            __autocomplete_queryID: 'queryID',
             label: 'Label 4',
             objectID: '4',
           },
@@ -143,28 +135,20 @@ describe('mapToAlgoliaResponse', () => {
     expect(hits).toEqual([
       [
         {
-          __autocomplete_indexName: 'indexName',
-          __autocomplete_queryID: 'queryID',
           label: 'Label 1',
           objectID: '1',
         },
         {
-          __autocomplete_indexName: 'indexName',
-          __autocomplete_queryID: 'queryID',
           label: 'Label 2',
           objectID: '2',
         },
       ],
       [
         {
-          __autocomplete_indexName: 'indexName',
-          __autocomplete_queryID: 'queryID',
           label: 'Label 3',
           objectID: '3',
         },
         {
-          __autocomplete_indexName: 'indexName',
-          __autocomplete_queryID: 'queryID',
           label: 'Label 4',
           objectID: '4',
         },

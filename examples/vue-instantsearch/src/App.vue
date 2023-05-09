@@ -1,20 +1,19 @@
 <template>
   <div>
-    <header class="header">
-      <div class="header-wrapper wrapper">
-        <nav class="header-nav">
-          <a href="/">Home</a>
-        </nav>
-        <div id="autocomplete"></div>
-      </div>
-    </header>
-
     <ais-instant-search
       :search-client="searchClient"
       :index-name="indexName"
       :routing="routing"
-      :middlewares="middlewares"
     >
+      <header class="header">
+        <div class="header-wrapper wrapper">
+          <nav class="header-nav">
+            <a href="/">Home</a>
+          </nav>
+          <Autocomplete />
+        </div>
+      </header>
+
       <ais-configure
         :attributes-to-snippet.camel="['name:7', 'description:15']"
         :snippet-ellipsis-text.camel="'…'"
@@ -32,7 +31,6 @@
           </ais-panel>
         </div>
         <div>
-          <ais-search-box><template></template></ais-search-box>
           <ais-hits>
             <template v-slot:item="{ item }">
               <article class="hit">
@@ -62,11 +60,12 @@
 import { history as historyRouter } from 'instantsearch.js/es/lib/routers';
 import { singleIndex as singleIndexMapping } from 'instantsearch.js/es/lib/stateMappings';
 
-import { autocompleteMiddleware } from './autocompleteMiddleware';
+import Autocomplete from './Autocomplete.vue';
 import { INSTANT_SEARCH_INDEX_NAME } from './constants';
 import { searchClient } from './searchClient';
 
 export default {
+  components: { Autocomplete },
   data() {
     return {
       searchClient,
@@ -75,7 +74,6 @@ export default {
         router: historyRouter(),
         stateMapping: singleIndexMapping(INSTANT_SEARCH_INDEX_NAME),
       },
-      middlewares: [autocompleteMiddleware],
     };
   },
 };

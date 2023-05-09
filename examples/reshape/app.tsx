@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
@@ -56,14 +57,11 @@ autocomplete({
   placeholder: 'Search',
   debug: true,
   openOnFocus: true,
+  insights: true,
   plugins: [recentSearchesPlugin, querySuggestionsPlugin, productsPlugin],
   reshape({ sourcesBySourceId }) {
-    const {
-      recentSearchesPlugin,
-      querySuggestionsPlugin,
-      products,
-      ...rest
-    } = sourcesBySourceId;
+    const { recentSearchesPlugin, querySuggestionsPlugin, products, ...rest } =
+      sourcesBySourceId;
 
     return [
       dedupeAndLimitSuggestions(recentSearchesPlugin, querySuggestionsPlugin),

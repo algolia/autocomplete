@@ -38,6 +38,7 @@ export function Autocomplete(
     defaultActiveItemId: 0,
     placeholder: 'Jot something down',
     autoFocus: true,
+    insights: true,
     getSources({ query }) {
       const cursorPosition = inputRef.current?.selectionEnd || 0;
       const activeToken = getActiveToken(query, cursorPosition);

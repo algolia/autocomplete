@@ -5,4 +5,5 @@ export * from './getNextActiveItemId';
 export * from './getNormalizedSources';
 export * from './getActiveItem';
 export * from './isOrContainsNode';
+export * from './isSamsung';
 export * from './mapToAlgoliaResponse';

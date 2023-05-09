@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-playground",
   "description": "Autocomplete playground",
-  "version": "1.5.2",
+  "version": "1.9.2",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,19 +9,18 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.5.2",
-    "@algolia/autocomplete-plugin-algolia-insights": "1.5.2",
-    "@algolia/autocomplete-plugin-query-suggestions": "1.5.2",
-    "@algolia/autocomplete-plugin-recent-searches": "1.5.2",
-    "@algolia/autocomplete-preset-algolia": "1.5.2",
-    "@algolia/autocomplete-theme-classic": "1.5.2",
-    "@algolia/client-search": "4.9.1",
-    "algoliasearch": "4.9.1",
-    "preact": "10.5.13",
-    "search-insights": "1.7.1"
+    "@algolia/autocomplete-js": "1.9.2",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.9.2",
+    "@algolia/autocomplete-plugin-recent-searches": "1.9.2",
+    "@algolia/autocomplete-preset-algolia": "1.9.2",
+    "@algolia/autocomplete-theme-classic": "1.9.2",
+    "@algolia/client-search": "4.16.0",
+    "algoliasearch": "4.16.0",
+    "preact": "10.13.2",
+    "search-insights": "2.6.0"
   },
   "devDependencies": {
-    "parcel": "2.0.0-beta.2"
+    "parcel": "2.8.3"
   },
   "keywords": [
     "algolia",

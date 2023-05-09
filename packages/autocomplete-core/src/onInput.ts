@@ -47,13 +47,8 @@ export function onInput<TItem extends BaseItem>({
     props.environment.clearTimeout(lastStalledId);
   }
 
-  const {
-    setCollections,
-    setIsOpen,
-    setQuery,
-    setActiveItemId,
-    setStatus,
-  } = setters;
+  const { setCollections, setIsOpen, setQuery, setActiveItemId, setStatus } =
+    setters;
 
   setQuery(query);
   setActiveItemId(props.defaultActiveItemId);
@@ -113,12 +108,16 @@ export function onInput<TItem extends BaseItem>({
                   ...setters,
                 })
               ).then((itemsOrDescription) =>
-                preResolve<TItem>(itemsOrDescription, source.sourceId)
+                preResolve<TItem>(
+                  itemsOrDescription,
+                  source.sourceId,
+                  store.getState()
+                )
               );
             })
           )
             .then(resolve)
-            .then((responses) => postResolve(responses, sources))
+            .then((responses) => postResolve(responses, sources, store))
             .then((collections) =>
               reshape({ collections, props, state: store.getState() })
             );

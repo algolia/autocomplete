@@ -1,0 +1,34 @@
+{
+  "name": "@algolia/autocomplete-example-two-column-layout",
+  "description": "Autocomplete example with two-column layout",
+  "version": "1.9.2",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "parcel build index.html",
+    "start": "parcel index.html"
+  },
+  "dependencies": {
+    "@algolia/autocomplete-core": "1.9.2",
+    "@algolia/autocomplete-js": "1.9.2",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.9.2",
+    "@algolia/autocomplete-plugin-recent-searches": "1.9.2",
+    "@algolia/autocomplete-shared": "1.9.2",
+    "@algolia/autocomplete-theme-classic": "1.9.2",
+    "@algolia/client-search": "4.16.0",
+    "algoliasearch": "4.16.0",
+    "blurhash": "^1.1.5",
+    "dequal": "^2.0.3",
+    "preact": "10.13.2",
+    "ramda": "^0.28.0",
+    "typescript": "^4.6.2"
+  },
+  "devDependencies": {
+    "parcel": "2.8.3"
+  },
+  "keywords": [
+    "algolia",
+    "autocomplete",
+    "typescript"
+  ]
+}

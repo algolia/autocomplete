@@ -29,6 +29,7 @@ aliases:
       mkdir -p packages/autocomplete-preset-algolia/dist
       mkdir -p packages/autocomplete-plugin-algolia-insights/dist
       mkdir -p packages/autocomplete-plugin-recent-searches/dist
+      mkdir -p packages/autocomplete-plugin-redirect-url/dist
       mkdir -p packages/autocomplete-plugin-query-suggestions/dist
       mkdir -p packages/autocomplete-plugin-tags/dist
 
@@ -38,21 +39,14 @@ aliases:
       cp -R /tmp/workspace/packages/autocomplete-preset-algolia/dist packages/autocomplete-preset-algolia
       cp -R /tmp/workspace/packages/autocomplete-plugin-algolia-insights/dist packages/autocomplete-plugin-algolia-insights
       cp -R /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist packages/autocomplete-plugin-recent-searches
+      cp -R /tmp/workspace/packages/autocomplete-plugin-redirect-url/dist packages/autocomplete-plugin-redirect-url
       cp -R /tmp/workspace/packages/autocomplete-plugin-query-suggestions/dist packages/autocomplete-plugin-query-suggestions
       cp -R /tmp/workspace/packages/autocomplete-plugin-tags/dist packages/autocomplete-plugin-tags
 
 defaults: &defaults
   working_directory: ~/autocomplete
   docker:
-    - image: cimg/node:14.18.3
-
-cypress: &cypress
-  working_directory: ~/autocomplete
-  docker:
-    - image: cypress/browsers:node14.15.0-chrome86-ff82
-      environment:
-        ## this enables colors in the output
-        TERM: xterm
+    - image: cimg/node:14.21.1
 
 references:
   workspace_root: &workspace_root /tmp/workspace
@@ -83,6 +77,7 @@ jobs:
             mkdir -p /tmp/workspace/packages/autocomplete-preset-algolia/dist
             mkdir -p /tmp/workspace/packages/autocomplete-plugin-algolia-insights/dist
             mkdir -p /tmp/workspace/packages/autocomplete-plugin-recent-searches/dist
+            mkdir -p /tmp/workspace/packages/autocomplete-plugin-redirect-url/dist
             mkdir -p /tmp/workspace/packages/autocomplete-plugin-query-suggestions/dist
             mkdir -p /tmp/workspace/packages/autocomplete-plugin-tags/dist
 
@@ -92,6 +87,7 @@ jobs:
             cp -R packages/autocomplete-preset-algolia/dist /tmp/workspace/packages/autocomplete-preset-algolia
             cp -R packages/autocomplete-plugin-algolia-insights/dist /tmp/workspace/packages/autocomplete-plugin-algolia-insights
             cp -R packages/autocomplete-plugin-recent-searches/dist /tmp/workspace/packages/autocomplete-plugin-recent-searches
+            cp -R packages/autocomplete-plugin-redirect-url/dist /tmp/workspace/packages/autocomplete-plugin-redirect-url
             cp -R packages/autocomplete-plugin-query-suggestions/dist /tmp/workspace/packages/autocomplete-plugin-query-suggestions
             cp -R packages/autocomplete-plugin-tags/dist /tmp/workspace/packages/autocomplete-plugin-tags
       - persist_to_workspace:
@@ -159,23 +155,6 @@ jobs:
       - run:
           name: Test packages size
           command: yarn run test:size
-  test_cypress:
-    <<: *cypress
-    steps:
-      - checkout
-      - run: *install_yarn_version
-      - restore_cache: *restore_yarn_cache
-      - run: *run_yarn_install
-      - save_cache: *save_yarn_cache
-      - run:
-          name: Cypress test Actions
-          command: yarn run cy:run
-      - store_test_results:
-          path: cypress-results
-      - store_artifacts:
-          path: cypress\screenshots
-      - store_artifacts:
-          path: cypress\videos
   release:
     <<: *defaults
     steps:
@@ -188,7 +167,10 @@ jobs:
       - run: *restore_dist_folders
       - run:
           name: Release if needed
-          command: yarn run shipjs trigger
+          command: |
+            git config --global user.email "autocomplete-bot@algolia.com"
+            git config --global user.name "Autocomplete[bot]"
+            yarn run shipjs trigger
 
 workflows:
   version: 2.1
@@ -204,18 +186,16 @@ workflows:
           requires:
             - build
       - test_size:
+          context: fx-libraries
           requires:
             - build
-      # - test_cypress:
-      #     requires:
-      #       - build
       - release:
+          context: fx-libraries
           requires:
             - test_unit
             - test_lint
             - test_types
             - test_size
-            # - test_cypress
             - build
           filters:
             branches:

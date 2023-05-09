@@ -1,17 +1,14 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import {
   autocomplete,
   AutocompleteComponents,
   getAlgoliaResults,
-} from '@algolia/autocomplete-js';
-import {
   AutocompleteInsightsApi,
-  createAlgoliaInsightsPlugin,
-} from '@algolia/autocomplete-plugin-algolia-insights';
+} from '@algolia/autocomplete-js';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
-import algoliasearch from 'algoliasearch';
+import algoliasearch from 'algoliasearch/lite';
 import { h, Fragment } from 'preact';
-import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
 
@@ -20,11 +17,6 @@ import { ProductHit } from './types';
 const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
-
-// @ts-expect-error type error in search-insights
-insightsClient('init', { appId, apiKey });
-
-const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
 
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
@@ -40,7 +32,8 @@ autocomplete<ProductHit>({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
-  plugins: [algoliaInsightsPlugin, querySuggestionsPlugin],
+  insights: true,
+  plugins: [querySuggestionsPlugin],
   getSources({ query, state }) {
     if (!query) {
       return [];
@@ -57,7 +50,6 @@ autocomplete<ProductHit>({
                 indexName: 'instant_search',
                 query,
                 params: {
-                  clickAnalytics: true,
                   attributesToSnippet: ['name:10'],
                   snippetEllipsisText: '…',
                 },

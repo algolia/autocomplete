@@ -1,9 +1,10 @@
-/** @jsx createElement */
+/** @jsxRuntime classic */
+/** @jsx renderer.createElement */
 import {
   AutocompleteApi as AutocompleteCoreApi,
   AutocompleteScopeApi,
+  BaseItem,
 } from '@algolia/autocomplete-core';
-import { BaseItem } from '@algolia/autocomplete-core/src';
 
 import {
   AutocompleteClassNames,
@@ -11,9 +12,9 @@ import {
   AutocompleteDom,
   AutocompletePropGetters,
   AutocompleteRender,
+  AutocompleteRenderer,
   AutocompleteState,
-  Pragma,
-  PragmaFrag,
+  HTMLTemplate,
 } from './types';
 import { setProperties, setPropertiesWithoutEvents } from './utils';
 
@@ -22,12 +23,12 @@ type RenderProps<TItem extends BaseItem> = {
   autocompleteScopeApi: AutocompleteScopeApi<TItem>;
   classNames: AutocompleteClassNames;
   components: AutocompleteComponents;
-  createElement: Pragma;
+  html: HTMLTemplate;
   dom: AutocompleteDom;
-  Fragment: PragmaFrag;
   panelContainer: HTMLElement;
   propGetters: AutocompletePropGetters<TItem>;
   state: AutocompleteState<TItem>;
+  renderer: Required<AutocompleteRenderer>;
 };
 
 export function renderSearchBox<TItem extends BaseItem>({
@@ -57,6 +58,12 @@ export function renderSearchBox<TItem extends BaseItem>({
   setProperties(dom.label, { hidden: state.status === 'stalled' });
   setProperties(dom.loadingIndicator, { hidden: state.status !== 'stalled' });
   setProperties(dom.clearButton, { hidden: !state.query });
+  setProperties(dom.detachedSearchButtonQuery, {
+    textContent: state.query,
+  });
+  setProperties(dom.detachedSearchButtonPlaceholder, {
+    hidden: Boolean(state.query),
+  });
 }
 
 export function renderPanel<TItem extends BaseItem>(
@@ -65,13 +72,13 @@ export function renderPanel<TItem extends BaseItem>(
     autocomplete,
     autocompleteScopeApi,
     classNames,
-    createElement,
+    html,
     dom,
-    Fragment,
     panelContainer,
     propGetters,
     state,
     components,
+    renderer,
   }: RenderProps<TItem>
 ): void {
   if (!state.isOpen) {
@@ -104,11 +111,12 @@ export function renderPanel<TItem extends BaseItem>(
           <div className={classNames.sourceHeader}>
             {source.templates.header({
               components,
-              createElement,
-              Fragment,
+              createElement: renderer.createElement,
+              Fragment: renderer.Fragment,
               items,
               source,
               state,
+              html,
             })}
           </div>
         )}
@@ -117,10 +125,11 @@ export function renderPanel<TItem extends BaseItem>(
           <div className={classNames.sourceNoResults}>
             {source.templates.noResults({
               components,
-              createElement,
-              Fragment,
+              createElement: renderer.createElement,
+              Fragment: renderer.Fragment,
               source,
               state,
+              html,
             })}
           </div>
         ) : (
@@ -128,7 +137,9 @@ export function renderPanel<TItem extends BaseItem>(
             className={classNames.list}
             {...propGetters.getListProps({
               state,
-              props: autocomplete.getListProps({}),
+              props: autocomplete.getListProps({
+                sourceIndex,
+              }),
               ...autocompleteScopeApi,
             })}
           >
@@ -136,6 +147,7 @@ export function renderPanel<TItem extends BaseItem>(
               const itemProps = autocomplete.getItemProps({
                 item,
                 source,
+                sourceIndex,
               });
 
               return (
@@ -150,10 +162,11 @@ export function renderPanel<TItem extends BaseItem>(
                 >
                   {source.templates.item({
                     components,
-                    createElement,
-                    Fragment,
+                    createElement: renderer.createElement,
+                    Fragment: renderer.Fragment,
                     item,
                     state,
+                    html,
                   })}
                 </li>
               );
@@ -165,11 +178,12 @@ export function renderPanel<TItem extends BaseItem>(
           <div className={classNames.sourceFooter}>
             {source.templates.footer({
               components,
-              createElement,
-              Fragment,
+              createElement: renderer.createElement,
+              Fragment: renderer.Fragment,
               items,
               source,
               state,
+              html,
             })}
           </div>
         )}
@@ -177,10 +191,10 @@ export function renderPanel<TItem extends BaseItem>(
     ));
 
   const children = (
-    <Fragment>
+    <renderer.Fragment>
       <div className={classNames.panelLayout}>{sections}</div>
       <div className="aa-GradientBottom" />
-    </Fragment>
+    </renderer.Fragment>
   );
   const elements = sections.reduce((acc, current) => {
     acc[current.props['data-autocomplete-source-id']] = current;
@@ -193,9 +207,9 @@ export function renderPanel<TItem extends BaseItem>(
       state,
       sections,
       elements,
-      createElement,
-      Fragment,
+      ...renderer,
       components,
+      html,
       ...autocompleteScopeApi,
     },
     dom.panel

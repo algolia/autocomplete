@@ -20,7 +20,7 @@ git clone git@github.com:algolia/autocomplete.git
 
 ```sh
 yarn
-yarn workspace @algolia/autocomplete-example-recently-viwed-items start
+yarn workspace @algolia/autocomplete-example-recently-viewed-items start
 ```
 
 Alternatively, you may use npm:

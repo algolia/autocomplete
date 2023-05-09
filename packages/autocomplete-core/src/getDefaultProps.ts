@@ -18,9 +18,9 @@ export function getDefaultProps<TItem extends BaseItem>(
   pluginSubscribers: AutocompleteSubscribers<TItem>
 ): InternalAutocompleteOptions<TItem> {
   /* eslint-disable no-restricted-globals */
-  const environment: AutocompleteEnvironment = (typeof window !== 'undefined'
-    ? window
-    : {}) as typeof window;
+  const environment: AutocompleteEnvironment = (
+    typeof window !== 'undefined' ? window : {}
+  ) as typeof window;
   /* eslint-enable no-restricted-globals */
   const plugins = props.plugins || [];
 
@@ -31,6 +31,7 @@ export function getDefaultProps<TItem extends BaseItem>(
     autoFocus: false,
     defaultActiveItemId: null,
     stallThreshold: 300,
+    insights: false,
     environment,
     shouldPanelOpen: ({ state }) => getItemsCount(state) > 0,
     reshape: ({ sources }) => sources,
@@ -79,6 +80,10 @@ export function getDefaultProps<TItem extends BaseItem>(
             onActive(params) {
               source.onActive(params);
               pluginSubscribers.forEach((x) => x.onActive?.(params));
+            },
+            onResolve(params) {
+              source.onResolve(params);
+              pluginSubscribers.forEach((x) => x.onResolve?.(params));
             },
           }))
         );

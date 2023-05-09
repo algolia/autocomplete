@@ -6,8 +6,7 @@ import {
   runAllMicroTasks,
 } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
-import { BaseItem } from '../types/AutocompleteApi';
-import { AutocompleteOptions } from '../types/AutocompleteOptions';
+import { BaseItem, AutocompleteOptions } from '../types';
 
 describe('openOnFocus', () => {
   function setupTest<TItem extends BaseItem>(

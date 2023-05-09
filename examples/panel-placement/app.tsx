@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import {
   autocomplete,
@@ -7,7 +8,7 @@ import {
   GetSources,
 } from '@algolia/autocomplete-js';
 import { Hit } from '@algolia/client-search';
-import algoliasearch from 'algoliasearch';
+import algoliasearch from 'algoliasearch/lite';
 import { h } from 'preact';
 
 import '@algolia/autocomplete-theme-classic';
@@ -59,18 +60,21 @@ const search = autocomplete<AutocompleteItem>({
   container: '#autocomplete',
   placeholder: 'Search',
   getSources,
+  insights: true,
 });
 
 const searchLeft = autocomplete<AutocompleteItem>({
   container: '#autocomplete-left',
   placeholder: 'Search',
   getSources,
+  insights: true,
 });
 
 const searchRight = autocomplete<AutocompleteItem>({
   container: '#autocomplete-right',
   placeholder: 'Search',
   getSources,
+  insights: true,
 });
 
 type ProductItemProps = {

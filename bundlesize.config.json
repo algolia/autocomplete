@@ -2,35 +2,39 @@
   "files": [
     {
       "path": "packages/autocomplete-core/dist/umd/index.production.js",
-      "maxSize": "6 kB"
+      "maxSize": "8.5 kB"
     },
     {
       "path": "packages/autocomplete-js/dist/umd/index.production.js",
-      "maxSize": "16.5 kB"
+      "maxSize": "20.75 kB"
     },
     {
       "path": "packages/autocomplete-preset-algolia/dist/umd/index.production.js",
-      "maxSize": "2.25 kB"
+      "maxSize": "2.5 kB"
     },
     {
       "path": "packages/autocomplete-plugin-algolia-insights/dist/umd/index.production.js",
-      "maxSize": "2 kB"
+      "maxSize": "3.25 kB"
+    },
+    {
+      "path": "packages/autocomplete-plugin-redirect-url/dist/umd/index.production.js",
+      "maxSize": "2.25 kB"
     },
     {
       "path": "packages/autocomplete-plugin-recent-searches/dist/umd/index.production.js",
-      "maxSize": "3 kB"
+      "maxSize": "3.25 kB"
     },
     {
       "path": "packages/autocomplete-plugin-query-suggestions/dist/umd/index.production.js",
-      "maxSize": "3 kB"
+      "maxSize": "3.5 kB"
     },
     {
       "path": "packages/autocomplete-plugin-tags/dist/umd/index.production.js",
-      "maxSize": "1.75 kB"
+      "maxSize": "2 kB"
     },
     {
       "path": "packages/autocomplete-theme-classic/dist/theme.min.css",
-      "maxSize": "4.25 kB"
+      "maxSize": "4.5 kB"
     }
   ]
 }

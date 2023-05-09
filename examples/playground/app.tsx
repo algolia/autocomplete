@@ -1,18 +1,15 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import {
   autocomplete,
   AutocompleteComponents,
   getAlgoliaResults,
-} from '@algolia/autocomplete-js';
-import {
   AutocompleteInsightsApi,
-  createAlgoliaInsightsPlugin,
-} from '@algolia/autocomplete-plugin-algolia-insights';
+} from '@algolia/autocomplete-js';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
-import algoliasearch from 'algoliasearch';
+import algoliasearch from 'algoliasearch/lite';
 import { h, Fragment } from 'preact';
-import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
 
@@ -24,10 +21,6 @@ const appId = 'latency';
 const apiKey = '6be0576ff61c053d5f9a3225e2a90f76';
 const searchClient = algoliasearch(appId, apiKey);
 
-// @ts-expect-error type error in search-insights
-insightsClient('init', { appId, apiKey });
-
-const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'search',
   limit: 3,
@@ -37,7 +30,6 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   indexName: 'instant_search_demo_query_suggestions',
   getSearchParams({ state }) {
     return recentSearchesPlugin.data.getAlgoliaSearchParams({
-      clickAnalytics: true,
       hitsPerPage: state.query ? 5 : 10,
     });
   },
@@ -56,9 +48,9 @@ autocomplete<ProductHit>({
   placeholder: 'Search',
   debug: true,
   openOnFocus: true,
+  insights: true,
   plugins: [
     shortcutsPlugin,
-    algoliaInsightsPlugin,
     recentSearchesPlugin,
     querySuggestionsPlugin,
     categoriesPlugin,
@@ -79,7 +71,6 @@ autocomplete<ProductHit>({
                 indexName: 'instant_search',
                 query,
                 params: {
-                  clickAnalytics: true,
                   attributesToSnippet: ['name:10', 'description:35'],
                   snippetEllipsisText: '…',
                 },

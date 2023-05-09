@@ -25,6 +25,7 @@ export default {
       autocomplete({
         container: '#autocomplete',
         placeholder: 'Search',
+        insights: true,
         getSources({ query }) {
           return [
             {
@@ -53,9 +54,7 @@ export default {
         renderer: {
           createElement,
           Fragment,
-        },
-        render({ children }, root) {
-          render(children, root);
+          render,
         },
       });
     });

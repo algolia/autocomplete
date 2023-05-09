@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import { autocomplete, AutocompleteSource } from '@algolia/autocomplete-js';
 import { createTagsPlugin, Tag } from '@algolia/autocomplete-plugin-tags';
@@ -76,9 +77,9 @@ autocomplete<AutocompleteItem>({
       sourceId: 'query',
       onSelect() {
         const params = Object.fromEntries(
-          Object.entries(
-            groupBy(allTags, ({ token }) => token)
-          ).map(([key, entries]) => [key, entries.map(({ value }) => value)])
+          Object.entries(groupBy(allTags, ({ token }) => token)).map(
+            ([key, entries]) => [key, entries.map(({ value }) => value)]
+          )
         );
 
         window.location.assign(

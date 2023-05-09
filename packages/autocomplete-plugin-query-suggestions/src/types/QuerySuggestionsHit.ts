@@ -20,8 +20,7 @@ export type QuerySuggestionsHit<TIndexKey extends string = any> = Hit<{
 }> &
   QuerySuggestionsIndexMatch<TIndexKey>;
 
-export type AutocompleteQuerySuggestionsHit<
-  TIndexKey extends string = any
-> = QuerySuggestionsHit<TIndexKey> & {
-  __autocomplete_qsCategory?: string;
-};
+export type AutocompleteQuerySuggestionsHit<TIndexKey extends string = any> =
+  QuerySuggestionsHit<TIndexKey> & {
+    __autocomplete_qsCategory?: string;
+  };

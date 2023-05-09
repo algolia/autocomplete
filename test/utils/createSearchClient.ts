@@ -9,12 +9,18 @@ import {
 export function createSearchClient(
   args: Partial<SearchClient> = {}
 ): SearchClient {
+  /* eslint-disable @typescript-eslint/consistent-type-assertions */
   return {
     appId: '',
     addAlgoliaAgent: jest.fn(),
     clearCache: jest.fn(),
     initIndex: jest.fn(),
-    transporter: {} as any,
+    transporter: {
+      headers: {
+        'x-algolia-application-id': 'algoliaAppId',
+        'x-algolia-api-key': 'algoliaApiKey',
+      },
+    } as any,
     search: jest.fn((requests) =>
       Promise.resolve(
         createMultiSearchResponse(
@@ -26,5 +32,6 @@ export function createSearchClient(
       Promise.resolve([createSFFVResponse()])
     ),
     ...args,
-  };
+  } as SearchClient;
+  /* eslint-enable @typescript-eslint/consistent-type-assertions */
 }

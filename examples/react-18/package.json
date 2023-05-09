@@ -1,0 +1,42 @@
+{
+  "name": "@algolia/autocomplete-example-react-18",
+  "description": "Autocomplete example with React 18",
+  "version": "1.9.2",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  },
+  "dependencies": {
+    "@algolia/autocomplete-js": "1.9.2",
+    "@algolia/autocomplete-theme-classic": "1.9.2",
+    "algoliasearch": "4.16.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@algolia/client-search": "4.16.0",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.9",
+    "react-scripts": "4.0.3",
+    "typescript": "^4.4.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

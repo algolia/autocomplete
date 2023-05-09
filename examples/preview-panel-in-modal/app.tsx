@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch/lite';
@@ -14,6 +15,7 @@ autocomplete({
   container: '#autocomplete',
   detachedMediaQuery: '',
   defaultActiveItemId: 0,
+  insights: true,
   getSources() {
     return [
       {

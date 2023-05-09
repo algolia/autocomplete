@@ -1,3 +1,211 @@
+## [1.9.2](https://github.com/algolia/autocomplete/compare/v1.9.1...v1.9.2) (2023-04-24)
+
+**Note:** Version bump only
+
+
+
+## [1.9.1](https://github.com/algolia/autocomplete/compare/v1.9.0...v1.9.1) (2023-04-24)
+
+
+### Bug Fixes
+
+* **insights:** bump embedded search-insights version ([#1128](https://github.com/algolia/autocomplete/issues/1128)) ([984d9c5](https://github.com/algolia/autocomplete/commit/984d9c55de218da625d983e843e55d98f2c2c91a))
+
+
+
+# [1.9.0](https://github.com/algolia/autocomplete/compare/v1.8.3...v1.9.0) (2023-04-24)
+
+
+### Bug Fixes
+
+* **algolia:** throw error if searchClient is missing ([#1122](https://github.com/algolia/autocomplete/issues/1122)) ([8144cf3](https://github.com/algolia/autocomplete/commit/8144cf3bf37222e07f1e0b068596483e994d5ed8))
+* **autocomplete-js:** display warning when there are more than one instances of autocomplete ([#1108](https://github.com/algolia/autocomplete/issues/1108)) ([2926feb](https://github.com/algolia/autocomplete/commit/2926febdd787ed5fe47950cfe0ffb5b24225f883))
+
+
+### Features
+
+* **autocomplete-core:** add `insights` option to enable the Insights plugin ([#1121](https://github.com/algolia/autocomplete/issues/1121)) ([c9d06fd](https://github.com/algolia/autocomplete/commit/c9d06fd500531bcab67dbddee28221b1279ac285))
+* **createAlgoliaInsightsPlugin:** automatically load Insights when not passed ([#1106](https://github.com/algolia/autocomplete/issues/1106)) ([a02c2c1](https://github.com/algolia/autocomplete/commit/a02c2c1d272644ab539222e46bb98545f8d2c72b))
+* **createAlgoliaInsightsPlugin:** use `search-insights@2.6.0` ([#1109](https://github.com/algolia/autocomplete/issues/1109)) ([63dd995](https://github.com/algolia/autocomplete/commit/63dd99504760183759e75019d328b09edbd0cc10))
+* **insights:** annotate events with algoliaSource ([#1119](https://github.com/algolia/autocomplete/issues/1119)) ([43c5312](https://github.com/algolia/autocomplete/commit/43c5312a6b268e2efe7e4db317e73de8044f456f))
+* **insights:** re-export insights types from main packages ([#1124](https://github.com/algolia/autocomplete/issues/1124)) ([d61b385](https://github.com/algolia/autocomplete/commit/d61b385e69ade1930e773e7d2fef9579ebf5a875))
+* **insights:** set algolia credentials per event when supported ([#1120](https://github.com/algolia/autocomplete/issues/1120)) ([efb27ce](https://github.com/algolia/autocomplete/commit/efb27cee76ad3b8623f035ede38933312be1a926))
+* **preset-algolia:** attach algolia credentials on hits ([#1117](https://github.com/algolia/autocomplete/issues/1117)) ([8bcd680](https://github.com/algolia/autocomplete/commit/8bcd6806901fdb2a86382b59f3ee23ec3292ef63))
+
+
+
+## [1.8.3](https://github.com/algolia/autocomplete/compare/v1.8.2...v1.8.3) (2023-03-02)
+
+
+### Bug Fixes
+
+* **autocomplete-js:** `query` is reflected in the detached search `button` ([#1100](https://github.com/algolia/autocomplete/issues/1100)) ([a41ccc6](https://github.com/algolia/autocomplete/commit/a41ccc6fe6755f4b4cc7d6421ce830858a3f4616))
+
+
+
+## [1.8.2](https://github.com/algolia/autocomplete/compare/v1.8.1...v1.8.2) (2023-02-21)
+
+
+### Bug Fixes
+
+* **autocomplete-js:** correct peer dependency ([#1095](https://github.com/algolia/autocomplete/issues/1095)) ([c3824a9](https://github.com/algolia/autocomplete/commit/c3824a9e005a7cfbc8a8ea88816d4e9f79c7d4f0)), closes [#1094](https://github.com/algolia/autocomplete/issues/1094)
+* duplicated IDs in panel ([#1078](https://github.com/algolia/autocomplete/issues/1078)) ([a732fc5](https://github.com/algolia/autocomplete/commit/a732fc5ae76ce7c8cbc5fd08aa33de5112d67d15))
+
+
+
+## [1.8.1](https://github.com/algolia/autocomplete/compare/v1.8.0...v1.8.1) (2023-02-14)
+
+
+### Bug Fixes
+
+* **insights:** split large view event payloads into multiple chunks ([#1087](https://github.com/algolia/autocomplete/issues/1087)) ([df58096](https://github.com/algolia/autocomplete/commit/df580968d1a479487905350c853ac89a0c86c4ff))
+* **querySuggestions:** allow categoryAttribute to be optional in hit ([#1086](https://github.com/algolia/autocomplete/issues/1086)) ([2dcbcd8](https://github.com/algolia/autocomplete/commit/2dcbcd8212c4a2852b0513767a0708c3da6e0092))
+* **redirect:** reopen menu when redirect detected ([#1091](https://github.com/algolia/autocomplete/issues/1091)) ([53b9ce5](https://github.com/algolia/autocomplete/commit/53b9ce5c88a16bd6b74dd991eeabb7917d79b542))
+
+
+
+# [1.8.0](https://github.com/algolia/autocomplete/compare/v1.7.4...v1.8.0) (2023-02-09)
+
+
+### Bug Fixes
+
+* **insights:** pass clickAnalytics automatically ([#1080](https://github.com/algolia/autocomplete/issues/1080)) ([8048442](https://github.com/algolia/autocomplete/commit/8048442b949b4230dea9aaafdfcd310a69cfa939))
+
+
+### Features
+
+* add redirect url plugin ([#1082](https://github.com/algolia/autocomplete/issues/1082)) ([a4f112d](https://github.com/algolia/autocomplete/commit/a4f112d274c433a96f68fbfc7dd219d0a994b6c5))
+
+
+
+## [1.7.4](https://github.com/algolia/autocomplete/compare/v1.7.3...v1.7.4) (2022-12-20)
+
+
+### Bug Fixes
+
+* **insights:** add Algolia agent on `subscribe` ([#1058](https://github.com/algolia/autocomplete/issues/1058)) ([60f8ae4](https://github.com/algolia/autocomplete/commit/60f8ae46ae230c40be832b52da3e44dcdd204c58))
+
+
+## [1.7.3](https://github.com/algolia/autocomplete.js/compare/v1.7.2...v1.7.3) (2022-11-02)
+
+
+### Bug Fixes
+
+* **preset-algolia:** ensure "ts-ignore" is present in the output ([#1035](https://github.com/algolia/autocomplete.js/issues/1035)) ([c8a0f68](https://github.com/algolia/autocomplete.js/commit/c8a0f68e505c72a5088d1adca8e7ca0775f2a448))
+
+
+
+## [1.7.2](https://github.com/algolia/autocomplete/compare/v1.7.1...v1.7.2) (2022-10-18)
+
+
+### Bug Fixes
+
+* **algoliasearch:** support v5 via peerDependencies ([#1018](https://github.com/algolia/autocomplete/issues/1018)) ([5ba25f6](https://github.com/algolia/autocomplete/commit/5ba25f62213b2721218fb34ecc9472286cb9f926))
+* **preset-algolia:** support algoliasearch v5 ([#1002](https://github.com/algolia/autocomplete/issues/1002)) ([b1d93df](https://github.com/algolia/autocomplete/commit/b1d93dffad124e8bbef21b760d52e338c623cdfa))
+
+
+
+## [1.7.1](https://github.com/algolia/autocomplete/compare/v1.7.0...v1.7.1) (2022-06-27)
+
+
+### Bug Fixes
+
+* **metadata:** ensure safe user agent detection ([#993](https://github.com/algolia/autocomplete/issues/993)) ([fdf2b34](https://github.com/algolia/autocomplete/commit/fdf2b34673d4a9d7f56683eb3fa8e50d9fe5bc34))
+
+
+
+# [1.7.0](https://github.com/algolia/autocomplete/compare/v1.6.3...v1.7.0) (2022-06-21)
+
+
+### Bug Fixes
+
+* **autocomplete-js:** leave the modal open on reset on pointer devices ([#987](https://github.com/algolia/autocomplete/issues/987)) ([3e387e6](https://github.com/algolia/autocomplete/commit/3e387e6e7dea7de46acbaf4e220bbd1e568f4ea2))
+
+
+
+## [1.6.3](https://github.com/algolia/autocomplete/compare/v1.6.2...v1.6.3) (2022-05-10)
+
+
+### Bug Fixes
+
+* **react:** fix compatibility issues with React 18 ([#969](https://github.com/algolia/autocomplete/issues/969)) ([fb46298](https://github.com/algolia/autocomplete/commit/fb4629882a0b86468bae536fcdf4fc2159fcaa38))
+
+
+
+## [1.6.2](https://github.com/algolia/autocomplete/compare/v1.6.1...v1.6.2) (2022-04-12)
+
+
+### Bug Fixes
+
+* **autocomplete-js:** avoid warning when renderer is not specified at all ([#947](https://github.com/algolia/autocomplete/issues/947)) ([5fbae0d](https://github.com/algolia/autocomplete/commit/5fbae0d178e3a413df870630a017d530db30f1e7))
+* **autocomplete-js:** update components with new renderer ([#946](https://github.com/algolia/autocomplete/issues/946)) ([8fa038b](https://github.com/algolia/autocomplete/commit/8fa038b914a1b76270a106f5fe2b223aa657d6ae))
+
+
+
+## [1.6.1](https://github.com/algolia/autocomplete/compare/v1.6.0...v1.6.1) (2022-04-08)
+
+
+### Bug Fixes
+
+* **render:** pass `renderer.render` to default `render` function ([#940](https://github.com/algolia/autocomplete/issues/940)) ([55f53d1](https://github.com/algolia/autocomplete/commit/55f53d1c00bab3bbec8bc42f6ab12bbe8a407ff7))
+
+
+
+# [1.6.0](https://github.com/algolia/autocomplete/compare/v1.5.7...v1.6.0) (2022-04-07)
+
+
+### Features
+
+* **autocomplete-js:** enable HTML templating ([#920](https://github.com/algolia/autocomplete/issues/920)) ([f5bbf34](https://github.com/algolia/autocomplete/commit/f5bbf34f477a0d367d367f4f97db9768c4eb4781))
+
+
+
+## [1.5.7](https://github.com/algolia/autocomplete/compare/v1.5.6...v1.5.7) (2022-04-05)
+
+
+### Bug Fixes
+
+* **enterKeyHint:** remove check on only Chrome browser ([#933](https://github.com/algolia/autocomplete/issues/933)) ([93a1fc2](https://github.com/algolia/autocomplete/commit/93a1fc25c720eb3f4fb3900c8f71e0423bd9a0d5))
+* **plugin-insights:** allow search-insights v2 ([#930](https://github.com/algolia/autocomplete/issues/930)) ([c08189d](https://github.com/algolia/autocomplete/commit/c08189de96c35244617654815705ae008e0d1ec7)), closes [#929](https://github.com/algolia/autocomplete/issues/929)
+
+
+
+## [1.5.6](https://github.com/algolia/autocomplete/compare/v1.5.5...v1.5.6) (2022-03-31)
+
+
+### Bug Fixes
+
+* **js:** stop touchstart event propagation if coming from cancel button in detached mode ([#924](https://github.com/algolia/autocomplete/issues/924)) ([24cf9d6](https://github.com/algolia/autocomplete/commit/24cf9d67c906378088bdf736bc0b70be49f270b4))
+
+
+
+## [1.5.5](https://github.com/algolia/autocomplete/compare/v1.5.4...v1.5.5) (2022-03-30)
+
+
+### Bug Fixes
+
+* **enterKeyHint:** use a fixed `enterKeyHint` value on Samsung devices ([#916](https://github.com/algolia/autocomplete/issues/916)) ([b4aa087](https://github.com/algolia/autocomplete/commit/b4aa08797236c0ff8cbdbbca88099c7be579711c))
+
+
+
+## [1.5.4](https://github.com/algolia/autocomplete/compare/v1.5.3...v1.5.4) (2022-03-23)
+
+
+### Bug Fixes
+
+* **js:** prevent event bubbling on cancel button click ([#922](https://github.com/algolia/autocomplete/issues/922)) ([ba17ccd](https://github.com/algolia/autocomplete/commit/ba17ccd578717c780d597733fa3d6dfd4b10dcf3))
+
+
+
+## [1.5.3](https://github.com/algolia/autocomplete/compare/v1.5.2...v1.5.3) (2022-02-23)
+
+
+### Bug Fixes
+
+* **umd:** batch requests when using plugins via UMD ([#902](https://github.com/algolia/autocomplete/issues/902)) ([1aa3dde](https://github.com/algolia/autocomplete/commit/1aa3ddee25b1df94de17b55c52e6fd06a7e1c5d3))
+
+
+
 ## [1.5.2](https://github.com/algolia/autocomplete/compare/v1.5.1...v1.5.2) (2022-01-26)
 
 ### Bug Fixes
@@ -545,7 +753,7 @@ This new version introduces breaking changes.
 ### Bug Fixes
 
 - **css:** don't display key shortcuts on mobile ([1adc418](https://github.com/francoischalifour/autocomplete.js/commit/1adc418722f0017b1d504e7d3f7dda8e8104a352))
-- **css:** firefox placeholder opacity ([49f7ac3](https://github.com/francoischalifour/autocomplete.js/commit/49f7ac3c9a7680a4e49593f278cb815d52d8d48b))
+- **css:** Firefox placeholder opacity ([49f7ac3](https://github.com/francoischalifour/autocomplete.js/commit/49f7ac3c9a7680a4e49593f278cb815d52d8d48b))
 - **docsearch:** remove theme media query ([a1030e4](https://github.com/francoischalifour/autocomplete.js/commit/a1030e493c22c5c615fa9c49e385030452b18729))
 - **test:** removed extra percy snapshot ([24e38b7](https://github.com/francoischalifour/autocomplete.js/commit/24e38b7771471609e190c5c1a61c57627126551a))
 
@@ -577,10 +785,10 @@ This new version introduces breaking changes.
 - **cypress:** changed env var name for cypress key ([28307a8](https://github.com/francoischalifour/autocomplete.js/commit/28307a84c92b2fe79939cfa4e0755a44326de54c))
 - **docsearch:** hoist `transformItems` default value ([1e0ae9e](https://github.com/francoischalifour/autocomplete.js/commit/1e0ae9eefb5fc185cbf41e6ac5c876ed8be24075))
 - **lint:** Disable import/no-common for percy ([8af940d](https://github.com/francoischalifour/autocomplete.js/commit/8af940d69bf9eb35bcc70fbc533abdcf721ea209))
-- **lint:** set cariage return in prettier config ([3016601](https://github.com/francoischalifour/autocomplete.js/commit/3016601a47699a37e9fa30620e71eef3f30f8c6d))
+- **lint:** set carriage return in prettier config ([3016601](https://github.com/francoischalifour/autocomplete.js/commit/3016601a47699a37e9fa30620e71eef3f30f8c6d))
 - **lint:** set eol to auto ([e6db26e](https://github.com/francoischalifour/autocomplete.js/commit/e6db26e57aaf433b149dc16d9a846cdfa19c0314))
 - **test:** lint ([896ef59](https://github.com/francoischalifour/autocomplete.js/commit/896ef5959f06576f03d6ecd4ff7ee6ce96333a6d))
-- **ypress:** Record reuslts ([7dac93e](https://github.com/francoischalifour/autocomplete.js/commit/7dac93e6a538f69bfe44bfdfe0fbb939b0e241e1))
+- **Cypress:** Record results ([7dac93e](https://github.com/francoischalifour/autocomplete.js/commit/7dac93e6a538f69bfe44bfdfe0fbb939b0e241e1))
 
 # [1.0.0-alpha.18](https://github.com/francoischalifour/autocomplete.js/compare/v1.0.0-alpha.17...v1.0.0-alpha.18) (2020-06-11)
 
@@ -603,7 +811,7 @@ This new version introduces breaking changes.
 ### Bug Fixes
 
 - **docsearch:** always use `aria-expanded` to `true` ([b89aeb5](https://github.com/francoischalifour/autocomplete.js/commit/b89aeb5c2eccb43b3657239c519caa34ed62299e))
-- **dosearch:** don't add `distinct` search parameter ([1c11457](https://github.com/francoischalifour/autocomplete.js/commit/1c1145768a74f372c683fbee9d0aaaf0dd3fb62a))
+- **docsearch:** don't add `distinct` search parameter ([1c11457](https://github.com/francoischalifour/autocomplete.js/commit/1c1145768a74f372c683fbee9d0aaaf0dd3fb62a))
 - **website:** don't pass default `appId` ([62e0609](https://github.com/francoischalifour/autocomplete.js/commit/62e060917b864e2a86328ea9816252d50c189654))
 - **website:** support missing `algolia` config ([4b30cdd](https://github.com/francoischalifour/autocomplete.js/commit/4b30cdd90bfb2226cfd5f34642ea1593a64f833b))
 - **website:** update netlify.com to netlify.app ([9cbb80b](https://github.com/francoischalifour/autocomplete.js/commit/9cbb80bb9078a7a19750e8f2bbef6e69ecce9cda))
@@ -778,7 +986,7 @@ This new version introduces breaking changes.
 
 ### Bug Fixes
 
-- **dataset:** avoid to call the source when upadte is canceled ([a47696d](https://github.com/algolia/autocomplete.js/commit/a47696d))
+- **dataset:** avoid to call the source when update is canceled ([a47696d](https://github.com/algolia/autocomplete.js/commit/a47696d))
 - **dataset:** avoid usage of callNow for debounce ([1a0ce74](https://github.com/algolia/autocomplete.js/commit/1a0ce74))
 - Handle an odd case with the user agent ([#242](https://github.com/algolia/autocomplete.js/issues/242)) ([c194736](https://github.com/algolia/autocomplete.js/commit/c194736))
 

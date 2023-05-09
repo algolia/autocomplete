@@ -256,7 +256,7 @@ body {
           box-shadow: none;
           outline: none;
         }
-        // Remove native appearence
+        // Remove native appearance
         &::-webkit-search-decoration,
         &::-webkit-search-cancel-button,
         &::-webkit-search-results-button,
@@ -930,9 +930,22 @@ body {
     color: rgba(var(--aa-primary-color-rgb), 1);
     cursor: initial;
     display: flex;
+    flex-shrink: 0;
     height: 100%;
     justify-content: center;
     width: calc(var(--aa-icon-size) + var(--aa-spacing));
+  }
+  @at-root .aa-DetachedSearchButtonQuery {
+    color: rgba(var(--aa-text-color-rgb), 1);
+    line-height: 1.25em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  @at-root .aa-DetachedSearchButtonPlaceholder {
+    &[hidden] {
+      display: none;
+    }
   }
 }
 

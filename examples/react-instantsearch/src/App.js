@@ -1,4 +1,5 @@
 /** @jsx React.createElement */
+/** @jsxFrag React.Fragment */
 
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
@@ -12,20 +13,28 @@ import React, {
   useState,
 } from 'react';
 import {
+  Configure,
   connectSearchBox,
-  Highlight,
+  HierarchicalMenu,
   Hits,
   InstantSearch,
-  Menu,
   Pagination,
   Panel,
-  RefinementList,
+  Snippet,
 } from 'react-instantsearch-dom';
 
 import { Autocomplete } from './Autocomplete';
 
 import '@algolia/autocomplete-theme-classic/dist/theme.css';
 import './App.css';
+
+export const INSTANT_SEARCH_INDEX_NAME = 'instant_search';
+export const INSTANT_SEARCH_QUERY_SUGGESTIONS =
+  'instant_search_demo_query_suggestions';
+export const INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTES = [
+  'hierarchicalCategories.lvl0',
+  'hierarchicalCategories.lvl1',
+];
 
 const searchClient = algoliasearch(
   'latency',
@@ -41,7 +50,9 @@ function searchStateToUrl({ location }, searchState) {
     return '';
   }
 
-  return `${location.pathname}${createURL(searchState)}`;
+  // Remove configure search state from query parameters
+  const { configure, ...rest } = searchState;
+  return `${location.pathname}${createURL(rest)}`;
 }
 
 function urlToSearchState({ search }) {
@@ -68,6 +79,14 @@ export function App() {
     }, 400);
   }, [searchState]);
 
+  const currentCategory = useMemo(
+    () =>
+      searchState?.hierarchicalMenu?.[
+        INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTES[0]
+      ] || '',
+    [searchState]
+  );
+
   const onSubmit = useCallback(({ state }) => {
     setSearchState((searchState) => ({
       ...searchState,
@@ -78,8 +97,12 @@ export function App() {
     setSearchState((searchState) => ({
       ...searchState,
       query: '',
+      hierarchicalMenu: {
+        [INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTES[0]]: '',
+      },
     }));
   }, []);
+
   const plugins = useMemo(() => {
     const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
       key: 'search',
@@ -87,11 +110,133 @@ export function App() {
       transformSource({ source }) {
         return {
           ...source,
-          onSelect(params) {
+          onSelect({ item }) {
             setSearchState((searchState) => ({
               ...searchState,
-              query: params.item.label,
+              query: item.label,
+              hierarchicalMenu: {
+                [INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTES[0]]:
+                  item.category || '',
+              },
             }));
+          },
+        };
+      },
+    });
+
+    const querySuggestionsInCategoryPlugin = createQuerySuggestionsPlugin({
+      searchClient,
+      indexName: INSTANT_SEARCH_QUERY_SUGGESTIONS,
+      getSearchParams() {
+        return recentSearchesPlugin.data.getAlgoliaSearchParams({
+          hitsPerPage: 3,
+          facetFilters: [
+            `${INSTANT_SEARCH_INDEX_NAME}.facets.exact_matches.${INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTES[0]}.value:${currentCategory}`,
+          ],
+        });
+      },
+      transformSource({ source }) {
+        return {
+          ...source,
+          sourceId: 'querySuggestionsInCategoryPlugin',
+          onSelect({ item }) {
+            setSearchState((searchState) => ({
+              ...searchState,
+              query: item.query,
+              hierarchicalMenu: {
+                [INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTES[0]]:
+                  item.__autocomplete_qsCategory || '',
+              },
+            }));
+          },
+          getItems(params) {
+            if (currentCategory.length === 0) {
+              return [];
+            }
+
+            return source.getItems(params);
+          },
+          templates: {
+            ...source.templates,
+            header({ items }) {
+              if (items.length === 0) {
+                return <></>;
+              }
+
+              return (
+                <>
+                  <span className="aa-SourceHeaderTitle">
+                    In {currentCategory}
+                  </span>
+                  <span className="aa-SourceHeaderLine" />
+                </>
+              );
+            },
+          },
+        };
+      },
+    });
+
+    const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+      searchClient,
+      indexName: INSTANT_SEARCH_QUERY_SUGGESTIONS,
+      getSearchParams() {
+        if (currentCategory.length === 0) {
+          return recentSearchesPlugin.data.getAlgoliaSearchParams({
+            hitsPerPage: 6,
+          });
+        }
+
+        return recentSearchesPlugin.data.getAlgoliaSearchParams({
+          hitsPerPage: 3,
+          facetFilters: [
+            `${INSTANT_SEARCH_INDEX_NAME}.facets.exact_matches.${INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTES[0]}.value:-${currentCategory}`,
+          ],
+        });
+      },
+      categoryAttribute: [
+        INSTANT_SEARCH_INDEX_NAME,
+        'facets',
+        'exact_matches',
+        INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTES[0],
+      ],
+      transformSource({ source }) {
+        return {
+          ...source,
+          sourceId: 'querySuggestionsPlugin',
+          onSelect({ item }) {
+            setSearchState((searchState) => ({
+              ...searchState,
+              query: item.query,
+              hierarchicalMenu: {
+                [INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTES[0]]:
+                  item.__autocomplete_qsCategory || '',
+              },
+            }));
+          },
+          getItems(params) {
+            if (!params.state.query) {
+              return [];
+            }
+
+            return source.getItems(params);
+          },
+          templates: {
+            ...source.templates,
+            header({ items }) {
+              if (currentCategory.length === 0 || items.length === 0) {
+                return <></>;
+              }
+
+              return (
+                <>
+                  <span className="aa-SourceHeaderTitle">
+                    In other categories
+                  </span>
+                  <span className="aa-SourceHeaderLine" />
+                </>
+              );
+            },
           },
         };
       },
@@ -99,55 +244,29 @@ export function App() {
 
     return [
       recentSearchesPlugin,
-      createQuerySuggestionsPlugin({
-        searchClient,
-        indexName: 'instant_search_demo_query_suggestions',
-        getSearchParams() {
-          return recentSearchesPlugin.data.getAlgoliaSearchParams({
-            hitsPerPage: 5,
-          });
-        },
-        transformSource({ source }) {
-          return {
-            ...source,
-            onSelect(params) {
-              setSearchState((searchState) => ({
-                ...searchState,
-                query: params.item.query,
-              }));
-            },
-          };
-        },
-      }),
+      querySuggestionsInCategoryPlugin,
+      querySuggestionsPlugin,
     ];
-  }, []);
+  }, [currentCategory]);
 
   return (
-    <div className="container">
+    <div>
       <InstantSearch
         searchClient={searchClient}
-        indexName="instant_search"
+        indexName={INSTANT_SEARCH_INDEX_NAME}
         searchState={searchState}
         onSearchStateChange={setSearchState}
         createURL={createURL}
       >
-        {/* A virtual search box is required for InstantSearch to understand the `query` search state property */}
-        <VirtualSearchBox />
-
-        <div className="search-panel">
-          <div className="search-panel__filters">
-            <Panel header="Categories">
-              <Menu attribute="categories" />
-            </Panel>
-
-            <Panel header="Brands">
-              <RefinementList attribute="brand" />
-            </Panel>
-          </div>
-
-          <div className="search-panel__results">
+        <header className="header">
+          <div className="header-wrapper wrapper">
+            <nav className="header-nav">
+              <a href="/">Home</a>
+            </nav>
+            {/* A virtual search box is required for InstantSearch to understand the `query` search state property */}
+            <VirtualSearchBox />
             <Autocomplete
-              placeholder="Search"
+              placeholder="Search products"
               detachedMediaQuery="none"
               initialState={{
                 query: searchState.query,
@@ -156,13 +275,26 @@ export function App() {
               onSubmit={onSubmit}
               onReset={onReset}
               plugins={plugins}
+              insights
             />
+          </div>
+        </header>
 
+        <Configure
+          attributesToSnippet={['name:7', 'description:15']}
+          snippetEllipsisText="…"
+        />
+        <div className="container wrapper">
+          <div>
+            <Panel header="Categories">
+              <HierarchicalMenu
+                attributes={INSTANT_SEARCH_HIERARCHICAL_ATTRIBUTES}
+              />
+            </Panel>
+          </div>
+          <div>
             <Hits hitComponent={Hit} />
-
-            <div className="pagination">
-              <Pagination />
-            </div>
+            <Pagination />
           </div>
         </div>
       </InstantSearch>
@@ -170,15 +302,21 @@ export function App() {
   );
 }
 
-function Hit(props) {
+function Hit({ hit }) {
   return (
-    <article>
-      <h1>
-        <Highlight hit={props.hit} attribute="name" />
-      </h1>
-      <p>
-        <Highlight hit={props.hit} attribute="description" />
-      </p>
+    <article className="hit">
+      <div className="hit-image">
+        <img src={hit.image} alt={hit.name} />
+      </div>
+      <div>
+        <h1>
+          <Snippet hit={hit} attribute="name" />
+        </h1>
+        <div>
+          By <strong>{hit.brand}</strong> in{' '}
+          <strong>{hit.categories[0]}</strong>
+        </div>
+      </div>
     </article>
   );
 }

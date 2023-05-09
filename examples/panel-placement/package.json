@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-panel-placement",
   "description": "Autocomplete panel placement example",
-  "version": "1.5.2",
+  "version": "1.9.2",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,15 +9,15 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-core": "1.5.2",
-    "@algolia/autocomplete-js": "1.5.2",
-    "@algolia/autocomplete-theme-classic": "1.5.2",
-    "algoliasearch": "4.9.1",
-    "preact": "10.5.13"
+    "@algolia/autocomplete-core": "1.9.2",
+    "@algolia/autocomplete-js": "1.9.2",
+    "@algolia/autocomplete-theme-classic": "1.9.2",
+    "algoliasearch": "4.16.0",
+    "preact": "10.13.2"
   },
   "devDependencies": {
-    "@algolia/client-search": "4.9.1",
-    "parcel": "2.0.0-beta.2"
+    "@algolia/client-search": "4.16.0",
+    "parcel": "2.8.3"
   },
   "keywords": [
     "algolia",

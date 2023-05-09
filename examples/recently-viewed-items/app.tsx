@@ -1,10 +1,11 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import {
   autocomplete,
   AutocompleteComponents,
   getAlgoliaResults,
 } from '@algolia/autocomplete-js';
-import algoliasearch from 'algoliasearch';
+import algoliasearch from 'algoliasearch/lite';
 import { h, Fragment } from 'preact';
 
 import '@algolia/autocomplete-theme-classic';
@@ -25,6 +26,7 @@ autocomplete<ProductHit>({
   container: '#autocomplete',
   placeholder: 'Search',
   openOnFocus: true,
+  insights: true,
   plugins: [recentlyViewedItems],
   getSources({ query }) {
     if (!query) {
@@ -42,7 +44,6 @@ autocomplete<ProductHit>({
                 indexName: 'instant_search',
                 query,
                 params: {
-                  clickAnalytics: true,
                   attributesToSnippet: ['name:10', 'description:35'],
                   snippetEllipsisText: '…',
                 },

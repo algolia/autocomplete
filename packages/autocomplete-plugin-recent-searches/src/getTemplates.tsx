@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx createElement */
 import { SourceTemplates } from '@algolia/autocomplete-js';
 

@@ -36,6 +36,29 @@ describe('metadata', () => {
     expect(document.head).toMatchInlineSnapshot(`<head />`);
   });
 
+  test('does not enable metadata with a window but no navigator', async () => {
+    createPlayground(createAutocomplete, {
+      environment: {
+        ...createEnvironmentWithUserAgent(),
+        navigator: undefined,
+      },
+    });
+
+    await defer(noop, 0);
+
+    expect(document.head).toMatchInlineSnapshot(`<head />`);
+  });
+
+  test("does not enable metadata when navigator is different from browser's (React Native)", async () => {
+    createPlayground(createAutocomplete, {
+      environment: createEnvironmentWithUserAgent(),
+    });
+
+    await defer(noop, 0);
+
+    expect(document.head).toMatchInlineSnapshot(`<head />`);
+  });
+
   test('enables metadata with Algolia Crawler user agents', async () => {
     createPlayground(createAutocomplete, {
       environment: algoliaCrawlerEnvironment,
@@ -158,7 +181,7 @@ describe('metadata', () => {
   });
 });
 
-function createEnvironmentWithUserAgent(userAgent: string) {
+function createEnvironmentWithUserAgent(userAgent?: string) {
   return {
     ...global,
     navigator: {

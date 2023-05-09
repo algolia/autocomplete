@@ -23,7 +23,6 @@
     "**/dist",
     "**/node_modules",
     "stories",
-    "examples",
-    "cypress"
+    "examples"
   ]
 }

@@ -1,3 +1,7 @@
+import {
+  createRequester,
+  fetchAlgoliaResults,
+} from '@algolia/autocomplete-preset-algolia';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 
 import {
@@ -261,7 +265,7 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\",\\"__autocomplete_id\\":0}",
+          "{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\",\\"__autocomplete_indexName\\":\\"indexName\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"},\\"__autocomplete_id\\":0}",
         ]
       `);
 
@@ -300,7 +304,7 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"objectID\\":\\"7\\",\\"label\\":\\"Hit 7\\",\\"__autocomplete_id\\":4}",
+          "{\\"objectID\\":\\"7\\",\\"label\\":\\"Hit 7\\",\\"__autocomplete_indexName\\":\\"indexName\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"},\\"__autocomplete_id\\":4}",
         ]
       `);
 
@@ -312,8 +316,8 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"objectID\\":\\"3\\",\\"label\\":\\"Hit 3\\",\\"__autocomplete_id\\":5}",
-          "{\\"objectID\\":\\"4\\",\\"label\\":\\"Hit 4\\",\\"__autocomplete_id\\":6}",
+          "{\\"objectID\\":\\"3\\",\\"label\\":\\"Hit 3\\",\\"__autocomplete_indexName\\":\\"indexName\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"},\\"__autocomplete_id\\":5}",
+          "{\\"objectID\\":\\"4\\",\\"label\\":\\"Hit 4\\",\\"__autocomplete_indexName\\":\\"indexName2\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"},\\"__autocomplete_id\\":6}",
         ]
       `);
 
@@ -327,7 +331,7 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"objectID\\":\\"5\\",\\"label\\":\\"Hit 5\\",\\"__autocomplete_id\\":7}",
+          "{\\"objectID\\":\\"5\\",\\"label\\":\\"Hit 5\\",\\"__autocomplete_indexName\\":\\"indexName\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"},\\"__autocomplete_id\\":7}",
         ]
       `);
 
@@ -343,6 +347,123 @@ describe('requester', () => {
           "{\\"label\\":\\"Static label 2\\",\\"__autocomplete_id\\":9}",
         ]
       `);
+    });
+  });
+
+  test('batches calls across requesters with same id', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    const searchClient = createSearchClient({
+      search: jest.fn((requests) =>
+        Promise.resolve(
+          createMultiSearchResponse<{ label: string }>(
+            ...requests.map(({ indexName, params: { query } }) => ({
+              hits: [{ objectID: '1', label: 'Hit 1' }],
+              index: indexName,
+              query,
+            }))
+          )
+        )
+      ),
+    });
+
+    const getResults1 = (params) =>
+      createRequester(
+        fetchAlgoliaResults,
+        'custom-requester-id'
+      )({
+        transformResponse: (response) => response.hits,
+      })(params);
+
+    const getResults2 = (params) =>
+      createRequester(
+        fetchAlgoliaResults,
+        'custom-requester-id'
+      )({
+        transformResponse: (response) => response.hits,
+      })(params);
+
+    const getResults3 = (params) =>
+      createRequester(
+        fetchAlgoliaResults,
+        'different-requester-id'
+      )({
+        transformResponse: (response) => response.hits,
+      })(params);
+
+    const templates = {
+      item({ item }) {
+        return JSON.stringify(item);
+      },
+    };
+
+    autocomplete({
+      container,
+      panelContainer,
+      getSources({ query }) {
+        return [
+          {
+            sourceId: 'hits',
+            getItems() {
+              return getResults1({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    query,
+                  },
+                ],
+              });
+            },
+            templates,
+          },
+          {
+            sourceId: 'hits-merged',
+            getItems() {
+              return getResults2({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    query,
+                  },
+                ],
+              });
+            },
+            templates,
+          },
+          {
+            sourceId: 'hits-separate',
+            getItems() {
+              return getResults3({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    query,
+                  },
+                ],
+              });
+            },
+            templates,
+          },
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+
+      expect(searchClient.search).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -440,7 +561,7 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"0\\":{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\"},\\"hitsPerPage\\":20,\\"__autocomplete_id\\":0}",
+          "{\\"0\\":{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\",\\"__autocomplete_indexName\\":\\"indexName\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"}},\\"hitsPerPage\\":20,\\"__autocomplete_id\\":0}",
         ]
       `);
 
@@ -554,7 +675,7 @@ describe('requester', () => {
           .map((node) => node.textContent)
       ).toMatchInlineSnapshot(`
         Array [
-          "{\\"0\\":{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\"},\\"results\\":[{\\"page\\":0,\\"hitsPerPage\\":20,\\"nbHits\\":1,\\"nbPages\\":1,\\"processingTimeMS\\":0,\\"hits\\":[{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\"}],\\"query\\":\\"\\",\\"params\\":\\"\\",\\"exhaustiveNbHits\\":true,\\"exhaustiveFacetsCount\\":true}],\\"facetHits\\":[],\\"__autocomplete_id\\":0}",
+          "{\\"0\\":{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\",\\"__autocomplete_indexName\\":\\"indexName\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"}},\\"results\\":[{\\"page\\":0,\\"hitsPerPage\\":20,\\"nbHits\\":1,\\"nbPages\\":1,\\"processingTimeMS\\":0,\\"hits\\":[{\\"objectID\\":\\"1\\",\\"label\\":\\"Hit 1\\",\\"__autocomplete_indexName\\":\\"indexName\\",\\"__autocomplete_algoliaCredentials\\":{\\"appId\\":\\"algoliaAppId\\",\\"apiKey\\":\\"algoliaApiKey\\"}}],\\"query\\":\\"\\",\\"params\\":\\"\\",\\"exhaustiveNbHits\\":true,\\"exhaustiveFacetsCount\\":true}],\\"facetHits\\":[],\\"__autocomplete_id\\":0}",
         ]
       `);
 
@@ -570,5 +691,101 @@ describe('requester', () => {
         ]
       `);
     });
+  });
+
+  test('allows plugins to pass extra parameters to the search client', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    const searchClient = createSearchClient({
+      search: jest.fn(() =>
+        Promise.resolve(
+          createMultiSearchResponse<{ label: string }>(
+            {
+              hits: [{ objectID: '1', label: 'Hit 1' }],
+            },
+            { facetHits: [{ count: 2, value: 'Hit 2' }] }
+          )
+        )
+      ),
+    });
+
+    autocomplete({
+      container,
+      panelContainer,
+      getSources({ query }) {
+        return [
+          {
+            sourceId: 'hits',
+            getItems() {
+              return getAlgoliaResults({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    query,
+                  },
+                ],
+              });
+            },
+            templates: {
+              item({ item }) {
+                return JSON.stringify(item);
+              },
+            },
+          },
+          {
+            sourceId: 'facets',
+            getItems() {
+              return getAlgoliaFacets({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'indexName',
+                    facet: 'categories',
+                    params: {
+                      facetQuery: query,
+                    },
+                  },
+                ],
+              });
+            },
+            templates: {
+              item({ item }) {
+                return JSON.stringify(item);
+              },
+            },
+          },
+        ];
+      },
+    }).setContext({
+      myPlugin: {
+        __algoliaSearchParameters: {
+          extraParam: true,
+        },
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(() => {
+      expect(
+        panelContainer.querySelector<HTMLElement>('.aa-Panel')
+      ).toBeInTheDocument();
+    });
+
+    expect(searchClient.search).toHaveBeenCalledTimes(1);
+    expect(searchClient.search).toHaveBeenCalledWith([
+      expect.objectContaining({
+        params: expect.objectContaining({ extraParam: true }),
+      }),
+      expect.objectContaining({
+        params: expect.objectContaining({ extraParam: true }),
+      }),
+    ]);
   });
 });

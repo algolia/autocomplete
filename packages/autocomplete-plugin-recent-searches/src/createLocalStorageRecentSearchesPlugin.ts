@@ -46,22 +46,20 @@ export type CreateRecentSearchesLocalStorageOptions<
   search?(params: SearchParams<TItem>): Array<Highlighted<TItem>>;
 };
 
-type LocalStorageRecentSearchesPluginOptions<
-  TItem extends RecentSearchesItem
-> = Pick<
-  CreateRecentSearchesPluginParams<TItem>,
-  'transformSource' | 'subscribe'
-> &
-  CreateRecentSearchesLocalStorageOptions<TItem>;
+type LocalStorageRecentSearchesPluginOptions<TItem extends RecentSearchesItem> =
+  Pick<
+    CreateRecentSearchesPluginParams<TItem>,
+    'transformSource' | 'subscribe'
+  > &
+    CreateRecentSearchesLocalStorageOptions<TItem>;
 
 export function createLocalStorageRecentSearchesPlugin<
   TItem extends RecentSearchesItem
 >(
   options: LocalStorageRecentSearchesPluginOptions<TItem>
 ): AutocompletePlugin<TItem, RecentSearchesPluginData<TItem>> {
-  const { key, limit, transformSource, search, subscribe } = getOptions(
-    options
-  );
+  const { key, limit, transformSource, search, subscribe } =
+    getOptions(options);
   const storage = createLocalStorage<TItem>({
     key: [LOCAL_STORAGE_KEY, key].join(':'),
     limit,

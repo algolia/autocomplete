@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-multiple-datasets-with-headers",
   "description": "Autocomplete example with multiple datasets with headers",
-  "version": "1.5.2",
+  "version": "1.9.2",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,15 +9,15 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.5.2",
-    "@algolia/autocomplete-plugin-query-suggestions": "1.5.2",
-    "@algolia/autocomplete-plugin-recent-searches": "1.5.2",
-    "@algolia/autocomplete-theme-classic": "1.5.2",
-    "algoliasearch": "4.9.1",
-    "preact": "10.5.13"
+    "@algolia/autocomplete-js": "1.9.2",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.9.2",
+    "@algolia/autocomplete-plugin-recent-searches": "1.9.2",
+    "@algolia/autocomplete-theme-classic": "1.9.2",
+    "algoliasearch": "4.16.0",
+    "preact": "10.13.2"
   },
   "devDependencies": {
-    "parcel": "2.0.0-beta.2"
+    "parcel": "2.8.3"
   },
   "keywords": [
     "algolia",

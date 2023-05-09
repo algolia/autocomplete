@@ -1,3 +1,5 @@
+import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
+
 import { checkOptions } from './checkOptions';
 import { createStore } from './createStore';
 import { getAutocompleteSetters } from './getAutocompleteSetters';
@@ -41,10 +43,16 @@ export function createAutocomplete<
     TEvent,
     TMouseEvent,
     TKeyboardEvent
-  >({ props, refresh, store, ...setters });
+  >({ props, refresh, store, navigator: props.navigator, ...setters });
 
   function onStoreStateChange({ prevState, state }) {
-    props.onStateChange({ prevState, state, refresh, ...setters });
+    props.onStateChange({
+      prevState,
+      state,
+      refresh,
+      navigator: props.navigator,
+      ...setters,
+    });
   }
 
   function refresh() {
@@ -52,6 +60,7 @@ export function createAutocomplete<
       event: new Event('input'),
       nextState: { isOpen: store.getState().isOpen },
       props,
+      navigator: props.navigator,
       query: store.getState().query,
       refresh,
       store,
@@ -59,15 +68,28 @@ export function createAutocomplete<
     });
   }
 
+  if (
+    options.insights &&
+    !props.plugins.some((plugin) => plugin.name === 'aa.algoliaInsightsPlugin')
+  ) {
+    const insightsParams =
+      typeof options.insights === 'boolean' ? {} : options.insights;
+    props.plugins.push(createAlgoliaInsightsPlugin(insightsParams));
+  }
+
   props.plugins.forEach((plugin) =>
     plugin.subscribe?.({
       ...setters,
+      navigator: props.navigator,
       refresh,
       onSelect(fn) {
         subscribers.push({ onSelect: fn });
       },
       onActive(fn) {
         subscribers.push({ onActive: fn });
+      },
+      onResolve(fn) {
+        subscribers.push({ onResolve: fn });
       },
     })
   );
@@ -79,6 +101,7 @@ export function createAutocomplete<
 
   return {
     refresh,
+    navigator: props.navigator,
     ...propGetters,
     ...setters,
   };

@@ -1,4 +1,8 @@
-import { AlgoliaInsightsHit, ViewedObjectIDsParams } from './types';
+import {
+  AlgoliaInsightsHit,
+  InsightsParamsWithItems,
+  ViewedObjectIDsParams,
+} from './types';
 
 type CreateViewedEventsParams = {
   items: AlgoliaInsightsHit[];
@@ -6,24 +10,27 @@ type CreateViewedEventsParams = {
 
 export function createViewedEvents({
   items,
-}: CreateViewedEventsParams): Array<Omit<ViewedObjectIDsParams, 'eventName'>> {
-  const objectIDsByIndexName = items.reduce<Record<string, string[]>>(
+}: CreateViewedEventsParams): Array<
+  Omit<InsightsParamsWithItems<ViewedObjectIDsParams>, 'eventName'>
+> {
+  const itemsByIndexName = items.reduce<Record<string, AlgoliaInsightsHit[]>>(
     (acc, current) => {
       acc[current.__autocomplete_indexName] = (
         acc[current.__autocomplete_indexName] ?? []
-      ).concat(current.objectID);
+      ).concat(current);
 
       return acc;
     },
     {}
   );
 
-  return Object.keys(objectIDsByIndexName).map((indexName) => {
-    const objectIDs = objectIDsByIndexName[indexName];
+  return Object.keys(itemsByIndexName).map((indexName) => {
+    const items = itemsByIndexName[indexName];
 
     return {
       index: indexName,
-      objectIDs,
+      items,
+      algoliaSource: ['autocomplete'],
     };
   });
 }

@@ -1,5 +1,9 @@
 import { createAutocomplete } from '@algolia/autocomplete-core';
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import {
+  createElement as preactCreateElement,
+  render as preactRender,
+} from 'preact';
 
 import { createCollection } from '../../../../test/utils';
 import { autocomplete } from '../autocomplete';
@@ -370,6 +374,147 @@ describe('api', () => {
       expect(
         document.querySelector<HTMLButtonElement>('.aa-SubmitButton')
       ).toHaveAttribute('title', 'Envoyer');
+    });
+
+    test('updates the renderer', async () => {
+      const container = document.createElement('div');
+      const panelContainer = document.createElement('div');
+      document.body.appendChild(container);
+      document.body.appendChild(panelContainer);
+
+      const CustomFragment = (props: any) => props.children;
+      const mockCreateElement1 = jest.fn(preactCreateElement);
+      const mockCreateElement2 = jest.fn(preactCreateElement);
+      const mockRender = jest.fn().mockImplementation(preactRender);
+
+      const { update } = autocomplete<{ label: string }>({
+        container,
+        panelContainer,
+        getSources() {
+          return [
+            {
+              sourceId: 'testSource',
+              getItems({ query }) {
+                return [{ label: query }];
+              },
+              templates: {
+                item({ item, components, html }) {
+                  return html`<div>
+                    ${components.Highlight({ hit: item, attribute: 'label' })}
+                  </div>`;
+                },
+              },
+            },
+          ];
+        },
+        renderer: {
+          Fragment: CustomFragment,
+          render: mockRender,
+          createElement: mockCreateElement1,
+        },
+      });
+
+      const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+      fireEvent.input(input, { target: { value: 'apple' } });
+
+      await waitFor(() => {
+        expect(
+          panelContainer.querySelector<HTMLElement>('.aa-Panel')
+        ).toHaveTextContent('apple');
+        expect(mockCreateElement1).toHaveBeenCalled();
+      });
+
+      mockCreateElement1.mockClear();
+
+      update({
+        renderer: {
+          Fragment: CustomFragment,
+          render: mockRender,
+          createElement: mockCreateElement2,
+        },
+      });
+
+      fireEvent.input(input, { target: { value: 'iphone' } });
+
+      await waitFor(() => {
+        expect(
+          panelContainer.querySelector<HTMLElement>('.aa-Panel')
+        ).toHaveTextContent('iphone');
+        // The `createElement` function was updated, so the previous
+        // implementation should no longer be called.
+        expect(mockCreateElement1).not.toHaveBeenCalled();
+        expect(mockCreateElement2).toHaveBeenCalled();
+      });
+    });
+
+    test('preserves all user `components` when not updated', async () => {
+      const container = document.createElement('div');
+      const panelContainer = document.createElement('div');
+      document.body.appendChild(container);
+      document.body.appendChild(panelContainer);
+
+      const CustomFragment = (props: any) => props.children;
+      const mockCreateElement1 = jest.fn(preactCreateElement);
+      const mockCreateElement2 = jest.fn(preactCreateElement);
+      const mockRender = jest.fn().mockImplementation(preactRender);
+      const CustomHighlight = jest.fn((props: { hit: { label: string } }) =>
+        mockCreateElement1(CustomFragment, null, props.hit.label)
+      );
+      const MyComponent = (props: any) => props.children;
+
+      const { update } = autocomplete<{ label: string }>({
+        container,
+        panelContainer,
+        getSources() {
+          return [
+            {
+              sourceId: 'testSource',
+              getItems({ query }) {
+                return [{ label: query }];
+              },
+              templates: {
+                item({ item, components, html }) {
+                  return html`<div>
+                    ${components.Highlight({ hit: item, attribute: 'label' })}
+                    ${components.MyComponent({ children: item.label })}
+                  </div>`;
+                },
+              },
+            },
+          ];
+        },
+        components: { Highlight: CustomHighlight, MyComponent },
+        renderer: {
+          Fragment: CustomFragment,
+          render: mockRender,
+          createElement: mockCreateElement1,
+        },
+      });
+
+      update({
+        renderer: {
+          Fragment: CustomFragment,
+          render: mockRender,
+          createElement: mockCreateElement2,
+        },
+      });
+
+      mockCreateElement1.mockClear();
+
+      const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+      fireEvent.input(input, { target: { value: 'iphone' } });
+
+      await waitFor(() => {
+        expect(
+          panelContainer.querySelector<HTMLElement>('.aa-Panel')
+        ).toHaveTextContent('iphone');
+        // The custom `Highlight` component wasn't updated, so the previous
+        // `createElement` implementation is still being called.
+        expect(mockCreateElement1).toHaveBeenCalledTimes(1);
+        expect(mockCreateElement2).toHaveBeenCalled();
+      });
     });
   });
 

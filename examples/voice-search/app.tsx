@@ -1,7 +1,8 @@
+/** @jsxRuntime classic */
 /** @jsx h */
 import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 import { Hit } from '@algolia/client-search';
-import algoliasearch from 'algoliasearch';
+import algoliasearch from 'algoliasearch/lite';
 import { h } from 'preact';
 
 import '@algolia/autocomplete-theme-classic';
@@ -29,6 +30,7 @@ autocomplete<AutocompleteItem>({
   container: '#autocomplete',
   placeholder: 'Search',
   detachedMediaQuery: 'none',
+  insights: true,
   plugins: [voiceSearchPlugin],
   getSources({ query }) {
     return [

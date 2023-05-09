@@ -7,7 +7,9 @@ import {
   createRef,
   debounce,
   getItemsCount,
+  warn,
 } from '@algolia/autocomplete-shared';
+import htm from 'htm';
 
 import { createAutocompleteDom } from './createAutocompleteDom';
 import { createEffectWrapper } from './createEffectWrapper';
@@ -21,9 +23,12 @@ import {
   AutocompletePropGetters,
   AutocompleteSource,
   AutocompleteState,
+  VNode,
 } from './types';
 import { userAgents } from './userAgents';
-import { mergeDeep, setProperties } from './utils';
+import { mergeDeep, pickBy, setProperties } from './utils';
+
+let instancesCount = 0;
 
 export function autocomplete<TItem extends BaseItem>(
   options: AutocompleteOptions<TItem>
@@ -33,9 +38,8 @@ export function autocomplete<TItem extends BaseItem>(
 
   const hasNoResultsSourceTemplateRef = createRef(false);
   const optionsRef = createRef(options);
-  const onStateChangeRef = createRef<
-    AutocompleteOptions<TItem>['onStateChange']
-  >(undefined);
+  const onStateChangeRef =
+    createRef<AutocompleteOptions<TItem>['onStateChange']>(undefined);
   const props = reactive(() => getDefaultOptions(optionsRef.current));
   const isDetached = reactive(
     () =>
@@ -110,7 +114,12 @@ export function autocomplete<TItem extends BaseItem>(
     setStatus: autocomplete.value.setStatus,
     setContext: autocomplete.value.setContext,
     refresh: autocomplete.value.refresh,
+    navigator: autocomplete.value.navigator,
   };
+
+  const html = reactive(() =>
+    htm.bind<VNode>(props.value.renderer.renderer.createElement)
+  );
 
   const dom = reactive(() =>
     createAutocompleteDom({
@@ -149,14 +158,14 @@ export function autocomplete<TItem extends BaseItem>(
       classNames: props.value.renderer.classNames,
       components: props.value.renderer.components,
       container: props.value.renderer.container,
-      createElement: props.value.renderer.renderer.createElement,
+      html: html.value,
       dom: dom.value,
-      Fragment: props.value.renderer.renderer.Fragment,
       panelContainer: isDetached.value
         ? dom.value.detachedContainer
         : props.value.renderer.panelContainer,
       propGetters,
       state: lastStateRef.current,
+      renderer: props.value.renderer.renderer,
     };
 
     const render =
@@ -244,9 +253,10 @@ export function autocomplete<TItem extends BaseItem>(
       // We scroll to the top of the panel whenever the query changes (i.e. new
       // results come in) so that users don't have to.
       if (state.query !== prevState.query) {
-        const scrollablePanels = props.value.core.environment.document.querySelectorAll(
-          '.aa-Panel--scrollable'
-        );
+        const scrollablePanels =
+          props.value.core.environment.document.querySelectorAll(
+            '.aa-Panel--scrollable'
+          );
         scrollablePanels.forEach((scrollablePanel) => {
           if (scrollablePanel.scrollTop !== 0) {
             scrollablePanel.scrollTop = 0;
@@ -329,16 +339,30 @@ export function autocomplete<TItem extends BaseItem>(
   });
 
   function destroy() {
+    instancesCount--;
     cleanupEffects();
   }
 
   function update(updatedOptions: Partial<AutocompleteOptions<TItem>> = {}) {
     cleanupEffects();
 
+    const { components, ...rendererProps } = props.value.renderer;
+
     optionsRef.current = mergeDeep(
-      props.value.renderer,
+      rendererProps,
       props.value.core,
-      { initialState: lastStateRef.current },
+      {
+        // We need to filter out default components so they can be replaced with
+        // a new `renderer`, without getting rid of user components.
+        // @MAJOR Deal with registering components with the same name as the
+        // default ones. If we disallow overriding default components, we'd just
+        // need to pass all `components` here.
+        components: pickBy(
+          components,
+          ({ value }) => !value.hasOwnProperty('__autocomplete_componentName')
+        ),
+        initialState: lastStateRef.current,
+      },
       updatedOptions
     );
 
@@ -373,11 +397,18 @@ export function autocomplete<TItem extends BaseItem>(
         props.value.core.environment.document.body.classList.remove(
           'aa-Detached'
         );
-        autocomplete.value.setQuery('');
-        autocomplete.value.refresh();
       }
     });
   }
+
+  warn(
+    instancesCount === 0,
+    `Autocomplete doesn't support multiple instances running at the same time. Make sure to destroy the previous instance before creating a new one.
+
+See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-destroy`
+  );
+
+  instancesCount++;
 
   return {
     ...autocompleteScopeApi,

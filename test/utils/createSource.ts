@@ -13,6 +13,7 @@ export function createSource<TItem extends BaseItem>(
     getItemUrl: () => undefined,
     onActive: () => {},
     onSelect: () => {},
+    onResolve: () => {},
     getItems: () => [],
     ...source,
   };
