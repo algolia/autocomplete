@@ -8,7 +8,7 @@
 <!--
   Explain the **motivation** for making this change.
   What existing problem does the pull request solve?
-  Are there any linked issues?
+  Are there any linked issues, references or RFCs?
 -->
 
 **Result**
