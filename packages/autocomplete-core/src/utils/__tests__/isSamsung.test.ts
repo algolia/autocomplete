@@ -70,6 +70,14 @@ describe('isSamsung', () => {
           )
         ).toEqual(true);
       });
+
+      test('returns true with a Samsung Galaxy S9 (mobile) with "Desktop mode" enabled user agent', () => {
+        expect(
+          isSamsung(
+            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/21.0 Chrome/110.0.5481.154 Safari/537.36'
+          )
+        ).toEqual(true);
+      });
     });
   });
 
