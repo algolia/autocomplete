@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-preset-algolia",
   "description": "Presets for building autocomplete experiences with Algolia.",
-  "version": "1.9.2",
+  "version": "1.9.3",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete",
   "repository": "algolia/autocomplete",
