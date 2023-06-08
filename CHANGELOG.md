@@ -1,3 +1,14 @@
+## [1.9.3](https://github.com/algolia/autocomplete/compare/v1.9.2...v1.9.3) (2023-06-07)
+
+
+### Bug Fixes
+
+* **autocomplete-core:** don't update `enterKeyHint` on Samsung Browser ([#1153](https://github.com/algolia/autocomplete/issues/1153)) ([2971076](https://github.com/algolia/autocomplete/commit/2971076ea47a9c7d78ecb0ace0f1d16bb0155f98))
+* **fetchAlgoliaResults:** safely access searchClient credentials ([#1133](https://github.com/algolia/autocomplete/issues/1133)) ([f0f7a62](https://github.com/algolia/autocomplete/commit/f0f7a626f6b6caacc32051b8d3c198821d8c736a))
+* **insights:** retrieve index name from query if not returned by response ([#1138](https://github.com/algolia/autocomplete/issues/1138)) ([8406eb2](https://github.com/algolia/autocomplete/commit/8406eb234124651e81d09bf4985876c790215f2a))
+
+
+
 ## [1.9.2](https://github.com/algolia/autocomplete/compare/v1.9.1...v1.9.2) (2023-04-24)
 
 **Note:** Version bump only

@@ -1,12 +1,12 @@
 {
   "name": "@algolia/autocomplete-example-react-renderer",
   "description": "Autocomplete example with React Renderer",
-  "version": "1.9.2",
+  "version": "1.9.3",
   "private": true,
   "dependencies": {
-    "@algolia/autocomplete-core": "1.9.2",
-    "@algolia/autocomplete-preset-algolia": "1.9.2",
-    "@algolia/autocomplete-theme-classic": "1.9.2",
+    "@algolia/autocomplete-core": "1.9.3",
+    "@algolia/autocomplete-preset-algolia": "1.9.3",
+    "@algolia/autocomplete-theme-classic": "1.9.3",
     "@algolia/client-search": "4.16.0",
     "algoliasearch": "4.16.0",
     "react": "17.0.2",
