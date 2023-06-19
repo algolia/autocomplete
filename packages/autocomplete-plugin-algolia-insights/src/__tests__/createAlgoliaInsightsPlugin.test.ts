@@ -733,6 +733,63 @@ describe('createAlgoliaInsightsPlugin', () => {
       );
     });
 
+    test('sends a `clickedObjectIDsAfterSearch` event on non-first source by default', async () => {
+      const insightsClient = jest.fn();
+      const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+      const { inputElement } = createPlayground(createAutocomplete, {
+        plugins: [insightsPlugin],
+        defaultActiveItemId: 0,
+        openOnFocus: true,
+        getSources() {
+          return [
+            createSource({
+              sourceId: 'not clicked',
+              getItems: () => [
+                {
+                  label: '1',
+                  objectID: '1',
+                  __autocomplete_indexName: 'index0',
+                  __autocomplete_queryID: 'queryID1',
+                },
+              ],
+            }),
+            createSource({
+              getItems: () => [
+                {
+                  label: '1',
+                  objectID: '1',
+                  __autocomplete_indexName: 'index1',
+                  __autocomplete_queryID: 'queryID1',
+                },
+              ],
+            }),
+          ];
+        },
+      });
+
+      inputElement.focus();
+
+      await runAllMicroTasks();
+
+      // select second item
+      userEvent.type(inputElement, '{arrowdown}{enter}');
+
+      await runAllMicroTasks();
+
+      expect(insightsClient).toHaveBeenCalledWith(
+        'clickedObjectIDsAfterSearch',
+        {
+          eventName: 'Item Selected',
+          index: 'index1',
+          objectIDs: ['1'],
+          positions: [0],
+          queryID: 'queryID1',
+          algoliaSource: ['autocomplete', 'autocomplete-internal'],
+        }
+      );
+    });
+
     test('sends a `clickedObjectIDsAfterSearch` event with additional parameters if client supports it', async () => {
       const insightsClient = jest.fn();
       // @ts-ignore

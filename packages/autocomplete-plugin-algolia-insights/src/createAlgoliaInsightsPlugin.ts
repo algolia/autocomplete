@@ -123,7 +123,7 @@ export function createAlgoliaInsightsPlugin(
   }
 
   const insights = createSearchInsightsApi(insightsClient);
-  const previousItems = createRef<AlgoliaInsightsHit[]>([]);
+  const previousItems = createRef<Record<string, AlgoliaInsightsHit[]>>({});
 
   const debouncedOnStateChange = debounce<{
     state: AutocompleteState<any>;
@@ -132,23 +132,38 @@ export function createAlgoliaInsightsPlugin(
       return;
     }
 
-    const items = state.collections
-      .reduce<unknown[]>((acc, current) => {
-        return [...acc, ...current.items];
-      }, [])
-      .filter(isAlgoliaInsightsHit);
-
-    if (
-      !isEqual(
-        previousItems.current.map((x) => x.objectID),
-        items.map((x) => x.objectID)
-      )
-    ) {
-      previousItems.current = items;
-
-      if (items.length > 0) {
-        sendViewedObjectIDs({ onItemsChange, items, insights, state });
+    const nextItems = state.collections.reduce<
+      Record<string, AlgoliaInsightsHit[]>
+    >((acc, current) => {
+      const id = current.source.sourceId;
+      if (!acc[id]) {
+        acc[id] = [];
       }
+      acc[id].push(...current.items.filter(isAlgoliaInsightsHit));
+      return acc;
+    }, {});
+
+    const itemsToSendViewFor: AlgoliaInsightsHit[] = [];
+
+    Object.entries(nextItems).forEach(([id, items]) => {
+      if (
+        !isEqual(
+          (previousItems.current[id] || []).map((x) => x.objectID),
+          items.map((x) => x.objectID)
+        )
+      ) {
+        previousItems.current[id] = items;
+        itemsToSendViewFor.push(...items);
+      }
+    });
+
+    if (itemsToSendViewFor.length > 0) {
+      sendViewedObjectIDs({
+        onItemsChange,
+        items: itemsToSendViewFor,
+        insights,
+        state,
+      });
     }
   }, 0);
 
@@ -166,10 +181,12 @@ export function createAlgoliaInsightsPlugin(
         },
       });
 
-      onSelect(({ item, state, event }) => {
+      onSelect(({ item, state, event, source }) => {
         if (!isAlgoliaInsightsHit(item)) {
           return;
         }
+
+        console.log(source.getItems)
 
         onSelectEvent({
           state: state as AutocompleteState<any>,
@@ -179,13 +196,16 @@ export function createAlgoliaInsightsPlugin(
           insightsEvents: [
             {
               eventName: 'Item Selected',
-              ...createClickedEvent({ item, items: previousItems.current }),
+              ...createClickedEvent({
+                item,
+                items: previousItems.current[source.sourceId],
+              }),
             },
           ],
         });
       });
 
-      onActive(({ item, state, event }) => {
+      onActive(({ item, source, state, event }) => {
         if (!isAlgoliaInsightsHit(item)) {
           return;
         }
@@ -198,7 +218,10 @@ export function createAlgoliaInsightsPlugin(
           insightsEvents: [
             {
               eventName: 'Item Active',
-              ...createClickedEvent({ item, items: previousItems.current }),
+              ...createClickedEvent({
+                item,
+                items: previousItems.current[source.sourceId],
+              }),
             },
           ],
         });

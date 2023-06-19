@@ -11,7 +11,7 @@ type CreateClickedEventParams = {
 
 export function createClickedEvent({
   item,
-  items,
+  items = [],
 }: CreateClickedEventParams): Omit<
   InsightsParamsWithItems<ClickedObjectIDsAfterSearchParams>,
   'eventName'
