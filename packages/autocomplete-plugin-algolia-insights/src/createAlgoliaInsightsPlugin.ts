@@ -143,7 +143,7 @@ export function createAlgoliaInsightsPlugin(
       return acc;
     }, {});
 
-    const itemsToSendViewFor: AlgoliaInsightsHit[] = [];
+    const viewedItems: AlgoliaInsightsHit[] = [];
 
     Object.entries(nextItems).forEach(([id, items]) => {
       if (
@@ -153,14 +153,14 @@ export function createAlgoliaInsightsPlugin(
         )
       ) {
         previousItems.current[id] = items;
-        itemsToSendViewFor.push(...items);
+        viewedItems.push(...items);
       }
     });
 
-    if (itemsToSendViewFor.length > 0) {
+    if (viewedItems.length > 0) {
       sendViewedObjectIDs({
         onItemsChange,
-        items: itemsToSendViewFor,
+        items: viewedItems,
         insights,
         state,
       });
@@ -185,8 +185,6 @@ export function createAlgoliaInsightsPlugin(
         if (!isAlgoliaInsightsHit(item)) {
           return;
         }
-
-        console.log(source.getItems)
 
         onSelectEvent({
           state: state as AutocompleteState<any>,
