@@ -726,7 +726,7 @@ describe('createAlgoliaInsightsPlugin', () => {
           eventName: 'Item Selected',
           index: 'index1',
           objectIDs: ['1'],
-          positions: [0],
+          positions: [1],
           queryID: 'queryID1',
           algoliaSource: ['autocomplete', 'autocomplete-internal'],
         }
@@ -783,7 +783,7 @@ describe('createAlgoliaInsightsPlugin', () => {
           eventName: 'Item Selected',
           index: 'index1',
           objectIDs: ['1'],
-          positions: [0],
+          positions: [1],
           queryID: 'queryID1',
           algoliaSource: ['autocomplete', 'autocomplete-internal'],
         }
@@ -890,7 +890,7 @@ describe('createAlgoliaInsightsPlugin', () => {
           eventName: 'Product Selected from Autocomplete',
           index: 'index1',
           objectIDs: ['1'],
-          positions: [0],
+          positions: [1],
           queryID: 'queryID1',
           algoliaSource: ['autocomplete'],
         }
@@ -1055,7 +1055,7 @@ describe('createAlgoliaInsightsPlugin', () => {
             __autocomplete_queryID: 'queryID1',
           }),
         ],
-        positions: [0],
+        positions: [1],
         queryID: 'queryID1',
         algoliaSource: ['autocomplete'],
       });
