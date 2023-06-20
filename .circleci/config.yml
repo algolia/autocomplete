@@ -118,6 +118,15 @@ jobs:
       - run:
           name: Linting CSS
           command: yarn run lint:css
+  test_metadata:
+    <<: *defaults
+    steps:
+      - checkout
+      - *attach_workspace
+      - run: *install_yarn_version
+      - run:
+          name: Test package versions
+          command: yarn run test:versions
   test_types:
     <<: *defaults
     steps:
@@ -177,6 +186,7 @@ workflows:
   ci:
     jobs:
       - build
+      - test_metadata
       - test_lint:
           requires:
             - build
