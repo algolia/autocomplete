@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-js",
   "description": "Fast and fully-featured autocomplete JavaScript library.",
-  "version": "1.9.3",
+  "version": "1.9.4",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete",
   "repository": "algolia/autocomplete",
@@ -31,7 +31,7 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@algolia/autocomplete-core": "1.9.3",
+    "@algolia/autocomplete-core": "1.9.4",
     "@algolia/autocomplete-preset-algolia": "1.9.3",
     "@algolia/autocomplete-shared": "1.9.3",
     "htm": "^3.1.1",

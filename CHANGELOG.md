@@ -1,3 +1,12 @@
+## [1.9.4](https://github.com/algolia/autocomplete/compare/v1.9.3...v1.9.4) (2023-06-20)
+
+
+### Bug Fixes
+
+* **insights:** position gets computed per source  ([#1159](https://github.com/algolia/autocomplete/issues/1159)) ([d053024](https://github.com/algolia/autocomplete/commit/d053024db03e956b15521e467f442d72cb5faa8a))
+
+
+
 ## [1.9.3](https://github.com/algolia/autocomplete/compare/v1.9.2...v1.9.3) (2023-06-07)
 
 
