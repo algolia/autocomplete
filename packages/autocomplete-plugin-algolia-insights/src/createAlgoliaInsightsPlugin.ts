@@ -7,6 +7,7 @@ import {
   noop,
   safelyRunOnBrowser,
 } from '@algolia/autocomplete-shared';
+import { AutocompleteReshapeSource } from '@algolia/autocomplete-shared/dist/esm/core';
 
 import { createClickedEvent } from './createClickedEvent';
 import { createSearchInsightsApi } from './createSearchInsightsApi';
@@ -166,7 +167,7 @@ export function createAlgoliaInsightsPlugin(
         },
       });
 
-      onSelect(({ item, state, event }) => {
+      onSelect(({ item, state, event, source }) => {
         if (!isAlgoliaInsightsHit(item)) {
           return;
         }
@@ -179,13 +180,18 @@ export function createAlgoliaInsightsPlugin(
           insightsEvents: [
             {
               eventName: 'Item Selected',
-              ...createClickedEvent({ item, items: previousItems.current }),
+              ...createClickedEvent({
+                item,
+                items: (source as AutocompleteReshapeSource<any>)
+                  .getItems()
+                  .filter(isAlgoliaInsightsHit),
+              }),
             },
           ],
         });
       });
 
-      onActive(({ item, state, event }) => {
+      onActive(({ item, source, state, event }) => {
         if (!isAlgoliaInsightsHit(item)) {
           return;
         }
@@ -198,7 +204,12 @@ export function createAlgoliaInsightsPlugin(
           insightsEvents: [
             {
               eventName: 'Item Active',
-              ...createClickedEvent({ item, items: previousItems.current }),
+              ...createClickedEvent({
+                item,
+                items: (source as AutocompleteReshapeSource<any>)
+                  .getItems()
+                  .filter(isAlgoliaInsightsHit),
+              }),
             },
           ],
         });
