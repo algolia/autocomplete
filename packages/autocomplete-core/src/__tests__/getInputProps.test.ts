@@ -293,6 +293,30 @@ describe('getInputProps', () => {
     expect(inputProps.enterKeyHint).toEqual('go');
   });
 
+  test('returns enterKeyHint "enter" when explicitly defined', () => {
+    const { getInputProps, inputElement } = createPlayground(
+      createAutocomplete,
+      {
+        enterKeyHint: 'enter',
+        defaultActiveItemId: 0,
+        initialState: {
+          collections: [
+            createCollection({
+              source: { getItemUrl: ({ item }) => item.url },
+              items: [
+                { label: '1', url: '#1' },
+                { label: '2', url: '#2' },
+              ],
+            }),
+          ],
+        },
+      }
+    );
+    const inputProps = getInputProps({ inputElement });
+
+    expect(inputProps.enterKeyHint).toEqual('enter');
+  });
+
   describe('onChange', () => {
     test('sets the query', () => {
       const onStateChange = jest.fn();

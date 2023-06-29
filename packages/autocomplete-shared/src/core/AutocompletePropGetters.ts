@@ -1,4 +1,5 @@
 import { BaseItem } from './AutocompleteApi';
+import { AutocompleteEnterKeyHint } from './AutocompleteOptions';
 import { InternalAutocompleteSource } from './AutocompleteSource';
 
 export interface AutocompletePropGetters<
@@ -76,7 +77,7 @@ export type GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (props: {
   autoComplete: 'on' | 'off';
   autoCorrect: 'on' | 'off';
   autoCapitalize: 'on' | 'off';
-  enterKeyHint: 'go' | 'search';
+  enterKeyHint: AutocompleteEnterKeyHint;
   spellCheck: 'false';
   maxLength: number;
   type: 'search';

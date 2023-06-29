@@ -11,6 +11,15 @@ import {
 } from './AutocompleteSource';
 import { AutocompleteState } from './AutocompleteState';
 
+export type AutocompleteEnterKeyHint =
+  | 'enter'
+  | 'done'
+  | 'go'
+  | 'next'
+  | 'previous'
+  | 'search'
+  | 'send';
+
 export interface OnSubmitParams<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
   state: AutocompleteState<TItem>;
@@ -73,6 +82,12 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-onstatechange
    */
   onStateChange?(props: OnStateChangeProps<TItem>): void;
+  /**
+   * The action label or icon to present for the enter key on virtual keyboards.
+   *
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-enterkeyhint
+   */
+  enterKeyHint?: AutocompleteEnterKeyHint;
   /**
    * The placeholder text to show in the search input when there's no query.
    *
@@ -184,6 +199,7 @@ export interface InternalAutocompleteOptions<TItem extends BaseItem>
   debug: boolean;
   id: string;
   onStateChange(props: OnStateChangeProps<TItem>): void;
+  enterKeyHint: AutocompleteEnterKeyHint | undefined;
   placeholder: string;
   autoFocus: boolean;
   defaultActiveItemId: number | null;

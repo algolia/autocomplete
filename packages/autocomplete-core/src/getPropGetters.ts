@@ -173,7 +173,8 @@ export function getPropGetters<
     const userAgent = props.environment.navigator?.userAgent || '';
     const shouldFallbackKeyHint = isSamsung(userAgent);
     const enterKeyHint =
-      activeItem?.itemUrl && !shouldFallbackKeyHint ? 'go' : 'search';
+      props.enterKeyHint ||
+      (activeItem?.itemUrl && !shouldFallbackKeyHint ? 'go' : 'search');
 
     return {
       'aria-autocomplete': 'both',
