@@ -1,3 +1,12 @@
+# [1.10.0](https://github.com/algolia/autocomplete/compare/v1.9.4...v1.10.0) (2023-07-10)
+
+
+### Features
+
+* **autocomplete-core:** add `enterKeyHint` option to manually set hint on virtual keyboards ([#1164](https://github.com/algolia/autocomplete/issues/1164)) ([e5aeea8](https://github.com/algolia/autocomplete/commit/e5aeea84e10f27a426d0a68dbc3c3cf3284e362d))
+
+
+
 ## [1.9.4](https://github.com/algolia/autocomplete/compare/v1.9.3...v1.9.4) (2023-06-20)
 
 
