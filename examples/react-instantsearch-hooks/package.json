@@ -13,7 +13,7 @@
     "@algolia/autocomplete-js": "1.10.0",
     "@algolia/autocomplete-plugin-query-suggestions": "1.10.0",
     "@algolia/autocomplete-plugin-recent-searches": "1.10.0",
-    "@algolia/autocomplete-theme-classic": "1.9.4",
+    "@algolia/autocomplete-theme-classic": "1.10.0",
     "algoliasearch": "4.16.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
