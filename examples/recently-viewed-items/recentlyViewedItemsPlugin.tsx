@@ -63,6 +63,7 @@ export function createLocalStorageRecentlyViewedItems<
 
         return {
           ...transformedSource,
+          sourceId: 'recentlyViewedItemsPlugin',
           getItemUrl({ item }) {
             return item.url;
           },
@@ -128,6 +129,7 @@ export function createLocalStorageRecentlyViewedItems<
 
   return {
     ...plugin,
+    name: 'aa.localStorageRecentlyViewedItemsPlugin',
     data,
   };
 }
