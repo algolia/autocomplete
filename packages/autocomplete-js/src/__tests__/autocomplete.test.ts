@@ -751,7 +751,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
         insights: { insightsClient: defaultInsightsClient },
       });
 
-      expect(defaultInsightsClient).toHaveBeenCalledTimes(1);
+      expect(defaultInsightsClient).toHaveBeenCalledTimes(3);
       expect(userInsightsClient).toHaveBeenCalledTimes(0);
 
       const insightsPlugin = createAlgoliaInsightsPlugin({
@@ -759,8 +759,8 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       });
       update({ plugins: [insightsPlugin] });
 
-      expect(defaultInsightsClient).toHaveBeenCalledTimes(1);
-      expect(userInsightsClient).toHaveBeenCalledTimes(1);
+      expect(defaultInsightsClient).toHaveBeenCalledTimes(3);
+      expect(userInsightsClient).toHaveBeenCalledTimes(3);
     });
   });
 });
