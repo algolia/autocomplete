@@ -156,15 +156,24 @@ export function createAlgoliaInsightsPlugin(
   return {
     name: 'aa.algoliaInsightsPlugin',
     subscribe({ setContext, onSelect, onActive }) {
+      function setInsightsContext(userToken?: string) {
+        setContext({
+          algoliaInsightsPlugin: {
+            __algoliaSearchParameters: {
+              clickAnalytics: true,
+              ...(userToken ? { userToken } : {}),
+            },
+            insights,
+          },
+        });
+      }
+
       insightsClient('addAlgoliaAgent', 'insights-plugin');
 
-      setContext({
-        algoliaInsightsPlugin: {
-          __algoliaSearchParameters: {
-            clickAnalytics: true,
-          },
-          insights,
-        },
+      setInsightsContext();
+      insightsClient('onUserTokenChange', setInsightsContext);
+      insightsClient('getUserToken', null, (_error, userToken) => {
+        setInsightsContext(userToken);
       });
 
       onSelect(({ item, state, event, source }) => {
