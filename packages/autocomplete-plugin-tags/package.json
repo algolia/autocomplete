@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-plugin-tags",
   "description": "A plugin to manage and display a list of tags in Algolia Autocomplete.",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete",
   "repository": "algolia/autocomplete",
@@ -36,8 +36,8 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "devDependencies": {
-    "@algolia/autocomplete-core": "1.10.0",
-    "@algolia/autocomplete-js": "1.10.0",
-    "@algolia/autocomplete-shared": "1.10.0"
+    "@algolia/autocomplete-core": "1.11.0",
+    "@algolia/autocomplete-js": "1.11.0",
+    "@algolia/autocomplete-shared": "1.11.0"
   }
 }

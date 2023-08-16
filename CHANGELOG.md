@@ -1,3 +1,12 @@
+# [1.11.0](https://github.com/algolia/autocomplete/compare/v1.10.0...v1.11.0) (2023-08-11)
+
+
+### Features
+
+* **insights:** forward insights usertoken to algolia api calls ([#1179](https://github.com/algolia/autocomplete/issues/1179)) ([7a71eb4](https://github.com/algolia/autocomplete/commit/7a71eb41a71efa9aff17d38f34cada582917bb24))
+
+
+
 # [1.10.0](https://github.com/algolia/autocomplete/compare/v1.9.4...v1.10.0) (2023-07-10)
 
 

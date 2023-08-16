@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-vue-instantsearch",
   "description": "Autocomplete with Vue InstantSearch",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -10,10 +10,10 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.10.0",
-    "@algolia/autocomplete-plugin-query-suggestions": "1.10.0",
-    "@algolia/autocomplete-plugin-recent-searches": "1.10.0",
-    "@algolia/autocomplete-theme-classic": "1.10.0",
+    "@algolia/autocomplete-js": "1.11.0",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.11.0",
+    "@algolia/autocomplete-plugin-recent-searches": "1.11.0",
+    "@algolia/autocomplete-theme-classic": "1.11.0",
     "algoliasearch": "4.16.0",
     "core-js": "^3.6.5",
     "vue": "3.2.47",
