@@ -4,6 +4,7 @@ export * from './createConcurrentSafePromise';
 export * from './getNextActiveItemId';
 export * from './getNormalizedSources';
 export * from './getActiveItem';
+export * from './getAutocompleteElementId';
 export * from './isOrContainsNode';
 export * from './isSamsung';
 export * from './mapToAlgoliaResponse';
