@@ -14,5 +14,6 @@ export function getAutocompleteElementId(
 ) {
   return [autocompleteInstanceId, source?.sourceId, elementId]
     .filter(Boolean)
-    .join('-');
+    .join('-')
+    .replace(/\s/g, '');
 }

@@ -89,11 +89,21 @@ describe('getInputProps', () => {
   test('returns aria-controls with list ID when panel is open', () => {
     const { getInputProps, inputElement } = createPlayground(
       createAutocomplete,
-      { id: 'autocomplete', initialState: { isOpen: true } }
+      {
+        id: 'autocomplete',
+        initialState: {
+          isOpen: true,
+          collections: [
+            createCollection({
+              source: { sourceId: 'testSource' },
+            }),
+          ],
+        },
+      }
     );
     const inputProps = getInputProps({ inputElement });
 
-    expect(inputProps['aria-controls']).toEqual('autocomplete-list');
+    expect(inputProps['aria-controls']).toEqual('autocomplete-testSource-list');
   });
 
   test('returns aria-labelledby with label ID', () => {
@@ -669,6 +679,7 @@ describe('getInputProps', () => {
           initialState: {
             collections: [
               createCollection({
+                source: { sourceId: 'testSource' },
                 items: [{ label: '1' }],
               }),
             ],
@@ -676,7 +687,7 @@ describe('getInputProps', () => {
           ...props,
         });
         const item = document.createElement('div');
-        item.setAttribute('id', 'autocomplete-item-0');
+        item.setAttribute('id', 'autocomplete-testSource-item-0');
         document.body.appendChild(item);
 
         return { ...playground, item };
