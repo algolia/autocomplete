@@ -29,7 +29,7 @@ describe('getItemProps', () => {
       ...defaultItemProps,
     });
 
-    expect(itemProps.id).toEqual('autocomplete-item-0');
+    expect(itemProps.id).toEqual('autocomplete-testSource-item-0');
   });
 
   test('returns the role to option', () => {

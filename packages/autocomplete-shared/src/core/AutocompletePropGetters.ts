@@ -57,10 +57,7 @@ export type GetFormProps<TEvent = Event> = (props: {
   onReset(event: TEvent): void;
 };
 
-export type GetLabelProps = (props?: {
-  [key: string]: unknown;
-  sourceIndex?: number;
-}) => {
+export type GetLabelProps = (props?: { [key: string]: unknown }) => {
   htmlFor: string;
   id: string;
 };
@@ -101,7 +98,7 @@ export type GetPanelProps<TMouseEvent> = (props?: {
 
 export type GetListProps = (props?: {
   [key: string]: unknown;
-  sourceIndex?: number;
+  source: InternalAutocompleteSource<any>;
 }) => {
   role: 'listbox';
   'aria-labelledby': string;

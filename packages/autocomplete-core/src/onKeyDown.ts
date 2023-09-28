@@ -6,7 +6,7 @@ import {
   BaseItem,
   InternalAutocompleteOptions,
 } from './types';
-import { getActiveItem } from './utils';
+import { getActiveItem, getAutocompleteElementId } from './utils';
 
 interface OnKeyDownOptions<TItem extends BaseItem>
   extends AutocompleteScopeApi<TItem> {
@@ -25,8 +25,14 @@ export function onKeyDown<TItem extends BaseItem>({
   if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
     // eslint-disable-next-line no-inner-declarations
     function triggerScrollIntoView() {
+      const highlightedItem = getActiveItem(store.getState());
+
       const nodeItem = props.environment.document.getElementById(
-        `${props.id}-item-${store.getState().activeItemId}`
+        getAutocompleteElementId(
+          props.id,
+          `item-${store.getState().activeItemId}`,
+          highlightedItem?.source
+        )
       );
 
       if (nodeItem) {

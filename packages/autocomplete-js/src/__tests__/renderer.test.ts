@@ -221,15 +221,15 @@ describe('renderer', () => {
                 data-autocomplete-source-id="testSource"
               >
                 <ul
-                  aria-labelledby="autocomplete-0-0-label"
+                  aria-labelledby="autocomplete-0-label"
                   class="aa-List"
-                  id="autocomplete-0-0-list"
+                  id="autocomplete-0-testSource-list"
                   role="listbox"
                 >
                   <li
                     aria-selected="false"
                     class="aa-Item"
-                    id="autocomplete-0-0-item-0"
+                    id="autocomplete-0-testSource-item-0"
                     role="option"
                   >
                     1

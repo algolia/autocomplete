@@ -1,3 +1,4 @@
+import { createCollection } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 describe('getRootProps', () => {
@@ -60,11 +61,16 @@ describe('getRootProps', () => {
       id: 'autocomplete',
       initialState: {
         isOpen: true,
+        collections: [
+          createCollection({
+            source: { sourceId: 'testSource' },
+          }),
+        ],
       },
     });
     const rootProps = autocomplete.getRootProps({});
 
-    expect(rootProps['aria-owns']).toEqual('autocomplete-list');
+    expect(rootProps['aria-owns']).toEqual('autocomplete-testSource-list');
   });
 
   test('returns label id in aria-labelledby', () => {
