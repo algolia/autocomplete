@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-starter",
   "description": "Autocomplete starter",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,8 +9,8 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.11.0",
-    "@algolia/autocomplete-theme-classic": "1.11.0",
+    "@algolia/autocomplete-js": "1.11.1",
+    "@algolia/autocomplete-theme-classic": "1.11.1",
     "preact": "10.13.2"
   },
   "devDependencies": {
