@@ -2,7 +2,10 @@ import * as ClientSearch from '@algolia/client-search';
 import type * as AlgoliaSearch from 'algoliasearch/lite';
 
 // turns any to unknown, so it can be used as a conditional
-type AnyToUnknown<TSubject> = (any extends TSubject ? true : false) extends true
+// https://github.com/algolia/instantsearch/blob/18959b47f2f541f410e091a0cb7140f40e0956c2/packages/algoliasearch-helper/types/algoliasearch.d.ts#L14-L18
+type AnyToUnknown<TSubject> = (
+  0 extends 1 & TSubject ? true : false
+) extends true
   ? unknown
   : TSubject;
 
