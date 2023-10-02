@@ -1,3 +1,14 @@
+## [1.11.1](https://github.com/algolia/autocomplete/compare/v1.11.0...v1.11.1) (2023-10-02)
+
+
+### Bug Fixes
+
+* **css:** hide empty panel layout in detached mode ([#1192](https://github.com/algolia/autocomplete/issues/1192)) ([973feaf](https://github.com/algolia/autocomplete/commit/973feafbcca1abb2ded4e3ec5a9b9c491f0a848e))
+* generate elements ids in a consistent manner ([#1194](https://github.com/algolia/autocomplete/issues/1194)) ([a76b914](https://github.com/algolia/autocomplete/commit/a76b914a3b7a28825a4af67edca51098698742f3))
+* **types:** correct type for SearchClient ([#1195](https://github.com/algolia/autocomplete/issues/1195)) ([a0228e4](https://github.com/algolia/autocomplete/commit/a0228e48d326b7cef2d3f70377f860426aea34dc))
+
+
+
 # [1.11.0](https://github.com/algolia/autocomplete/compare/v1.10.0...v1.11.0) (2023-08-11)
 
 
