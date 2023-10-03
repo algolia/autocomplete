@@ -164,6 +164,20 @@ jobs:
       - run:
           name: Test packages size
           command: yarn run test:size
+  prepare_release:
+    <<: *defaults
+    steps:
+      - checkout
+      - *attach_workspace
+      - run: *install_yarn_version
+      - restore_cache: *restore_yarn_cache
+      - run: *run_yarn_install
+      - run:
+          name: Prepare a pull request for next release
+          command: |
+            git config --global user.email "autocomplete-bot@algolia.com"
+            git config --global user.name "Autocomplete[bot]"
+            yarn run shipjs prepare --yes --no-browse
   release:
     <<: *defaults
     steps:
@@ -182,8 +196,11 @@ jobs:
             yarn run shipjs trigger
 
 workflows:
-  version: 2.1
+  version: 2
   ci:
+    when:
+      not:
+        equal: [scheduled_pipeline, << pipeline.trigger_source >>]
     jobs:
       - build
       - test_metadata
@@ -210,3 +227,13 @@ workflows:
           filters:
             branches:
               only: next
+  scheduled release:
+    # This workflow is triggered by a schedule pipeline.
+    # See: https://app.circleci.com/settings/project/github/algolia/autocomplete/triggers
+    when:
+      and:
+        - equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        - equal: [scheduled_release, << pipeline.schedule.name >>]
+    jobs:
+      - prepare_release:
+          context: fx-libraries
