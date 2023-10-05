@@ -9,6 +9,7 @@ import {
 } from '@algolia/autocomplete-plugin-algolia-insights';
 import {
   AutocompleteOptions as _AutocompleteOptions,
+  InternalAutocompleteOptions as _InternalAutocompleteOptions,
   BaseItem,
 } from '@algolia/autocomplete-shared/dist/esm/core';
 
@@ -24,5 +25,7 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * @default false
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-insights
    */
-  insights?: CreateAlgoliaInsightsPluginParams | boolean;
+  insights?: CreateAlgoliaInsightsPluginParams | boolean | undefined;
 }
+export type InternalAutocompleteOptions<TItem extends BaseItem> =
+  AutocompleteOptions<TItem> & _InternalAutocompleteOptions<TItem>;
