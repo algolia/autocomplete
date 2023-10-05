@@ -15,8 +15,8 @@ import {
 
 export type AutocompleteInsightsApi = _AutocompleteInsightsApi;
 export type AlgoliaInsightsHit = _AlgoliaInsightsHit;
-export interface AutocompleteOptions<TItem extends BaseItem>
-  extends _AutocompleteOptions<TItem> {
+
+type InsightsOption = {
   /**
    * Whether to enable the Insights plugin and load the Insights library if it has not been loaded yet.
    *
@@ -26,6 +26,11 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-insights
    */
   insights?: CreateAlgoliaInsightsPluginParams | boolean | undefined;
-}
-export type InternalAutocompleteOptions<TItem extends BaseItem> =
-  AutocompleteOptions<TItem> & _InternalAutocompleteOptions<TItem>;
+};
+
+export interface AutocompleteOptions<TItem extends BaseItem>
+  extends _AutocompleteOptions<TItem>,
+    InsightsOption {}
+export interface InternalAutocompleteOptions<TItem extends BaseItem>
+  extends _InternalAutocompleteOptions<TItem>,
+    InsightsOption {}
