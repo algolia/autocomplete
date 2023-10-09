@@ -22,7 +22,7 @@ type InsightsOption = {
    *
    * See [**autocomplete-plugin-algolia-insights**](https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/) for more information.
    *
-   * @default false
+   * @default undefined
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-insights
    */
   insights?: CreateAlgoliaInsightsPluginParams | boolean | undefined;
