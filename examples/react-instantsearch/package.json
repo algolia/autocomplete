@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-react-instantsearch",
   "description": "Autocomplete example with React InstantSearch",
-  "version": "1.11.1",
+  "version": "1.12.0",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,9 +9,9 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.11.1",
-    "@algolia/autocomplete-plugin-query-suggestions": "1.11.1",
-    "@algolia/autocomplete-plugin-recent-searches": "1.11.1",
+    "@algolia/autocomplete-js": "1.12.0",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.12.0",
+    "@algolia/autocomplete-plugin-recent-searches": "1.12.0",
     "@algolia/autocomplete-theme-classic": "1.11.1",
     "algoliasearch": "4.16.0",
     "qs": "6.11.1",
