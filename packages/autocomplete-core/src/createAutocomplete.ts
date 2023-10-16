@@ -98,7 +98,10 @@ export function createAutocomplete<
     });
   }
 
-  if (props.insights && !isAlgoliaInsightsPluginEnabled) {
+  if (
+    props.insights &&
+    !props.plugins.some((plugin) => plugin.name === 'aa.algoliaInsightsPlugin')
+  ) {
     const insightsParams =
       typeof props.insights === 'boolean' ? {} : props.insights;
     props.plugins.push(createAlgoliaInsightsPlugin(insightsParams));

@@ -22,6 +22,7 @@ module.exports = {
   publishCommand({ tag }) {
     return `yarn publish --access public --tag ${tag}`;
   },
+  pullRequestTeamReviewers: ['frontend-experiences-web'],
   versionUpdated({ exec, dir, version }) {
     // Update package dependencies
     exec(
@@ -55,6 +56,11 @@ module.exports = {
     }
 
     return true;
+  },
+  slack: {
+    // disable slack notification for `prepared` lifecycle.
+    // Ship.js will send slack message only for `releaseSuccess`.
+    prepared: null,
   },
 };
 
