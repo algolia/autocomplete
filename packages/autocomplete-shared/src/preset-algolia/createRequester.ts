@@ -1,5 +1,4 @@
-import type { SearchResponse } from '@algolia/autocomplete-shared';
-
+import type { SearchResponse } from '../SearchResponse';
 import { UserAgent } from '../UserAgent';
 
 import {
