@@ -131,13 +131,16 @@ export function onInput<TItem extends BaseItem>({
                 isSearchResponseWithAutomaticInsightsFlag(items)
               );
 
-              setContext({
-                algoliaInsightsPlugin: {
-                  ...((store.getState().context?.algoliaInsightsPlugin ||
-                    {}) as Record<string, unknown>),
-                  __automaticInsights,
-                },
-              });
+              // No need to pollute the context if `__automaticInsights=false`
+              if (__automaticInsights) {
+                setContext({
+                  algoliaInsightsPlugin: {
+                    ...((store.getState().context?.algoliaInsightsPlugin ||
+                      {}) as Record<string, unknown>),
+                    __automaticInsights,
+                  },
+                });
+              }
 
               return postResolve(responses, sources, store);
             })
