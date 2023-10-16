@@ -1,11 +1,9 @@
 import type { FacetHit, Hit } from '@algolia/client-search';
 
 import type { MaybePromise } from '../MaybePromise';
-import type {
-  SearchForFacetValuesResponse,
-  SearchResponse,
-} from '../preset-algolia/algoliasearch';
+import type { SearchForFacetValuesResponse } from '../preset-algolia/algoliasearch';
 import type { RequesterDescription } from '../preset-algolia/createRequester';
+import type { SearchResponse } from '../SearchResponse';
 
 import { AutocompleteScopeApi, BaseItem } from './AutocompleteApi';
 import { GetSourcesParams } from './AutocompleteOptions';

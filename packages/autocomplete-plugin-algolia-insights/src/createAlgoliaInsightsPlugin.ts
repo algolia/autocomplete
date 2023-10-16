@@ -80,6 +80,10 @@ export type CreateAlgoliaInsightsPluginParams = {
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/#param-onactive
    */
   onActive?(params: OnActiveParams): void;
+  /**
+   * @internal
+   */
+  __autocomplete_clickAnalytics?: boolean;
 };
 
 export function createAlgoliaInsightsPlugin(
@@ -90,6 +94,7 @@ export function createAlgoliaInsightsPlugin(
     onItemsChange,
     onSelect: onSelectEvent,
     onActive: onActiveEvent,
+    __autocomplete_clickAnalytics,
   } = getOptions(options);
   let insightsClient = providedInsightsClient as InsightsClient;
 
@@ -160,7 +165,7 @@ export function createAlgoliaInsightsPlugin(
         setContext({
           algoliaInsightsPlugin: {
             __algoliaSearchParameters: {
-              clickAnalytics: true,
+              clickAnalytics: __autocomplete_clickAnalytics,
               ...(userToken ? { userToken } : {}),
             },
             insights,
@@ -256,6 +261,7 @@ function getOptions(options: CreateAlgoliaInsightsPluginParams) {
       );
     },
     onActive: noop,
+    __autocomplete_clickAnalytics: true,
     ...options,
   };
 }

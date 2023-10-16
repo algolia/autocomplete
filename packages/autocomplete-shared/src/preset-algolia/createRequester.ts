@@ -1,10 +1,11 @@
+import type { SearchResponse } from '@algolia/autocomplete-shared';
+
 import { UserAgent } from '../UserAgent';
 
 import {
   MultipleQueriesQuery,
   SearchClient,
   SearchForFacetValuesResponse,
-  SearchResponse,
 } from './algoliasearch';
 
 export interface SearchParams {

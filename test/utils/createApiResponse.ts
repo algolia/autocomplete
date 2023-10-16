@@ -1,7 +1,5 @@
-import {
-  SearchForFacetValuesResponse,
-  SearchResponse,
-} from '@algolia/client-search';
+import type { SearchResponse } from '@algolia/autocomplete-shared';
+import { SearchForFacetValuesResponse } from '@algolia/client-search';
 
 export function createSingleSearchResponse<THit = any>(
   subset: Partial<SearchResponse<THit>> = {}
