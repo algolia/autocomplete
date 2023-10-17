@@ -165,7 +165,9 @@ export function createAlgoliaInsightsPlugin(
         setContext({
           algoliaInsightsPlugin: {
             __algoliaSearchParameters: {
-              clickAnalytics: __autocomplete_clickAnalytics,
+              ...(__autocomplete_clickAnalytics
+                ? { clickAnalytics: true }
+                : {}),
               ...(userToken ? { userToken } : {}),
             },
             insights,

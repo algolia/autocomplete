@@ -280,15 +280,19 @@ describe('createAutocomplete', () => {
         userEvent.type(inputElement, 'a');
         await runAllMicroTasks();
 
-        // Subsequent requests don't send `clickAnalytics=true`
+        // Subsequent requests don't send `clickAnalytics`
         expect(searchClient.search).toHaveBeenLastCalledWith([
           expect.objectContaining({
             query: 'a',
-            params: expect.objectContaining({ clickAnalytics: false }),
+            params: expect.not.objectContaining({
+              clickAnalytics: expect.anything(),
+            }),
           }),
           expect.objectContaining({
             query: 'a',
-            params: expect.objectContaining({ clickAnalytics: false }),
+            params: expect.not.objectContaining({
+              clickAnalytics: expect.anything(),
+            }),
           }),
         ]);
 
@@ -420,17 +424,21 @@ describe('createAutocomplete', () => {
         userEvent.type(inputElement, 'a');
         await runAllMicroTasks();
 
-        // Subsequent requests don't send `clickAnalytics=true`
+        // Subsequent requests don't send `clickAnalytics`
         expect(searchClient.search).toHaveBeenLastCalledWith([
           expect.objectContaining({
             query: 'a',
-            params: expect.objectContaining({ clickAnalytics: false }),
+            params: expect.not.objectContaining({
+              clickAnalytics: expect.anything(),
+            }),
           }),
         ]);
         expect(searchClient2.search).toHaveBeenLastCalledWith([
           expect.objectContaining({
             query: 'a',
-            params: expect.objectContaining({ clickAnalytics: false }),
+            params: expect.not.objectContaining({
+              clickAnalytics: expect.anything(),
+            }),
           }),
         ]);
 
