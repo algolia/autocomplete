@@ -454,7 +454,7 @@ describe('createAutocomplete', () => {
         );
       });
 
-      test('opt-out or unset does not the Insights plugin', async () => {
+      test('opt-out or unset does not add the Insights plugin', async () => {
         const onStateChange = jest.fn();
 
         const searchClient = createSearchClient({
@@ -548,7 +548,7 @@ describe('createAutocomplete', () => {
         expect(insightsClient).not.toHaveBeenCalled();
       });
 
-      test('opt-in + `insights: false` does not the Insights plugin', async () => {
+      test('opt-in + `insights: false` does not add the Insights plugin', async () => {
         const onStateChange = jest.fn();
 
         const searchClient = createSearchClient({
