@@ -175,7 +175,7 @@ describe('createAutocomplete', () => {
       );
     });
 
-    describe('from the Dashboard', () => {
+    describe('from the response', () => {
       let insightsClient: ReturnType<typeof jest.spyOn> = undefined;
 
       beforeEach(() => {
