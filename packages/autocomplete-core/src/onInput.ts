@@ -128,7 +128,7 @@ export function onInput<TItem extends BaseItem>({
             .then(resolve)
             .then((responses) => {
               const __automaticInsights = responses.some(({ items }) =>
-                isSearchResponseWithAutomaticInsightsFlag(items)
+                isSearchResponseWithAutomaticInsightsFlag<TItem>(items)
               );
 
               // No need to pollute the context if `__automaticInsights=false`
