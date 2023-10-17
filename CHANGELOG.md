@@ -1,3 +1,12 @@
+# [1.12.0](https://github.com/algolia/autocomplete/compare/v1.11.1...v1.12.0) (2023-10-17)
+
+
+### Features
+
+* pass `insights` option default to `undefined` ([#1198](https://github.com/algolia/autocomplete/issues/1198)) ([2f5c683](https://github.com/algolia/autocomplete/commit/2f5c683cccca681345e855a2c28c3606919c73e4))
+
+
+
 ## [1.11.1](https://github.com/algolia/autocomplete/compare/v1.11.0...v1.11.1) (2023-10-02)
 
 
