@@ -68,20 +68,7 @@ export function createAutocomplete<
 
       props.plugins.push(plugin);
 
-      plugin.subscribe?.({
-        ...setters,
-        navigator: props.navigator,
-        refresh,
-        onSelect(fn) {
-          subscribers.push({ onSelect: fn });
-        },
-        onActive(fn) {
-          subscribers.push({ onActive: fn });
-        },
-        onResolve(fn) {
-          subscribers.push({ onResolve: fn });
-        },
-      });
+      subscribePlugins([plugin]);
     }
   }
 
@@ -98,28 +85,32 @@ export function createAutocomplete<
     });
   }
 
+  function subscribePlugins(plugins: typeof props.plugins) {
+    plugins.forEach((plugin) =>
+      plugin.subscribe?.({
+        ...setters,
+        navigator: props.navigator,
+        refresh,
+        onSelect(fn) {
+          subscribers.push({ onSelect: fn });
+        },
+        onActive(fn) {
+          subscribers.push({ onActive: fn });
+        },
+        onResolve(fn) {
+          subscribers.push({ onResolve: fn });
+        },
+      })
+    );
+  }
+
   if (props.insights && !isAlgoliaInsightsPluginEnabled) {
     const insightsParams =
       typeof props.insights === 'boolean' ? {} : props.insights;
     props.plugins.push(createAlgoliaInsightsPlugin(insightsParams));
   }
 
-  props.plugins.forEach((plugin) =>
-    plugin.subscribe?.({
-      ...setters,
-      navigator: props.navigator,
-      refresh,
-      onSelect(fn) {
-        subscribers.push({ onSelect: fn });
-      },
-      onActive(fn) {
-        subscribers.push({ onActive: fn });
-      },
-      onResolve(fn) {
-        subscribers.push({ onResolve: fn });
-      },
-    })
-  );
+  subscribePlugins(props.plugins);
 
   injectMetadata({
     metadata: getMetadata({ plugins: props.plugins, options }),
