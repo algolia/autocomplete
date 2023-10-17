@@ -613,7 +613,7 @@ describe('createAutocomplete', () => {
         await runAllMicroTasks();
         jest.runAllTimers();
 
-        // The Insights plugin was properly added
+        // The Insights plugin was not added
         expect(onStateChange).not.toHaveBeenCalledWith(
           expect.objectContaining({
             state: expect.objectContaining({
