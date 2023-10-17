@@ -44,9 +44,6 @@ export function createAutocomplete<
     TMouseEvent,
     TKeyboardEvent
   >({ props, refresh, store, navigator: props.navigator, ...setters });
-  const isAlgoliaInsightsPluginEnabled = props.plugins.some(
-    (plugin) => plugin.name === 'aa.algoliaInsightsPlugin'
-  );
 
   function onStoreStateChange({ prevState, state }) {
     props.onStateChange({
@@ -58,7 +55,7 @@ export function createAutocomplete<
     });
 
     if (
-      !isAlgoliaInsightsPluginEnabled &&
+      !isAlgoliaInsightsPluginEnabled() &&
       state.context?.algoliaInsightsPlugin?.__automaticInsights &&
       props.insights !== false
     ) {
@@ -104,7 +101,13 @@ export function createAutocomplete<
     );
   }
 
-  if (props.insights && !isAlgoliaInsightsPluginEnabled) {
+  function isAlgoliaInsightsPluginEnabled() {
+    return props.plugins.some(
+      (plugin) => plugin.name === 'aa.algoliaInsightsPlugin'
+    );
+  }
+
+  if (props.insights && !isAlgoliaInsightsPluginEnabled()) {
     const insightsParams =
       typeof props.insights === 'boolean' ? {} : props.insights;
     props.plugins.push(createAlgoliaInsightsPlugin(insightsParams));

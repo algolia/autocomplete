@@ -644,6 +644,90 @@ describe('createAutocomplete', () => {
         // No default events are sent
         expect(insightsClient).not.toHaveBeenCalled();
       });
+
+      test('opt-in + `insights: true` does not add the Insights plugin a second time', async () => {
+        const onStateChange = jest.fn();
+
+        const searchClient = createSearchClient({
+          search: jest.fn((requests) => {
+            return Promise.resolve(
+              createMultiSearchResponse<{ label: string }>(
+                ...requests.map(({ indexName, query = '' }, index) => ({
+                  hits: Array.from({ length: 2 }).map((_, i, arr) => ({
+                    objectID: String(index * arr.length + i + 1),
+                    label: query,
+                  })),
+                  index: indexName,
+                  queryID: `queryID${index}`,
+                  query,
+                  _automaticInsights: true as const,
+                }))
+              )
+            );
+          }),
+        });
+
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          openOnFocus: true,
+          defaultActiveItemId: 0,
+          insights: true,
+          getSources({ query }) {
+            return [
+              {
+                sourceId: 'items',
+                getItems() {
+                  return getAlgoliaResults({
+                    searchClient,
+                    queries: [
+                      {
+                        indexName: 'indexName',
+                        query,
+                      },
+                    ],
+                  });
+                },
+              },
+              {
+                sourceId: 'items2',
+                getItems() {
+                  return getAlgoliaResults({
+                    searchClient,
+                    queries: [
+                      {
+                        indexName: 'indexName2',
+                        query,
+                      },
+                    ],
+                  });
+                },
+              },
+            ];
+          },
+        });
+
+        inputElement.focus();
+        await runAllMicroTasks();
+        jest.runAllTimers();
+
+        // The Insights plugin was added
+        expect(insightsClient).toHaveBeenCalledWith(
+          'addAlgoliaAgent',
+          'insights-plugin'
+        );
+
+        insightsClient.mockClear();
+
+        // Typing to change hits and trigger `view` events
+        userEvent.type(inputElement, 'a');
+        await runAllMicroTasks();
+
+        // The Insights plugin was not added a second time
+        expect(insightsClient).not.toHaveBeenCalledWith(
+          'addAlgoliaAgent',
+          'insights-plugin'
+        );
+      });
     });
   });
 });
