@@ -40,9 +40,9 @@ Otherwise, you can install the [`autocomplete-core`](https://www.algolia.com/doc
 All Autocomplete packages are available on the [npm](https://www.npmjs.com) registry.
 
 ```bash
-yarn add @algolia/autocomplete-js
+yarn add algoliasearch search-insights @algolia/autocomplete-js
 # or
-npm install @algolia/autocomplete-js
+npm install algoliasearch search-insights @algolia/autocomplete-js
 ```
 
 If you don't use a package manager, you can use the HTML `script` element:
