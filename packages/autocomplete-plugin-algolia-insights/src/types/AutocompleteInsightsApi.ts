@@ -6,6 +6,9 @@ export type AutocompleteInsightsApi = ReturnType<
   typeof createSearchInsightsApi
 >;
 
+export type WithArbitraryParams<TParams extends Record<string, unknown>> =
+  Record<string, unknown> & TParams;
+
 export type InsightsParamsWithItems<TParams extends { objectIDs: string[] }> =
   Omit<TParams, 'objectIDs'> & {
     items: AlgoliaInsightsHit[];
