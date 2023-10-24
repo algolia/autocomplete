@@ -240,24 +240,32 @@ export function createAlgoliaInsightsPlugin(
 
 function getOptions(options: CreateAlgoliaInsightsPluginParams) {
   return {
-    onItemsChange({ insights, insightsEvents }: OnItemsChangeParams) {
+    onItemsChange({ insights, insightsEvents, state }: OnItemsChangeParams) {
       insights.viewedObjectIDs(
         ...insightsEvents.map((event) => ({
           ...event,
           algoliaSource: [
             ...(event.algoliaSource || []),
             'autocomplete-internal',
+            ...((state.context.algoliaInsightsPlugin as Record<string, unknown>)
+              ?.__automaticInsights
+              ? ['autocomplete-automatic']
+              : []),
           ],
         }))
       );
     },
-    onSelect({ insights, insightsEvents }: OnSelectParams) {
+    onSelect({ insights, insightsEvents, state }: OnSelectParams) {
       insights.clickedObjectIDsAfterSearch(
         ...insightsEvents.map((event) => ({
           ...event,
           algoliaSource: [
             ...(event.algoliaSource || []),
             'autocomplete-internal',
+            ...((state.context.algoliaInsightsPlugin as Record<string, unknown>)
+              ?.__automaticInsights
+              ? ['autocomplete-automatic']
+              : []),
           ],
         }))
       );

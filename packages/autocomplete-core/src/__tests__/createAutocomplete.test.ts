@@ -197,7 +197,7 @@ describe('createAutocomplete', () => {
               createMultiSearchResponse<{ label: string }>(
                 ...requests.map(({ indexName, query = '' }, index) => ({
                   hits: Array.from({ length: 2 }).map((_, i, arr) => ({
-                    objectID: String(index * arr.length + i + 1),
+                    objectID: `${String(index * arr.length + i + 1)}-${query}`,
                     label: query,
                   })),
                   index: indexName,
@@ -279,6 +279,7 @@ describe('createAutocomplete', () => {
         // Typing to change hits and trigger `view` events
         userEvent.type(inputElement, 'a');
         await runAllMicroTasks();
+        jest.runAllTimers();
 
         // Subsequent requests don't send `clickAnalytics`
         expect(searchClient.search).toHaveBeenLastCalledWith([
@@ -302,7 +303,12 @@ describe('createAutocomplete', () => {
           expect.objectContaining({
             eventName: 'Items Viewed',
             index: 'indexName',
-            objectIDs: ['1', '2'],
+            objectIDs: ['1-a', '2-a'],
+            algoliaSource: [
+              'autocomplete',
+              'autocomplete-internal',
+              'autocomplete-automatic',
+            ],
           })
         );
         expect(insightsClient).toHaveBeenCalledWith(
@@ -310,7 +316,12 @@ describe('createAutocomplete', () => {
           expect.objectContaining({
             eventName: 'Items Viewed',
             index: 'indexName2',
-            objectIDs: ['3', '4'],
+            objectIDs: ['3-a', '4-a'],
+            algoliaSource: [
+              'autocomplete',
+              'autocomplete-internal',
+              'autocomplete-automatic',
+            ],
           })
         );
       });
@@ -324,7 +335,7 @@ describe('createAutocomplete', () => {
               createMultiSearchResponse<{ label: string }>(
                 ...requests.map(({ indexName, query = '' }, index) => ({
                   hits: Array.from({ length: 2 }).map((_, i, arr) => ({
-                    objectID: String(index * arr.length + i + 1),
+                    objectID: `${String(index * arr.length + i + 1)}-${query}`,
                     label: query,
                   })),
                   index: indexName,
@@ -341,7 +352,9 @@ describe('createAutocomplete', () => {
               createMultiSearchResponse<{ label: string }>(
                 ...requests.map(({ indexName, query = '' }, index) => ({
                   hits: Array.from({ length: 2 }).map((_, i, arr) => ({
-                    objectID: String((index + 1) * arr.length + i + 1),
+                    objectID: `${String(
+                      (index + 1) * arr.length + i + 1
+                    )}-${query}`,
                     label: query,
                   })),
                   index: indexName,
@@ -423,6 +436,7 @@ describe('createAutocomplete', () => {
         // Typing to change hits and trigger `view` events
         userEvent.type(inputElement, 'a');
         await runAllMicroTasks();
+        jest.runAllTimers();
 
         // Subsequent requests don't send `clickAnalytics`
         expect(searchClient.search).toHaveBeenLastCalledWith([
@@ -448,7 +462,12 @@ describe('createAutocomplete', () => {
           expect.objectContaining({
             eventName: 'Items Viewed',
             index: 'indexName',
-            objectIDs: ['1', '2'],
+            objectIDs: ['1-a', '2-a'],
+            algoliaSource: [
+              'autocomplete',
+              'autocomplete-internal',
+              'autocomplete-automatic',
+            ],
           })
         );
         // Default `view` events are sent for the second set of items
@@ -457,7 +476,12 @@ describe('createAutocomplete', () => {
           expect.objectContaining({
             eventName: 'Items Viewed',
             index: 'indexName2',
-            objectIDs: ['3', '4'],
+            objectIDs: ['3-a', '4-a'],
+            algoliaSource: [
+              'autocomplete',
+              'autocomplete-internal',
+              'autocomplete-automatic',
+            ],
           })
         );
       });
