@@ -1,3 +1,14 @@
+# [1.12.0](https://github.com/algolia/autocomplete/compare/v1.11.1...v1.12.0) (2023-10-24)
+
+
+### Features
+
+* allow extra arguments in `sendEvent` signature ([#1210](https://github.com/algolia/autocomplete/issues/1210)) ([20d20a2](https://github.com/algolia/autocomplete/commit/20d20a296c87f8bc0aa6f776e5a7d384308a3312))
+* pass `insights` option default to `undefined` ([#1198](https://github.com/algolia/autocomplete/issues/1198)) ([2f5c683](https://github.com/algolia/autocomplete/commit/2f5c683cccca681345e855a2c28c3606919c73e4))
+* support Insights opt-in from the Dashboard ([#1205](https://github.com/algolia/autocomplete/issues/1205)) ([77c2aff](https://github.com/algolia/autocomplete/commit/77c2afff75f1603c5a58ebb1c46ca68d5e0a162b))
+
+
+
 ## [1.11.1](https://github.com/algolia/autocomplete/compare/v1.11.0...v1.11.1) (2023-10-02)
 
 
