@@ -252,6 +252,42 @@ describe('createSearchInsightsApi', () => {
     });
   });
 
+  test('allows arbitrary additional data to be sent', () => {
+    const insightsClient = jest.fn();
+    const insightsApi = createSearchInsightsApi(insightsClient);
+
+    insightsApi.convertedObjectIDsAfterSearch({
+      // Regular properties
+      eventName: 'Items Added to cart',
+      index: 'index1',
+      items: getAlgoliaItems(1),
+      queryID: 'queryID',
+      // Extra additional properties
+      eventSubtype: 'purchase',
+      objectData: [
+        { discount: 0, price: 100, quantity: 1, queryID: 'queryID' },
+      ],
+      value: 100,
+      currency: 'USD',
+    });
+
+    expect(insightsClient).toHaveBeenCalledWith(
+      'convertedObjectIDsAfterSearch',
+      {
+        eventName: 'Items Added to cart',
+        index: 'index1',
+        objectIDs: ['0'],
+        queryID: 'queryID',
+        eventSubtype: 'purchase',
+        objectData: [
+          { discount: 0, price: 100, quantity: 1, queryID: 'queryID' },
+        ],
+        value: 100,
+        currency: 'USD',
+      }
+    );
+  });
+
   test('viewedObjectIDs() splits large payloads into multiple chunks', () => {
     const insightsClient = jest.fn();
     const insightsApi = createSearchInsightsApi(insightsClient);

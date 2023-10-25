@@ -11,6 +11,7 @@ import {
   ConvertedObjectIDsParams,
   InsightsClient,
   InsightsClientMethod,
+  WithArbitraryParams,
   InsightsParamsWithItems,
   ViewedFiltersParams,
   ViewedObjectIDsParams,
@@ -83,13 +84,17 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
      */
     clickedObjectIDsAfterSearch(
       ...params: Array<
-        InsightsParamsWithItems<ClickedObjectIDsAfterSearchParams>
+        WithArbitraryParams<
+          InsightsParamsWithItems<ClickedObjectIDsAfterSearchParams>
+        >
       >
     ) {
       if (params.length > 0) {
         sendToInsights(
           'clickedObjectIDsAfterSearch',
-          mapToInsightsParamsApi(params),
+          mapToInsightsParamsApi<
+            InsightsParamsWithItems<ClickedObjectIDsAfterSearchParams>
+          >(params),
           params[0].items
         );
       }
@@ -100,12 +105,16 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
      * @link https://www.algolia.com/doc/api-reference/api-methods/clicked-object-ids/
      */
     clickedObjectIDs(
-      ...params: Array<InsightsParamsWithItems<ClickedObjectIDsParams>>
+      ...params: Array<
+        WithArbitraryParams<InsightsParamsWithItems<ClickedObjectIDsParams>>
+      >
     ) {
       if (params.length > 0) {
         sendToInsights(
           'clickedObjectIDs',
-          mapToInsightsParamsApi(params),
+          mapToInsightsParamsApi<
+            InsightsParamsWithItems<ClickedObjectIDsParams>
+          >(params),
           params[0].items
         );
       }
@@ -115,7 +124,9 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
      *
      * @link https://www.algolia.com/doc/api-reference/api-methods/clicked-filters/
      */
-    clickedFilters(...params: ClickedFiltersParams[]) {
+    clickedFilters(
+      ...params: Array<WithArbitraryParams<ClickedFiltersParams>>
+    ) {
       if (params.length > 0) {
         searchInsights('clickedFilters', ...params);
       }
@@ -127,13 +138,17 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
      */
     convertedObjectIDsAfterSearch(
       ...params: Array<
-        InsightsParamsWithItems<ConvertedObjectIDsAfterSearchParams>
+        WithArbitraryParams<
+          InsightsParamsWithItems<ConvertedObjectIDsAfterSearchParams>
+        >
       >
     ) {
       if (params.length > 0) {
         sendToInsights(
           'convertedObjectIDsAfterSearch',
-          mapToInsightsParamsApi(params),
+          mapToInsightsParamsApi<
+            InsightsParamsWithItems<ConvertedObjectIDsAfterSearchParams>
+          >(params),
           params[0].items
         );
       }
@@ -144,12 +159,16 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
      * @link https://www.algolia.com/doc/api-reference/api-methods/converted-object-ids/
      */
     convertedObjectIDs(
-      ...params: Array<InsightsParamsWithItems<ConvertedObjectIDsParams>>
+      ...params: Array<
+        WithArbitraryParams<InsightsParamsWithItems<ConvertedObjectIDsParams>>
+      >
     ) {
       if (params.length > 0) {
         sendToInsights(
           'convertedObjectIDs',
-          mapToInsightsParamsApi(params),
+          mapToInsightsParamsApi<
+            InsightsParamsWithItems<ConvertedObjectIDsParams>
+          >(params),
           params[0].items
         );
       }
@@ -159,7 +178,9 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
      *
      * @link https://www.algolia.com/doc/api-reference/api-methods/converted-filters/
      */
-    convertedFilters(...params: ConvertedFiltersParams[]) {
+    convertedFilters(
+      ...params: Array<WithArbitraryParams<ConvertedFiltersParams>>
+    ) {
       if (params.length > 0) {
         searchInsights('convertedFilters', ...params);
       }
@@ -170,7 +191,9 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
      * @link https://www.algolia.com/doc/api-reference/api-methods/viewed-object-ids/
      */
     viewedObjectIDs(
-      ...params: Array<InsightsParamsWithItems<ViewedObjectIDsParams>>
+      ...params: Array<
+        WithArbitraryParams<InsightsParamsWithItems<ViewedObjectIDsParams>>
+      >
     ) {
       if (params.length > 0) {
         params
@@ -202,7 +225,7 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
      *
      * @link https://www.algolia.com/doc/api-reference/api-methods/viewed-filters/
      */
-    viewedFilters(...params: ViewedFiltersParams[]) {
+    viewedFilters(...params: Array<WithArbitraryParams<ViewedFiltersParams>>) {
       if (params.length > 0) {
         searchInsights('viewedFilters', ...params);
       }
