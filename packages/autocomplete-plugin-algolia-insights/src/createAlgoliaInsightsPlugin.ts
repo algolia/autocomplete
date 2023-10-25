@@ -7,7 +7,10 @@ import {
   noop,
   safelyRunOnBrowser,
 } from '@algolia/autocomplete-shared';
-import { AutocompleteReshapeSource } from '@algolia/autocomplete-shared/dist/esm/core';
+import {
+  AutocompleteContext,
+  AutocompleteReshapeSource,
+} from '@algolia/autocomplete-shared/dist/esm/core';
 
 import { createClickedEvent } from './createClickedEvent';
 import { createSearchInsightsApi } from './createSearchInsightsApi';
@@ -238,20 +241,27 @@ export function createAlgoliaInsightsPlugin(
   };
 }
 
+function getAlgoliaSources(
+  algoliaSourceBase: string[] = [],
+  context: AutocompleteContext
+) {
+  return [
+    ...algoliaSourceBase,
+    'autocomplete-internal',
+    ...((context.algoliaInsightsPlugin as Record<string, unknown>)
+      ?.__automaticInsights
+      ? ['autocomplete-automatic']
+      : []),
+  ];
+}
+
 function getOptions(options: CreateAlgoliaInsightsPluginParams) {
   return {
     onItemsChange({ insights, insightsEvents, state }: OnItemsChangeParams) {
       insights.viewedObjectIDs(
         ...insightsEvents.map((event) => ({
           ...event,
-          algoliaSource: [
-            ...(event.algoliaSource || []),
-            'autocomplete-internal',
-            ...((state.context.algoliaInsightsPlugin as Record<string, unknown>)
-              ?.__automaticInsights
-              ? ['autocomplete-automatic']
-              : []),
-          ],
+          algoliaSource: getAlgoliaSources(event.algoliaSource, state.context),
         }))
       );
     },
@@ -259,14 +269,7 @@ function getOptions(options: CreateAlgoliaInsightsPluginParams) {
       insights.clickedObjectIDsAfterSearch(
         ...insightsEvents.map((event) => ({
           ...event,
-          algoliaSource: [
-            ...(event.algoliaSource || []),
-            'autocomplete-internal',
-            ...((state.context.algoliaInsightsPlugin as Record<string, unknown>)
-              ?.__automaticInsights
-              ? ['autocomplete-automatic']
-              : []),
-          ],
+          algoliaSource: getAlgoliaSources(event.algoliaSource, state.context),
         }))
       );
     },
