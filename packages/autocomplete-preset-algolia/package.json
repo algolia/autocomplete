@@ -10,6 +10,31 @@
     "url": "https://www.algolia.com"
   },
   "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./dist/esm/index.js",
+    "./dist/esm": "./dist/esm/index.js",
+    "./dist/esm/*": "./dist/esm/*.js",
+    "./dist/esm/*.js": "./dist/esm/*.js",
+    "./dist/esm/constants": "./dist/esm/constants/index.js",
+    "./dist/esm/constants/*": "./dist/esm/constants/*.js",
+    "./dist/esm/constants/*.js": "./dist/esm/constants/*.js",
+    "./dist/esm/highlight": "./dist/esm/highlight/index.js",
+    "./dist/esm/highlight/*": "./dist/esm/highlight/*.js",
+    "./dist/esm/highlight/*.js": "./dist/esm/highlight/*.js",
+    "./dist/esm/requester": "./dist/esm/requester/index.js",
+    "./dist/esm/requester/*": "./dist/esm/requester/*.js",
+    "./dist/esm/requester/*.js": "./dist/esm/requester/*.js",
+    "./dist/esm/search": "./dist/esm/search/index.js",
+    "./dist/esm/search/*": "./dist/esm/search/*.js",
+    "./dist/esm/search/*.js": "./dist/esm/search/*.js",
+    "./dist/esm/types": "./dist/esm/types/index.js",
+    "./dist/esm/types/*": "./dist/esm/types/*.js",
+    "./dist/esm/types/*.js": "./dist/esm/types/*.js",
+    "./dist/esm/utils": "./dist/esm/utils/index.js",
+    "./dist/esm/utils/*": "./dist/esm/utils/*.js",
+    "./dist/esm/utils/*.js": "./dist/esm/utils/*.js"
+  },
   "files": [
     "dist/"
   ],

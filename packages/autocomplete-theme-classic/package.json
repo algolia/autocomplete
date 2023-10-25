@@ -12,6 +12,14 @@
   "sideEffects": [
     "*.css"
   ],
+  "type": "module",
+  "exports": {
+    ".": "./dist/theme.min.css",
+    "./theme.css": "./dist/theme.min.css",
+    "./theme.min.css": "./dist/theme.min.css",
+    "./dist/theme.css": "./dist/theme.min.css",
+    "./dist/theme.min.css": "./dist/theme.min.css"
+  },
   "files": [
     "dist/"
   ],

@@ -17,6 +17,16 @@
   "unpkg": "dist/umd/index.production.js",
   "jsdelivr": "dist/umd/index.production.js",
   "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./dist/esm/index.js",
+    "./dist/esm": "./dist/esm/index.js",
+    "./dist/esm/*": "./dist/esm/*.js",
+    "./dist/esm/*.js": "./dist/esm/*.js",
+    "./dist/esm/types": "./dist/esm/types/index.js",
+    "./dist/esm/types/*": "./dist/esm/types/*.js",
+    "./dist/esm/types/*.js": "./dist/esm/types/*.js"
+  },
   "files": [
     "dist/"
   ],
