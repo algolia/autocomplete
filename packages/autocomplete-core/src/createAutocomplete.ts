@@ -53,6 +53,20 @@ export function createAutocomplete<
       navigator: props.navigator,
       ...setters,
     });
+
+    if (
+      !isAlgoliaInsightsPluginEnabled() &&
+      state.context?.algoliaInsightsPlugin?.__automaticInsights &&
+      props.insights !== false
+    ) {
+      const plugin = createAlgoliaInsightsPlugin({
+        __autocomplete_clickAnalytics: false,
+      });
+
+      props.plugins.push(plugin);
+
+      subscribePlugins([plugin]);
+    }
   }
 
   function refresh() {
@@ -68,31 +82,38 @@ export function createAutocomplete<
     });
   }
 
-  if (
-    props.insights &&
-    !props.plugins.some((plugin) => plugin.name === 'aa.algoliaInsightsPlugin')
-  ) {
+  function subscribePlugins(plugins: typeof props.plugins) {
+    plugins.forEach((plugin) =>
+      plugin.subscribe?.({
+        ...setters,
+        navigator: props.navigator,
+        refresh,
+        onSelect(fn) {
+          subscribers.push({ onSelect: fn });
+        },
+        onActive(fn) {
+          subscribers.push({ onActive: fn });
+        },
+        onResolve(fn) {
+          subscribers.push({ onResolve: fn });
+        },
+      })
+    );
+  }
+
+  function isAlgoliaInsightsPluginEnabled() {
+    return props.plugins.some(
+      (plugin) => plugin.name === 'aa.algoliaInsightsPlugin'
+    );
+  }
+
+  if (props.insights && !isAlgoliaInsightsPluginEnabled()) {
     const insightsParams =
       typeof props.insights === 'boolean' ? {} : props.insights;
     props.plugins.push(createAlgoliaInsightsPlugin(insightsParams));
   }
 
-  props.plugins.forEach((plugin) =>
-    plugin.subscribe?.({
-      ...setters,
-      navigator: props.navigator,
-      refresh,
-      onSelect(fn) {
-        subscribers.push({ onSelect: fn });
-      },
-      onActive(fn) {
-        subscribers.push({ onActive: fn });
-      },
-      onResolve(fn) {
-        subscribers.push({ onResolve: fn });
-      },
-    })
-  );
+  subscribePlugins(props.plugins);
 
   injectMetadata({
     metadata: getMetadata({ plugins: props.plugins, options }),

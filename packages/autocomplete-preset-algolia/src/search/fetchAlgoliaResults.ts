@@ -3,13 +3,10 @@ import {
   UserAgent,
   invariant,
 } from '@algolia/autocomplete-shared';
+import type { SearchResponse } from '@algolia/autocomplete-shared';
 
 import { HIGHLIGHT_PRE_TAG, HIGHLIGHT_POST_TAG } from '../constants';
-import type {
-  SearchForFacetValuesResponse,
-  SearchResponse,
-  SearchParams,
-} from '../types';
+import type { SearchForFacetValuesResponse, SearchParams } from '../types';
 import { getAppIdAndApiKey } from '../utils';
 
 export function fetchAlgoliaResults<TRecord>({

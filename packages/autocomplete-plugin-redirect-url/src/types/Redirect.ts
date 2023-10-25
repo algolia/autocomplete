@@ -4,10 +4,8 @@ import {
   InternalAutocompleteOptions,
 } from '@algolia/autocomplete-core';
 import { SourceTemplates } from '@algolia/autocomplete-js';
-import {
-  SearchForFacetValuesResponse,
-  SearchResponse,
-} from '@algolia/autocomplete-preset-algolia';
+import { SearchForFacetValuesResponse } from '@algolia/autocomplete-preset-algolia';
+import type { SearchResponse } from '@algolia/autocomplete-shared';
 
 export interface RedirectUrlPlugin {
   data: RedirectUrlState[];

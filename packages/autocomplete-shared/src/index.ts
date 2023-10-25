@@ -10,6 +10,7 @@ export * from './isEqual';
 export * from './MaybePromise';
 export * from './noop';
 export * from './safelyRunOnBrowser';
+export * from './SearchResponse';
 export * from './UserAgent';
 export * from './userAgents';
 export * from './version';

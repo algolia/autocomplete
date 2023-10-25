@@ -7,7 +7,10 @@ import {
   noop,
   safelyRunOnBrowser,
 } from '@algolia/autocomplete-shared';
-import { AutocompleteReshapeSource } from '@algolia/autocomplete-shared/dist/esm/core';
+import {
+  AutocompleteContext,
+  AutocompleteReshapeSource,
+} from '@algolia/autocomplete-shared/dist/esm/core';
 
 import { createClickedEvent } from './createClickedEvent';
 import { createSearchInsightsApi } from './createSearchInsightsApi';
@@ -80,6 +83,10 @@ export type CreateAlgoliaInsightsPluginParams = {
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/#param-onactive
    */
   onActive?(params: OnActiveParams): void;
+  /**
+   * @internal
+   */
+  __autocomplete_clickAnalytics?: boolean;
 };
 
 export function createAlgoliaInsightsPlugin(
@@ -90,6 +97,7 @@ export function createAlgoliaInsightsPlugin(
     onItemsChange,
     onSelect: onSelectEvent,
     onActive: onActiveEvent,
+    __autocomplete_clickAnalytics,
   } = getOptions(options);
   let insightsClient = providedInsightsClient as InsightsClient;
 
@@ -160,7 +168,9 @@ export function createAlgoliaInsightsPlugin(
         setContext({
           algoliaInsightsPlugin: {
             __algoliaSearchParameters: {
-              clickAnalytics: true,
+              ...(__autocomplete_clickAnalytics
+                ? { clickAnalytics: true }
+                : {}),
               ...(userToken ? { userToken } : {}),
             },
             insights,
@@ -231,31 +241,40 @@ export function createAlgoliaInsightsPlugin(
   };
 }
 
+function getAlgoliaSources(
+  algoliaSourceBase: string[] = [],
+  context: AutocompleteContext
+) {
+  return [
+    ...algoliaSourceBase,
+    'autocomplete-internal',
+    ...((context.algoliaInsightsPlugin as Record<string, unknown>)
+      ?.__automaticInsights
+      ? ['autocomplete-automatic']
+      : []),
+  ];
+}
+
 function getOptions(options: CreateAlgoliaInsightsPluginParams) {
   return {
-    onItemsChange({ insights, insightsEvents }: OnItemsChangeParams) {
+    onItemsChange({ insights, insightsEvents, state }: OnItemsChangeParams) {
       insights.viewedObjectIDs(
         ...insightsEvents.map((event) => ({
           ...event,
-          algoliaSource: [
-            ...(event.algoliaSource || []),
-            'autocomplete-internal',
-          ],
+          algoliaSource: getAlgoliaSources(event.algoliaSource, state.context),
         }))
       );
     },
-    onSelect({ insights, insightsEvents }: OnSelectParams) {
+    onSelect({ insights, insightsEvents, state }: OnSelectParams) {
       insights.clickedObjectIDsAfterSearch(
         ...insightsEvents.map((event) => ({
           ...event,
-          algoliaSource: [
-            ...(event.algoliaSource || []),
-            'autocomplete-internal',
-          ],
+          algoliaSource: getAlgoliaSources(event.algoliaSource, state.context),
         }))
       );
     },
     onActive: noop,
+    __autocomplete_clickAnalytics: true,
     ...options,
   };
 }

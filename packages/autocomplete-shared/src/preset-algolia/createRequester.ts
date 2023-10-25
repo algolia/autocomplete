@@ -1,10 +1,10 @@
+import type { SearchResponse } from '../SearchResponse';
 import { UserAgent } from '../UserAgent';
 
 import {
   MultipleQueriesQuery,
   SearchClient,
   SearchForFacetValuesResponse,
-  SearchResponse,
 } from './algoliasearch';
 
 export interface SearchParams {
