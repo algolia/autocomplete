@@ -1,7 +1,5 @@
-import type {
-  SearchForFacetValuesResponse,
-  SearchResponse,
-} from '@algolia/client-search';
+import type { SearchResponse } from '@algolia/autocomplete-shared';
+import type { SearchForFacetValuesResponse } from '@algolia/client-search';
 
 export function mapToAlgoliaResponse<THit>(
   rawResults: Array<SearchResponse<THit> | SearchForFacetValuesResponse>

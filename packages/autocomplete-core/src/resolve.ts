@@ -5,10 +5,10 @@ import type {
   TransformResponse,
 } from '@algolia/autocomplete-preset-algolia';
 import { decycle, flatten, invariant } from '@algolia/autocomplete-shared';
+import type { SearchResponse } from '@algolia/autocomplete-shared';
 import {
   MultipleQueriesQuery,
   SearchForFacetValuesResponse,
-  SearchResponse,
 } from '@algolia/client-search';
 import type { SearchClient } from 'algoliasearch/lite';
 

@@ -1,3 +1,6 @@
+import { SearchResponse } from '@algolia/autocomplete-shared';
+import { SearchForFacetValuesResponse } from '@algolia/client-search';
+
 import { reshape } from './reshape';
 import { preResolve, resolve, postResolve } from './resolve';
 import {
@@ -47,8 +50,14 @@ export function onInput<TItem extends BaseItem>({
     props.environment.clearTimeout(lastStalledId);
   }
 
-  const { setCollections, setIsOpen, setQuery, setActiveItemId, setStatus } =
-    setters;
+  const {
+    setCollections,
+    setIsOpen,
+    setQuery,
+    setActiveItemId,
+    setStatus,
+    setContext,
+  } = setters;
 
   setQuery(query);
   setActiveItemId(props.defaultActiveItemId);
@@ -117,7 +126,24 @@ export function onInput<TItem extends BaseItem>({
             })
           )
             .then(resolve)
-            .then((responses) => postResolve(responses, sources, store))
+            .then((responses) => {
+              const __automaticInsights = responses.some(({ items }) =>
+                isSearchResponseWithAutomaticInsightsFlag<TItem>(items)
+              );
+
+              // No need to pollute the context if `__automaticInsights=false`
+              if (__automaticInsights) {
+                setContext({
+                  algoliaInsightsPlugin: {
+                    ...((store.getState().context?.algoliaInsightsPlugin ||
+                      {}) as Record<string, unknown>),
+                    __automaticInsights,
+                  },
+                });
+              }
+
+              return postResolve(responses, sources, store);
+            })
             .then((collections) =>
               reshape({ collections, props, state: store.getState() })
             );
@@ -167,4 +193,17 @@ export function onInput<TItem extends BaseItem>({
     });
 
   return store.pendingRequests.add(request);
+}
+
+function isSearchResponseWithAutomaticInsightsFlag<TItem>(
+  items:
+    | TItem[]
+    | TItem[][]
+    | SearchForFacetValuesResponse
+    | SearchResponse<TItem>
+): items is SearchResponse<TItem> {
+  return (
+    !Array.isArray(items) &&
+    Boolean((items as SearchResponse<TItem>)?._automaticInsights)
+  );
 }
