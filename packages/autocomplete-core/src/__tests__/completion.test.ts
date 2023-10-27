@@ -161,4 +161,35 @@ describe('completion', () => {
       })
     );
   });
+
+  test('clears completion on "reset"', () => {
+    const { inputElement, resetElement } = createPlayground(
+      createAutocomplete,
+      {
+        openOnFocus: true,
+        initialState: {
+          collections: [
+            createCollection({
+              source: {
+                getItemInputValue({ item }) {
+                  return item.label;
+                },
+              },
+              items: [{ label: '1' }, { label: '2' }],
+            }),
+          ],
+        },
+      }
+    );
+    inputElement.focus();
+
+    userEvent.type(inputElement, 'Some text to make sure reset shows');
+    expect(inputElement).toHaveValue('Some text to make sure reset shows');
+
+    userEvent.type(inputElement, '{arrowdown}');
+    expect(inputElement).toHaveValue('1');
+
+    resetElement.click();
+    expect(inputElement).toHaveValue('');
+  });
 });
