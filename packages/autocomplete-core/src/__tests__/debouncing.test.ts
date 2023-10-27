@@ -42,14 +42,18 @@ describe('debouncing', () => {
     );
   });
 
-  test('triggers subsequent queries after reopening the panel', async () => {
+  test('triggers subsequent queries after closing and reopening the panel', async () => {
     const onStateChange = jest.fn();
     const getItems = jest.fn(({ query }) => [{ label: query }]);
     const { inputElement } = createPlayground(createAutocomplete, {
       onStateChange,
+      openOnFocus: true,
       getSources: () => debounced([createSource({ getItems })]),
+      // Despite the panel being open, if we don't force this to true, the panel won't open
+      shouldPanelOpen: () => true,
     });
 
+    inputElement.focus();
     userEvent.type(inputElement, 'abc{esc}');
 
     expect(onStateChange).toHaveBeenLastCalledWith(
@@ -60,8 +64,11 @@ describe('debouncing', () => {
         }),
       })
     );
+    expect(getItems).toHaveBeenCalledTimes(0);
+    expect(inputElement).toHaveValue('abc');
 
     userEvent.type(inputElement, 'def');
+    expect(inputElement).toHaveValue('abcdef');
 
     await defer(noop, delay);
 
@@ -78,6 +85,8 @@ describe('debouncing', () => {
         }),
       })
     );
+    expect(getItems).toHaveBeenCalledTimes(1);
+    expect(inputElement).toHaveValue('abcdef');
   });
 });
 
