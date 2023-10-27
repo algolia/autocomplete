@@ -49,12 +49,24 @@ describe('debouncing', () => {
       onStateChange,
       openOnFocus: true,
       getSources: () => debounced([createSource({ getItems })]),
-      // Despite the panel being open, if we don't force this to true, the panel won't open
-      shouldPanelOpen: () => true,
     });
 
     inputElement.focus();
-    userEvent.type(inputElement, 'abc{esc}');
+    userEvent.type(inputElement, 'ab');
+    await defer(noop, delay);
+
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          status: 'idle',
+          isOpen: true,
+        }),
+      })
+    );
+    expect(getItems).toHaveBeenCalledTimes(1);
+    expect(inputElement).toHaveValue('ab');
+
+    userEvent.type(inputElement, 'c{esc}');
 
     expect(onStateChange).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -64,7 +76,7 @@ describe('debouncing', () => {
         }),
       })
     );
-    expect(getItems).toHaveBeenCalledTimes(0);
+    expect(getItems).toHaveBeenCalledTimes(1);
     expect(inputElement).toHaveValue('abc');
 
     userEvent.type(inputElement, 'def');
@@ -85,7 +97,7 @@ describe('debouncing', () => {
         }),
       })
     );
-    expect(getItems).toHaveBeenCalledTimes(1);
+    expect(getItems).toHaveBeenCalledTimes(2);
     expect(inputElement).toHaveValue('abcdef');
   });
 });
