@@ -42,15 +42,31 @@ describe('debouncing', () => {
     );
   });
 
-  test('triggers subsequent queries after reopening the panel', async () => {
+  test('triggers subsequent queries after closing and reopening the panel', async () => {
     const onStateChange = jest.fn();
     const getItems = jest.fn(({ query }) => [{ label: query }]);
     const { inputElement } = createPlayground(createAutocomplete, {
       onStateChange,
+      openOnFocus: true,
       getSources: () => debounced([createSource({ getItems })]),
     });
 
-    userEvent.type(inputElement, 'abc{esc}');
+    inputElement.focus();
+    userEvent.type(inputElement, 'ab');
+    await defer(noop, delay);
+
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          status: 'idle',
+          isOpen: true,
+        }),
+      })
+    );
+    expect(getItems).toHaveBeenCalledTimes(1);
+    expect(inputElement).toHaveValue('ab');
+
+    userEvent.type(inputElement, 'c{esc}');
 
     expect(onStateChange).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -60,8 +76,11 @@ describe('debouncing', () => {
         }),
       })
     );
+    expect(getItems).toHaveBeenCalledTimes(1);
+    expect(inputElement).toHaveValue('abc');
 
     userEvent.type(inputElement, 'def');
+    expect(inputElement).toHaveValue('abcdef');
 
     await defer(noop, delay);
 
@@ -78,6 +97,8 @@ describe('debouncing', () => {
         }),
       })
     );
+    expect(getItems).toHaveBeenCalledTimes(2);
+    expect(inputElement).toHaveValue('abcdef');
   });
 });
 

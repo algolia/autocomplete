@@ -129,6 +129,7 @@ export const stateReducer: Reducer = (state, action) => {
             ? action.props.defaultActiveItemId
             : null,
         status: 'idle',
+        completion: null,
         query: '',
       };
     }

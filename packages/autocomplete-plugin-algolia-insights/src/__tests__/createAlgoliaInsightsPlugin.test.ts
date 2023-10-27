@@ -242,6 +242,9 @@ describe('createAlgoliaInsightsPlugin', () => {
         <body>
           <form>
             <input />
+            <button
+              type="reset"
+            />
           </form>
         </body>
       `);
@@ -264,6 +267,9 @@ describe('createAlgoliaInsightsPlugin', () => {
         <body>
           <form>
             <input />
+            <button
+              type="reset"
+            />
           </form>
         </body>
       `);
@@ -286,6 +292,9 @@ describe('createAlgoliaInsightsPlugin', () => {
           />
           <form>
             <input />
+            <button
+              type="reset"
+            />
           </form>
         </body>
       `);

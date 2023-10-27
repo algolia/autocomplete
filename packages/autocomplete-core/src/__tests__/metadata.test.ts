@@ -73,7 +73,7 @@ describe('metadata', () => {
         ).content
       )
     ).toEqual({
-      options: { 'autocomplete-core': ['environment'] },
+      options: { 'autocomplete-core': ['environment', 'onStateChange'] },
       plugins: [],
       ua: [{ segment: 'autocomplete-core', version }],
     });
@@ -111,7 +111,12 @@ describe('metadata', () => {
         ).content
       ).options
     ).toEqual({
-      'autocomplete-core': ['openOnFocus', 'placeholder', 'environment'],
+      'autocomplete-core': [
+        'openOnFocus',
+        'placeholder',
+        'environment',
+        'onStateChange',
+      ],
     });
   });
 

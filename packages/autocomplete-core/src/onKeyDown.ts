@@ -114,7 +114,7 @@ export function onKeyDown<TItem extends BaseItem>({
   } else if (event.key === 'Tab') {
     store.dispatch('blur', null);
 
-    // Hitting the `Escape` key signals the end of a user interaction with the
+    // Hitting the `Tab` key signals the end of a user interaction with the
     // autocomplete. At this point, we should ignore any requests that are still
     // pending and could reopen the panel once they resolve, because that would
     // result in an unsolicited UI behavior.
