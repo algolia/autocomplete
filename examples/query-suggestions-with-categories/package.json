@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-query-suggestion-with-categories",
   "description": "Autocomplete example with Query Suggestions with categories",
-  "version": "1.12.0",
+  "version": "1.12.1",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,9 +9,9 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.12.0",
-    "@algolia/autocomplete-plugin-query-suggestions": "1.12.0",
-    "@algolia/autocomplete-theme-classic": "1.12.0",
+    "@algolia/autocomplete-js": "1.12.1",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.12.1",
+    "@algolia/autocomplete-theme-classic": "1.12.1",
     "algoliasearch": "4.16.0",
     "preact": "10.13.2"
   },

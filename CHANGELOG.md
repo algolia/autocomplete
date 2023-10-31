@@ -1,3 +1,12 @@
+## [1.12.1](https://github.com/algolia/autocomplete/compare/v1.12.0...v1.12.1) (2023-10-31)
+
+
+### Bug Fixes
+
+* **behaviour:** clear completion on "reset" ([#1215](https://github.com/algolia/autocomplete/issues/1215)) ([caa3ef8](https://github.com/algolia/autocomplete/commit/caa3ef8d2fa650f52997c7b661a74a9d5cbca9cd))
+
+
+
 # [1.12.0](https://github.com/algolia/autocomplete/compare/v1.11.1...v1.12.0) (2023-10-24)
 
 
