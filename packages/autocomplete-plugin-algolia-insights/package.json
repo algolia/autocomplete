@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-plugin-algolia-insights",
   "description": "A plugin to add Algolia Insights to Algolia Autocomplete.",
-  "version": "1.12.0",
+  "version": "1.12.1",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete",
   "repository": "algolia/autocomplete",
