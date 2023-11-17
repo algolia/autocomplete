@@ -18,14 +18,20 @@ import {
 } from '../../../../test/utils';
 import { createAlgoliaInsightsPlugin } from '../createAlgoliaInsightsPlugin';
 
-beforeEach(() => {
-  (window as any).AlgoliaAnalyticsObject = undefined;
-  (window as any).aa = undefined;
-
-  document.body.innerHTML = '';
-});
-
 describe('createAlgoliaInsightsPlugin', () => {
+  const originalWindow = global.window;
+
+  beforeEach(() => {
+    (window as any).AlgoliaAnalyticsObject = undefined;
+    (window as any).aa = undefined;
+
+    document.body.innerHTML = '';
+  });
+
+  afterEach(() => {
+    global.window = originalWindow;
+  });
+
   test('has a name', () => {
     const plugin = createAlgoliaInsightsPlugin({ insightsClient });
 
@@ -342,6 +348,17 @@ describe('createAlgoliaInsightsPlugin', () => {
       expect(consoleError).toHaveBeenCalledWith(
         '[Autocomplete]: Could not load search-insights.js. Please load it manually following https://alg.li/insights-autocomplete'
       );
+    });
+
+    it('does not throw in server environments', () => {
+      // @ts-expect-error
+      delete global.window;
+
+      expect(() => {
+        createPlayground(createAutocomplete, {
+          plugins: [createAlgoliaInsightsPlugin({})],
+        });
+      }).not.toThrow();
     });
   });
 
