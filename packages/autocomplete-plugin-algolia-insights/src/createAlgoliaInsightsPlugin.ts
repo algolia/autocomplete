@@ -131,6 +131,12 @@ export function createAlgoliaInsightsPlugin(
     });
   }
 
+  // We return an empty plugin if `insightsClient` is still undefined at
+  // this stage, which can happen in server environments.
+  if (!insightsClient) {
+    return {};
+  }
+
   const insights = createSearchInsightsApi(insightsClient);
   const previousItems = createRef<AlgoliaInsightsHit[]>([]);
 
