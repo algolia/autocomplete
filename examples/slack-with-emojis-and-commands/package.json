@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-slack",
   "description": "Autocomplete example powering a Slack compose box with emojis and slash commands.",
-  "version": "1.12.1",
+  "version": "1.12.2",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -11,7 +11,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@algolia/autocomplete-core": "1.12.1",
+    "@algolia/autocomplete-core": "1.12.2",
     "@algolia/autocomplete-preset-algolia": "1.12.1",
     "algoliasearch": "4.16.0",
     "react": "17.0.2",

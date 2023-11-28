@@ -1,3 +1,12 @@
+## [1.12.2](https://github.com/algolia/autocomplete/compare/v1.12.1...v1.12.2) (2023-11-28)
+
+
+### Bug Fixes
+
+* **insights:** do not throw if insightsClient is undefined in server environments ([#1220](https://github.com/algolia/autocomplete/issues/1220)) ([0692375](https://github.com/algolia/autocomplete/commit/069237576d3a1e8b61341c06640543b1aadf568a))
+
+
+
 ## [1.12.1](https://github.com/algolia/autocomplete/compare/v1.12.0...v1.12.1) (2023-10-31)
 
 
