@@ -32,10 +32,10 @@
   },
   "dependencies": {
     "@algolia/autocomplete-plugin-algolia-insights": "1.12.2",
-    "@algolia/autocomplete-shared": "1.12.1"
+    "@algolia/autocomplete-shared": "1.12.2"
   },
   "devDependencies": {
-    "@algolia/autocomplete-preset-algolia": "1.12.1",
+    "@algolia/autocomplete-preset-algolia": "1.12.2",
     "@algolia/client-search": "4.16.0",
     "algoliasearch": "4.16.0"
   }
