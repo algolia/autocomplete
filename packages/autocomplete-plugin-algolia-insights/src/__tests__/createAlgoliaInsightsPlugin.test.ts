@@ -294,7 +294,7 @@ describe('createAlgoliaInsightsPlugin', () => {
       expect(document.body).toMatchInlineSnapshot(`
         <body>
           <script
-            src="https://cdn.jsdelivr.net/npm/search-insights@2.6.0/dist/search-insights.min.js"
+            src="https://cdn.jsdelivr.net/npm/search-insights@2.13.0/dist/search-insights.min.js"
           />
           <form>
             <input />
@@ -306,7 +306,7 @@ describe('createAlgoliaInsightsPlugin', () => {
       `);
       expect((window as any).AlgoliaAnalyticsObject).toBe('aa');
       expect((window as any).aa).toEqual(expect.any(Function));
-      expect((window as any).aa.version).toBe('2.6.0');
+      expect((window as any).aa.version).toBe('2.13.0');
     });
 
     it('notifies when the script fails to be added', () => {
@@ -867,7 +867,7 @@ describe('createAlgoliaInsightsPlugin', () => {
     test('sends a `clickedObjectIDsAfterSearch` event with additional parameters if client supports it', async () => {
       const insightsClient = jest.fn();
       // @ts-ignore
-      insightsClient.version = '2.6.0';
+      insightsClient.version = '2.13.0';
       const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
 
       const { inputElement } = createPlayground(createAutocomplete, {

@@ -26,7 +26,7 @@ import {
 } from './types';
 
 const VIEW_EVENT_DELAY = 400;
-const ALGOLIA_INSIGHTS_VERSION = '2.6.0';
+const ALGOLIA_INSIGHTS_VERSION = '2.13.0';
 const ALGOLIA_INSIGHTS_SRC = `https://cdn.jsdelivr.net/npm/search-insights@${ALGOLIA_INSIGHTS_VERSION}/dist/search-insights.min.js`;
 
 type SendViewedObjectIDsParams = {
@@ -170,14 +170,16 @@ export function createAlgoliaInsightsPlugin(
   return {
     name: 'aa.algoliaInsightsPlugin',
     subscribe({ setContext, onSelect, onActive }) {
-      function setInsightsContext(userToken?: string) {
+      function setInsightsContext(userToken?: string | number) {
         setContext({
           algoliaInsightsPlugin: {
             __algoliaSearchParameters: {
               ...(__autocomplete_clickAnalytics
                 ? { clickAnalytics: true }
                 : {}),
-              ...(userToken ? { userToken } : {}),
+              ...(userToken
+                ? { userToken: normalizeUserToken(userToken) }
+                : {}),
             },
             insights,
           },
@@ -303,4 +305,16 @@ function loadInsights(environment: typeof window) {
     // eslint-disable-next-line no-console
     console.error(errorMessage);
   }
+}
+
+/**
+ * While `search-insights` supports both string and number user tokens,
+ * the Search API only accepts strings. This function normalizes the user token.
+ */
+function normalizeUserToken(userToken?: string | number): string | undefined {
+  if (!userToken) {
+    return undefined;
+  }
+
+  return typeof userToken === 'number' ? userToken.toString() : userToken;
 }
