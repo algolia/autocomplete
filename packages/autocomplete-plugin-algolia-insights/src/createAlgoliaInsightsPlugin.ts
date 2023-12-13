@@ -311,10 +311,6 @@ function loadInsights(environment: typeof window) {
  * While `search-insights` supports both string and number user tokens,
  * the Search API only accepts strings. This function normalizes the user token.
  */
-function normalizeUserToken(userToken?: string | number): string | undefined {
-  if (!userToken) {
-    return undefined;
-  }
-
+function normalizeUserToken(userToken: string | number): string {
   return typeof userToken === 'number' ? userToken.toString() : userToken;
 }
