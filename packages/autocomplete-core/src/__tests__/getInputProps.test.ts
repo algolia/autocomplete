@@ -1,4 +1,4 @@
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
 import {
@@ -644,6 +644,66 @@ describe('getInputProps', () => {
       await runAllMicroTasks();
 
       expect(environment.clearTimeout).toHaveBeenLastCalledWith(999);
+    });
+
+    test('stops process if IME composition is in progress', () => {
+      const getSources = jest.fn((..._args: any[]) => {
+        return [
+          createSource({
+            getItems() {
+              return [{ label: '1' }, { label: '2' }];
+            },
+          }),
+        ];
+      });
+      const { inputElement } = createPlayground(createAutocomplete, {
+        getSources,
+      });
+
+      // Typing 木 using the Wubihua input method
+      // see:
+      // - https://en.wikipedia.org/wiki/Stroke_count_method
+      // - https://developer.mozilla.org/en-US/docs/Web/API/Element/compositionend_event
+      const character = '木';
+      const strokes = ['一', '丨', '丿', '丶', character];
+
+      strokes.forEach((stroke, index) => {
+        const isFirst = index === 0;
+        const isLast = index === strokes.length - 1;
+        const query = isLast ? stroke : strokes.slice(0, index + 1).join('');
+
+        if (isFirst) {
+          fireEvent.compositionStart(inputElement);
+        }
+
+        fireEvent.compositionUpdate(inputElement, {
+          data: query,
+        });
+
+        fireEvent.input(inputElement, {
+          isComposing: true,
+          target: {
+            value: query,
+          },
+        });
+
+        if (isLast) {
+          fireEvent.compositionEnd(inputElement, {
+            data: query,
+            target: {
+              value: query,
+            },
+          });
+        }
+      });
+
+      expect(inputElement).toHaveValue(character);
+      expect(getSources).toHaveBeenCalledTimes(1);
+      expect(getSources).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          query: character,
+        })
+      );
     });
   });
 
