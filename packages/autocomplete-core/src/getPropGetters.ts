@@ -219,6 +219,22 @@ export function getPropGetters<
       maxLength,
       type: 'search',
       onChange: (event) => {
+        if ((event as unknown as InputEvent).isComposing) {
+          return;
+        }
+
+        onInput({
+          event,
+          props,
+          query: (
+            (event as unknown as Event).currentTarget as HTMLInputElement
+          ).value.slice(0, maxLength),
+          refresh,
+          store,
+          ...setters,
+        });
+      },
+      oncompositionend: (event) => {
         onInput({
           event,
           props,
