@@ -247,6 +247,10 @@ export function getPropGetters<
         });
       },
       onKeyDown: (event) => {
+        if ((event as unknown as InputEvent).isComposing) {
+          return;
+        }
+
         onKeyDown({
           event: event as unknown as KeyboardEvent,
           props,
