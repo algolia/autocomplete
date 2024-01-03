@@ -8,3 +8,4 @@ export * from './getAutocompleteElementId';
 export * from './isOrContainsNode';
 export * from './isSamsung';
 export * from './mapToAlgoliaResponse';
+export * from './getNativeEvent';
