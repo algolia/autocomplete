@@ -83,8 +83,7 @@ export type GetInputProps<TEvent, TMouseEvent, TKeyboardEvent> = (props: {
   'aria-controls': string | undefined;
   'aria-labelledby': string;
   onChange(event: TEvent): void;
-  // see: https://github.com/preactjs/preact/issues/1978
-  oncompositionend(event: TEvent): void;
+  onCompositionEnd(event: TEvent): void;
   onKeyDown(event: TKeyboardEvent): void;
   onFocus(event: TEvent): void;
   onBlur(): void;

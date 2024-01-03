@@ -110,6 +110,9 @@ function getNormalizedName(name: string): string {
   switch (name) {
     case 'onChange':
       return 'onInput';
+    // see: https://github.com/preactjs/preact/issues/1978
+    case 'onCompositionEnd':
+      return 'oncompositionend';
     default:
       return name;
   }

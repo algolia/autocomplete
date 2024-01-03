@@ -21,6 +21,7 @@ import {
   getAutocompleteElementId,
   isOrContainsNode,
   isSamsung,
+  getNativeEvent,
 } from './utils';
 
 interface GetPropGettersOptions<TItem extends BaseItem>
@@ -219,22 +220,25 @@ export function getPropGetters<
       maxLength,
       type: 'search',
       onChange: (event) => {
-        if ((event as unknown as InputEvent).isComposing) {
+        const value = (
+          (event as unknown as Event).currentTarget as HTMLInputElement
+        ).value;
+
+        if (getNativeEvent(event as unknown as InputEvent).isComposing) {
+          setters.setQuery(value);
           return;
         }
 
         onInput({
           event,
           props,
-          query: (
-            (event as unknown as Event).currentTarget as HTMLInputElement
-          ).value.slice(0, maxLength),
+          query: value.slice(0, maxLength),
           refresh,
           store,
           ...setters,
         });
       },
-      oncompositionend: (event) => {
+      onCompositionEnd: (event) => {
         onInput({
           event,
           props,
@@ -247,7 +251,7 @@ export function getPropGetters<
         });
       },
       onKeyDown: (event) => {
-        if ((event as unknown as InputEvent).isComposing) {
+        if (getNativeEvent(event as unknown as InputEvent).isComposing) {
           return;
         }
 
