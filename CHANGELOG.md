@@ -1,3 +1,12 @@
+## [1.13.1](https://github.com/algolia/autocomplete/compare/v1.13.0...v1.13.1) (2024-01-09)
+
+
+### Bug Fixes
+
+* stop processing input when composing with an IME ([#1226](https://github.com/algolia/autocomplete/issues/1226)) ([7f5ba08](https://github.com/algolia/autocomplete/commit/7f5ba08fde5278cfbb944cfde5d78bda0f3855e1))
+
+
+
 # [1.13.0](https://github.com/algolia/autocomplete/compare/v1.12.2...v1.13.0) (2023-12-26)
 
 
