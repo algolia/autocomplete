@@ -20,6 +20,7 @@ import {
   AlgoliaInsightsHit,
   AutocompleteInsightsApi,
   InsightsClient,
+  InsightsMethodMap,
   OnActiveParams,
   OnItemsChangeParams,
   OnSelectParams,
@@ -58,6 +59,10 @@ export type CreateAlgoliaInsightsPluginParams = {
    */
   insightsClient?: InsightsClient;
   /**
+   * Insights parameters to forward to the Insights client’s init method.
+   */
+  insightsInitParams?: Partial<InsightsMethodMap['init'][0]>;
+  /**
    * Hook to send an Insights event when the items change.
    *
    * By default, it sends a `viewedObjectIDs` event.
@@ -94,6 +99,7 @@ export function createAlgoliaInsightsPlugin(
 ): AutocompletePlugin<any, undefined> {
   const {
     insightsClient: providedInsightsClient,
+    insightsInitParams,
     onItemsChange,
     onSelect: onSelectEvent,
     onActive: onActiveEvent,
@@ -135,6 +141,10 @@ export function createAlgoliaInsightsPlugin(
   // this stage, which can happen in server environments.
   if (!insightsClient) {
     return {};
+  }
+
+  if (insightsInitParams) {
+    insightsClient('init', { partial: true, ...insightsInitParams });
   }
 
   const insights = createSearchInsightsApi(insightsClient);

@@ -1,5 +1,5 @@
 import type {
-  InsightsMethodMap,
+  InsightsMethodMap as _InsightsMethodMap,
   InsightsClient as _InsightsClient,
 } from 'search-insights';
 
@@ -11,6 +11,7 @@ export type {
   OnUserTokenChange as InsightsOnUserTokenChange,
 } from 'search-insights';
 
+export type InsightsMethodMap = _InsightsMethodMap;
 export type InsightsClientMethod = keyof InsightsMethodMap;
 
 export type InsightsClientPayload = {
