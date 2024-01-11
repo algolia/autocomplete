@@ -60,6 +60,8 @@ export type CreateAlgoliaInsightsPluginParams = {
   insightsClient?: InsightsClient;
   /**
    * Insights parameters to forward to the Insights client’s init method.
+   *
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-algolia-insights/createAlgoliaInsightsPlugin/#param-insightsinitparams
    */
   insightsInitParams?: Partial<InsightsMethodMap['init'][0]>;
   /**
