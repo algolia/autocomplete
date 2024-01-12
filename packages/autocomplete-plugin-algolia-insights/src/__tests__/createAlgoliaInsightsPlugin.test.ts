@@ -228,6 +228,28 @@ describe('createAlgoliaInsightsPlugin', () => {
     ]);
   });
 
+  test('does not call `init` if `insightsInitParams` not passed', () => {
+    const insightsClient = jest.fn();
+    createAlgoliaInsightsPlugin({
+      insightsClient,
+    });
+
+    expect(insightsClient).not.toHaveBeenCalled();
+  });
+
+  test('initializes insights with `insightsInitParams` if passed', () => {
+    const insightsClient = jest.fn();
+    createAlgoliaInsightsPlugin({
+      insightsClient,
+      insightsInitParams: { userToken: 'user' },
+    });
+
+    expect(insightsClient).toHaveBeenCalledWith('init', {
+      partial: true,
+      userToken: 'user',
+    });
+  });
+
   describe('automatic pulling', () => {
     const consoleError = jest
       .spyOn(console, 'error')
