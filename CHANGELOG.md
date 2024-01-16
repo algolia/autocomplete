@@ -3,7 +3,7 @@
 
 ### Bug Fixes
 
-* stop processing input when composing with an IME ([#1226](https://github.com/algolia/autocomplete/issues/1226)) ([7f5ba08](https://github.com/algolia/autocomplete/commit/7f5ba08fde5278cfbb944cfde5d78bda0f3855e1))
+* focus detached input on iOS (#653) ([#1231](https://github.com/algolia/autocomplete/issues/1231)) ([3b569b6](https://github.com/algolia/autocomplete/commit/3b569b665454591ac818bb087a679acddc32d05b))
 
 
 ### Features
