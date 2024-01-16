@@ -24,7 +24,6 @@ export function createPlayground<TItem extends Record<string, unknown>>(
   const formProps = autocomplete.getFormProps({ inputElement });
   inputElement.addEventListener('blur', inputProps.onBlur);
   inputElement.addEventListener('input', inputProps.onChange);
-  inputElement.addEventListener('compositionend', inputProps.onCompositionEnd);
   inputElement.addEventListener('click', inputProps.onClick);
   inputElement.addEventListener('focus', inputProps.onFocus);
   inputElement.addEventListener('keydown', inputProps.onKeyDown);
