@@ -1,3 +1,17 @@
+# [1.14.0](https://github.com/algolia/autocomplete/compare/v1.13.0...v1.14.0) (2024-01-16)
+
+
+### Bug Fixes
+
+* focus detached input on iOS (#653) ([#1231](https://github.com/algolia/autocomplete/issues/1231)) ([3b569b6](https://github.com/algolia/autocomplete/commit/3b569b665454591ac818bb087a679acddc32d05b))
+
+
+### Features
+
+* **insights:** allow to pass init params ([#1230](https://github.com/algolia/autocomplete/issues/1230)) ([186ff9b](https://github.com/algolia/autocomplete/commit/186ff9b5e04b0f6db178a000c33452b5fdf5c7ec))
+
+
+
 # [1.13.0](https://github.com/algolia/autocomplete/compare/v1.12.2...v1.13.0) (2023-12-26)
 
 
