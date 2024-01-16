@@ -72,6 +72,15 @@ export function createSearchInsightsApi(searchInsights: InsightsClient) {
       searchInsights('init', { appId, apiKey });
     },
     /**
+     * Sets the authenticated user token to attach to events.
+     * Unsets the authenticated token by passing `undefined`.
+     *
+     * @link https://www.algolia.com/doc/api-reference/api-methods/set-authenticated-user-token/
+     */
+    setAuthenticatedUserToken(authenticatedUserToken: string | undefined) {
+      searchInsights('setAuthenticatedUserToken', authenticatedUserToken);
+    },
+    /**
      * Sets the user token to attach to events.
      */
     setUserToken(userToken: string) {

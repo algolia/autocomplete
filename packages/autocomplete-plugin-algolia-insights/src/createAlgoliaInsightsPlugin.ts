@@ -20,6 +20,7 @@ import {
   AlgoliaInsightsHit,
   AutocompleteInsightsApi,
   InsightsClient,
+  InsightsEvent,
   InsightsMethodMap,
   OnActiveParams,
   OnItemsChangeParams,
@@ -182,7 +183,11 @@ export function createAlgoliaInsightsPlugin(
   return {
     name: 'aa.algoliaInsightsPlugin',
     subscribe({ setContext, onSelect, onActive }) {
-      function setInsightsContext(userToken?: string | number) {
+      let preservedUserToken: InsightsEvent['userToken'];
+      function setInsightsContext(
+        userToken?: InsightsEvent['userToken'],
+        preserveUserToken = false
+      ) {
         setContext({
           algoliaInsightsPlugin: {
             __algoliaSearchParameters: {
@@ -196,15 +201,44 @@ export function createAlgoliaInsightsPlugin(
             insights,
           },
         });
+
+        if (preserveUserToken) {
+          preservedUserToken = userToken;
+        }
       }
 
       insightsClient('addAlgoliaAgent', 'insights-plugin');
 
       setInsightsContext();
-      insightsClient('onUserTokenChange', setInsightsContext);
-      insightsClient('getUserToken', null, (_error, userToken) => {
-        setInsightsContext(userToken);
+
+      // Handles user token changes
+      insightsClient('onUserTokenChange', (userToken) => {
+        setInsightsContext(userToken, true);
       });
+      insightsClient('getUserToken', null, (_error, userToken) => {
+        setInsightsContext(userToken, true);
+      });
+
+      // Handles authenticated user token changes
+      insightsClient(
+        'onAuthenticatedUserTokenChange',
+        (authenticatedUserToken) => {
+          if (authenticatedUserToken) {
+            setInsightsContext(authenticatedUserToken);
+          } else {
+            setInsightsContext(preservedUserToken);
+          }
+        }
+      );
+      insightsClient(
+        'getAuthenticatedUserToken',
+        null,
+        (_error, authenticatedUserToken) => {
+          if (authenticatedUserToken) {
+            setInsightsContext(authenticatedUserToken);
+          }
+        }
+      );
 
       onSelect(({ item, state, event, source }) => {
         if (!isAlgoliaInsightsHit(item)) {
@@ -323,6 +357,8 @@ function loadInsights(environment: typeof window) {
  * While `search-insights` supports both string and number user tokens,
  * the Search API only accepts strings. This function normalizes the user token.
  */
-function normalizeUserToken(userToken: string | number): string {
+function normalizeUserToken(
+  userToken: NonNullable<InsightsEvent['userToken']>
+): string {
   return typeof userToken === 'number' ? userToken.toString() : userToken;
 }

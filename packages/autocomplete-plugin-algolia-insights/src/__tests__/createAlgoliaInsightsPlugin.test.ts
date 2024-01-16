@@ -66,6 +66,7 @@ describe('createAlgoliaInsightsPlugin', () => {
             algoliaInsightsPlugin: expect.objectContaining({
               insights: expect.objectContaining({
                 init: expect.any(Function),
+                setAuthenticatedUserToken: expect.any(Function),
                 setUserToken: expect.any(Function),
                 clickedObjectIDsAfterSearch: expect.any(Function),
                 clickedObjectIDs: expect.any(Function),
@@ -91,7 +92,7 @@ describe('createAlgoliaInsightsPlugin', () => {
 
     createPlayground(createAutocomplete, { plugins: [insightsPlugin] });
 
-    expect(insightsClient).toHaveBeenCalledTimes(3);
+    expect(insightsClient).toHaveBeenCalledTimes(5);
     expect(insightsClient).toHaveBeenCalledWith(
       'addAlgoliaAgent',
       'insights-plugin'
@@ -180,54 +181,6 @@ describe('createAlgoliaInsightsPlugin', () => {
     ]);
   });
 
-  test('forwards `userToken` from Search Insights to Algolia API requests', async () => {
-    const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
-
-    const searchClient = createSearchClient({
-      search: jest.fn(() =>
-        Promise.resolve(
-          createMultiSearchResponse({
-            hits: [{ objectID: '1' }],
-          })
-        )
-      ),
-    });
-
-    insightsClient('setUserToken', 'customUserToken');
-
-    const playground = createPlayground(createAutocomplete, {
-      plugins: [insightsPlugin],
-      getSources({ query }) {
-        return [
-          {
-            sourceId: 'hits',
-            getItems() {
-              return getAlgoliaResults({
-                searchClient,
-                queries: [{ indexName: 'indexName', query }],
-              });
-            },
-            templates: {
-              item({ item }) {
-                return item.objectID;
-              },
-            },
-          },
-        ];
-      },
-    });
-
-    userEvent.type(playground.inputElement, 'a');
-    await runAllMicroTasks();
-
-    expect(searchClient.search).toHaveBeenCalledTimes(1);
-    expect(searchClient.search).toHaveBeenCalledWith([
-      expect.objectContaining({
-        params: expect.objectContaining({ userToken: 'customUserToken' }),
-      }),
-    ]);
-  });
-
   test('does not call `init` if `insightsInitParams` not passed', () => {
     const insightsClient = jest.fn();
     createAlgoliaInsightsPlugin({
@@ -247,6 +200,171 @@ describe('createAlgoliaInsightsPlugin', () => {
     expect(insightsClient).toHaveBeenCalledWith('init', {
       partial: true,
       userToken: 'user',
+    });
+  });
+
+  describe('user token', () => {
+    test('forwards `userToken` from Search Insights to Algolia API requests', async () => {
+      const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+      const searchClient = createSearchClient({
+        search: jest.fn(() =>
+          Promise.resolve(
+            createMultiSearchResponse({
+              hits: [{ objectID: '1' }],
+            })
+          )
+        ),
+      });
+
+      insightsClient('setUserToken', 'customUserToken');
+
+      const playground = createPlayground(createAutocomplete, {
+        plugins: [insightsPlugin],
+        getSources({ query }) {
+          return [
+            {
+              sourceId: 'hits',
+              getItems() {
+                return getAlgoliaResults({
+                  searchClient,
+                  queries: [{ indexName: 'indexName', query }],
+                });
+              },
+              templates: {
+                item({ item }) {
+                  return item.objectID;
+                },
+              },
+            },
+          ];
+        },
+      });
+
+      userEvent.type(playground.inputElement, 'a');
+      await runAllMicroTasks();
+
+      expect(searchClient.search).toHaveBeenCalledTimes(1);
+      expect(searchClient.search).toHaveBeenCalledWith([
+        expect.objectContaining({
+          params: expect.objectContaining({ userToken: 'customUserToken' }),
+        }),
+      ]);
+    });
+
+    test('forwards `authenticatedUserToken` from Search Insights to Algolia API requests', async () => {
+      const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+      const searchClient = createSearchClient({
+        search: jest.fn(() =>
+          Promise.resolve(
+            createMultiSearchResponse({
+              hits: [{ objectID: '1' }],
+            })
+          )
+        ),
+      });
+
+      insightsClient('setAuthenticatedUserToken', 'customAuthUserToken');
+
+      const playground = createPlayground(createAutocomplete, {
+        plugins: [insightsPlugin],
+        getSources({ query }) {
+          return [
+            {
+              sourceId: 'hits',
+              getItems() {
+                return getAlgoliaResults({
+                  searchClient,
+                  queries: [{ indexName: 'indexName', query }],
+                });
+              },
+              templates: {
+                item({ item }) {
+                  return item.objectID;
+                },
+              },
+            },
+          ];
+        },
+      });
+
+      userEvent.type(playground.inputElement, 'a');
+      await runAllMicroTasks();
+
+      expect(searchClient.search).toHaveBeenCalledTimes(1);
+      expect(searchClient.search).toHaveBeenCalledWith([
+        expect.objectContaining({
+          params: expect.objectContaining({ userToken: 'customAuthUserToken' }),
+        }),
+      ]);
+
+      insightsClient('setAuthenticatedUserToken', undefined);
+    });
+
+    test('uses `authenticatedUserToken` in priority over `userToken`', async () => {
+      const insightsPlugin = createAlgoliaInsightsPlugin({
+        insightsClient,
+        insightsInitParams: {
+          userToken: 'customUserToken',
+        },
+      });
+
+      const searchClient = createSearchClient({
+        search: jest.fn(() =>
+          Promise.resolve(
+            createMultiSearchResponse({
+              hits: [{ objectID: '1' }],
+            })
+          )
+        ),
+      });
+
+      insightsClient('setAuthenticatedUserToken', 'customAuthUserToken');
+
+      const playground = createPlayground(createAutocomplete, {
+        plugins: [insightsPlugin],
+        getSources({ query }) {
+          return [
+            {
+              sourceId: 'hits',
+              getItems() {
+                return getAlgoliaResults({
+                  searchClient,
+                  queries: [{ indexName: 'indexName', query }],
+                });
+              },
+              templates: {
+                item({ item }) {
+                  return item.objectID;
+                },
+              },
+            },
+          ];
+        },
+      });
+
+      userEvent.type(playground.inputElement, 'a');
+      await runAllMicroTasks();
+
+      expect(searchClient.search).toHaveBeenCalledTimes(1);
+      expect(searchClient.search).toHaveBeenCalledWith([
+        expect.objectContaining({
+          params: expect.objectContaining({ userToken: 'customAuthUserToken' }),
+        }),
+      ]);
+
+      insightsClient('setAuthenticatedUserToken', undefined);
+
+      userEvent.type(playground.inputElement, 'b');
+      await runAllMicroTasks();
+
+      expect(searchClient.search).toHaveBeenCalledTimes(2);
+      expect(searchClient.search).toHaveBeenLastCalledWith([
+        expect.objectContaining({
+          params: expect.objectContaining({ userToken: 'customUserToken' }),
+        }),
+      ]);
     });
   });
 

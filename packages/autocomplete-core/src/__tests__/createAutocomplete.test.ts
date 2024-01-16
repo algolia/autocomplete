@@ -137,7 +137,7 @@ describe('createAutocomplete', () => {
         insights: { insightsClient },
       });
 
-      expect(insightsClient).toHaveBeenCalledTimes(3);
+      expect(insightsClient).toHaveBeenCalledTimes(5);
       expect(insightsClient).toHaveBeenCalledWith(
         'addAlgoliaAgent',
         'insights-plugin'
@@ -168,7 +168,7 @@ describe('createAutocomplete', () => {
       });
 
       expect(defaultInsightsClient).toHaveBeenCalledTimes(0);
-      expect(userInsightsClient).toHaveBeenCalledTimes(3);
+      expect(userInsightsClient).toHaveBeenCalledTimes(5);
       expect(userInsightsClient).toHaveBeenCalledWith(
         'addAlgoliaAgent',
         'insights-plugin'
