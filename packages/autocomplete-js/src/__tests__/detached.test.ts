@@ -62,15 +62,16 @@ describe('detached', () => {
     // Open detached overlay
     searchButton.click();
 
-    await waitFor(() => {
-      const input = document.querySelector<HTMLInputElement>('.aa-Input')!;
+    const input = document.querySelector<HTMLInputElement>('.aa-Input')!;
 
-      expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
-      expect(document.body).toHaveClass('aa-Detached');
-      expect(input).toHaveFocus();
+    expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
+    expect(document.body).toHaveClass('aa-Detached');
 
-      fireEvent.input(input, { target: { value: 'a' } });
-    });
+    // Input should immediately be focused, to ensure the keyboard is shown on mobile
+    expect(input).toHaveFocus();
+
+    // Type a query in the focused input
+    fireEvent.input(input, { target: { value: 'a' } });
 
     // Wait for the panel to open
     await waitFor(() => {
@@ -391,16 +392,15 @@ describe('detached', () => {
     // Open detached overlay
     searchButton.click();
 
+    const input = document.querySelector<HTMLInputElement>('.aa-Input')!;
+
+    expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
+    expect(document.body).toHaveClass('aa-Detached');
+    // Input should immediately be focused, to ensure the keyboard is shown on mobile
+    expect(input).toHaveFocus();
+
     // Type a query in the focused input
-    await waitFor(() => {
-      const input = document.querySelector<HTMLInputElement>('.aa-Input')!;
-
-      expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
-      expect(document.body).toHaveClass('aa-Detached');
-      expect(input).toHaveFocus();
-
-      fireEvent.input(input, { target: { value: 'a' } });
-    });
+    fireEvent.input(input, { target: { value: 'a' } });
 
     // Wait for the panel to open
     await waitFor(() => {
