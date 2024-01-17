@@ -204,9 +204,7 @@ export function createAlgoliaInsightsPlugin(
       setInsightsContext();
 
       // Handles user token changes
-      insightsClient('onUserTokenChange', (userToken) => {
-        setInsightsContext(userToken);
-      });
+      insightsClient('onUserTokenChange', setInsightsContext);
       insightsClient('getUserToken', null, (_error, userToken) => {
         setInsightsContext(userToken);
       });
