@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-core",
   "description": "Core primitives for building autocomplete experiences.",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete",
   "repository": "algolia/autocomplete",
@@ -31,7 +31,7 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@algolia/autocomplete-plugin-algolia-insights": "1.14.0",
+    "@algolia/autocomplete-plugin-algolia-insights": "1.15.0",
     "@algolia/autocomplete-shared": "1.14.0"
   },
   "devDependencies": {

@@ -1,3 +1,12 @@
+# [1.15.0](https://github.com/algolia/autocomplete/compare/v1.14.0...v1.15.0) (2024-01-17)
+
+
+### Features
+
+* **insights:** support `authenticatedUserToken` ([#1233](https://github.com/algolia/autocomplete/issues/1233)) ([bd398ee](https://github.com/algolia/autocomplete/commit/bd398eea8755b88fc7e288acd10b616dd252cef5))
+
+
+
 # [1.14.0](https://github.com/algolia/autocomplete/compare/v1.13.0...v1.14.0) (2024-01-16)
 
 
