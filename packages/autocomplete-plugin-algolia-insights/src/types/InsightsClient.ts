@@ -9,6 +9,7 @@ export type {
   SetUserToken as InsightsSetUserToken,
   GetUserToken as InsightsGetUserToken,
   OnUserTokenChange as InsightsOnUserTokenChange,
+  InsightsEvent,
 } from 'search-insights';
 
 export type InsightsMethodMap = _InsightsMethodMap;
