@@ -204,6 +204,10 @@ describe('createAlgoliaInsightsPlugin', () => {
   });
 
   describe('user token', () => {
+    afterEach(() => {
+      insightsClient('setAuthenticatedUserToken', undefined);
+    });
+
     test('forwards `userToken` from Search Insights to Algolia API requests', async () => {
       const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
 
@@ -298,8 +302,6 @@ describe('createAlgoliaInsightsPlugin', () => {
           params: expect.objectContaining({ userToken: 'customAuthUserToken' }),
         }),
       ]);
-
-      insightsClient('setAuthenticatedUserToken', undefined);
     });
 
     test('uses `authenticatedUserToken` in priority over `userToken`', async () => {

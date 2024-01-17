@@ -183,11 +183,7 @@ export function createAlgoliaInsightsPlugin(
   return {
     name: 'aa.algoliaInsightsPlugin',
     subscribe({ setContext, onSelect, onActive }) {
-      let preservedUserToken: InsightsEvent['userToken'];
-      function setInsightsContext(
-        userToken?: InsightsEvent['userToken'],
-        preserveUserToken = false
-      ) {
+      function setInsightsContext(userToken?: InsightsEvent['userToken']) {
         setContext({
           algoliaInsightsPlugin: {
             __algoliaSearchParameters: {
@@ -201,10 +197,6 @@ export function createAlgoliaInsightsPlugin(
             insights,
           },
         });
-
-        if (preserveUserToken) {
-          preservedUserToken = userToken;
-        }
       }
 
       insightsClient('addAlgoliaAgent', 'insights-plugin');
@@ -213,10 +205,10 @@ export function createAlgoliaInsightsPlugin(
 
       // Handles user token changes
       insightsClient('onUserTokenChange', (userToken) => {
-        setInsightsContext(userToken, true);
+        setInsightsContext(userToken);
       });
       insightsClient('getUserToken', null, (_error, userToken) => {
-        setInsightsContext(userToken, true);
+        setInsightsContext(userToken);
       });
 
       // Handles authenticated user token changes
@@ -226,7 +218,9 @@ export function createAlgoliaInsightsPlugin(
           if (authenticatedUserToken) {
             setInsightsContext(authenticatedUserToken);
           } else {
-            setInsightsContext(preservedUserToken);
+            insightsClient('getUserToken', null, (_error, userToken) =>
+              setInsightsContext(userToken)
+            );
           }
         }
       );
