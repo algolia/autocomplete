@@ -304,7 +304,7 @@ describe('createAlgoliaInsightsPlugin', () => {
       ]);
     });
 
-    test.only('uses `authenticatedUserToken` in priority over `userToken`', async () => {
+    test('uses `authenticatedUserToken` in priority over `userToken`', async () => {
       const insightsPlugin = createAlgoliaInsightsPlugin({
         insightsClient,
         insightsInitParams: {
