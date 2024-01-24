@@ -322,6 +322,7 @@ describe('createAlgoliaInsightsPlugin', () => {
         ),
       });
 
+      // Setting an authenticated user token should replace the user token
       insightsClient('setAuthenticatedUserToken', 'customAuthUserToken');
 
       const playground = createPlayground(createAutocomplete, {
@@ -356,7 +357,9 @@ describe('createAlgoliaInsightsPlugin', () => {
         }),
       ]);
 
-      insightsClient('setAuthenticatedUserToken', undefined);
+      // Updating a user token should have no effect if there is
+      // an authenticated user token already set
+      insightsClient('setUserToken', 'customUserToken2');
 
       userEvent.type(playground.inputElement, 'b');
       await runAllMicroTasks();
@@ -364,7 +367,21 @@ describe('createAlgoliaInsightsPlugin', () => {
       expect(searchClient.search).toHaveBeenCalledTimes(2);
       expect(searchClient.search).toHaveBeenLastCalledWith([
         expect.objectContaining({
-          params: expect.objectContaining({ userToken: 'customUserToken' }),
+          params: expect.objectContaining({ userToken: 'customAuthUserToken' }),
+        }),
+      ]);
+
+      // Removing the authenticated user token should revert to
+      // the latest user token set
+      insightsClient('setAuthenticatedUserToken', undefined);
+
+      userEvent.type(playground.inputElement, 'c');
+      await runAllMicroTasks();
+
+      expect(searchClient.search).toHaveBeenCalledTimes(3);
+      expect(searchClient.search).toHaveBeenLastCalledWith([
+        expect.objectContaining({
+          params: expect.objectContaining({ userToken: 'customUserToken2' }),
         }),
       ]);
     });
