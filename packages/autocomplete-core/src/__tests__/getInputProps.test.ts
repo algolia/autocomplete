@@ -646,7 +646,7 @@ describe('getInputProps', () => {
       expect(environment.clearTimeout).toHaveBeenLastCalledWith(999);
     });
 
-    test('stops process if IME composition is in progress', () => {
+    test('stops process if IME composition is in progress and `ignoreCompositionEvents: true`', () => {
       const getSources = jest.fn((..._args: any[]) => {
         return [
           createSource({
@@ -657,6 +657,7 @@ describe('getInputProps', () => {
         ];
       });
       const { inputElement } = createPlayground(createAutocomplete, {
+        ignoreCompositionEvents: true,
         getSources,
       });
 
@@ -1974,7 +1975,7 @@ describe('getInputProps', () => {
       });
     });
 
-    test('stops process if IME is in progress', () => {
+    test('stops process if IME composition is in progress`', () => {
       const onStateChange = jest.fn();
       const { inputElement } = createPlayground(createAutocomplete, {
         openOnFocus: true,
@@ -2029,16 +2030,25 @@ describe('getInputProps', () => {
         });
       });
 
-      // 3. Selecting the 3rd suggestion on the IME window
+      // 3. Checking that activeItemId has reverted to null due to input change
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            activeItemId: null,
+          }),
+        })
+      );
+
+      // 4. Selecting the 3rd suggestion on the IME window
       fireEvent.keyDown(inputElement, { key: 'ArrowDown', isComposing: true });
       fireEvent.keyDown(inputElement, { key: 'ArrowDown', isComposing: true });
       fireEvent.keyDown(inputElement, { key: 'ArrowDown', isComposing: true });
 
-      // 4. Checking that activeItemId has not changed
+      // 5. Checking that activeItemId has not changed
       expect(onStateChange).toHaveBeenLastCalledWith(
         expect.objectContaining({
           state: expect.objectContaining({
-            activeItemId: 0,
+            activeItemId: null,
           }),
         })
       );

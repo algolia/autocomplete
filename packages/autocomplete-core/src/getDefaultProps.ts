@@ -28,6 +28,7 @@ export function getDefaultProps<TItem extends BaseItem>(
     debug: false,
     openOnFocus: false,
     enterKeyHint: undefined,
+    ignoreCompositionEvents: false,
     placeholder: '',
     autoFocus: false,
     defaultActiveItemId: null,

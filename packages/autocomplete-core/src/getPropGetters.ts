@@ -224,7 +224,10 @@ export function getPropGetters<
           (event as unknown as Event).currentTarget as HTMLInputElement
         ).value;
 
-        if (getNativeEvent(event as unknown as InputEvent).isComposing) {
+        if (
+          props.ignoreCompositionEvents &&
+          getNativeEvent(event as unknown as InputEvent).isComposing
+        ) {
           setters.setQuery(value);
           return;
         }
