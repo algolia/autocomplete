@@ -375,30 +375,28 @@ export function autocomplete<TItem extends BaseItem>(
   }
 
   function setIsModalOpen(value: boolean) {
-    requestAnimationFrame(() => {
-      const prevValue = props.value.core.environment.document.body.contains(
+    const prevValue = props.value.core.environment.document.body.contains(
+      dom.value.detachedOverlay
+    );
+
+    if (value === prevValue) {
+      return;
+    }
+
+    if (value) {
+      props.value.core.environment.document.body.appendChild(
         dom.value.detachedOverlay
       );
-
-      if (value === prevValue) {
-        return;
-      }
-
-      if (value) {
-        props.value.core.environment.document.body.appendChild(
-          dom.value.detachedOverlay
-        );
-        props.value.core.environment.document.body.classList.add('aa-Detached');
-        dom.value.input.focus();
-      } else {
-        props.value.core.environment.document.body.removeChild(
-          dom.value.detachedOverlay
-        );
-        props.value.core.environment.document.body.classList.remove(
-          'aa-Detached'
-        );
-      }
-    });
+      props.value.core.environment.document.body.classList.add('aa-Detached');
+      dom.value.input.focus();
+    } else {
+      props.value.core.environment.document.body.removeChild(
+        dom.value.detachedOverlay
+      );
+      props.value.core.environment.document.body.classList.remove(
+        'aa-Detached'
+      );
+    }
   }
 
   warn(

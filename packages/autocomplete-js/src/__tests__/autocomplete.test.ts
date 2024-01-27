@@ -724,6 +724,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
               algoliaInsightsPlugin: expect.objectContaining({
                 insights: expect.objectContaining({
                   init: expect.any(Function),
+                  setAuthenticatedUserToken: expect.any(Function),
                   setUserToken: expect.any(Function),
                   clickedObjectIDsAfterSearch: expect.any(Function),
                   clickedObjectIDs: expect.any(Function),
@@ -751,7 +752,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
         insights: { insightsClient: defaultInsightsClient },
       });
 
-      expect(defaultInsightsClient).toHaveBeenCalledTimes(3);
+      expect(defaultInsightsClient).toHaveBeenCalledTimes(5);
       expect(userInsightsClient).toHaveBeenCalledTimes(0);
 
       const insightsPlugin = createAlgoliaInsightsPlugin({
@@ -759,8 +760,8 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       });
       update({ plugins: [insightsPlugin] });
 
-      expect(defaultInsightsClient).toHaveBeenCalledTimes(3);
-      expect(userInsightsClient).toHaveBeenCalledTimes(3);
+      expect(defaultInsightsClient).toHaveBeenCalledTimes(5);
+      expect(userInsightsClient).toHaveBeenCalledTimes(5);
     });
   });
 });
