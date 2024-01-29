@@ -89,6 +89,14 @@ export interface AutocompleteOptions<TItem extends BaseItem> {
    */
   enterKeyHint?: AutocompleteEnterKeyHint;
   /**
+   * Whether to update the search input value in the middle of a
+   * composition session.
+   *
+   * @default false
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-ignorecompositionevents
+   */
+  ignoreCompositionEvents?: boolean;
+  /**
    * The placeholder text to show in the search input when there's no query.
    *
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-placeholder
@@ -200,6 +208,7 @@ export interface InternalAutocompleteOptions<TItem extends BaseItem>
   id: string;
   onStateChange(props: OnStateChangeProps<TItem>): void;
   enterKeyHint: AutocompleteEnterKeyHint | undefined;
+  ignoreCompositionEvents: boolean;
   placeholder: string;
   autoFocus: boolean;
   defaultActiveItemId: number | null;
