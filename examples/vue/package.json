@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@algolia/autocomplete-js": "1.15.1",
-    "@algolia/autocomplete-theme-classic": "1.15.0",
+    "@algolia/autocomplete-theme-classic": "1.15.1",
     "algoliasearch": "4.16.0",
     "vue": "3.2.47"
   },

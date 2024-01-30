@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@algolia/autocomplete-js": "1.15.1",
-    "@algolia/autocomplete-theme-classic": "1.15.0",
+    "@algolia/autocomplete-theme-classic": "1.15.1",
     "preact": "10.13.2",
     "qs": "6.11.1"
   },
