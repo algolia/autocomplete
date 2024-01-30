@@ -1,3 +1,13 @@
+## [1.15.1](https://github.com/algolia/autocomplete/compare/v1.15.0...v1.15.1) (2024-01-30)
+
+
+### Bug Fixes
+
+* ignore composition events with option ([#1238](https://github.com/algolia/autocomplete/issues/1238)) ([fba16e5](https://github.com/algolia/autocomplete/commit/fba16e56bce6daa1982b947f1c74072a4b4800c2))
+* **insights:** guard against user token override while auth token is set ([#1237](https://github.com/algolia/autocomplete/issues/1237)) ([190e562](https://github.com/algolia/autocomplete/commit/190e562973aa25d7e37e6e508eb2b96e66e4ccba))
+
+
+
 # [1.15.0](https://github.com/algolia/autocomplete/compare/v1.14.0...v1.15.0) (2024-01-17)
 
 
