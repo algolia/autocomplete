@@ -1,3 +1,12 @@
+# [1.16.0](https://github.com/algolia/autocomplete/compare/v1.15.1...v1.16.0) (2024-02-06)
+
+
+### Features
+
+* **recent-searches:** expose createLocalStorage ([#1240](https://github.com/algolia/autocomplete/issues/1240)) ([c813b3e](https://github.com/algolia/autocomplete/commit/c813b3ebe9640b36cd3fda5921d969dd115c0028))
+
+
+
 ## [1.15.1](https://github.com/algolia/autocomplete/compare/v1.15.0...v1.15.1) (2024-01-30)
 
 

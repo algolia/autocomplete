@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-query-suggestions-with-recent-searches-and-categories",
   "description": "Autocomplete example with Query Suggestions with recent searches and categories",
-  "version": "1.15.1",
+  "version": "1.16.0",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -11,7 +11,7 @@
   "dependencies": {
     "@algolia/autocomplete-js": "1.15.1",
     "@algolia/autocomplete-plugin-query-suggestions": "1.15.1",
-    "@algolia/autocomplete-plugin-recent-searches": "1.15.1",
+    "@algolia/autocomplete-plugin-recent-searches": "1.16.0",
     "@algolia/autocomplete-theme-classic": "1.15.1",
     "@algolia/client-search": "4.16.0",
     "algoliasearch": "4.16.0",
