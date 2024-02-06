@@ -138,6 +138,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
   const defaultTranslations: AutocompleteTranslations = {
     clearButtonTitle: 'Clear',
     detachedCancelButtonText: 'Cancel',
+    detachedSearchButtonTitle: 'Search',
     submitButtonTitle: 'Submit',
   };
 

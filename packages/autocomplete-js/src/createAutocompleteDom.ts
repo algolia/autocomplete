@@ -174,7 +174,6 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     });
     const detachedCancelButton = createDomElement('button', {
       type: 'button',
-      title: 'Cancel',
       class: classNames.detachedCancelButton,
       textContent: translations.detachedCancelButtonText,
       // Prevent `onTouchStart` from closing the panel
