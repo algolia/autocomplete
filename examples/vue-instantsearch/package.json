@@ -10,10 +10,10 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.15.1",
-    "@algolia/autocomplete-plugin-query-suggestions": "1.15.1",
+    "@algolia/autocomplete-js": "1.16.0",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.16.0",
     "@algolia/autocomplete-plugin-recent-searches": "1.16.0",
-    "@algolia/autocomplete-theme-classic": "1.15.1",
+    "@algolia/autocomplete-theme-classic": "1.16.0",
     "algoliasearch": "4.16.0",
     "core-js": "^3.6.5",
     "vue": "3.2.47",
