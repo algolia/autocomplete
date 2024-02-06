@@ -161,7 +161,8 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     const detachedSearchButton = createDomElement('button', {
       type: 'button',
       class: classNames.detachedSearchButton,
-      title: 'Search',
+      title: translations.detachedSearchButtonTitle,
+      id: labelProps.id,
       onClick() {
         setIsModalOpen(true);
       },
