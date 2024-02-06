@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-redirect-url",
   "description": "Autocomplete example for Redirect URL plugin",
-  "version": "1.15.0",
+  "version": "1.15.1",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,9 +9,9 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.15.0",
-    "@algolia/autocomplete-plugin-redirect-url": "1.15.0",
-    "@algolia/autocomplete-theme-classic": "1.15.0",
+    "@algolia/autocomplete-js": "1.15.1",
+    "@algolia/autocomplete-plugin-redirect-url": "1.15.1",
+    "@algolia/autocomplete-theme-classic": "1.15.1",
     "algoliasearch": "4.16.0",
     "preact": "10.13.2"
   },
