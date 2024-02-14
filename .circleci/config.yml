@@ -46,7 +46,7 @@ aliases:
 defaults: &defaults
   working_directory: ~/autocomplete
   docker:
-    - image: cimg/node:14.21.1
+    - image: cimg/node:14.21.3
 
 references:
   workspace_root: &workspace_root /tmp/workspace
