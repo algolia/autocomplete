@@ -1,3 +1,12 @@
+# [1.17.0](https://github.com/algolia/autocomplete/compare/v1.16.0...v1.17.0) (2024-02-13)
+
+
+### Features
+
+* **dom:** Add labels to buttons ([#1234](https://github.com/algolia/autocomplete/issues/1234)) ([12d1596](https://github.com/algolia/autocomplete/commit/12d15960e395e80f945284f9e7d41d6dc8dac5a5))
+
+
+
 # [1.16.0](https://github.com/algolia/autocomplete/compare/v1.15.1...v1.16.0) (2024-02-06)
 
 
