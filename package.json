@@ -46,7 +46,7 @@
     "@typescript-eslint/parser": "2.34.0",
     "algoliasearch": "4.16.0",
     "autoprefixer": "10.4.14",
-    "babel-eslint": "10.1.0",
+    "@babel/eslint-parser": "7.11.0",
     "babel-loader": "8.2.3",
     "babel-plugin-inline-json": "1.2.2",
     "babel-plugin-inline-replace-variables": "1.3.1",
