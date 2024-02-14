@@ -79,7 +79,7 @@
     "rollup-plugin-filesize": "9.1.2",
     "rollup-plugin-license": "2.9.1",
     "rollup-plugin-terser": "7.0.2",
-    "shipjs": "0.26.1",
+    "shipjs": "0.26.3",
     "search-insights": "2.13.0",
     "start-server-and-test": "1.15.2",
     "stylelint": "13.13.1",
