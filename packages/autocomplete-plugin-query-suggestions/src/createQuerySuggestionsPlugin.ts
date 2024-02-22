@@ -9,7 +9,11 @@ import { SearchOptions } from '@algolia/client-search';
 import { SearchClient } from 'algoliasearch/lite';
 
 import { getTemplates } from './getTemplates';
-import { AutocompleteQuerySuggestionsHit, QuerySuggestionsHit } from './types';
+import {
+  AutocompleteQuerySuggestionsHit,
+  QuerySuggestionsHit,
+  QuerySuggestionsFacetValue,
+} from './types';
 
 export type CreateQuerySuggestionsPluginParams<
   TItem extends QuerySuggestionsHit
@@ -43,13 +47,21 @@ export type CreateQuerySuggestionsPluginParams<
     onTapAhead(item: TItem): void;
   }): AutocompleteSource<TItem>;
   /**
-   * The attribute or attribute path to display categories for.
+   * The attribute, attribute path, or array of paths to display categories for.
    *
    * @example ["instant_search", "facets", "exact_matches", "categories"]
    * @example ["instant_search", "facets", "exact_matches", "hierarchicalCategories.lvl0"]
+   * @example [
+   *     ["index_1", "facets", "exact_matches", "data_origin"],
+   *     ["index_2", "facets", "exact_matches", "data_origin"],
+   *   ]
+   * @example [
+   *     ["index_1", "facets", "exact_matches", "attr_1"],
+   *     ["index_2", "facets", "exact_matches", "attr_2"],
+   *   ]
    * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-query-suggestions/createQuerySuggestionsPlugin/#param-categoryattribute
    */
-  categoryAttribute?: string | string[];
+  categoryAttribute?: string | string[] | string[][];
   /**
    * How many items to display categories for.
    *
@@ -118,6 +130,7 @@ export function createQuerySuggestionsPlugin<
                   }
 
                   let itemsWithCategoriesAdded = 0;
+
                   return querySuggestionsHits.reduce<
                     Array<AutocompleteQuerySuggestionsHit<typeof indexName>>
                   >((acc, current) => {
@@ -126,14 +139,29 @@ export function createQuerySuggestionsPlugin<
                     > = [current];
 
                     if (itemsWithCategoriesAdded < itemsWithCategories) {
-                      const categories = (
-                        getAttributeValueByPath(
-                          current,
-                          Array.isArray(categoryAttribute)
-                            ? categoryAttribute
-                            : [categoryAttribute]
-                        ) || []
-                      )
+                      let paths = (Array.isArray(categoryAttribute[0])
+                        ? categoryAttribute
+                        : [categoryAttribute]) as string[][];
+
+                      if (typeof categoryAttribute === 'string') {
+                        paths = [[categoryAttribute]];
+                      }
+
+                      const categoriesValues = paths.reduce<
+                        QuerySuggestionsFacetValue[]
+                      >((totalCategories, path) => {
+                        const attrVal = getAttributeValueByPath(current, path);
+
+                        return attrVal
+                          ? totalCategories.concat(attrVal)
+                          : totalCategories;
+                      }, []);
+
+                      if (paths.length > 1) {
+                        categoriesValues.sort((a, b) => b.count - a.count);
+                      }
+
+                      const categories = categoriesValues
                         .map((x) => x.value)
                         .slice(0, categoriesPerItem);
 
