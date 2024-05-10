@@ -217,6 +217,7 @@ export function autocomplete<TItem extends BaseItem>(
     return () => {
       if (panelContainerElement.contains(panelElement)) {
         panelContainerElement.removeChild(panelElement);
+        panelContainerElement.classList.remove('aa-Detached');
       }
     };
   });
