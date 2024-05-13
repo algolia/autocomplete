@@ -257,6 +257,32 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
     );
   });
 
+  test('removes scroll blocker from body when detached mode toggled off', () => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: createMatchMedia({ matches: true }),
+    });
+
+    const container = document.createElement('div');
+
+    document.body.appendChild(container);
+    const { update } = autocomplete<{ label: string }>({
+      container,
+      detachedMediaQuery: ''
+    });
+
+    await waitFor(() => expect(document.body).toHaveClass('aa-Detached'));
+
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: createMatchMedia({}),
+    });
+
+    update({ detachedMediaQuery: null });
+
+    await waitFor(() => expect(document.body).not.toHaveClass('aa-Detached'));
+  });
+
   test('renders noResults template on no results', async () => {
     const container = document.createElement('div');
     const panelContainer = document.createElement('div');
