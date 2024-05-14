@@ -1,3 +1,12 @@
+## [1.17.1](https://github.com/algolia/autocomplete/compare/v1.17.0...v1.17.1) (2024-05-14)
+
+
+### Bug Fixes
+
+* **js:** allow body scroll when detached mode responsively disabled ([#1251](https://github.com/algolia/autocomplete/issues/1251)) ([710f86b](https://github.com/algolia/autocomplete/commit/710f86bcce3998cbcb0942ff9321e73428244589)), closes [#1250](https://github.com/algolia/autocomplete/issues/1250)
+
+
+
 # [1.17.0](https://github.com/algolia/autocomplete/compare/v1.16.0...v1.17.0) (2024-02-13)
 
 
