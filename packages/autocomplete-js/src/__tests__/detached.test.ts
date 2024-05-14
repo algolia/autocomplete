@@ -466,4 +466,38 @@ describe('detached', () => {
       ).toHaveAttribute('hidden');
     });
   });
+
+  test('removes aa-Detached when no longer matching', async () => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: createMatchMedia({ matches: true }),
+    });
+
+    const container = document.createElement('div');
+
+    document.body.appendChild(container);
+    const { update } = autocomplete<{ label: string }>({
+      container,
+      detachedMediaQuery: 'something',
+    });
+
+    const searchButton = container.querySelector<HTMLButtonElement>(
+      '.aa-DetachedSearchButton'
+    )!;
+
+    // Open detached overlay
+    searchButton.click();
+
+    await waitFor(() => expect(document.body).toHaveClass('aa-Detached'));
+
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: createMatchMedia({ matches: false }),
+    });
+
+    // schedule a render (normally this is done by the matchMedia listener, but that's not accessible here)
+    update({ detachedMediaQuery: 'something' });
+
+    await waitFor(() => expect(document.body).not.toHaveClass('aa-Detached'));
+  });
 });
