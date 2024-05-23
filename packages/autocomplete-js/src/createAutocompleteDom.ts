@@ -78,9 +78,13 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     title: translations.submitButtonTitle,
     children: [SearchIcon({ environment })],
   });
+  // @MAJOR Remove the label wrapper for the submit button.
+  // The submit button is sufficient for accessibility purposes, and
+  // wrapping it with the label actually makes it less accessible (see CR-6077).
   const label = createDomElement('label', {
     class: classNames.label,
     children: [submitButton],
+    ariaLabel: translations.submitButtonTitle,
     ...labelProps,
   });
   const clearButton = createDomElement('button', {
