@@ -1,3 +1,12 @@
+## [1.17.2](https://github.com/algolia/autocomplete/compare/v1.17.1...v1.17.2) (2024-05-28)
+
+
+### Bug Fixes
+
+* **js:** better accessibility for submit button label ([#1254](https://github.com/algolia/autocomplete/issues/1254)) ([e0304ae](https://github.com/algolia/autocomplete/commit/e0304ae671ea61821968867d50aab9e3e23c728b))
+
+
+
 ## [1.17.1](https://github.com/algolia/autocomplete/compare/v1.17.0...v1.17.1) (2024-05-14)
 
 
