@@ -15,3 +15,5 @@ dist/
 
 # Environment files
 .env
+
+!examples/*/.env

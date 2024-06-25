@@ -1,6 +1,6 @@
 import type { Hit as AlgoliaHit } from 'instantsearch.js/es/types';
 
-import { Snippet } from 'react-instantsearch-hooks-web';
+import { Snippet } from 'react-instantsearch';
 
 type HitProps = {
   hit: AlgoliaHit<{

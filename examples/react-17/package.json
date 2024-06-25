@@ -1,6 +1,6 @@
 {
-  "name": "@algolia/autocomplete-example-react-renderer",
-  "description": "Autocomplete example with React Renderer",
+  "name": "@algolia/autocomplete-example-react-17",
+  "description": "Autocomplete example with React 17",
   "version": "1.17.2",
   "private": true,
   "dependencies": {

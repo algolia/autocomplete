@@ -1,12 +1,12 @@
-# Autocomplete with React InstantSearch example
+# Autocomplete with React InstantSearch Hooks example
 
-This example shows how to integrate Autocomplete with [React InstantSearch](https://www.algolia.com/doc/guides/building-search-ui/what-is-instantsearch/react/).
+This example shows how to integrate Autocomplete with [React InstantSearch Hooks](https://www.algolia.com/doc/guides/building-search-ui/what-is-instantsearch/react-hooks/).
 
-<p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete with React InstantSearch demo" /></p>
+<p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete with React InstantSearch Hooks demo" /></p>
 
 ## Demo
 
-[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/react-instantsearch)
+[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/react-instantsearch-hooks)
 
 ## How to run this example locally
 
@@ -20,15 +20,15 @@ git clone git@github.com:algolia/autocomplete.git
 
 ```sh
 yarn
-yarn workspace @algolia/autocomplete-example-react-instantsearch start
+yarn workspace @algolia/autocomplete-example-react-instantsearch-hooks dev
 ```
 
 Alternatively, you may use npm:
 
 ```sh
-cd examples/react-instantsearch
+cd examples/react-instantsearch-hooks
 npm install
-npm start
+npm run dev
 ```
 
-Open <http://localhost:1234> to see your app.
+Open <http://localhost:3000> to see your app.

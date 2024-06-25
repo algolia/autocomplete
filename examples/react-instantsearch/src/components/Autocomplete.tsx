@@ -16,7 +16,7 @@ import {
   useHierarchicalMenu,
   usePagination,
   useSearchBox,
-} from 'react-instantsearch-hooks';
+} from 'react-instantsearch';
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
@@ -29,6 +29,7 @@ import {
 } from '../constants';
 
 import '@algolia/autocomplete-theme-classic';
+import { createRoot, Root } from 'react-dom/client';
 
 type AutocompleteProps = Partial<AutocompleteOptions<BaseItem>> & {
   searchClient: SearchClient;
@@ -46,6 +47,8 @@ export function Autocomplete({
   ...autocompleteProps
 }: AutocompleteProps) {
   const autocompleteContainer = useRef<HTMLDivElement>(null);
+  const panelRootRef = useRef<Root | null>(null);
+  const rootRef = useRef<HTMLElement | null>(null);
 
   const { query, refine: setQuery } = useSearchBox();
   const { items: categories, refine: setCategory } = useHierarchicalMenu({
@@ -53,10 +56,8 @@ export function Autocomplete({
   });
   const { refine: setPage } = usePagination();
 
-  const [
-    instantSearchUiState,
-    setInstantSearchUiState,
-  ] = useState<SetInstantSearchUiStateOptions>({ query });
+  const [instantSearchUiState, setInstantSearchUiState] =
+    useState<SetInstantSearchUiStateOptions>({ query });
   const debouncedSetInstantSearchUiState = debounce(
     setInstantSearchUiState,
     500
@@ -227,7 +228,17 @@ export function Autocomplete({
           });
         }
       },
-      renderer: { createElement, Fragment, render: render as Render },
+      renderer: { createElement, Fragment, render: () => {} },
+      render({ children }, root) {
+        if (!panelRootRef.current || rootRef.current !== root) {
+          rootRef.current = root;
+
+          panelRootRef.current?.unmount();
+          panelRootRef.current = createRoot(root);
+        }
+
+        panelRootRef.current.render(children);
+      },
     });
 
     return () => autocompleteInstance.destroy();
