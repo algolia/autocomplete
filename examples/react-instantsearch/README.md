@@ -1,12 +1,12 @@
-# Autocomplete with React InstantSearch Hooks example
+# Autocomplete with React InstantSearch example
 
-This example shows how to integrate Autocomplete with [React InstantSearch Hooks](https://www.algolia.com/doc/guides/building-search-ui/what-is-instantsearch/react-hooks/).
+This example shows how to integrate Autocomplete with [React InstantSearch](https://www.algolia.com/doc/guides/building-search-ui/what-is-instantsearch/react/).
 
-<p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete with React InstantSearch Hooks demo" /></p>
+<p align="center"><img src="capture.png?raw=true" alt="A capture of the Autocomplete with React InstantSearch demo" /></p>
 
 ## Demo
 
-[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/react-instantsearch-hooks)
+[Access the demo](https://codesandbox.io/s/github/algolia/autocomplete/tree/next/examples/react-instantsearch)
 
 ## How to run this example locally
 
