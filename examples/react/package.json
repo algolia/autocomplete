@@ -1,6 +1,6 @@
 {
-  "name": "@algolia/autocomplete-example-react-18",
-  "description": "Autocomplete example with React 18",
+  "name": "@algolia/autocomplete-example-react",
+  "description": "Autocomplete example with React",
   "version": "1.17.2",
   "private": true,
   "license": "MIT",

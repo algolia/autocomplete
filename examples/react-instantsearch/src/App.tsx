@@ -5,7 +5,7 @@ import {
   Hits,
   InstantSearch,
   Pagination,
-} from 'react-instantsearch-hooks-web';
+} from 'react-instantsearch';
 
 import { Autocomplete, Hit } from './components';
 import {
