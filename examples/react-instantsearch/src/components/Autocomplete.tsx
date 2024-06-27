@@ -1,6 +1,6 @@
 import type { SearchClient } from 'algoliasearch/lite';
 import type { BaseItem } from '@algolia/autocomplete-core';
-import type { AutocompleteOptions, Render } from '@algolia/autocomplete-js';
+import type { AutocompleteOptions } from '@algolia/autocomplete-js';
 
 import {
   createElement,
@@ -10,7 +10,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { render } from 'react-dom';
+import { createRoot, Root } from 'react-dom/client';
 
 import {
   useHierarchicalMenu,
@@ -29,7 +29,6 @@ import {
 } from '../constants';
 
 import '@algolia/autocomplete-theme-classic';
-import { createRoot, Root } from 'react-dom/client';
 
 type AutocompleteProps = Partial<AutocompleteOptions<BaseItem>> & {
   searchClient: SearchClient;
