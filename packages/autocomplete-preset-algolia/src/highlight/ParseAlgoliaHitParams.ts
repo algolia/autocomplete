@@ -1,4 +1,4 @@
 export type ParseAlgoliaHitParams<TItem> = {
   hit: TItem;
-  attribute: keyof TItem | string[];
+  attribute: keyof TItem | (string | number)[];
 };
