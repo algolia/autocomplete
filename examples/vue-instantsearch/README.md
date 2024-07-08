@@ -20,7 +20,7 @@ git clone git@github.com:algolia/autocomplete.git
 
 ```sh
 yarn
-yarn workspace @algolia/autocomplete-example-vue-instantsearch dev
+yarn workspace @algolia/autocomplete-example-vue-instantsearch start
 ```
 
 Alternatively, you may use npm:
@@ -28,7 +28,7 @@ Alternatively, you may use npm:
 ```sh
 cd examples/vue-instantsearch
 npm install
-npm run dev
+npm run start
 ```
 
-Open <http://localhost:8080> to see your app.
+Open <http://localhost:3000> to see your app.

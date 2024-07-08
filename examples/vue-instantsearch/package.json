@@ -5,9 +5,10 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@algolia/autocomplete-js": "1.17.2",
@@ -15,38 +16,15 @@
     "@algolia/autocomplete-plugin-recent-searches": "1.17.2",
     "@algolia/autocomplete-theme-classic": "1.17.2",
     "algoliasearch": "4.16.0",
-    "core-js": "^3.6.5",
     "vue": "3.2.47",
     "vue-instantsearch": "4.8.8"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
+    "@vitejs/plugin-vue": "1.9.3",
+    "@vitejs/plugin-vue-jsx": "1.2.0",
     "@vue/compiler-sfc": "3.2.47",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0-0"
+    "vite": "2.6.4"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ],
   "keywords": [
     "algolia",
     "autocomplete",
