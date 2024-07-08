@@ -116,7 +116,7 @@ describe('parseAlgoliaHitReverseSnippet', () => {
     ]);
   });
 
-  test('returns the highlighted snippet parts of the hit with a nested array attribute containing a dot', () => {
+  test('returns the reverse-highlighted snippet parts of the hit with a nested array attribute containing a dot', () => {
     expect(
       parseAlgoliaHitReverseSnippet({
         attribute: ['hierarchy', 'lvl0.inside'],
@@ -151,6 +151,32 @@ describe('parseAlgoliaHitReverseSnippet', () => {
       {
         isHighlighted: true,
         value: 're',
+      },
+    ]);
+  });
+
+  test('returns the reverse-highlighted snippet parts of the hit with an array result', () => {
+    expect(
+      parseAlgoliaHitReverseSnippet({
+        attribute: ['titles', 1],
+        hit: {
+          objectID: '1',
+          titles: ['Hello', 'world'],
+          _snippetResult: {
+            titles: [{
+              value: 'Hello',
+              matchLevel: 'none',
+            }, {
+              value: '__aa-highlight__world__/aa-highlight__',
+              matchLevel: 'full',
+            }]
+          },
+        },
+      })
+    ).toEqual([
+      {
+        isHighlighted: false,
+        value: 'world',
       },
     ]);
   });
