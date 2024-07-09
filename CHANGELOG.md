@@ -1,3 +1,13 @@
+## [1.17.3](https://github.com/algolia/autocomplete/compare/v1.17.2...v1.17.3) (2024-07-09)
+
+
+### Bug Fixes
+
+* **algoliasearch:** correctly retrieve headers for v5 ([#1263](https://github.com/algolia/autocomplete/issues/1263)) ([148b677](https://github.com/algolia/autocomplete/commit/148b677c69dca4c00d6399a4d2bff296fec82f42))
+* **core:** allow number index for hit attribute [#1261](https://github.com/algolia/autocomplete/issues/1261) (by @aldenquimby in [#1262](https://github.com/algolia/autocomplete/issues/1262)) ([0ae0c5c](https://github.com/algolia/autocomplete/commit/0ae0c5c7afd9b7a8aa20d17578e070513bfe696a))
+
+
+
 ## [1.17.2](https://github.com/algolia/autocomplete/compare/v1.17.1...v1.17.2) (2024-05-28)
 
 
