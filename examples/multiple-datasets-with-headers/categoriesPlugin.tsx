@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx h */
 import { AutocompletePlugin, getAlgoliaFacets } from '@algolia/autocomplete-js';
-import { SearchClient } from 'algoliasearch/lite';
+import type { SearchClient } from 'algoliasearch-v5';
 import { h, Fragment } from 'preact';
 
 type CategoryItem = {
