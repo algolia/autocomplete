@@ -2,7 +2,7 @@
 /** @jsx h */
 import { autocomplete } from '@algolia/autocomplete-js';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
-import algoliasearch from 'algoliasearch/lite';
+import { liteClient as algoliasearch } from 'algoliasearch-v5/lite';
 import { h } from 'preact';
 
 import '@algolia/autocomplete-theme-classic';

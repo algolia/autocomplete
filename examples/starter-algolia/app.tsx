@@ -2,7 +2,7 @@
 /** @jsx h */
 import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 import { Hit } from '@algolia/client-search';
-import algoliasearch from 'algoliasearch/lite';
+import { liteClient as algoliasearch } from 'algoliasearch-v5/lite';
 import { h } from 'preact';
 
 import '@algolia/autocomplete-theme-classic';

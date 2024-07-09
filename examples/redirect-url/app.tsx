@@ -1,6 +1,6 @@
 import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 import { createRedirectUrlPlugin } from '@algolia/autocomplete-plugin-redirect-url';
-import algoliasearch from 'algoliasearch/lite';
+import { liteClient as algoliasearch } from 'algoliasearch-v5/lite';
 
 import '@algolia/autocomplete-theme-classic';
 

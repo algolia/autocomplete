@@ -6,7 +6,7 @@ import {
 } from '@algolia/autocomplete-core';
 import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 import { Hit } from '@algolia/client-search';
-import algoliasearch from 'algoliasearch/lite';
+import { liteClient as algoliasearch } from 'algoliasearch-v5/lite';
 import React, { useEffect, useRef } from 'react';
 
 import { commands } from './commands';
@@ -151,7 +151,7 @@ export function Autocomplete(
   const activeToken = getActiveToken(state.query, cursorPosition);
   const { top, height } = getCaretCoordinates(inputRef.current);
   const inputProps = autocomplete.getInputProps({
-    inputElement: (inputRef.current as unknown) as HTMLInputElement,
+    inputElement: inputRef.current as unknown as HTMLInputElement,
   });
 
   useEffect(() => {
@@ -217,7 +217,7 @@ export function Autocomplete(
         <div className="box-compose">
           <form
             {...autocomplete.getFormProps({
-              inputElement: (inputRef.current as unknown) as HTMLInputElement,
+              inputElement: inputRef.current as unknown as HTMLInputElement,
             })}
             className="box-form"
           >

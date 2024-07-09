@@ -14,7 +14,7 @@
     "@algolia/autocomplete-plugin-recent-searches": "1.17.2",
     "@algolia/autocomplete-theme-classic": "1.17.2",
     "@algolia/client-search": "4.16.0",
-    "algoliasearch": "4.16.0",
+    "algoliasearch-v5": "npm:algoliasearch@5.0.0-beta.8",
     "instantsearch.js": "4.53.0"
   },
   "devDependencies": {

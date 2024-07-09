@@ -13,7 +13,7 @@
     "@algolia/autocomplete-core": "1.17.2",
     "@algolia/autocomplete-preset-algolia": "1.17.2",
     "@algolia/autocomplete-theme-classic": "1.17.2",
-    "algoliasearch": "4.16.0",
+    "algoliasearch-v5": "npm:algoliasearch@5.0.0-beta.8",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },

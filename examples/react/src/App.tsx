@@ -1,7 +1,7 @@
 import { useEffect, useRef, createElement, Fragment } from 'react';
 import { createRoot } from 'react-dom/client';
 import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
-import algoliasearch from 'algoliasearch/lite';
+import { liteClient as algoliasearch } from 'algoliasearch-v5/lite';
 
 import type { AutocompleteComponents } from '@algolia/autocomplete-js';
 import type { Hit } from '@algolia/client-search';
