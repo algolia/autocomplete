@@ -155,6 +155,35 @@ describe('parseAlgoliaHitSnippet', () => {
     ]);
   });
 
+  test('returns the highlighted snippet parts of the hit with an array result', () => {
+    expect(
+      parseAlgoliaHitSnippet({
+        attribute: ['titles', 1],
+        hit: {
+          objectID: '1',
+          titles: ['Hello', 'world'],
+          _snippetResult: {
+            titles: [
+              {
+                value: 'Hello',
+                matchLevel: 'none',
+              },
+              {
+                value: '__aa-highlight__world__/aa-highlight__',
+                matchLevel: 'full',
+              },
+            ],
+          },
+        },
+      })
+    ).toEqual([
+      {
+        isHighlighted: true,
+        value: 'world',
+      },
+    ]);
+  });
+
   test('returns the attribute value if the attribute cannot be snippeted', () => {
     expect(
       parseAlgoliaHitSnippet({
