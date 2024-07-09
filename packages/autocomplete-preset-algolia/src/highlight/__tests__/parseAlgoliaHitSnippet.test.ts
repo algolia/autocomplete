@@ -163,13 +163,16 @@ describe('parseAlgoliaHitSnippet', () => {
           objectID: '1',
           titles: ['Hello', 'world'],
           _snippetResult: {
-            titles: [{
-              value: 'Hello',
-              matchLevel: 'none',
-            }, {
-              value: '__aa-highlight__world__/aa-highlight__',
-              matchLevel: 'full',
-            }]
+            titles: [
+              {
+                value: 'Hello',
+                matchLevel: 'none',
+              },
+              {
+                value: '__aa-highlight__world__/aa-highlight__',
+                matchLevel: 'full',
+              },
+            ],
           },
         },
       })

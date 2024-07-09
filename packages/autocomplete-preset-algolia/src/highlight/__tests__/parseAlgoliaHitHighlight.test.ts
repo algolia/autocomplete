@@ -175,16 +175,19 @@ describe('parseAlgoliaHitHighlight', () => {
           objectID: '1',
           titles: ['Hello', 'world'],
           _highlightResult: {
-            titles: [{
-              value: 'Hello',
-              matchLevel: 'none',
-              matchedWords: [],
-            }, {
-              value: '__aa-highlight__world__/aa-highlight__',
-              matchLevel: 'full',
-              matchedWords: ['world'],
-              fullyHighlighted: true,
-            }]
+            titles: [
+              {
+                value: 'Hello',
+                matchLevel: 'none',
+                matchedWords: [],
+              },
+              {
+                value: '__aa-highlight__world__/aa-highlight__',
+                matchLevel: 'full',
+                matchedWords: ['world'],
+                fullyHighlighted: true,
+              },
+            ],
           },
         },
       })
