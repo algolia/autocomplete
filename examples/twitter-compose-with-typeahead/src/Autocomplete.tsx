@@ -235,7 +235,7 @@ function AccountItem({ hit }: AccountItemProps) {
 
 type HighlightParams<THit> = {
   hit: THit;
-  attribute: keyof THit | string[];
+  attribute: keyof THit | (string | number)[];
 };
 
 function Highlight<THit>({ hit, attribute }: HighlightParams<THit>) {

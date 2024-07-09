@@ -11,7 +11,7 @@ type HighlightHitParams<THit> = {
    *
    * You can use the array syntax to reference nested attributes.
    */
-  attribute: keyof THit | string[];
+  attribute: keyof THit | (string | number)[];
   /**
    * The tag name to use for highlighted parts.
    *

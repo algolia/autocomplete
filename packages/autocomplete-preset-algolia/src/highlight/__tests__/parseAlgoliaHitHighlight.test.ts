@@ -167,6 +167,35 @@ describe('parseAlgoliaHitHighlight', () => {
     ]);
   });
 
+  test('returns the highlighted parts of the hit with an array result', () => {
+    expect(
+      parseAlgoliaHitHighlight({
+        attribute: ['titles', 1],
+        hit: {
+          objectID: '1',
+          titles: ['Hello', 'world'],
+          _highlightResult: {
+            titles: [{
+              value: 'Hello',
+              matchLevel: 'none',
+              matchedWords: [],
+            }, {
+              value: '__aa-highlight__world__/aa-highlight__',
+              matchLevel: 'full',
+              matchedWords: ['world'],
+              fullyHighlighted: true,
+            }]
+          },
+        },
+      })
+    ).toEqual([
+      {
+        isHighlighted: true,
+        value: 'world',
+      },
+    ]);
+  });
+
   test('returns the attribute value if the attribute cannot be highlighted', () => {
     expect(
       parseAlgoliaHitHighlight({
