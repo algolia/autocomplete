@@ -20,13 +20,13 @@ git clone git@github.com:algolia/autocomplete.git
 
 ```sh
 yarn
-yarn workspace @algolia/autocomplete-example-react-instantsearch-hooks dev
+yarn workspace @algolia/autocomplete-example-react-instantsearch dev
 ```
 
 Alternatively, you may use npm:
 
 ```sh
-cd examples/react-instantsearch-hooks
+cd examples/react-instantsearch
 npm install
 npm run dev
 ```
