@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-react",
   "description": "Autocomplete example with React",
-  "version": "1.17.2",
+  "version": "1.17.3",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -11,7 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.17.2",
+    "@algolia/autocomplete-js": "1.17.3",
     "@algolia/autocomplete-theme-classic": "1.17.2",
     "algoliasearch": "4.16.0",
     "react": "^18.2.0",
