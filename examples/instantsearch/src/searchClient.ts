@@ -1,4 +1,4 @@
-import algoliasearch from 'algoliasearch/lite';
+import { liteClient as algoliasearch } from 'algoliasearch-v5/lite';
 
 export const searchClient = algoliasearch(
   'latency',

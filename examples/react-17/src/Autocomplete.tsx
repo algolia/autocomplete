@@ -5,7 +5,7 @@ import {
 } from '@algolia/autocomplete-core';
 import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 import { Hit } from '@algolia/client-search';
-import algoliasearch from 'algoliasearch/lite';
+import { liteClient as algoliasearch } from 'algoliasearch-v5/lite';
 import React from 'react';
 
 import { ClearIcon } from './ClearIcon';

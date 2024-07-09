@@ -16,7 +16,7 @@
     "@algolia/autocomplete-shared": "1.17.2",
     "@algolia/autocomplete-theme-classic": "1.17.2",
     "@algolia/client-search": "4.16.0",
-    "algoliasearch": "4.16.0",
+    "algoliasearch-v5": "npm:algoliasearch@5.0.0-beta.8",
     "preact": "10.13.2",
     "ramda": "0.27.1",
     "search-insights": "2.13.0"

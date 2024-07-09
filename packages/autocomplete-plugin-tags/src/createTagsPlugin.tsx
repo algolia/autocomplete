@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx createElement */
 import { BaseItem, PluginSubscribeParams } from '@algolia/autocomplete-core';
 import {

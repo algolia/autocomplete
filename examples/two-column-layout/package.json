@@ -16,7 +16,7 @@
     "@algolia/autocomplete-shared": "1.17.2",
     "@algolia/autocomplete-theme-classic": "1.17.2",
     "@algolia/client-search": "4.16.0",
-    "algoliasearch": "4.16.0",
+    "algoliasearch-v5": "npm:algoliasearch@5.0.0-beta.8",
     "blurhash": "^1.1.5",
     "dequal": "^2.0.3",
     "preact": "10.13.2",

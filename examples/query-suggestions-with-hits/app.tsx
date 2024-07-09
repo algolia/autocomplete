@@ -7,7 +7,7 @@ import {
   AutocompleteInsightsApi,
 } from '@algolia/autocomplete-js';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
-import algoliasearch from 'algoliasearch/lite';
+import { liteClient as algoliasearch } from 'algoliasearch-v5/lite';
 import { h, Fragment } from 'preact';
 
 import '@algolia/autocomplete-theme-classic';

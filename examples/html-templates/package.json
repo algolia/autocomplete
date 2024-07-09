@@ -11,7 +11,7 @@
   "dependencies": {
     "@algolia/autocomplete-js": "1.17.2",
     "@algolia/autocomplete-theme-classic": "1.17.2",
-    "algoliasearch": "4.16.0"
+    "algoliasearch-v5": "npm:algoliasearch@5.0.0-beta.8"
   },
   "devDependencies": {
     "@algolia/client-search": "4.16.0",

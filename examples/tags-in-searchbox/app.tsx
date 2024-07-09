@@ -8,7 +8,7 @@ import {
   AutocompleteInsightsApi,
 } from '@algolia/autocomplete-js';
 import { createTagsPlugin, Tag } from '@algolia/autocomplete-plugin-tags';
-import algoliasearch from 'algoliasearch/lite';
+import { liteClient as algoliasearch } from 'algoliasearch-v5/lite';
 import { h, Fragment, render } from 'preact';
 import groupBy from 'ramda/src/groupBy';
 

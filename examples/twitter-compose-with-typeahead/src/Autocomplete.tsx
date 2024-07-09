@@ -4,7 +4,7 @@ import {
   parseAlgoliaHitHighlight,
 } from '@algolia/autocomplete-preset-algolia';
 import type { Hit } from '@algolia/client-search';
-import algoliasearch from 'algoliasearch/lite';
+import { liteClient as algoliasearch } from 'algoliasearch-v5/lite';
 import React, { Fragment, useRef } from 'react';
 import getCaretCoordinates from 'textarea-caret';
 
@@ -86,7 +86,7 @@ export function Autocomplete(
     : { top: 0, height: 0 };
 
   const inputProps = autocomplete.getInputProps({
-    inputElement: (inputRef.current as unknown) as HTMLInputElement,
+    inputElement: inputRef.current as unknown as HTMLInputElement,
     autoFocus: true,
     maxLength: 280,
   });
@@ -101,7 +101,7 @@ export function Autocomplete(
           <div className="box-compose">
             <form
               {...autocomplete.getFormProps({
-                inputElement: (inputRef.current as unknown) as HTMLInputElement,
+                inputElement: inputRef.current as unknown as HTMLInputElement,
               })}
             >
               <textarea
