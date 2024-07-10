@@ -15,7 +15,7 @@
     "@algolia/autocomplete-theme-classic": "1.17.3",
     "@algolia/client-search": "4.16.0",
     "algoliasearch": "4.16.0",
-    "instantsearch.js": "4.53.0"
+    "instantsearch.js": "4.73.1"
   },
   "devDependencies": {
     "parcel": "2.8.3"

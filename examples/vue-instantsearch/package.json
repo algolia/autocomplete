@@ -17,7 +17,7 @@
     "@algolia/autocomplete-theme-classic": "1.17.3",
     "algoliasearch": "4.16.0",
     "vue": "3.2.47",
-    "vue-instantsearch": "4.8.8"
+    "vue-instantsearch": "4.18.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "1.9.3",

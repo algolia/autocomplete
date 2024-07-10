@@ -17,7 +17,7 @@
     "@algolia/client-search": "4.16.0",
     "algoliasearch": "4.16.0",
     "preact": "10.13.2",
-    "search-insights": "2.13.0"
+    "search-insights": "^2.15.0"
   },
   "devDependencies": {
     "parcel": "2.8.3"
