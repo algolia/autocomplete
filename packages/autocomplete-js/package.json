@@ -32,8 +32,8 @@
   },
   "dependencies": {
     "@algolia/autocomplete-core": "1.17.4",
-    "@algolia/autocomplete-preset-algolia": "1.17.3",
-    "@algolia/autocomplete-shared": "1.17.3",
+    "@algolia/autocomplete-preset-algolia": "1.17.4",
+    "@algolia/autocomplete-shared": "1.17.4",
     "htm": "^3.1.1",
     "preact": "^10.13.2"
   },

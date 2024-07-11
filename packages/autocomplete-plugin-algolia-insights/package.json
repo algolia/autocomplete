@@ -31,7 +31,7 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@algolia/autocomplete-shared": "1.17.3"
+    "@algolia/autocomplete-shared": "1.17.4"
   },
   "peerDependencies": {
     "search-insights": ">= 1 < 3"
