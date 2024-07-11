@@ -1,3 +1,12 @@
+## [1.17.4](https://github.com/algolia/autocomplete/compare/v1.17.3...v1.17.4) (2024-07-11)
+
+
+### Bug Fixes
+
+* **deps:** update search-insights and instantsearch dependencies ([#1268](https://github.com/algolia/autocomplete/issues/1268)) ([ebcc557](https://github.com/algolia/autocomplete/commit/ebcc557ac32c221e266030642768d91f26b11d86))
+
+
+
 ## [1.17.3](https://github.com/algolia/autocomplete/compare/v1.17.2...v1.17.3) (2024-07-09)
 
 
