@@ -59,6 +59,67 @@ const hits: Hit<any> = [
     },
   },
 ];
+const multiIndexHits: Hit<any> = [
+  {
+    index_1: {
+      exact_nb_hits: 100,
+      facets: {
+        exact_matches: {
+          data_origin: [
+            {
+              value: 'Index 1',
+              count: 100,
+            },
+          ],
+          categories: [
+            {
+              value: 'Appliances',
+              count: 252,
+            },
+            {
+              value: 'Ranges, Cooktops & Ovens',
+              count: 229,
+            },
+          ],
+        },
+      },
+    },
+    index_2: {
+      exact_nb_hits: 200,
+      facets: {
+        exact_matches: {
+          data_origin: [
+            {
+              value: 'Index 2',
+              count: 200,
+            },
+          ],
+          genre: [
+            {
+              value: 'Poetry',
+              count: 340,
+            },
+            {
+              value: 'Fiction',
+              count: 140,
+            },
+          ],
+        },
+      },
+    },
+    nb_words: 1,
+    popularity: 1230,
+    query: 'cooktop',
+    objectID: 'cooktop',
+    _highlightResult: {
+      query: {
+        value: 'cooktop',
+        matchLevel: 'none',
+        matchedWords: [],
+      },
+    },
+  },
+];
 /* eslint-enable @typescript-eslint/camelcase */
 
 const searchClient = createSearchClient({
@@ -508,6 +569,83 @@ describe('createQuerySuggestionsPlugin', () => {
         'range', // Query Suggestions item
         'cooktop', // Query Suggestions item
         'range', // Query Suggestions item
+      ]);
+    });
+  });
+
+  test('accumulates suggestion categories from multiple indexes and attributes', async () => {
+    castToJestMock(searchClient.search).mockReturnValueOnce(
+      Promise.resolve(
+        createMultiSearchResponse({
+          hits: multiIndexHits,
+        })
+      )
+    );
+
+    const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+      searchClient,
+      indexName: 'indexName',
+      categoryAttribute: [
+        [
+          'index_1',
+          'facets',
+          'exact_matches',
+          'data_origin',
+        ],
+        [
+          'index_2',
+          'facets',
+          'exact_matches',
+          'data_origin',
+        ],
+        [
+          'index_1',
+          'facets',
+          'exact_matches',
+          'categories',
+        ],
+        [
+          'index_2',
+          'facets',
+          'exact_matches',
+          'genre',
+        ]
+      ],
+      categoriesPerItem: 6,
+    });
+
+    const container = document.createElement('div');
+    const panelContainer = document.createElement('div');
+
+    document.body.appendChild(panelContainer);
+
+    autocomplete({
+      container,
+      panelContainer,
+      plugins: [querySuggestionsPlugin],
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input');
+
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(() => {
+      expect(
+        within(
+          panelContainer.querySelector(
+            '[data-autocomplete-source-id="querySuggestionsPlugin"]'
+          )
+        )
+          .getAllByRole('option')
+          .map((option) => option.textContent)
+      ).toEqual([
+        'cooktop', // Query Suggestions item
+        'in Poetry', // Category item
+        'in Appliances', // Category item
+        'in Ranges, Cooktops & Ovens', // Category item
+        'in Index 2', // Category item
+        'in Fiction', // Category item
+        'in Index 1', // Category item
       ]);
     });
   });

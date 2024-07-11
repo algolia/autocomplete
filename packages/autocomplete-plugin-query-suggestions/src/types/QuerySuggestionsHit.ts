@@ -1,6 +1,6 @@
 import { Hit } from '@algolia/client-search';
 
-type QuerySuggestionsFacetValue = { value: string; count: number };
+export type QuerySuggestionsFacetValue = { value: string; count: number };
 
 type QuerySuggestionsIndexMatch<TKey extends string> = Record<
   TKey,
