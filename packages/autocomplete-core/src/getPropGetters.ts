@@ -110,7 +110,7 @@ export function getPropGetters<
       role: 'combobox',
       'aria-expanded': store.getState().isOpen,
       'aria-haspopup': 'listbox',
-      'aria-owns': store.getState().isOpen
+      'aria-controls': store.getState().isOpen
         ? store
             .getState()
             .collections.map(({ source }) =>

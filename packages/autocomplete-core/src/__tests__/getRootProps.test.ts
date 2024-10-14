@@ -45,7 +45,7 @@ describe('getRootProps', () => {
     expect(rootProps['aria-haspopup']).toEqual('listbox');
   });
 
-  test('returns undefined aria-owns when panel is closed', () => {
+  test('returns undefined aria-controls when panel is closed', () => {
     const autocomplete = createAutocomplete({
       initialState: {
         isOpen: false,
@@ -53,10 +53,10 @@ describe('getRootProps', () => {
     });
     const rootProps = autocomplete.getRootProps({});
 
-    expect(rootProps['aria-owns']).toBeUndefined();
+    expect(rootProps['aria-controls']).toBeUndefined();
   });
 
-  test('returns list id in aria-owns when panel is open', () => {
+  test('returns list id in aria-controls when panel is open', () => {
     const autocomplete = createAutocomplete({
       id: 'autocomplete',
       initialState: {
@@ -70,7 +70,7 @@ describe('getRootProps', () => {
     });
     const rootProps = autocomplete.getRootProps({});
 
-    expect(rootProps['aria-owns']).toEqual('autocomplete-testSource-list');
+    expect(rootProps['aria-controls']).toEqual('autocomplete-testSource-list');
   });
 
   test('returns label id in aria-labelledby', () => {
