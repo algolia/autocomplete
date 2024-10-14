@@ -42,7 +42,7 @@ export type GetRootProps = (props?: { [key: string]: unknown }) => {
     | 'listbox'
     | 'tree'
     | undefined;
-  'aria-owns': string | undefined;
+  'aria-controls': string | undefined;
   'aria-labelledby': string;
 };
 
