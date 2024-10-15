@@ -1,3 +1,12 @@
+## [1.17.5](https://github.com/algolia/autocomplete/compare/v1.17.4...v1.17.5) (2024-10-15)
+
+
+### Bug Fixes
+
+* **core:** use updated aria control attribute for root element ([#1278](https://github.com/algolia/autocomplete/issues/1278)) ([f64497b](https://github.com/algolia/autocomplete/commit/f64497b2fab125910da6f71c4a50268bf0b70d27))
+
+
+
 ## [1.17.4](https://github.com/algolia/autocomplete/compare/v1.17.3...v1.17.4) (2024-07-11)
 
 
