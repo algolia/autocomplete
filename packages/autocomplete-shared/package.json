@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-shared",
   "description": "Shared utils for Autocomplete packages.",
-  "version": "1.17.4",
+  "version": "1.17.5",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete",
   "repository": "algolia/autocomplete",

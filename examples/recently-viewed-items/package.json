@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-recently-viewed-items",
   "description": "Autocomplete example with Recently Viewed Items",
-  "version": "1.17.4",
+  "version": "1.17.5",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -9,16 +9,16 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.17.4",
-    "@algolia/autocomplete-plugin-recent-searches": "1.17.4",
+    "@algolia/autocomplete-js": "1.17.5",
+    "@algolia/autocomplete-plugin-recent-searches": "1.17.5",
     "@algolia/autocomplete-theme-classic": "1.17.4",
     "@algolia/client-search": "4.16.0",
     "algoliasearch": "4.16.0",
     "preact": "10.13.2"
   },
   "devDependencies": {
-    "@algolia/autocomplete-core": "1.17.4",
-    "@algolia/autocomplete-shared": "1.17.4",
+    "@algolia/autocomplete-core": "1.17.5",
+    "@algolia/autocomplete-shared": "1.17.5",
     "parcel": "2.8.3"
   },
   "keywords": [
