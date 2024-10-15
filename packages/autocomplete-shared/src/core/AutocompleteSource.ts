@@ -1,7 +1,10 @@
-import type { FacetHit, Hit } from '@algolia/client-search';
+import type { Hit } from '@algolia/client-search';
 
 import type { MaybePromise } from '../MaybePromise';
-import type { SearchForFacetValuesResponse } from '../preset-algolia/algoliasearch';
+import type {
+  FacetHit,
+  SearchForFacetValuesResponse,
+} from '../preset-algolia/algoliasearch';
 import type { RequesterDescription } from '../preset-algolia/createRequester';
 import type { SearchResponse } from '../SearchResponse';
 
