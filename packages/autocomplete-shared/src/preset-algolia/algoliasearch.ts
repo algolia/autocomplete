@@ -71,3 +71,10 @@ export type SnippetResult<THit> = PickForClient<{
   /** @ts-ignore */
   v5: AlgoliaSearch.SnippetResult; // should be generic, but isn't yet in the client
 }>;
+
+export type FacetHit = PickForClient<{
+  /** @ts-ignore */
+  v4: ClientSearch.FacetHit;
+  /** @ts-ignore */
+  v5: AlgoliaSearch.FacetHits;
+}>;
