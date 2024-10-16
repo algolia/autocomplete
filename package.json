@@ -69,7 +69,7 @@
     "jest-diff": "26.6.2",
     "jest-watch-typeahead": "0.6.5",
     "lerna": "3.22.1",
-    "postcss": "8.4.21",
+    "postcss": "8.4.31",
     "postcss-color-rgb": "2.0.0",
     "postcss-preset-env": "8.3.0",
     "postcss-scss": "4.0.6",
