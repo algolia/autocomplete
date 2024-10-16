@@ -1,3 +1,12 @@
+## [1.17.6](https://github.com/algolia/autocomplete/compare/v1.17.5...v1.17.6) (2024-10-16)
+
+
+### Bug Fixes
+
+* **shared:** import adequate FacetHit types for v4 and v5 search client ([#1280](https://github.com/algolia/autocomplete/issues/1280)) ([7d14539](https://github.com/algolia/autocomplete/commit/7d14539b6e7fc4c6c01d3d7e5046f1ce28c4e1ff))
+
+
+
 ## [1.17.5](https://github.com/algolia/autocomplete/compare/v1.17.4...v1.17.5) (2024-10-15)
 
 
