@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-plugin-query-suggestions",
   "description": "A plugin to add query suggestions to Algolia Autocomplete.",
-  "version": "1.17.6",
+  "version": "1.17.7",
   "license": "MIT",
   "homepage": "https://github.com/algolia/autocomplete",
   "repository": "algolia/autocomplete",

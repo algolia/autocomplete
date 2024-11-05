@@ -1,3 +1,12 @@
+## [1.17.7](https://github.com/algolia/autocomplete/compare/v1.17.6...v1.17.7) (2024-11-05)
+
+
+### Bug Fixes
+
+* **plugins:** add translations for query suggestions and recent searches plugins ([#1283](https://github.com/algolia/autocomplete/issues/1283)) ([572cd3c](https://github.com/algolia/autocomplete/commit/572cd3cb269b9288cc48df13d945a600fc7f83e5)), closes [#1282](https://github.com/algolia/autocomplete/issues/1282)
+
+
+
 ## [1.17.6](https://github.com/algolia/autocomplete/compare/v1.17.5...v1.17.6) (2024-10-16)
 
 

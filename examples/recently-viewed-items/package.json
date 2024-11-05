@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-recently-viewed-items",
   "description": "Autocomplete example with Recently Viewed Items",
-  "version": "1.17.6",
+  "version": "1.17.7",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@algolia/autocomplete-js": "1.17.6",
-    "@algolia/autocomplete-plugin-recent-searches": "1.17.6",
+    "@algolia/autocomplete-plugin-recent-searches": "1.17.7",
     "@algolia/autocomplete-theme-classic": "1.17.6",
     "@algolia/client-search": "4.16.0",
     "algoliasearch": "4.16.0",
