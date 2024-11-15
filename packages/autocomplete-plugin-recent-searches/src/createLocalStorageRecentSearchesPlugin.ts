@@ -58,7 +58,7 @@ export function createLocalStorageRecentSearchesPlugin<
 >(
   options: LocalStorageRecentSearchesPluginOptions<TItem>
 ): AutocompletePlugin<TItem, RecentSearchesPluginData<TItem>> {
-  const { key, limit, transformSource, search, subscribe } =
+  const { key, limit, transformSource, search, subscribe, translations } =
     getOptions(options);
   const storage = createLocalStorage<TItem>({
     key: [LOCAL_STORAGE_KEY, key].join(':'),
@@ -70,6 +70,7 @@ export function createLocalStorageRecentSearchesPlugin<
     transformSource,
     storage,
     subscribe,
+    translations,
   });
 
   return {

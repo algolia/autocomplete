@@ -54,12 +54,21 @@ describe('createLocalStorageRecentSearchesPlugin', () => {
     const plugin = createLocalStorageRecentSearchesPlugin({
       key: 'autocomplete',
       limit: 3,
+      translations: {
+        fillQueryTitle: () => 'TEST',
+      },
     });
 
     expect(plugin.__autocomplete_pluginOptions).toEqual({
       key: expect.any(String),
       limit: expect.any(Number),
+      translations: {
+        fillQueryTitle: expect.any(Function),
+      },
     });
+    expect(
+      plugin.__autocomplete_pluginOptions!.translations.fillQueryTitle()
+    ).toBe('TEST');
   });
 
   test('exposes an API', () => {
