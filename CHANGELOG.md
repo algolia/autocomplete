@@ -1,3 +1,12 @@
+## [1.17.8](https://github.com/algolia/autocomplete/compare/v1.17.7...v1.17.8) (2024-11-19)
+
+
+### Bug Fixes
+
+* **plugins:** support translations in local storage recent searches plugins ([#1286](https://github.com/algolia/autocomplete/issues/1286)) ([893ad5f](https://github.com/algolia/autocomplete/commit/893ad5ffb9ca4b44b349cd9156d2775e5668d371)), closes [#1285](https://github.com/algolia/autocomplete/issues/1285)
+
+
+
 ## [1.17.7](https://github.com/algolia/autocomplete/compare/v1.17.6...v1.17.7) (2024-11-05)
 
 
