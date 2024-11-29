@@ -256,7 +256,7 @@ describe('createAlgoliaInsightsPlugin', () => {
       ]);
     });
 
-    test('forwards `authenticatedUserToken` from Search Insights to Algolia API requests', async () => {
+    test('does not forward `authenticatedUserToken` from Search Insights to Algolia API requests', async () => {
       const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
 
       const searchClient = createSearchClient({
@@ -299,7 +299,9 @@ describe('createAlgoliaInsightsPlugin', () => {
       expect(searchClient.search).toHaveBeenCalledTimes(1);
       expect(searchClient.search).toHaveBeenCalledWith([
         expect.objectContaining({
-          params: expect.objectContaining({ userToken: 'customAuthUserToken' }),
+          params: expect.not.objectContaining({
+            userToken: 'customAuthUserToken',
+          }),
         }),
       ]);
     });

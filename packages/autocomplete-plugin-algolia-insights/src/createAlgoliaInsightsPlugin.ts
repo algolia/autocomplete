@@ -183,7 +183,6 @@ export function createAlgoliaInsightsPlugin(
   return {
     name: 'aa.algoliaInsightsPlugin',
     subscribe({ setContext, onSelect, onActive }) {
-      let isAuthenticatedToken = false;
       function setInsightsContext(userToken?: InsightsEvent['userToken']) {
         setContext({
           algoliaInsightsPlugin: {
@@ -206,41 +205,11 @@ export function createAlgoliaInsightsPlugin(
 
       // Handles user token changes
       insightsClient('onUserTokenChange', (userToken) => {
-        if (!isAuthenticatedToken) {
-          setInsightsContext(userToken);
-        }
+        setInsightsContext(userToken);
       });
       insightsClient('getUserToken', null, (_error, userToken) => {
-        if (!isAuthenticatedToken) {
-          setInsightsContext(userToken);
-        }
+        setInsightsContext(userToken);
       });
-
-      // Handles authenticated user token changes
-      insightsClient(
-        'onAuthenticatedUserTokenChange',
-        (authenticatedUserToken) => {
-          if (authenticatedUserToken) {
-            isAuthenticatedToken = true;
-            setInsightsContext(authenticatedUserToken);
-          } else {
-            isAuthenticatedToken = false;
-            insightsClient('getUserToken', null, (_error, userToken) =>
-              setInsightsContext(userToken)
-            );
-          }
-        }
-      );
-      insightsClient(
-        'getAuthenticatedUserToken',
-        null,
-        (_error, authenticatedUserToken) => {
-          if (authenticatedUserToken) {
-            isAuthenticatedToken = true;
-            setInsightsContext(authenticatedUserToken);
-          }
-        }
-      );
 
       onSelect(({ item, state, event, source }) => {
         if (!isAlgoliaInsightsHit(item)) {
