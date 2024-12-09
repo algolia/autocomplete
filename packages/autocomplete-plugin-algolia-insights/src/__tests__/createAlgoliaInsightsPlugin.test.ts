@@ -92,7 +92,7 @@ describe('createAlgoliaInsightsPlugin', () => {
 
     createPlayground(createAutocomplete, { plugins: [insightsPlugin] });
 
-    expect(insightsClient).toHaveBeenCalledTimes(5);
+    expect(insightsClient).toHaveBeenCalledTimes(3);
     expect(insightsClient).toHaveBeenCalledWith(
       'addAlgoliaAgent',
       'insights-plugin'
@@ -256,7 +256,7 @@ describe('createAlgoliaInsightsPlugin', () => {
       ]);
     });
 
-    test('forwards `authenticatedUserToken` from Search Insights to Algolia API requests', async () => {
+    test('does not forward `authenticatedUserToken` from Search Insights to Algolia API requests', async () => {
       const insightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
 
       const searchClient = createSearchClient({
@@ -299,89 +299,9 @@ describe('createAlgoliaInsightsPlugin', () => {
       expect(searchClient.search).toHaveBeenCalledTimes(1);
       expect(searchClient.search).toHaveBeenCalledWith([
         expect.objectContaining({
-          params: expect.objectContaining({ userToken: 'customAuthUserToken' }),
-        }),
-      ]);
-    });
-
-    test('uses `authenticatedUserToken` in priority over `userToken`', async () => {
-      const insightsPlugin = createAlgoliaInsightsPlugin({
-        insightsClient,
-        insightsInitParams: {
-          userToken: 'customUserToken',
-        },
-      });
-
-      const searchClient = createSearchClient({
-        search: jest.fn(() =>
-          Promise.resolve(
-            createMultiSearchResponse({
-              hits: [{ objectID: '1' }],
-            })
-          )
-        ),
-      });
-
-      // Setting an authenticated user token should replace the user token
-      insightsClient('setAuthenticatedUserToken', 'customAuthUserToken');
-
-      const playground = createPlayground(createAutocomplete, {
-        plugins: [insightsPlugin],
-        getSources({ query }) {
-          return [
-            {
-              sourceId: 'hits',
-              getItems() {
-                return getAlgoliaResults({
-                  searchClient,
-                  queries: [{ indexName: 'indexName', query }],
-                });
-              },
-              templates: {
-                item({ item }) {
-                  return item.objectID;
-                },
-              },
-            },
-          ];
-        },
-      });
-
-      userEvent.type(playground.inputElement, 'a');
-      await runAllMicroTasks();
-
-      expect(searchClient.search).toHaveBeenCalledTimes(1);
-      expect(searchClient.search).toHaveBeenCalledWith([
-        expect.objectContaining({
-          params: expect.objectContaining({ userToken: 'customAuthUserToken' }),
-        }),
-      ]);
-
-      // Updating a user token should have no effect if there is
-      // an authenticated user token already set
-      insightsClient('setUserToken', 'customUserToken2');
-
-      userEvent.type(playground.inputElement, 'b');
-      await runAllMicroTasks();
-
-      expect(searchClient.search).toHaveBeenCalledTimes(2);
-      expect(searchClient.search).toHaveBeenLastCalledWith([
-        expect.objectContaining({
-          params: expect.objectContaining({ userToken: 'customAuthUserToken' }),
-        }),
-      ]);
-
-      // Removing the authenticated user token should revert to
-      // the latest user token set
-      insightsClient('setAuthenticatedUserToken', undefined);
-
-      userEvent.type(playground.inputElement, 'c');
-      await runAllMicroTasks();
-
-      expect(searchClient.search).toHaveBeenCalledTimes(3);
-      expect(searchClient.search).toHaveBeenLastCalledWith([
-        expect.objectContaining({
-          params: expect.objectContaining({ userToken: 'customUserToken2' }),
+          params: expect.not.objectContaining({
+            userToken: 'customAuthUserToken',
+          }),
         }),
       ]);
     });
