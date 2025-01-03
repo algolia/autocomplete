@@ -131,6 +131,7 @@ export function createTagsPlugin<
                   <div className="aa-TagsPlugin-Tag">
                     <span className="aa-TagsPlugin-TagLabel">{item.label}</span>
                     <button
+                      type="button"
                       className="aa-TagsPlugin-RemoveButton"
                       title="Remove this tag"
                     >
