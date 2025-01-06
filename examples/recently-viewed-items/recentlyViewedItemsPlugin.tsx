@@ -100,6 +100,7 @@ export function createLocalStorageRecentlyViewedItems<
                   </div>
                   <div className="aa-ItemActions">
                     <button
+                      type="button"
                       className="aa-ItemActionButton"
                       title="Remove this search"
                       onClick={(event) => {

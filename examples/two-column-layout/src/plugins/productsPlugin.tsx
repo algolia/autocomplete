@@ -172,6 +172,7 @@ function ProductItem({ hit, components }: ProductItemProps) {
         </div>
 
         <button
+          type="button"
           className="aa-ItemFavorite"
           onClick={(event) => {
             event.preventDefault();

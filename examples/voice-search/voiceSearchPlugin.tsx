@@ -99,6 +99,7 @@ export function createVoiceSearchPlugin({
 function VoiceSearchButton({ onClick }) {
   return (
     <button
+      type="button"
       className="aa-VoiceSearchButton"
       title="Voice Search"
       onClick={(event) => {
@@ -143,6 +144,7 @@ function VoiceSearchOverlay({ status, transcript, onCancel }) {
     <div className="aa-VoiceSearchWrapper">
       <div>{transcript || getStatusText(status)}</div>
       <button
+        type="button"
         className="aa-VoiceSearchListeningButton"
         onClick={(event) => {
           event.preventDefault();

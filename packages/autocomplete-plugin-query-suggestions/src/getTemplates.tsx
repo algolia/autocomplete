@@ -52,6 +52,7 @@ export function getTemplates<TItem extends QuerySuggestionsHit>({
           </div>
           <div className="aa-ItemActions">
             <button
+              type="button"
               className="aa-ItemActionButton"
               title={translations.fillQueryTitle(item.query)}
               onClick={(event) => {

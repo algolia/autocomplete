@@ -160,6 +160,7 @@ describe('createQuerySuggestionsPlugin', () => {
                 <button
                   class="aa-ItemActionButton"
                   title="Fill query with \\"cooktop\\""
+                  type="button"
                 >
                   <svg
                     fill="currentColor"
@@ -208,6 +209,7 @@ describe('createQuerySuggestionsPlugin', () => {
                 <button
                   class="aa-ItemActionButton"
                   title="Fill query with \\"range\\""
+                  type="button"
                 >
                   <svg
                     fill="currentColor"
@@ -327,6 +329,7 @@ describe('createQuerySuggestionsPlugin', () => {
               <button
                 class="aa-ItemActionButton"
                 title="Fill query with \\"range\\""
+                type="button"
               >
                 <svg
                   fill="currentColor"
@@ -716,6 +719,7 @@ describe('createQuerySuggestionsPlugin', () => {
                 <button
                   class="aa-ItemActionButton"
                   title="TEST FILL \\"cooktop\\""
+                  type="button"
                 >
                   <svg
                     fill="currentColor"
@@ -764,6 +768,7 @@ describe('createQuerySuggestionsPlugin', () => {
                 <button
                   class="aa-ItemActionButton"
                   title="TEST FILL \\"range\\""
+                  type="button"
                 >
                   <svg
                     fill="currentColor"
