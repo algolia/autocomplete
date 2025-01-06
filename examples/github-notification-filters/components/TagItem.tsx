@@ -8,6 +8,7 @@ export function TagItem({ label, remove }: Tag) {
     <div className="aa-Tag">
       <span className="aa-TagLabel">{label}</span>
       <button
+        type="button"
         className="aa-TagRemoveButton"
         onClick={() => remove()}
         title="Remove this tag"

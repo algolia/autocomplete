@@ -74,6 +74,7 @@ describe('createTagsPlugin', () => {
               <button
                 class="aa-TagsPlugin-RemoveButton"
                 title="Remove this tag"
+                type="button"
               >
                 <svg
                   fill="none"

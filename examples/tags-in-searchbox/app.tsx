@@ -73,6 +73,7 @@ function TagItem<TTag>({ label, remove }: TagItemProps<TTag>) {
     <div className="aa-Tag">
       <span className="aa-TagLabel">{label}</span>
       <button
+        type="button"
         className="aa-TagRemoveButton"
         onClick={() => remove()}
         title="Remove this tag"

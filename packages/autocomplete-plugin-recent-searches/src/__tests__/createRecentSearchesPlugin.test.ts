@@ -269,6 +269,7 @@ describe('createRecentSearchesPlugin', () => {
                 <button
                   class="aa-ItemActionButton"
                   title="Remove this search"
+                  type="button"
                 >
                   <svg
                     fill="currentColor"
@@ -282,6 +283,7 @@ describe('createRecentSearchesPlugin', () => {
                 <button
                   class="aa-ItemActionButton"
                   title="Fill query with \\"query\\""
+                  type="button"
                 >
                   <svg
                     fill="currentColor"
@@ -378,6 +380,7 @@ describe('createRecentSearchesPlugin', () => {
                 <button
                   class="aa-ItemActionButton"
                   title="TEST REMOVE"
+                  type="button"
                 >
                   <svg
                     fill="currentColor"
@@ -391,6 +394,7 @@ describe('createRecentSearchesPlugin', () => {
                 <button
                   class="aa-ItemActionButton"
                   title="TEST FILL QUERY \\"query\\""
+                  type="button"
                 >
                   <svg
                     fill="currentColor"
@@ -486,6 +490,7 @@ describe('createRecentSearchesPlugin', () => {
                 <button
                   class="aa-ItemActionButton"
                   title="TEST REMOVE"
+                  type="button"
                 >
                   <svg
                     fill="currentColor"
@@ -499,6 +504,7 @@ describe('createRecentSearchesPlugin', () => {
                 <button
                   class="aa-ItemActionButton"
                   title="Fill query with \\"query\\""
+                  type="button"
                 >
                   <svg
                     fill="currentColor"

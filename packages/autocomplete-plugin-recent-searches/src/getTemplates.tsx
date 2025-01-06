@@ -44,6 +44,7 @@ export function getTemplates<TItem extends RecentSearchesItem>({
           </div>
           <div className="aa-ItemActions">
             <button
+              type="button"
               className="aa-ItemActionButton"
               title={translations.removeSearchTitle}
               onClick={(event) => {
@@ -57,6 +58,7 @@ export function getTemplates<TItem extends RecentSearchesItem>({
               </svg>
             </button>
             <button
+              type="button"
               className="aa-ItemActionButton"
               title={translations.fillQueryTitle(item.label)}
               onClick={(event) => {

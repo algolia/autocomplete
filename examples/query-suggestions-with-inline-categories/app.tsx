@@ -62,6 +62,7 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 
               <div className="aa-ItemActions">
                 <button
+                  type="button"
                   className="aa-ItemActionButton"
                   title={`Fill query with "${item.query}"`}
                   onClick={(event) => {
