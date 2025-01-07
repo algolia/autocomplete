@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-voice-search",
   "description": "Autocomplete example with Voice Search",
-  "version": "1.17.8",
+  "version": "1.17.9",
   "private": true,
   "license": "MIT",
   "scripts": {
