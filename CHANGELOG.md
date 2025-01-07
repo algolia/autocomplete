@@ -1,3 +1,12 @@
+## [1.17.9](https://github.com/algolia/autocomplete/compare/v1.17.8...v1.17.9) (2025-01-07)
+
+
+### Bug Fixes
+
+* **tags:** use proper type on default template remove button ([#1293](https://github.com/algolia/autocomplete/issues/1293)) ([c52c5d5](https://github.com/algolia/autocomplete/commit/c52c5d5ba3087c2f7ec835942d62a60c7b041353))
+
+
+
 ## [1.17.8](https://github.com/algolia/autocomplete/compare/v1.17.7...v1.17.8) (2024-12-09)
 
 
