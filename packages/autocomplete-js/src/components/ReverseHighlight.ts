@@ -1,6 +1,6 @@
 import { parseAlgoliaHitReverseHighlight } from '@algolia/autocomplete-preset-algolia';
 
-import { AutocompleteRenderer, HighlightHitParams } from '../types';
+import { AutocompleteRenderer, HighlightHitParams, VNode } from '../types';
 
 export function createReverseHighlightComponent({
   createElement,
@@ -10,7 +10,7 @@ export function createReverseHighlightComponent({
     hit,
     attribute,
     tagName = 'mark',
-  }: HighlightHitParams<THit>): JSX.Element {
+  }: HighlightHitParams<THit>): VNode<any> {
     return createElement(
       Fragment,
       {},

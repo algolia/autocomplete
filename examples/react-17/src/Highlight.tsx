@@ -1,5 +1,5 @@
 import { parseAlgoliaHitHighlight } from '@algolia/autocomplete-preset-algolia';
-import { createElement, Fragment } from 'react';
+import { createElement, Fragment, JSX } from 'react';
 
 type HighlightHitParams<THit> = {
   /**
