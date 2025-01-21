@@ -1,6 +1,6 @@
 import { parseAlgoliaHitSnippet } from '@algolia/autocomplete-preset-algolia';
 
-import { AutocompleteRenderer, HighlightHitParams } from '../types';
+import { AutocompleteRenderer, HighlightHitParams, VNode } from '../types';
 
 export function createSnippetComponent({
   createElement,
@@ -10,7 +10,7 @@ export function createSnippetComponent({
     hit,
     attribute,
     tagName = 'mark',
-  }: HighlightHitParams<THit>): JSX.Element {
+  }: HighlightHitParams<THit>): VNode<any> {
     return createElement(
       Fragment,
       {},

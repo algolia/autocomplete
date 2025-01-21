@@ -1,14 +1,15 @@
+import { VNode } from './AutocompleteRenderer';
 import { HighlightHitParams } from './HighlightHitParams';
 
 type AutocompleteHighlightComponent = <THit>({
   hit,
   attribute,
   tagName,
-}: HighlightHitParams<THit>) => JSX.Element;
+}: HighlightHitParams<THit>) => VNode<any>;
 
 export type PublicAutocompleteComponents = Record<
   string,
-  (props: any) => JSX.Element
+  (props: any) => VNode<any>
 >;
 
 export interface AutocompleteComponents extends PublicAutocompleteComponents {

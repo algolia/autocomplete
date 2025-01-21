@@ -2,7 +2,7 @@ export type Pragma = (
   type: any,
   props: Record<string, any> | null,
   ...children: ComponentChildren[]
-) => JSX.Element;
+) => VNode<any>;
 export type PragmaFrag = any;
 
 type ComponentChild = VNode<any> | string | number | boolean | null | undefined;

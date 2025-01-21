@@ -20,8 +20,8 @@
   },
   "devDependencies": {
     "@algolia/client-search": "4.16.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
     "@types/textarea-caret": "3.0.1",
     "@vitejs/plugin-react": "1.0.7",
     "typescript": "^4.4.2",
