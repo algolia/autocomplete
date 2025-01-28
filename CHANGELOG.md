@@ -1,3 +1,12 @@
+# [1.18.0](https://github.com/algolia/autocomplete/compare/v1.17.9...v1.18.0) (2025-01-28)
+
+
+### Features
+
+* compatibility with React 19 types ([#1299](https://github.com/algolia/autocomplete/issues/1299)) ([77599c6](https://github.com/algolia/autocomplete/commit/77599c6ca0229d116ea59f36b99f25b058ac4f21))
+
+
+
 ## [1.17.9](https://github.com/algolia/autocomplete/compare/v1.17.8...v1.17.9) (2025-01-07)
 
 
