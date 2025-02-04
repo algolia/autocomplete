@@ -202,7 +202,8 @@ export function getPropGetters<
       'aria-controls': store.getState().isOpen
         ? store
             .getState()
-            .collections.map(({ source }) =>
+            .collections.filter((collection) => collection.items.length > 0)
+            .map(({ source }) =>
               getAutocompleteElementId(props.id, 'list', source)
             )
             .join(' ')
