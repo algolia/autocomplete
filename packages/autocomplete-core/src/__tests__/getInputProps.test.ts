@@ -96,6 +96,7 @@ describe('getInputProps', () => {
           collections: [
             createCollection({
               source: { sourceId: 'testSource' },
+              items: [{ label: '1' }],
             }),
           ],
         },

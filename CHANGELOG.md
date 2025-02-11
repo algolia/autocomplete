@@ -1,3 +1,12 @@
+## [1.18.1](https://github.com/algolia/autocomplete/compare/v1.18.0...v1.18.1) (2025-02-11)
+
+
+### Bug Fixes
+
+* **autocomplete:** filter out empty collections in aria-controls ([#1302](https://github.com/algolia/autocomplete/issues/1302)) ([d4cca8c](https://github.com/algolia/autocomplete/commit/d4cca8c0bab8cb666bae380b7f100ac86e4cb124))
+
+
+
 # [1.18.0](https://github.com/algolia/autocomplete/compare/v1.17.9...v1.18.0) (2025-01-28)
 
 
