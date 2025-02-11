@@ -38,6 +38,6 @@
   "devDependencies": {
     "@algolia/autocomplete-core": "1.18.1",
     "@algolia/autocomplete-js": "1.18.1",
-    "@algolia/autocomplete-shared": "1.18.0"
+    "@algolia/autocomplete-shared": "1.18.1"
   }
 }
