@@ -18,6 +18,10 @@ export type CancelablePromiseList<TValue> = {
    * Whether there are pending promises in the list.
    */
   isEmpty(): boolean;
+  /**
+   * Waits for all pending promises to be resolved.
+   */
+  wait(): Promise<Array<Awaited<TValue>>>;
 };
 
 export function createCancelablePromiseList<
@@ -38,6 +42,9 @@ export function createCancelablePromiseList<
     },
     isEmpty() {
       return list.length === 0;
+    },
+    wait() {
+      return Promise.all(list);
     },
   };
 }

@@ -132,7 +132,12 @@ export function onKeyDown<TItem extends BaseItem>({
       // the panel once they resolve.
       // We want to prevent any subsequent query from reopening the panel
       // because it would result in an unsolicited UI behavior.
-      if (!props.debug) {
+      if (
+        !props.debug &&
+        !props.plugins.some(
+          (plugin) => plugin.__autocomplete_pluginOptions?.awaitSubmit
+        )
+      ) {
         store.pendingRequests.cancelAll();
       }
 
