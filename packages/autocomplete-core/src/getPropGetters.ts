@@ -126,6 +126,18 @@ export function getPropGetters<
   const getFormProps: GetFormProps<TEvent> = (providedProps) => {
     const { inputElement, ...rest } = providedProps;
 
+    const handleSubmit = (event: TEvent) => {
+      props.onSubmit({
+        event,
+        refresh,
+        state: store.getState(),
+        ...setters,
+      });
+
+      store.dispatch('submit', null);
+      providedProps.inputElement?.blur();
+    };
+
     return {
       action: '',
       noValidate: true,
@@ -133,25 +145,17 @@ export function getPropGetters<
       onSubmit: (event) => {
         (event as unknown as Event).preventDefault();
 
-        (async () => {
-          if (
-            props.plugins.some(
-              (plugin) => plugin.__autocomplete_pluginOptions?.awaitSubmit
-            )
-          ) {
-            await store.pendingRequests.wait();
-          }
-
-          props.onSubmit({
-            event,
-            refresh,
-            state: store.getState(),
-            ...setters,
-          });
-
-          store.dispatch('submit', null);
-          providedProps.inputElement?.blur();
-        })();
+        // Wait for pending requests to resolve before handling
+        // the submit event if a plugin is configured to do so.
+        if (
+          props.plugins.some(
+            (plugin) => plugin.__autocomplete_pluginOptions?.awaitSubmit
+          )
+        ) {
+          store.pendingRequests.wait().then(() => handleSubmit(event));
+        } else {
+          handleSubmit(event);
+        }
       },
       onReset: (event) => {
         (event as unknown as Event).preventDefault();
