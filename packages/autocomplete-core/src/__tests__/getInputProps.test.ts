@@ -1,3 +1,5 @@
+import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
+import { createRedirectUrlPlugin } from '@algolia/autocomplete-plugin-redirect-url';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
@@ -9,6 +11,14 @@ import {
   runAllMicroTasks,
 } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
+import { createCancelablePromiseList } from '../utils';
+
+jest.mock('../utils/createCancelablePromiseList', () => ({
+  createCancelablePromiseList: jest.fn(
+    jest.requireActual('../utils/createCancelablePromiseList')
+      .createCancelablePromiseList
+  ),
+}));
 
 describe('getInputProps', () => {
   beforeEach(() => {
@@ -1285,6 +1295,47 @@ describe('getInputProps', () => {
             state: expect.objectContaining({ isOpen: false }),
           })
         );
+      });
+
+      describe('a plugin is configured with the option "awaitSubmit"', () => {
+        const cancelAll = jest.fn();
+        const event = { ...new KeyboardEvent('keydown'), key: 'Enter' };
+
+        beforeEach(() => {
+          (createCancelablePromiseList as jest.Mock).mockReturnValueOnce({
+            add: jest.fn,
+            cancelAll,
+            isEmpty: jest.fn,
+            wait: jest.fn,
+          });
+        });
+
+        test('when false or undefined it should not cancel pending requests', () => {
+          const plugins = [
+            createRedirectUrlPlugin(), // "awaitSubmit" is true by default
+            createAlgoliaInsightsPlugin({}), // "awaitSubmit" is neither configurable nor defined
+          ];
+
+          const { inputProps } = createPlayground(createAutocomplete, {
+            plugins,
+          });
+
+          inputProps.onKeyDown(event);
+
+          expect(cancelAll).toHaveBeenCalledTimes(0);
+        });
+
+        test('when false it should cancel pending requests', () => {
+          const plugins = [createRedirectUrlPlugin({ awaitSubmit: false })];
+
+          const { inputProps } = createPlayground(createAutocomplete, {
+            plugins,
+          });
+
+          inputProps.onKeyDown(event);
+
+          expect(cancelAll).toHaveBeenCalledTimes(1);
+        });
       });
 
       describe('Plain Enter', () => {

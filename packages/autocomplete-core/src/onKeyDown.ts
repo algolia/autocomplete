@@ -130,7 +130,8 @@ export function onKeyDown<TItem extends BaseItem>({
     ) {
       // If requests are still pending when the panel closes, they could reopen
       // the panel once they resolve.
-      // We want to prevent any subsequent query from reopening the panel
+      // Unless explicitly configured to await these requests,
+      // we want to prevent any subsequent query from reopening the panel
       // because it would result in an unsolicited UI behavior.
       if (
         !props.debug &&
