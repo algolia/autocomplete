@@ -82,17 +82,27 @@ describe('createRedirectUrlPlugin', () => {
     expect(plugin.name).toBe('aa.redirectUrlPlugin');
   });
 
-  test('exposes passed options and excludes default ones', () => {
+  test('exposes the default value only for "awaitSubmit" in plugin.__autocomplete_pluginOptions', () => {
+    const plugin = createRedirectUrlPlugin();
+
+    expect(plugin.__autocomplete_pluginOptions).toEqual({
+      awaitSubmit: true,
+    });
+  });
+
+  test('exposes all provided options with plugin.__autocomplete_pluginOptions', () => {
     const plugin = createRedirectUrlPlugin({
       transformResponse: jest.fn(),
       templates: { item: () => 'hey' },
       onRedirect: jest.fn(),
+      awaitSubmit: false,
     });
 
     expect(plugin.__autocomplete_pluginOptions).toEqual({
       transformResponse: expect.any(Function),
       templates: expect.any(Object),
       onRedirect: expect.any(Function),
+      awaitSubmit: false,
     });
   });
 
@@ -225,7 +235,7 @@ describe('createRedirectUrlPlugin', () => {
         Array [
           HTMLCollection [
             <a>
-              My custom option: 
+              My custom option:
               redirect item
             </a>,
           ],

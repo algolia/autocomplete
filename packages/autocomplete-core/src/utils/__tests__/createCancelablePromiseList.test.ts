@@ -75,4 +75,18 @@ describe('createCancelablePromiseList', () => {
     expect(cancelablePromise3.isCanceled()).toBe(true);
     expect(cancelablePromiseList.isEmpty()).toBe(true);
   });
+
+  test('waits for all promises to resolve', async () => {
+    const cancelablePromiseList = createCancelablePromiseList();
+    const cancelablePromise = createCancelablePromise.resolve();
+
+    cancelablePromiseList.add(cancelablePromise);
+    cancelablePromiseList.add(cancelablePromise);
+
+    expect(cancelablePromiseList.isEmpty()).toBe(false);
+
+    await cancelablePromiseList.wait();
+
+    expect(cancelablePromiseList.isEmpty()).toBe(true);
+  });
 });
