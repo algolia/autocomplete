@@ -134,16 +134,6 @@ export function getPropGetters<
         (event as unknown as Event).preventDefault();
 
         (async () => {
-          props.onSubmit({
-            event,
-            refresh,
-            state: store.getState(),
-            ...setters,
-          });
-
-          store.dispatch('submit', null);
-          providedProps.inputElement?.blur();
-
           if (
             props.plugins.some(
               (plugin) => plugin.__autocomplete_pluginOptions?.awaitSubmit
