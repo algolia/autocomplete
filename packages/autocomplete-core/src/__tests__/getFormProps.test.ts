@@ -1,8 +1,8 @@
+import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
+import { createRedirectUrlPlugin } from '@algolia/autocomplete-plugin-redirect-url';
+
 import { createPlayground, runAllMicroTasks } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
-import { createRedirectUrlPlugin } from '@algolia/autocomplete-plugin-redirect-url';
-import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
-import { waitFor } from '@testing-library/dom';
 
 describe('getFormProps', () => {
   beforeEach(() => {
