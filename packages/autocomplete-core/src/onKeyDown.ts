@@ -135,9 +135,7 @@ export function onKeyDown<TItem extends BaseItem>({
       // because it would result in an unsolicited UI behavior.
       if (
         !props.debug &&
-        !props.plugins.some(
-          (plugin) => plugin.__autocomplete_pluginOptions?.awaitSubmit
-        )
+        !props.plugins.some((plugin) => plugin?.awaitSubmit)
       ) {
         store.pendingRequests.cancelAll();
       }

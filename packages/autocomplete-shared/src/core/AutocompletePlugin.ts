@@ -50,6 +50,10 @@ export type AutocompletePlugin<
    */
   reshape?: PluginReshape<TItem>;
   /**
+   * A boolean to require waiting for pending requests to resolve before submitting.
+   */
+  awaitSubmit?: boolean;
+  /**
    * @internal
    */
   __autocomplete_pluginOptions?: Record<string, any>;
