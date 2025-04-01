@@ -180,11 +180,11 @@ describe('getFormProps', () => {
       );
     });
 
-    describe('a plugin is configured with "awaitSubmit"', () => {
+    describe('a plugin is configured with the option "awaitSubmit" === true', () => {
       test('should await pending requests before triggering the submit event', async () => {
         const plugins = [
-          createRedirectUrlPlugin(), // Uses "awaitSubmit"
-          createAlgoliaInsightsPlugin({}), // Does not use "awaitSubmit"
+          createRedirectUrlPlugin(), // "awaitSubmit" is true by default
+          createAlgoliaInsightsPlugin({}), // "awaitSubmit" is neither configurable nor defined
         ];
         const onSubmit = jest.fn();
         const { getFormProps, inputElement } = createPlayground(

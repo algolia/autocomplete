@@ -1297,20 +1297,23 @@ describe('getInputProps', () => {
         );
       });
 
-      describe('a plugin is configured with "awaitSubmit"', () => {
-        test('pending requests should be preserved', () => {
-          const cancelAll = jest.fn();
-          const event = { ...new KeyboardEvent('keydown'), key: 'Enter' };
+      describe('a plugin is configured with the option "awaitSubmit"', () => {
+        const cancelAll = jest.fn();
+        const event = { ...new KeyboardEvent('keydown'), key: 'Enter' };
+
+        beforeEach(() => {
           (createCancelablePromiseList as jest.Mock).mockReturnValueOnce({
             add: jest.fn,
             cancelAll,
             isEmpty: jest.fn,
             wait: jest.fn,
           });
+        });
 
+        test('when false or undefined it should not cancel pending requests', () => {
           const plugins = [
-            createRedirectUrlPlugin(), // Uses "awaitSubmit"
-            createAlgoliaInsightsPlugin({}), // Does not use "awaitSubmit"
+            createRedirectUrlPlugin(), // "awaitSubmit" is true by default
+            createAlgoliaInsightsPlugin({}), // "awaitSubmit" is neither configurable nor defined
           ];
 
           const { inputProps } = createPlayground(createAutocomplete, {
@@ -1320,6 +1323,18 @@ describe('getInputProps', () => {
           inputProps.onKeyDown(event);
 
           expect(cancelAll).toHaveBeenCalledTimes(0);
+        });
+
+        test('when false it should cancel pending requests', () => {
+          const plugins = [createRedirectUrlPlugin({ awaitSubmit: false })];
+
+          const { inputProps } = createPlayground(createAutocomplete, {
+            plugins,
+          });
+
+          inputProps.onKeyDown(event);
+
+          expect(cancelAll).toHaveBeenCalledTimes(1);
         });
       });
 

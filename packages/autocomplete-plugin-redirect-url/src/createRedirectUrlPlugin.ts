@@ -59,7 +59,7 @@ function getRedirectData({ state }) {
 }
 
 export function createRedirectUrlPlugin<TItem extends BaseItem>(
-  options: CreateRedirectUrlPluginParams<TItem> = {}
+  options: CreateRedirectUrlPluginParams<TItem> = { awaitSubmit: true }
 ): AutocompletePlugin<RedirectUrlItem, undefined> {
   const { transformResponse, templates, onRedirect } = getOptions(options);
 
@@ -92,7 +92,6 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
 
   return {
     name: 'aa.redirectUrlPlugin',
-    awaitSubmit: true,
     subscribe({ onResolve, onSelect, setContext, setIsOpen }) {
       onResolve(({ results, source, state }) => {
         setContext({
