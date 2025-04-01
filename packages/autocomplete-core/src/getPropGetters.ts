@@ -149,7 +149,8 @@ export function getPropGetters<
         // the submit event if a plugin is configured to do so.
         if (
           props.plugins.some(
-            (plugin) => plugin.__autocomplete_pluginOptions?.awaitSubmit
+            (plugin) =>
+              plugin.__autocomplete_pluginOptions?.awaitSubmitUntilResponse
           )
         ) {
           store.pendingRequests.wait().then(() => handleSubmit(event));

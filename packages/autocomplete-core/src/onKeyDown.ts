@@ -136,7 +136,8 @@ export function onKeyDown<TItem extends BaseItem>({
       if (
         !props.debug &&
         !props.plugins.some(
-          (plugin) => plugin.__autocomplete_pluginOptions?.awaitSubmit
+          (plugin) =>
+            plugin.__autocomplete_pluginOptions?.awaitSubmitUntilResponse
         )
       ) {
         store.pendingRequests.cancelAll();
