@@ -15,7 +15,7 @@ export const getPluginSubmitPromise = (
 
   for (const plugin of plugins) {
     const value: boolean | number | undefined =
-      plugin.__autocomplete_pluginOptions?.awaitSubmitUntilResponse?.();
+      plugin.__autocomplete_pluginOptions?.awaitSubmit?.();
     if (typeof value === 'number') {
       timeouts.push(value);
     } else if (value === true) {

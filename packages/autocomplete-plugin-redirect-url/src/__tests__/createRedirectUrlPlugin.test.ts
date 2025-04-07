@@ -82,11 +82,11 @@ describe('createRedirectUrlPlugin', () => {
     expect(plugin.name).toBe('aa.redirectUrlPlugin');
   });
 
-  test('exposes the default value only for "awaitSubmitUntilResponse" in plugin.__autocomplete_pluginOptions', () => {
+  test('exposes the default value only for "awaitSubmit" in plugin.__autocomplete_pluginOptions', () => {
     const plugin = createRedirectUrlPlugin();
 
     expect(plugin.__autocomplete_pluginOptions).toEqual({
-      awaitSubmitUntilResponse: true,
+      awaitSubmit: true,
     });
   });
 
@@ -95,14 +95,14 @@ describe('createRedirectUrlPlugin', () => {
       transformResponse: jest.fn(),
       templates: { item: () => 'hey' },
       onRedirect: jest.fn(),
-      awaitSubmitUntilResponse: false,
+      awaitSubmit: false,
     });
 
     expect(plugin.__autocomplete_pluginOptions).toEqual({
       transformResponse: expect.any(Function),
       templates: expect.any(Object),
       onRedirect: expect.any(Function),
-      awaitSubmitUntilResponse: false,
+      awaitSubmit: false,
     });
   });
 

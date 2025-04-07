@@ -13,7 +13,7 @@ autocomplete<{ name: string }>({
   placeholder: 'Search',
   openOnFocus: true,
   insights: true,
-  plugins: [createRedirectUrlPlugin({ awaitSubmitUntilResponse: () => 2000 })],
+  plugins: [createRedirectUrlPlugin({ awaitSubmit: () => 2000 })],
   getSources({ query }) {
     return [
       {

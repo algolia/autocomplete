@@ -37,5 +37,5 @@ export type CreateRedirectUrlPluginParams<TItem extends BaseItem> = {
     options: OnRedirectOptions<RedirectUrlItem>
   ): void;
   templates?: SourceTemplates<RedirectUrlItem>;
-  awaitSubmitUntilResponse?: () => boolean | number;
+  awaitSubmit?: () => boolean | number;
 };
