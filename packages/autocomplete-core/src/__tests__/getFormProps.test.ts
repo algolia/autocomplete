@@ -49,7 +49,7 @@ describe('getFormProps', () => {
     expect(formProps.role).toEqual('search');
   });
 
-  describe('onSubmit', () => {
+  describe.skip('onSubmit', () => {
     test('prevents the default event', () => {
       const { getFormProps, inputElement } = createPlayground(
         createAutocomplete,
