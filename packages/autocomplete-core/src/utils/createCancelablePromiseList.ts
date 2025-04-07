@@ -23,10 +23,12 @@ export type CancelablePromiseList<TValue> = {
    *
    * @param timeout Maximum amount of time allowed to wait for pending promises. Returns early if this time is reached.
    */
-  wait(timeout?: number): Promise<any>;
+  wait(timeout?: number): Promise<void>;
 };
 
-let _cancellableWaitPromise: Promise<any>;
+// Ensures multiple callers sync to the same promise.
+let _hasWaitPromiseResolved = true;
+let _waitPromise: Promise<any>;
 
 export function createCancelablePromiseList<
   TValue
@@ -48,16 +50,24 @@ export function createCancelablePromiseList<
       return list.length === 0;
     },
     wait(timeout) {
-      // Returns when resolving either the pending requests or the timeout (if exists).
-      // Whichever comes first.
-      _cancellableWaitPromise = !timeout
+      // Reuse promise if already exists. Keeps multiple callers subscribed to the same promise.
+      if (!_hasWaitPromiseResolved) {
+        return _waitPromise;
+      }
+
+      // Creates a promise which either resolves after all pending requests complete
+      // or the timeout is reached (if provided). Whichever comes first.
+      _hasWaitPromiseResolved = false;
+      _waitPromise = !timeout
         ? Promise.all(list)
         : Promise.race([
             Promise.all(list),
             new Promise<void>((resolve) => setTimeout(resolve, timeout)),
           ]);
 
-      return _cancellableWaitPromise;
+      return _waitPromise.then(() => {
+        _hasWaitPromiseResolved = true;
+      });
     },
   };
 }
