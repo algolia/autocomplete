@@ -1,9 +1,10 @@
 import type { InternalAutocompleteOptions } from '../types';
+
 import { CancelablePromiseList } from './createCancelablePromiseList';
 
 /**
- * Detect if a plugin is configured with the option to await a submit event.
- * If so, return a promise for either the max timeout value found or until it completes.
+ * If a plugin is configured to await a submit event, this returns a promise
+ * for either the max timeout value found or until it completes.
  * Otherwise, return undefined.
  */
 export const getPluginSubmitPromise = (

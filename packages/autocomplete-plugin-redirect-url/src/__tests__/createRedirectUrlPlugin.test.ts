@@ -222,17 +222,11 @@ describe('createRedirectUrlPlugin', () => {
     await waitFor(() => {
       expect(findHitsSection(panelContainer)).not.toBeInTheDocument();
 
-      expect(findDropdownOptions(findRedirectSection(panelContainer)))
-        .toMatchInlineSnapshot(`
-        Array [
-          HTMLCollection [
-            <a>
-              My custom option:
-              redirect item
-            </a>,
-          ],
-        ]
-      `);
+      const dropdownText = findDropdownOptions(
+        findRedirectSection(panelContainer)
+      )[0].item(0)?.textContent;
+
+      expect(dropdownText).toBe('My custom option: redirect item');
     });
   });
 
