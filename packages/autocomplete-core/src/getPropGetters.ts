@@ -17,6 +17,7 @@ import {
   InternalAutocompleteOptions,
 } from './types';
 import {
+  getPluginSubmitPromise,
   getActiveItem,
   getAutocompleteElementId,
   isOrContainsNode,
@@ -145,15 +146,12 @@ export function getPropGetters<
       onSubmit: (event) => {
         (event as unknown as Event).preventDefault();
 
-        // Wait for pending requests to resolve before handling
-        // the submit event if a plugin is configured to do so.
-        if (
-          props.plugins.some(
-            (plugin) =>
-              plugin.__autocomplete_pluginOptions?.awaitSubmitUntilResponse
-          )
-        ) {
-          store.pendingRequests.wait().then(() => handleSubmit(event));
+        const waitForSubmit = getPluginSubmitPromise(
+          props.plugins,
+          store.pendingRequests
+        );
+        if (waitForSubmit !== undefined) {
+          waitForSubmit.then(() => handleSubmit(event));
         } else {
           handleSubmit(event);
         }

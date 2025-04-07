@@ -20,9 +20,13 @@ export type CancelablePromiseList<TValue> = {
   isEmpty(): boolean;
   /**
    * Waits for all pending promises to be resolved.
+   *
+   * @param timeout Maximum amount of time allowed to wait for pending promises. Returns early if this time is reached.
    */
-  wait(): Promise<Array<Awaited<TValue>>>;
+  wait(timeout?: number): Promise<any>;
 };
+
+let _cancellableWaitPromise: Promise<any>;
 
 export function createCancelablePromiseList<
   TValue
@@ -43,8 +47,17 @@ export function createCancelablePromiseList<
     isEmpty() {
       return list.length === 0;
     },
-    wait() {
-      return Promise.all(list);
+    wait(timeout) {
+      // Returns when resolving either the pending requests or the timeout (if exists).
+      // Whichever comes first.
+      _cancellableWaitPromise = !timeout
+        ? Promise.all(list)
+        : Promise.race([
+            Promise.all(list),
+            new Promise<void>((resolve) => setTimeout(resolve, timeout)),
+          ]);
+
+      return _cancellableWaitPromise;
     },
   };
 }

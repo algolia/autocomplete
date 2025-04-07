@@ -3,6 +3,7 @@ export * from './createCancelablePromiseList';
 export * from './createConcurrentSafePromise';
 export * from './getNextActiveItemId';
 export * from './getNormalizedSources';
+export * from './getPluginSubmitPromise';
 export * from './getActiveItem';
 export * from './getAutocompleteElementId';
 export * from './isOrContainsNode';
