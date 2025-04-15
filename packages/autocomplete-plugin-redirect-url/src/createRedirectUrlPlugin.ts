@@ -94,6 +94,12 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
     name: 'aa.redirectUrlPlugin',
     subscribe({ onResolve, onSelect, setContext, setIsOpen }) {
       onResolve(({ results, source, state }) => {
+        // Since searches can be resolved in any order, verify the query from the search
+        // matches the input query to ensure a redirect item accurately reflects the input
+        if (results[0].query !== state.query) {
+          return;
+        }
+
         setContext({
           ...state.context,
           redirectUrlPlugin: {
