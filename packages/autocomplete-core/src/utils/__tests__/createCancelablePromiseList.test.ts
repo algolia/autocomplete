@@ -89,4 +89,21 @@ describe('createCancelablePromiseList', () => {
 
     expect(cancelablePromiseList.isEmpty()).toBe(true);
   });
+
+  test('waits for a timeout before all promises to resolve', async () => {
+    const timeout = 50;
+    const cancelablePromiseList = createCancelablePromiseList();
+    const delayedPromise = createCancelablePromise(
+      (resolve) => setTimeout(resolve, timeout * 10) // ensure wait will be later than timeout
+    );
+
+    cancelablePromiseList.add(delayedPromise);
+
+    expect(cancelablePromiseList.isEmpty()).toBe(false);
+
+    await cancelablePromiseList.wait(timeout);
+
+    // List is not emptied yet because the timeout triggered first
+    expect(cancelablePromiseList.isEmpty()).toBe(false);
+  });
 });

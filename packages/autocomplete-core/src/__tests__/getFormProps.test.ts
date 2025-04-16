@@ -49,7 +49,7 @@ describe('getFormProps', () => {
     expect(formProps.role).toEqual('search');
   });
 
-  describe.skip('onSubmit', () => {
+  describe('onSubmit', () => {
     test('prevents the default event', () => {
       const { getFormProps, inputElement } = createPlayground(
         createAutocomplete,
@@ -180,32 +180,35 @@ describe('getFormProps', () => {
       );
     });
 
-    describe('a plugin is configured with the option "awaitSubmit" === true', () => {
-      test('should await pending requests before triggering the submit event', async () => {
-        const plugins = [
-          createRedirectUrlPlugin(), // "awaitSubmit" is true by default
-          createAlgoliaInsightsPlugin({}), // "awaitSubmit" is neither configurable nor defined
-        ];
-        const onSubmit = jest.fn();
-        const { getFormProps, inputElement } = createPlayground(
-          createAutocomplete,
-          {
-            onSubmit,
-            plugins,
-          }
-        );
+    describe.each([true, 1000])(
+      'a plugin is configured with the option "awaitSubmit: () => %s"',
+      (timeout) => {
+        test('should await pending requests before triggering the submit event', async () => {
+          const plugins = [
+            createRedirectUrlPlugin({ awaitSubmit: () => timeout }),
+            createAlgoliaInsightsPlugin({}), // "awaitSubmit" is neither configurable nor defined
+          ];
+          const onSubmit = jest.fn();
+          const { getFormProps, inputElement } = createPlayground(
+            createAutocomplete,
+            {
+              onSubmit,
+              plugins,
+            }
+          );
 
-        const formProps = getFormProps({ inputElement });
+          const formProps = getFormProps({ inputElement });
 
-        formProps.onSubmit(new Event('submit'));
+          formProps.onSubmit(new Event('submit'));
 
-        expect(onSubmit).toHaveBeenCalledTimes(0);
+          expect(onSubmit).toHaveBeenCalledTimes(0);
 
-        await runAllMicroTasks();
+          await runAllMicroTasks();
 
-        expect(onSubmit).toHaveBeenCalledTimes(1);
-      });
-    });
+          expect(onSubmit).toHaveBeenCalledTimes(1);
+        });
+      }
+    );
   });
 
   describe('onReset', () => {
