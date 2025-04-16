@@ -1315,12 +1315,13 @@ describe('getInputProps', () => {
             isEmpty: jest.fn,
             wait: jest.fn,
           });
-          (getPluginSubmitPromise as jest.Mock).mockResolvedValueOnce({});
         });
 
         test.each([true, 1000])(
           'when returning %s it should not cancel pending requests',
           (timeout) => {
+            (getPluginSubmitPromise as jest.Mock).mockResolvedValueOnce({});
+
             const plugins = [
               createRedirectUrlPlugin({ awaitSubmit: () => timeout }),
               createAlgoliaInsightsPlugin({}), // "awaitSubmit" is neither configurable nor defined
