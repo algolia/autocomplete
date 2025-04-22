@@ -225,7 +225,7 @@ describe('createRedirectUrlPlugin', () => {
         Array [
           HTMLCollection [
             <a>
-              My custom option: 
+              My custom option:
               redirect item
             </a>,
           ],
@@ -234,7 +234,7 @@ describe('createRedirectUrlPlugin', () => {
     });
   });
 
-  test('renders a redirect item when a custom expected payload is returned', async () => {
+  test('does not render a redirect item when the query from the state does not match the response', async () => {
     const redirectUrlPlugin = createRedirectUrlPlugin({
       transformResponse(response) {
         return (response as Record<string, any>).customRedirect?.url;
@@ -270,7 +270,7 @@ describe('createRedirectUrlPlugin', () => {
 
     await waitFor(() => {
       expect(findHitsSection(panelContainer)).not.toBeInTheDocument();
-      expect(findRedirectSection(panelContainer)).toBeInTheDocument();
+      expect(findRedirectSection(panelContainer)).not.toBeInTheDocument();
     });
   });
 
