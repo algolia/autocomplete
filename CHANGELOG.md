@@ -1,3 +1,12 @@
+# [1.19.0](https://github.com/algolia/autocomplete/compare/v1.18.1...v1.19.0) (2025-04-22)
+
+
+### Features
+
+* **redirect:** await submit for pending requests ([#1309](https://github.com/algolia/autocomplete/issues/1309)) ([bf03241](https://github.com/algolia/autocomplete/commit/bf032415ff5c87b6d728b6b017233f7d10052640))
+
+
+
 ## [1.18.1](https://github.com/algolia/autocomplete/compare/v1.18.0...v1.18.1) (2025-02-11)
 
 
