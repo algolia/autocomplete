@@ -42,7 +42,7 @@ function createMockSource({
     },
     templates: {
       item({ item, html }) {
-        return html`<a>${item.query}</a>`;
+        return html`<a>${item.name}</a>`;
       },
     },
     ...props,
@@ -284,7 +284,7 @@ describe('createRedirectUrlPlugin', () => {
       panelContainer,
       plugins: [redirectUrlPlugin],
       getSources() {
-        return [createMockSource({ results: [{ hits: [{ query }] }] })];
+        return [createMockSource({ results: [{ hits: [{ name: query }] }] })];
       },
     });
 
@@ -293,16 +293,11 @@ describe('createRedirectUrlPlugin', () => {
     fireEvent.input(input, { target: { value: query } });
 
     await waitFor(() => {
-      expect(findDropdownOptions(findHitsSection(panelContainer)))
-        .toMatchInlineSnapshot(`
-        Array [
-          HTMLCollection [
-            <a>
-              not a redirect item
-            </a>,
-          ],
-        ]
-      `);
+      const dropdownText = findDropdownOptions(
+        findHitsSection(panelContainer)
+      )[0].item(0)?.textContent;
+
+      expect(dropdownText).toBe('not a redirect item');
 
       expect(findRedirectSection(panelContainer)).not.toBeInTheDocument();
     });
@@ -327,9 +322,9 @@ describe('createRedirectUrlPlugin', () => {
               {
                 ...RESPONSE,
                 hits: [
-                  { query: 'redirect item' },
-                  { query: 'not a redirect item 1' },
-                  { query: 'not a redirect item 2' },
+                  { name: 'redirect item' },
+                  { name: 'not a redirect item 1' },
+                  { name: 'not a redirect item 2' },
                 ],
               },
             ],
@@ -345,26 +340,18 @@ describe('createRedirectUrlPlugin', () => {
     await waitFor(() => {
       expect(findRedirectSection(panelContainer)).toBeInTheDocument();
 
-      expect(findDropdownOptions(findHitsSection(panelContainer)))
-        .toMatchInlineSnapshot(`
-        Array [
-          HTMLCollection [
-            <a>
-              redirect item
-            </a>,
-          ],
-          HTMLCollection [
-            <a>
-              not a redirect item 1
-            </a>,
-          ],
-          HTMLCollection [
-            <a>
-              not a redirect item 2
-            </a>,
-          ],
-        ]
-      `);
+      const dropdownOptions = findDropdownOptions(
+        findHitsSection(panelContainer)
+      );
+
+      expect(dropdownOptions).toHaveLength(3);
+      expect(dropdownOptions[0].item(0)?.textContent).toBe(REDIRECT_QUERY);
+      expect(dropdownOptions[1].item(0)?.textContent).toBe(
+        'not a redirect item 1'
+      );
+      expect(dropdownOptions[2].item(0)?.textContent).toBe(
+        'not a redirect item 2'
+      );
     });
   });
 
@@ -385,16 +372,17 @@ describe('createRedirectUrlPlugin', () => {
           createMockSource({
             results: [
               {
+                query: REDIRECT_QUERY,
                 ...RESPONSE,
                 hits: [
-                  { query: 'redirect item' },
-                  { query: 'not a redirect item 1' },
-                  { query: 'not a redirect item 2' },
+                  { name: REDIRECT_QUERY },
+                  { name: 'not a redirect item 1' },
+                  { name: 'not a redirect item 2' },
                 ],
               },
             ],
             getItemInputValue({ item }) {
-              return item.query;
+              return item.name;
             },
           }),
         ];
@@ -408,21 +396,16 @@ describe('createRedirectUrlPlugin', () => {
     await waitFor(() => {
       expect(findRedirectSection(panelContainer)).toBeInTheDocument();
 
-      expect(findDropdownOptions(findHitsSection(panelContainer)))
-        .toMatchInlineSnapshot(`
-        Array [
-          HTMLCollection [
-            <a>
-              not a redirect item 1
-            </a>,
-          ],
-          HTMLCollection [
-            <a>
-              not a redirect item 2
-            </a>,
-          ],
-        ]
-      `);
+      const dropdownOptions = findDropdownOptions(
+        findHitsSection(panelContainer)
+      );
+      expect(dropdownOptions).toHaveLength(2);
+      expect(dropdownOptions[0].item(0)?.textContent).toBe(
+        'not a redirect item 1'
+      );
+      expect(dropdownOptions[1].item(0)?.textContent).toBe(
+        'not a redirect item 2'
+      );
     });
   });
 
@@ -520,7 +503,8 @@ describe('createRedirectUrlPlugin', () => {
               query === REDIRECT_QUERY
                 ? [
                     {
-                      hits: [{ query: REDIRECT_QUERY }],
+                      hits: [{ name: REDIRECT_QUERY }],
+                      query: REDIRECT_QUERY,
                       renderingContent: {
                         redirect: {
                           url: 'https://www.algolia.com',
@@ -531,13 +515,14 @@ describe('createRedirectUrlPlugin', () => {
                 : [
                     {
                       hits: [
-                        { query: 'something else' },
-                        { query: REDIRECT_QUERY },
+                        { name: 'something else' },
+                        { name: REDIRECT_QUERY },
                       ],
+                      query: 'something else',
                     },
                   ],
             getItemInputValue({ item }) {
-              return item.query;
+              return item.name;
             },
           }),
         ];
