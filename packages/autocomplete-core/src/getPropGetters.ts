@@ -17,6 +17,7 @@ import {
   InternalAutocompleteOptions,
 } from './types';
 import {
+  getPluginSubmitPromise,
   getActiveItem,
   getAutocompleteElementId,
   isOrContainsNode,
@@ -126,6 +127,18 @@ export function getPropGetters<
   const getFormProps: GetFormProps<TEvent> = (providedProps) => {
     const { inputElement, ...rest } = providedProps;
 
+    const handleSubmit = (event: TEvent) => {
+      props.onSubmit({
+        event,
+        refresh,
+        state: store.getState(),
+        ...setters,
+      });
+
+      store.dispatch('submit', null);
+      providedProps.inputElement?.blur();
+    };
+
     return {
       action: '',
       noValidate: true,
@@ -133,15 +146,15 @@ export function getPropGetters<
       onSubmit: (event) => {
         (event as unknown as Event).preventDefault();
 
-        props.onSubmit({
-          event,
-          refresh,
-          state: store.getState(),
-          ...setters,
-        });
-
-        store.dispatch('submit', null);
-        providedProps.inputElement?.blur();
+        const waitForSubmit = getPluginSubmitPromise(
+          props.plugins,
+          store.pendingRequests
+        );
+        if (waitForSubmit !== undefined) {
+          waitForSubmit.then(() => handleSubmit(event));
+        } else {
+          handleSubmit(event);
+        }
       },
       onReset: (event) => {
         (event as unknown as Event).preventDefault();

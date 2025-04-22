@@ -1,4 +1,7 @@
-import { createPlayground } from '../../../../test/utils';
+import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
+import { createRedirectUrlPlugin } from '@algolia/autocomplete-plugin-redirect-url';
+
+import { createPlayground, runAllMicroTasks } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 describe('getFormProps', () => {
@@ -176,6 +179,36 @@ describe('getFormProps', () => {
         })
       );
     });
+
+    describe.each([true, 1000])(
+      'a plugin is configured with the option "awaitSubmit: () => %s"',
+      (timeout) => {
+        test('should await pending requests before triggering the submit event', async () => {
+          const plugins = [
+            createRedirectUrlPlugin({ awaitSubmit: () => timeout }),
+            createAlgoliaInsightsPlugin({}), // "awaitSubmit" is neither configurable nor defined
+          ];
+          const onSubmit = jest.fn();
+          const { getFormProps, inputElement } = createPlayground(
+            createAutocomplete,
+            {
+              onSubmit,
+              plugins,
+            }
+          );
+
+          const formProps = getFormProps({ inputElement });
+
+          formProps.onSubmit(new Event('submit'));
+
+          expect(onSubmit).toHaveBeenCalledTimes(0);
+
+          await runAllMicroTasks();
+
+          expect(onSubmit).toHaveBeenCalledTimes(1);
+        });
+      }
+    );
   });
 
   describe('onReset', () => {

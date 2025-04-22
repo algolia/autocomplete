@@ -82,17 +82,19 @@ describe('createRedirectUrlPlugin', () => {
     expect(plugin.name).toBe('aa.redirectUrlPlugin');
   });
 
-  test('exposes passed options and excludes default ones', () => {
+  test('exposes all provided options with plugin.__autocomplete_pluginOptions', () => {
     const plugin = createRedirectUrlPlugin({
       transformResponse: jest.fn(),
       templates: { item: () => 'hey' },
       onRedirect: jest.fn(),
+      awaitSubmit: () => false,
     });
 
     expect(plugin.__autocomplete_pluginOptions).toEqual({
       transformResponse: expect.any(Function),
       templates: expect.any(Object),
       onRedirect: expect.any(Function),
+      awaitSubmit: expect.any(Function),
     });
   });
 
@@ -220,17 +222,11 @@ describe('createRedirectUrlPlugin', () => {
     await waitFor(() => {
       expect(findHitsSection(panelContainer)).not.toBeInTheDocument();
 
-      expect(findDropdownOptions(findRedirectSection(panelContainer)))
-        .toMatchInlineSnapshot(`
-        Array [
-          HTMLCollection [
-            <a>
-              My custom option: 
-              redirect item
-            </a>,
-          ],
-        ]
-      `);
+      const dropdownText = findDropdownOptions(
+        findRedirectSection(panelContainer)
+      )[0].item(0)?.textContent;
+
+      expect(dropdownText).toBe('My custom option: redirect item');
     });
   });
 
