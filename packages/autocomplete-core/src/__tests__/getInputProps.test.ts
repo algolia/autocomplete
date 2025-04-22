@@ -1,3 +1,5 @@
+import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
+import { createRedirectUrlPlugin } from '@algolia/autocomplete-plugin-redirect-url';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
@@ -9,6 +11,20 @@ import {
   runAllMicroTasks,
 } from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
+import { createCancelablePromiseList, getPluginSubmitPromise } from '../utils';
+
+jest.mock('../utils/createCancelablePromiseList', () => ({
+  createCancelablePromiseList: jest.fn(
+    jest.requireActual('../utils/createCancelablePromiseList')
+      .createCancelablePromiseList
+  ),
+}));
+
+jest.mock('../utils/getPluginSubmitPromise', () => ({
+  getPluginSubmitPromise: jest.fn(
+    jest.requireActual('../utils/getPluginSubmitPromise').getPluginSubmitPromise
+  ),
+}));
 
 describe('getInputProps', () => {
   beforeEach(() => {
@@ -1285,6 +1301,55 @@ describe('getInputProps', () => {
             state: expect.objectContaining({ isOpen: false }),
           })
         );
+      });
+
+      describe('a plugin is configured with the option "awaitSubmit"', () => {
+        const cancelAll = jest.fn();
+        const event = { ...new KeyboardEvent('keydown'), key: 'Enter' };
+
+        beforeEach(() => {
+          cancelAll.mockClear();
+          (createCancelablePromiseList as jest.Mock).mockReturnValueOnce({
+            add: jest.fn,
+            cancelAll,
+            isEmpty: jest.fn,
+            wait: jest.fn,
+          });
+        });
+
+        test.each([true, 1000])(
+          'when returning %s it should not cancel pending requests',
+          (timeout) => {
+            (getPluginSubmitPromise as jest.Mock).mockResolvedValueOnce({});
+
+            const plugins = [
+              createRedirectUrlPlugin({ awaitSubmit: () => timeout }),
+              createAlgoliaInsightsPlugin({}), // "awaitSubmit" is neither configurable nor defined
+            ];
+
+            const { inputProps } = createPlayground(createAutocomplete, {
+              plugins,
+            });
+
+            inputProps.onKeyDown(event);
+
+            expect(cancelAll).toHaveBeenCalledTimes(0);
+          }
+        );
+
+        test('when returning false it should cancel pending requests', () => {
+          const plugins = [
+            createRedirectUrlPlugin({ awaitSubmit: () => false }),
+          ];
+
+          const { inputProps } = createPlayground(createAutocomplete, {
+            plugins,
+          });
+
+          inputProps.onKeyDown(event);
+
+          expect(cancelAll).toHaveBeenCalledTimes(1);
+        });
       });
 
       describe('Plain Enter', () => {
