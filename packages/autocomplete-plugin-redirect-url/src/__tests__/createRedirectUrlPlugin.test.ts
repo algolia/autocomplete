@@ -372,7 +372,6 @@ describe('createRedirectUrlPlugin', () => {
           createMockSource({
             results: [
               {
-                query: REDIRECT_QUERY,
                 ...RESPONSE,
                 hits: [
                   { name: REDIRECT_QUERY },
