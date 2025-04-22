@@ -31,11 +31,11 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@algolia/autocomplete-plugin-algolia-insights": "1.18.1",
-    "@algolia/autocomplete-shared": "1.18.1"
+    "@algolia/autocomplete-plugin-algolia-insights": "1.19.0",
+    "@algolia/autocomplete-shared": "1.19.0"
   },
   "devDependencies": {
-    "@algolia/autocomplete-preset-algolia": "1.18.1",
+    "@algolia/autocomplete-preset-algolia": "1.19.0",
     "@algolia/client-search": "4.16.0",
     "algoliasearch": "4.16.0"
   }
