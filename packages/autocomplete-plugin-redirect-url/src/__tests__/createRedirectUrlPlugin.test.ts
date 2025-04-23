@@ -176,8 +176,9 @@ describe('createRedirectUrlPlugin', () => {
     const redirectUrlPlugin = createRedirectUrlPlugin({
       transformResponse(response) {
         return {
-          queryUsed: REDIRECT_QUERY,
-          redirectUrl: (response as Record<string, any>).customRedirect?.url,
+          queryUsed: 'different query',
+          redirectUrl: (response as Record<string, any>).renderingContent
+            ?.redirect?.url,
         };
       },
     });
