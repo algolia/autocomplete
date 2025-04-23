@@ -27,9 +27,22 @@ export type OnRedirectOptions<TItem extends RedirectUrlItem> = {
   state: AutocompleteState<TItem>;
 };
 
+/**
+ * Used to map response data into values required by the plugin.
+ */
 export interface TransformResponse {
-  url: string | undefined;
-  query: string | undefined;
+  /**
+   * The query used in the request.
+   *
+   * This is needed to accurately match the redirect with the correct query.
+   * Otherwise, there is a risk of the last request reflecting a different query value.
+   * (ex: typing "shoes" quickly risks mismatching the redirect item with "sho" instead)
+   */
+  queryUsed: string | undefined;
+  /**
+   * The redirect url to use from the response data.
+   */
+  redirectUrl: string | undefined;
 }
 
 export type Response<TItem> =
@@ -42,9 +55,7 @@ export type CreateRedirectUrlPluginParams<TItem extends BaseItem> = {
    *
    * Supports Algolia results out of the box.
    */
-  transformResponse?(
-    response: Response<TItem>
-  ): TransformResponse | string | undefined;
+  transformResponse?(response: Response<TItem>): TransformResponse;
   /**
    * Handles the navigation logic once a redirect is triggered
    *
@@ -59,7 +70,7 @@ export type CreateRedirectUrlPluginParams<TItem extends BaseItem> = {
    */
   templates?: SourceTemplates<RedirectUrlItem>;
   /**
-   * Waits for all pending requests to complete before handling a form submission .
+   * Waits for all pending requests to complete before handling a form submission.
    * (ex: pressing the "enter" key in the input)
    *
    * A boolean return value will wait for all pending requests to resolve.

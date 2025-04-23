@@ -12,13 +12,18 @@ import {
   OnRedirectOptions,
   RedirectUrlItem,
   RedirectUrlPlugin as RedirectUrlPluginData,
-  TransformResponseParams,
+  Response,
+  TransformResponse,
 } from './types';
 
 function defaultTransformResponse<THit>(
-  response: TransformResponseParams<THit>
-): string | undefined {
-  return (response as Record<string, any>).renderingContent?.redirect?.url;
+  response: Response<THit>
+): TransformResponse | undefined {
+  return {
+    queryUsed: (response as Record<string, any>).query,
+    redirectUrl: (response as Record<string, any>).renderingContent?.redirect
+      ?.url,
+  };
 }
 
 function defaultOnRedirect(
@@ -67,7 +72,7 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
     const redirect: RedirectUrlItem = {
       sourceId: source.sourceId,
       urls: results
-        .map((result) => transformResponse(result))
+        .map((result) => transformResponse(result)?.redirectUrl)
         .filter((url) => url !== undefined),
     };
 
@@ -94,9 +99,11 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
     name: 'aa.redirectUrlPlugin',
     subscribe({ onResolve, onSelect, setContext, setIsOpen }) {
       onResolve(({ results, source, state }) => {
-        // Since searches can be resolved in any order, verify the query from the search
-        // matches the input query to ensure a redirect item accurately reflects the input
-        if (results[0].query !== state.query) {
+        // Ensure the resolved response matches the input query text before processing redirects.
+        const hasMatchedQuery = (results as any).some(
+          (result) => transformResponse(result)?.queryUsed === state.query
+        );
+        if (!hasMatchedQuery) {
           return;
         }
 
