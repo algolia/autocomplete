@@ -103,10 +103,10 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
     subscribe({ onResolve, onSelect, setContext, setIsOpen }) {
       onResolve(({ results, source, state }) => {
         // Ensure the resolved response matches the input query text before processing redirects.
-        const hasMatchedQuery = (results as any).some(
+        const matchesCurrentQuery = (results as any).some(
           (result) => transformResponseToQuery(result) === state.query
         );
-        if (!hasMatchedQuery) {
+        if (!matchesCurrentQuery) {
           return;
         }
 
