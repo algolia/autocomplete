@@ -175,11 +175,11 @@ describe('createRedirectUrlPlugin', () => {
   test('does not render a redirect item when the query from the state does not match the response', async () => {
     const redirectUrlPlugin = createRedirectUrlPlugin({
       transformResponse(response) {
-        return {
-          queryUsed: 'different query',
-          redirectUrl: (response as Record<string, any>).renderingContent
-            ?.redirect?.url,
-        };
+        return (response as Record<string, any>).renderingContent?.redirect
+          ?.url;
+      },
+      transformResponseToQuery() {
+        return 'different query';
       },
     });
 

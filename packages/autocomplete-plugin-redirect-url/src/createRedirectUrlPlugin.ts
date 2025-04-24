@@ -13,17 +13,18 @@ import {
   RedirectUrlItem,
   RedirectUrlPlugin as RedirectUrlPluginData,
   Response,
-  TransformResponse,
 } from './types';
 
 function defaultTransformResponse<THit>(
   response: Response<THit>
-): TransformResponse | undefined {
-  return {
-    queryUsed: (response as Record<string, any>).query,
-    redirectUrl: (response as Record<string, any>).renderingContent?.redirect
-      ?.url,
-  };
+): string | undefined {
+  return (response as Record<string, any>).renderingContent?.redirect?.url;
+}
+
+function defaultTransformResponseToQuery<THit>(
+  response: Response<THit>
+): string | undefined {
+  return (response as Record<string, any>).query;
 }
 
 function defaultOnRedirect(
@@ -51,6 +52,7 @@ function getOptions<TItem extends BaseItem>(
 ) {
   return {
     transformResponse: defaultTransformResponse,
+    transformResponseToQuery: defaultTransformResponseToQuery,
     templates: defaultTemplates,
     onRedirect: defaultOnRedirect,
     ...options,
@@ -66,13 +68,14 @@ function getRedirectData({ state }) {
 export function createRedirectUrlPlugin<TItem extends BaseItem>(
   options: CreateRedirectUrlPluginParams<TItem> = {}
 ): AutocompletePlugin<RedirectUrlItem, undefined> {
-  const { transformResponse, templates, onRedirect } = getOptions(options);
+  const { transformResponse, transformResponseToQuery, templates, onRedirect } =
+    getOptions(options);
 
   function createRedirects({ results, source, state }): RedirectUrlItem[] {
     const redirect: RedirectUrlItem = {
       sourceId: source.sourceId,
       urls: results
-        .map((result) => transformResponse(result)?.redirectUrl)
+        .map((result) => transformResponse(result))
         .filter((url) => url !== undefined),
     };
 
@@ -101,7 +104,7 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
       onResolve(({ results, source, state }) => {
         // Ensure the resolved response matches the input query text before processing redirects.
         const hasMatchedQuery = (results as any).some(
-          (result) => transformResponse(result)?.queryUsed === state.query
+          (result) => transformResponseToQuery(result) === state.query
         );
         if (!hasMatchedQuery) {
           return;

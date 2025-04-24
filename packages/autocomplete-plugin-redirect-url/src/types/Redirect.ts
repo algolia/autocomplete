@@ -24,39 +24,30 @@ export type OnRedirectOptions<TItem extends RedirectUrlItem> = {
   state: AutocompleteState<TItem>;
 };
 
-/**
- * Used to map response data into values required by the plugin.
- */
-export interface TransformResponse {
-  /**
-   * The query used in the request.
-   *
-   * This is needed to accurately match the redirect with the correct query.
-   * Otherwise, there is a risk of the last request reflecting a different query value.
-   * (ex: typing "shoes" quickly risks mismatching the redirect item with "sho" instead)
-   */
-  queryUsed: string | undefined;
-  /**
-   * The redirect url to use from the response data.
-   */
-  redirectUrl: string | undefined;
-}
-
 export type Response<TItem> =
   | SearchResponse<TItem>
   | SearchForFacetValuesResponse;
 
 export type CreateRedirectUrlPluginParams<TItem extends BaseItem> = {
   /**
-   * Map the response to values that can be interpreted by the plugin to correctly parse redirects.
+   * Maps the response to the redirect url that will be used by the plugin.
    *
-   * Supports Algolia results out of the box.
+   * Already supports Algolia results by default.
    */
-  transformResponse?(response: Response<TItem>): TransformResponse;
+  transformResponse?(response: Response<TItem>): string | undefined;
+  /**
+   * Maps the query used in the request to match with the redirect.
+   * Without this mapping, there is a risk of the race condition when processing
+   * redirect items where the last-resolved response can reflect an earlier query value.
+   * (ex: typing "shoes" quickly risks mismatching the redirect item with "sho" instead)
+   *
+   * Already supports Algolia results by default.
+   */
+  transformResponseToQuery?(response: Response<TItem>): string | undefined;
   /**
    * Handles the navigation logic once a redirect is triggered
    *
-   * Supports Algolia results out of the box.
+   * Already supports Algolia results by default.
    */
   onRedirect?(
     redirects: RedirectUrlItem[],
