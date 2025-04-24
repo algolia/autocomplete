@@ -45,7 +45,7 @@ export type CreateRedirectUrlPluginParams<TItem extends BaseItem> = {
    */
   transformResponseToQuery?(response: Response<TItem>): string | undefined;
   /**
-   * Handles the navigation logic once a redirect is triggered
+   * Handles the navigation logic once a redirect is triggered.
    *
    * Already supports Algolia results by default.
    */
