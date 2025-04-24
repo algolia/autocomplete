@@ -21,6 +21,12 @@ function defaultTransformResponse<THit>(
   return (response as Record<string, any>).renderingContent?.redirect?.url;
 }
 
+function defaultTransformResponseToQuery<THit>(
+  response: TransformResponseParams<THit>
+): string | undefined {
+  return (response as Record<string, any>).query;
+}
+
 function defaultOnRedirect(
   redirects: RedirectUrlItem[],
   { event, navigator, state }: OnRedirectOptions<RedirectUrlItem>
@@ -46,6 +52,7 @@ function getOptions<TItem extends BaseItem>(
 ) {
   return {
     transformResponse: defaultTransformResponse,
+    transformResponseToQuery: defaultTransformResponseToQuery,
     templates: defaultTemplates,
     onRedirect: defaultOnRedirect,
     ...options,
@@ -61,7 +68,8 @@ function getRedirectData({ state }) {
 export function createRedirectUrlPlugin<TItem extends BaseItem>(
   options: CreateRedirectUrlPluginParams<TItem> = {}
 ): AutocompletePlugin<RedirectUrlItem, undefined> {
-  const { transformResponse, templates, onRedirect } = getOptions(options);
+  const { transformResponse, transformResponseToQuery, templates, onRedirect } =
+    getOptions(options);
 
   function createRedirects({ results, source, state }): RedirectUrlItem[] {
     const redirect: RedirectUrlItem = {
@@ -94,6 +102,14 @@ export function createRedirectUrlPlugin<TItem extends BaseItem>(
     name: 'aa.redirectUrlPlugin',
     subscribe({ onResolve, onSelect, setContext, setIsOpen }) {
       onResolve(({ results, source, state }) => {
+        // Ensure the resolved response matches the input query text before processing redirects.
+        const matchesCurrentQuery = (results as any).some(
+          (result) => transformResponseToQuery(result) === state.query
+        );
+        if (!matchesCurrentQuery) {
+          return;
+        }
+
         setContext({
           ...state.context,
           redirectUrlPlugin: {

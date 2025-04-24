@@ -42,7 +42,7 @@ function createMockSource({
     },
     templates: {
       item({ item, html }) {
-        return html`<a>${item.query}</a>`;
+        return html`<a>${item.name}</a>`;
       },
     },
     ...props,
@@ -122,73 +122,12 @@ describe('createRedirectUrlPlugin', () => {
     await waitFor(() => {
       expect(findHitsSection(panelContainer)).not.toBeInTheDocument();
 
-      expect(findDropdownOptions(findRedirectSection(panelContainer)))
-        .toMatchInlineSnapshot(`
-        Array [
-          HTMLCollection [
-            <div
-              class="aa-ItemWrapper"
-            >
-              <div
-                class="aa-ItemContent"
-              >
-                <div
-                  class="aa-ItemIcon aa-ItemIcon--noBorder"
-                >
-                  <svg
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M16.041 15.856c-0.034 0.026-0.067 0.055-0.099 0.087s-0.060 0.064-0.087 0.099c-1.258 1.213-2.969 1.958-4.855 1.958-1.933 0-3.682-0.782-4.95-2.050s-2.050-3.017-2.050-4.95 0.782-3.682 2.050-4.95 3.017-2.050 4.95-2.050 3.682 0.782 4.95 2.050 2.050 3.017 2.050 4.95c0 1.886-0.745 3.597-1.959 4.856zM21.707 20.293l-3.675-3.675c1.231-1.54 1.968-3.493 1.968-5.618 0-2.485-1.008-4.736-2.636-6.364s-3.879-2.636-6.364-2.636-4.736 1.008-6.364 2.636-2.636 3.879-2.636 6.364 1.008 4.736 2.636 6.364 3.879 2.636 6.364 2.636c2.125 0 4.078-0.737 5.618-1.968l3.675 3.675c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="aa-ItemContentBody"
-                >
-                  <div
-                    class="aa-ItemContentTitle"
-                  >
-                    <a
-                      class="aa-ItemLink"
-                      href="https://www.algolia.com"
-                    >
-                      redirect item
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="aa-ItemActions"
-              >
-                <div
-                  class="aa-ItemActionButton"
-                >
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <line
-                      x1="5"
-                      x2="19"
-                      y1="12"
-                      y2="12"
-                    />
-                    <polyline
-                      points="12 5 19 12 12 19"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>,
-          ],
-        ]
-      `);
+      const dropdownOptions = findDropdownOptions(
+        findRedirectSection(panelContainer)
+      );
+
+      expect(dropdownOptions).toHaveLength(1);
+      expect(dropdownOptions[0].item(0)).toHaveTextContent(REDIRECT_QUERY);
     });
   });
 
@@ -222,18 +161,25 @@ describe('createRedirectUrlPlugin', () => {
     await waitFor(() => {
       expect(findHitsSection(panelContainer)).not.toBeInTheDocument();
 
-      const dropdownText = findDropdownOptions(
+      const dropdownOptions = findDropdownOptions(
         findRedirectSection(panelContainer)
-      )[0].item(0)?.textContent;
+      );
 
-      expect(dropdownText).toBe('My custom option: redirect item');
+      expect(dropdownOptions).toHaveLength(1);
+      expect(dropdownOptions[0].item(0)).toHaveTextContent(
+        'My custom option: redirect item'
+      );
     });
   });
 
-  test('renders a redirect item when a custom expected payload is returned', async () => {
+  test('does not render a redirect item when the query from the state does not match the response', async () => {
     const redirectUrlPlugin = createRedirectUrlPlugin({
       transformResponse(response) {
-        return (response as Record<string, any>).customRedirect?.url;
+        return (response as Record<string, any>).renderingContent?.redirect
+          ?.url;
+      },
+      transformResponseToQuery() {
+        return 'different query';
       },
     });
 
@@ -266,7 +212,7 @@ describe('createRedirectUrlPlugin', () => {
 
     await waitFor(() => {
       expect(findHitsSection(panelContainer)).not.toBeInTheDocument();
-      expect(findRedirectSection(panelContainer)).toBeInTheDocument();
+      expect(findRedirectSection(panelContainer)).not.toBeInTheDocument();
     });
   });
 
@@ -284,7 +230,7 @@ describe('createRedirectUrlPlugin', () => {
       panelContainer,
       plugins: [redirectUrlPlugin],
       getSources() {
-        return [createMockSource({ results: [{ hits: [{ query }] }] })];
+        return [createMockSource({ results: [{ hits: [{ name: query }] }] })];
       },
     });
 
@@ -293,16 +239,14 @@ describe('createRedirectUrlPlugin', () => {
     fireEvent.input(input, { target: { value: query } });
 
     await waitFor(() => {
-      expect(findDropdownOptions(findHitsSection(panelContainer)))
-        .toMatchInlineSnapshot(`
-        Array [
-          HTMLCollection [
-            <a>
-              not a redirect item
-            </a>,
-          ],
-        ]
-      `);
+      const dropdownOptions = findDropdownOptions(
+        findHitsSection(panelContainer)
+      );
+
+      expect(dropdownOptions).toHaveLength(1);
+      expect(dropdownOptions[0].item(0)).toHaveTextContent(
+        'not a redirect item'
+      );
 
       expect(findRedirectSection(panelContainer)).not.toBeInTheDocument();
     });
@@ -327,9 +271,9 @@ describe('createRedirectUrlPlugin', () => {
               {
                 ...RESPONSE,
                 hits: [
-                  { query: 'redirect item' },
-                  { query: 'not a redirect item 1' },
-                  { query: 'not a redirect item 2' },
+                  { name: 'redirect item' },
+                  { name: 'not a redirect item 1' },
+                  { name: 'not a redirect item 2' },
                 ],
               },
             ],
@@ -345,26 +289,18 @@ describe('createRedirectUrlPlugin', () => {
     await waitFor(() => {
       expect(findRedirectSection(panelContainer)).toBeInTheDocument();
 
-      expect(findDropdownOptions(findHitsSection(panelContainer)))
-        .toMatchInlineSnapshot(`
-        Array [
-          HTMLCollection [
-            <a>
-              redirect item
-            </a>,
-          ],
-          HTMLCollection [
-            <a>
-              not a redirect item 1
-            </a>,
-          ],
-          HTMLCollection [
-            <a>
-              not a redirect item 2
-            </a>,
-          ],
-        ]
-      `);
+      const dropdownOptions = findDropdownOptions(
+        findHitsSection(panelContainer)
+      );
+
+      expect(dropdownOptions).toHaveLength(3);
+      expect(dropdownOptions[0].item(0)).toHaveTextContent(REDIRECT_QUERY);
+      expect(dropdownOptions[1].item(0)).toHaveTextContent(
+        'not a redirect item 1'
+      );
+      expect(dropdownOptions[2].item(0)).toHaveTextContent(
+        'not a redirect item 2'
+      );
     });
   });
 
@@ -387,14 +323,14 @@ describe('createRedirectUrlPlugin', () => {
               {
                 ...RESPONSE,
                 hits: [
-                  { query: 'redirect item' },
-                  { query: 'not a redirect item 1' },
-                  { query: 'not a redirect item 2' },
+                  { name: REDIRECT_QUERY },
+                  { name: 'not a redirect item 1' },
+                  { name: 'not a redirect item 2' },
                 ],
               },
             ],
             getItemInputValue({ item }) {
-              return item.query;
+              return item.name;
             },
           }),
         ];
@@ -408,21 +344,16 @@ describe('createRedirectUrlPlugin', () => {
     await waitFor(() => {
       expect(findRedirectSection(panelContainer)).toBeInTheDocument();
 
-      expect(findDropdownOptions(findHitsSection(panelContainer)))
-        .toMatchInlineSnapshot(`
-        Array [
-          HTMLCollection [
-            <a>
-              not a redirect item 1
-            </a>,
-          ],
-          HTMLCollection [
-            <a>
-              not a redirect item 2
-            </a>,
-          ],
-        ]
-      `);
+      const dropdownOptions = findDropdownOptions(
+        findHitsSection(panelContainer)
+      );
+      expect(dropdownOptions).toHaveLength(2);
+      expect(dropdownOptions[0].item(0)).toHaveTextContent(
+        'not a redirect item 1'
+      );
+      expect(dropdownOptions[1].item(0)).toHaveTextContent(
+        'not a redirect item 2'
+      );
     });
   });
 
@@ -486,15 +417,18 @@ describe('createRedirectUrlPlugin', () => {
 
     fireEvent.input(input, { target: { value: REDIRECT_QUERY } });
     await waitFor(() => {
-      expect(
-        findDropdownOptions(findRedirectSection(panelContainer))[0][0]
-      ).toHaveTextContent(REDIRECT_QUERY);
+      const dropdownOptions = findDropdownOptions(
+        findRedirectSection(panelContainer)
+      );
+
+      expect(dropdownOptions).toHaveLength(1);
+      expect(dropdownOptions[0].item(0)).toHaveTextContent(REDIRECT_QUERY);
     });
 
     fireEvent.submit(input);
 
     await waitFor(() => {
-      expect(input.value).toBe(REDIRECT_QUERY);
+      expect(input).toHaveValue(REDIRECT_QUERY);
       expect(navigator.navigate).toHaveBeenCalledTimes(1);
     });
   });
@@ -520,7 +454,8 @@ describe('createRedirectUrlPlugin', () => {
               query === REDIRECT_QUERY
                 ? [
                     {
-                      hits: [{ query: REDIRECT_QUERY }],
+                      hits: [{ name: REDIRECT_QUERY }],
+                      query: REDIRECT_QUERY,
                       renderingContent: {
                         redirect: {
                           url: 'https://www.algolia.com',
@@ -531,13 +466,14 @@ describe('createRedirectUrlPlugin', () => {
                 : [
                     {
                       hits: [
-                        { query: 'something else' },
-                        { query: REDIRECT_QUERY },
+                        { name: 'something else' },
+                        { name: REDIRECT_QUERY },
                       ],
+                      query: 'something else',
                     },
                   ],
             getItemInputValue({ item }) {
-              return item.query;
+              return item.name;
             },
           }),
         ];
@@ -550,95 +486,25 @@ describe('createRedirectUrlPlugin', () => {
 
     await waitFor(() => {
       expect(findRedirectSection(panelContainer)).not.toBeInTheDocument();
-      expect(findDropdownOptions(findHitsSection(panelContainer)))
-        .toMatchInlineSnapshot(`
-        Array [
-          HTMLCollection [
-            <a>
-              something else
-            </a>,
-          ],
-          HTMLCollection [
-            <a>
-              redirect item
-            </a>,
-          ],
-        ]
-      `);
+      const dropdownOptions = findDropdownOptions(
+        findHitsSection(panelContainer)
+      );
+      expect(dropdownOptions).toHaveLength(2);
+      expect(dropdownOptions[0].item(0)).toHaveTextContent('something else');
+      expect(dropdownOptions[1].item(0)).toHaveTextContent(REDIRECT_QUERY);
     });
 
     fireEvent.click(findDropdownOptions(panelContainer)[1][0]);
 
     await waitFor(() => {
-      expect(input.value).toBe(REDIRECT_QUERY);
+      expect(input).toHaveValue(REDIRECT_QUERY);
       expect(findHitsSection(panelContainer)).not.toBeInTheDocument();
-      expect(findDropdownOptions(findRedirectSection(panelContainer)))
-        .toMatchInlineSnapshot(`
-        Array [
-          HTMLCollection [
-            <div
-              class="aa-ItemWrapper"
-            >
-              <div
-                class="aa-ItemContent"
-              >
-                <div
-                  class="aa-ItemIcon aa-ItemIcon--noBorder"
-                >
-                  <svg
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M16.041 15.856c-0.034 0.026-0.067 0.055-0.099 0.087s-0.060 0.064-0.087 0.099c-1.258 1.213-2.969 1.958-4.855 1.958-1.933 0-3.682-0.782-4.95-2.050s-2.050-3.017-2.050-4.95 0.782-3.682 2.050-4.95 3.017-2.050 4.95-2.050 3.682 0.782 4.95 2.050 2.050 3.017 2.050 4.95c0 1.886-0.745 3.597-1.959 4.856zM21.707 20.293l-3.675-3.675c1.231-1.54 1.968-3.493 1.968-5.618 0-2.485-1.008-4.736-2.636-6.364s-3.879-2.636-6.364-2.636-4.736 1.008-6.364 2.636-2.636 3.879-2.636 6.364 1.008 4.736 2.636 6.364 3.879 2.636 6.364 2.636c2.125 0 4.078-0.737 5.618-1.968l3.675 3.675c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="aa-ItemContentBody"
-                >
-                  <div
-                    class="aa-ItemContentTitle"
-                  >
-                    <a
-                      class="aa-ItemLink"
-                      href="https://www.algolia.com"
-                    >
-                      redirect item
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="aa-ItemActions"
-              >
-                <div
-                  class="aa-ItemActionButton"
-                >
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <line
-                      x1="5"
-                      x2="19"
-                      y1="12"
-                      y2="12"
-                    />
-                    <polyline
-                      points="12 5 19 12 12 19"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>,
-          ],
-        ]
-      `);
+      const dropdownOptions = findDropdownOptions(
+        findRedirectSection(panelContainer)
+      );
+
+      expect(dropdownOptions).toHaveLength(1);
+      expect(dropdownOptions[0].item(0)).toHaveTextContent(REDIRECT_QUERY);
     });
 
     fireEvent.submit(input);
@@ -728,7 +594,7 @@ describe('createRedirectUrlPlugin', () => {
 
     fireEvent.submit(input);
     await waitFor(() => {
-      expect(input.value).toBe(REDIRECT_QUERY);
+      expect(input).toHaveValue(REDIRECT_QUERY);
       expect(navigator.navigate).toHaveBeenCalledWith(
         expect.objectContaining({
           item: {
@@ -802,7 +668,7 @@ describe('createRedirectUrlPlugin', () => {
 
     fireEvent.submit(input);
     await waitFor(() => {
-      expect(input.value).toBe(REDIRECT_QUERY);
+      expect(input).toHaveValue(REDIRECT_QUERY);
       expect(navigator.navigate).toHaveBeenCalledWith(
         expect.objectContaining({
           item: {
