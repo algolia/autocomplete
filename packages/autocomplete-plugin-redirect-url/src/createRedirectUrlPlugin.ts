@@ -12,17 +12,17 @@ import {
   OnRedirectOptions,
   RedirectUrlItem,
   RedirectUrlPlugin as RedirectUrlPluginData,
-  Response,
+  TransformResponseParams,
 } from './types';
 
 function defaultTransformResponse<THit>(
-  response: Response<THit>
+  response: TransformResponseParams<THit>
 ): string | undefined {
   return (response as Record<string, any>).renderingContent?.redirect?.url;
 }
 
 function defaultTransformResponseToQuery<THit>(
-  response: Response<THit>
+  response: TransformResponseParams<THit>
 ): string | undefined {
   return (response as Record<string, any>).query;
 }

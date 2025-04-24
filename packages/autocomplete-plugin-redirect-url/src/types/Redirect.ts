@@ -24,7 +24,7 @@ export type OnRedirectOptions<TItem extends RedirectUrlItem> = {
   state: AutocompleteState<TItem>;
 };
 
-export type Response<TItem> =
+export type TransformResponseParams<TItem> =
   | SearchResponse<TItem>
   | SearchForFacetValuesResponse;
 
@@ -34,7 +34,9 @@ export type CreateRedirectUrlPluginParams<TItem extends BaseItem> = {
    *
    * Already supports Algolia results by default.
    */
-  transformResponse?(response: Response<TItem>): string | undefined;
+  transformResponse?(
+    response: TransformResponseParams<TItem>
+  ): string | undefined;
   /**
    * Maps the query used in the request to match with the redirect.
    * Without this mapping, there is a risk of the race condition when processing
@@ -43,7 +45,9 @@ export type CreateRedirectUrlPluginParams<TItem extends BaseItem> = {
    *
    * Already supports Algolia results by default.
    */
-  transformResponseToQuery?(response: Response<TItem>): string | undefined;
+  transformResponseToQuery?(
+    response: TransformResponseParams<TItem>
+  ): string | undefined;
   /**
    * Handles the navigation logic once a redirect is triggered.
    *
