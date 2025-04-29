@@ -1,3 +1,12 @@
+## [1.19.1](https://github.com/algolia/autocomplete/compare/v1.19.0...v1.19.1) (2025-04-29)
+
+
+### Bug Fixes
+
+* **redirect:** race condition with mismatched query ([#1310](https://github.com/algolia/autocomplete/issues/1310)) ([531b078](https://github.com/algolia/autocomplete/commit/531b0783a2f29ceea7da670dc7b552dc90a53a81))
+
+
+
 # [1.19.0](https://github.com/algolia/autocomplete/compare/v1.18.1...v1.19.0) (2025-04-22)
 
 
