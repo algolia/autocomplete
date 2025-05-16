@@ -160,6 +160,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   if (isDetached) {
     const detachedSearchButtonIcon = createDomElement('div', {
       class: classNames.detachedSearchButtonIcon,
+      ariaLabel: translations.detachedSearchButtonTitle,
       children: [SearchIcon({ environment })],
     });
     const detachedSearchButton = createDomElement('button', {
