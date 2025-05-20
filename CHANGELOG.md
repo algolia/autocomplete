@@ -1,3 +1,12 @@
+## [1.19.2](https://github.com/algolia/autocomplete/compare/v1.19.1...v1.19.2) (2025-05-20)
+
+
+### Bug Fixes
+
+* **a11y:** add aria-label to div (algolia[#963](https://github.com/algolia/autocomplete/issues/963)) ([#1313](https://github.com/algolia/autocomplete/issues/1313)) ([aab3d6b](https://github.com/algolia/autocomplete/commit/aab3d6b06310fdc1202e9ca8dbb63a38ba2d2fad))
+
+
+
 ## [1.19.1](https://github.com/algolia/autocomplete/compare/v1.19.0...v1.19.1) (2025-04-29)
 
 
