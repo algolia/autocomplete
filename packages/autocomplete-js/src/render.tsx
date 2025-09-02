@@ -62,10 +62,11 @@ export function renderSearchBox<TItem extends BaseItem>({
   // - https://github.com/algolia/autocomplete/issues/1322
   // - https://bugs.webkit.org/show_bug.cgi?id=298217
   if (dom.loadingIndicator.firstChild?.nodeName === 'svg') {
+    const svgElement = dom.loadingIndicator.firstChild as SVGSVGElement;
     if (state.status === 'stalled') {
-      (dom.loadingIndicator.firstChild as SVGSVGElement).unpauseAnimations();
+      svgElement?.unpauseAnimations();
     } else {
-      (dom.loadingIndicator.firstChild as SVGSVGElement).pauseAnimations();
+      svgElement?.pauseAnimations();
     }
   }
 
