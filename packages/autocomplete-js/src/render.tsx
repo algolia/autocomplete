@@ -57,6 +57,18 @@ export function renderSearchBox<TItem extends BaseItem>({
   );
   setProperties(dom.label, { hidden: state.status === 'stalled' });
   setProperties(dom.loadingIndicator, { hidden: state.status !== 'stalled' });
+  // Safari will animate the SVG even when it's hidden. We need to pause the
+  // animation manually. See:
+  // - https://github.com/algolia/autocomplete/issues/1322
+  // - https://bugs.webkit.org/show_bug.cgi?id=298217
+  if (dom.loadingIndicator.firstChild?.nodeName === 'svg') {
+    if (state.status === 'stalled') {
+      (dom.loadingIndicator.firstChild as SVGSVGElement).unpauseAnimations();
+    } else {
+      (dom.loadingIndicator.firstChild as SVGSVGElement).pauseAnimations();
+    }
+  }
+
   setProperties(dom.clearButton, { hidden: !state.query });
   setProperties(dom.detachedSearchButtonQuery, {
     textContent: state.query,
