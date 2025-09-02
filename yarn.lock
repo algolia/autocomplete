@@ -7,6 +7,38 @@
   resolved "https://registry.yarnpkg.com/@adobe/css-tools/-/css-tools-4.0.1.tgz#b38b444ad3aa5fedbb15f2f746dcd934226a12dd"
   integrity sha512-+u76oB43nOHrF4DDWRLWDCtci7f3QJoEBigemIdIeTi1ODqjx6Tad9NCVnPRwewWlKkVab5PlK8DCtPTyX7S8g==
 
+"@algolia/autocomplete-core@1.19.1":
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.19.1.tgz#70b6bea6f6549be6f9f25a48f4e7001eb3dd67fa"
+  integrity sha512-MeZZN1NSPgfp2zhiaCyAW02jOWMftCJ06qoeEVEQ8v+kMlXL15SUYBpQwj7Gd+nV46KHqDrW+g5EGqhCsX6zWg==
+  dependencies:
+    "@algolia/autocomplete-plugin-algolia-insights" "1.19.1"
+    "@algolia/autocomplete-shared" "1.19.1"
+
+"@algolia/autocomplete-plugin-algolia-insights@1.19.1":
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-algolia-insights/-/autocomplete-plugin-algolia-insights-1.19.1.tgz#2089b8aa239180e2b71db3764edee272ac7c855e"
+  integrity sha512-TPVerIGKbfOwd69ZNrriI6voKRwwj6Vmy4tD12/3RCh8zdvDOdRvc7LxeKPtgwJzavZkfH7nK9pb+4E+PCdgdg==
+  dependencies:
+    "@algolia/autocomplete-shared" "1.19.1"
+
+"@algolia/autocomplete-preset-algolia@1.19.1":
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-preset-algolia/-/autocomplete-preset-algolia-1.19.1.tgz#800162ad98dc57e8d26242b748702f79ea24279e"
+  integrity sha512-8VTPeE7UwyfvNF44IEkaNOnRoofv0Ejtsqg3tu9T8gj+pbVMj8NBErlbYD88es893EseqJj7oWAhqcq1bgnxcQ==
+  dependencies:
+    "@algolia/autocomplete-shared" "1.19.1"
+
+"@algolia/autocomplete-shared@1.19.1":
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.19.1.tgz#ce15e1fb682a2ea0ddc8e19814d4c5eaf1457355"
+  integrity sha512-/GcOv70emuVdSHBAERW7/r4czMzJROkgLOl45+ugyxK79RzSkXV2esY638qSo6mzC7EVwglSJ8BQ0kAVKVxMjA==
+
+"@algolia/autocomplete-theme-classic@1.19.1":
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-theme-classic/-/autocomplete-theme-classic-1.19.1.tgz#900bb530d3844eeea1238acf6056a13eb5cf953a"
+  integrity sha512-cNYN9Zosz+4hS+N8bE3yaKu4N0JD0CiNoNEqtZbemI+2xDSDo2MjRVVwWRz7gBn7wyimfp90apWgRJ3mnuGvDw==
+
 "@algolia/cache-browser-local-storage@4.16.0":
   version "4.16.0"
   resolved "https://registry.yarnpkg.com/@algolia/cache-browser-local-storage/-/cache-browser-local-storage-4.16.0.tgz#ccd31ab9df10781a69a653e9d994d0be974952ba"
