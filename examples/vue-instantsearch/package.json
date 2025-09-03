@@ -14,7 +14,7 @@
     "@algolia/autocomplete-js": "1.19.3",
     "@algolia/autocomplete-plugin-query-suggestions": "1.19.3",
     "@algolia/autocomplete-plugin-recent-searches": "1.19.3",
-    "@algolia/autocomplete-theme-classic": "1.19.1",
+    "@algolia/autocomplete-theme-classic": "1.19.3",
     "algoliasearch": "4.16.0",
     "vue": "3.2.47",
     "vue-instantsearch": "4.18.1"
