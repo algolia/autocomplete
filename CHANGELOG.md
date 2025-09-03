@@ -1,3 +1,12 @@
+## [1.19.3](https://github.com/algolia/autocomplete/compare/v1.19.2...v1.19.3) (2025-09-02)
+
+
+### Bug Fixes
+
+* **perf:** pause animations when not displayed ([#1323](https://github.com/algolia/autocomplete/issues/1323)) ([075ab98](https://github.com/algolia/autocomplete/commit/075ab98e55ad0ad2aadf75f0d671083ee2449dd3)), closes [#1322](https://github.com/algolia/autocomplete/issues/1322)
+
+
+
 ## [1.19.2](https://github.com/algolia/autocomplete/compare/v1.19.1...v1.19.2) (2025-05-20)
 
 
