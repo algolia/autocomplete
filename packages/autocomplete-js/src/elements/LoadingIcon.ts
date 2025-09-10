@@ -44,7 +44,9 @@ export const LoadingIcon: AutocompleteElement<
     element.pauseAnimations();
   };
 
-  pauseAnimations();
+  if ('pauseAnimations' in element) {
+    pauseAnimations();
+  }
 
   return element;
 };
