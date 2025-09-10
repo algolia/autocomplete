@@ -31,9 +31,9 @@
     "watch": "watch \"yarn on:change\" --ignoreDirectoryPattern \"/dist/\""
   },
   "dependencies": {
-    "@algolia/autocomplete-core": "1.19.3",
-    "@algolia/autocomplete-preset-algolia": "1.19.3",
-    "@algolia/autocomplete-shared": "1.19.3",
+    "@algolia/autocomplete-core": "1.19.4",
+    "@algolia/autocomplete-preset-algolia": "1.19.4",
+    "@algolia/autocomplete-shared": "1.19.4",
     "htm": "^3.1.1",
     "preact": "^10.13.2"
   },
