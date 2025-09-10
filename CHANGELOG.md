@@ -1,3 +1,12 @@
+## [1.19.4](https://github.com/algolia/autocomplete/compare/v1.19.3...v1.19.4) (2025-09-10)
+
+
+### Bug Fixes
+
+* **perf:** pause loading icon animation on initial load ([#1325](https://github.com/algolia/autocomplete/issues/1325)) ([939db17](https://github.com/algolia/autocomplete/commit/939db17fbbc386b254664f62d9663ab8dfbeea4f))
+
+
+
 ## [1.19.3](https://github.com/algolia/autocomplete/compare/v1.19.2...v1.19.3) (2025-09-02)
 
 
