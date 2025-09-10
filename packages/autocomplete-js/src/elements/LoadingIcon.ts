@@ -34,5 +34,19 @@ export const LoadingIcon: AutocompleteElement<
   />
 </circle>`;
 
+  const pauseAnimations = () => {
+    // Wait until the element is in the DOM.
+    if (!element.parentElement) {
+      setTimeout(pauseAnimations, 0);
+      return;
+    }
+
+    element.pauseAnimations();
+  };
+
+  if ('pauseAnimations' in element) {
+    pauseAnimations();
+  }
+
   return element;
 };
