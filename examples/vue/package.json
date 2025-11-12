@@ -19,7 +19,7 @@
     "@vitejs/plugin-vue": "1.9.3",
     "@vitejs/plugin-vue-jsx": "1.2.0",
     "@vue/compiler-sfc": "3.2.47",
-    "vite": "2.6.4"
+    "vite": "5.4.21"
   },
   "keywords": [
     "algolia",

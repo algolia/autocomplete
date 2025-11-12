@@ -25,7 +25,7 @@
     "@types/textarea-caret": "3.0.1",
     "@vitejs/plugin-react": "1.0.7",
     "typescript": "^4.4.2",
-    "vite": "2.8.0"
+    "vite": "5.4.21"
   },
   "keywords": [
     "algolia",
