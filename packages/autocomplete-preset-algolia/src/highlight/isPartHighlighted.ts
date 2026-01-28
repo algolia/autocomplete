@@ -7,7 +7,13 @@ const htmlEscapes = {
   '&quot;': '"',
   '&#39;': "'",
 };
-const hasAlphanumeric = new RegExp(/\w/i);
+const hasLetterOrNumber = (() => {
+  try {
+    return new RegExp('[\\p{L}\\p{N}_]', 'u');
+  } catch {
+    return new RegExp(/\w/i);
+  }
+})();
 const regexEscapedHtml = /&(amp|quot|lt|gt|#39);/g;
 const regexHasEscapedHtml = RegExp(regexEscapedHtml.source);
 
@@ -23,7 +29,7 @@ export function isPartHighlighted(parts: ParsedAttribute[], i: number) {
   const isPreviousHighlighted = parts[i - 1]?.isHighlighted || true;
 
   if (
-    !hasAlphanumeric.test(unescape(current.value)) &&
+    !hasLetterOrNumber.test(unescape(current.value)) &&
     isPreviousHighlighted === isNextHighlighted
   ) {
     return isPreviousHighlighted;
