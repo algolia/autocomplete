@@ -1,3 +1,12 @@
+## [1.19.5](https://github.com/algolia/autocomplete/compare/v1.19.4...v1.19.5) (2026-02-03)
+
+
+### Bug Fixes
+
+* **autocomplete-preset-algolia:** support Unicode in ReverseHighlight ([#1330](https://github.com/algolia/autocomplete/issues/1330)) ([#1331](https://github.com/algolia/autocomplete/issues/1331)) ([3a3d96a](https://github.com/algolia/autocomplete/commit/3a3d96aa528fd12df7422863f1bc249589f919e4)), closes [#1317](https://github.com/algolia/autocomplete/issues/1317)
+
+
+
 ## [1.19.4](https://github.com/algolia/autocomplete/compare/v1.19.3...v1.19.4) (2025-09-10)
 
 
