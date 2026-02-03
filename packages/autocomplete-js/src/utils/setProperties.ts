@@ -32,7 +32,7 @@ function setStyle(style: object, key: string, value: any) {
  * Proxy an event to hooked event handlers
  */
 function eventProxy(this: any, event: Event) {
-  this._listeners[event.type](event);
+  this?._listeners?.[event.type](event);
 }
 
 /**
