@@ -40,11 +40,7 @@ export function onKeyDown<TItem extends BaseItem>({
       );
 
       if (nodeItem) {
-        if ((nodeItem as any).scrollIntoViewIfNeeded) {
-          (nodeItem as any).scrollIntoViewIfNeeded(false);
-        } else {
-          nodeItem.scrollIntoView(false);
-        }
+        nodeItem.scrollIntoView({ block: 'nearest', inline: 'nearest' });
       }
     }
 

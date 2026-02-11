@@ -771,35 +771,7 @@ describe('getInputProps', () => {
         return { ...playground, item };
       }
 
-      test('scrolls to the active item with scrollIntoViewIfNeeded fallback with ArrowDown', () => {
-        const onStateChange = jest.fn();
-        const { inputElement, item } = setupTestWithItem({ onStateChange });
-        (item as any).scrollIntoViewIfNeeded = jest.fn();
-
-        inputElement.focus();
-        userEvent.type(inputElement, '{arrowdown}');
-
-        expect((item as any).scrollIntoViewIfNeeded).toHaveBeenCalledTimes(1);
-        expect((item as any).scrollIntoViewIfNeeded).toHaveBeenCalledWith(
-          false
-        );
-      });
-
-      test('scrolls to the active item with scrollIntoViewIfNeeded fallback with ArrowUp', () => {
-        const onStateChange = jest.fn();
-        const { inputElement, item } = setupTestWithItem({ onStateChange });
-        (item as any).scrollIntoViewIfNeeded = jest.fn();
-
-        inputElement.focus();
-        userEvent.type(inputElement, '{arrowup}');
-
-        expect((item as any).scrollIntoViewIfNeeded).toHaveBeenCalledTimes(1);
-        expect((item as any).scrollIntoViewIfNeeded).toHaveBeenCalledWith(
-          false
-        );
-      });
-
-      test('scrolls to the active item with scrollIntoView fallback with ArrowDown', () => {
+      test('scrolls to the active item with ArrowDown', () => {
         const onStateChange = jest.fn();
         const { inputElement, item } = setupTestWithItem({ onStateChange });
         item.scrollIntoView = jest.fn();
@@ -808,10 +780,13 @@ describe('getInputProps', () => {
         userEvent.type(inputElement, '{arrowdown}');
 
         expect(item.scrollIntoView).toHaveBeenCalledTimes(1);
-        expect(item.scrollIntoView).toHaveBeenCalledWith(false);
+        expect(item.scrollIntoView).toHaveBeenCalledWith({
+          block: 'nearest',
+          inline: 'nearest',
+        });
       });
 
-      test('scrolls to the active item with scrollIntoView fallback with ArrowUp', () => {
+      test('scrolls to the active item with ArrowUp', () => {
         const onStateChange = jest.fn();
         const { inputElement, item } = setupTestWithItem({ onStateChange });
         item.scrollIntoView = jest.fn();
@@ -820,7 +795,10 @@ describe('getInputProps', () => {
         userEvent.type(inputElement, '{arrowup}');
 
         expect(item.scrollIntoView).toHaveBeenCalledTimes(1);
-        expect(item.scrollIntoView).toHaveBeenCalledWith(false);
+        expect(item.scrollIntoView).toHaveBeenCalledWith({
+          block: 'nearest',
+          inline: 'nearest',
+        });
       });
 
       test('calls onActive when activeItemId', () => {
@@ -1014,7 +992,10 @@ describe('getInputProps', () => {
           );
 
           expect(item.scrollIntoView).toHaveBeenCalledTimes(1);
-          expect(item.scrollIntoView).toHaveBeenCalledWith(false);
+          expect(item.scrollIntoView).toHaveBeenCalledWith({
+            block: 'nearest',
+            inline: 'nearest',
+          });
         });
       });
 
@@ -1121,7 +1102,10 @@ describe('getInputProps', () => {
           );
 
           expect(item.scrollIntoView).toHaveBeenCalledTimes(1);
-          expect(item.scrollIntoView).toHaveBeenCalledWith(false);
+          expect(item.scrollIntoView).toHaveBeenCalledWith({
+            block: 'nearest',
+            inline: 'nearest',
+          });
         });
       });
     });
