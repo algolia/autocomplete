@@ -1,3 +1,12 @@
+## [1.19.6](https://github.com/algolia/autocomplete/compare/v1.19.5...v1.19.6) (2026-02-17)
+
+
+### Bug Fixes
+
+* **core:** only use standard scrollIntoView function for auto-scroll ([#1333](https://github.com/algolia/autocomplete/issues/1333)) ([88dfc58](https://github.com/algolia/autocomplete/commit/88dfc580c66a93c0c3096d984b9d23ab9dceeb65))
+
+
+
 ## [1.19.5](https://github.com/algolia/autocomplete/compare/v1.19.4...v1.19.5) (2026-02-03)
 
 
