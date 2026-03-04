@@ -26,6 +26,42 @@ describe('panelPlacement', () => {
     toJSON: () => {},
   });
 
+  function mockPosition() {
+    // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+    document.querySelector('.aa-Form').getBoundingClientRect =
+      mockedGetBoundingClientRect;
+    Object.defineProperty(document.querySelector('.aa-Form'), 'offsetLeft', {
+      get() {
+        return LEFT;
+      },
+    });
+    Object.defineProperty(document.querySelector('.aa-Form'), 'offsetTop', {
+      get() {
+        return TOP;
+      },
+    });
+    document.querySelector('.aa-Autocomplete').getBoundingClientRect =
+      mockedGetBoundingClientRect;
+    Object.defineProperty(
+      document.querySelector('.aa-Autocomplete'),
+      'offsetLeft',
+      {
+        get() {
+          return LEFT;
+        },
+      }
+    );
+    Object.defineProperty(
+      document.querySelector('.aa-Autocomplete'),
+      'offsetTop',
+      {
+        get() {
+          return TOP;
+        },
+      }
+    );
+  }
+
   beforeAll(() => {
     Object.defineProperty(document.documentElement, 'clientWidth', {
       get() {
@@ -67,11 +103,7 @@ describe('panelPlacement', () => {
         },
       });
 
-      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
-      document.querySelector('.aa-Form').getBoundingClientRect =
-        mockedGetBoundingClientRect;
-      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
-        mockedGetBoundingClientRect;
+      mockPosition();
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
@@ -95,11 +127,7 @@ describe('panelPlacement', () => {
 
       fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
 
-      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
-      document.querySelector('.aa-Form').getBoundingClientRect =
-        mockedGetBoundingClientRect;
-      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
-        mockedGetBoundingClientRect;
+      mockPosition();
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
@@ -123,11 +151,7 @@ describe('panelPlacement', () => {
         },
       });
 
-      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
-      document.querySelector('.aa-Form').getBoundingClientRect =
-        mockedGetBoundingClientRect;
-      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
-        mockedGetBoundingClientRect;
+      mockPosition();
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
@@ -148,11 +172,7 @@ describe('panelPlacement', () => {
 
       fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
 
-      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
-      document.querySelector('.aa-Form').getBoundingClientRect =
-        mockedGetBoundingClientRect;
-      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
-        mockedGetBoundingClientRect;
+      mockPosition();
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
@@ -173,11 +193,7 @@ describe('panelPlacement', () => {
         },
       });
 
-      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
-      document.querySelector('.aa-Form').getBoundingClientRect =
-        mockedGetBoundingClientRect;
-      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
-        mockedGetBoundingClientRect;
+      mockPosition();
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
@@ -198,11 +214,7 @@ describe('panelPlacement', () => {
 
       fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
 
-      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
-      document.querySelector('.aa-Form').getBoundingClientRect =
-        mockedGetBoundingClientRect;
-      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
-        mockedGetBoundingClientRect;
+      mockPosition();
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
@@ -223,11 +235,7 @@ describe('panelPlacement', () => {
         },
       });
 
-      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
-      document.querySelector('.aa-Form').getBoundingClientRect =
-        mockedGetBoundingClientRect;
-      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
-        mockedGetBoundingClientRect;
+      mockPosition();
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
@@ -251,11 +259,7 @@ describe('panelPlacement', () => {
 
       fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
 
-      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
-      document.querySelector('.aa-Form').getBoundingClientRect =
-        mockedGetBoundingClientRect;
-      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
-        mockedGetBoundingClientRect;
+      mockPosition();
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
@@ -277,11 +281,7 @@ describe('panelPlacement', () => {
       },
     });
 
-    // Mock `getBoundingClientRect` for elements used in the panel placement calculation
-    document.querySelector('.aa-Form').getBoundingClientRect =
-      mockedGetBoundingClientRect;
-    document.querySelector('.aa-Autocomplete').getBoundingClientRect =
-      mockedGetBoundingClientRect;
+    mockPosition();
 
     await waitFor(() => {
       expect(document.querySelector('.aa-Panel')).toHaveStyle({
@@ -332,11 +332,7 @@ describe('panelPlacement', () => {
 
     fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
 
-    // Mock `getBoundingClientRect` for elements used in the panel placement calculation
-    document.querySelector('.aa-Form').getBoundingClientRect =
-      mockedGetBoundingClientRect;
-    document.querySelector('.aa-Autocomplete').getBoundingClientRect =
-      mockedGetBoundingClientRect;
+    mockPosition();
 
     await waitFor(() => {
       expect(document.querySelector('.aa-Panel')).toHaveStyle({

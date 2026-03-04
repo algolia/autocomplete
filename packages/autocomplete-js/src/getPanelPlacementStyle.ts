@@ -17,18 +17,21 @@ export function getPanelPlacementStyle({
   const containerRect = container.getBoundingClientRect();
   // Some browsers have specificities to retrieve the document scroll position.
   // See https://stackoverflow.com/a/28633515/9940315
+  const offsetParent =
+    container.offsetParent || environment.document.documentElement;
+
   const scrollTop =
     (environment.pageYOffset as number) ||
-    environment.document.documentElement.scrollTop ||
+    offsetParent.scrollTop ||
     environment.document.body.scrollTop ||
     0;
-  const top = scrollTop + containerRect.top + containerRect.height;
+  const top = scrollTop + container.offsetTop + containerRect.height;
 
   switch (panelPlacement) {
     case 'start': {
       return {
         top,
-        left: containerRect.left,
+        left: container.offsetLeft,
       };
     }
 
@@ -36,8 +39,8 @@ export function getPanelPlacementStyle({
       return {
         top,
         right:
-          environment.document.documentElement.clientWidth -
-          (containerRect.left + containerRect.width),
+          offsetParent.clientWidth -
+          (container.offsetLeft + containerRect.width),
       };
     }
 
@@ -56,10 +59,8 @@ export function getPanelPlacementStyle({
 
       return {
         top,
-        left: formRect.left,
-        right:
-          environment.document.documentElement.clientWidth -
-          (formRect.left + formRect.width),
+        left: form.offsetLeft,
+        right: offsetParent.clientWidth - (form.offsetLeft + formRect.width),
         width: 'unset',
         maxWidth: 'unset',
       };
