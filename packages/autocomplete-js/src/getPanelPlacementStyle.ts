@@ -15,17 +15,10 @@ export function getPanelPlacementStyle({
   environment,
 }: GetPanelPlacementStyleParams) {
   const containerRect = container.getBoundingClientRect();
-  // Some browsers have specificities to retrieve the document scroll position.
-  // See https://stackoverflow.com/a/28633515/9940315
   const offsetParent =
     container.offsetParent || environment.document.documentElement;
 
-  const scrollTop =
-    (environment.pageYOffset as number) ||
-    offsetParent.scrollTop ||
-    environment.document.body.scrollTop ||
-    0;
-  const top = scrollTop + container.offsetTop + containerRect.height;
+  const top = container.offsetTop + containerRect.height;
 
   switch (panelPlacement) {
     case 'start': {
