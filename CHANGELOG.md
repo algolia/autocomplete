@@ -1,3 +1,12 @@
+## [1.19.7](https://github.com/algolia/autocomplete/compare/v1.19.6...v1.19.7) (2026-03-10)
+
+
+### Bug Fixes
+
+* panel position in positioned container ([#763](https://github.com/algolia/autocomplete/issues/763)) ([#1336](https://github.com/algolia/autocomplete/issues/1336)) ([8d4b512](https://github.com/algolia/autocomplete/commit/8d4b5121021b62e91331a6f5cc013cc30f36f166))
+
+
+
 ## [1.19.6](https://github.com/algolia/autocomplete/compare/v1.19.5...v1.19.6) (2026-02-17)
 
 
