@@ -131,7 +131,7 @@ describe('panelPlacement', () => {
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '124px', // TOP + HEIGHT + SCROLL
+          top: '24px', // TOP + HEIGHT
           left: '11px', // LEFT
           right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
           width: 'unset',
@@ -176,7 +176,7 @@ describe('panelPlacement', () => {
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '124px', // TOP + HEIGHT + SCROLL
+          top: '24px', // TOP + HEIGHT
           left: '11px', // LEFT
         });
       });
@@ -218,7 +218,7 @@ describe('panelPlacement', () => {
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '124px', // TOP + HEIGHT + SCROLL
+          top: '24px', // TOP + HEIGHT
           right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
         });
       });
@@ -263,7 +263,7 @@ describe('panelPlacement', () => {
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '124px', // TOP + HEIGHT + SCROLL
+          top: '24px', // TOP + HEIGHT
           left: 0,
           right: 0,
           width: 'unset',
@@ -336,7 +336,7 @@ describe('panelPlacement', () => {
 
     await waitFor(() => {
       expect(document.querySelector('.aa-Panel')).toHaveStyle({
-        top: '124px', // TOP + HEIGHT + SCROLL
+        top: '24px', // TOP + HEIGHT
         left: '11px', // LEFT
         right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
         width: 'unset',

@@ -10,7 +10,7 @@
   </head>
 
   <body>
-    <div class="parent" style="left: 50px; right: 50px; top: 50px; bottom: 50px; padding: 16px; border: 3px solid black; position: absolute">
+    <div class="parent" style="left: 50px; right: 50px; top: 50px; bottom: 50px; padding: 16px; border: 3px solid black; position: fixed; overflow: auto">
       <form>
         Panel placement:
         <input
@@ -33,6 +33,15 @@
         <div id="autocomplete"></div>
         <div id="autocomplete-right"></div>
       </div>
+
+      <div style="width: 150%; height: 150%">
+        <!-- Content that makes the parent scrollable. -->
+      </div>
+    </div>
+
+
+    <div style="height: 3000px; width: 3000px">
+      <!-- Content that makes the body scrollable. -->
     </div>
 
     <script type="module" src="env.ts"></script>
