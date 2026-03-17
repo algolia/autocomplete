@@ -184,7 +184,7 @@ describe('Panel positioning', () => {
     await waitFor(() => getByTestId(panelContainer, 'panel'));
 
     expect(getByTestId(panelContainer, 'panel')).toHaveStyle({
-      top: '140px',
+      top: '40px',
       left: '300px',
       right: '1020px',
     });
