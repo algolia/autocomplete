@@ -31,4 +31,4 @@ npm install
 npm start
 ```
 
-Open <http://localhost:3000> to see your app.
+Open <http://localhost:1234> to see your app.
