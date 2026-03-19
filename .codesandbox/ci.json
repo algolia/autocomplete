@@ -13,5 +13,5 @@
     "/examples/reshape",
     "/examples/vue"
   ],
-  "node": "14"
+  "node": "22"
 }
