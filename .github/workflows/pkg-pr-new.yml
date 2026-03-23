@@ -1,0 +1,53 @@
+name: Preview Packages
+
+on:
+  pull_request:
+  push:
+    branches:
+      - next
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build packages
+        run: yarn build
+
+      - name: Publish preview packages
+        run: >
+          npx pkg-pr-new publish
+          --compact
+          --template './examples/github-repositories-custom-plugin'
+          --template './examples/instantsearch'
+          --template './examples/playground'
+          --template './examples/preview-panel-in-modal'
+          --template './examples/react-renderer'
+          --template './examples/starter-algolia'
+          --template './examples/starter'
+          --template './examples/reshape'
+          --template './examples/vue'
+          './packages/autocomplete-core'
+          './packages/autocomplete-js'
+          './packages/autocomplete-plugin-algolia-insights'
+          './packages/autocomplete-plugin-query-suggestions'
+          './packages/autocomplete-plugin-recent-searches'
+          './packages/autocomplete-plugin-redirect-url'
+          './packages/autocomplete-plugin-tags'
+          './packages/autocomplete-preset-algolia'
+          './packages/autocomplete-shared'
+          './packages/autocomplete-theme-classic'

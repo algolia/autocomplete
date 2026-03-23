@@ -5,8 +5,9 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "parcel build index.html",
-    "start": "parcel index.html"
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build"
   },
   "dependencies": {
     "@algolia/autocomplete-js": "1.19.7",
@@ -15,7 +16,7 @@
   },
   "devDependencies": {
     "@algolia/client-search": "4.16.0",
-    "parcel": "2.8.3"
+    "vite": "5.0.7"
   },
   "keywords": [
     "algolia",
