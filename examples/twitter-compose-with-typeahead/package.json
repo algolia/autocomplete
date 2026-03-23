@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "start": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -23,9 +23,9 @@
     "@types/react": "^19.0.7",
     "@types/react-dom": "^19.0.3",
     "@types/textarea-caret": "3.0.1",
-    "@vitejs/plugin-react": "1.0.7",
+    "@vitejs/plugin-react": "4.2.1",
     "typescript": "^4.4.2",
-    "vite": "2.8.0"
+    "vite": "5.0.7"
   },
   "keywords": [
     "algolia",
