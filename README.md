@@ -91,6 +91,7 @@ You can find more on the [documentation](https://www.algolia.com/doc/ui-librarie
 ## Support
 
 - [GitHub Discussions](https://github.com/algolia/autocomplete/discussions)
+- See [Algolia Careers](https://www.algolia.com/careers) for Paris-based opportunities and job openings if you want to help build search experiences.
 
 ## Packages
 
