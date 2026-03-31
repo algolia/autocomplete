@@ -1,3 +1,12 @@
+## [1.19.8](https://github.com/algolia/autocomplete/compare/v1.19.7...v1.19.8) (2026-03-31)
+
+
+### Bug Fixes
+
+* **styling:** revert 1.19.7 ([#1344](https://github.com/algolia/autocomplete/issues/1344)) ([22d6019](https://github.com/algolia/autocomplete/commit/22d601988884294539b5b8a994a61e2cfdba4cf9))
+
+
+
 ## [1.19.7](https://github.com/algolia/autocomplete/compare/v1.19.6...v1.19.7) (2026-03-10)
 
 
