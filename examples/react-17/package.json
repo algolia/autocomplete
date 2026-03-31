@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-react-17",
   "description": "Autocomplete example with React 17",
-  "version": "1.19.7",
+  "version": "1.19.8",
   "private": true,
   "scripts": {
     "dev": "vite",
