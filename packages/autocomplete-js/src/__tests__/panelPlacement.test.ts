@@ -26,42 +26,6 @@ describe('panelPlacement', () => {
     toJSON: () => {},
   });
 
-  function mockPosition() {
-    // Mock `getBoundingClientRect` for elements used in the panel placement calculation
-    document.querySelector('.aa-Form').getBoundingClientRect =
-      mockedGetBoundingClientRect;
-    Object.defineProperty(document.querySelector('.aa-Form'), 'offsetLeft', {
-      get() {
-        return LEFT;
-      },
-    });
-    Object.defineProperty(document.querySelector('.aa-Form'), 'offsetTop', {
-      get() {
-        return TOP;
-      },
-    });
-    document.querySelector('.aa-Autocomplete').getBoundingClientRect =
-      mockedGetBoundingClientRect;
-    Object.defineProperty(
-      document.querySelector('.aa-Autocomplete'),
-      'offsetLeft',
-      {
-        get() {
-          return LEFT;
-        },
-      }
-    );
-    Object.defineProperty(
-      document.querySelector('.aa-Autocomplete'),
-      'offsetTop',
-      {
-        get() {
-          return TOP;
-        },
-      }
-    );
-  }
-
   beforeAll(() => {
     Object.defineProperty(document.documentElement, 'clientWidth', {
       get() {
@@ -103,7 +67,11 @@ describe('panelPlacement', () => {
         },
       });
 
-      mockPosition();
+      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+      document.querySelector('.aa-Form').getBoundingClientRect =
+        mockedGetBoundingClientRect;
+      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
+        mockedGetBoundingClientRect;
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
@@ -127,11 +95,15 @@ describe('panelPlacement', () => {
 
       fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
 
-      mockPosition();
+      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+      document.querySelector('.aa-Form').getBoundingClientRect =
+        mockedGetBoundingClientRect;
+      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
+        mockedGetBoundingClientRect;
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '24px', // TOP + HEIGHT
+          top: '124px', // TOP + HEIGHT + SCROLL
           left: '11px', // LEFT
           right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
           width: 'unset',
@@ -151,7 +123,11 @@ describe('panelPlacement', () => {
         },
       });
 
-      mockPosition();
+      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+      document.querySelector('.aa-Form').getBoundingClientRect =
+        mockedGetBoundingClientRect;
+      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
+        mockedGetBoundingClientRect;
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
@@ -172,11 +148,15 @@ describe('panelPlacement', () => {
 
       fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
 
-      mockPosition();
+      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+      document.querySelector('.aa-Form').getBoundingClientRect =
+        mockedGetBoundingClientRect;
+      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
+        mockedGetBoundingClientRect;
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '24px', // TOP + HEIGHT
+          top: '124px', // TOP + HEIGHT + SCROLL
           left: '11px', // LEFT
         });
       });
@@ -193,7 +173,11 @@ describe('panelPlacement', () => {
         },
       });
 
-      mockPosition();
+      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+      document.querySelector('.aa-Form').getBoundingClientRect =
+        mockedGetBoundingClientRect;
+      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
+        mockedGetBoundingClientRect;
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
@@ -214,11 +198,15 @@ describe('panelPlacement', () => {
 
       fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
 
-      mockPosition();
+      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+      document.querySelector('.aa-Form').getBoundingClientRect =
+        mockedGetBoundingClientRect;
+      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
+        mockedGetBoundingClientRect;
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '24px', // TOP + HEIGHT
+          top: '124px', // TOP + HEIGHT + SCROLL
           right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
         });
       });
@@ -235,7 +223,11 @@ describe('panelPlacement', () => {
         },
       });
 
-      mockPosition();
+      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+      document.querySelector('.aa-Form').getBoundingClientRect =
+        mockedGetBoundingClientRect;
+      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
+        mockedGetBoundingClientRect;
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
@@ -259,11 +251,15 @@ describe('panelPlacement', () => {
 
       fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
 
-      mockPosition();
+      // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+      document.querySelector('.aa-Form').getBoundingClientRect =
+        mockedGetBoundingClientRect;
+      document.querySelector('.aa-Autocomplete').getBoundingClientRect =
+        mockedGetBoundingClientRect;
 
       await waitFor(() => {
         expect(document.querySelector('.aa-Panel')).toHaveStyle({
-          top: '24px', // TOP + HEIGHT
+          top: '124px', // TOP + HEIGHT + SCROLL
           left: 0,
           right: 0,
           width: 'unset',
@@ -281,7 +277,11 @@ describe('panelPlacement', () => {
       },
     });
 
-    mockPosition();
+    // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+    document.querySelector('.aa-Form').getBoundingClientRect =
+      mockedGetBoundingClientRect;
+    document.querySelector('.aa-Autocomplete').getBoundingClientRect =
+      mockedGetBoundingClientRect;
 
     await waitFor(() => {
       expect(document.querySelector('.aa-Panel')).toHaveStyle({
@@ -332,11 +332,15 @@ describe('panelPlacement', () => {
 
     fireEvent.scroll(document.body, { target: { scrollTop: SCROLL } });
 
-    mockPosition();
+    // Mock `getBoundingClientRect` for elements used in the panel placement calculation
+    document.querySelector('.aa-Form').getBoundingClientRect =
+      mockedGetBoundingClientRect;
+    document.querySelector('.aa-Autocomplete').getBoundingClientRect =
+      mockedGetBoundingClientRect;
 
     await waitFor(() => {
       expect(document.querySelector('.aa-Panel')).toHaveStyle({
-        top: '24px', // TOP + HEIGHT
+        top: '124px', // TOP + HEIGHT + SCROLL
         left: '11px', // LEFT
         right: '1890px', // CLIENT_WIDTH - (LEFT + WIDTH)
         width: 'unset',
