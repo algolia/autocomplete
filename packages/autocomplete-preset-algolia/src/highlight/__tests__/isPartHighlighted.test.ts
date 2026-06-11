@@ -16,6 +16,23 @@ describe('isPartHighlighted', () => {
     ).toEqual(true);
   });
 
+  test('does not inherit sibling state when siblings disagree', () => {
+    // The separator (index 1) sits between a highlighted ("Amazon") and a
+    // non-highlighted ("Fire") part. Since the siblings disagree, the separator
+    // must keep its own `isHighlighted` value rather than being treated as
+    // highlighted-from-siblings.
+    expect(
+      isPartHighlighted(
+        [
+          { isHighlighted: true, value: 'Amazon' },
+          { isHighlighted: false, value: ' - ' },
+          { isHighlighted: false, value: 'Fire' },
+        ],
+        1
+      )
+    ).toEqual(false);
+  });
+
   test('returns the isHighlighted value with both siblings', () => {
     expect(
       isPartHighlighted(

@@ -25,8 +25,8 @@ function unescape(value: string): string {
 
 export function isPartHighlighted(parts: ParsedAttribute[], i: number) {
   const current = parts[i];
-  const isNextHighlighted = parts[i + 1]?.isHighlighted || true;
-  const isPreviousHighlighted = parts[i - 1]?.isHighlighted || true;
+  const isNextHighlighted = parts[i + 1]?.isHighlighted ?? true;
+  const isPreviousHighlighted = parts[i - 1]?.isHighlighted ?? true;
 
   if (
     !hasLetterOrNumber.test(unescape(current.value)) &&
