@@ -1,3 +1,9 @@
+## [1.19.9](https://github.com/algolia/autocomplete/compare/v1.19.8...v1.19.9) (2026-06-23)
+
+
+### Bug Fixes
+
+* **preset-algolia:** keep separator highlight when reverse-highlight siblings disagree ([#1348](https://github.com/algolia/autocomplete/issues/1348)) ([732869e](https://github.com/algolia/autocomplete/commit/732869e23d1922e2ca0dfd4b35a35b4300d1160a))
 ## [1.19.8](https://github.com/algolia/autocomplete/compare/v1.19.7...v1.19.8) (2026-03-31)
 
 
