@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-preview-panel-in-modal",
   "description": "Autocomplete example with a preview panel in a modal",
-  "version": "1.19.8",
+  "version": "1.19.9",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -10,7 +10,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.19.8",
+    "@algolia/autocomplete-js": "1.19.9",
     "@algolia/autocomplete-theme-classic": "1.19.8",
     "algoliasearch": "4.16.0",
     "preact": "10.13.2",

@@ -1,7 +1,7 @@
 {
   "name": "@algolia/autocomplete-example-tags-in-searchbox",
   "description": "Autocomplete example with Tags in the searchbox",
-  "version": "1.19.8",
+  "version": "1.19.9",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -10,8 +10,8 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "1.19.8",
-    "@algolia/autocomplete-plugin-tags": "1.19.8",
+    "@algolia/autocomplete-js": "1.19.9",
+    "@algolia/autocomplete-plugin-tags": "1.19.9",
     "@algolia/autocomplete-theme-classic": "1.19.8",
     "@algolia/client-search": "4.16.0",
     "algoliasearch": "4.16.0",
