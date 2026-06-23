@@ -12,14 +12,14 @@
   "dependencies": {
     "@algolia/autocomplete-js": "1.19.9",
     "@algolia/autocomplete-plugin-recent-searches": "1.19.9",
-    "@algolia/autocomplete-theme-classic": "1.19.8",
+    "@algolia/autocomplete-theme-classic": "1.19.9",
     "@algolia/client-search": "4.16.0",
     "algoliasearch": "4.16.0",
     "preact": "10.13.2"
   },
   "devDependencies": {
     "@algolia/autocomplete-core": "1.19.9",
-    "@algolia/autocomplete-shared": "1.19.8",
+    "@algolia/autocomplete-shared": "1.19.9",
     "vite": "5.0.7"
   },
   "keywords": [
