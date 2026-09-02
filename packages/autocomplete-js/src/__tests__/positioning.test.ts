@@ -163,6 +163,62 @@ describe('Panel positioning', () => {
     fireEvent.scroll(document.body, { target: { scrollTop: 0 } });
   });
 
+  test('positions the panel above the root when it would overflow the viewport', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.body;
+    document.body.appendChild(container);
+
+    autocomplete({
+      id: 'autocomplete-0',
+      container,
+      panelContainer,
+      plugins: [querySuggestionsFixturePlugin],
+    });
+
+    const root = document.querySelector<HTMLDivElement>('.aa-Autocomplete');
+    root.getBoundingClientRect = jest.fn().mockReturnValue({
+      ...rootPosition,
+      top: 1040,
+    });
+    const form = document.querySelector<HTMLFormElement>('.aa-Form');
+    form.getBoundingClientRect = jest.fn().mockReturnValue(formPosition);
+    const input = document.querySelector<HTMLInputElement>('.aa-Input');
+    userEvent.type(input, 'a');
+
+    const panel = await waitFor(() => getByTestId(panelContainer, 'panel'));
+    Object.defineProperty(panel, 'offsetHeight', {
+      configurable: true,
+      value: 300,
+    });
+
+    // Mock the panel's computed margin to match the default theme (8px top margin)
+    const originalGetComputedStyle = window.getComputedStyle;
+    jest.spyOn(window, 'getComputedStyle').mockImplementation((element) => {
+      const style = originalGetComputedStyle(element);
+      if (element === panel) {
+        Object.defineProperties(style, {
+          marginTop: { value: '8px', configurable: true },
+          marginBottom: { value: '0px', configurable: true },
+        });
+      }
+      return style;
+    });
+
+    fireEvent(window, new Event('resize'));
+
+    // panelTop = scrollTop(0) + containerRect.top(1040) - panelTotalHeight(300 + 8 + 0)
+    //          = 732
+    await waitFor(() => {
+      expect(panel).toHaveStyle({
+        top: '732px',
+        left: '300px',
+        right: '1020px',
+      });
+    });
+
+    (window.getComputedStyle as jest.Mock).mockRestore();
+  });
+
   test('repositions the panel below the root element after a UI change', async () => {
     const container = document.createElement('div');
     const panelContainer = document.body;
