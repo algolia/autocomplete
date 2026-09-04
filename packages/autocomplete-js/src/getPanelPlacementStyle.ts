@@ -25,21 +25,26 @@ export function getPanelPlacementStyle({
     environment.document.body.scrollTop ||
     0;
   const panelHeight = panel.offsetHeight;
-  const panelStyle = environment.getComputedStyle(panel);
+  const panelStyle =
+    'getComputedStyle' in environment &&
+    typeof environment.getComputedStyle === 'function'
+      ? environment.getComputedStyle(panel)
+      : panel.style;
   const panelMarginTop = parseFloat(panelStyle.marginTop) || 0;
   const panelMarginBottom = parseFloat(panelStyle.marginBottom) || 0;
-  const panelTotalHeight = panelHeight + panelMarginTop + panelMarginBottom;
+  const panelHeightWithMargins =
+    panelHeight + panelMarginTop + panelMarginBottom;
+  const panelHeightAbove = panelHeight + panelMarginTop * 2;
   const top = scrollTop + containerRect.top + containerRect.height;
-  const panelTop =
-    scrollTop + containerRect.top - panelTotalHeight;
+  const panelTop = scrollTop + containerRect.top - panelHeightAbove;
   const bottomSpace =
     environment.document.documentElement.clientHeight -
     (containerRect.top + containerRect.height);
   const topSpace = containerRect.top;
   const shouldPlacePanelAbove =
-    panelTotalHeight > 0 &&
-    bottomSpace < panelTotalHeight &&
-    topSpace >= panelTotalHeight;
+    panelHeightWithMargins > 0 &&
+    bottomSpace < panelHeightWithMargins &&
+    topSpace >= panelHeightAbove;
   const verticalPosition = shouldPlacePanelAbove ? panelTop : top;
 
   switch (panelPlacement) {

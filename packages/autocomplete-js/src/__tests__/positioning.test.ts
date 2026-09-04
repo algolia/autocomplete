@@ -206,17 +206,78 @@ describe('Panel positioning', () => {
 
     fireEvent(window, new Event('resize'));
 
-    // panelTop = scrollTop(0) + containerRect.top(1040) - panelTotalHeight(300 + 8 + 0)
-    //          = 732
+    // panelTop = scrollTop(0) + containerRect.top(1040) - panelHeightAbove(300 + 8 * 2)
+    //          = 724
     await waitFor(() => {
       expect(panel).toHaveStyle({
-        top: '732px',
+        top: '724px',
         left: '300px',
         right: '1020px',
       });
     });
 
     (window.getComputedStyle as jest.Mock).mockRestore();
+  });
+
+  test('keeps the panel below the root when its top margin would not fit above', async () => {
+    const container = document.createElement('div');
+    const panelContainer = document.body;
+    document.body.appendChild(container);
+    Object.defineProperty(document.documentElement, 'clientHeight', {
+      configurable: true,
+      value: 328,
+    });
+
+    autocomplete({
+      id: 'autocomplete-0',
+      container,
+      panelContainer,
+      plugins: [querySuggestionsFixturePlugin],
+    });
+
+    const root = document.querySelector<HTMLDivElement>('.aa-Autocomplete')!;
+    root.getBoundingClientRect = jest.fn().mockReturnValue({
+      ...rootPosition,
+      top: 308,
+    });
+    const form = document.querySelector<HTMLFormElement>('.aa-Form')!;
+    form.getBoundingClientRect = jest.fn().mockReturnValue(formPosition);
+    const input = document.querySelector<HTMLInputElement>('.aa-Input')!;
+    userEvent.type(input, 'a');
+
+    const panel = await waitFor(() => getByTestId(panelContainer, 'panel'));
+    Object.defineProperty(panel, 'offsetHeight', {
+      configurable: true,
+      value: 300,
+    });
+
+    const originalGetComputedStyle = window.getComputedStyle;
+    jest.spyOn(window, 'getComputedStyle').mockImplementation((element) => {
+      const style = originalGetComputedStyle(element);
+      if (element === panel) {
+        Object.defineProperties(style, {
+          marginTop: { value: '8px', configurable: true },
+          marginBottom: { value: '0px', configurable: true },
+        });
+      }
+      return style;
+    });
+
+    fireEvent(window, new Event('resize'));
+
+    await waitFor(() => {
+      expect(panel).toHaveStyle({
+        top: '328px',
+        left: '300px',
+        right: '1020px',
+      });
+    });
+
+    (window.getComputedStyle as jest.Mock).mockRestore();
+    Object.defineProperty(document.documentElement, 'clientHeight', {
+      configurable: true,
+      value: 1080,
+    });
   });
 
   test('repositions the panel below the root element after a UI change', async () => {
