@@ -6,12 +6,14 @@ type GetPanelPlacementStyleParams = Pick<
 > & {
   container: HTMLElement;
   form: HTMLElement;
+  panel: HTMLElement;
 };
 
 export function getPanelPlacementStyle({
   panelPlacement,
   container,
   form,
+  panel,
   environment,
 }: GetPanelPlacementStyleParams) {
   const containerRect = container.getBoundingClientRect();
@@ -22,19 +24,40 @@ export function getPanelPlacementStyle({
     environment.document.documentElement.scrollTop ||
     environment.document.body.scrollTop ||
     0;
+  const panelHeight = panel.offsetHeight;
+  const panelStyle =
+    'getComputedStyle' in environment &&
+    typeof environment.getComputedStyle === 'function'
+      ? environment.getComputedStyle(panel)
+      : panel.style;
+  const panelMarginTop = parseFloat(panelStyle.marginTop) || 0;
+  const panelMarginBottom = parseFloat(panelStyle.marginBottom) || 0;
+  const panelHeightWithMargins =
+    panelHeight + panelMarginTop + panelMarginBottom;
+  const panelHeightAbove = panelHeight + panelMarginTop * 2;
   const top = scrollTop + containerRect.top + containerRect.height;
+  const panelTop = scrollTop + containerRect.top - panelHeightAbove;
+  const bottomSpace =
+    environment.document.documentElement.clientHeight -
+    (containerRect.top + containerRect.height);
+  const topSpace = containerRect.top;
+  const shouldPlacePanelAbove =
+    panelHeightWithMargins > 0 &&
+    bottomSpace < panelHeightWithMargins &&
+    topSpace >= panelHeightAbove;
+  const verticalPosition = shouldPlacePanelAbove ? panelTop : top;
 
   switch (panelPlacement) {
     case 'start': {
       return {
-        top,
+        top: verticalPosition,
         left: containerRect.left,
       };
     }
 
     case 'end': {
       return {
-        top,
+        top: verticalPosition,
         right:
           environment.document.documentElement.clientWidth -
           (containerRect.left + containerRect.width),
@@ -43,7 +66,7 @@ export function getPanelPlacementStyle({
 
     case 'full-width': {
       return {
-        top,
+        top: verticalPosition,
         left: 0,
         right: 0,
         width: 'unset',
@@ -55,7 +78,7 @@ export function getPanelPlacementStyle({
       const formRect = form.getBoundingClientRect();
 
       return {
-        top,
+        top: verticalPosition,
         left: formRect.left,
         right:
           environment.document.documentElement.clientWidth -

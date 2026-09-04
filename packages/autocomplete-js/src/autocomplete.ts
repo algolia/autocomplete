@@ -144,6 +144,7 @@ export function autocomplete<TItem extends BaseItem>(
             panelPlacement: props.value.renderer.panelPlacement,
             container: dom.value.root,
             form: dom.value.form,
+            panel: dom.value.panel,
             environment: props.value.core.environment,
           }),
     });
@@ -176,6 +177,7 @@ export function autocomplete<TItem extends BaseItem>(
 
     renderSearchBox(renderProps);
     renderPanel(render, renderProps);
+    requestAnimationFrame(setPanelPosition);
   }
 
   runEffect(() => {
