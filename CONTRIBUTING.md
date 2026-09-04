@@ -80,4 +80,4 @@ To run this project, you will need:
 yarn run release
 ```
 
-It will create a pull request for the next release. When it's reviewed, approved and merged, then CircleCI will automatically publish the packages to npm.
+It will create a pull request for the next release. When it's reviewed, approved and merged, then GitHub Actions will automatically publish the packages to npm.
