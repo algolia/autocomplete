@@ -2,10 +2,11 @@ import { createAutocomplete, AutocompleteCollection } from '..';
 
 function createCollection<TItem extends { label: string }>(
   items: TItem[] | TItem[][] = []
-): AutocompleteCollection<TItem | TItem[]> | AutocompleteCollection<TItem[]> {
+): any {
   return {
     source: {
-      getItemInputValue: ({ item }) => item.label,
+      sourceId: 'testSource',
+      getItemInputValue: ({ item }: any) => item.label,
       getItemUrl: () => undefined,
       onActive: () => {},
       onSelect: () => {},
@@ -61,6 +62,69 @@ describe('setCollections', () => {
               items: [{ label: 'hi', __autocomplete_id: 0 }],
             }),
           ],
+        }),
+      })
+    );
+  });
+  test('resets activeItemId when new collections have fewer items than the current index', () => {
+    const onStateChange = jest.fn();
+    const { setCollections, setActiveItemId } = createAutocomplete({
+      onStateChange,
+      initialState: {
+        collections: [
+          createCollection([
+            { label: 'a' },
+            { label: 'b' },
+            { label: 'c' },
+            { label: 'd' },
+            { label: 'e' },
+          ]),
+        ],
+      },
+    });
+
+    setActiveItemId(4);
+    onStateChange.mockClear();
+
+    setCollections([createCollection([{ label: 'x' }, { label: 'y' }])]);
+
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          activeItemId: null,
+        }),
+      })
+    );
+  });
+
+  test('preserves activeItemId when new collections still contain enough items', () => {
+    const onStateChange = jest.fn();
+    const { setCollections, setActiveItemId } = createAutocomplete({
+      onStateChange,
+      initialState: {
+        collections: [
+          createCollection([
+            { label: 'a' },
+            { label: 'b' },
+            { label: 'c' },
+            { label: 'd' },
+            { label: 'e' },
+          ]),
+        ],
+      },
+    });
+
+    setActiveItemId(1);
+    onStateChange.mockClear();
+
+    setCollections([
+      createCollection([{ label: 'x' }, { label: 'y' }, { label: 'z' }]),
+    ]);
+
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          activeItemId: 1,
         }),
       })
     );
