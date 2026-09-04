@@ -19,8 +19,12 @@ module.exports = {
       'packages/autocomplete-theme-classic',
     ],
   },
-  publishCommand({ tag }) {
-    return `yarn publish --access public --tag ${tag}`;
+  useOidcTokenProvider: true,
+  // Build on `defaultCommand`: that is where Ship.js appends `--provenance`.
+  // `--access public` satisfies the provenance prerequisite check, which
+  // rejects a package whose visibility it cannot confirm.
+  publishCommand({ defaultCommand }) {
+    return `${defaultCommand} --access public`;
   },
   pullRequestTeamReviewers: ['frontend-experiences-web'],
   versionUpdated({ exec, dir, version }) {

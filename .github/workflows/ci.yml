@@ -1,0 +1,235 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - next
+  pull_request:
+
+# Cancel superseded runs on pull requests. Pushes to `next` get a group of
+# their own so they never queue behind each other: a concurrency group holds
+# only one pending run, so a queued `next` run would be cancelled by the next
+# merge even with `cancel-in-progress: false`, and a cancelled run never
+# reaches `shipjs trigger`.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.head_ref || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build library
+        run: yarn run build
+
+      - name: Package build outputs
+        run: |
+          tar -cf build-outputs.tar \
+            packages/autocomplete-shared/dist \
+            packages/autocomplete-core/dist \
+            packages/autocomplete-js/dist \
+            packages/autocomplete-preset-algolia/dist \
+            packages/autocomplete-plugin-algolia-insights/dist \
+            packages/autocomplete-plugin-recent-searches/dist \
+            packages/autocomplete-plugin-redirect-url/dist \
+            packages/autocomplete-plugin-query-suggestions/dist \
+            packages/autocomplete-plugin-tags/dist
+
+      - name: Upload build outputs
+        uses: actions/upload-artifact@v7
+        with:
+          name: build-outputs
+          path: build-outputs.tar
+          retention-days: 1
+          overwrite: true
+
+  test-metadata:
+    name: test metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Test package versions
+        run: yarn run test:versions
+
+  lint:
+    name: lint
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Download build outputs
+        uses: actions/download-artifact@v8
+        with:
+          name: build-outputs
+
+      - name: Unpack build outputs
+        run: tar -xf build-outputs.tar && rm build-outputs.tar
+
+      - name: Lint
+        run: yarn run lint
+
+  lint-css:
+    name: lint css
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Lint CSS
+        run: yarn run lint:css
+
+  test-types:
+    name: test types
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Type checking
+        run: yarn run test:types
+
+  unit-tests:
+    name: unit tests
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Download build outputs
+        uses: actions/download-artifact@v8
+        with:
+          name: build-outputs
+
+      - name: Unpack build outputs
+        run: tar -xf build-outputs.tar && rm build-outputs.tar
+
+      - name: Unit tests
+        run: yarn run test --maxWorkers=4
+
+  release-if-needed:
+    name: release if needed
+    needs:
+      - build
+      - lint
+      - unit-tests
+      - test-types
+    if: github.ref == 'refs/heads/next'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    environment: npm
+    steps:
+      - name: Mint GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.FX_BOT_APP_ID }}
+          private-key: ${{ secrets.FX_BOT_PRIVATE_KEY }}
+          owner: algolia
+          repositories: autocomplete
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Download build outputs
+        uses: actions/download-artifact@v8
+        with:
+          name: build-outputs
+
+      - name: Unpack build outputs
+        run: tar -xf build-outputs.tar && rm build-outputs.tar
+
+      # Node 22.14.0 bundles npm 10.9.2, and trusted publishing needs 11.5.1
+      # or later. Pinned so that an npm release cannot change a publish.
+      - name: Upgrade npm
+        run: npm install --global npm@11.19.1
+
+      - name: Configure git identity
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+        run: |
+          USER_ID=$(gh api "/users/${APP_SLUG}%5Bbot%5D" --jq .id)
+          git config user.name "${APP_SLUG}[bot]"
+          git config user.email "${USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
+
+      - name: Trigger a release if the latest commit is a release commit
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          SLACK_INCOMING_HOOK: ${{ secrets.SLACK_INCOMING_HOOK }}
+        run: yarn run shipjs trigger
