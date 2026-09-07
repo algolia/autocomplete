@@ -1,3 +1,4 @@
+const extensionResolver = require('./scripts/babel/extension-resolver');
 const wrapWarningWithDevCheck = require('./scripts/babel/wrap-warning-with-dev-check');
 
 module.exports = (api) => {
@@ -28,6 +29,12 @@ module.exports = (api) => {
     ],
     plugins: clean([
       wrapWarningWithDevCheck,
+      [
+        extensionResolver,
+        {
+          modulesToResolve: ['@algolia/autocomplete-shared'],
+        },
+      ],
       [
         'inline-replace-variables',
         {
