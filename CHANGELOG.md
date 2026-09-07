@@ -1,3 +1,9 @@
+## [1.19.10](https://github.com/algolia/autocomplete/compare/v1.19.9...v1.19.10) (2026-09-07)
+
+
+### Bug Fixes
+
+* **js:** reposition panel above input when it overflows viewport ([#1351](https://github.com/algolia/autocomplete/issues/1351)) ([580df39](https://github.com/algolia/autocomplete/commit/580df395c8ddca5dc276bce56afb88d6d360563d)), closes [#1335](https://github.com/algolia/autocomplete/issues/1335)
 ## [1.19.9](https://github.com/algolia/autocomplete/compare/v1.19.8...v1.19.9) (2026-06-23)
 
 
