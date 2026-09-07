@@ -10,9 +10,9 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@algolia/autocomplete-core": "1.19.9",
+    "@algolia/autocomplete-core": "1.19.10",
     "@algolia/autocomplete-js": "1.19.10",
-    "@algolia/autocomplete-theme-classic": "1.19.9",
+    "@algolia/autocomplete-theme-classic": "1.19.10",
     "algoliasearch": "4.16.0",
     "preact": "10.13.2"
   },
