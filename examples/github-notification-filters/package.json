@@ -15,10 +15,10 @@
     "@algolia/autocomplete-theme-classic": "1.19.10",
     "algoliasearch": "4.16.0",
     "preact": "10.13.2",
-    "qs": "6.11.1"
+    "qs": "6.16.0"
   },
   "devDependencies": {
-    "vite": "5.0.7"
+    "vite": "6.4.3"
   },
   "keywords": [
     "algolia",
