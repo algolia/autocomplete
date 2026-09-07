@@ -20,7 +20,7 @@
   "devDependencies": {
     "@algolia/autocomplete-core": "1.19.10",
     "@algolia/autocomplete-shared": "1.19.10",
-    "vite": "5.0.7"
+    "vite": "6.4.3"
   },
   "keywords": [
     "algolia",
