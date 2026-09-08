@@ -750,7 +750,7 @@ describe('getInputProps', () => {
         expect(event.preventDefault).toHaveBeenCalledTimes(1);
       });
 
-      function setupTestWithItem(props) {
+      function setupTestWithItem(props?: any) {
         const playground = createPlayground(createAutocomplete, {
           id: 'autocomplete',
           openOnFocus: true,
@@ -1236,6 +1236,35 @@ describe('getInputProps', () => {
         inputProps.onKeyDown(event);
 
         expect(onStateChange).toHaveBeenCalledTimes(stateChanges);
+      });
+
+      test('is a noop with stale activeItemId', () => {
+        const onStateChange = jest.fn();
+        const { inputProps } = createPlayground(createAutocomplete, {
+          onStateChange,
+          initialState: {
+            isOpen: true,
+            activeItemId: 1, // Stale!
+            collections: [
+              createCollection({
+                items: [{ label: '1' }], // Only 1 item
+              }),
+            ],
+          },
+        });
+
+        const stateChanges = (onStateChange.mock.calls[0] || []).length;
+        const event = {
+          ...new KeyboardEvent('keydown'),
+          key: 'Enter',
+          preventDefault: jest.fn(),
+        };
+        
+        // This should not throw
+        inputProps.onKeyDown(event);
+
+        expect(onStateChange).toHaveBeenCalledTimes(stateChanges);
+        expect(event.preventDefault).not.toHaveBeenCalled();
       });
 
       test('prevents the default event behavior', () => {

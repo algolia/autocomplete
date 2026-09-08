@@ -22,9 +22,15 @@ export const stateReducer: Reducer = (state, action) => {
     }
 
     case 'setCollections': {
+      const newItemsCount = getItemsCount({ collections: action.payload });
+
       return {
         ...state,
         collections: action.payload,
+        activeItemId:
+          state.activeItemId !== null && state.activeItemId >= newItemsCount
+            ? action.props.defaultActiveItemId
+            : state.activeItemId,
       };
     }
 
