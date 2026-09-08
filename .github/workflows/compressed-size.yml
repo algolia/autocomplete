@@ -1,0 +1,33 @@
+name: Bundle Size
+
+on: [pull_request]
+
+# Cancel an in-progress run when a new commit is pushed to the same PR.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  bundle-size:
+    name: Report bundle size
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - uses: preactjs/compressed-size-action@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          build-script: 'build'
+          compression: 'gzip'
+          minimum-change-threshold: 10
+          pattern: './packages/*/dist/{umd/index.production.js,theme.min.css}'
+          exclude: '{**/*.map,**/node_modules/**}'

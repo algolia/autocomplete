@@ -1,0 +1,55 @@
+name: Prepare Release
+
+on:
+  schedule:
+    # Tuesdays at 09:00 UTC
+    - cron: '0 9 * * 2'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prepare-release:
+    name: prepare release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mint GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.FX_BOT_APP_ID }}
+          private-key: ${{ secrets.FX_BOT_PRIVATE_KEY }}
+          owner: algolia
+          repositories: autocomplete
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: next
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Configure git identity
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+        run: |
+          USER_ID=$(gh api "/users/${APP_SLUG}%5Bbot%5D" --jq .id)
+          git config user.name "${APP_SLUG}[bot]"
+          git config user.email "${USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
+
+      - name: Prepare a pull request for next release
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          SLACK_INCOMING_HOOK: ${{ secrets.SLACK_INCOMING_HOOK }}
+        run: yarn run shipjs prepare --yes --no-browse
