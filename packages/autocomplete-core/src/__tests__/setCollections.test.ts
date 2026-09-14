@@ -1,4 +1,4 @@
-import { createAutocomplete, AutocompleteCollection } from '..';
+import { createAutocomplete } from '..';
 
 function createCollection<TItem extends { label: string }>(
   items: TItem[] | TItem[][] = []
@@ -125,6 +125,67 @@ describe('setCollections', () => {
       expect.objectContaining({
         state: expect.objectContaining({
           activeItemId: 1,
+        }),
+      })
+    );
+  });
+
+  test('resets activeItemId at the exact boundary (activeItemId === newItemsCount)', () => {
+    const onStateChange = jest.fn();
+    const { setCollections, setActiveItemId } = createAutocomplete({
+      onStateChange,
+      initialState: {
+        collections: [
+          createCollection([
+            { label: 'a' },
+            { label: 'b' },
+            { label: 'c' },
+          ]),
+        ],
+      },
+    });
+
+    // activeItemId 2 is the last valid index for 3 items (0, 1, 2)
+    setActiveItemId(2);
+    onStateChange.mockClear();
+
+    // New collections have exactly 2 items, so valid indices are 0 and 1.
+    // activeItemId 2 === newItemsCount 2, which is out of bounds.
+    setCollections([createCollection([{ label: 'x' }, { label: 'y' }])]);
+
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          activeItemId: null,
+        }),
+      })
+    );
+  });
+
+  test('resets activeItemId when new collections have zero items', () => {
+    const onStateChange = jest.fn();
+    const { setCollections, setActiveItemId } = createAutocomplete({
+      onStateChange,
+      initialState: {
+        collections: [
+          createCollection([
+            { label: 'a' },
+            { label: 'b' },
+          ]),
+        ],
+      },
+    });
+
+    setActiveItemId(1);
+    onStateChange.mockClear();
+
+    // New collections are empty — any non-null activeItemId is out of bounds.
+    setCollections([createCollection([])]);
+
+    expect(onStateChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        state: expect.objectContaining({
+          activeItemId: null,
         }),
       })
     );
