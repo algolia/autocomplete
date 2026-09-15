@@ -120,10 +120,15 @@ export function onKeyDown<TItem extends BaseItem>({
     // result in an unsolicited UI behavior.
     store.pendingRequests.cancelAll();
   } else if (event.key === 'Enter') {
+    const activeItem =
+      store.getState().activeItemId !== null
+        ? getActiveItem(store.getState())
+        : null;
+
     // No active item, so we let the browser handle the native `onSubmit` form
     // event.
     if (
-      store.getState().activeItemId === null ||
+      !activeItem ||
       store
         .getState()
         .collections.every((collection) => collection.items.length === 0)
@@ -149,9 +154,7 @@ export function onKeyDown<TItem extends BaseItem>({
     // highlighted.
     event.preventDefault();
 
-    const { item, itemInputValue, itemUrl, source } = getActiveItem(
-      store.getState()
-    )!;
+    const { item, itemInputValue, itemUrl, source } = activeItem;
 
     if (event.metaKey || event.ctrlKey) {
       if (itemUrl !== undefined) {
