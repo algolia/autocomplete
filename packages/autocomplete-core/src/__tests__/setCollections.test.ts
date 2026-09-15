@@ -163,9 +163,7 @@ describe('setCollections', () => {
     const { setCollections, setActiveItemId } = createAutocomplete({
       onStateChange,
       initialState: {
-        collections: [
-          createCollection([{ label: 'a' }, { label: 'b' }]),
-        ],
+        collections: [createCollection([{ label: 'a' }, { label: 'b' }])],
       },
     });
 
