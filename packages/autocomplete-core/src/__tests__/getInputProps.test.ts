@@ -1259,7 +1259,7 @@ describe('getInputProps', () => {
           key: 'Enter',
           preventDefault: jest.fn(),
         };
-        
+
         // This should not throw
         inputProps.onKeyDown(event);
 

@@ -136,11 +136,7 @@ describe('setCollections', () => {
       onStateChange,
       initialState: {
         collections: [
-          createCollection([
-            { label: 'a' },
-            { label: 'b' },
-            { label: 'c' },
-          ]),
+          createCollection([{ label: 'a' }, { label: 'b' }, { label: 'c' }]),
         ],
       },
     });
@@ -168,10 +164,7 @@ describe('setCollections', () => {
       onStateChange,
       initialState: {
         collections: [
-          createCollection([
-            { label: 'a' },
-            { label: 'b' },
-          ]),
+          createCollection([{ label: 'a' }, { label: 'b' }]),
         ],
       },
     });
