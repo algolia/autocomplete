@@ -4,8 +4,8 @@ import {
   AutocompleteState,
   AutocompletePlugin,
 } from '@algolia/autocomplete-js';
+import { SearchOptions } from '@algolia/autocomplete-preset-algolia';
 import { createRef, MaybePromise, warn } from '@algolia/autocomplete-shared';
-import { SearchOptions } from '@algolia/client-search';
 
 import { defaultTranslations } from './constants';
 import { createStorageApi } from './createStorageApi';

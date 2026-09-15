@@ -78,3 +78,10 @@ export type FacetHit = PickForClient<{
   /** @ts-ignore */
   v5: AlgoliaSearch.FacetHits;
 }>;
+
+export type SearchOptions = PickForClient<{
+  /** @ts-ignore */
+  v4: ClientSearch.SearchOptions;
+  /** @ts-ignore */
+  v5: ClientSearch.SearchParamsObject;
+}>;
