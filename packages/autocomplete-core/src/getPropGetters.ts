@@ -328,9 +328,22 @@ export function getPropGetters<
     return {
       onMouseDown(event) {
         // Prevents the `activeElement` from being changed to the panel so
-        // that the blur event is not triggered, otherwise it closes the
-        // panel.
-        (event as unknown as MouseEvent).preventDefault();
+        // that native mousedown-triggered focus loss doesn't happen when
+        // clicking non-selectable panel content (e.g. items).
+        //
+        // We skip this for content that's meant to be selectable (e.g. text
+        // inside a custom Preview pane), since `preventDefault()` on
+        // `mousedown` also blocks the browser's native click-and-drag text
+        // selection. Items remain protected regardless, since `getItemProps`
+        // always calls `preventDefault()` on the item itself.
+        const target = (event as unknown as MouseEvent).target as Element;
+
+        if (
+          target instanceof Element &&
+          getComputedStyle(target).userSelect === 'none'
+        ) {
+          (event as unknown as MouseEvent).preventDefault();
+        }
       },
       onMouseLeave() {
         store.dispatch('mouseleave', null);

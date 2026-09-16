@@ -114,7 +114,10 @@ autocomplete({
       <Fragment>
         <div className="aa-Grid">
           <div className="aa-Results aa-Column">{children}</div>
-          <div className="aa-Preview aa-Column">
+          <div
+            className="aa-Preview aa-Column"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
             <div className="aa-PreviewImage">
               <img src={preview.image} alt={preview.name} />
             </div>
