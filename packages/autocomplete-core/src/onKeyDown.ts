@@ -215,6 +215,8 @@ export function onKeyDown<TItem extends BaseItem>({
         return;
       }
 
+      setters.setIsOpen(false);
+
       onInput({
         event,
         nextState: { isOpen: false },

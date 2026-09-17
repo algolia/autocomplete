@@ -394,6 +394,8 @@ export function getPropGetters<
         // We can therefore skip the state change because it will update
         // the `activeItemId`, resulting in a UI flash, especially
         // noticeable on mobile.
+        setters.setIsOpen(false);
+
         const runPreCommand = itemUrl
           ? Promise.resolve()
           : onInput({
