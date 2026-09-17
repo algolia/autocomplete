@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx h */
 import { AutocompletePlugin, getAlgoliaFacets } from '@algolia/autocomplete-js';
-import { SearchClient } from 'algoliasearch/lite';
+import { LiteClient as SearchClient } from 'algoliasearch/lite';
 import { h, Fragment } from 'preact';
 
 type CategoryRecord = {
