@@ -27,6 +27,60 @@ describe('detached', () => {
     });
   });
 
+  test.each(['', 'soap'])(
+    'returns focus after Escape with query %p',
+    async (query) => {
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+      autocomplete({ container, detachedMediaQuery: '', openOnFocus: true });
+      const opener = container.querySelector<HTMLButtonElement>('button')!;
+      opener.click();
+      const input = document.querySelector<HTMLInputElement>('.aa-Input')!;
+      fireEvent.input(input, { target: { value: query } });
+      await waitFor(() =>
+        expect(container.firstElementChild).toHaveAttribute(
+          'aria-expanded',
+          'true'
+        )
+      );
+      fireEvent.keyDown(input, { key: 'Escape' });
+      await waitFor(() => {
+        expect(
+          document.querySelector('.aa-DetachedOverlay')
+        ).not.toBeInTheDocument();
+        expect(opener).toHaveFocus();
+      });
+    }
+  );
+
+  test('returns focus after cancel and allows reopening', () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete({ container, detachedMediaQuery: '' });
+    const opener = container.querySelector<HTMLButtonElement>('button')!;
+    opener.click();
+    userEvent.click(
+      document.querySelector<HTMLButtonElement>('.aa-DetachedCancelButton')!
+    );
+    expect(opener).toHaveFocus();
+    opener.click();
+    expect(document.querySelector('.aa-Input')).toHaveFocus();
+  });
+
+  test('preserves focus moved outside before closing', () => {
+    const container = document.createElement('div');
+    const outside = document.createElement('button');
+    document.body.append(container, outside);
+    const api = autocomplete({ container, detachedMediaQuery: '' });
+    container.querySelector<HTMLButtonElement>('button')!.click();
+    outside.focus();
+    fireEvent.mouseDown(
+      document.querySelector<HTMLDivElement>('.aa-DetachedOverlay')!
+    );
+    expect(outside).toHaveFocus();
+    api.destroy();
+  });
+
   test('closes after onSelect', async () => {
     const container = document.createElement('div');
     document.body.appendChild(container);

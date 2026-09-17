@@ -415,12 +415,20 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       props.value.core.environment.document.body.classList.add('aa-Detached');
       dom.value.input.focus();
     } else {
+      const shouldRestoreFocus = dom.value.detachedOverlay.contains(
+        props.value.core.environment.document.activeElement
+      );
+
       props.value.core.environment.document.body.removeChild(
         dom.value.detachedOverlay
       );
       props.value.core.environment.document.body.classList.remove(
         'aa-Detached'
       );
+
+      if (shouldRestoreFocus) {
+        dom.value.root.querySelector<HTMLButtonElement>('button')?.focus();
+      }
     }
   }
 
