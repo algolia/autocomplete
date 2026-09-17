@@ -173,6 +173,10 @@ export function onKeyDown<TItem extends BaseItem>({
           item,
           state: store.getState(),
         });
+
+        if (!props.debug) {
+          store.pendingRequests.cancelAll();
+        }
       }
     } else if (event.shiftKey) {
       if (itemUrl !== undefined) {
@@ -191,6 +195,10 @@ export function onKeyDown<TItem extends BaseItem>({
           item,
           state: store.getState(),
         });
+
+        if (!props.debug) {
+          store.pendingRequests.cancelAll();
+        }
       }
     } else if (event.altKey) {
       // Keep native browser behavior
@@ -211,6 +219,10 @@ export function onKeyDown<TItem extends BaseItem>({
           item,
           state: store.getState(),
         });
+
+        if (!props.debug) {
+          store.pendingRequests.cancelAll();
+        }
 
         return;
       }
@@ -234,6 +246,10 @@ export function onKeyDown<TItem extends BaseItem>({
           state: store.getState(),
           ...setters,
         });
+
+        if (!props.debug) {
+          store.pendingRequests.cancelAll();
+        }
       });
     }
   }

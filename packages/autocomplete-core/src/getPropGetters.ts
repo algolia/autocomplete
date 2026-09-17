@@ -417,6 +417,10 @@ export function getPropGetters<
             state: store.getState(),
             ...setters,
           });
+
+          if (!props.debug) {
+            store.pendingRequests.cancelAll();
+          }
         });
       },
       ...rest,
