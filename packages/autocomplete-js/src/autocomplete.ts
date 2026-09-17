@@ -48,6 +48,26 @@ export function autocomplete<TItem extends BaseItem>(
       ).matches
   );
 
+  function warnAboutOpenOnFocusInDetachedMode() {
+    // `openOnFocus` isn't resolved to its default at this layer yet (that
+    // happens inside `autocomplete-core`'s `createAutocomplete`), so we
+    // mirror its documented default (`false`) explicitly here rather than
+    // relying on falsiness, or reaching for `getDefaultProps` from
+    // `autocomplete-core` — that function has side effects (it generates
+    // an autocomplete id, builds the full `getSources` pipeline) that make
+    // it unsuitable for just reading one resolved option.
+    const openOnFocus = props.value.core.openOnFocus ?? false;
+
+    warn(
+      !(isDetached.value && !openOnFocus),
+      `\`openOnFocus: false\` can lead to unexpected behavior in detached mode. We recommend using \`openOnFocus: true\` when detached mode is enabled.
+
+See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-openonfocus`
+    );
+  }
+
+  warnAboutOpenOnFocusInDetachedMode();
+
   const autocomplete = reactive(() =>
     createAutocomplete<TItem>({
       ...props.value.core,
@@ -283,6 +303,8 @@ export function autocomplete<TItem extends BaseItem>(
       ).matches;
 
       if (previousIsDetached !== isDetached.value) {
+        warnAboutOpenOnFocusInDetachedMode();
+
         update({});
       } else {
         requestAnimationFrame(setPanelPosition);
