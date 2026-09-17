@@ -13,12 +13,12 @@
     "@algolia/autocomplete-js": "1.19.10",
     "@algolia/autocomplete-theme-classic": "1.19.10",
     "preact": "10.13.2",
-    "qs": "6.11.1"
+    "qs": "6.16.0"
   },
   "devDependencies": {
     "@types/debounce-promise": "^3.1.6",
     "@types/qs": "^6.9.6",
-    "vite": "5.0.7"
+    "vite": "6.4.3"
   },
   "keywords": [
     "algolia",
