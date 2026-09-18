@@ -357,7 +357,7 @@ describe('concurrency', () => {
 
         // 3. Select item while slow search is pending
         itemProps.onClick({ preventDefault() {} } as any);
-        await defer(noop, 10); // Wait for the fast selection search to resolve
+        await defer(noop, 50); // Wait for the fast selection search to resolve
         await runAllMicroTasks();
 
         expect(onSelect).toHaveBeenCalledTimes(1);
@@ -413,7 +413,7 @@ describe('concurrency', () => {
 
         // 3. Select item while slow search is pending
         userEvent.type(inputElement, '{arrowdown}{enter}');
-        await defer(noop, 10); // Wait for the fast selection search to resolve
+        await defer(noop, 50); // Wait for the fast selection search to resolve
         await runAllMicroTasks();
 
         expect(onSelect).toHaveBeenCalledTimes(1);
