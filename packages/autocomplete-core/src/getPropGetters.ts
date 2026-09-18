@@ -380,6 +380,7 @@ export function getPropGetters<
         (event as unknown as MouseEvent).preventDefault();
       },
       onClick(event) {
+        const requestsBeforeSelection = store.pendingRequests.snapshot();
         const itemInputValue = source.getItemInputValue({
           item,
           state: store.getState(),
@@ -419,7 +420,7 @@ export function getPropGetters<
           });
 
           if (!props.debug) {
-            store.pendingRequests.cancelAll();
+            store.pendingRequests.cancel(requestsBeforeSelection);
           }
         });
       },

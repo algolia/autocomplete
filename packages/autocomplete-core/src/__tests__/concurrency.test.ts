@@ -323,7 +323,7 @@ describe('concurrency', () => {
           setIsOpen(false);
         });
 
-        const { timeout, delayedGetSources } = createDelayedGetSources({
+        const { delayedGetSources } = createDelayedGetSources({
           sources: [10, 200, 10],
         });
 
@@ -390,7 +390,7 @@ describe('concurrency', () => {
           setIsOpen(false);
         });
 
-        const { timeout, delayedGetSources } = createDelayedGetSources({
+        const { delayedGetSources } = createDelayedGetSources({
           sources: [10, 200, 10],
         });
 
@@ -552,6 +552,100 @@ describe('concurrency', () => {
         expect(getSources).toHaveBeenCalledTimes(1);
 
         window.removeEventListener('touchstart', onTouchStart);
+      });
+    });
+
+    describe('refreshing during selection', () => {
+      test('does not cancel requests started by onSelect (e.g. refresh)', async () => {
+        const onStateChange = jest.fn();
+        const { delayedGetSources } = createDelayedGetSources({
+          sources: [10, 50, 10],
+        });
+
+        const { inputElement, getItemProps } = createPlayground(
+          createAutocomplete,
+          {
+            onStateChange,
+            getSources: (params) =>
+              delayedGetSources(params).then((sources) =>
+                sources.map((source) => ({
+                  ...source,
+                  onSelect({ refresh }) {
+                    refresh();
+                  },
+                }))
+              ),
+          }
+        );
+
+        userEvent.type(inputElement, 'a');
+        await defer(noop, 10);
+        await runAllMicroTasks();
+
+        onStateChange.mockClear();
+
+        const itemProps = getItemProps({
+          item: { label: 'a' },
+          source: {
+            onSelect({ refresh }) {
+              refresh();
+            },
+            getItemInputValue: ({ item }) => item.label,
+            getItemUrl: () => undefined,
+          } as any,
+        });
+
+        itemProps.onClick({ preventDefault() {} } as any);
+
+        await defer(noop, 100);
+        await runAllMicroTasks();
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              status: 'idle',
+            }),
+          })
+        );
+      });
+
+      test('does not cancel requests started by onSelect (e.g. refresh) on Enter selection', async () => {
+        const onStateChange = jest.fn();
+        const { delayedGetSources } = createDelayedGetSources({
+          sources: [10, 50, 10],
+        });
+
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          getSources: (params) =>
+            delayedGetSources(params).then((sources) =>
+              sources.map((source) => ({
+                ...source,
+                onSelect({ refresh }) {
+                  refresh();
+                },
+              }))
+            ),
+        });
+
+        userEvent.type(inputElement, 'a');
+        await defer(noop, 10);
+        await runAllMicroTasks();
+
+        onStateChange.mockClear();
+
+        userEvent.type(inputElement, '{arrowdown}{enter}');
+
+        await defer(noop, 100);
+        await runAllMicroTasks();
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              status: 'idle',
+            }),
+          })
+        );
       });
     });
   });

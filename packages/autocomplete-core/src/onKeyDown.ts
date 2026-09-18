@@ -155,6 +155,7 @@ export function onKeyDown<TItem extends BaseItem>({
     event.preventDefault();
 
     const { item, itemInputValue, itemUrl, source } = activeItem;
+    const requestsBeforeSelection = store.pendingRequests.snapshot();
 
     if (event.metaKey || event.ctrlKey) {
       if (itemUrl !== undefined) {
@@ -175,7 +176,7 @@ export function onKeyDown<TItem extends BaseItem>({
         });
 
         if (!props.debug) {
-          store.pendingRequests.cancelAll();
+          store.pendingRequests.cancel(requestsBeforeSelection);
         }
       }
     } else if (event.shiftKey) {
@@ -197,7 +198,7 @@ export function onKeyDown<TItem extends BaseItem>({
         });
 
         if (!props.debug) {
-          store.pendingRequests.cancelAll();
+          store.pendingRequests.cancel(requestsBeforeSelection);
         }
       }
     } else if (event.altKey) {
@@ -221,7 +222,7 @@ export function onKeyDown<TItem extends BaseItem>({
         });
 
         if (!props.debug) {
-          store.pendingRequests.cancelAll();
+          store.pendingRequests.cancel(requestsBeforeSelection);
         }
 
         return;
@@ -248,7 +249,7 @@ export function onKeyDown<TItem extends BaseItem>({
         });
 
         if (!props.debug) {
-          store.pendingRequests.cancelAll();
+          store.pendingRequests.cancel(requestsBeforeSelection);
         }
       });
     }
