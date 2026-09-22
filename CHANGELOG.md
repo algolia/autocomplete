@@ -1,15 +1,13 @@
-# [1.20.0](https://github.com/algolia/autocomplete/compare/v1.19.10...v1.20.0) (2026-09-22)
+# [1.19.11](https://github.com/algolia/autocomplete/compare/v1.19.10...v1.19.11) (2026-09-22)
 
 
 ### Bug Fixes
 
 * **examples:** migrate playground and multiple-datasets-with-headers to algoliasearch v5 ([#1361](https://github.com/algolia/autocomplete/issues/1361)) ([a1c15c7](https://github.com/algolia/autocomplete/commit/a1c15c7380bc8c1cf05528c94b29db85e864fd27))
 * **recent-searches:** support algoliasearch v5 SearchParamsObject ([#1358](https://github.com/algolia/autocomplete/issues/1358)) ([eb47fa0](https://github.com/algolia/autocomplete/commit/eb47fa0f59f1753ece0c43d91672bfd187f9eee0)), closes [#1320](https://github.com/algolia/autocomplete/issues/1320)
-
-
-### Features
-
 * **js:** warn when openOnFocus is false in detached mode ([#1360](https://github.com/algolia/autocomplete/issues/1360)) ([f2c1379](https://github.com/algolia/autocomplete/commit/f2c13793cbac4d2743e065288e7a339b759a6a18))
+
+
 ## [1.19.10](https://github.com/algolia/autocomplete/compare/v1.19.9...v1.19.10) (2026-09-07)
 
 
