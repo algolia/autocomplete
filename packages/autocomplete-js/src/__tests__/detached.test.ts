@@ -53,6 +53,30 @@ describe('detached', () => {
     }
   );
 
+  test('returns focus to the detached opener when the root has another button', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const api = autocomplete({
+      container,
+      detachedMediaQuery: '',
+      openOnFocus: true,
+    });
+    api.update({ placeholder: 'Updated search' });
+    const root = container.firstElementChild!;
+    const extraButton = document.createElement('button');
+    root.prepend(extraButton);
+    const opener = root.querySelector<HTMLButtonElement>(
+      '.aa-DetachedSearchButton'
+    )!;
+
+    opener.click();
+    fireEvent.keyDown(document.querySelector('.aa-Input')!, { key: 'Escape' });
+
+    await waitFor(() => expect(opener).toHaveFocus());
+    expect(extraButton).not.toHaveFocus();
+    api.destroy();
+  });
+
   test('returns focus after cancel and allows reopening', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);

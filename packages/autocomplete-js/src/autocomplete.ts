@@ -427,7 +427,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       );
 
       if (shouldRestoreFocus) {
-        dom.value.root.querySelector<HTMLButtonElement>('button')?.focus();
+        dom.value.detachedSearchButton?.focus();
       }
     }
   }

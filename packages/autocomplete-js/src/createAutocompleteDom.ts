@@ -40,7 +40,9 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   setIsModalOpen,
   state,
   translations,
-}: CreateDomProps<TItem>): AutocompleteDom {
+}: CreateDomProps<TItem>): AutocompleteDom & {
+  detachedSearchButton?: HTMLButtonElement;
+} {
   const createDomElement = getCreateDomElement(environment);
 
   const rootProps = propGetters.getRootProps({
@@ -157,13 +159,15 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     });
   }
 
+  let detachedSearchButton: HTMLButtonElement | undefined;
+
   if (isDetached) {
     const detachedSearchButtonIcon = createDomElement('div', {
       class: classNames.detachedSearchButtonIcon,
       ariaLabel: translations.detachedSearchButtonTitle,
       children: [SearchIcon({ environment })],
     });
-    const detachedSearchButton = createDomElement('button', {
+    detachedSearchButton = createDomElement('button', {
       type: 'button',
       class: classNames.detachedSearchButton,
       title: translations.detachedSearchButtonTitle,
@@ -203,6 +207,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   }
 
   return {
+    detachedSearchButton,
     detachedContainer,
     detachedOverlay,
     detachedSearchButtonQuery,
