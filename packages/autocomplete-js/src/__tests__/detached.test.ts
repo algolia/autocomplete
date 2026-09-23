@@ -27,6 +27,126 @@ describe('detached', () => {
     });
   });
 
+  test.each(['', 'soap'])(
+    'returns focus after Escape with query %p',
+    async (query) => {
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+      autocomplete({ container, detachedMediaQuery: '', openOnFocus: true });
+      const opener = container.querySelector<HTMLButtonElement>('button')!;
+      opener.click();
+      const input = document.querySelector<HTMLInputElement>('.aa-Input')!;
+      fireEvent.input(input, { target: { value: query } });
+      await waitFor(() =>
+        expect(container.firstElementChild).toHaveAttribute(
+          'aria-expanded',
+          'true'
+        )
+      );
+      fireEvent.keyDown(input, { key: 'Escape' });
+      await waitFor(() => {
+        expect(
+          document.querySelector('.aa-DetachedOverlay')
+        ).not.toBeInTheDocument();
+        expect(opener).toHaveFocus();
+      });
+    }
+  );
+
+  test('returns focus to the detached opener when the root has another button', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const api = autocomplete({
+      container,
+      detachedMediaQuery: '',
+      openOnFocus: true,
+    });
+    api.update({ placeholder: 'Updated search' });
+    const root = container.firstElementChild!;
+    const extraButton = document.createElement('button');
+    root.prepend(extraButton);
+    const opener = root.querySelector<HTMLButtonElement>(
+      '.aa-DetachedSearchButton'
+    )!;
+
+    opener.click();
+    fireEvent.keyDown(document.querySelector('.aa-Input')!, { key: 'Escape' });
+
+    await waitFor(() => expect(opener).toHaveFocus());
+    expect(extraButton).not.toHaveFocus();
+    api.destroy();
+  });
+
+  test('returns focus after cancel and allows reopening', () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete({ container, detachedMediaQuery: '' });
+    const opener = container.querySelector<HTMLButtonElement>('button')!;
+    opener.click();
+    userEvent.click(
+      document.querySelector<HTMLButtonElement>('.aa-DetachedCancelButton')!
+    );
+    expect(opener).toHaveFocus();
+    opener.click();
+    expect(document.querySelector('.aa-Input')).toHaveFocus();
+  });
+
+  test('preserves focus moved outside before closing', () => {
+    const container = document.createElement('div');
+    const outside = document.createElement('button');
+    document.body.append(container, outside);
+    const api = autocomplete({ container, detachedMediaQuery: '' });
+    container.querySelector<HTMLButtonElement>('button')!.click();
+    outside.focus();
+    fireEvent.mouseDown(
+      document.querySelector<HTMLDivElement>('.aa-DetachedOverlay')!
+    );
+    expect(outside).toHaveFocus();
+    api.destroy();
+  });
+
+  test.each([
+    ['mouse', new MouseEvent('mousedown', { bubbles: true, cancelable: true })],
+    [
+      'touch',
+      new TouchEvent('touchstart', { bubbles: true, cancelable: true }),
+    ],
+  ])('returns focus after closing from the backdrop with %s', (_, event) => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const api = autocomplete({ container, detachedMediaQuery: '' });
+    const opener = container.querySelector<HTMLButtonElement>('button')!;
+    opener.click();
+    const overlay = document.querySelector<HTMLDivElement>(
+      '.aa-DetachedOverlay'
+    )!;
+
+    overlay.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(overlay).not.toBeInTheDocument();
+    expect(opener).toHaveFocus();
+    api.destroy();
+  });
+
+  test('does not prevent touch events from the detached container', () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const api = autocomplete({ container, detachedMediaQuery: '' });
+    container.querySelector<HTMLButtonElement>('button')!.click();
+    const input = document.querySelector<HTMLInputElement>('.aa-Input')!;
+    const event = new TouchEvent('touchstart', {
+      bubbles: true,
+      cancelable: true,
+    });
+
+    input.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(false);
+    expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
+    api.destroy();
+  });
+
   test('closes after onSelect', async () => {
     const container = document.createElement('div');
     document.body.appendChild(container);

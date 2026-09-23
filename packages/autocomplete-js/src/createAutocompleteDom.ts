@@ -40,7 +40,9 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   setIsModalOpen,
   state,
   translations,
-}: CreateDomProps<TItem>): AutocompleteDom {
+}: CreateDomProps<TItem>): AutocompleteDom & {
+  detachedSearchButton?: HTMLButtonElement;
+} {
   const createDomElement = getCreateDomElement(environment);
 
   const rootProps = propGetters.getRootProps({
@@ -61,7 +63,21 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   const detachedOverlay = createDomElement('div', {
     class: classNames.detachedOverlay,
     children: [detachedContainer],
-    onMouseDown() {
+    onMouseDown(event: MouseEvent) {
+      if (event.target !== detachedOverlay) {
+        return;
+      }
+
+      event.preventDefault();
+      setIsModalOpen(false);
+      autocomplete.setIsOpen(false);
+    },
+    onTouchStart(event: TouchEvent) {
+      if (event.target !== detachedOverlay) {
+        return;
+      }
+
+      event.preventDefault();
       setIsModalOpen(false);
       autocomplete.setIsOpen(false);
     },
@@ -157,13 +173,15 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     });
   }
 
+  let detachedSearchButton: HTMLButtonElement | undefined;
+
   if (isDetached) {
     const detachedSearchButtonIcon = createDomElement('div', {
       class: classNames.detachedSearchButtonIcon,
       ariaLabel: translations.detachedSearchButtonTitle,
       children: [SearchIcon({ environment })],
     });
-    const detachedSearchButton = createDomElement('button', {
+    detachedSearchButton = createDomElement('button', {
       type: 'button',
       class: classNames.detachedSearchButton,
       title: translations.detachedSearchButtonTitle,
@@ -203,6 +221,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   }
 
   return {
+    detachedSearchButton,
     detachedContainer,
     detachedOverlay,
     detachedSearchButtonQuery,
