@@ -63,7 +63,21 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   const detachedOverlay = createDomElement('div', {
     class: classNames.detachedOverlay,
     children: [detachedContainer],
-    onMouseDown() {
+    onMouseDown(event: MouseEvent) {
+      if (event.target !== detachedOverlay) {
+        return;
+      }
+
+      event.preventDefault();
+      setIsModalOpen(false);
+      autocomplete.setIsOpen(false);
+    },
+    onTouchStart(event: TouchEvent) {
+      if (event.target !== detachedOverlay) {
+        return;
+      }
+
+      event.preventDefault();
       setIsModalOpen(false);
       autocomplete.setIsOpen(false);
     },

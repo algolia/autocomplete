@@ -105,6 +105,48 @@ describe('detached', () => {
     api.destroy();
   });
 
+  test.each([
+    ['mouse', new MouseEvent('mousedown', { bubbles: true, cancelable: true })],
+    [
+      'touch',
+      new TouchEvent('touchstart', { bubbles: true, cancelable: true }),
+    ],
+  ])('returns focus after closing from the backdrop with %s', (_, event) => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const api = autocomplete({ container, detachedMediaQuery: '' });
+    const opener = container.querySelector<HTMLButtonElement>('button')!;
+    opener.click();
+    const overlay = document.querySelector<HTMLDivElement>(
+      '.aa-DetachedOverlay'
+    )!;
+
+    overlay.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(overlay).not.toBeInTheDocument();
+    expect(opener).toHaveFocus();
+    api.destroy();
+  });
+
+  test('does not prevent touch events from the detached container', () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const api = autocomplete({ container, detachedMediaQuery: '' });
+    container.querySelector<HTMLButtonElement>('button')!.click();
+    const input = document.querySelector<HTMLInputElement>('.aa-Input')!;
+    const event = new TouchEvent('touchstart', {
+      bubbles: true,
+      cancelable: true,
+    });
+
+    input.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(false);
+    expect(document.querySelector('.aa-DetachedOverlay')).toBeInTheDocument();
+    api.destroy();
+  });
+
   test('closes after onSelect', async () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
