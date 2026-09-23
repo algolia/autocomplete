@@ -76,6 +76,47 @@ describe('createCancelablePromiseList', () => {
     expect(cancelablePromiseList.isEmpty()).toBe(true);
   });
 
+  test('snapshot returns the current entries and is unaffected by promises added afterward', () => {
+    const cancelablePromiseList = createCancelablePromiseList();
+    const cancelablePromise1 = createCancelablePromise(noop);
+    const cancelablePromise2 = createCancelablePromise(noop);
+
+    cancelablePromiseList.add(cancelablePromise1);
+
+    const snapshot = cancelablePromiseList.snapshot();
+
+    cancelablePromiseList.add(cancelablePromise2);
+
+    expect(snapshot).toHaveLength(1);
+    expect(snapshot[0]).toBe(cancelablePromise1);
+  });
+
+  test('cancel(subset) cancels only the passed promises', () => {
+    const cancelablePromiseList = createCancelablePromiseList();
+    const cancelablePromise1 = createCancelablePromise(noop);
+    const cancelablePromise2 = createCancelablePromise(noop);
+    const cancelablePromise3 = createCancelablePromise(noop);
+
+    cancelablePromiseList.add(cancelablePromise1);
+    cancelablePromiseList.add(cancelablePromise2);
+    cancelablePromiseList.add(cancelablePromise3);
+
+    const snapshot = cancelablePromiseList.snapshot();
+
+    // Add a promise after the snapshot
+    const cancelablePromise4 = createCancelablePromise(noop);
+    cancelablePromiseList.add(cancelablePromise4);
+
+    cancelablePromiseList.cancel(snapshot);
+
+    expect(cancelablePromise1.isCanceled()).toBe(true);
+    expect(cancelablePromise2.isCanceled()).toBe(true);
+    expect(cancelablePromise3.isCanceled()).toBe(true);
+
+    // The promise outside the subset remains uncancelled
+    expect(cancelablePromise4.isCanceled()).toBe(false);
+  });
+
   test('waits for all promises to resolve', async () => {
     const cancelablePromiseList = createCancelablePromiseList();
     const cancelablePromise = createCancelablePromise.resolve();

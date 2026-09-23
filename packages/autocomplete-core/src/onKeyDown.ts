@@ -155,6 +155,7 @@ export function onKeyDown<TItem extends BaseItem>({
     event.preventDefault();
 
     const { item, itemInputValue, itemUrl, source } = activeItem;
+    const requestsBeforeSelection = store.pendingRequests.snapshot();
 
     if (event.metaKey || event.ctrlKey) {
       if (itemUrl !== undefined) {
@@ -173,6 +174,10 @@ export function onKeyDown<TItem extends BaseItem>({
           item,
           state: store.getState(),
         });
+
+        if (!props.debug) {
+          store.pendingRequests.cancel(requestsBeforeSelection);
+        }
       }
     } else if (event.shiftKey) {
       if (itemUrl !== undefined) {
@@ -191,6 +196,10 @@ export function onKeyDown<TItem extends BaseItem>({
           item,
           state: store.getState(),
         });
+
+        if (!props.debug) {
+          store.pendingRequests.cancel(requestsBeforeSelection);
+        }
       }
     } else if (event.altKey) {
       // Keep native browser behavior
@@ -211,6 +220,10 @@ export function onKeyDown<TItem extends BaseItem>({
           item,
           state: store.getState(),
         });
+
+        if (!props.debug) {
+          store.pendingRequests.cancel(requestsBeforeSelection);
+        }
 
         return;
       }
@@ -234,6 +247,10 @@ export function onKeyDown<TItem extends BaseItem>({
           state: store.getState(),
           ...setters,
         });
+
+        if (!props.debug) {
+          store.pendingRequests.cancel(requestsBeforeSelection);
+        }
       });
     }
   }

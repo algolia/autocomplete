@@ -380,6 +380,7 @@ export function getPropGetters<
         (event as unknown as MouseEvent).preventDefault();
       },
       onClick(event) {
+        const requestsBeforeSelection = store.pendingRequests.snapshot();
         const itemInputValue = source.getItemInputValue({
           item,
           state: store.getState(),
@@ -417,6 +418,10 @@ export function getPropGetters<
             state: store.getState(),
             ...setters,
           });
+
+          if (!props.debug) {
+            store.pendingRequests.cancel(requestsBeforeSelection);
+          }
         });
       },
       ...rest,
