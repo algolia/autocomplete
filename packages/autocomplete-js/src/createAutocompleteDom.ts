@@ -124,6 +124,10 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     isDetached,
   });
 
+  const inputLiveRegion = createDomElement('div', {
+    ariaLive: 'assertive',
+    hidden: true,
+  });
   const inputWrapperPrefix = createDomElement('div', {
     class: classNames.inputWrapperPrefix,
     children: [label, loadingIndicator],
@@ -134,7 +138,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   });
   const inputWrapper = createDomElement('div', {
     class: classNames.inputWrapper,
-    children: [input],
+    children: [input, inputLiveRegion],
   });
 
   const formProps = propGetters.getFormProps({
@@ -226,6 +230,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     detachedOverlay,
     detachedSearchButtonQuery,
     detachedSearchButtonPlaceholder,
+    inputLiveRegion,
     inputWrapper,
     input,
     root,
