@@ -51,6 +51,7 @@ export function setProperty(dom: HTMLElement, name: string, value: any) {
         (dom as any).style = '';
       } else {
         for (name in value) {
+          if (!Object.prototype.hasOwnProperty.call(value, name)) continue;
           if (!oldValue || value[name] !== oldValue[name]) {
             setStyle(dom.style, name, value[name]);
           }
@@ -120,6 +121,7 @@ function getNormalizedName(name: string): string {
 
 export function setProperties(dom: HTMLElement, props: object): void {
   for (const name in props) {
+    if (!Object.prototype.hasOwnProperty.call(props, name)) continue;
     setProperty(dom, getNormalizedName(name), props[name]);
   }
 }
@@ -129,6 +131,7 @@ export function setPropertiesWithoutEvents(
   props: object
 ): void {
   for (const name in props) {
+    if (!Object.prototype.hasOwnProperty.call(props, name)) continue;
     if (!(name[0] === 'o' && name[1] === 'n')) {
       setProperty(dom, getNormalizedName(name), props[name]);
     }
