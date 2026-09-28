@@ -18,7 +18,7 @@
     "preact": "10.13.2"
   },
   "devDependencies": {
-    "vite": "5.0.7"
+    "vite": "6.4.3"
   },
   "keywords": [
     "algolia",
