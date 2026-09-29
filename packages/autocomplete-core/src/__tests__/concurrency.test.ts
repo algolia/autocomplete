@@ -487,6 +487,14 @@ describe('concurrency', () => {
         await defer(noop, 250);
         await runAllMicroTasks();
 
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: false,
+            }),
+          })
+        );
+
         // onSelect is called after the async fetch resolves
         expect(onSelect).toHaveBeenCalledTimes(1);
       });
@@ -532,8 +540,16 @@ describe('concurrency', () => {
         // onSelect is NOT called yet, preserving the async ordering
         expect(onSelect).not.toHaveBeenCalled();
 
-        await defer(noop, 50);
+        await defer(noop, 250);
         await runAllMicroTasks();
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: false,
+            }),
+          })
+        );
 
         // onSelect is called after the async fetch resolves
         expect(onSelect).toHaveBeenCalledTimes(1);
