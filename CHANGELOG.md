@@ -1,3 +1,10 @@
+## [1.19.12](https://github.com/algolia/autocomplete/compare/v1.19.11...v1.19.12) (2026-09-28)
+
+
+### Bug Fixes
+
+* **js:** ignore inherited keys in setProperties ([#1369](https://github.com/algolia/autocomplete/issues/1369)) ([d1dc186](https://github.com/algolia/autocomplete/commit/d1dc186942cad7e4744c7a9180d41cdd1a4dc436))
+* **js:** restore focus when closing detached search ([#1357](https://github.com/algolia/autocomplete/issues/1357)) ([f439730](https://github.com/algolia/autocomplete/commit/f43973063b943a555b6e109ab5fb28dc5384e345))
 # [1.19.11](https://github.com/algolia/autocomplete/compare/v1.19.10...v1.19.11) (2026-09-22)
 
 
