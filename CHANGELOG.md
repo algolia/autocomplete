@@ -1,3 +1,9 @@
+## [1.19.13](https://github.com/algolia/autocomplete/compare/v1.19.12...v1.19.13) (2026-09-29)
+
+
+### Bug Fixes
+
+* **release:** bump all packages on every release ([#1371](https://github.com/algolia/autocomplete/issues/1371)) ([4ca8999](https://github.com/algolia/autocomplete/commit/4ca89994535d66d9785d6c1a3104d9b0d052135c))
 ## [1.19.12](https://github.com/algolia/autocomplete/compare/v1.19.11...v1.19.12) (2026-09-28)
 
 
