@@ -28,9 +28,10 @@ module.exports = {
   },
   pullRequestTeamReviewers: ['frontend-experiences-web'],
   versionUpdated({ exec, dir, version }) {
-    // Update package dependencies
+    // Update package dependencies. `--force-publish` bumps every package, not
+    // only the changed ones, because Ship.js publishes all `packagesToPublish`.
     exec(
-      `yarn lerna version ${version} --exact --no-git-tag-version --no-push --yes`
+      `yarn lerna version ${version} --exact --force-publish --no-git-tag-version --no-push --yes`
     );
 
     // Ship.js reads JSON and writes with `fs.writeFileSync(JSON.stringify(json, null, 2))`
