@@ -317,128 +317,6 @@ describe('concurrency', () => {
 
         window.removeEventListener('touchstart', onTouchStart);
       });
-      test('keeps the panel closed after selecting an item with a mouse click', async () => {
-        const onStateChange = jest.fn();
-        const onSelect = jest.fn(({ setIsOpen }) => {
-          setIsOpen(false);
-        });
-
-        const { delayedGetSources } = createDelayedGetSources({
-          sources: [10, 200, 10],
-        });
-
-        const { inputElement, getItemProps } = createPlayground(
-          createAutocomplete,
-          {
-            onStateChange,
-            getSources: (params) =>
-              delayedGetSources(params).then((sources) =>
-                sources.map((source) => ({ ...source, onSelect }))
-              ),
-          }
-        );
-
-        // 1. Initial search
-        userEvent.type(inputElement, 'a');
-        await defer(noop, 10);
-        await runAllMicroTasks();
-
-        const itemProps = getItemProps({
-          item: { label: 'a' },
-          source: {
-            onSelect,
-            getItemInputValue: ({ item }) => item.label,
-            getItemUrl: () => undefined,
-          } as any,
-        });
-
-        // 2. Slow search triggered by typing
-        userEvent.type(inputElement, 'b');
-
-        // 3. Select item while slow search is pending
-        itemProps.onClick({ preventDefault() {} } as any);
-        await defer(noop, 50); // Wait for the fast selection search to resolve
-        await runAllMicroTasks();
-
-        expect(onSelect).toHaveBeenCalledTimes(1);
-
-        expect(onStateChange).toHaveBeenLastCalledWith(
-          expect.objectContaining({
-            state: expect.objectContaining({
-              isOpen: false,
-            }),
-          })
-        );
-
-        onStateChange.mockClear();
-
-        // 4. Wait for the slow search to finish
-        await defer(noop, 200);
-
-        expect(onStateChange).not.toHaveBeenCalledWith(
-          expect.objectContaining({
-            state: expect.objectContaining({
-              isOpen: true,
-            }),
-          })
-        );
-      });
-
-      test('keeps the panel closed after selecting an item with Enter', async () => {
-        const onStateChange = jest.fn();
-        const onSelect = jest.fn(({ setIsOpen }) => {
-          setIsOpen(false);
-        });
-
-        const { delayedGetSources } = createDelayedGetSources({
-          sources: [10, 200, 10],
-        });
-
-        const { inputElement } = createPlayground(createAutocomplete, {
-          onStateChange,
-          getSources: (params) =>
-            delayedGetSources(params).then((sources) =>
-              sources.map((source) => ({ ...source, onSelect }))
-            ),
-        });
-
-        // 1. Initial search
-        userEvent.type(inputElement, 'a');
-        await defer(noop, 10);
-        await runAllMicroTasks();
-
-        // 2. Slow search triggered by typing
-        userEvent.type(inputElement, 'b');
-        await runAllMicroTasks();
-
-        // 3. Select item while slow search is pending
-        userEvent.type(inputElement, '{arrowdown}{enter}');
-        await defer(noop, 50); // Wait for the fast selection search to resolve
-        await runAllMicroTasks();
-
-        expect(onSelect).toHaveBeenCalledTimes(1);
-
-        expect(onStateChange).toHaveBeenLastCalledWith(
-          expect.objectContaining({
-            state: expect.objectContaining({
-              isOpen: false,
-            }),
-          })
-        );
-
-        onStateChange.mockClear();
-
-        // 4. Wait for the slow search to finish
-        await defer(noop, 200);
-
-        expect(onStateChange).not.toHaveBeenCalledWith(
-          expect.objectContaining({
-            state: expect.objectContaining({
-              isOpen: true,
-            }),
-          })
-        );
-      });
     });
 
     describe('with debug mode', () => {
@@ -552,6 +430,129 @@ describe('concurrency', () => {
         expect(getSources).toHaveBeenCalledTimes(1);
 
         window.removeEventListener('touchstart', onTouchStart);
+      });
+    });
+
+    describe('closing the panel immediately on selection', () => {
+      test('closes immediately and keeps onSelect timing unchanged on mouse selection', async () => {
+        const onStateChange = jest.fn();
+        const onSelect = jest.fn();
+
+        const { delayedGetSources } = createDelayedGetSources({
+          sources: [10, 200],
+        });
+
+        const { inputElement, getItemProps } = createPlayground(
+          createAutocomplete,
+          {
+            onStateChange,
+            getSources: (params) =>
+              delayedGetSources(params).then((sources) =>
+                sources.map((source) => ({ ...source, onSelect }))
+              ),
+          }
+        );
+
+        // 1. Initial search
+        userEvent.type(inputElement, 'a');
+        await defer(noop, 10);
+        await runAllMicroTasks();
+
+        onStateChange.mockClear();
+
+        const itemProps = getItemProps({
+          item: { label: 'a' },
+          source: {
+            onSelect,
+            getItemInputValue: ({ item }) => item.label,
+            getItemUrl: () => undefined,
+          } as any,
+        });
+
+        // 2. Select item
+        itemProps.onClick({ preventDefault() {} } as any);
+
+        // The panel closes immediately (synchronously)
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: false,
+            }),
+          })
+        );
+
+        // onSelect is NOT called yet, preserving the async ordering
+        expect(onSelect).not.toHaveBeenCalled();
+
+        await defer(noop, 250);
+        await runAllMicroTasks();
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: false,
+            }),
+          })
+        );
+
+        // onSelect is called after the async fetch resolves
+        expect(onSelect).toHaveBeenCalledTimes(1);
+      });
+
+      test('closes immediately and keeps onSelect timing unchanged on Enter selection', async () => {
+        const onStateChange = jest.fn();
+        const onSelect = jest.fn();
+
+        const { delayedGetSources } = createDelayedGetSources({
+          sources: [10, 200, 10],
+        });
+
+        const { inputElement } = createPlayground(createAutocomplete, {
+          onStateChange,
+          getSources: (params) =>
+            delayedGetSources(params).then((sources) =>
+              sources.map((source) => ({ ...source, onSelect }))
+            ),
+        });
+
+        // 1. Initial search
+        userEvent.type(inputElement, 'a');
+        await defer(noop, 10);
+        await runAllMicroTasks();
+
+        onStateChange.mockClear();
+
+        userEvent.type(inputElement, 'b');
+        await runAllMicroTasks();
+
+        // 2. Select item with ArrowDown + Enter
+        userEvent.type(inputElement, '{arrowdown}{enter}');
+
+        // The panel closes immediately (synchronously)
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: false,
+            }),
+          })
+        );
+
+        // onSelect is NOT called yet, preserving the async ordering
+        expect(onSelect).not.toHaveBeenCalled();
+
+        await defer(noop, 250);
+        await runAllMicroTasks();
+
+        expect(onStateChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: expect.objectContaining({
+              isOpen: false,
+            }),
+          })
+        );
+
+        // onSelect is called after the async fetch resolves
+        expect(onSelect).toHaveBeenCalledTimes(1);
       });
     });
 

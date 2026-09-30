@@ -228,6 +228,9 @@ export function onKeyDown<TItem extends BaseItem>({
         return;
       }
 
+      store.pendingRequests.cancelAll();
+      setters.setIsOpen(false);
+
       onInput({
         event,
         nextState: { isOpen: false },
