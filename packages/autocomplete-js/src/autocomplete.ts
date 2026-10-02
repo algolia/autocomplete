@@ -358,6 +358,69 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
   });
 
   runEffect(() => {
+    if (!isDetached.value) {
+      return () => {};
+    }
+
+    const container = dom.value.detachedContainer;
+    const input = dom.value.input;
+    const environment = props.value.core.environment;
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.defaultPrevented) {
+        return;
+      }
+
+      if (event.key === 'Escape') {
+        // Use the core handler so pending requests are also cancelled.
+        autocomplete.value
+          .getInputProps({ inputElement: input })
+          .onKeyDown(event);
+        return;
+      }
+
+      // Option+Tab is Safari's full keyboard navigation shortcut.
+      if (event.key !== 'Tab' || event.ctrlKey || event.metaKey) {
+        return;
+      }
+
+      // Results and custom template controls can change while the modal is open.
+      const elements = Array.from(
+        container.querySelectorAll<HTMLElement>(
+          'a[href], button, input, select, textarea, summary, [tabindex], [contenteditable]'
+        )
+      )
+        .filter(
+          (element) =>
+            (element.tabIndex >= 0 ||
+              (element.isContentEditable &&
+                !element.hasAttribute('tabindex') &&
+                !element.parentElement?.isContentEditable)) &&
+            !element.matches(':disabled') &&
+            !element.closest('[inert]') &&
+            element.getClientRects().length > 0 &&
+            environment.getComputedStyle(element).visibility !== 'hidden'
+        )
+        .sort(
+          (a, b) =>
+            (a.tabIndex > 0 ? a.tabIndex : Infinity) -
+            (b.tabIndex > 0 ? b.tabIndex : Infinity)
+        );
+      const first = elements[0];
+      const last = elements[elements.length - 1];
+      const active = environment.document.activeElement;
+
+      if (!first || (event.shiftKey ? active === first : active === last)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first)?.focus();
+      }
+    }
+
+    container.addEventListener('keydown', onKeyDown);
+    return () => container.removeEventListener('keydown', onKeyDown);
+  });
+
+  runEffect(() => {
     requestAnimationFrame(setPanelPosition);
 
     return () => {};
