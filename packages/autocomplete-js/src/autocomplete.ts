@@ -387,18 +387,25 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       // Results and custom template controls can change while the modal is open.
       const elements = Array.from(
         container.querySelectorAll<HTMLElement>(
-          'a[href], button, input, select, textarea, summary, [tabindex], [contenteditable="true"]'
+          'a[href], button, input, select, textarea, summary, [tabindex], [contenteditable]'
         )
       )
         .filter(
           (element) =>
-            element.tabIndex >= 0 &&
+            (element.tabIndex >= 0 ||
+              (element.isContentEditable &&
+                !element.hasAttribute('tabindex') &&
+                !element.parentElement?.isContentEditable)) &&
             !element.matches(':disabled') &&
             !element.closest('[inert]') &&
             element.getClientRects().length > 0 &&
             environment.getComputedStyle(element).visibility !== 'hidden'
         )
-        .sort((a, b) => (a.tabIndex || Infinity) - (b.tabIndex || Infinity));
+        .sort(
+          (a, b) =>
+            (a.tabIndex > 0 ? a.tabIndex : Infinity) -
+            (b.tabIndex > 0 ? b.tabIndex : Infinity)
+        );
       const first = elements[0];
       const last = elements[elements.length - 1];
       const active = environment.document.activeElement;

@@ -105,6 +105,30 @@ describe('detached', () => {
       api.destroy();
     });
 
+    test.each(['true', '', 'plaintext-only'])(
+      'includes editable controls without an explicit tabindex (%s)',
+      (contentEditable) => {
+        const { api, modal, first, last } = setup();
+        const editable = document.createElement('div');
+        editable.setAttribute('contenteditable', contentEditable);
+        // JSDOM does not implement the browser's isContentEditable property.
+        Object.defineProperty(editable, 'isContentEditable', { value: true });
+        modal.appendChild(editable);
+        expect(editable.tabIndex).toBe(-1);
+
+        first.focus();
+        fireEvent.keyDown(first, { key: 'Tab', shiftKey: true });
+        expect(editable).toHaveFocus();
+        fireEvent.keyDown(editable, { key: 'Tab' });
+        expect(first).toHaveFocus();
+
+        editable.tabIndex = -1;
+        fireEvent.keyDown(first, { key: 'Tab', shiftKey: true });
+        expect(last).toHaveFocus();
+        api.destroy();
+      }
+    );
+
     test('allows native Tab behavior between controls', () => {
       const { api, modal } = setup();
       const input = modal.querySelector<HTMLInputElement>('input')!;
