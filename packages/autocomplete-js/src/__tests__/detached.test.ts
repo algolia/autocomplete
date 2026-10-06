@@ -144,6 +144,24 @@ describe('detached', () => {
       api.destroy();
     });
 
+    test.each([false, true])(
+      'contains native traversal that skips a boundary control (backwards: %s)',
+      (backwards) => {
+        const { api, modal, first } = setup();
+        const last = document.createElement('a');
+        last.href = '#more';
+        last.textContent = 'More results';
+        modal.appendChild(last);
+
+        const guard = (
+          backwards ? modal.previousElementSibling : modal.nextElementSibling
+        ) as HTMLElement;
+        guard.focus();
+        expect(backwards ? last : first).toHaveFocus();
+        api.destroy();
+      }
+    );
+
     test('closes with Escape from the cancel button and restores focus', () => {
       const { api, opener, modal, last } = setup();
       last.focus();
@@ -153,19 +171,30 @@ describe('detached', () => {
       api.destroy();
     });
 
-    test('removes the listener when the instance is updated or destroyed', () => {
-      const { api, first, last } = setup();
-      api.update({ placeholder: 'Updated' });
-      const event = new KeyboardEvent('keydown', {
-        key: 'Tab',
-        bubbles: true,
-        cancelable: true,
-      });
-      last.dispatchEvent(event);
-      expect(event.defaultPrevented).toBe(false);
-      expect(first).not.toHaveFocus();
-      api.destroy();
-    });
+    test.each(['update', 'destroy'] as const)(
+      'removes the listener and guards on %s',
+      (action) => {
+        const { api, modal, first, last } = setup();
+        const guards = [modal.previousElementSibling, modal.nextElementSibling];
+        if (action === 'update') {
+          api.update({ placeholder: 'Updated' });
+        } else {
+          api.destroy();
+        }
+        const event = new KeyboardEvent('keydown', {
+          key: 'Tab',
+          bubbles: true,
+          cancelable: true,
+        });
+        last.dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(false);
+        expect(first).not.toHaveFocus();
+        guards.forEach((guard) => expect(guard).not.toBeInTheDocument());
+        if (action === 'update') {
+          api.destroy();
+        }
+      }
+    );
   });
 
   test.each(['', 'soap'])(

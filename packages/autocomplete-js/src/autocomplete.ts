@@ -366,26 +366,9 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
     const input = dom.value.input;
     const environment = props.value.core.environment;
 
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.defaultPrevented) {
-        return;
-      }
-
-      if (event.key === 'Escape') {
-        // Use the core handler so pending requests are also cancelled.
-        autocomplete.value
-          .getInputProps({ inputElement: input })
-          .onKeyDown(event);
-        return;
-      }
-
-      // Option+Tab is Safari's full keyboard navigation shortcut.
-      if (event.key !== 'Tab' || event.ctrlKey || event.metaKey) {
-        return;
-      }
-
+    function getFocusableElements() {
       // Results and custom template controls can change while the modal is open.
-      const elements = Array.from(
+      return Array.from(
         container.querySelectorAll<HTMLElement>(
           'a[href], button, input, select, textarea, summary, [tabindex], [contenteditable]'
         )
@@ -406,6 +389,50 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
             (a.tabIndex > 0 ? a.tabIndex : Infinity) -
             (b.tabIndex > 0 ? b.tabIndex : Infinity)
         );
+    }
+
+    // Safari can skip buttons and links with ordinary Tab. Guards catch that
+    // native traversal without changing the tab order inside the container.
+    const guards = [true, false].map((isStart) => {
+      const guard = environment.document.createElement('span');
+      guard.tabIndex = 0;
+      guard.setAttribute('aria-hidden', 'true');
+      Object.assign(guard.style, {
+        position: 'fixed',
+        width: '1px',
+        height: '1px',
+        opacity: '0',
+        pointerEvents: 'none',
+      });
+      const onFocus = () => {
+        const elements = getFocusableElements();
+        (elements[isStart ? elements.length - 1 : 0] || input).focus();
+      };
+      guard.addEventListener('focus', onFocus);
+      return { guard, onFocus };
+    });
+    dom.value.detachedOverlay.prepend(guards[0].guard);
+    dom.value.detachedOverlay.append(guards[1].guard);
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.defaultPrevented) {
+        return;
+      }
+
+      if (event.key === 'Escape') {
+        // Use the core handler so pending requests are also cancelled.
+        autocomplete.value
+          .getInputProps({ inputElement: input })
+          .onKeyDown(event);
+        return;
+      }
+
+      // Option+Tab is Safari's full keyboard navigation shortcut.
+      if (event.key !== 'Tab' || event.ctrlKey || event.metaKey) {
+        return;
+      }
+
+      const elements = getFocusableElements();
       const first = elements[0];
       const last = elements[elements.length - 1];
       const active = environment.document.activeElement;
@@ -417,7 +444,13 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
     }
 
     container.addEventListener('keydown', onKeyDown);
-    return () => container.removeEventListener('keydown', onKeyDown);
+    return () => {
+      container.removeEventListener('keydown', onKeyDown);
+      guards.forEach(({ guard, onFocus }) => {
+        guard.removeEventListener('focus', onFocus);
+        guard.remove();
+      });
+    };
   });
 
   runEffect(() => {
