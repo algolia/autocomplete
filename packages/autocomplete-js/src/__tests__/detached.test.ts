@@ -13,6 +13,17 @@ beforeEach(() => {
 });
 
 describe('detached', () => {
+  beforeEach(() => {
+    // JSDOM has no layout; model visible controls for keyboard traversal tests.
+    jest
+      .spyOn(HTMLElement.prototype, 'getClientRects')
+      .mockImplementation(function (this: HTMLElement) {
+        return (this.closest('[hidden]') ? [] : [{}]) as unknown as DOMRectList;
+      });
+  });
+
+  afterEach(() => jest.restoreAllMocks());
+
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -25,6 +36,138 @@ describe('detached', () => {
       writable: true,
       value: createMatchMedia({}),
     });
+  });
+
+  describe('focus trap', () => {
+    function setup() {
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+      const api = autocomplete({
+        container,
+        detachedMediaQuery: '',
+        openOnFocus: true,
+      });
+      const opener = container.querySelector<HTMLButtonElement>(
+        '.aa-DetachedSearchButton'
+      )!;
+      opener.click();
+      const modal = document.querySelector<HTMLElement>(
+        '.aa-DetachedContainer'
+      )!;
+      const first = modal.querySelector<HTMLButtonElement>('.aa-SubmitButton')!;
+      const last = modal.querySelector<HTMLButtonElement>(
+        '.aa-DetachedCancelButton'
+      )!;
+      return { api, opener, modal, first, last };
+    }
+
+    test.each([
+      [false, false],
+      [true, false],
+      [false, true],
+      [true, true],
+    ])(
+      'wraps Tab in either direction (shift: %s, option: %s)',
+      (shiftKey, altKey) => {
+        const { api, first, last } = setup();
+        const target = shiftKey ? first : last;
+        target.focus();
+        const event = new KeyboardEvent('keydown', {
+          key: 'Tab',
+          shiftKey,
+          altKey,
+          bubbles: true,
+          cancelable: true,
+        });
+        target.dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(true);
+        expect(shiftKey ? last : first).toHaveFocus();
+        api.destroy();
+      }
+    );
+
+    test('includes new controls and skips hidden, disabled, and negative-tabindex controls', () => {
+      const { api, modal, first } = setup();
+      const last = document.createElement('a');
+      last.href = '#more';
+      last.textContent = 'More results';
+      modal.appendChild(last);
+      for (const attribute of ['hidden', 'disabled', 'tabindex']) {
+        const button = document.createElement('button');
+        button.setAttribute(attribute, attribute === 'tabindex' ? '-1' : '');
+        modal.appendChild(button);
+      }
+      last.focus();
+      fireEvent.keyDown(last, { key: 'Tab' });
+      expect(first).toHaveFocus();
+      fireEvent.keyDown(first, { key: 'Tab', shiftKey: true });
+      expect(last).toHaveFocus();
+      api.destroy();
+    });
+
+    test.each(['ctrlKey', 'metaKey'])(
+      'does not intercept Tab with %s',
+      (modifier) => {
+        const { api, last } = setup();
+        last.focus();
+        const event = new KeyboardEvent('keydown', {
+          key: 'Tab',
+          [modifier]: true,
+          bubbles: true,
+          cancelable: true,
+        });
+        last.dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(false);
+        api.destroy();
+      }
+    );
+
+    test('allows native Tab behavior between controls', () => {
+      const { api, modal } = setup();
+      const input = modal.querySelector<HTMLInputElement>('input')!;
+      input.focus();
+      const event = new KeyboardEvent('keydown', {
+        key: 'Tab',
+        bubbles: true,
+        cancelable: true,
+      });
+      input.dispatchEvent(event);
+      expect(event.defaultPrevented).toBe(false);
+      expect(modal).toBeInTheDocument();
+      api.destroy();
+    });
+
+    test('closes with Escape from the cancel button and restores focus', () => {
+      const { api, opener, modal, last } = setup();
+      last.focus();
+      fireEvent.keyDown(last, { key: 'Escape' });
+      expect(modal).not.toBeInTheDocument();
+      expect(opener).toHaveFocus();
+      api.destroy();
+    });
+
+    test.each(['update', 'destroy'] as const)(
+      'removes the listener on %s',
+      (action) => {
+        const { api, first, last } = setup();
+        if (action === 'update') {
+          api.update({ placeholder: 'Updated' });
+        } else {
+          api.destroy();
+        }
+        const event = new KeyboardEvent('keydown', {
+          key: 'Tab',
+          bubbles: true,
+          cancelable: true,
+        });
+        last.dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(false);
+        expect(first).not.toHaveFocus();
+        if (action === 'update') {
+          api.destroy();
+        }
+      }
+    );
   });
 
   test.each(['', 'soap'])(
