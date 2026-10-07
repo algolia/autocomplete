@@ -105,26 +105,19 @@ describe('detached', () => {
       api.destroy();
     });
 
-    test.each(['true', '', 'plaintext-only'])(
-      'includes editable controls without an explicit tabindex (%s)',
-      (contentEditable) => {
-        const { api, modal, first, last } = setup();
-        const editable = document.createElement('div');
-        editable.setAttribute('contenteditable', contentEditable);
-        // JSDOM does not implement the browser's isContentEditable property.
-        Object.defineProperty(editable, 'isContentEditable', { value: true });
-        modal.appendChild(editable);
-        expect(editable.tabIndex).toBe(-1);
-
-        first.focus();
-        fireEvent.keyDown(first, { key: 'Tab', shiftKey: true });
-        expect(editable).toHaveFocus();
-        fireEvent.keyDown(editable, { key: 'Tab' });
-        expect(first).toHaveFocus();
-
-        editable.tabIndex = -1;
-        fireEvent.keyDown(first, { key: 'Tab', shiftKey: true });
-        expect(last).toHaveFocus();
+    test.each(['ctrlKey', 'metaKey'])(
+      'does not intercept Tab with %s',
+      (modifier) => {
+        const { api, last } = setup();
+        last.focus();
+        const event = new KeyboardEvent('keydown', {
+          key: 'Tab',
+          [modifier]: true,
+          bubbles: true,
+          cancelable: true,
+        });
+        last.dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(false);
         api.destroy();
       }
     );
@@ -144,24 +137,6 @@ describe('detached', () => {
       api.destroy();
     });
 
-    test.each([false, true])(
-      'contains native traversal that skips a boundary control (backwards: %s)',
-      (backwards) => {
-        const { api, modal, first } = setup();
-        const last = document.createElement('a');
-        last.href = '#more';
-        last.textContent = 'More results';
-        modal.appendChild(last);
-
-        const guard = (
-          backwards ? modal.previousElementSibling : modal.nextElementSibling
-        ) as HTMLElement;
-        guard.focus();
-        expect(backwards ? last : first).toHaveFocus();
-        api.destroy();
-      }
-    );
-
     test('closes with Escape from the cancel button and restores focus', () => {
       const { api, opener, modal, last } = setup();
       last.focus();
@@ -172,10 +147,9 @@ describe('detached', () => {
     });
 
     test.each(['update', 'destroy'] as const)(
-      'removes the listener and guards on %s',
+      'removes the listener on %s',
       (action) => {
-        const { api, modal, first, last } = setup();
-        const guards = [modal.previousElementSibling, modal.nextElementSibling];
+        const { api, first, last } = setup();
         if (action === 'update') {
           api.update({ placeholder: 'Updated' });
         } else {
@@ -189,7 +163,6 @@ describe('detached', () => {
         last.dispatchEvent(event);
         expect(event.defaultPrevented).toBe(false);
         expect(first).not.toHaveFocus();
-        guards.forEach((guard) => expect(guard).not.toBeInTheDocument());
         if (action === 'update') {
           api.destroy();
         }
