@@ -167,6 +167,7 @@ export function getPropGetters<
         });
 
         store.dispatch('reset', null);
+        store.pendingRequests.cancelAll();
         providedProps.inputElement?.focus();
       },
       ...rest,
