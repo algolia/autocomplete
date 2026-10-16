@@ -24,6 +24,16 @@ export type CancelablePromiseList<TValue> = {
    * @param timeout Maximum amount of time allowed to wait for pending promises. Returns early if this time is reached.
    */
   wait(timeout?: number): Promise<void>;
+  /**
+   * Returns a shallow copy of the current list of pending promises.
+   */
+  snapshot(): Array<CancelablePromise<TValue>>;
+  /**
+   * Cancel only the given subset of promises.
+   *
+   * @param promises The promises to cancel.
+   */
+  cancel(promises: Array<CancelablePromise<TValue>>): void;
 };
 
 // Ensures multiple callers sync to the same promise.
@@ -45,6 +55,12 @@ export function createCancelablePromiseList<
     },
     cancelAll() {
       list.forEach((promise) => promise.cancel());
+    },
+    snapshot() {
+      return [...list];
+    },
+    cancel(promises) {
+      promises.forEach((promise) => promise.cancel());
     },
     isEmpty() {
       return list.length === 0;
