@@ -13313,7 +13313,7 @@ schema-utils@^2.6.5:
     ajv "^6.12.4"
     ajv-keywords "^3.5.2"
 
-search-insights@^2.15.0:
+search-insights@2.15.0, search-insights@^2.15.0:
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/search-insights/-/search-insights-2.15.0.tgz#61c7db9d13218ee966937ad2462385b05c0df624"
   integrity sha512-ch2sPCUDD4sbPQdknVl9ALSi9H7VyoeVbsxznYz6QV55jJ8CI3EtwpO1i84keN4+hF5IeHWIeGvc08530JkVXQ==
