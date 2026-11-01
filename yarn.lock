@@ -1943,6 +1943,14 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.19.12.tgz#c57c8afbb4054a3ab8317591a0b7320360b444ae"
   integrity sha512-T1QyPSDCyMXaO3pzBkF96E8xMkiRYbUEZADd29SyPGabqxMViNoii+NcK7eWJAEoU6RZyEm5lVSIjTmcdoB9HA==
 
+"@eslint-community/eslint-plugin-eslint-comments@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@eslint-community/eslint-plugin-eslint-comments/-/eslint-plugin-eslint-comments-3.2.0.tgz#033b01852848570713356f3a6843307571c20105"
+  integrity sha512-BjyMKQRjkywhbkrtHzUITQTQQuysxbZk1/z5Cco7cMNxhw0odzWohDgVuxmuhS9LJRFWAkIXhnfuLXjChFmfoA==
+  dependencies:
+    escape-string-regexp "^1.0.5"
+    ignore "^5.0.5"
+
 "@evocateur/libnpmaccess@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@evocateur/libnpmaccess/-/libnpmaccess-3.1.2.tgz#ecf7f6ce6b004e9f942b098d92200be4a4b1c845"
@@ -6991,14 +6999,6 @@ eslint-module-utils@^2.6.0:
   dependencies:
     debug "^3.2.7"
     find-up "^2.1.0"
-
-eslint-plugin-eslint-comments@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-eslint-comments/-/eslint-plugin-eslint-comments-3.2.0.tgz#9e1cd7b4413526abb313933071d7aba05ca12ffa"
-  integrity sha512-0jkOl0hfojIHHmEHgmNdqv4fmh7300NdpA9FFpF7zaoLvB/QeXOGNLIo86oAveJFrfB1p05kC8hpEMHM8DwWVQ==
-  dependencies:
-    escape-string-regexp "^1.0.5"
-    ignore "^5.0.5"
 
 eslint-plugin-import@2.22.1:
   version "2.22.1"
