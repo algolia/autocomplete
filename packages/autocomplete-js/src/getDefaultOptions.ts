@@ -139,6 +139,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
     clearButtonTitle: 'Clear',
     detachedCancelButtonText: 'Cancel',
     detachedSearchButtonTitle: 'Search',
+    detachedModalLabel: 'Search',
     submitButtonTitle: 'Submit',
   };
 

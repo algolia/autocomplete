@@ -56,6 +56,9 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   });
   const detachedContainer = createDomElement('div', {
     class: classNames.detachedContainer,
+    role: 'dialog',
+    'aria-modal': 'true',
+    'aria-label': translations.detachedModalLabel,
     onMouseDown(event: MouseEvent) {
       event.stopPropagation();
     },
