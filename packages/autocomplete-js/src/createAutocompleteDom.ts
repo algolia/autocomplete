@@ -100,7 +100,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   const label = createDomElement('label', {
     class: classNames.label,
     children: [submitButton],
-    ariaLabel: translations.submitButtonTitle,
+    'aria-label': translations.submitButtonTitle,
     ...labelProps,
   });
   const clearButton = createDomElement('button', {
@@ -178,7 +178,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   if (isDetached) {
     const detachedSearchButtonIcon = createDomElement('div', {
       class: classNames.detachedSearchButtonIcon,
-      ariaLabel: translations.detachedSearchButtonTitle,
+      'aria-label': translations.detachedSearchButtonTitle,
       children: [SearchIcon({ environment })],
     });
     detachedSearchButton = createDomElement('button', {
