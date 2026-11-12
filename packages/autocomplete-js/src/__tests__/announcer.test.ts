@@ -516,6 +516,61 @@ describe('results announcer', () => {
     );
   });
 
+  test('does not announce when the input loses focus during the debounce', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      announcements: true,
+      container,
+      panelContainer: container,
+      openOnFocus: true,
+      getSources() {
+        return [createSource(() => [])];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    // The empty search settled and closed the panel, so the announcement is
+    // scheduled. Tabbing away before it fires ends the interaction: the
+    // announcement would land while the user is already on another control.
+    await runAllMicroTasks();
+    fireEvent.blur(input);
+
+    await wait(ANNOUNCEMENT_DEBOUNCE + 400);
+    expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
+      ''
+    );
+  });
+
+  test('cancels a pending announcement when the instance is destroyed', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const api = autocomplete<{ label: string }>({
+      announcements: true,
+      container,
+      openOnFocus: true,
+      getSources() {
+        return [createSource(() => [{ label: 'Item 1' }])];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    // The search settles, so the announcement is scheduled.
+    await runAllMicroTasks();
+
+    const announcer = container.querySelector('.aa-ResultsAnnouncer')!;
+    api.destroy();
+
+    // The node is detached by `destroy()`, but a timer that still writes to it
+    // means the announcement outlived the instance.
+    await wait(ANNOUNCEMENT_DEBOUNCE + 400);
+    expect(announcer.textContent).toBe('');
+  });
+
   test('re-announces a new search with the same result count', async () => {
     const container = document.createElement('div');
     document.body.appendChild(container);

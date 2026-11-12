@@ -443,6 +443,31 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
   });
 
   runEffect(() => {
+    if (!props.value.renderer.announcements) {
+      return () => {};
+    }
+
+    const inputElement = dom.value.input;
+
+    function onInputBlur() {
+      // Leaving the input ends the search interaction, whatever comes next:
+      // Tab, a click on a result, a click outside. An announcement for the
+      // query that was just left would be read while the user is already
+      // interacting with something else, so it is dropped.
+      // This can't be derived from the state changes: blurring an already
+      // closed panel with no active item (`defaultActiveItemId` is `null`)
+      // dispatches a `blur` that leaves every state field as it was.
+      clearAnnouncement();
+    }
+
+    inputElement.addEventListener('blur', onInputBlur);
+
+    return () => {
+      inputElement.removeEventListener('blur', onInputBlur);
+    };
+  });
+
+  runEffect(() => {
     const onResize = debounce<Event>(() => {
       const previousIsDetached = isDetached.value;
       isDetached.value = props.value.core.environment.matchMedia(
@@ -564,6 +589,11 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
 
   function destroy() {
     instancesCount--;
+    // The announcement timer is not owned by an effect, so `cleanupEffects`
+    // doesn't cancel it: an announcement scheduled right before `destroy()`
+    // would still fire and write a result count into the detached live region
+    // of an instance that no longer exists.
+    clearAnnouncement();
     cleanupEffects();
   }
 
