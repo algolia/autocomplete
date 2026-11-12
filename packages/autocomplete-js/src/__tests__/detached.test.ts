@@ -38,6 +38,61 @@ describe('detached', () => {
     });
   });
 
+  describe('dialog semantics', () => {
+    function setup(options: Partial<Parameters<typeof autocomplete>[0]> = {}) {
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+      const api = autocomplete({
+        container,
+        detachedMediaQuery: '',
+        openOnFocus: true,
+        ...options,
+      });
+      const opener = container.querySelector<HTMLButtonElement>(
+        '.aa-DetachedSearchButton'
+      )!;
+      opener.click();
+      const modal = document.querySelector<HTMLElement>(
+        '.aa-DetachedContainer'
+      )!;
+      return { api, opener, modal };
+    }
+
+    test('exposes the modal as a dialog with an accessible name', () => {
+      const { api, modal } = setup();
+
+      expect(modal).toHaveAttribute('role', 'dialog');
+      expect(modal).toHaveAttribute('aria-modal', 'true');
+      expect(modal).toHaveAttribute('aria-label', 'Search');
+
+      api.destroy();
+    });
+
+    test('supports a custom dialog label translation', () => {
+      const { api, modal } = setup({
+        translations: {
+          detachedModalLabel: 'Rechercher',
+        },
+      });
+
+      expect(modal).toHaveAttribute('aria-label', 'Rechercher');
+
+      api.destroy();
+    });
+
+    test('does not set dialog attributes on the overlay backdrop', () => {
+      const { api } = setup();
+      const overlay = document.querySelector<HTMLElement>(
+        '.aa-DetachedOverlay'
+      )!;
+
+      expect(overlay).not.toHaveAttribute('role');
+      expect(overlay).not.toHaveAttribute('aria-modal');
+
+      api.destroy();
+    });
+  });
+
   describe('accessible names', () => {
     test('sets `aria-label` attributes instead of an invalid `arialabel` attribute', () => {
       const container = document.createElement('div');

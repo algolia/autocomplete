@@ -91,6 +91,9 @@ describe('translations', () => {
       expect(
         document.querySelector<HTMLButtonElement>('.aa-DetachedCancelButton')
       ).toHaveTextContent('Cancel');
+      expect(
+        document.querySelector<HTMLElement>('.aa-DetachedContainer')
+      ).toHaveAttribute('aria-label', 'Search');
 
       destroy();
     });

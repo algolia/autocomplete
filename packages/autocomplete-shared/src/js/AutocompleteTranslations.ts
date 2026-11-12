@@ -3,4 +3,5 @@ export type AutocompleteTranslations = {
   clearButtonTitle: string;
   submitButtonTitle: string;
   detachedSearchButtonTitle: string;
+  detachedModalLabel: string;
 };
