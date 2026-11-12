@@ -350,6 +350,172 @@ describe('results announcer', () => {
     );
   });
 
+  test('re-announces when a dismissed panel reopens on the same query', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      announcements: true,
+      container,
+      // Instances created by other tests in this file keep rendering into
+      // `document.body`, so the panel is looked up inside this instance's own
+      // containers.
+      panelContainer: container,
+      openOnFocus: true,
+      getSources() {
+        return [createSource(() => [{ label: 'Item 1' }, { label: 'Item 2' }])];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(
+      () => {
+        expect(
+          container.querySelector('.aa-ResultsAnnouncer')
+        ).toHaveTextContent('2 suggestions available');
+      },
+      { timeout: ANNOUNCEMENT_TIMEOUT }
+    );
+
+    fireEvent.keyDown(input, { key: 'Escape' });
+    await waitFor(() => {
+      expect(container.querySelector('.aa-Panel')).not.toBeInTheDocument();
+    });
+
+    // ArrowUp/ArrowDown re-run the search for the same query to reopen the
+    // panel (packages/autocomplete-core/src/onKeyDown.ts), so the query-change
+    // branch alone doesn't invalidate the previous announcement. Screen readers
+    // don't announce identical text, so the region must be emptied for the
+    // reopened results to be announced again.
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
+      ''
+    );
+
+    await waitFor(
+      () => {
+        expect(
+          container.querySelector('.aa-ResultsAnnouncer')
+        ).toHaveTextContent('2 suggestions available');
+      },
+      { timeout: ANNOUNCEMENT_TIMEOUT }
+    );
+  });
+
+  test('does not announce "No results" when Escape closes the panel during a search', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    let resolveItems: (items: Array<{ label: string }>) => void = () => {};
+    autocomplete<{ label: string }>({
+      announcements: true,
+      container,
+      panelContainer: container,
+      openOnFocus: true,
+      getSources() {
+        return [
+          {
+            sourceId: 'testSource',
+            getItems({ query }: any) {
+              // An empty query settles right away so that the panel is open
+              // with the `noResults` template before the next search starts.
+              if (!query) {
+                return [];
+              }
+              return new Promise<Array<{ label: string }>>((resolve) => {
+                resolveItems = resolve;
+              });
+            },
+            templates: {
+              item({ item }: any) {
+                return item.label;
+              },
+              noResults() {
+                return 'No results template';
+              },
+            },
+          },
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
+    fireEvent.focus(input);
+
+    await waitFor(() => {
+      expect(container.querySelector('.aa-Panel')).toBeInTheDocument();
+    });
+
+    fireEvent.input(input, { target: { value: 'a' } });
+    await runAllMicroTasks();
+    fireEvent.keyDown(input, { key: 'Escape' });
+
+    // Cancelling the pending requests settles the status to `idle` right away,
+    // which looks like a completed search. The panel is closed and the
+    // collections are empty, so an announcement would claim there are no
+    // results for a search the user aborted.
+    resolveItems([{ label: 'Item 1' }]);
+    await wait(ANNOUNCEMENT_DEBOUNCE + 400);
+
+    expect(container.querySelector('.aa-Panel')).not.toBeInTheDocument();
+    expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
+      ''
+    );
+  });
+
+  test('does not announce "No results" when Escape clears an empty panel during a search', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      announcements: true,
+      container,
+      getSources() {
+        return [createSource(() => new Promise(() => {}))];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
+    fireEvent.input(input, { target: { value: 'a' } });
+    await runAllMicroTasks();
+
+    // The panel never opened for this search, so Escape clears the query
+    // instead of closing the panel. Both are the end of an aborted search, not
+    // an empty one.
+    fireEvent.keyDown(input, { key: 'Escape' });
+
+    await wait(ANNOUNCEMENT_DEBOUNCE + 400);
+    expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
+      ''
+    );
+  });
+
+  test('does not announce "No results" when the query is emptied during a search', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      announcements: true,
+      container,
+      panelContainer: container,
+      getSources() {
+        return [createSource(() => new Promise(() => {}))];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
+    fireEvent.input(input, { target: { value: 'a' } });
+    await runAllMicroTasks();
+
+    // Deleting the query closes the panel without searching: the announcement
+    // would describe a query the user just removed.
+    fireEvent.input(input, { target: { value: '' } });
+
+    await wait(ANNOUNCEMENT_DEBOUNCE + 400);
+    expect(container.querySelector('.aa-Panel')).not.toBeInTheDocument();
+    expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
+      ''
+    );
+  });
+
   test('re-announces a new search with the same result count', async () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
