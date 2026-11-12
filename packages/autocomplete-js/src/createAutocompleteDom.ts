@@ -91,6 +91,12 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     props: autocomplete.getLabelProps({}),
     ...autocompleteScopeApi,
   });
+  // In detached mode, the label must not take the `${id}-label` id: it is the
+  // `aria-labelledby` target of the root combobox and the input, and is kept
+  // by the detached search button so that both resolve to a single element.
+  // Only the `id` is omitted; every other custom `getLabelProps` property is
+  // preserved.
+  const { id: _labelId, ...labelPropsWithoutId } = labelProps;
   const submitButton = createDomElement('button', {
     class: classNames.submitButton,
     type: 'submit',
@@ -104,7 +110,7 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     class: classNames.label,
     children: [submitButton],
     ariaLabel: translations.submitButtonTitle,
-    ...labelProps,
+    ...(isDetached ? labelPropsWithoutId : labelProps),
   });
   const clearButton = createDomElement('button', {
     class: classNames.clearButton,
