@@ -89,7 +89,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
               class="aa-InputWrapperPrefix"
             >
               <label
-                arialabel="Submit"
+                aria-label="Submit"
                 class="aa-Label"
                 for="autocomplete-input"
                 id="autocomplete-label"

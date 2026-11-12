@@ -93,6 +93,40 @@ describe('detached', () => {
     });
   });
 
+  describe('accessible names', () => {
+    test('sets `aria-label` attributes instead of an invalid `arialabel` attribute', () => {
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      autocomplete({
+        container,
+        detachedMediaQuery: '',
+        openOnFocus: true,
+      });
+
+      // The form (and its label) is only in the document once the modal opens.
+      container
+        .querySelector<HTMLButtonElement>('.aa-DetachedSearchButton')!
+        .click();
+
+      expect(
+        document.querySelector('.aa-Label')!.getAttribute('aria-label')
+      ).toBe('Submit');
+      expect(
+        container
+          .querySelector('.aa-DetachedSearchButtonIcon')!
+          .getAttribute('aria-label')
+      ).toBe('Search');
+
+      // `ariaLabel` (camelCase) used to be passed to `setProperties`, which
+      // reflects it as a DOM property in some environments and falls back to
+      // `setAttribute('ariaLabel', ...)` (an invalid attribute) in others.
+      document.querySelectorAll('*').forEach((element) => {
+        expect(element.hasAttribute('arialabel')).toBe(false);
+      });
+    });
+  });
+
   describe('focus trap', () => {
     function setup() {
       const container = document.createElement('div');
