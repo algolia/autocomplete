@@ -10,6 +10,10 @@ beforeEach(() => {
 // Announcements are debounced so that typing settles into a single
 // announcement; wait long enough for the debounce to elapse.
 const ANNOUNCEMENT_TIMEOUT = 3000;
+const ANNOUNCEMENT_DEBOUNCE = 1400;
+
+const wait = (ms: number) =>
+  new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 const createSource = (getItems: () => any[] | Promise<any[]>) => ({
   sourceId: 'testSource',
@@ -229,6 +233,7 @@ describe('results announcer', () => {
     autocomplete<{ label: string }>({
       announcements: true,
       container,
+      shouldPanelOpen: () => false,
       getSources() {
         return [createSource(() => [{ label: 'Item 1' }])];
       },
@@ -237,11 +242,84 @@ describe('results announcer', () => {
     const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
     fireEvent.input(input, { target: { value: 'a' } });
 
-    await waitFor(() => {
-      expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
-        ''
-      );
+    // Results resolve but the panel stays closed, so nothing is announced,
+    // even after the debounce elapsed.
+    await wait(ANNOUNCEMENT_DEBOUNCE + 400);
+    expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
+      ''
+    );
+  });
+
+  test('does not announce results dismissed while the announcement is pending', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      announcements: true,
+      container,
+      openOnFocus: true,
+      getSources() {
+        return [createSource(() => [{ label: 'Item 1' }, { label: 'Item 2' }])];
+      },
     });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    // The search settled but the debounce hasn't elapsed yet: dismissing the
+    // results with Escape before the announcement fires means the user moved
+    // on, so the announcement must not happen.
+    await waitFor(() => {
+      expect(document.querySelector('.aa-Panel')).toBeInTheDocument();
+    });
+    fireEvent.keyDown(input, { key: 'Escape' });
+    await waitFor(() => {
+      expect(document.querySelector('.aa-Panel')).not.toBeInTheDocument();
+    });
+
+    await wait(ANNOUNCEMENT_DEBOUNCE + 400);
+    expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
+      ''
+    );
+  });
+
+  test('announces results when a new search reopens a dismissed panel', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      announcements: true,
+      container,
+      openOnFocus: true,
+      getSources() {
+        return [createSource(() => [{ label: 'Item 1' }, { label: 'Item 2' }])];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(() => {
+      expect(document.querySelector('.aa-Panel')).toBeInTheDocument();
+    });
+    fireEvent.keyDown(input, { key: 'Escape' });
+    await waitFor(() => {
+      expect(document.querySelector('.aa-Panel')).not.toBeInTheDocument();
+    });
+
+    // Typing again reopens the panel with results. The `loading` to `idle`
+    // transition is notified before the collections and panel visibility are
+    // updated, so eligibility can only be decided when the announcement
+    // fires: otherwise this search stays silent because the state still
+    // reflects the dismissed one.
+    fireEvent.input(input, { target: { value: 'ab' } });
+
+    await waitFor(
+      () => {
+        expect(
+          container.querySelector('.aa-ResultsAnnouncer')
+        ).toHaveTextContent('2 suggestions available');
+      },
+      { timeout: ANNOUNCEMENT_TIMEOUT }
+    );
   });
 
   test('announces "No results" when an empty search closes the panel', async () => {

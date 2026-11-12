@@ -186,6 +186,20 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       return;
     }
 
+    // Whether a search is worth announcing is decided here, when the timer
+    // fires, and not when it is scheduled: `onInput` sets the status to `idle`
+    // before it updates the collections and the panel visibility
+    // (packages/autocomplete-core/src/onInput.ts), so the state carried by the
+    // `loading` to `idle` notification is still the previous search's.
+    // A closed panel that still has items is a search the user dismissed
+    // (Escape, Tab, click outside) before the announcement fired, so we stay
+    // silent. A closed panel without items is an empty search: in inline mode
+    // it closes the panel on completion and that closure is the only feedback
+    // sighted users get, so it is announced.
+    if (!state.isOpen && getItemsCount(state) > 0) {
+      return;
+    }
+
     const text = props.value.renderer.translations.resultsAnnouncement({
       nbItems: getItemsCount(state),
     });
@@ -346,19 +360,16 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       // Announce result counts when a search settles. Scheduling only on
       // `loading`/`stalled` to `idle` transitions keeps unrelated state
       // changes (e.g. highlight navigation) from restarting the debounce.
+      // The state at this point is not the one that will be announced (see
+      // `updateResultsAnnouncer`), so nothing is filtered out here: every
+      // settled search schedules an announcement that is only kept if it still
+      // makes sense once the timer fires.
       if (
         props.value.renderer.announcements &&
         state.status === 'idle' &&
         (prevState.status === 'loading' || prevState.status === 'stalled')
       ) {
-        // A closed panel is only announced for empty results: in inline mode,
-        // a completed search without items closes the panel unless a
-        // `noResults` template is set, and the closure is the only feedback
-        // sighted users get. Explicit dismissals keep results and stay
-        // silent.
-        if (state.isOpen || getItemsCount(state) === 0) {
-          scheduleResultsAnnouncement();
-        }
+        scheduleResultsAnnouncement();
       }
 
       debouncedRender({ state });
