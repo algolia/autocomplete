@@ -90,7 +90,7 @@ describe('detached duplicate ids', () => {
 
   test('preserves custom `getLabelProps` properties on the label', () => {
     const { api } = setup({
-      getLabelProps(props: Record<string, unknown>) {
+      getLabelProps({ props }) {
         return {
           ...props,
           class: 'custom-label-class',
