@@ -97,11 +97,14 @@ export function createAutocompleteDom<TItem extends BaseItem>({
   // @MAJOR Remove the label wrapper for the submit button.
   // The submit button is sufficient for accessibility purposes, and
   // wrapping it with the label actually makes it less accessible (see CR-6077).
+  // In detached mode, the label must not take the `${id}-label` id: it is the
+  // `aria-labelledby` target of the root combobox and the input, and is kept
+  // by the detached search button so that both resolve to a single element.
   const label = createDomElement('label', {
     class: classNames.label,
     children: [submitButton],
     ariaLabel: translations.submitButtonTitle,
-    ...labelProps,
+    ...(isDetached ? { htmlFor: labelProps.htmlFor } : labelProps),
   });
   const clearButton = createDomElement('button', {
     class: classNames.clearButton,
