@@ -47,6 +47,7 @@ const defaultClassNames: AutocompleteClassNames = {
   loadingIndicator: 'aa-LoadingIndicator',
   panel: 'aa-Panel',
   panelLayout: 'aa-PanelLayout aa-Panel--scrollable',
+  resultsAnnouncer: 'aa-ResultsAnnouncer',
   root: 'aa-Autocomplete',
   source: 'aa-Source',
   sourceFooter: 'aa-SourceFooter',
@@ -85,6 +86,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
     renderNoResults,
     renderer,
     detachedMediaQuery,
+    announcements,
     components,
     translations,
     ...core
@@ -139,6 +141,10 @@ export function getDefaultOptions<TItem extends BaseItem>(
     clearButtonTitle: 'Clear',
     detachedCancelButtonText: 'Cancel',
     detachedSearchButtonTitle: 'Search',
+    resultsAnnouncement: ({ nbItems }) =>
+      nbItems === 0
+        ? 'No results'
+        : `${nbItems} suggestion${nbItems === 1 ? '' : 's'} available`,
     submitButtonTitle: 'Submit',
   };
 
@@ -164,6 +170,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
       render: render ?? defaultRender,
       renderNoResults,
       renderer: defaultedRenderer,
+      announcements: announcements ?? false,
       detachedMediaQuery:
         detachedMediaQuery ??
         getComputedStyle(environment.document.documentElement).getPropertyValue(

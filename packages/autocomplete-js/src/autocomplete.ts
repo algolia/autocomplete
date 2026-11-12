@@ -148,6 +148,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       classNames: props.value.renderer.classNames,
       environment: props.value.core.environment,
       isDetached: isDetached.value,
+      announcements: props.value.renderer.announcements,
       placeholder: props.value.core.placeholder,
       propGetters,
       setIsModalOpen,
@@ -168,6 +169,101 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
             environment: props.value.core.environment,
           }),
     });
+  }
+
+  // Whether the search cycle that settled delivered its collections.
+  // Escape and Tab cancel the pending requests
+  // (packages/autocomplete-core/src/onKeyDown.ts), and cancelling a request
+  // runs its `finally` handler right away (`cancel()` in
+  // packages/autocomplete-core/src/utils/createCancelablePromise.ts), which
+  // settles the status to `idle` without ever updating the collections. Such a
+  // cycle is a search the user aborted, not a search that came back empty, and
+  // once the panel is closed there is nothing left in the state that
+  // distinguishes the two.
+  let searchCycleCompleted = false;
+
+  function isSearchCycleStarted(
+    state: AutocompleteState<TItem>,
+    prevState: AutocompleteState<TItem>
+  ) {
+    // `onInput` sets the status to `loading` right after it applies the query,
+    // so a status that just became `loading` is a search going out.
+    return state.status === 'loading' && prevState.status !== 'loading';
+  }
+
+  function updateResultsAnnouncer() {
+    const resultsAnnouncer = dom.value.resultsAnnouncer;
+    const state = lastStateRef.current;
+
+    // Announcements are opt-in, and only settled searches should be
+    // announced: pending requests would announce stale or intermediate
+    // counts.
+    if (
+      !props.value.renderer.announcements ||
+      !resultsAnnouncer ||
+      state.status !== 'idle'
+    ) {
+      return;
+    }
+
+    // An aborted search must stay silent: cancelling it settles the status
+    // without any collection, which is otherwise indistinguishable from an
+    // empty search closing the panel, and would be announced as "No results".
+    if (!searchCycleCompleted) {
+      return;
+    }
+
+    // Whether a search is worth announcing is decided here, when the timer
+    // fires, and not when it is scheduled: `onInput` sets the status to `idle`
+    // before it updates the collections and the panel visibility
+    // (packages/autocomplete-core/src/onInput.ts), so the state carried by the
+    // `loading` to `idle` notification is still the previous search's.
+    // A closed panel that still has items is a search the user dismissed
+    // (Escape, Tab, click outside) before the announcement fired, so we stay
+    // silent.
+    if (!state.isOpen && getItemsCount(state) > 0) {
+      return;
+    }
+
+    // A closed panel without items is an empty search: in inline mode it closes
+    // the panel on completion and that closure is the only feedback sighted
+    // users get, so it is announced. That reasoning needs a query: an emptied
+    // input (backspace, the clear button) also closes the panel, and telling
+    // the user there are no results when they just deleted their query is
+    // noise, not feedback.
+    if (!state.isOpen && !state.query) {
+      return;
+    }
+
+    const text = props.value.renderer.translations.resultsAnnouncement({
+      nbItems: getItemsCount(state),
+    });
+
+    if (resultsAnnouncer.textContent !== text) {
+      resultsAnnouncer.textContent = text;
+    }
+  }
+
+  // Announcements are debounced so that typing settles into a single
+  // announcement instead of one per keystroke (same as accessible-autocomplete
+  // and the InstantSearch `stats` widget). The timer is only scheduled when a
+  // search settles — never on unrelated renders such as highlight navigation,
+  // which would otherwise postpone the announcement indefinitely.
+  let announcementTimerId: number | undefined;
+
+  function clearAnnouncement() {
+    if (announcementTimerId !== undefined) {
+      props.value.core.environment.clearTimeout(announcementTimerId);
+      announcementTimerId = undefined;
+    }
+  }
+
+  function scheduleResultsAnnouncement() {
+    clearAnnouncement();
+    announcementTimerId = props.value.core.environment.setTimeout(() => {
+      announcementTimerId = undefined;
+      updateResultsAnnouncer();
+    }, 1400);
   }
 
   function scheduleRender(state: AutocompleteState<TItem>) {
@@ -287,11 +383,87 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
         });
       }
 
+      // A new search invalidates the previous announcement: empty the live
+      // region (screen readers don't re-announce identical text) and cancel any
+      // announcement still scheduled for the previous search.
+      // This keys on the start of a search cycle, not only on the query,
+      // because a search can run without changing the query: `refresh()`, or
+      // reopening a dismissed panel with ArrowUp/ArrowDown
+      // (packages/autocomplete-core/src/onKeyDown.ts). Those would otherwise
+      // leave the previous, identical announcement in place, which screen
+      // readers never announce a second time.
+      if (
+        props.value.renderer.announcements &&
+        (state.query !== prevState.query ||
+          isSearchCycleStarted(state, prevState))
+      ) {
+        const resultsAnnouncer = dom.value.resultsAnnouncer;
+        if (resultsAnnouncer) {
+          clearAnnouncement();
+          resultsAnnouncer.textContent = '';
+        }
+      }
+
+      if (isSearchCycleStarted(state, prevState)) {
+        searchCycleCompleted = false;
+      } else if (
+        state.status === 'idle' &&
+        prevState.status === 'idle' &&
+        state.collections !== prevState.collections
+      ) {
+        // `onInput` settles the status right before it applies the collections,
+        // so a collections update on an already settled status is a search
+        // completing. Cancellations never get here: their handlers are skipped
+        // and the reducer only ever clears the collections while it settles the
+        // status in the same notification.
+        searchCycleCompleted = true;
+      }
+
+      // Announce result counts when a search settles. Scheduling only on
+      // `loading`/`stalled` to `idle` transitions keeps unrelated state
+      // changes (e.g. highlight navigation) from restarting the debounce.
+      // Neither the state nor the completion flag can be trusted at this point
+      // (see `updateResultsAnnouncer`): a cancelled search settles here too, so
+      // every settled search schedules an announcement that is only kept if it
+      // still makes sense once the timer fires.
+      if (
+        props.value.renderer.announcements &&
+        state.status === 'idle' &&
+        (prevState.status === 'loading' || prevState.status === 'stalled')
+      ) {
+        scheduleResultsAnnouncement();
+      }
+
       debouncedRender({ state });
     };
 
     return () => {
       onStateChangeRef.current = undefined;
+    };
+  });
+
+  runEffect(() => {
+    if (!props.value.renderer.announcements) {
+      return () => {};
+    }
+
+    const inputElement = dom.value.input;
+
+    function onInputBlur() {
+      // Leaving the input ends the search interaction, whatever comes next:
+      // Tab, a click on a result, a click outside. An announcement for the
+      // query that was just left would be read while the user is already
+      // interacting with something else, so it is dropped.
+      // This can't be derived from the state changes: blurring an already
+      // closed panel with no active item (`defaultActiveItemId` is `null`)
+      // dispatches a `blur` that leaves every state field as it was.
+      clearAnnouncement();
+    }
+
+    inputElement.addEventListener('blur', onInputBlur);
+
+    return () => {
+      inputElement.removeEventListener('blur', onInputBlur);
     };
   });
 
@@ -417,6 +589,11 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
 
   function destroy() {
     instancesCount--;
+    // The announcement timer is not owned by an effect, so `cleanupEffects`
+    // doesn't cancel it: an announcement scheduled right before `destroy()`
+    // would still fire and write a result count into the detached live region
+    // of an instance that no longer exists.
+    clearAnnouncement();
     cleanupEffects();
   }
 
