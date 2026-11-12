@@ -18,6 +18,7 @@ export type AutocompleteClassNames = {
   loadingIndicator: string;
   panel: string;
   panelLayout: string;
+  resultsAnnouncer: string;
   clearButton: string;
   root: string;
   source: string;

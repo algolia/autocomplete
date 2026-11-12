@@ -8,6 +8,7 @@ export type AutocompleteDom = {
   clearButton: HTMLButtonElement;
   loadingIndicator: HTMLDivElement;
   panel: HTMLDivElement;
+  resultsAnnouncer: HTMLDivElement;
   detachedContainer: HTMLDivElement;
   detachedOverlay: HTMLDivElement;
   detachedSearchButtonQuery: HTMLDivElement;

@@ -157,6 +157,14 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     ...panelProps,
   });
 
+  // Screen readers only announce live regions that are rendered. In detached
+  // mode the modal is the only perceived content (`aria-modal`), so the
+  // announcer has to live inside it to be heard at all.
+  const resultsAnnouncer = createDomElement('div', {
+    class: classNames.resultsAnnouncer,
+    role: 'status',
+  });
+
   const detachedSearchButtonQuery = createDomElement('div', {
     class: classNames.detachedSearchButtonQuery,
     textContent: state.query,
@@ -215,9 +223,11 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     });
 
     detachedContainer.appendChild(detachedFormContainer);
+    detachedContainer.appendChild(resultsAnnouncer);
     root.appendChild(detachedSearchButton);
   } else {
     root.appendChild(form);
+    root.appendChild(resultsAnnouncer);
   }
 
   return {
@@ -235,5 +245,6 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     clearButton,
     loadingIndicator,
     panel,
+    resultsAnnouncer,
   };
 }

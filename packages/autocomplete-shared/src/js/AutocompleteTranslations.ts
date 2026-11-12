@@ -3,4 +3,5 @@ export type AutocompleteTranslations = {
   clearButtonTitle: string;
   submitButtonTitle: string;
   detachedSearchButtonTitle: string;
+  resultsAnnouncement: (params: { nbItems: number }) => string;
 };

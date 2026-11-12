@@ -170,6 +170,24 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
     });
   }
 
+  function updateResultsAnnouncer(state: AutocompleteState<TItem>) {
+    const resultsAnnouncer = dom.value.resultsAnnouncer;
+
+    // Only announce settled states: pending requests would announce stale or
+    // intermediate counts, and a closed panel has nothing to announce.
+    if (!state.isOpen || state.status !== 'idle') {
+      return;
+    }
+
+    const text = props.value.renderer.translations.resultsAnnouncement({
+      nbItems: getItemsCount(state),
+    });
+
+    if (resultsAnnouncer.textContent !== text) {
+      resultsAnnouncer.textContent = text;
+    }
+  }
+
   function scheduleRender(state: AutocompleteState<TItem>) {
     lastStateRef.current = state;
 
@@ -197,6 +215,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
 
     renderSearchBox(renderProps);
     renderPanel(render, renderProps);
+    updateResultsAnnouncer(lastStateRef.current);
     requestAnimationFrame(setPanelPosition);
   }
 
