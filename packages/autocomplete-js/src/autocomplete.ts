@@ -171,16 +171,16 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
     });
   }
 
-  function updateResultsAnnouncer(state: AutocompleteState<TItem>) {
+  function updateResultsAnnouncer() {
     const resultsAnnouncer = dom.value.resultsAnnouncer;
+    const state = lastStateRef.current;
 
-    // Announcements are opt-in, and only settled states should be announced:
-    // pending requests would announce stale or intermediate counts, and a
-    // closed panel has nothing to announce.
+    // Announcements are opt-in, and only settled searches should be
+    // announced: pending requests would announce stale or intermediate
+    // counts.
     if (
       !props.value.renderer.announcements ||
       !resultsAnnouncer ||
-      !state.isOpen ||
       state.status !== 'idle'
     ) {
       return;
@@ -197,10 +197,25 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
 
   // Announcements are debounced so that typing settles into a single
   // announcement instead of one per keystroke (same as accessible-autocomplete
-  // and the InstantSearch `stats` widget).
-  const debouncedAnnounceResults = debounce(() => {
-    updateResultsAnnouncer(lastStateRef.current);
-  }, 1400);
+  // and the InstantSearch `stats` widget). The timer is only scheduled when a
+  // search settles — never on unrelated renders such as highlight navigation,
+  // which would otherwise postpone the announcement indefinitely.
+  let announcementTimerId: number | undefined;
+
+  function clearAnnouncement() {
+    if (announcementTimerId !== undefined) {
+      props.value.core.environment.clearTimeout(announcementTimerId);
+      announcementTimerId = undefined;
+    }
+  }
+
+  function scheduleResultsAnnouncement() {
+    clearAnnouncement();
+    announcementTimerId = props.value.core.environment.setTimeout(() => {
+      announcementTimerId = undefined;
+      updateResultsAnnouncer();
+    }, 1400);
+  }
 
   function scheduleRender(state: AutocompleteState<TItem>) {
     lastStateRef.current = state;
@@ -229,7 +244,6 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
 
     renderSearchBox(renderProps);
     renderPanel(render, renderProps);
-    debouncedAnnounceResults();
     requestAnimationFrame(setPanelPosition);
   }
 
@@ -318,6 +332,33 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
             scrollablePanel.scrollTop = 0;
           }
         });
+
+        // A new search invalidates the previous announcement: empty the live
+        // region (screen readers don't re-announce identical text) and cancel
+        // any announcement still scheduled for the previous search.
+        const resultsAnnouncer = dom.value.resultsAnnouncer;
+        if (resultsAnnouncer) {
+          clearAnnouncement();
+          resultsAnnouncer.textContent = '';
+        }
+      }
+
+      // Announce result counts when a search settles. Scheduling only on
+      // `loading`/`stalled` to `idle` transitions keeps unrelated state
+      // changes (e.g. highlight navigation) from restarting the debounce.
+      if (
+        props.value.renderer.announcements &&
+        state.status === 'idle' &&
+        (prevState.status === 'loading' || prevState.status === 'stalled')
+      ) {
+        // A closed panel is only announced for empty results: in inline mode,
+        // a completed search without items closes the panel unless a
+        // `noResults` template is set, and the closure is the only feedback
+        // sighted users get. Explicit dismissals keep results and stay
+        // silent.
+        if (state.isOpen || getItemsCount(state) === 0) {
+          scheduleResultsAnnouncement();
+        }
       }
 
       debouncedRender({ state });

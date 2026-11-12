@@ -11,7 +11,7 @@ beforeEach(() => {
 // announcement; wait long enough for the debounce to elapse.
 const ANNOUNCEMENT_TIMEOUT = 3000;
 
-const createSource = (getItems: () => any[]) => ({
+const createSource = (getItems: () => any[] | Promise<any[]>) => ({
   sourceId: 'testSource',
   getItems,
   templates: {
@@ -195,7 +195,7 @@ describe('results announcer', () => {
         return [
           createSource(
             () =>
-              new Promise((resolve) => {
+              new Promise<Array<{ label: string }>>((resolve) => {
                 resolveItems = resolve;
               })
           ),
@@ -242,6 +242,83 @@ describe('results announcer', () => {
         ''
       );
     });
+  });
+
+  test('announces "No results" when an empty search closes the panel', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      announcements: true,
+      container,
+      openOnFocus: true,
+      getSources() {
+        return [createSource(() => [])];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    // Without a `noResults` template, the panel closes on empty results in
+    // inline mode; the closure is still announced so that screen reader
+    // users get completion feedback.
+    await waitFor(
+      () => {
+        expect(
+          container.querySelector('.aa-ResultsAnnouncer')
+        ).toHaveTextContent('No results');
+      },
+      { timeout: ANNOUNCEMENT_TIMEOUT }
+    );
+  });
+
+  test('re-announces a new search with the same result count', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      announcements: true,
+      container,
+      openOnFocus: true,
+      getSources() {
+        return [
+          createSource(() => [
+            { label: 'Item 1' },
+            { label: 'Item 2' },
+            { label: 'Item 3' },
+          ]),
+        ];
+      },
+    });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
+    fireEvent.input(input, { target: { value: 'a' } });
+
+    await waitFor(
+      () => {
+        expect(
+          container.querySelector('.aa-ResultsAnnouncer')
+        ).toHaveTextContent('3 suggestions available');
+      },
+      { timeout: ANNOUNCEMENT_TIMEOUT }
+    );
+
+    fireEvent.input(input, { target: { value: 'ab' } });
+
+    // The live region is emptied when a new search starts so that the same
+    // count is announced again.
+    await runAllMicroTasks();
+    expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
+      ''
+    );
+
+    await waitFor(
+      () => {
+        expect(
+          container.querySelector('.aa-ResultsAnnouncer')
+        ).toHaveTextContent('3 suggestions available');
+      },
+      { timeout: ANNOUNCEMENT_TIMEOUT }
+    );
   });
 
   test('supports custom translations', async () => {
