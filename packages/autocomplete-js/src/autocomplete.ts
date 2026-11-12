@@ -148,6 +148,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       classNames: props.value.renderer.classNames,
       environment: props.value.core.environment,
       isDetached: isDetached.value,
+      announcements: props.value.renderer.announcements,
       placeholder: props.value.core.placeholder,
       propGetters,
       setIsModalOpen,
@@ -173,9 +174,15 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
   function updateResultsAnnouncer(state: AutocompleteState<TItem>) {
     const resultsAnnouncer = dom.value.resultsAnnouncer;
 
-    // Only announce settled states: pending requests would announce stale or
-    // intermediate counts, and a closed panel has nothing to announce.
-    if (!state.isOpen || state.status !== 'idle') {
+    // Announcements are opt-in, and only settled states should be announced:
+    // pending requests would announce stale or intermediate counts, and a
+    // closed panel has nothing to announce.
+    if (
+      !props.value.renderer.announcements ||
+      !resultsAnnouncer ||
+      !state.isOpen ||
+      state.status !== 'idle'
+    ) {
       return;
     }
 
@@ -187,6 +194,13 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
       resultsAnnouncer.textContent = text;
     }
   }
+
+  // Announcements are debounced so that typing settles into a single
+  // announcement instead of one per keystroke (same as accessible-autocomplete
+  // and the InstantSearch `stats` widget).
+  const debouncedAnnounceResults = debounce(() => {
+    updateResultsAnnouncer(lastStateRef.current);
+  }, 1400);
 
   function scheduleRender(state: AutocompleteState<TItem>) {
     lastStateRef.current = state;
@@ -215,7 +229,7 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
 
     renderSearchBox(renderProps);
     renderPanel(render, renderProps);
-    updateResultsAnnouncer(lastStateRef.current);
+    debouncedAnnounceResults();
     requestAnimationFrame(setPanelPosition);
   }
 

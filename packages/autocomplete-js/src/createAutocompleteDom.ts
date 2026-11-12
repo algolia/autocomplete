@@ -17,6 +17,7 @@ import {
 import { setProperties } from './utils';
 
 type CreateDomProps<TItem extends BaseItem> = {
+  announcements: boolean;
   autocomplete: AutocompleteCoreApi<TItem>;
   autocompleteScopeApi: AutocompleteScopeApi<TItem>;
   classNames: AutocompleteClassNames;
@@ -30,6 +31,7 @@ type CreateDomProps<TItem extends BaseItem> = {
 };
 
 export function createAutocompleteDom<TItem extends BaseItem>({
+  announcements,
   autocomplete,
   autocompleteScopeApi,
   classNames,
@@ -159,11 +161,14 @@ export function createAutocompleteDom<TItem extends BaseItem>({
 
   // Screen readers only announce live regions that are rendered. In detached
   // mode the modal is the only perceived content (`aria-modal`), so the
-  // announcer has to live inside it to be heard at all.
-  const resultsAnnouncer = createDomElement('div', {
-    class: classNames.resultsAnnouncer,
-    role: 'status',
-  });
+  // announcer has to live inside it to be heard at all. Announcements are
+  // opt-in via the `announcements` option.
+  const resultsAnnouncer = announcements
+    ? createDomElement('div', {
+        class: classNames.resultsAnnouncer,
+        role: 'status',
+      })
+    : undefined;
 
   const detachedSearchButtonQuery = createDomElement('div', {
     class: classNames.detachedSearchButtonQuery,
@@ -223,11 +228,15 @@ export function createAutocompleteDom<TItem extends BaseItem>({
     });
 
     detachedContainer.appendChild(detachedFormContainer);
-    detachedContainer.appendChild(resultsAnnouncer);
+    if (resultsAnnouncer) {
+      detachedContainer.appendChild(resultsAnnouncer);
+    }
     root.appendChild(detachedSearchButton);
   } else {
     root.appendChild(form);
-    root.appendChild(resultsAnnouncer);
+    if (resultsAnnouncer) {
+      root.appendChild(resultsAnnouncer);
+    }
   }
 
   return {

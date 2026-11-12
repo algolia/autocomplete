@@ -60,6 +60,13 @@ export interface AutocompleteOptions<TItem extends BaseItem>
    * @link https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries
    */
   detachedMediaQuery?: string;
+  /**
+   * Whether to announce result counts to screen readers in a polite live region once results settle.
+   *
+   * @default false
+   * @link https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete/#param-announcements
+   */
+  announcements?: boolean;
   getSources?: GetSources<TItem>;
   /**
    * The panel's horizontal position.

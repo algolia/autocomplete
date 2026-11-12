@@ -7,6 +7,10 @@ beforeEach(() => {
   document.body.innerHTML = '';
 });
 
+// Announcements are debounced so that typing settles into a single
+// announcement; wait long enough for the debounce to elapse.
+const ANNOUNCEMENT_TIMEOUT = 3000;
+
 const createSource = (getItems: () => any[]) => ({
   sourceId: 'testSource',
   getItems,
@@ -18,10 +22,24 @@ const createSource = (getItems: () => any[]) => ({
 });
 
 describe('results announcer', () => {
-  test('renders a status live region inside the root', () => {
+  test('does not render an announcer by default', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     autocomplete({
+      container,
+      getSources() {
+        return [createSource(() => [])];
+      },
+    });
+
+    expect(container.querySelector('.aa-ResultsAnnouncer')).toBeNull();
+  });
+
+  test('renders a status live region inside the root when enabled', () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete({
+      announcements: true,
       container,
       getSources() {
         return [createSource(() => [])];
@@ -41,6 +59,7 @@ describe('results announcer', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     autocomplete<{ label: string }>({
+      announcements: true,
       container,
       openOnFocus: true,
       getSources() {
@@ -57,17 +76,53 @@ describe('results announcer', () => {
     const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
     fireEvent.input(input, { target: { value: 'a' } });
 
-    await waitFor(() => {
-      expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
-        '3 suggestions available'
-      );
+    await waitFor(
+      () => {
+        expect(
+          container.querySelector('.aa-ResultsAnnouncer')
+        ).toHaveTextContent('3 suggestions available');
+      },
+      { timeout: ANNOUNCEMENT_TIMEOUT }
+    );
+  });
+
+  test('debounces announcements until typing settles', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    autocomplete<{ label: string }>({
+      announcements: true,
+      container,
+      openOnFocus: true,
+      getSources() {
+        return [createSource(() => [{ label: 'Item 1' }])];
+      },
     });
+
+    const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
+    fireEvent.input(input, { target: { value: 'a' } });
+    fireEvent.input(input, { target: { value: 'ab' } });
+
+    await runAllMicroTasks();
+    // The debounce has not elapsed yet, so nothing is announced.
+    expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
+      ''
+    );
+
+    await waitFor(
+      () => {
+        expect(
+          container.querySelector('.aa-ResultsAnnouncer')
+        ).toHaveTextContent('1 suggestion available');
+      },
+      { timeout: ANNOUNCEMENT_TIMEOUT }
+    );
   });
 
   test('announces a singular result', async () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     autocomplete<{ label: string }>({
+      announcements: true,
       container,
       openOnFocus: true,
       getSources() {
@@ -78,17 +133,21 @@ describe('results announcer', () => {
     const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
     fireEvent.input(input, { target: { value: 'a' } });
 
-    await waitFor(() => {
-      expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
-        '1 suggestion available'
-      );
-    });
+    await waitFor(
+      () => {
+        expect(
+          container.querySelector('.aa-ResultsAnnouncer')
+        ).toHaveTextContent('1 suggestion available');
+      },
+      { timeout: ANNOUNCEMENT_TIMEOUT }
+    );
   });
 
   test('announces when there are no results', async () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     autocomplete<{ label: string }>({
+      announcements: true,
       container,
       openOnFocus: true,
       getSources() {
@@ -114,11 +173,14 @@ describe('results announcer', () => {
     const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
     fireEvent.input(input, { target: { value: 'a' } });
 
-    await waitFor(() => {
-      expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
-        'No results'
-      );
-    });
+    await waitFor(
+      () => {
+        expect(
+          container.querySelector('.aa-ResultsAnnouncer')
+        ).toHaveTextContent('No results');
+      },
+      { timeout: ANNOUNCEMENT_TIMEOUT }
+    );
   });
 
   test('does not announce while requests are pending', async () => {
@@ -126,6 +188,7 @@ describe('results announcer', () => {
     document.body.appendChild(container);
     let resolveItems: (items: Array<{ label: string }>) => void = () => {};
     autocomplete<{ label: string }>({
+      announcements: true,
       container,
       openOnFocus: true,
       getSources() {
@@ -150,17 +213,21 @@ describe('results announcer', () => {
 
     resolveItems([{ label: 'Item 1' }, { label: 'Item 2' }]);
 
-    await waitFor(() => {
-      expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
-        '2 suggestions available'
-      );
-    });
+    await waitFor(
+      () => {
+        expect(
+          container.querySelector('.aa-ResultsAnnouncer')
+        ).toHaveTextContent('2 suggestions available');
+      },
+      { timeout: ANNOUNCEMENT_TIMEOUT }
+    );
   });
 
   test('does not announce while the panel is closed', async () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     autocomplete<{ label: string }>({
+      announcements: true,
       container,
       getSources() {
         return [createSource(() => [{ label: 'Item 1' }])];
@@ -181,6 +248,7 @@ describe('results announcer', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     autocomplete<{ label: string }>({
+      announcements: true,
       container,
       openOnFocus: true,
       translations: {
@@ -195,11 +263,14 @@ describe('results announcer', () => {
     const input = container.querySelector<HTMLInputElement>('.aa-Input')!;
     fireEvent.input(input, { target: { value: 'a' } });
 
-    await waitFor(() => {
-      expect(container.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
-        '1 résultat'
-      );
-    });
+    await waitFor(
+      () => {
+        expect(
+          container.querySelector('.aa-ResultsAnnouncer')
+        ).toHaveTextContent('1 résultat');
+      },
+      { timeout: ANNOUNCEMENT_TIMEOUT }
+    );
   });
 
   describe('in detached mode', () => {
@@ -221,6 +292,7 @@ describe('results announcer', () => {
       const container = document.createElement('div');
       document.body.appendChild(container);
       const api = autocomplete<{ label: string }>({
+        announcements: true,
         container,
         detachedMediaQuery: '',
         openOnFocus: true,
@@ -248,6 +320,7 @@ describe('results announcer', () => {
       const container = document.createElement('div');
       document.body.appendChild(container);
       const api = autocomplete<{ label: string }>({
+        announcements: true,
         container,
         detachedMediaQuery: '',
         openOnFocus: true,
@@ -264,11 +337,14 @@ describe('results announcer', () => {
 
       const modal = document.querySelector('.aa-DetachedContainer')!;
 
-      await waitFor(() => {
-        expect(modal.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
-          '2 suggestions available'
-        );
-      });
+      await waitFor(
+        () => {
+          expect(modal.querySelector('.aa-ResultsAnnouncer')).toHaveTextContent(
+            '2 suggestions available'
+          );
+        },
+        { timeout: ANNOUNCEMENT_TIMEOUT }
+      );
 
       api.destroy();
     });

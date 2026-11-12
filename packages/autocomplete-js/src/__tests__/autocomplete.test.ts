@@ -188,10 +188,6 @@ See: https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocom
               </button>
             </div>
           </form>
-          <div
-            class="aa-ResultsAnnouncer"
-            role="status"
-          />
         </div>
       </div>
     `);

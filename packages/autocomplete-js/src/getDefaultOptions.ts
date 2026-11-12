@@ -86,6 +86,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
     renderNoResults,
     renderer,
     detachedMediaQuery,
+    announcements,
     components,
     translations,
     ...core
@@ -169,6 +170,7 @@ export function getDefaultOptions<TItem extends BaseItem>(
       render: render ?? defaultRender,
       renderNoResults,
       renderer: defaultedRenderer,
+      announcements: announcements ?? false,
       detachedMediaQuery:
         detachedMediaQuery ??
         getComputedStyle(environment.document.documentElement).getPropertyValue(
