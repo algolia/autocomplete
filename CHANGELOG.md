@@ -1,3 +1,14 @@
+## [1.19.13](https://github.com/algolia/autocomplete/compare/v1.19.12...v1.19.13) (2026-11-13)
+
+
+### Bug Fixes
+
+* **core:** close panel immediately after item selection ([#1366](https://github.com/algolia/autocomplete/issues/1366)) ([16de344](https://github.com/algolia/autocomplete/commit/16de34447bab8fab121a8cef114144062cd056d3))
+* **js:** expose the detached modal as a dialog ([#1377](https://github.com/algolia/autocomplete/issues/1377)) ([23f3e69](https://github.com/algolia/autocomplete/commit/23f3e69a861e2d2ef243ad2a1715ebbc53a07c22))
+* **js:** remove duplicate label id on the detached search button ([#1379](https://github.com/algolia/autocomplete/issues/1379)) ([b1ab9e5](https://github.com/algolia/autocomplete/commit/b1ab9e5eeeacd752de1cef3f2ea3934149e19be5))
+* **js:** serialize aria-label attributes correctly ([#1380](https://github.com/algolia/autocomplete/issues/1380)) ([177148a](https://github.com/algolia/autocomplete/commit/177148acd7b3f17346cc5a61c89a921fc8db562b))
+* **js:** trap focus in detached mode ([#1374](https://github.com/algolia/autocomplete/issues/1374)) ([366c0c3](https://github.com/algolia/autocomplete/commit/366c0c31b60895f2ccd54c6e36c27f00354dcd07))
+* **release:** bump all packages on every release ([#1371](https://github.com/algolia/autocomplete/issues/1371)) ([4ca8999](https://github.com/algolia/autocomplete/commit/4ca89994535d66d9785d6c1a3104d9b0d052135c))
 ## [1.19.12](https://github.com/algolia/autocomplete/compare/v1.19.11...v1.19.12) (2026-09-28)
 
 
