@@ -1,7 +1,14 @@
 import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
 import { createRedirectUrlPlugin } from '@algolia/autocomplete-plugin-redirect-url';
 
-import { createPlayground, runAllMicroTasks } from '../../../../test/utils';
+import userEvent from '@testing-library/user-event';
+
+import {
+  createPlayground,
+  runAllMicroTasks,
+  createSource,
+  defer,
+} from '../../../../test/utils';
 import { createAutocomplete } from '../createAutocomplete';
 
 describe('getFormProps', () => {
@@ -396,6 +403,152 @@ describe('getFormProps', () => {
         expect.objectContaining({
           state: expect.objectContaining({
             query: '',
+          }),
+        })
+      );
+    });
+
+    test('cancels pending requests without openOnFocus', async () => {
+      const onStateChange = jest.fn();
+      let deferSourcesCount = -1;
+      const delays = [100];
+
+      const { inputElement, getFormProps } = createPlayground(
+        createAutocomplete,
+        {
+          onStateChange,
+          openOnFocus: false,
+          getSources({ query }) {
+            deferSourcesCount++;
+
+            return defer(() => {
+              return [
+                createSource({
+                  getItems: () => [{ label: query }],
+                }),
+              ];
+            }, delays[deferSourcesCount]);
+          },
+        }
+      );
+
+      userEvent.type(inputElement, 'a');
+
+      await runAllMicroTasks();
+
+      // At this point, the request for 'a' is pending
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            query: 'a',
+            status: 'loading',
+            isOpen: false,
+          }),
+        })
+      );
+
+      onStateChange.mockClear();
+
+      // Trigger reset
+      const formProps = getFormProps({ inputElement });
+      formProps.onReset(new Event('reset'));
+
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            query: '',
+            status: 'idle',
+            isOpen: false,
+          }),
+        })
+      );
+
+      onStateChange.mockClear();
+
+      // Wait for the pending request to resolve
+      await defer(() => {}, 150);
+      await runAllMicroTasks();
+
+      // The stale request shouldn't update the state and reopen the panel
+      expect(onStateChange).toHaveBeenCalledTimes(0);
+    });
+
+    test('cancels pending requests with openOnFocus', async () => {
+      const onStateChange = jest.fn();
+      let deferSourcesCount = -1;
+      const delays = [100, 100]; // First for 'a', second for the reset empty query
+
+      const { inputElement, getFormProps } = createPlayground(
+        createAutocomplete,
+        {
+          onStateChange,
+          openOnFocus: true,
+          getSources({ query }) {
+            deferSourcesCount++;
+
+            return defer(() => {
+              return [
+                createSource({
+                  getItems: () => [{ label: query }],
+                }),
+              ];
+            }, delays[deferSourcesCount]);
+          },
+        }
+      );
+
+      userEvent.type(inputElement, 'a');
+
+      await runAllMicroTasks();
+
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            query: 'a',
+            status: 'loading',
+          }),
+        })
+      );
+
+      onStateChange.mockClear();
+
+      inputElement.blur();
+
+      // Trigger reset
+      const formProps = getFormProps({ inputElement });
+      formProps.onReset(new Event('reset'));
+
+      // The empty query request starts
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            query: '',
+            status: 'loading',
+          }),
+        })
+      );
+
+      onStateChange.mockClear();
+
+      // Wait for the first pending request ('a') to resolve
+      // and the second empty query request to resolve
+      await defer(() => {}, 150);
+      await runAllMicroTasks();
+
+      // The state should be updated by the empty query request, not 'a'
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          state: expect.objectContaining({
+            query: '',
+            isOpen: true,
+            status: 'idle',
+            collections: expect.arrayContaining([
+              expect.objectContaining({
+                items: expect.arrayContaining([
+                  expect.objectContaining({ label: '' }),
+                ]),
+              }),
+            ]),
           }),
         })
       );
