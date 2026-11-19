@@ -66,6 +66,12 @@ export function renderSearchBox<TItem extends BaseItem>({
   setProperties(dom.detachedSearchButtonPlaceholder, {
     hidden: Boolean(state.query),
   });
+
+  // FIXME: Should leverage `translations`
+  dom.inputLiveRegion.innerText = ((count) =>
+    count > 0 ? `${count} results available` : 'No results available')(
+    state.collections.reduce((count, { items }) => count + items.length, 0)
+  );
 }
 
 // Safari will animate the SVG even when it's hidden. We need to pause the

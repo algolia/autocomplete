@@ -1,4 +1,5 @@
 export type AutocompleteDom = {
+  inputLiveRegion: HTMLDivElement;
   inputWrapper: HTMLDivElement;
   input: HTMLInputElement;
   root: HTMLDivElement;
