@@ -1,3 +1,5 @@
+import { noop } from '@algolia/autocomplete-shared';
+
 import { CancelablePromise } from '.';
 
 export type CancelablePromiseList<TValue> = {
@@ -19,25 +21,23 @@ export type CancelablePromiseList<TValue> = {
    */
   isEmpty(): boolean;
   /**
-   * Waits for all pending promises to be resolved.
+   * Waits for the latest pending promise to settle (resolve, reject or be canceled).
    *
    * @param timeout Maximum amount of time allowed to wait for pending promises. Returns early if this time is reached.
    */
   wait(timeout?: number): Promise<void>;
 };
 
-// Ensures multiple callers sync to the same promise.
-let _hasWaitPromiseResolved = true;
-let _waitPromise: Promise<any>;
-
 export function createCancelablePromiseList<
   TValue
 >(): CancelablePromiseList<TValue> {
   let list: Array<CancelablePromise<TValue>> = [];
+  let latest: CancelablePromise<TValue> | undefined;
 
   return {
     add(cancelablePromise) {
       list.push(cancelablePromise);
+      latest = cancelablePromise;
 
       return cancelablePromise.finally(() => {
         list = list.filter((item) => item !== cancelablePromise);
@@ -50,24 +50,25 @@ export function createCancelablePromiseList<
       return list.length === 0;
     },
     wait(timeout) {
-      // Reuse promise if already exists. Keeps multiple callers subscribed to the same promise.
-      if (!_hasWaitPromiseResolved) {
-        return _waitPromise;
-      }
+      // Older promises are superseded by the latest one and may never settle
+      // (e.g., debounced sources). `finally` also runs when the promise rejects
+      // or is canceled, so this always settles.
+      const settled = new Promise<void>((resolve) => {
+        if (latest && list.includes(latest)) {
+          latest.finally(resolve).catch(noop);
+        } else {
+          resolve();
+        }
+      });
 
-      // Creates a promise which either resolves after all pending requests complete
-      // or the timeout is reached (if provided). Whichever comes first.
-      _hasWaitPromiseResolved = false;
-      _waitPromise = !timeout
-        ? Promise.all(list)
+      // Creates a promise which either resolves after the latest pending request
+      // settles or the timeout is reached (if provided). Whichever comes first.
+      return !timeout
+        ? settled
         : Promise.race([
-            Promise.all(list),
+            settled,
             new Promise<void>((resolve) => setTimeout(resolve, timeout)),
           ]);
-
-      return _waitPromise.then(() => {
-        _hasWaitPromiseResolved = true;
-      });
     },
   };
 }

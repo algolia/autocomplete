@@ -90,6 +90,26 @@ describe('createCancelablePromiseList', () => {
     expect(cancelablePromiseList.isEmpty()).toBe(true);
   });
 
+  test('waits for the latest promise to settle even if it rejects, is canceled or older promises never settle', async () => {
+    const cancelablePromiseList = createCancelablePromiseList();
+
+    cancelablePromiseList.add(createCancelablePromise.reject()).catch(noop);
+
+    await expect(cancelablePromiseList.wait()).resolves.toBeUndefined();
+
+    cancelablePromiseList.add(createCancelablePromise(noop));
+    const waitPromise = cancelablePromiseList.wait();
+    cancelablePromiseList.cancelAll();
+
+    await expect(waitPromise).resolves.toBeUndefined();
+
+    // A superseded promise that never settles (e.g., a debounced source).
+    cancelablePromiseList.add(createCancelablePromise(noop));
+    cancelablePromiseList.add(createCancelablePromise.resolve());
+
+    await expect(cancelablePromiseList.wait()).resolves.toBeUndefined();
+  });
+
   test('waits for a timeout before all promises to resolve', async () => {
     const timeout = 50;
     const cancelablePromiseList = createCancelablePromiseList();
